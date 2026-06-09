@@ -265,6 +265,44 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # @!attribute [rw] dataset_identifier
+    #   Specifies the identifier of the dataset that you want to associate
+    #   the KMS key with. For the `default` dataset, you can specify either
+    #   `default` or the full dataset Amazon Resource Name (ARN) in the
+    #   format `arn:aws:cloudwatch:Region:account-id:dataset/default`.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   Specifies the Amazon Resource Name (ARN) of the customer managed KMS
+    #   key to associate with the dataset. The key must be a symmetric
+    #   encryption KMS key (`SYMMETRIC_DEFAULT`) in the same Amazon Web
+    #   Services Region as the dataset.
+    #
+    #   The ARN must be in the format
+    #   `arn:aws:kms:Region:account-id:key/key-id `. Key IDs, aliases, and
+    #   alias ARNs are not accepted.
+    #
+    #   For more information about KMS key ARNs, see [Key ARN][1] in the
+    #   *Amazon Web Services Key Management Service Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/AssociateDatasetKmsKeyInput AWS API Documentation
+    #
+    class AssociateDatasetKmsKeyInput < Struct.new(
+      :dataset_identifier,
+      :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/AssociateDatasetKmsKeyOutput AWS API Documentation
+    #
+    class AssociateDatasetKmsKeyOutput < Aws::EmptyStructure; end
+
     # The details about a composite alarm.
     #
     # @!attribute [rw] actions_enabled
@@ -1215,6 +1253,25 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # @!attribute [rw] dataset_identifier
+    #   Specifies the identifier of the dataset from which to remove the KMS
+    #   key association. For the `default` dataset, you can specify either
+    #   `default` or the full dataset Amazon Resource Name (ARN) in the
+    #   format `arn:aws:cloudwatch:Region:account-id:dataset/default`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DisassociateDatasetKmsKeyInput AWS API Documentation
+    #
+    class DisassociateDatasetKmsKeyInput < Struct.new(
+      :dataset_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DisassociateDatasetKmsKeyOutput AWS API Documentation
+    #
+    class DisassociateDatasetKmsKeyOutput < Aws::EmptyStructure; end
+
     # @!attribute [rw] alarm_names
     #   The names of the alarms.
     #   @return [Array<String>]
@@ -1458,6 +1515,48 @@ module Aws::CloudWatch
       :dashboard_arn,
       :dashboard_body,
       :dashboard_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_identifier
+    #   Specifies the identifier of the dataset to retrieve. For the
+    #   `default` dataset, you can specify either `default` or the full
+    #   dataset Amazon Resource Name (ARN) in the format
+    #   `arn:aws:cloudwatch:Region:account-id:dataset/default`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetDatasetInput AWS API Documentation
+    #
+    class GetDatasetInput < Struct.new(
+      :dataset_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dataset_id
+    #   Returns the identifier of the dataset.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   Returns the Amazon Resource Name (ARN) of the dataset, in the format
+    #   `arn:aws:cloudwatch:Region:account-id:dataset/dataset-id `.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   Returns the Amazon Resource Name (ARN) of the customer managed
+    #   Amazon Web Services KMS key that is currently associated with the
+    #   dataset, if any. If the dataset is not associated with a customer
+    #   managed KMS key, this field is not included in the response and the
+    #   dataset is encrypted at rest using an Amazon Web Services owned key.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetDatasetOutput AWS API Documentation
+    #
+    class GetDatasetOutput < Struct.new(
+      :dataset_id,
+      :arn,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2336,6 +2435,61 @@ module Aws::CloudWatch
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/InvalidParameterValueException AWS API Documentation
     #
     class InvalidParameterValueException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The operation was denied because either the calling principal lacks
+    # the required Amazon Web Services Key Management Service (Amazon Web
+    # Services KMS) permission on the key, or the key policy does not grant
+    # Amazon CloudWatch the permissions it needs to use the key. Verify that
+    # the caller has `kms:Decrypt` permission on the key, and that the key
+    # policy grants the CloudWatch service principal the `kms:DescribeKey`,
+    # `kms:GenerateDataKey`, `kms:Encrypt`, `kms:Decrypt`, and
+    # `kms:ReEncrypt*` permissions described in [AssociateDatasetKmsKey][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/KmsAccessDeniedException AWS API Documentation
+    #
+    class KmsAccessDeniedException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified Amazon Web Services Key Management Service (Amazon Web
+    # Services KMS) key is disabled or pending deletion. Re-enable the key
+    # (or restore it, if it is pending deletion) and retry the operation.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/KmsKeyDisabledException AWS API Documentation
+    #
+    class KmsKeyDisabledException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified Amazon Web Services Key Management Service (Amazon Web
+    # Services KMS) key could not be found. Verify that the key Amazon
+    # Resource Name (ARN) is correct, that the key exists, and that it is in
+    # the same Amazon Web Services Region as the resource.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/KmsKeyNotFoundException AWS API Documentation
+    #
+    class KmsKeyNotFoundException < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure

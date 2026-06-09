@@ -3606,10 +3606,17 @@ module Aws::EC2
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagDescription = Shapes::StructureShape.new(name: 'TagDescription')
     TagDescriptionList = Shapes::ListShape.new(name: 'TagDescriptionList')
+    TagFieldSpecificationListRequest = Shapes::ListShape.new(name: 'TagFieldSpecificationListRequest')
+    TagFieldSpecificationListResponse = Shapes::ListShape.new(name: 'TagFieldSpecificationListResponse')
+    TagFieldSpecificationRequest = Shapes::StructureShape.new(name: 'TagFieldSpecificationRequest')
+    TagFieldSpecificationResponse = Shapes::StructureShape.new(name: 'TagFieldSpecificationResponse')
+    TagKey = Shapes::StringShape.new(name: 'TagKey')
+    TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
     TagList = Shapes::ListShape.new(name: 'TagList')
     TagSpecification = Shapes::StructureShape.new(name: 'TagSpecification')
     TagSpecificationList = Shapes::ListShape.new(name: 'TagSpecificationList')
     TaggableResourceId = Shapes::StringShape.new(name: 'TaggableResourceId')
+    TaggableResourceType = Shapes::StringShape.new(name: 'TaggableResourceType')
     TargetCapacitySpecification = Shapes::StructureShape.new(name: 'TargetCapacitySpecification')
     TargetCapacitySpecificationRequest = Shapes::StructureShape.new(name: 'TargetCapacitySpecificationRequest')
     TargetCapacityUnitType = Shapes::StringShape.new(name: 'TargetCapacityUnitType')
@@ -5778,7 +5785,7 @@ module Aws::EC2
 
     CreateCapacityReservationFleetRequest.add_member(:allocation_strategy, Shapes::ShapeRef.new(shape: String, location_name: "AllocationStrategy"))
     CreateCapacityReservationFleetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
-    CreateCapacityReservationFleetRequest.add_member(:instance_type_specifications, Shapes::ShapeRef.new(shape: ReservationFleetInstanceSpecificationList, required: true, location_name: "InstanceTypeSpecification"))
+    CreateCapacityReservationFleetRequest.add_member(:instance_type_specifications, Shapes::ShapeRef.new(shape: ReservationFleetInstanceSpecificationList, location_name: "InstanceTypeSpecification"))
     CreateCapacityReservationFleetRequest.add_member(:tenancy, Shapes::ShapeRef.new(shape: FleetCapacityReservationTenancy, location_name: "Tenancy"))
     CreateCapacityReservationFleetRequest.add_member(:total_target_capacity, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "TotalTargetCapacity"))
     CreateCapacityReservationFleetRequest.add_member(:end_date, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "EndDate"))
@@ -6000,6 +6007,7 @@ module Aws::EC2
     CreateFlowLogsRequest.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecification"))
     CreateFlowLogsRequest.add_member(:max_aggregation_interval, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxAggregationInterval"))
     CreateFlowLogsRequest.add_member(:destination_options, Shapes::ShapeRef.new(shape: DestinationOptionsRequest, location_name: "DestinationOptions"))
+    CreateFlowLogsRequest.add_member(:tag_field_specifications, Shapes::ShapeRef.new(shape: TagFieldSpecificationListRequest, location_name: "TagFieldSpecification"))
     CreateFlowLogsRequest.struct_class = Types::CreateFlowLogsRequest
 
     CreateFlowLogsResult.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken"))
@@ -11299,6 +11307,7 @@ module Aws::EC2
     FlowLog.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tagSet"))
     FlowLog.add_member(:max_aggregation_interval, Shapes::ShapeRef.new(shape: Integer, location_name: "maxAggregationInterval"))
     FlowLog.add_member(:destination_options, Shapes::ShapeRef.new(shape: DestinationOptionsResponse, location_name: "destinationOptions"))
+    FlowLog.add_member(:tag_field_specifications, Shapes::ShapeRef.new(shape: TagFieldSpecificationListResponse, location_name: "tagFieldSpecificationSet"))
     FlowLog.struct_class = Types::FlowLog
 
     FlowLogIdList.member = Shapes::ShapeRef.new(shape: VpcFlowLogId, location_name: "item")
@@ -18272,6 +18281,20 @@ module Aws::EC2
 
     TagDescriptionList.member = Shapes::ShapeRef.new(shape: TagDescription, location_name: "item")
 
+    TagFieldSpecificationListRequest.member = Shapes::ShapeRef.new(shape: TagFieldSpecificationRequest, location_name: "item")
+
+    TagFieldSpecificationListResponse.member = Shapes::ShapeRef.new(shape: TagFieldSpecificationResponse, location_name: "item")
+
+    TagFieldSpecificationRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: TaggableResourceType, location_name: "ResourceType"))
+    TagFieldSpecificationRequest.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeyList, location_name: "TagKey"))
+    TagFieldSpecificationRequest.struct_class = Types::TagFieldSpecificationRequest
+
+    TagFieldSpecificationResponse.add_member(:resource_type, Shapes::ShapeRef.new(shape: TaggableResourceType, location_name: "resourceType"))
+    TagFieldSpecificationResponse.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeyList, location_name: "tagKeySet"))
+    TagFieldSpecificationResponse.struct_class = Types::TagFieldSpecificationResponse
+
+    TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey, location_name: "item")
+
     TagList.member = Shapes::ShapeRef.new(shape: Tag, location_name: "item")
 
     TagSpecification.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, location_name: "resourceType"))
@@ -19372,7 +19395,6 @@ module Aws::EC2
     VolumeModification.add_member(:progress, Shapes::ShapeRef.new(shape: Long, location_name: "progress"))
     VolumeModification.add_member(:start_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "startTime"))
     VolumeModification.add_member(:end_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "endTime"))
-    VolumeModification.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorResponse, location_name: "operator"))
     VolumeModification.struct_class = Types::VolumeModification
 
     VolumeModificationList.member = Shapes::ShapeRef.new(shape: VolumeModification, location_name: "item")

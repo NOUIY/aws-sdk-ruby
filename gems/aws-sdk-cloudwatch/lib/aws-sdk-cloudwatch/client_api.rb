@@ -47,6 +47,8 @@ module Aws::CloudWatch
     AnomalyDetectorTypes = Shapes::ListShape.new(name: 'AnomalyDetectorTypes')
     AnomalyDetectors = Shapes::ListShape.new(name: 'AnomalyDetectors')
     Arn = Shapes::StringShape.new(name: 'Arn')
+    AssociateDatasetKmsKeyInput = Shapes::StructureShape.new(name: 'AssociateDatasetKmsKeyInput')
+    AssociateDatasetKmsKeyOutput = Shapes::StructureShape.new(name: 'AssociateDatasetKmsKeyOutput')
     AttributeName = Shapes::StringShape.new(name: 'AttributeName')
     AttributeValue = Shapes::StringShape.new(name: 'AttributeValue')
     AwsQueryErrorMessage = Shapes::StringShape.new(name: 'AwsQueryErrorMessage')
@@ -78,6 +80,9 @@ module Aws::CloudWatch
     DatapointValues = Shapes::ListShape.new(name: 'DatapointValues')
     Datapoints = Shapes::ListShape.new(name: 'Datapoints')
     DatapointsToAlarm = Shapes::IntegerShape.new(name: 'DatapointsToAlarm')
+    DatasetArn = Shapes::StringShape.new(name: 'DatasetArn')
+    DatasetId = Shapes::StringShape.new(name: 'DatasetId')
+    DatasetIdentifier = Shapes::StringShape.new(name: 'DatasetIdentifier')
     DeleteAlarmMuteRuleInput = Shapes::StructureShape.new(name: 'DeleteAlarmMuteRuleInput')
     DeleteAlarmsInput = Shapes::StructureShape.new(name: 'DeleteAlarmsInput')
     DeleteAnomalyDetectorInput = Shapes::StructureShape.new(name: 'DeleteAnomalyDetectorInput')
@@ -109,6 +114,8 @@ module Aws::CloudWatch
     DisableAlarmActionsInput = Shapes::StructureShape.new(name: 'DisableAlarmActionsInput')
     DisableInsightRulesInput = Shapes::StructureShape.new(name: 'DisableInsightRulesInput')
     DisableInsightRulesOutput = Shapes::StructureShape.new(name: 'DisableInsightRulesOutput')
+    DisassociateDatasetKmsKeyInput = Shapes::StructureShape.new(name: 'DisassociateDatasetKmsKeyInput')
+    DisassociateDatasetKmsKeyOutput = Shapes::StructureShape.new(name: 'DisassociateDatasetKmsKeyOutput')
     Duration = Shapes::StringShape.new(name: 'Duration')
     EnableAlarmActionsInput = Shapes::StructureShape.new(name: 'EnableAlarmActionsInput')
     EnableInsightRulesInput = Shapes::StructureShape.new(name: 'EnableInsightRulesInput')
@@ -140,6 +147,8 @@ module Aws::CloudWatch
     GetAlarmMuteRuleOutput = Shapes::StructureShape.new(name: 'GetAlarmMuteRuleOutput')
     GetDashboardInput = Shapes::StructureShape.new(name: 'GetDashboardInput')
     GetDashboardOutput = Shapes::StructureShape.new(name: 'GetDashboardOutput')
+    GetDatasetInput = Shapes::StructureShape.new(name: 'GetDatasetInput')
+    GetDatasetOutput = Shapes::StructureShape.new(name: 'GetDatasetOutput')
     GetInsightRuleReportInput = Shapes::StructureShape.new(name: 'GetInsightRuleReportInput')
     GetInsightRuleReportOutput = Shapes::StructureShape.new(name: 'GetInsightRuleReportOutput')
     GetMetricDataInput = Shapes::StructureShape.new(name: 'GetMetricDataInput')
@@ -191,6 +200,10 @@ module Aws::CloudWatch
     InvalidNextToken = Shapes::StructureShape.new(name: 'InvalidNextToken', error: {"code" => "InvalidNextToken", "httpStatusCode" => 400, "senderFault" => true})
     InvalidParameterCombinationException = Shapes::StructureShape.new(name: 'InvalidParameterCombinationException', error: {"code" => "InvalidParameterCombination", "httpStatusCode" => 400, "senderFault" => true})
     InvalidParameterValueException = Shapes::StructureShape.new(name: 'InvalidParameterValueException', error: {"code" => "InvalidParameterValue", "httpStatusCode" => 400, "senderFault" => true})
+    KmsAccessDeniedException = Shapes::StructureShape.new(name: 'KmsAccessDeniedException')
+    KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
+    KmsKeyDisabledException = Shapes::StructureShape.new(name: 'KmsKeyDisabledException')
+    KmsKeyNotFoundException = Shapes::StructureShape.new(name: 'KmsKeyNotFoundException')
     LabelOptions = Shapes::StructureShape.new(name: 'LabelOptions')
     LastModified = Shapes::TimestampShape.new(name: 'LastModified')
     LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException', error: {"code" => "LimitExceededException", "httpStatusCode" => 400, "senderFault" => true})
@@ -318,6 +331,7 @@ module Aws::CloudWatch
     StopOTelEnrichmentOutput = Shapes::StructureShape.new(name: 'StopOTelEnrichmentOutput')
     StorageResolution = Shapes::IntegerShape.new(name: 'StorageResolution')
     StrictEntityValidation = Shapes::BooleanShape.new(name: 'StrictEntityValidation')
+    String = Shapes::StringShape.new(name: 'String')
     SuppressorPeriod = Shapes::IntegerShape.new(name: 'SuppressorPeriod')
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
@@ -396,6 +410,12 @@ module Aws::CloudWatch
     AnomalyDetectorTypes.member = Shapes::ShapeRef.new(shape: AnomalyDetectorType)
 
     AnomalyDetectors.member = Shapes::ShapeRef.new(shape: AnomalyDetector)
+
+    AssociateDatasetKmsKeyInput.add_member(:dataset_identifier, Shapes::ShapeRef.new(shape: DatasetIdentifier, required: true, location_name: "DatasetIdentifier"))
+    AssociateDatasetKmsKeyInput.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, required: true, location_name: "KmsKeyArn"))
+    AssociateDatasetKmsKeyInput.struct_class = Types::AssociateDatasetKmsKeyInput
+
+    AssociateDatasetKmsKeyOutput.struct_class = Types::AssociateDatasetKmsKeyOutput
 
     BatchFailures.member = Shapes::ShapeRef.new(shape: PartialFailure)
 
@@ -596,6 +616,11 @@ module Aws::CloudWatch
     DisableInsightRulesOutput.add_member(:failures, Shapes::ShapeRef.new(shape: BatchFailures, location_name: "Failures"))
     DisableInsightRulesOutput.struct_class = Types::DisableInsightRulesOutput
 
+    DisassociateDatasetKmsKeyInput.add_member(:dataset_identifier, Shapes::ShapeRef.new(shape: DatasetIdentifier, required: true, location_name: "DatasetIdentifier"))
+    DisassociateDatasetKmsKeyInput.struct_class = Types::DisassociateDatasetKmsKeyInput
+
+    DisassociateDatasetKmsKeyOutput.struct_class = Types::DisassociateDatasetKmsKeyOutput
+
     EnableAlarmActionsInput.add_member(:alarm_names, Shapes::ShapeRef.new(shape: AlarmNames, required: true, location_name: "AlarmNames"))
     EnableAlarmActionsInput.struct_class = Types::EnableAlarmActionsInput
 
@@ -651,6 +676,14 @@ module Aws::CloudWatch
     GetDashboardOutput.add_member(:dashboard_body, Shapes::ShapeRef.new(shape: DashboardBody, location_name: "DashboardBody"))
     GetDashboardOutput.add_member(:dashboard_name, Shapes::ShapeRef.new(shape: DashboardName, location_name: "DashboardName"))
     GetDashboardOutput.struct_class = Types::GetDashboardOutput
+
+    GetDatasetInput.add_member(:dataset_identifier, Shapes::ShapeRef.new(shape: DatasetIdentifier, required: true, location_name: "DatasetIdentifier"))
+    GetDatasetInput.struct_class = Types::GetDatasetInput
+
+    GetDatasetOutput.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location_name: "DatasetId"))
+    GetDatasetOutput.add_member(:arn, Shapes::ShapeRef.new(shape: DatasetArn, required: true, location_name: "Arn"))
+    GetDatasetOutput.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "KmsKeyArn"))
+    GetDatasetOutput.struct_class = Types::GetDatasetOutput
 
     GetInsightRuleReportInput.add_member(:rule_name, Shapes::ShapeRef.new(shape: InsightRuleName, required: true, location_name: "RuleName"))
     GetInsightRuleReportInput.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "StartTime"))
@@ -784,6 +817,15 @@ module Aws::CloudWatch
 
     InvalidParameterValueException.add_member(:message, Shapes::ShapeRef.new(shape: AwsQueryErrorMessage, location_name: "message"))
     InvalidParameterValueException.struct_class = Types::InvalidParameterValueException
+
+    KmsAccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
+    KmsAccessDeniedException.struct_class = Types::KmsAccessDeniedException
+
+    KmsKeyDisabledException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
+    KmsKeyDisabledException.struct_class = Types::KmsKeyDisabledException
+
+    KmsKeyNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
+    KmsKeyNotFoundException.struct_class = Types::KmsKeyNotFoundException
 
     LabelOptions.add_member(:timezone, Shapes::ShapeRef.new(shape: GetMetricDataLabelTimezone, location_name: "Timezone"))
     LabelOptions.struct_class = Types::LabelOptions
@@ -1221,6 +1263,19 @@ module Aws::CloudWatch
         "xmlNamespace" => "http://monitoring.amazonaws.com/doc/2010-08-01/",
       }
 
+      api.add_operation(:associate_dataset_kms_key, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AssociateDatasetKmsKey"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: AssociateDatasetKmsKeyInput)
+        o.output = Shapes::ShapeRef.new(shape: AssociateDatasetKmsKeyOutput)
+        o.errors << Shapes::ShapeRef.new(shape: KmsAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KmsKeyNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: KmsKeyDisabledException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:delete_alarm_mute_rule, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteAlarmMuteRule"
         o.http_method = "POST"
@@ -1382,6 +1437,16 @@ module Aws::CloudWatch
         o.errors << Shapes::ShapeRef.new(shape: MissingRequiredParameterException)
       end)
 
+      api.add_operation(:disassociate_dataset_kms_key, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DisassociateDatasetKmsKey"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DisassociateDatasetKmsKeyInput)
+        o.output = Shapes::ShapeRef.new(shape: DisassociateDatasetKmsKeyOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:enable_alarm_actions, Seahorse::Model::Operation.new.tap do |o|
         o.name = "EnableAlarmActions"
         o.http_method = "POST"
@@ -1419,6 +1484,15 @@ module Aws::CloudWatch
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
         o.errors << Shapes::ShapeRef.new(shape: DashboardNotFoundError)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceFault)
+      end)
+
+      api.add_operation(:get_dataset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetDataset"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetDatasetInput)
+        o.output = Shapes::ShapeRef.new(shape: GetDatasetOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:get_insight_rule_report, Seahorse::Model::Operation.new.tap do |o|

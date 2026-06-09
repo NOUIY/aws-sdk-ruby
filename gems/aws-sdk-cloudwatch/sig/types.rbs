@@ -63,6 +63,15 @@ module Aws::CloudWatch
       SENSITIVE: []
     end
 
+    class AssociateDatasetKmsKeyInput
+      attr_accessor dataset_identifier: ::String
+      attr_accessor kms_key_arn: ::String
+      SENSITIVE: []
+    end
+
+    class AssociateDatasetKmsKeyOutput < Aws::EmptyStructure
+    end
+
     class CompositeAlarm
       attr_accessor actions_enabled: bool
       attr_accessor alarm_actions: ::Array[::String]
@@ -302,6 +311,14 @@ module Aws::CloudWatch
       SENSITIVE: []
     end
 
+    class DisassociateDatasetKmsKeyInput
+      attr_accessor dataset_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class DisassociateDatasetKmsKeyOutput < Aws::EmptyStructure
+    end
+
     class EnableAlarmActionsInput
       attr_accessor alarm_names: ::Array[::String]
       SENSITIVE: []
@@ -368,6 +385,18 @@ module Aws::CloudWatch
       attr_accessor dashboard_arn: ::String
       attr_accessor dashboard_body: ::String
       attr_accessor dashboard_name: ::String
+      SENSITIVE: []
+    end
+
+    class GetDatasetInput
+      attr_accessor dataset_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class GetDatasetOutput
+      attr_accessor dataset_id: ::String
+      attr_accessor arn: ::String
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -525,6 +554,21 @@ module Aws::CloudWatch
     end
 
     class InvalidParameterValueException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class KmsAccessDeniedException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class KmsKeyDisabledException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class KmsKeyNotFoundException
       attr_accessor message: ::String
       SENSITIVE: []
     end

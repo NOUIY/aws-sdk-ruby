@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.104.0 (2026-06-09)
+------------------
+
+* Feature - Added AWS Outposts APIs for self-service Outposts quoting and ordering. New operations include CreateQuote, GetQuote, UpdateQuote, DeleteQuote, ListQuotes, and ListOrderableInstanceTypes.
+
 1.103.0 (2026-05-22)
 ------------------
 

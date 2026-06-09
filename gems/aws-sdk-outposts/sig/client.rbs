@@ -131,6 +131,33 @@ module Aws
                           ) -> _CreateOutpostResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateOutpostResponseSuccess
 
+      interface _CreateQuoteResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateQuoteOutput]
+        def quote: () -> Types::Quote
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#create_quote-instance_method
+      def create_quote: (
+                          ?outpost_identifier: ::String,
+                          country_code: ::String,
+                          requested_capacities: Array[
+                            {
+                              quote_capacity_type: ("EC2" | "EBS" | "S3")?,
+                              unit: ::String?,
+                              quantity: ::Float?
+                            }
+                          ],
+                          ?requested_constraints: Array[
+                            {
+                              quote_constraint_type: ("RACK_MAXIMUM" | "RACK_MAX_POWER_KVA" | "RACK_MAX_WEIGHT_LBS")?,
+                              value: ::String?
+                            }
+                          ],
+                          ?requested_payment_options: Array[("ALL_UPFRONT" | "NO_UPFRONT" | "PARTIAL_UPFRONT")],
+                          ?requested_payment_terms: Array[("THREE_YEARS" | "ONE_YEAR" | "FIVE_YEARS")],
+                          ?description: ::String
+                        ) -> _CreateQuoteResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateQuoteResponseSuccess
+
       interface _CreateRenewalResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateRenewalOutput]
         def payment_option: () -> ("ALL_UPFRONT" | "NO_UPFRONT" | "PARTIAL_UPFRONT")
@@ -138,6 +165,7 @@ module Aws
         def outpost_id: () -> ::String
         def upfront_price: () -> ::Float
         def monthly_recurring_price: () -> ::Float
+        def currency: () -> ("USD")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#create_renewal-instance_method
       def create_renewal: (
@@ -182,6 +210,15 @@ module Aws
                             outpost_id: ::String
                           ) -> _DeleteOutpostResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteOutpostResponseSuccess
+
+      interface _DeleteQuoteResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteQuoteOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#delete_quote-instance_method
+      def delete_quote: (
+                          quote_identifier: ::String
+                        ) -> _DeleteQuoteResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteQuoteResponseSuccess
 
       interface _DeleteSiteResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSiteOutput]
@@ -302,6 +339,16 @@ module Aws
                                                 ) -> _GetOutpostSupportedInstanceTypesResponseSuccess
                                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetOutpostSupportedInstanceTypesResponseSuccess
 
+      interface _GetQuoteResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetQuoteOutput]
+        def quote: () -> Types::Quote
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#get_quote-instance_method
+      def get_quote: (
+                       quote_identifier: ::String
+                     ) -> _GetQuoteResponseSuccess
+                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetQuoteResponseSuccess
+
       interface _GetRenewalPricingResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetRenewalPricingOutput]
         def pricing_result: () -> ("PRICED" | "UNABLE_TO_PRICE")
@@ -412,6 +459,19 @@ module Aws
                               ) -> _ListCatalogItemsResponseSuccess
                             | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListCatalogItemsResponseSuccess
 
+      interface _ListOrderableInstanceTypesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListOrderableInstanceTypesOutput]
+        def instance_types: () -> ::Array[Types::DetailedInstanceTypeItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#list_orderable_instance_types-instance_method
+      def list_orderable_instance_types: (
+                                           ?outpost_generation_filter: ("GENERATION_2" | "GENERATION_1"),
+                                           ?max_results: ::Integer,
+                                           ?next_token: ::String
+                                         ) -> _ListOrderableInstanceTypesResponseSuccess
+                                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListOrderableInstanceTypesResponseSuccess
+
       interface _ListOrdersResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListOrdersOutput]
         def orders: () -> ::Array[Types::OrderSummary]
@@ -439,6 +499,18 @@ module Aws
                            ?availability_zone_id_filter: Array[::String]
                          ) -> _ListOutpostsResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListOutpostsResponseSuccess
+
+      interface _ListQuotesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListQuotesOutput]
+        def quotes: () -> ::Array[Types::QuoteSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#list_quotes-instance_method
+      def list_quotes: (
+                         ?next_token: ::String,
+                         ?max_results: ::Integer
+                       ) -> _ListQuotesResponseSuccess
+                     | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListQuotesResponseSuccess
 
       interface _ListSitesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListSitesOutput]
@@ -560,6 +632,34 @@ module Aws
                             ?supported_hardware_type: ("RACK" | "SERVER")
                           ) -> _UpdateOutpostResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateOutpostResponseSuccess
+
+      interface _UpdateQuoteResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateQuoteOutput]
+        def quote: () -> Types::Quote
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#update_quote-instance_method
+      def update_quote: (
+                          quote_identifier: ::String,
+                          ?outpost_identifier: ::String,
+                          ?country_code: ::String,
+                          ?requested_capacities: Array[
+                            {
+                              quote_capacity_type: ("EC2" | "EBS" | "S3")?,
+                              unit: ::String?,
+                              quantity: ::Float?
+                            }
+                          ],
+                          ?requested_constraints: Array[
+                            {
+                              quote_constraint_type: ("RACK_MAXIMUM" | "RACK_MAX_POWER_KVA" | "RACK_MAX_WEIGHT_LBS")?,
+                              value: ::String?
+                            }
+                          ],
+                          ?requested_payment_options: Array[("ALL_UPFRONT" | "NO_UPFRONT" | "PARTIAL_UPFRONT")],
+                          ?requested_payment_terms: Array[("THREE_YEARS" | "ONE_YEAR" | "FIVE_YEARS")],
+                          ?description: ::String
+                        ) -> _UpdateQuoteResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateQuoteResponseSuccess
 
       interface _UpdateSiteResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateSiteOutput]

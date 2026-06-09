@@ -3429,6 +3429,27 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
+    # Returns the account-wide data retention mode for Amazon Bedrock.
+    #
+    # @return [Types::GetAccountDataRetentionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAccountDataRetentionResponse#mode #mode} => String
+    #   * {Types::GetAccountDataRetentionResponse#updated_at #updated_at} => Time
+    #
+    # @example Response structure
+    #
+    #   resp.mode #=> String, one of "default", "none", "provider_data_share", "inherit"
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetAccountDataRetention AWS API Documentation
+    #
+    # @overload get_account_data_retention(params = {})
+    # @param [Hash] params ({})
+    def get_account_data_retention(params = {}, options = {})
+      req = build_request(:get_account_data_retention, params)
+      req.send_request(options)
+    end
+
     # Gets information about an advanced prompt optimization job.
     #
     # @option params [required, String] :job_identifier
@@ -7027,6 +7048,36 @@ module Aws::Bedrock
       req.send_request(options)
     end
 
+    # Sets the account-wide data retention mode for Amazon Bedrock.
+    #
+    # @option params [required, String] :mode
+    #   The data retention mode to set for the account.
+    #
+    # @return [Types::PutAccountDataRetentionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutAccountDataRetentionResponse#mode #mode} => String
+    #   * {Types::PutAccountDataRetentionResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_account_data_retention({
+    #     mode: "default", # required, accepts default, none, provider_data_share, inherit
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.mode #=> String, one of "default", "none", "provider_data_share", "inherit"
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/PutAccountDataRetention AWS API Documentation
+    #
+    # @overload put_account_data_retention(params = {})
+    # @param [Hash] params ({})
+    def put_account_data_retention(params = {}, options = {})
+      req = build_request(:put_account_data_retention, params)
+      req.send_request(options)
+    end
+
     # Sets the account-level enforced guardrail configuration.
     #
     # @option params [String] :config_id
@@ -8295,7 +8346,7 @@ module Aws::Bedrock
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrock'
-      context[:gem_version] = '1.88.0'
+      context[:gem_version] = '1.89.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

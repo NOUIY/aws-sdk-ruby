@@ -543,6 +543,395 @@ module Aws::Odb
       req.send_request(options)
     end
 
+    # Creates a new Autonomous Database.
+    #
+    # @option params [String] :odb_network_id
+    #   The unique identifier of the ODB network to be used for the Autonomous
+    #   Database.
+    #
+    # @option params [String] :display_name
+    #   The user-friendly name for the Autonomous Database. The name does not
+    #   have to be unique.
+    #
+    # @option params [String] :db_name
+    #   The name of the Autonomous Database. The name must begin with an
+    #   alphabetic character and can contain a maximum of 30 alphanumeric
+    #   characters. Special characters are not permitted. The name must be
+    #   unique in the Amazon Web Services account.
+    #
+    # @option params [String] :admin_password
+    #   The password for the `ADMIN` user of the Autonomous Database.
+    #
+    # @option params [Float] :compute_count
+    #   The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs
+    #   (OCPUs), to assign to the Autonomous Database.
+    #
+    # @option params [Integer] :data_storage_size_in_t_bs
+    #   The size, in terabytes (TB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #
+    # @option params [Integer] :data_storage_size_in_g_bs
+    #   The size, in gigabytes (GB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #
+    # @option params [String] :db_workload
+    #   The intended use of the Autonomous Database, such as transaction
+    #   processing, data warehouse, JSON database, or APEX.
+    #
+    # @option params [Boolean] :is_auto_scaling_enabled
+    #   Specifies whether to enable automatic scaling of the compute resources
+    #   for the Autonomous Database.
+    #
+    # @option params [Boolean] :is_auto_scaling_for_storage_enabled
+    #   Specifies whether to enable automatic scaling of the storage for the
+    #   Autonomous Database.
+    #
+    # @option params [String] :license_model
+    #   The Oracle license model to apply to the Autonomous Database.
+    #
+    # @option params [String] :character_set
+    #   The character set to use for the Autonomous Database.
+    #
+    # @option params [String] :ncharacter_set
+    #   The national character set to use for the Autonomous Database.
+    #
+    # @option params [String] :db_version
+    #   The Oracle Database software version to use for the Autonomous
+    #   Database.
+    #
+    # @option params [String] :database_edition
+    #   The Oracle Database edition to apply to the Autonomous Database.
+    #
+    # @option params [String] :standby_allowlisted_ips_source
+    #   The source of the allowlisted IP addresses for the standby Autonomous
+    #   Database.
+    #
+    # @option params [String] :autonomous_maintenance_schedule_type
+    #   The maintenance schedule type for the Autonomous Database.
+    #
+    # @option params [Integer] :backup_retention_period_in_days
+    #   The retention period, in days, for automatic backups of the Autonomous
+    #   Database.
+    #
+    # @option params [Float] :byol_compute_count_limit
+    #   The maximum number of compute resources that you can allocate to the
+    #   Autonomous Database under the bring-your-own-license (BYOL) model.
+    #
+    # @option params [Integer] :cpu_core_count
+    #   The number of CPU cores to allocate to the Autonomous Database.
+    #
+    # @option params [Array<Types::CustomerContact>] :customer_contacts_to_send_to_oci
+    #   The list of customer contacts to receive operational notifications
+    #   from Oracle Cloud Infrastructure (OCI) for the Autonomous Database.
+    #
+    # @option params [String] :private_endpoint_ip
+    #   The private endpoint IP address for the Autonomous Database.
+    #
+    # @option params [String] :private_endpoint_label
+    #   The private endpoint label for the Autonomous Database.
+    #
+    # @option params [String] :resource_pool_leader_id
+    #   The unique identifier of the resource pool leader Autonomous Database.
+    #
+    # @option params [Types::ResourcePoolSummary] :resource_pool_summary
+    #   The configuration of the resource pool for the Autonomous Database.
+    #
+    # @option params [Array<Types::ScheduledOperationDetails>] :scheduled_operations
+    #   The list of scheduled start and stop times for the Autonomous
+    #   Database.
+    #
+    # @option params [Array<String>] :standby_allowlisted_ips
+    #   The list of IP addresses that are allowed to access the standby
+    #   Autonomous Database.
+    #
+    # @option params [Array<String>] :allowlisted_ips
+    #   The list of IP addresses that are allowed to access the Autonomous
+    #   Database.
+    #
+    # @option params [Types::TransportableTablespace] :transportable_tablespace
+    #   The transportable tablespace configuration to use when creating the
+    #   Autonomous Database.
+    #
+    # @option params [Boolean] :is_backup_retention_locked
+    #   Specifies whether to lock the backup retention period of the
+    #   Autonomous Database to prevent it from being shortened.
+    #
+    # @option params [Boolean] :is_local_data_guard_enabled
+    #   Specifies whether to enable local Oracle Data Guard for the Autonomous
+    #   Database.
+    #
+    # @option params [Boolean] :is_mtls_connection_required
+    #   Specifies whether mutual TLS (mTLS) authentication is required to
+    #   connect to the Autonomous Database.
+    #
+    # @option params [Array<Types::DatabaseTool>] :db_tools_details
+    #   The list of database management tools to enable for the Autonomous
+    #   Database.
+    #
+    # @option params [String] :source
+    #   The source from which to create the Autonomous Database, such as a
+    #   clone, backup, or cross-Region copy.
+    #
+    # @option params [Types::SourceConfiguration] :source_configuration
+    #   The configuration details for the source used to create the Autonomous
+    #   Database.
+    #
+    # @option params [String] :encryption_key_provider
+    #   The provider of the encryption key to use for the Autonomous Database.
+    #
+    # @option params [Types::EncryptionKeyConfigurationInput] :encryption_key_configuration
+    #   The configuration of the encryption key to use for the Autonomous
+    #   Database.
+    #
+    # @option params [String] :client_token
+    #   A client-provided token to ensure the idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The list of resource tags to apply to the Autonomous Database. Each
+    #   tag is a key-value pair with no predefined name, type, or namespace.
+    #
+    # @return [Types::CreateAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::CreateAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::CreateAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::CreateAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_autonomous_database({
+    #     odb_network_id: "ResourceIdOrArn",
+    #     display_name: "ResourceDisplayName",
+    #     db_name: "CreateAutonomousDatabaseInputDbNameString",
+    #     admin_password: "CreateAutonomousDatabaseInputAdminPasswordString",
+    #     compute_count: 1.0,
+    #     data_storage_size_in_t_bs: 1,
+    #     data_storage_size_in_g_bs: 1,
+    #     db_workload: "OLTP", # accepts OLTP, AJD, APEX, LH
+    #     is_auto_scaling_enabled: false,
+    #     is_auto_scaling_for_storage_enabled: false,
+    #     license_model: "BRING_YOUR_OWN_LICENSE", # accepts BRING_YOUR_OWN_LICENSE, LICENSE_INCLUDED
+    #     character_set: "CreateAutonomousDatabaseInputCharacterSetString",
+    #     ncharacter_set: "CreateAutonomousDatabaseInputNcharacterSetString",
+    #     db_version: "CreateAutonomousDatabaseInputDbVersionString",
+    #     database_edition: "STANDARD_EDITION", # accepts STANDARD_EDITION, ENTERPRISE_EDITION
+    #     standby_allowlisted_ips_source: "PRIMARY", # accepts PRIMARY, SEPARATE, NOT_APPLICABLE
+    #     autonomous_maintenance_schedule_type: "EARLY", # accepts EARLY, REGULAR
+    #     backup_retention_period_in_days: 1,
+    #     byol_compute_count_limit: 1.0,
+    #     cpu_core_count: 1,
+    #     customer_contacts_to_send_to_oci: [
+    #       {
+    #         email: "CustomerContactEmailString",
+    #       },
+    #     ],
+    #     private_endpoint_ip: "String",
+    #     private_endpoint_label: "String",
+    #     resource_pool_leader_id: "ResourceIdOrArn",
+    #     resource_pool_summary: {
+    #       is_disabled: false,
+    #       pool_size: 1,
+    #       pool_storage_size_in_t_bs: 1,
+    #       available_storage_capacity_in_t_bs: 1.0,
+    #       total_compute_capacity: 1,
+    #       available_compute_capacity: 1,
+    #     },
+    #     scheduled_operations: [
+    #       {
+    #         day_of_week: { # required
+    #           name: "MONDAY", # accepts MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+    #         },
+    #         scheduled_start_time: "String",
+    #         scheduled_stop_time: "String",
+    #       },
+    #     ],
+    #     standby_allowlisted_ips: ["String"],
+    #     allowlisted_ips: ["String"],
+    #     transportable_tablespace: {
+    #       tts_bundle_url: "String",
+    #     },
+    #     is_backup_retention_locked: false,
+    #     is_local_data_guard_enabled: false,
+    #     is_mtls_connection_required: false,
+    #     db_tools_details: [
+    #       {
+    #         is_enabled: false,
+    #         name: "String",
+    #         compute_count: 1.0,
+    #         max_idle_time_in_minutes: 1,
+    #       },
+    #     ],
+    #     source: "NONE", # accepts NONE, DATABASE, BACKUP_FROM_ID, BACKUP_FROM_TIMESTAMP, CROSS_REGION_DATAGUARD, CROSS_REGION_DISASTER_RECOVERY, CLONE_TO_REFRESHABLE
+    #     source_configuration: {
+    #       database_clone: {
+    #         source_autonomous_database_id: "ResourceIdOrArn", # required
+    #         clone_type: "FULL", # required, accepts FULL, METADATA, PARTIAL
+    #       },
+    #       restore_from_backup: {
+    #         autonomous_database_backup_id: "ResourceIdOrArn", # required
+    #         clone_type: "FULL", # required, accepts FULL, METADATA, PARTIAL
+    #         clone_table_space_list: [1],
+    #       },
+    #       point_in_time_restore: {
+    #         source_autonomous_database_id: "ResourceIdOrArn", # required
+    #         clone_type: "FULL", # required, accepts FULL, METADATA, PARTIAL
+    #         timestamp: Time.now,
+    #         use_latest_available_backup_timestamp: false,
+    #         clone_table_space_list: [1],
+    #       },
+    #       cross_region_data_guard: {
+    #         source_autonomous_database_arn: "Arn", # required
+    #       },
+    #       cross_region_disaster_recovery: {
+    #         source_autonomous_database_arn: "Arn", # required
+    #         remote_disaster_recovery_type: "ADG", # required, accepts ADG, BACKUP_BASED
+    #         is_replicate_automatic_backups: false,
+    #       },
+    #       clone_to_refreshable: {
+    #         source_autonomous_database_id: "ResourceIdOrArn", # required
+    #         refreshable_mode: "AUTOMATIC", # accepts AUTOMATIC, MANUAL
+    #         auto_refresh_frequency_in_seconds: 1,
+    #         auto_refresh_point_lag_in_seconds: 1,
+    #         time_of_auto_refresh_start: Time.now,
+    #         open_mode: "READ_ONLY", # accepts READ_ONLY, READ_WRITE
+    #         clone_type: "FULL", # accepts FULL, METADATA, PARTIAL
+    #       },
+    #     },
+    #     encryption_key_provider: "ORACLE_MANAGED", # accepts ORACLE_MANAGED, AWS_KMS
+    #     encryption_key_configuration: {
+    #       aws_encryption_key: {
+    #         iam_role_arn: "RoleArn",
+    #         external_id_type: "database_ocid", # accepts database_ocid, compartment_ocid, tenant_ocid
+    #         kms_key_id: "KmsKeyIdOrArn",
+    #       },
+    #     },
+    #     client_token: "CreateAutonomousDatabaseInputClientTokenString",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabase AWS API Documentation
+    #
+    # @overload create_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def create_autonomous_database(params = {}, options = {})
+      req = build_request(:create_autonomous_database, params)
+      req.send_request(options)
+    end
+
+    # Creates a new backup of the specified Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to back up.
+    #
+    # @option params [String] :display_name
+    #   The user-friendly name for the Autonomous Database backup.
+    #
+    # @option params [Integer] :retention_period_in_days
+    #   The retention period, in days, for the Autonomous Database backup.
+    #
+    # @option params [String] :client_token
+    #   A client-provided token to ensure the idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The list of resource tags to apply to the Autonomous Database backup.
+    #   Each tag is a key-value pair with no predefined name, type, or
+    #   namespace.
+    #
+    # @return [Types::CreateAutonomousDatabaseBackupOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAutonomousDatabaseBackupOutput#display_name #display_name} => String
+    #   * {Types::CreateAutonomousDatabaseBackupOutput#status #status} => String
+    #   * {Types::CreateAutonomousDatabaseBackupOutput#status_reason #status_reason} => String
+    #   * {Types::CreateAutonomousDatabaseBackupOutput#autonomous_database_backup_id #autonomous_database_backup_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_autonomous_database_backup({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #     display_name: "ResourceDisplayName",
+    #     retention_period_in_days: 1,
+    #     client_token: "CreateAutonomousDatabaseBackupInputClientTokenString",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS"
+    #   resp.status_reason #=> String
+    #   resp.autonomous_database_backup_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseBackup AWS API Documentation
+    #
+    # @overload create_autonomous_database_backup(params = {})
+    # @param [Hash] params ({})
+    def create_autonomous_database_backup(params = {}, options = {})
+      req = build_request(:create_autonomous_database_backup, params)
+      req.send_request(options)
+    end
+
+    # Creates a new wallet for the specified Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to create a wallet
+    #   for.
+    #
+    # @option params [String] :wallet_type
+    #   The type of wallet to create, either a regional wallet or an instance
+    #   wallet.
+    #
+    # @option params [required, String] :password
+    #   The password to encrypt the keys inside the wallet.
+    #
+    # @option params [String] :client_token
+    #   A client-provided token to ensure the idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateAutonomousDatabaseWalletOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAutonomousDatabaseWalletOutput#autonomous_database_wallet_file #autonomous_database_wallet_file} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_autonomous_database_wallet({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #     wallet_type: "REGIONAL", # accepts REGIONAL, INSTANCE
+    #     password: "CreateAutonomousDatabaseWalletInputPasswordString", # required
+    #     client_token: "CreateAutonomousDatabaseWalletInputClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_wallet_file #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseWallet AWS API Documentation
+    #
+    # @overload create_autonomous_database_wallet(params = {})
+    # @param [Hash] params ({})
+    def create_autonomous_database_wallet(params = {}, options = {})
+      req = build_request(:create_autonomous_database_wallet, params)
+      req.send_request(options)
+    end
+
     # Creates a new Autonomous VM cluster in the specified Exadata
     # infrastructure.
     #
@@ -929,10 +1318,10 @@ module Aws::Odb
     #     cpu_core_count: 1, # required
     #     display_name: "ResourceDisplayName", # required
     #     gi_version: "CreateCloudVmClusterInputGiVersionString", # required
-    #     hostname: "CreateCloudVmClusterInputHostnameString", # required
+    #     hostname: "Hostname", # required
     #     ssh_public_keys: ["String"], # required
     #     odb_network_id: "ResourceIdOrArn", # required
-    #     cluster_name: "CreateCloudVmClusterInputClusterNameString",
+    #     cluster_name: "ClusterName",
     #     data_collection_options: {
     #       is_diagnostics_events_enabled: false,
     #       is_health_monitoring_enabled: false,
@@ -1204,6 +1593,50 @@ module Aws::Odb
       req.send_request(options)
     end
 
+    # Deletes the specified Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DeleteAutonomousDatabase AWS API Documentation
+    #
+    # @overload delete_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def delete_autonomous_database(params = {}, options = {})
+      req = build_request(:delete_autonomous_database, params)
+      req.send_request(options)
+    end
+
+    # Deletes the specified Autonomous Database backup.
+    #
+    # @option params [required, String] :autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_autonomous_database_backup({
+    #     autonomous_database_backup_id: "ResourceId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DeleteAutonomousDatabaseBackup AWS API Documentation
+    #
+    # @overload delete_autonomous_database_backup(params = {})
+    # @param [Hash] params ({})
+    def delete_autonomous_database_backup(params = {}, options = {})
+      req = build_request(:delete_autonomous_database_backup, params)
+      req.send_request(options)
+    end
+
     # Deletes an Autonomous VM cluster.
     #
     # @option params [required, String] :cloud_autonomous_vm_cluster_id
@@ -1359,6 +1792,325 @@ module Aws::Odb
     # @param [Hash] params ({})
     def disassociate_iam_role_from_resource(params = {}, options = {})
       req = build_request(:disassociate_iam_role_from_resource, params)
+      req.send_request(options)
+    end
+
+    # Initiates a failover of the specified Autonomous Database to a standby
+    # peer database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to fail over.
+    #
+    # @option params [String] :peer_db_arn
+    #   The Amazon Resource Name (ARN) of the peer Autonomous Database to fail
+    #   over to.
+    #
+    # @return [Types::FailoverAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::FailoverAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::FailoverAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::FailoverAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::FailoverAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.failover_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #     peer_db_arn: "ResourceArn",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/FailoverAutonomousDatabase AWS API Documentation
+    #
+    # @overload failover_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def failover_autonomous_database(params = {}, options = {})
+      req = build_request(:failover_autonomous_database, params)
+      req.send_request(options)
+    end
+
+    # Gets information about a specific Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to retrieve
+    #   information about.
+    #
+    # @return [Types::GetAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAutonomousDatabaseOutput#autonomous_database #autonomous_database} => Types::AutonomousDatabase
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database.autonomous_database_id #=> String
+    #   resp.autonomous_database.autonomous_database_arn #=> String
+    #   resp.autonomous_database.oci_resource_anchor_name #=> String
+    #   resp.autonomous_database.percent_progress #=> Float
+    #   resp.autonomous_database.ocid #=> String
+    #   resp.autonomous_database.oci_url #=> String
+    #   resp.autonomous_database.display_name #=> String
+    #   resp.autonomous_database.db_name #=> String
+    #   resp.autonomous_database.source_id #=> String
+    #   resp.autonomous_database.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_database.status_reason #=> String
+    #   resp.autonomous_database.database_type #=> String, one of "REGULAR", "CLONE"
+    #   resp.autonomous_database.db_version #=> String
+    #   resp.autonomous_database.db_workload #=> String, one of "OLTP", "AJD", "APEX", "LH"
+    #   resp.autonomous_database.character_set #=> String
+    #   resp.autonomous_database.ncharacter_set #=> String
+    #   resp.autonomous_database.database_edition #=> String, one of "STANDARD_EDITION", "ENTERPRISE_EDITION"
+    #   resp.autonomous_database.license_model #=> String, one of "BRING_YOUR_OWN_LICENSE", "LICENSE_INCLUDED"
+    #   resp.autonomous_database.open_mode #=> String, one of "READ_ONLY", "READ_WRITE"
+    #   resp.autonomous_database.permission_level #=> String, one of "RESTRICTED", "UNRESTRICTED"
+    #   resp.autonomous_database.is_mtls_connection_required #=> Boolean
+    #   resp.autonomous_database.autonomous_maintenance_schedule_type #=> String, one of "EARLY", "REGULAR"
+    #   resp.autonomous_database.net_services_architecture #=> String, one of "DEDICATED", "SHARED"
+    #   resp.autonomous_database.available_upgrade_versions #=> Array
+    #   resp.autonomous_database.available_upgrade_versions[0] #=> String
+    #   resp.autonomous_database.byol_compute_count_limit #=> Integer
+    #   resp.autonomous_database.connection_string_details.all_connection_strings #=> Hash
+    #   resp.autonomous_database.connection_string_details.all_connection_strings["String"] #=> String
+    #   resp.autonomous_database.connection_string_details.dedicated #=> String
+    #   resp.autonomous_database.connection_string_details.high #=> String
+    #   resp.autonomous_database.connection_string_details.medium #=> String
+    #   resp.autonomous_database.connection_string_details.low #=> String
+    #   resp.autonomous_database.connection_string_details.profiles #=> Array
+    #   resp.autonomous_database.connection_string_details.profiles[0].consumer_group #=> String
+    #   resp.autonomous_database.connection_string_details.profiles[0].display_name #=> String
+    #   resp.autonomous_database.connection_string_details.profiles[0].host_format #=> String
+    #   resp.autonomous_database.connection_string_details.profiles[0].is_regional #=> Boolean
+    #   resp.autonomous_database.connection_string_details.profiles[0].protocol #=> String
+    #   resp.autonomous_database.connection_string_details.profiles[0].session_mode #=> String
+    #   resp.autonomous_database.connection_string_details.profiles[0].syntax_format #=> String
+    #   resp.autonomous_database.connection_string_details.profiles[0].tls_authentication #=> String
+    #   resp.autonomous_database.connection_string_details.profiles[0].value #=> String
+    #   resp.autonomous_database.service_console_url #=> String
+    #   resp.autonomous_database.sql_web_developer_url #=> String
+    #   resp.autonomous_database.customer_contacts #=> Array
+    #   resp.autonomous_database.customer_contacts[0].email #=> String
+    #   resp.autonomous_database.apex_details.apex_version #=> String
+    #   resp.autonomous_database.apex_details.ords_version #=> String
+    #   resp.autonomous_database.standby_db.availability_domain #=> String
+    #   resp.autonomous_database.standby_db.lag_time_in_seconds #=> Integer
+    #   resp.autonomous_database.standby_db.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_database.standby_db.status_reason #=> String
+    #   resp.autonomous_database.standby_db.maintenance_target_component #=> String
+    #   resp.autonomous_database.standby_db.time_data_guard_role_changed #=> Time
+    #   resp.autonomous_database.standby_db.time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_database.standby_db.time_maintenance_begin #=> Time
+    #   resp.autonomous_database.standby_db.time_maintenance_end #=> Time
+    #   resp.autonomous_database.local_standby_db.availability_domain #=> String
+    #   resp.autonomous_database.local_standby_db.lag_time_in_seconds #=> Integer
+    #   resp.autonomous_database.local_standby_db.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_database.local_standby_db.status_reason #=> String
+    #   resp.autonomous_database.local_standby_db.maintenance_target_component #=> String
+    #   resp.autonomous_database.local_standby_db.time_data_guard_role_changed #=> Time
+    #   resp.autonomous_database.local_standby_db.time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_database.local_standby_db.time_maintenance_begin #=> Time
+    #   resp.autonomous_database.local_standby_db.time_maintenance_end #=> Time
+    #   resp.autonomous_database.data_safe_status #=> String, one of "REGISTERING", "REGISTERED", "DEREGISTERING", "NOT_REGISTERED", "FAILED"
+    #   resp.autonomous_database.database_management_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "NOT_ENABLED", "FAILED_ENABLING", "FAILED_DISABLING"
+    #   resp.autonomous_database.operations_insights_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "NOT_ENABLED", "FAILED_ENABLING", "FAILED_DISABLING"
+    #   resp.autonomous_database.availability_zone #=> String
+    #   resp.autonomous_database.availability_zone_id #=> String
+    #   resp.autonomous_database.maintenance_target_component #=> String
+    #   resp.autonomous_database.connection_urls.apex_url #=> String
+    #   resp.autonomous_database.connection_urls.database_transforms_url #=> String
+    #   resp.autonomous_database.connection_urls.graph_studio_url #=> String
+    #   resp.autonomous_database.connection_urls.machine_learning_notebook_url #=> String
+    #   resp.autonomous_database.connection_urls.machine_learning_user_management_url #=> String
+    #   resp.autonomous_database.connection_urls.mongo_db_url #=> String
+    #   resp.autonomous_database.connection_urls.ords_url #=> String
+    #   resp.autonomous_database.connection_urls.spatial_studio_url #=> String
+    #   resp.autonomous_database.connection_urls.sql_dev_web_url #=> String
+    #   resp.autonomous_database.db_tools_details #=> Array
+    #   resp.autonomous_database.db_tools_details[0].is_enabled #=> Boolean
+    #   resp.autonomous_database.db_tools_details[0].name #=> String
+    #   resp.autonomous_database.db_tools_details[0].compute_count #=> Float
+    #   resp.autonomous_database.db_tools_details[0].max_idle_time_in_minutes #=> Integer
+    #   resp.autonomous_database.scheduled_operations #=> Array
+    #   resp.autonomous_database.scheduled_operations[0].day_of_week.name #=> String, one of "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"
+    #   resp.autonomous_database.scheduled_operations[0].scheduled_start_time #=> String
+    #   resp.autonomous_database.scheduled_operations[0].scheduled_stop_time #=> String
+    #   resp.autonomous_database.resource_pool_leader_id #=> String
+    #   resp.autonomous_database.compute_count #=> Float
+    #   resp.autonomous_database.compute_model #=> String, one of "ECPU", "OCPU"
+    #   resp.autonomous_database.cpu_core_count #=> Integer
+    #   resp.autonomous_database.memory_per_oracle_compute_unit_in_g_bs #=> Integer
+    #   resp.autonomous_database.provisionable_cpus #=> Array
+    #   resp.autonomous_database.provisionable_cpus[0] #=> Integer
+    #   resp.autonomous_database.is_auto_scaling_enabled #=> Boolean
+    #   resp.autonomous_database.data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database.data_storage_size_in_g_bs #=> Integer
+    #   resp.autonomous_database.used_data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database.used_data_storage_size_in_g_bs #=> Integer
+    #   resp.autonomous_database.actual_used_data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database.allocated_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database.in_memory_area_in_g_bs #=> Integer
+    #   resp.autonomous_database.is_auto_scaling_for_storage_enabled #=> Boolean
+    #   resp.autonomous_database.odb_network_id #=> String
+    #   resp.autonomous_database.odb_network_arn #=> String
+    #   resp.autonomous_database.private_endpoint #=> String
+    #   resp.autonomous_database.private_endpoint_ip #=> String
+    #   resp.autonomous_database.private_endpoint_label #=> String
+    #   resp.autonomous_database.allowlisted_ips #=> Array
+    #   resp.autonomous_database.allowlisted_ips[0] #=> String
+    #   resp.autonomous_database.standby_allowlisted_ips #=> Array
+    #   resp.autonomous_database.standby_allowlisted_ips[0] #=> String
+    #   resp.autonomous_database.standby_allowlisted_ips_source #=> String, one of "PRIMARY", "SEPARATE", "NOT_APPLICABLE"
+    #   resp.autonomous_database.is_local_data_guard_enabled #=> Boolean
+    #   resp.autonomous_database.is_remote_data_guard_enabled #=> Boolean
+    #   resp.autonomous_database.local_disaster_recovery_type #=> String, one of "ADG", "BACKUP_BASED"
+    #   resp.autonomous_database.role #=> String, one of "PRIMARY", "STANDBY", "DISABLED_STANDBY", "BACKUP_COPY", "SNAPSHOT_STANDBY"
+    #   resp.autonomous_database.peer_db_ids #=> Array
+    #   resp.autonomous_database.peer_db_ids[0] #=> String
+    #   resp.autonomous_database.failed_data_recovery_in_seconds #=> Integer
+    #   resp.autonomous_database.local_adg_auto_failover_max_data_loss_limit #=> Integer
+    #   resp.autonomous_database.remote_disaster_recovery_configuration.disaster_recovery_type #=> String, one of "ADG", "BACKUP_BASED"
+    #   resp.autonomous_database.remote_disaster_recovery_configuration.is_replicate_automatic_backups #=> Boolean
+    #   resp.autonomous_database.remote_disaster_recovery_configuration.is_snapshot_standby #=> Boolean
+    #   resp.autonomous_database.remote_disaster_recovery_configuration.time_snapshot_standby_enabled_till #=> Time
+    #   resp.autonomous_database.is_refreshable_clone #=> Boolean
+    #   resp.autonomous_database.refreshable_mode #=> String, one of "AUTOMATIC", "MANUAL"
+    #   resp.autonomous_database.refreshable_status #=> String, one of "REFRESHING", "NOT_REFRESHING"
+    #   resp.autonomous_database.auto_refresh_frequency_in_seconds #=> Integer
+    #   resp.autonomous_database.auto_refresh_point_lag_in_seconds #=> Integer
+    #   resp.autonomous_database.is_reconnect_clone_enabled #=> Boolean
+    #   resp.autonomous_database.clone_table_space_list #=> Array
+    #   resp.autonomous_database.clone_table_space_list[0] #=> Integer
+    #   resp.autonomous_database.backup_retention_period_in_days #=> Integer
+    #   resp.autonomous_database.long_term_backup_schedule.is_disabled #=> Boolean
+    #   resp.autonomous_database.long_term_backup_schedule.repeat_cadence #=> String, one of "ONE_TIME", "WEEKLY", "MONTHLY", "YEARLY"
+    #   resp.autonomous_database.long_term_backup_schedule.retention_period_in_days #=> Integer
+    #   resp.autonomous_database.long_term_backup_schedule.time_of_backup #=> Time
+    #   resp.autonomous_database.is_backup_retention_locked #=> Boolean
+    #   resp.autonomous_database.total_backup_storage_size_in_g_bs #=> Float
+    #   resp.autonomous_database.resource_pool_summary.is_disabled #=> Boolean
+    #   resp.autonomous_database.resource_pool_summary.pool_size #=> Integer
+    #   resp.autonomous_database.resource_pool_summary.pool_storage_size_in_t_bs #=> Integer
+    #   resp.autonomous_database.resource_pool_summary.available_storage_capacity_in_t_bs #=> Float
+    #   resp.autonomous_database.resource_pool_summary.total_compute_capacity #=> Integer
+    #   resp.autonomous_database.resource_pool_summary.available_compute_capacity #=> Integer
+    #   resp.autonomous_database.encryption_summary.encryption_key_provider #=> String, one of "ORACLE_MANAGED", "AWS_KMS", "OKV", "OCI"
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.aws_encryption_key.iam_role_arn #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.aws_encryption_key.external_id_type #=> String, one of "database_ocid", "compartment_ocid", "tenant_ocid"
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.aws_encryption_key.kms_key_id #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.oci_encryption_key.kms_key_id #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.oci_encryption_key.vault_id #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.okv_encryption_key.certificate_directory_name #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.okv_encryption_key.certificate_id #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.okv_encryption_key.directory_name #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.okv_encryption_key.okv_kms_key #=> String
+    #   resp.autonomous_database.encryption_summary.encryption_key_configuration.okv_encryption_key.okv_uri #=> String
+    #   resp.autonomous_database.created_at #=> Time
+    #   resp.autonomous_database.time_of_last_backup #=> Time
+    #   resp.autonomous_database.time_maintenance_begin #=> Time
+    #   resp.autonomous_database.time_maintenance_end #=> Time
+    #   resp.autonomous_database.time_local_data_guard_enabled #=> Time
+    #   resp.autonomous_database.time_data_guard_role_changed #=> Time
+    #   resp.autonomous_database.time_of_last_switchover #=> Time
+    #   resp.autonomous_database.time_of_last_failover #=> Time
+    #   resp.autonomous_database.time_of_last_refresh #=> Time
+    #   resp.autonomous_database.time_of_last_refresh_point #=> Time
+    #   resp.autonomous_database.time_of_next_refresh #=> Time
+    #   resp.autonomous_database.time_of_auto_refresh_start #=> Time
+    #   resp.autonomous_database.time_deletion_of_free_autonomous_database #=> Time
+    #   resp.autonomous_database.time_reclamation_of_free_autonomous_database #=> Time
+    #   resp.autonomous_database.time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_database.time_until_reconnect_clone_enabled #=> Time
+    #   resp.autonomous_database.next_long_term_backup_time_stamp #=> Time
+    #   resp.autonomous_database.time_undeleted #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabase AWS API Documentation
+    #
+    # @overload get_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def get_autonomous_database(params = {}, options = {})
+      req = build_request(:get_autonomous_database, params)
+      req.send_request(options)
+    end
+
+    # Gets information about a specific Autonomous Database backup.
+    #
+    # @option params [required, String] :autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup to retrieve
+    #   information about.
+    #
+    # @return [Types::GetAutonomousDatabaseBackupOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAutonomousDatabaseBackupOutput#autonomous_database_backup #autonomous_database_backup} => Types::AutonomousDatabaseBackup
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_autonomous_database_backup({
+    #     autonomous_database_backup_id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_backup.autonomous_database_backup_id #=> String
+    #   resp.autonomous_database_backup.autonomous_database_backup_arn #=> String
+    #   resp.autonomous_database_backup.autonomous_database_id #=> String
+    #   resp.autonomous_database_backup.ocid #=> String
+    #   resp.autonomous_database_backup.display_name #=> String
+    #   resp.autonomous_database_backup.db_version #=> String
+    #   resp.autonomous_database_backup.status #=> String, one of "ACTIVE", "CREATING", "UPDATING", "DELETING", "FAILED"
+    #   resp.autonomous_database_backup.status_reason #=> String
+    #   resp.autonomous_database_backup.is_automatic #=> Boolean
+    #   resp.autonomous_database_backup.retention_period_in_days #=> Integer
+    #   resp.autonomous_database_backup.size_in_t_bs #=> Float
+    #   resp.autonomous_database_backup.time_available_till #=> Time
+    #   resp.autonomous_database_backup.time_started #=> Time
+    #   resp.autonomous_database_backup.time_ended #=> Time
+    #   resp.autonomous_database_backup.type #=> String, one of "INCREMENTAL", "FULL", "LONGTERM", "VIRTUAL_FULL", "CUMULATIVE_INCREMENTAL", "ROLL_FORWARD_IMAGE_COPY"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseBackup AWS API Documentation
+    #
+    # @overload get_autonomous_database_backup(params = {})
+    # @param [Hash] params ({})
+    def get_autonomous_database_backup(params = {}, options = {})
+      req = build_request(:get_autonomous_database_backup, params)
+      req.send_request(options)
+    end
+
+    # Gets the wallet details for the specified Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to retrieve wallet
+    #   details for.
+    #
+    # @return [Types::GetAutonomousDatabaseWalletDetailsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAutonomousDatabaseWalletDetailsOutput#autonomous_database_wallet_details #autonomous_database_wallet_details} => Types::AutonomousDatabaseWalletDetails
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_autonomous_database_wallet_details({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_wallet_details.status #=> String, one of "ACTIVE", "UPDATING"
+    #   resp.autonomous_database_wallet_details.time_rotated #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseWalletDetails AWS API Documentation
+    #
+    # @overload get_autonomous_database_wallet_details(params = {})
+    # @param [Hash] params ({})
+    def get_autonomous_database_wallet_details(params = {}, options = {})
+      req = build_request(:get_autonomous_database_wallet_details, params)
       req.send_request(options)
     end
 
@@ -1794,6 +2546,10 @@ module Aws::Odb
     #   * {Types::GetOciOnboardingStatusOutput#existing_tenancy_activation_link #existing_tenancy_activation_link} => String
     #   * {Types::GetOciOnboardingStatusOutput#new_tenancy_activation_link #new_tenancy_activation_link} => String
     #   * {Types::GetOciOnboardingStatusOutput#oci_identity_domain #oci_identity_domain} => Types::OciIdentityDomain
+    #   * {Types::GetOciOnboardingStatusOutput#autonomous_database_oci_integration_iam_roles #autonomous_database_oci_integration_iam_roles} => Array&lt;Types::OciIamRole&gt;
+    #   * {Types::GetOciOnboardingStatusOutput#linked_oci_tenancy_id #linked_oci_tenancy_id} => String
+    #   * {Types::GetOciOnboardingStatusOutput#linked_oci_compartment_id #linked_oci_compartment_id} => String
+    #   * {Types::GetOciOnboardingStatusOutput#subscription_errors #subscription_errors} => Array&lt;Types::SubscriptionError&gt;
     #
     # @example Response structure
     #
@@ -1806,6 +2562,13 @@ module Aws::Odb
     #   resp.oci_identity_domain.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS"
     #   resp.oci_identity_domain.status_reason #=> String
     #   resp.oci_identity_domain.account_setup_cloud_formation_url #=> String
+    #   resp.autonomous_database_oci_integration_iam_roles #=> Array
+    #   resp.autonomous_database_oci_integration_iam_roles[0].iam_role_arn #=> String
+    #   resp.autonomous_database_oci_integration_iam_roles[0].aws_integration #=> String, one of "KmsTde"
+    #   resp.linked_oci_tenancy_id #=> String
+    #   resp.linked_oci_compartment_id #=> String
+    #   resp.subscription_errors #=> Array
+    #   resp.subscription_errors[0].error_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetOciOnboardingStatus AWS API Documentation
     #
@@ -1959,6 +2722,655 @@ module Aws::Odb
     # @param [Hash] params ({})
     def initialize_service(params = {}, options = {})
       req = build_request(:initialize_service, params)
+      req.send_request(options)
+    end
+
+    # Lists the backups of the specified Autonomous Database.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #
+    # @option params [String] :next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous request.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database whose backups you
+    #   want to list.
+    #
+    # @option params [String] :status
+    #   The status of the Autonomous Database backups to return results for.
+    #
+    # @option params [String] :type
+    #   The type of the Autonomous Database backups to return results for.
+    #
+    # @return [Types::ListAutonomousDatabaseBackupsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAutonomousDatabaseBackupsOutput#next_token #next_token} => String
+    #   * {Types::ListAutonomousDatabaseBackupsOutput#autonomous_database_backups #autonomous_database_backups} => Array&lt;Types::AutonomousDatabaseBackupSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_autonomous_database_backups({
+    #     max_results: 1,
+    #     next_token: "ListAutonomousDatabaseBackupsInputNextTokenString",
+    #     autonomous_database_id: "ResourceId", # required
+    #     status: "ACTIVE", # accepts ACTIVE, CREATING, UPDATING, DELETING, FAILED
+    #     type: "INCREMENTAL", # accepts INCREMENTAL, FULL, LONGTERM, VIRTUAL_FULL, CUMULATIVE_INCREMENTAL, ROLL_FORWARD_IMAGE_COPY
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.autonomous_database_backups #=> Array
+    #   resp.autonomous_database_backups[0].autonomous_database_backup_id #=> String
+    #   resp.autonomous_database_backups[0].autonomous_database_backup_arn #=> String
+    #   resp.autonomous_database_backups[0].autonomous_database_id #=> String
+    #   resp.autonomous_database_backups[0].ocid #=> String
+    #   resp.autonomous_database_backups[0].display_name #=> String
+    #   resp.autonomous_database_backups[0].db_version #=> String
+    #   resp.autonomous_database_backups[0].status #=> String, one of "ACTIVE", "CREATING", "UPDATING", "DELETING", "FAILED"
+    #   resp.autonomous_database_backups[0].status_reason #=> String
+    #   resp.autonomous_database_backups[0].is_automatic #=> Boolean
+    #   resp.autonomous_database_backups[0].retention_period_in_days #=> Integer
+    #   resp.autonomous_database_backups[0].size_in_t_bs #=> Float
+    #   resp.autonomous_database_backups[0].time_available_till #=> Time
+    #   resp.autonomous_database_backups[0].time_started #=> Time
+    #   resp.autonomous_database_backups[0].time_ended #=> Time
+    #   resp.autonomous_database_backups[0].type #=> String, one of "INCREMENTAL", "FULL", "LONGTERM", "VIRTUAL_FULL", "CUMULATIVE_INCREMENTAL", "ROLL_FORWARD_IMAGE_COPY"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseBackups AWS API Documentation
+    #
+    # @overload list_autonomous_database_backups(params = {})
+    # @param [Hash] params ({})
+    def list_autonomous_database_backups(params = {}, options = {})
+      req = build_request(:list_autonomous_database_backups, params)
+      req.send_request(options)
+    end
+
+    # Lists the available character sets for Autonomous Databases.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #
+    # @option params [String] :next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous request.
+    #
+    # @option params [String] :character_set_type
+    #   The type of character set to return results for, either the database
+    #   character set or the national character set.
+    #
+    # @return [Types::ListAutonomousDatabaseCharacterSetsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAutonomousDatabaseCharacterSetsOutput#next_token #next_token} => String
+    #   * {Types::ListAutonomousDatabaseCharacterSetsOutput#autonomous_database_character_sets #autonomous_database_character_sets} => Array&lt;Types::AutonomousDatabaseCharacterSetSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_autonomous_database_character_sets({
+    #     max_results: 1,
+    #     next_token: "ListAutonomousDatabaseCharacterSetsInputNextTokenString",
+    #     character_set_type: "DATABASE", # accepts DATABASE, NATIONAL
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.autonomous_database_character_sets #=> Array
+    #   resp.autonomous_database_character_sets[0].character_set #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseCharacterSets AWS API Documentation
+    #
+    # @overload list_autonomous_database_character_sets(params = {})
+    # @param [Hash] params ({})
+    def list_autonomous_database_character_sets(params = {}, options = {})
+      req = build_request(:list_autonomous_database_character_sets, params)
+      req.send_request(options)
+    end
+
+    # Lists the clones of the specified Autonomous Database.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #
+    # @option params [String] :next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous request.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the source Autonomous Database whose clones
+    #   you want to list.
+    #
+    # @return [Types::ListAutonomousDatabaseClonesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAutonomousDatabaseClonesOutput#next_token #next_token} => String
+    #   * {Types::ListAutonomousDatabaseClonesOutput#autonomous_database_clones #autonomous_database_clones} => Array&lt;Types::AutonomousDatabaseSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_autonomous_database_clones({
+    #     max_results: 1,
+    #     next_token: "ListAutonomousDatabaseClonesInputNextTokenString",
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.autonomous_database_clones #=> Array
+    #   resp.autonomous_database_clones[0].autonomous_database_id #=> String
+    #   resp.autonomous_database_clones[0].autonomous_database_arn #=> String
+    #   resp.autonomous_database_clones[0].oci_resource_anchor_name #=> String
+    #   resp.autonomous_database_clones[0].percent_progress #=> Float
+    #   resp.autonomous_database_clones[0].ocid #=> String
+    #   resp.autonomous_database_clones[0].oci_url #=> String
+    #   resp.autonomous_database_clones[0].display_name #=> String
+    #   resp.autonomous_database_clones[0].db_name #=> String
+    #   resp.autonomous_database_clones[0].source_id #=> String
+    #   resp.autonomous_database_clones[0].status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_database_clones[0].status_reason #=> String
+    #   resp.autonomous_database_clones[0].database_type #=> String, one of "REGULAR", "CLONE"
+    #   resp.autonomous_database_clones[0].db_version #=> String
+    #   resp.autonomous_database_clones[0].db_workload #=> String, one of "OLTP", "AJD", "APEX", "LH"
+    #   resp.autonomous_database_clones[0].character_set #=> String
+    #   resp.autonomous_database_clones[0].ncharacter_set #=> String
+    #   resp.autonomous_database_clones[0].database_edition #=> String, one of "STANDARD_EDITION", "ENTERPRISE_EDITION"
+    #   resp.autonomous_database_clones[0].license_model #=> String, one of "BRING_YOUR_OWN_LICENSE", "LICENSE_INCLUDED"
+    #   resp.autonomous_database_clones[0].open_mode #=> String, one of "READ_ONLY", "READ_WRITE"
+    #   resp.autonomous_database_clones[0].permission_level #=> String, one of "RESTRICTED", "UNRESTRICTED"
+    #   resp.autonomous_database_clones[0].is_mtls_connection_required #=> Boolean
+    #   resp.autonomous_database_clones[0].autonomous_maintenance_schedule_type #=> String, one of "EARLY", "REGULAR"
+    #   resp.autonomous_database_clones[0].net_services_architecture #=> String, one of "DEDICATED", "SHARED"
+    #   resp.autonomous_database_clones[0].available_upgrade_versions #=> Array
+    #   resp.autonomous_database_clones[0].available_upgrade_versions[0] #=> String
+    #   resp.autonomous_database_clones[0].byol_compute_count_limit #=> Integer
+    #   resp.autonomous_database_clones[0].connection_string_details.all_connection_strings #=> Hash
+    #   resp.autonomous_database_clones[0].connection_string_details.all_connection_strings["String"] #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.dedicated #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.high #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.medium #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.low #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles #=> Array
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].consumer_group #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].display_name #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].host_format #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].is_regional #=> Boolean
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].protocol #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].session_mode #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].syntax_format #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].tls_authentication #=> String
+    #   resp.autonomous_database_clones[0].connection_string_details.profiles[0].value #=> String
+    #   resp.autonomous_database_clones[0].service_console_url #=> String
+    #   resp.autonomous_database_clones[0].sql_web_developer_url #=> String
+    #   resp.autonomous_database_clones[0].customer_contacts #=> Array
+    #   resp.autonomous_database_clones[0].customer_contacts[0].email #=> String
+    #   resp.autonomous_database_clones[0].apex_details.apex_version #=> String
+    #   resp.autonomous_database_clones[0].apex_details.ords_version #=> String
+    #   resp.autonomous_database_clones[0].standby_db.availability_domain #=> String
+    #   resp.autonomous_database_clones[0].standby_db.lag_time_in_seconds #=> Integer
+    #   resp.autonomous_database_clones[0].standby_db.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_database_clones[0].standby_db.status_reason #=> String
+    #   resp.autonomous_database_clones[0].standby_db.maintenance_target_component #=> String
+    #   resp.autonomous_database_clones[0].standby_db.time_data_guard_role_changed #=> Time
+    #   resp.autonomous_database_clones[0].standby_db.time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_database_clones[0].standby_db.time_maintenance_begin #=> Time
+    #   resp.autonomous_database_clones[0].standby_db.time_maintenance_end #=> Time
+    #   resp.autonomous_database_clones[0].local_standby_db.availability_domain #=> String
+    #   resp.autonomous_database_clones[0].local_standby_db.lag_time_in_seconds #=> Integer
+    #   resp.autonomous_database_clones[0].local_standby_db.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_database_clones[0].local_standby_db.status_reason #=> String
+    #   resp.autonomous_database_clones[0].local_standby_db.maintenance_target_component #=> String
+    #   resp.autonomous_database_clones[0].local_standby_db.time_data_guard_role_changed #=> Time
+    #   resp.autonomous_database_clones[0].local_standby_db.time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_database_clones[0].local_standby_db.time_maintenance_begin #=> Time
+    #   resp.autonomous_database_clones[0].local_standby_db.time_maintenance_end #=> Time
+    #   resp.autonomous_database_clones[0].data_safe_status #=> String, one of "REGISTERING", "REGISTERED", "DEREGISTERING", "NOT_REGISTERED", "FAILED"
+    #   resp.autonomous_database_clones[0].database_management_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "NOT_ENABLED", "FAILED_ENABLING", "FAILED_DISABLING"
+    #   resp.autonomous_database_clones[0].operations_insights_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "NOT_ENABLED", "FAILED_ENABLING", "FAILED_DISABLING"
+    #   resp.autonomous_database_clones[0].availability_zone #=> String
+    #   resp.autonomous_database_clones[0].availability_zone_id #=> String
+    #   resp.autonomous_database_clones[0].maintenance_target_component #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.apex_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.database_transforms_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.graph_studio_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.machine_learning_notebook_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.machine_learning_user_management_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.mongo_db_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.ords_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.spatial_studio_url #=> String
+    #   resp.autonomous_database_clones[0].connection_urls.sql_dev_web_url #=> String
+    #   resp.autonomous_database_clones[0].db_tools_details #=> Array
+    #   resp.autonomous_database_clones[0].db_tools_details[0].is_enabled #=> Boolean
+    #   resp.autonomous_database_clones[0].db_tools_details[0].name #=> String
+    #   resp.autonomous_database_clones[0].db_tools_details[0].compute_count #=> Float
+    #   resp.autonomous_database_clones[0].db_tools_details[0].max_idle_time_in_minutes #=> Integer
+    #   resp.autonomous_database_clones[0].scheduled_operations #=> Array
+    #   resp.autonomous_database_clones[0].scheduled_operations[0].day_of_week.name #=> String, one of "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"
+    #   resp.autonomous_database_clones[0].scheduled_operations[0].scheduled_start_time #=> String
+    #   resp.autonomous_database_clones[0].scheduled_operations[0].scheduled_stop_time #=> String
+    #   resp.autonomous_database_clones[0].resource_pool_leader_id #=> String
+    #   resp.autonomous_database_clones[0].compute_count #=> Float
+    #   resp.autonomous_database_clones[0].compute_model #=> String, one of "ECPU", "OCPU"
+    #   resp.autonomous_database_clones[0].cpu_core_count #=> Integer
+    #   resp.autonomous_database_clones[0].memory_per_oracle_compute_unit_in_g_bs #=> Integer
+    #   resp.autonomous_database_clones[0].provisionable_cpus #=> Array
+    #   resp.autonomous_database_clones[0].provisionable_cpus[0] #=> Integer
+    #   resp.autonomous_database_clones[0].is_auto_scaling_enabled #=> Boolean
+    #   resp.autonomous_database_clones[0].data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database_clones[0].data_storage_size_in_g_bs #=> Integer
+    #   resp.autonomous_database_clones[0].used_data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database_clones[0].used_data_storage_size_in_g_bs #=> Integer
+    #   resp.autonomous_database_clones[0].actual_used_data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database_clones[0].allocated_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_database_clones[0].in_memory_area_in_g_bs #=> Integer
+    #   resp.autonomous_database_clones[0].is_auto_scaling_for_storage_enabled #=> Boolean
+    #   resp.autonomous_database_clones[0].odb_network_id #=> String
+    #   resp.autonomous_database_clones[0].odb_network_arn #=> String
+    #   resp.autonomous_database_clones[0].private_endpoint #=> String
+    #   resp.autonomous_database_clones[0].private_endpoint_ip #=> String
+    #   resp.autonomous_database_clones[0].private_endpoint_label #=> String
+    #   resp.autonomous_database_clones[0].allowlisted_ips #=> Array
+    #   resp.autonomous_database_clones[0].allowlisted_ips[0] #=> String
+    #   resp.autonomous_database_clones[0].standby_allowlisted_ips #=> Array
+    #   resp.autonomous_database_clones[0].standby_allowlisted_ips[0] #=> String
+    #   resp.autonomous_database_clones[0].standby_allowlisted_ips_source #=> String, one of "PRIMARY", "SEPARATE", "NOT_APPLICABLE"
+    #   resp.autonomous_database_clones[0].is_local_data_guard_enabled #=> Boolean
+    #   resp.autonomous_database_clones[0].is_remote_data_guard_enabled #=> Boolean
+    #   resp.autonomous_database_clones[0].local_disaster_recovery_type #=> String, one of "ADG", "BACKUP_BASED"
+    #   resp.autonomous_database_clones[0].role #=> String, one of "PRIMARY", "STANDBY", "DISABLED_STANDBY", "BACKUP_COPY", "SNAPSHOT_STANDBY"
+    #   resp.autonomous_database_clones[0].peer_db_ids #=> Array
+    #   resp.autonomous_database_clones[0].peer_db_ids[0] #=> String
+    #   resp.autonomous_database_clones[0].failed_data_recovery_in_seconds #=> Integer
+    #   resp.autonomous_database_clones[0].local_adg_auto_failover_max_data_loss_limit #=> Integer
+    #   resp.autonomous_database_clones[0].remote_disaster_recovery_configuration.disaster_recovery_type #=> String, one of "ADG", "BACKUP_BASED"
+    #   resp.autonomous_database_clones[0].remote_disaster_recovery_configuration.is_replicate_automatic_backups #=> Boolean
+    #   resp.autonomous_database_clones[0].remote_disaster_recovery_configuration.is_snapshot_standby #=> Boolean
+    #   resp.autonomous_database_clones[0].remote_disaster_recovery_configuration.time_snapshot_standby_enabled_till #=> Time
+    #   resp.autonomous_database_clones[0].is_refreshable_clone #=> Boolean
+    #   resp.autonomous_database_clones[0].refreshable_mode #=> String, one of "AUTOMATIC", "MANUAL"
+    #   resp.autonomous_database_clones[0].refreshable_status #=> String, one of "REFRESHING", "NOT_REFRESHING"
+    #   resp.autonomous_database_clones[0].auto_refresh_frequency_in_seconds #=> Integer
+    #   resp.autonomous_database_clones[0].auto_refresh_point_lag_in_seconds #=> Integer
+    #   resp.autonomous_database_clones[0].is_reconnect_clone_enabled #=> Boolean
+    #   resp.autonomous_database_clones[0].clone_table_space_list #=> Array
+    #   resp.autonomous_database_clones[0].clone_table_space_list[0] #=> Integer
+    #   resp.autonomous_database_clones[0].backup_retention_period_in_days #=> Integer
+    #   resp.autonomous_database_clones[0].long_term_backup_schedule.is_disabled #=> Boolean
+    #   resp.autonomous_database_clones[0].long_term_backup_schedule.repeat_cadence #=> String, one of "ONE_TIME", "WEEKLY", "MONTHLY", "YEARLY"
+    #   resp.autonomous_database_clones[0].long_term_backup_schedule.retention_period_in_days #=> Integer
+    #   resp.autonomous_database_clones[0].long_term_backup_schedule.time_of_backup #=> Time
+    #   resp.autonomous_database_clones[0].is_backup_retention_locked #=> Boolean
+    #   resp.autonomous_database_clones[0].total_backup_storage_size_in_g_bs #=> Float
+    #   resp.autonomous_database_clones[0].resource_pool_summary.is_disabled #=> Boolean
+    #   resp.autonomous_database_clones[0].resource_pool_summary.pool_size #=> Integer
+    #   resp.autonomous_database_clones[0].resource_pool_summary.pool_storage_size_in_t_bs #=> Integer
+    #   resp.autonomous_database_clones[0].resource_pool_summary.available_storage_capacity_in_t_bs #=> Float
+    #   resp.autonomous_database_clones[0].resource_pool_summary.total_compute_capacity #=> Integer
+    #   resp.autonomous_database_clones[0].resource_pool_summary.available_compute_capacity #=> Integer
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_provider #=> String, one of "ORACLE_MANAGED", "AWS_KMS", "OKV", "OCI"
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.aws_encryption_key.iam_role_arn #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.aws_encryption_key.external_id_type #=> String, one of "database_ocid", "compartment_ocid", "tenant_ocid"
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.aws_encryption_key.kms_key_id #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.oci_encryption_key.kms_key_id #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.oci_encryption_key.vault_id #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.okv_encryption_key.certificate_directory_name #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.okv_encryption_key.certificate_id #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.okv_encryption_key.directory_name #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.okv_encryption_key.okv_kms_key #=> String
+    #   resp.autonomous_database_clones[0].encryption_summary.encryption_key_configuration.okv_encryption_key.okv_uri #=> String
+    #   resp.autonomous_database_clones[0].created_at #=> Time
+    #   resp.autonomous_database_clones[0].time_of_last_backup #=> Time
+    #   resp.autonomous_database_clones[0].time_maintenance_begin #=> Time
+    #   resp.autonomous_database_clones[0].time_maintenance_end #=> Time
+    #   resp.autonomous_database_clones[0].time_local_data_guard_enabled #=> Time
+    #   resp.autonomous_database_clones[0].time_data_guard_role_changed #=> Time
+    #   resp.autonomous_database_clones[0].time_of_last_switchover #=> Time
+    #   resp.autonomous_database_clones[0].time_of_last_failover #=> Time
+    #   resp.autonomous_database_clones[0].time_of_last_refresh #=> Time
+    #   resp.autonomous_database_clones[0].time_of_last_refresh_point #=> Time
+    #   resp.autonomous_database_clones[0].time_of_next_refresh #=> Time
+    #   resp.autonomous_database_clones[0].time_of_auto_refresh_start #=> Time
+    #   resp.autonomous_database_clones[0].time_deletion_of_free_autonomous_database #=> Time
+    #   resp.autonomous_database_clones[0].time_reclamation_of_free_autonomous_database #=> Time
+    #   resp.autonomous_database_clones[0].time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_database_clones[0].time_until_reconnect_clone_enabled #=> Time
+    #   resp.autonomous_database_clones[0].next_long_term_backup_time_stamp #=> Time
+    #   resp.autonomous_database_clones[0].time_undeleted #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseClones AWS API Documentation
+    #
+    # @overload list_autonomous_database_clones(params = {})
+    # @param [Hash] params ({})
+    def list_autonomous_database_clones(params = {}, options = {})
+      req = build_request(:list_autonomous_database_clones, params)
+      req.send_request(options)
+    end
+
+    # Lists the peer databases of the specified Autonomous Database.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #
+    # @option params [String] :next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous request.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database whose peer databases
+    #   you want to list.
+    #
+    # @return [Types::ListAutonomousDatabasePeersOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAutonomousDatabasePeersOutput#next_token #next_token} => String
+    #   * {Types::ListAutonomousDatabasePeersOutput#autonomous_database_peers #autonomous_database_peers} => Array&lt;Types::AutonomousDatabasePeerSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_autonomous_database_peers({
+    #     max_results: 1,
+    #     next_token: "ListAutonomousDatabasePeersInputNextTokenString",
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.autonomous_database_peers #=> Array
+    #   resp.autonomous_database_peers[0].autonomous_database_id #=> String
+    #   resp.autonomous_database_peers[0].autonomous_database_arn #=> String
+    #   resp.autonomous_database_peers[0].ocid #=> String
+    #   resp.autonomous_database_peers[0].region #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabasePeers AWS API Documentation
+    #
+    # @overload list_autonomous_database_peers(params = {})
+    # @param [Hash] params ({})
+    def list_autonomous_database_peers(params = {}, options = {})
+      req = build_request(:list_autonomous_database_peers, params)
+      req.send_request(options)
+    end
+
+    # Lists the available Oracle Database software versions for Autonomous
+    # Databases.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #
+    # @option params [String] :next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous request.
+    #
+    # @option params [String] :db_workload
+    #   The intended use of the Autonomous Database to return versions for,
+    #   such as transaction processing, data warehouse, JSON database, or
+    #   APEX.
+    #
+    # @return [Types::ListAutonomousDatabaseVersionsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAutonomousDatabaseVersionsOutput#next_token #next_token} => String
+    #   * {Types::ListAutonomousDatabaseVersionsOutput#autonomous_database_versions #autonomous_database_versions} => Array&lt;Types::AutonomousDatabaseVersionSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_autonomous_database_versions({
+    #     max_results: 1,
+    #     next_token: "ListAutonomousDatabaseVersionsInputNextTokenString",
+    #     db_workload: "OLTP", # accepts OLTP, AJD, APEX, LH
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.autonomous_database_versions #=> Array
+    #   resp.autonomous_database_versions[0].db_workload #=> String, one of "OLTP", "AJD", "APEX", "LH"
+    #   resp.autonomous_database_versions[0].details #=> String
+    #   resp.autonomous_database_versions[0].version #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseVersions AWS API Documentation
+    #
+    # @overload list_autonomous_database_versions(params = {})
+    # @param [Hash] params ({})
+    def list_autonomous_database_versions(params = {}, options = {})
+      req = build_request(:list_autonomous_database_versions, params)
+      req.send_request(options)
+    end
+
+    # Returns information about the Autonomous Databases owned by your
+    # Amazon Web Services account in the current Amazon Web Services Region.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #
+    # @option params [String] :next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous request.
+    #
+    # @return [Types::ListAutonomousDatabasesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAutonomousDatabasesOutput#next_token #next_token} => String
+    #   * {Types::ListAutonomousDatabasesOutput#autonomous_databases #autonomous_databases} => Array&lt;Types::AutonomousDatabaseSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_autonomous_databases({
+    #     max_results: 1,
+    #     next_token: "ListAutonomousDatabasesInputNextTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.autonomous_databases #=> Array
+    #   resp.autonomous_databases[0].autonomous_database_id #=> String
+    #   resp.autonomous_databases[0].autonomous_database_arn #=> String
+    #   resp.autonomous_databases[0].oci_resource_anchor_name #=> String
+    #   resp.autonomous_databases[0].percent_progress #=> Float
+    #   resp.autonomous_databases[0].ocid #=> String
+    #   resp.autonomous_databases[0].oci_url #=> String
+    #   resp.autonomous_databases[0].display_name #=> String
+    #   resp.autonomous_databases[0].db_name #=> String
+    #   resp.autonomous_databases[0].source_id #=> String
+    #   resp.autonomous_databases[0].status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_databases[0].status_reason #=> String
+    #   resp.autonomous_databases[0].database_type #=> String, one of "REGULAR", "CLONE"
+    #   resp.autonomous_databases[0].db_version #=> String
+    #   resp.autonomous_databases[0].db_workload #=> String, one of "OLTP", "AJD", "APEX", "LH"
+    #   resp.autonomous_databases[0].character_set #=> String
+    #   resp.autonomous_databases[0].ncharacter_set #=> String
+    #   resp.autonomous_databases[0].database_edition #=> String, one of "STANDARD_EDITION", "ENTERPRISE_EDITION"
+    #   resp.autonomous_databases[0].license_model #=> String, one of "BRING_YOUR_OWN_LICENSE", "LICENSE_INCLUDED"
+    #   resp.autonomous_databases[0].open_mode #=> String, one of "READ_ONLY", "READ_WRITE"
+    #   resp.autonomous_databases[0].permission_level #=> String, one of "RESTRICTED", "UNRESTRICTED"
+    #   resp.autonomous_databases[0].is_mtls_connection_required #=> Boolean
+    #   resp.autonomous_databases[0].autonomous_maintenance_schedule_type #=> String, one of "EARLY", "REGULAR"
+    #   resp.autonomous_databases[0].net_services_architecture #=> String, one of "DEDICATED", "SHARED"
+    #   resp.autonomous_databases[0].available_upgrade_versions #=> Array
+    #   resp.autonomous_databases[0].available_upgrade_versions[0] #=> String
+    #   resp.autonomous_databases[0].byol_compute_count_limit #=> Integer
+    #   resp.autonomous_databases[0].connection_string_details.all_connection_strings #=> Hash
+    #   resp.autonomous_databases[0].connection_string_details.all_connection_strings["String"] #=> String
+    #   resp.autonomous_databases[0].connection_string_details.dedicated #=> String
+    #   resp.autonomous_databases[0].connection_string_details.high #=> String
+    #   resp.autonomous_databases[0].connection_string_details.medium #=> String
+    #   resp.autonomous_databases[0].connection_string_details.low #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles #=> Array
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].consumer_group #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].display_name #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].host_format #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].is_regional #=> Boolean
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].protocol #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].session_mode #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].syntax_format #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].tls_authentication #=> String
+    #   resp.autonomous_databases[0].connection_string_details.profiles[0].value #=> String
+    #   resp.autonomous_databases[0].service_console_url #=> String
+    #   resp.autonomous_databases[0].sql_web_developer_url #=> String
+    #   resp.autonomous_databases[0].customer_contacts #=> Array
+    #   resp.autonomous_databases[0].customer_contacts[0].email #=> String
+    #   resp.autonomous_databases[0].apex_details.apex_version #=> String
+    #   resp.autonomous_databases[0].apex_details.ords_version #=> String
+    #   resp.autonomous_databases[0].standby_db.availability_domain #=> String
+    #   resp.autonomous_databases[0].standby_db.lag_time_in_seconds #=> Integer
+    #   resp.autonomous_databases[0].standby_db.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_databases[0].standby_db.status_reason #=> String
+    #   resp.autonomous_databases[0].standby_db.maintenance_target_component #=> String
+    #   resp.autonomous_databases[0].standby_db.time_data_guard_role_changed #=> Time
+    #   resp.autonomous_databases[0].standby_db.time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_databases[0].standby_db.time_maintenance_begin #=> Time
+    #   resp.autonomous_databases[0].standby_db.time_maintenance_end #=> Time
+    #   resp.autonomous_databases[0].local_standby_db.availability_domain #=> String
+    #   resp.autonomous_databases[0].local_standby_db.lag_time_in_seconds #=> Integer
+    #   resp.autonomous_databases[0].local_standby_db.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.autonomous_databases[0].local_standby_db.status_reason #=> String
+    #   resp.autonomous_databases[0].local_standby_db.maintenance_target_component #=> String
+    #   resp.autonomous_databases[0].local_standby_db.time_data_guard_role_changed #=> Time
+    #   resp.autonomous_databases[0].local_standby_db.time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_databases[0].local_standby_db.time_maintenance_begin #=> Time
+    #   resp.autonomous_databases[0].local_standby_db.time_maintenance_end #=> Time
+    #   resp.autonomous_databases[0].data_safe_status #=> String, one of "REGISTERING", "REGISTERED", "DEREGISTERING", "NOT_REGISTERED", "FAILED"
+    #   resp.autonomous_databases[0].database_management_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "NOT_ENABLED", "FAILED_ENABLING", "FAILED_DISABLING"
+    #   resp.autonomous_databases[0].operations_insights_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "NOT_ENABLED", "FAILED_ENABLING", "FAILED_DISABLING"
+    #   resp.autonomous_databases[0].availability_zone #=> String
+    #   resp.autonomous_databases[0].availability_zone_id #=> String
+    #   resp.autonomous_databases[0].maintenance_target_component #=> String
+    #   resp.autonomous_databases[0].connection_urls.apex_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.database_transforms_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.graph_studio_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.machine_learning_notebook_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.machine_learning_user_management_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.mongo_db_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.ords_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.spatial_studio_url #=> String
+    #   resp.autonomous_databases[0].connection_urls.sql_dev_web_url #=> String
+    #   resp.autonomous_databases[0].db_tools_details #=> Array
+    #   resp.autonomous_databases[0].db_tools_details[0].is_enabled #=> Boolean
+    #   resp.autonomous_databases[0].db_tools_details[0].name #=> String
+    #   resp.autonomous_databases[0].db_tools_details[0].compute_count #=> Float
+    #   resp.autonomous_databases[0].db_tools_details[0].max_idle_time_in_minutes #=> Integer
+    #   resp.autonomous_databases[0].scheduled_operations #=> Array
+    #   resp.autonomous_databases[0].scheduled_operations[0].day_of_week.name #=> String, one of "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"
+    #   resp.autonomous_databases[0].scheduled_operations[0].scheduled_start_time #=> String
+    #   resp.autonomous_databases[0].scheduled_operations[0].scheduled_stop_time #=> String
+    #   resp.autonomous_databases[0].resource_pool_leader_id #=> String
+    #   resp.autonomous_databases[0].compute_count #=> Float
+    #   resp.autonomous_databases[0].compute_model #=> String, one of "ECPU", "OCPU"
+    #   resp.autonomous_databases[0].cpu_core_count #=> Integer
+    #   resp.autonomous_databases[0].memory_per_oracle_compute_unit_in_g_bs #=> Integer
+    #   resp.autonomous_databases[0].provisionable_cpus #=> Array
+    #   resp.autonomous_databases[0].provisionable_cpus[0] #=> Integer
+    #   resp.autonomous_databases[0].is_auto_scaling_enabled #=> Boolean
+    #   resp.autonomous_databases[0].data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_databases[0].data_storage_size_in_g_bs #=> Integer
+    #   resp.autonomous_databases[0].used_data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_databases[0].used_data_storage_size_in_g_bs #=> Integer
+    #   resp.autonomous_databases[0].actual_used_data_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_databases[0].allocated_storage_size_in_t_bs #=> Float
+    #   resp.autonomous_databases[0].in_memory_area_in_g_bs #=> Integer
+    #   resp.autonomous_databases[0].is_auto_scaling_for_storage_enabled #=> Boolean
+    #   resp.autonomous_databases[0].odb_network_id #=> String
+    #   resp.autonomous_databases[0].odb_network_arn #=> String
+    #   resp.autonomous_databases[0].private_endpoint #=> String
+    #   resp.autonomous_databases[0].private_endpoint_ip #=> String
+    #   resp.autonomous_databases[0].private_endpoint_label #=> String
+    #   resp.autonomous_databases[0].allowlisted_ips #=> Array
+    #   resp.autonomous_databases[0].allowlisted_ips[0] #=> String
+    #   resp.autonomous_databases[0].standby_allowlisted_ips #=> Array
+    #   resp.autonomous_databases[0].standby_allowlisted_ips[0] #=> String
+    #   resp.autonomous_databases[0].standby_allowlisted_ips_source #=> String, one of "PRIMARY", "SEPARATE", "NOT_APPLICABLE"
+    #   resp.autonomous_databases[0].is_local_data_guard_enabled #=> Boolean
+    #   resp.autonomous_databases[0].is_remote_data_guard_enabled #=> Boolean
+    #   resp.autonomous_databases[0].local_disaster_recovery_type #=> String, one of "ADG", "BACKUP_BASED"
+    #   resp.autonomous_databases[0].role #=> String, one of "PRIMARY", "STANDBY", "DISABLED_STANDBY", "BACKUP_COPY", "SNAPSHOT_STANDBY"
+    #   resp.autonomous_databases[0].peer_db_ids #=> Array
+    #   resp.autonomous_databases[0].peer_db_ids[0] #=> String
+    #   resp.autonomous_databases[0].failed_data_recovery_in_seconds #=> Integer
+    #   resp.autonomous_databases[0].local_adg_auto_failover_max_data_loss_limit #=> Integer
+    #   resp.autonomous_databases[0].remote_disaster_recovery_configuration.disaster_recovery_type #=> String, one of "ADG", "BACKUP_BASED"
+    #   resp.autonomous_databases[0].remote_disaster_recovery_configuration.is_replicate_automatic_backups #=> Boolean
+    #   resp.autonomous_databases[0].remote_disaster_recovery_configuration.is_snapshot_standby #=> Boolean
+    #   resp.autonomous_databases[0].remote_disaster_recovery_configuration.time_snapshot_standby_enabled_till #=> Time
+    #   resp.autonomous_databases[0].is_refreshable_clone #=> Boolean
+    #   resp.autonomous_databases[0].refreshable_mode #=> String, one of "AUTOMATIC", "MANUAL"
+    #   resp.autonomous_databases[0].refreshable_status #=> String, one of "REFRESHING", "NOT_REFRESHING"
+    #   resp.autonomous_databases[0].auto_refresh_frequency_in_seconds #=> Integer
+    #   resp.autonomous_databases[0].auto_refresh_point_lag_in_seconds #=> Integer
+    #   resp.autonomous_databases[0].is_reconnect_clone_enabled #=> Boolean
+    #   resp.autonomous_databases[0].clone_table_space_list #=> Array
+    #   resp.autonomous_databases[0].clone_table_space_list[0] #=> Integer
+    #   resp.autonomous_databases[0].backup_retention_period_in_days #=> Integer
+    #   resp.autonomous_databases[0].long_term_backup_schedule.is_disabled #=> Boolean
+    #   resp.autonomous_databases[0].long_term_backup_schedule.repeat_cadence #=> String, one of "ONE_TIME", "WEEKLY", "MONTHLY", "YEARLY"
+    #   resp.autonomous_databases[0].long_term_backup_schedule.retention_period_in_days #=> Integer
+    #   resp.autonomous_databases[0].long_term_backup_schedule.time_of_backup #=> Time
+    #   resp.autonomous_databases[0].is_backup_retention_locked #=> Boolean
+    #   resp.autonomous_databases[0].total_backup_storage_size_in_g_bs #=> Float
+    #   resp.autonomous_databases[0].resource_pool_summary.is_disabled #=> Boolean
+    #   resp.autonomous_databases[0].resource_pool_summary.pool_size #=> Integer
+    #   resp.autonomous_databases[0].resource_pool_summary.pool_storage_size_in_t_bs #=> Integer
+    #   resp.autonomous_databases[0].resource_pool_summary.available_storage_capacity_in_t_bs #=> Float
+    #   resp.autonomous_databases[0].resource_pool_summary.total_compute_capacity #=> Integer
+    #   resp.autonomous_databases[0].resource_pool_summary.available_compute_capacity #=> Integer
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_provider #=> String, one of "ORACLE_MANAGED", "AWS_KMS", "OKV", "OCI"
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.aws_encryption_key.iam_role_arn #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.aws_encryption_key.external_id_type #=> String, one of "database_ocid", "compartment_ocid", "tenant_ocid"
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.aws_encryption_key.kms_key_id #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.oci_encryption_key.kms_key_id #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.oci_encryption_key.vault_id #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.okv_encryption_key.certificate_directory_name #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.okv_encryption_key.certificate_id #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.okv_encryption_key.directory_name #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.okv_encryption_key.okv_kms_key #=> String
+    #   resp.autonomous_databases[0].encryption_summary.encryption_key_configuration.okv_encryption_key.okv_uri #=> String
+    #   resp.autonomous_databases[0].created_at #=> Time
+    #   resp.autonomous_databases[0].time_of_last_backup #=> Time
+    #   resp.autonomous_databases[0].time_maintenance_begin #=> Time
+    #   resp.autonomous_databases[0].time_maintenance_end #=> Time
+    #   resp.autonomous_databases[0].time_local_data_guard_enabled #=> Time
+    #   resp.autonomous_databases[0].time_data_guard_role_changed #=> Time
+    #   resp.autonomous_databases[0].time_of_last_switchover #=> Time
+    #   resp.autonomous_databases[0].time_of_last_failover #=> Time
+    #   resp.autonomous_databases[0].time_of_last_refresh #=> Time
+    #   resp.autonomous_databases[0].time_of_last_refresh_point #=> Time
+    #   resp.autonomous_databases[0].time_of_next_refresh #=> Time
+    #   resp.autonomous_databases[0].time_of_auto_refresh_start #=> Time
+    #   resp.autonomous_databases[0].time_deletion_of_free_autonomous_database #=> Time
+    #   resp.autonomous_databases[0].time_reclamation_of_free_autonomous_database #=> Time
+    #   resp.autonomous_databases[0].time_disaster_recovery_role_changed #=> Time
+    #   resp.autonomous_databases[0].time_until_reconnect_clone_enabled #=> Time
+    #   resp.autonomous_databases[0].next_long_term_backup_time_stamp #=> Time
+    #   resp.autonomous_databases[0].time_undeleted #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabases AWS API Documentation
+    #
+    # @overload list_autonomous_databases(params = {})
+    # @param [Hash] params ({})
+    def list_autonomous_databases(params = {}, options = {})
+      req = build_request(:list_autonomous_databases, params)
       req.send_request(options)
     end
 
@@ -2840,6 +4252,45 @@ module Aws::Odb
       req.send_request(options)
     end
 
+    # Reboots the specified Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to reboot.
+    #
+    # @option params [Boolean] :is_online_reboot
+    #   Specifies whether to perform an online reboot of the Autonomous
+    #   Database without interrupting active connections.
+    #
+    # @return [Types::RebootAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RebootAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::RebootAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::RebootAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::RebootAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.reboot_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #     is_online_reboot: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/RebootAutonomousDatabase AWS API Documentation
+    #
+    # @overload reboot_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def reboot_autonomous_database(params = {}, options = {})
+      req = build_request(:reboot_autonomous_database, params)
+      req.send_request(options)
+    end
+
     # Reboots the specified DB node in a VM cluster.
     #
     # @option params [required, String] :cloud_vm_cluster_id
@@ -2874,6 +4325,113 @@ module Aws::Odb
     # @param [Hash] params ({})
     def reboot_db_node(params = {}, options = {})
       req = build_request(:reboot_db_node, params)
+      req.send_request(options)
+    end
+
+    # Restores the specified Autonomous Database to a point in time.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to restore.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :timestamp
+    #   The date and time to which to restore the Autonomous Database.
+    #
+    # @return [Types::RestoreAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RestoreAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::RestoreAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::RestoreAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::RestoreAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.restore_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #     timestamp: Time.now, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/RestoreAutonomousDatabase AWS API Documentation
+    #
+    # @overload restore_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def restore_autonomous_database(params = {}, options = {})
+      req = build_request(:restore_autonomous_database, params)
+      req.send_request(options)
+    end
+
+    # Shrinks the storage of the specified Autonomous Database to reclaim
+    # unused space.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to shrink.
+    #
+    # @return [Types::ShrinkAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ShrinkAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::ShrinkAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::ShrinkAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::ShrinkAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.shrink_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ShrinkAutonomousDatabase AWS API Documentation
+    #
+    # @overload shrink_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def shrink_autonomous_database(params = {}, options = {})
+      req = build_request(:shrink_autonomous_database, params)
+      req.send_request(options)
+    end
+
+    # Starts the specified Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to start.
+    #
+    # @return [Types::StartAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::StartAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::StartAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::StartAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/StartAutonomousDatabase AWS API Documentation
+    #
+    # @overload start_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def start_autonomous_database(params = {}, options = {})
+      req = build_request(:start_autonomous_database, params)
       req.send_request(options)
     end
 
@@ -2914,6 +4472,40 @@ module Aws::Odb
       req.send_request(options)
     end
 
+    # Stops the specified Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to stop.
+    #
+    # @return [Types::StopAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StopAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::StopAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::StopAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::StopAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/StopAutonomousDatabase AWS API Documentation
+    #
+    # @overload stop_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def stop_autonomous_database(params = {}, options = {})
+      req = build_request(:stop_autonomous_database, params)
+      req.send_request(options)
+    end
+
     # Stops the specified DB node in a VM cluster.
     #
     # @option params [required, String] :cloud_vm_cluster_id
@@ -2948,6 +4540,46 @@ module Aws::Odb
     # @param [Hash] params ({})
     def stop_db_node(params = {}, options = {})
       req = build_request(:stop_db_node, params)
+      req.send_request(options)
+    end
+
+    # Performs a switchover of the specified Autonomous Database to a
+    # standby peer database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to switch over.
+    #
+    # @option params [String] :peer_db_arn
+    #   The Amazon Resource Name (ARN) of the peer Autonomous Database to
+    #   switch over to.
+    #
+    # @return [Types::SwitchoverAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SwitchoverAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::SwitchoverAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::SwitchoverAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::SwitchoverAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.switchover_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #     peer_db_arn: "ResourceArn",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/SwitchoverAutonomousDatabase AWS API Documentation
+    #
+    # @overload switchover_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def switchover_autonomous_database(params = {}, options = {})
+      req = build_request(:switchover_autonomous_database, params)
       req.send_request(options)
     end
 
@@ -3002,6 +4634,308 @@ module Aws::Odb
     # @param [Hash] params ({})
     def untag_resource(params = {}, options = {})
       req = build_request(:untag_resource, params)
+      req.send_request(options)
+    end
+
+    # Updates the properties of an Autonomous Database.
+    #
+    # @option params [required, String] :autonomous_database_id
+    #   The unique identifier of the Autonomous Database to update.
+    #
+    # @option params [String] :admin_password
+    #   The new password for the `ADMIN` user of the Autonomous Database.
+    #
+    # @option params [Float] :compute_count
+    #   The compute capacity, in number of ECPUs or OCPUs, to assign to the
+    #   Autonomous Database.
+    #
+    # @option params [Integer] :cpu_core_count
+    #   The number of CPU cores to allocate to the Autonomous Database.
+    #
+    # @option params [Integer] :data_storage_size_in_t_bs
+    #   The size, in terabytes (TB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #
+    # @option params [Integer] :data_storage_size_in_g_bs
+    #   The size, in gigabytes (GB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #
+    # @option params [String] :display_name
+    #   The new user-friendly name for the Autonomous Database.
+    #
+    # @option params [String] :db_name
+    #   The new name of the Autonomous Database.
+    #
+    # @option params [String] :db_version
+    #   The Oracle Database software version to use for the Autonomous
+    #   Database.
+    #
+    # @option params [String] :db_workload
+    #   The intended use of the Autonomous Database, such as transaction
+    #   processing, data warehouse, JSON database, or APEX.
+    #
+    # @option params [Array<Types::DatabaseTool>] :db_tools_details
+    #   The list of database management tools to enable for the Autonomous
+    #   Database.
+    #
+    # @option params [String] :database_edition
+    #   The Oracle Database edition to apply to the Autonomous Database.
+    #
+    # @option params [String] :license_model
+    #   The Oracle license model to apply to the Autonomous Database.
+    #
+    # @option params [Boolean] :is_auto_scaling_enabled
+    #   Specifies whether to enable automatic scaling of the compute resources
+    #   for the Autonomous Database.
+    #
+    # @option params [Boolean] :is_auto_scaling_for_storage_enabled
+    #   Specifies whether to enable automatic scaling of the storage for the
+    #   Autonomous Database.
+    #
+    # @option params [Boolean] :is_backup_retention_locked
+    #   Specifies whether to lock the backup retention period of the
+    #   Autonomous Database to prevent it from being shortened.
+    #
+    # @option params [Boolean] :is_local_data_guard_enabled
+    #   Specifies whether to enable local Oracle Data Guard for the Autonomous
+    #   Database.
+    #
+    # @option params [Boolean] :is_mtls_connection_required
+    #   Specifies whether mutual TLS (mTLS) authentication is required to
+    #   connect to the Autonomous Database.
+    #
+    # @option params [Boolean] :is_refreshable_clone
+    #   Specifies whether the Autonomous Database is a refreshable clone.
+    #
+    # @option params [Boolean] :is_disconnect_peer
+    #   Specifies whether to disconnect the Autonomous Database from its peer
+    #   database.
+    #
+    # @option params [Integer] :backup_retention_period_in_days
+    #   The retention period, in days, for automatic backups of the Autonomous
+    #   Database.
+    #
+    # @option params [Float] :byol_compute_count_limit
+    #   The maximum number of compute resources that you can allocate to the
+    #   Autonomous Database under the bring-your-own-license (BYOL) model.
+    #
+    # @option params [Integer] :local_adg_auto_failover_max_data_loss_limit
+    #   The maximum data loss limit, in seconds, for automatic failover to the
+    #   local Oracle Data Guard standby database.
+    #
+    # @option params [String] :autonomous_maintenance_schedule_type
+    #   The maintenance schedule type for the Autonomous Database.
+    #
+    # @option params [Array<Types::CustomerContact>] :customer_contacts_to_send_to_oci
+    #   The list of customer contacts to receive operational notifications
+    #   from OCI for the Autonomous Database.
+    #
+    # @option params [Array<Types::ScheduledOperationDetails>] :scheduled_operations
+    #   The list of scheduled start and stop times for the Autonomous
+    #   Database.
+    #
+    # @option params [Types::LongTermBackupSchedule] :long_term_backup_schedule
+    #   The long-term backup schedule for the Autonomous Database.
+    #
+    # @option params [String] :open_mode
+    #   The mode in which to open the Autonomous Database, either read-only or
+    #   read/write.
+    #
+    # @option params [String] :permission_level
+    #   The permission level of the Autonomous Database.
+    #
+    # @option params [String] :refreshable_mode
+    #   The refresh mode of the refreshable clone Autonomous Database.
+    #
+    # @option params [String] :private_endpoint_ip
+    #   The private endpoint IP address for the Autonomous Database.
+    #
+    # @option params [String] :private_endpoint_label
+    #   The private endpoint label for the Autonomous Database.
+    #
+    # @option params [String] :peer_db_id
+    #   The unique identifier of the peer Autonomous Database.
+    #
+    # @option params [String] :resource_pool_leader_id
+    #   The unique identifier of the resource pool leader Autonomous Database.
+    #
+    # @option params [Types::ResourcePoolSummary] :resource_pool_summary
+    #   The configuration of the resource pool for the Autonomous Database.
+    #
+    # @option params [String] :standby_allowlisted_ips_source
+    #   The source of the allowlisted IP addresses for the standby Autonomous
+    #   Database.
+    #
+    # @option params [Array<String>] :standby_allowlisted_ips
+    #   The list of IP addresses that are allowed to access the standby
+    #   Autonomous Database.
+    #
+    # @option params [Array<String>] :allowlisted_ips
+    #   The list of IP addresses that are allowed to access the Autonomous
+    #   Database.
+    #
+    # @option params [Integer] :auto_refresh_frequency_in_seconds
+    #   The frequency, in seconds, at which the refreshable clone Autonomous
+    #   Database is automatically refreshed.
+    #
+    # @option params [Integer] :auto_refresh_point_lag_in_seconds
+    #   The time lag, in seconds, between the refreshable clone and its source
+    #   Autonomous Database.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :time_of_auto_refresh_start
+    #   The date and time at which the automatic refresh of the refreshable
+    #   clone Autonomous Database starts.
+    #
+    # @option params [String] :encryption_key_provider
+    #   The provider of the encryption key to use for the Autonomous Database.
+    #
+    # @option params [Types::EncryptionKeyConfigurationInput] :encryption_key_configuration
+    #   The configuration of the encryption key to use for the Autonomous
+    #   Database.
+    #
+    # @return [Types::UpdateAutonomousDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAutonomousDatabaseOutput#autonomous_database_id #autonomous_database_id} => String
+    #   * {Types::UpdateAutonomousDatabaseOutput#display_name #display_name} => String
+    #   * {Types::UpdateAutonomousDatabaseOutput#status #status} => String
+    #   * {Types::UpdateAutonomousDatabaseOutput#status_reason #status_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_autonomous_database({
+    #     autonomous_database_id: "ResourceIdOrArn", # required
+    #     admin_password: "UpdateAutonomousDatabaseInputAdminPasswordString",
+    #     compute_count: 1.0,
+    #     cpu_core_count: 1,
+    #     data_storage_size_in_t_bs: 1,
+    #     data_storage_size_in_g_bs: 1,
+    #     display_name: "ResourceDisplayName",
+    #     db_name: "UpdateAutonomousDatabaseInputDbNameString",
+    #     db_version: "UpdateAutonomousDatabaseInputDbVersionString",
+    #     db_workload: "OLTP", # accepts OLTP, AJD, APEX, LH
+    #     db_tools_details: [
+    #       {
+    #         is_enabled: false,
+    #         name: "String",
+    #         compute_count: 1.0,
+    #         max_idle_time_in_minutes: 1,
+    #       },
+    #     ],
+    #     database_edition: "STANDARD_EDITION", # accepts STANDARD_EDITION, ENTERPRISE_EDITION
+    #     license_model: "BRING_YOUR_OWN_LICENSE", # accepts BRING_YOUR_OWN_LICENSE, LICENSE_INCLUDED
+    #     is_auto_scaling_enabled: false,
+    #     is_auto_scaling_for_storage_enabled: false,
+    #     is_backup_retention_locked: false,
+    #     is_local_data_guard_enabled: false,
+    #     is_mtls_connection_required: false,
+    #     is_refreshable_clone: false,
+    #     is_disconnect_peer: false,
+    #     backup_retention_period_in_days: 1,
+    #     byol_compute_count_limit: 1.0,
+    #     local_adg_auto_failover_max_data_loss_limit: 1,
+    #     autonomous_maintenance_schedule_type: "EARLY", # accepts EARLY, REGULAR
+    #     customer_contacts_to_send_to_oci: [
+    #       {
+    #         email: "CustomerContactEmailString",
+    #       },
+    #     ],
+    #     scheduled_operations: [
+    #       {
+    #         day_of_week: { # required
+    #           name: "MONDAY", # accepts MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+    #         },
+    #         scheduled_start_time: "String",
+    #         scheduled_stop_time: "String",
+    #       },
+    #     ],
+    #     long_term_backup_schedule: {
+    #       is_disabled: false,
+    #       repeat_cadence: "ONE_TIME", # accepts ONE_TIME, WEEKLY, MONTHLY, YEARLY
+    #       retention_period_in_days: 1,
+    #       time_of_backup: Time.now,
+    #     },
+    #     open_mode: "READ_ONLY", # accepts READ_ONLY, READ_WRITE
+    #     permission_level: "RESTRICTED", # accepts RESTRICTED, UNRESTRICTED
+    #     refreshable_mode: "AUTOMATIC", # accepts AUTOMATIC, MANUAL
+    #     private_endpoint_ip: "String",
+    #     private_endpoint_label: "String",
+    #     peer_db_id: "ResourceIdOrArn",
+    #     resource_pool_leader_id: "ResourceIdOrArn",
+    #     resource_pool_summary: {
+    #       is_disabled: false,
+    #       pool_size: 1,
+    #       pool_storage_size_in_t_bs: 1,
+    #       available_storage_capacity_in_t_bs: 1.0,
+    #       total_compute_capacity: 1,
+    #       available_compute_capacity: 1,
+    #     },
+    #     standby_allowlisted_ips_source: "PRIMARY", # accepts PRIMARY, SEPARATE, NOT_APPLICABLE
+    #     standby_allowlisted_ips: ["String"],
+    #     allowlisted_ips: ["String"],
+    #     auto_refresh_frequency_in_seconds: 1,
+    #     auto_refresh_point_lag_in_seconds: 1,
+    #     time_of_auto_refresh_start: Time.now,
+    #     encryption_key_provider: "ORACLE_MANAGED", # accepts ORACLE_MANAGED, AWS_KMS
+    #     encryption_key_configuration: {
+    #       aws_encryption_key: {
+    #         iam_role_arn: "RoleArn",
+    #         external_id_type: "database_ocid", # accepts database_ocid, compartment_ocid, tenant_ocid
+    #         kms_key_id: "KmsKeyIdOrArn",
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.autonomous_database_id #=> String
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS", "STOPPING", "STOPPED", "STARTING", "UNAVAILABLE", "RESTORE_IN_PROGRESS", "RESTORE_FAILED", "BACKUP_IN_PROGRESS", "SCALE_IN_PROGRESS", "AVAILABLE_NEEDS_ATTENTION", "RESTARTING", "RECREATING", "ROLE_CHANGE_IN_PROGRESS", "UPGRADING", "INACCESSIBLE", "STANDBY"
+    #   resp.status_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/UpdateAutonomousDatabase AWS API Documentation
+    #
+    # @overload update_autonomous_database(params = {})
+    # @param [Hash] params ({})
+    def update_autonomous_database(params = {}, options = {})
+      req = build_request(:update_autonomous_database, params)
+      req.send_request(options)
+    end
+
+    # Updates the properties of an Autonomous Database backup.
+    #
+    # @option params [required, String] :autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup to update.
+    #
+    # @option params [Integer] :retention_period_in_days
+    #   The retention period, in days, for the Autonomous Database backup.
+    #
+    # @return [Types::UpdateAutonomousDatabaseBackupOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAutonomousDatabaseBackupOutput#display_name #display_name} => String
+    #   * {Types::UpdateAutonomousDatabaseBackupOutput#status #status} => String
+    #   * {Types::UpdateAutonomousDatabaseBackupOutput#status_reason #status_reason} => String
+    #   * {Types::UpdateAutonomousDatabaseBackupOutput#autonomous_database_backup_id #autonomous_database_backup_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_autonomous_database_backup({
+    #     autonomous_database_backup_id: "ResourceId", # required
+    #     retention_period_in_days: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.display_name #=> String
+    #   resp.status #=> String, one of "AVAILABLE", "FAILED", "PROVISIONING", "TERMINATED", "TERMINATING", "UPDATING", "MAINTENANCE_IN_PROGRESS"
+    #   resp.status_reason #=> String
+    #   resp.autonomous_database_backup_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/UpdateAutonomousDatabaseBackup AWS API Documentation
+    #
+    # @overload update_autonomous_database_backup(params = {})
+    # @param [Hash] params ({})
+    def update_autonomous_database_backup(params = {}, options = {})
+      req = build_request(:update_autonomous_database_backup, params)
       req.send_request(options)
     end
 
@@ -3228,7 +5162,7 @@ module Aws::Odb
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-odb'
-      context[:gem_version] = '1.21.0'
+      context[:gem_version] = '1.22.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

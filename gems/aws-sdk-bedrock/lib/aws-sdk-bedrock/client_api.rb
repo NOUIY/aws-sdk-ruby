@@ -316,6 +316,7 @@ module Aws::Bedrock
     CustomizationConfig = Shapes::UnionShape.new(name: 'CustomizationConfig')
     CustomizationType = Shapes::StringShape.new(name: 'CustomizationType')
     DataProcessingDetails = Shapes::StructureShape.new(name: 'DataProcessingDetails')
+    DataRetentionMode = Shapes::StringShape.new(name: 'DataRetentionMode')
     DeleteAutomatedReasoningPolicyBuildWorkflowRequest = Shapes::StructureShape.new(name: 'DeleteAutomatedReasoningPolicyBuildWorkflowRequest')
     DeleteAutomatedReasoningPolicyBuildWorkflowResponse = Shapes::StructureShape.new(name: 'DeleteAutomatedReasoningPolicyBuildWorkflowResponse')
     DeleteAutomatedReasoningPolicyRequest = Shapes::StructureShape.new(name: 'DeleteAutomatedReasoningPolicyRequest')
@@ -424,6 +425,8 @@ module Aws::Bedrock
     FoundationModelSummary = Shapes::StructureShape.new(name: 'FoundationModelSummary')
     FoundationModelSummaryList = Shapes::ListShape.new(name: 'FoundationModelSummaryList')
     GenerationConfiguration = Shapes::StructureShape.new(name: 'GenerationConfiguration')
+    GetAccountDataRetentionRequest = Shapes::StructureShape.new(name: 'GetAccountDataRetentionRequest')
+    GetAccountDataRetentionResponse = Shapes::StructureShape.new(name: 'GetAccountDataRetentionResponse')
     GetAdvancedPromptOptimizationJobRequest = Shapes::StructureShape.new(name: 'GetAdvancedPromptOptimizationJobRequest')
     GetAdvancedPromptOptimizationJobResponse = Shapes::StructureShape.new(name: 'GetAdvancedPromptOptimizationJobResponse')
     GetAutomatedReasoningPolicyAnnotationsRequest = Shapes::StructureShape.new(name: 'GetAutomatedReasoningPolicyAnnotationsRequest')
@@ -773,6 +776,8 @@ module Aws::Bedrock
     ProvisionedModelStatus = Shapes::StringShape.new(name: 'ProvisionedModelStatus')
     ProvisionedModelSummaries = Shapes::ListShape.new(name: 'ProvisionedModelSummaries')
     ProvisionedModelSummary = Shapes::StructureShape.new(name: 'ProvisionedModelSummary')
+    PutAccountDataRetentionRequest = Shapes::StructureShape.new(name: 'PutAccountDataRetentionRequest')
+    PutAccountDataRetentionResponse = Shapes::StructureShape.new(name: 'PutAccountDataRetentionResponse')
     PutEnforcedGuardrailConfigurationRequest = Shapes::StructureShape.new(name: 'PutEnforcedGuardrailConfigurationRequest')
     PutEnforcedGuardrailConfigurationResponse = Shapes::StructureShape.new(name: 'PutEnforcedGuardrailConfigurationResponse')
     PutModelInvocationLoggingConfigurationRequest = Shapes::StructureShape.new(name: 'PutModelInvocationLoggingConfigurationRequest')
@@ -2214,6 +2219,12 @@ module Aws::Bedrock
     GenerationConfiguration.add_member(:additional_model_request_fields, Shapes::ShapeRef.new(shape: AdditionalModelRequestFields, location_name: "additionalModelRequestFields"))
     GenerationConfiguration.struct_class = Types::GenerationConfiguration
 
+    GetAccountDataRetentionRequest.struct_class = Types::GetAccountDataRetentionRequest
+
+    GetAccountDataRetentionResponse.add_member(:mode, Shapes::ShapeRef.new(shape: DataRetentionMode, required: true, location_name: "mode"))
+    GetAccountDataRetentionResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
+    GetAccountDataRetentionResponse.struct_class = Types::GetAccountDataRetentionResponse
+
     GetAdvancedPromptOptimizationJobRequest.add_member(:job_identifier, Shapes::ShapeRef.new(shape: AdvancedPromptOptimizationJobIdentifier, required: true, location: "uri", location_name: "jobIdentifier"))
     GetAdvancedPromptOptimizationJobRequest.struct_class = Types::GetAdvancedPromptOptimizationJobRequest
 
@@ -3392,6 +3403,13 @@ module Aws::Bedrock
     ProvisionedModelSummary.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "lastModifiedTime"))
     ProvisionedModelSummary.struct_class = Types::ProvisionedModelSummary
 
+    PutAccountDataRetentionRequest.add_member(:mode, Shapes::ShapeRef.new(shape: DataRetentionMode, required: true, location_name: "mode"))
+    PutAccountDataRetentionRequest.struct_class = Types::PutAccountDataRetentionRequest
+
+    PutAccountDataRetentionResponse.add_member(:mode, Shapes::ShapeRef.new(shape: DataRetentionMode, required: true, location_name: "mode"))
+    PutAccountDataRetentionResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
+    PutAccountDataRetentionResponse.struct_class = Types::PutAccountDataRetentionResponse
+
     PutEnforcedGuardrailConfigurationRequest.add_member(:config_id, Shapes::ShapeRef.new(shape: AccountEnforcedGuardrailConfigurationId, location_name: "configId"))
     PutEnforcedGuardrailConfigurationRequest.add_member(:guardrail_inference_config, Shapes::ShapeRef.new(shape: AccountEnforcedGuardrailInferenceInputConfiguration, required: true, location_name: "guardrailInferenceConfig"))
     PutEnforcedGuardrailConfigurationRequest.struct_class = Types::PutEnforcedGuardrailConfigurationRequest
@@ -4373,6 +4391,18 @@ module Aws::Bedrock
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
+      api.add_operation(:get_account_data_retention, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAccountDataRetention"
+        o.http_method = "GET"
+        o.http_request_uri = "/data-retention"
+        o.input = Shapes::ShapeRef.new(shape: GetAccountDataRetentionRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetAccountDataRetentionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
       api.add_operation(:get_advanced_prompt_optimization_job, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetAdvancedPromptOptimizationJob"
         o.http_method = "GET"
@@ -5090,6 +5120,18 @@ module Aws::Bedrock
         o.input = Shapes::ShapeRef.new(shape: ListTagsForResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTagsForResourceResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:put_account_data_retention, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutAccountDataRetention"
+        o.http_method = "PUT"
+        o.http_request_uri = "/data-retention"
+        o.input = Shapes::ShapeRef.new(shape: PutAccountDataRetentionRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutAccountDataRetentionResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)

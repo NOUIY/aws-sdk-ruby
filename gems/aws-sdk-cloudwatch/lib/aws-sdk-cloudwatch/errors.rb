@@ -42,6 +42,9 @@ module Aws::CloudWatch
   #    * This error class is not used. `InvalidParameterCombination` is used during parsing instead.
   # * {InvalidParameterValueException}
   #    * This error class is not used. `InvalidParameterValue` is used during parsing instead.
+  # * {KmsAccessDeniedException}
+  # * {KmsKeyDisabledException}
+  # * {KmsKeyNotFoundException}
   # * {LimitExceededException}
   # * {LimitExceededFault}
   #    * This error class is not used. `LimitExceeded` is used during parsing instead.
@@ -193,6 +196,51 @@ module Aws::CloudWatch
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CloudWatch::Types::InvalidParameterValueException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class KmsAccessDeniedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudWatch::Types::KmsAccessDeniedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class KmsKeyDisabledException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudWatch::Types::KmsKeyDisabledException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class KmsKeyNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CloudWatch::Types::KmsKeyNotFoundException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

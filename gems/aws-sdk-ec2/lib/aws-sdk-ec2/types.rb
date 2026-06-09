@@ -10702,6 +10702,11 @@ module Aws::EC2
     #   The destination options.
     #   @return [Types::DestinationOptionsRequest]
     #
+    # @!attribute [rw] tag_field_specifications
+    #   The tag configuration associated with the Flow Logs Amazon EC2 Tags
+    #   feature fields in your custom log format.
+    #   @return [Array<Types::TagFieldSpecificationRequest>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateFlowLogsRequest AWS API Documentation
     #
     class CreateFlowLogsRequest < Struct.new(
@@ -10718,7 +10723,8 @@ module Aws::EC2
       :log_format,
       :tag_specifications,
       :max_aggregation_interval,
-      :destination_options)
+      :destination_options,
+      :tag_field_specifications)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43356,6 +43362,11 @@ module Aws::EC2
     #   The destination options.
     #   @return [Types::DestinationOptionsResponse]
     #
+    # @!attribute [rw] tag_field_specifications
+    #   The tag configuration associated with the Flow Logs Amazon EC2 Tags
+    #   feature fields in your custom log format.
+    #   @return [Array<Types::TagFieldSpecificationResponse>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/FlowLog AWS API Documentation
     #
     class FlowLog < Struct.new(
@@ -43374,7 +43385,8 @@ module Aws::EC2
       :log_format,
       :tags,
       :max_aggregation_interval,
-      :destination_options)
+      :destination_options,
+      :tag_field_specifications)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -81445,6 +81457,50 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # A single resource's tag configuration associated with the Flow Logs
+    # Amazon EC2 Tags feature fields in your custom log format.
+    #
+    # @!attribute [rw] resource_type
+    #   The resource type for the tag keys associated with the Flow Logs
+    #   Amazon EC2 Tags feature fields in your custom log format.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_keys
+    #   The tag keys on your tagged resources to be displayed by the Flow
+    #   Logs Amazon EC2 Tags feature fields in your custom log format.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TagFieldSpecificationRequest AWS API Documentation
+    #
+    class TagFieldSpecificationRequest < Struct.new(
+      :resource_type,
+      :tag_keys)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A single resource's tag configuration associated with the Flow Logs
+    # Amazon EC2 Tags feature fields in your custom log format.
+    #
+    # @!attribute [rw] resource_type
+    #   The resource type for the tag keys associated with the Flow Logs
+    #   Amazon EC2 Tags feature fields in your custom log format.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_keys
+    #   The tag keys on your tagged resources to be displayed by the Flow
+    #   Logs Amazon EC2 Tags feature fields in your custom log format.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TagFieldSpecificationResponse AWS API Documentation
+    #
+    class TagFieldSpecificationResponse < Struct.new(
+      :resource_type,
+      :tag_keys)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The tags to apply to a resource when the resource is being created.
     # When you specify a tag, you must specify the resource type to tag,
     # otherwise the request will fail.
@@ -86235,11 +86291,6 @@ module Aws::EC2
     #   The modification completion or failure time.
     #   @return [Time]
     #
-    # @!attribute [rw] operator
-    #   Describes whether the resource is managed by a service provider and,
-    #   if so, describes the service provider that manages it.
-    #   @return [Types::OperatorResponse]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/VolumeModification AWS API Documentation
     #
     class VolumeModification < Struct.new(
@@ -86258,8 +86309,7 @@ module Aws::EC2
       :original_multi_attach_enabled,
       :progress,
       :start_time,
-      :end_time,
-      :operator)
+      :end_time)
       SENSITIVE = []
       include Aws::Structure
     end

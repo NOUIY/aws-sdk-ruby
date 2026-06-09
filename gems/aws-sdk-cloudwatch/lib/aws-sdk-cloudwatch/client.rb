@@ -481,6 +481,110 @@ module Aws::CloudWatch
 
     # @!group API Operations
 
+    # Associates an Amazon Web Services Key Management Service (Amazon Web
+    # Services KMS) customer managed key with the specified dataset. After
+    # this operation completes, all data published to the dataset is
+    # encrypted at rest using the specified KMS key. Callers must have
+    # `kms:Decrypt` permission on the key to read the encrypted data.
+    #
+    # Only the `default` dataset is supported. The `default` dataset is
+    # implicit for every account in every Region — you do not need to create
+    # it before calling this operation.
+    #
+    # You can call `AssociateDatasetKmsKey` on a dataset that is already
+    # associated with a KMS key to replace the existing key with a different
+    # one. To replace a key, the caller must have `kms:Decrypt` permission
+    # on both the current key and the new key.
+    #
+    # The KMS key that you specify must meet all of the following
+    # requirements:
+    #
+    # * It must be a symmetric encryption KMS key (key spec
+    #   `SYMMETRIC_DEFAULT`, key usage `ENCRYPT_DECRYPT`). Asymmetric keys,
+    #   HMAC keys, and key material types other than `SYMMETRIC_DEFAULT` are
+    #   not supported.
+    #
+    # * It must be enabled and not pending deletion.
+    #
+    # * Its key policy must grant the CloudWatch service principal
+    #   (`cloudwatch.amazonaws.com`) these permissions: `kms:DescribeKey`,
+    #   `kms:GenerateDataKey`, `kms:Encrypt`, `kms:Decrypt`, and
+    #   `kms:ReEncrypt*`. Amazon CloudWatch requires these permissions to
+    #   manage the data on your behalf.
+    #
+    # * The calling principal must have `kms:Decrypt` permission on the key.
+    #
+    # * It must be specified as a fully qualified key ARN. Key IDs, aliases,
+    #   and alias ARNs are not accepted.
+    #
+    # * It must be in the same Amazon Web Services Region as the dataset.
+    #
+    # Before completing the association, Amazon CloudWatch validates the key
+    # by performing a series of dry-run KMS operations. Service-principal
+    # checks run first to verify that the key policy grants the required
+    # access to Amazon CloudWatch. These checks include `kms:DescribeKey`,
+    # `kms:GenerateDataKey`, `kms:Encrypt`, `kms:Decrypt`, and
+    # `kms:ReEncrypt*`. After those succeed, a `kms:Decrypt` dry-run is run
+    # with the caller's credentials to verify that the calling principal
+    # can use the key. When you are replacing an existing key, the caller's
+    # `kms:Decrypt` dry-run is run on the current key first, and only then
+    # on the new key.
+    #
+    # If any of these checks fails, the operation fails and the existing key
+    # association (if any) remains unchanged. Common failure causes include
+    # the key being disabled, the key policy not granting the required
+    # permissions to Amazon CloudWatch, or the caller lacking `kms:Decrypt`
+    # permission on the key.
+    #
+    # For more information about using customer managed keys with Amazon
+    # CloudWatch, see [Encryption at rest with customer managed keys][1] in
+    # the *Amazon CloudWatch User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html
+    #
+    # @option params [required, String] :dataset_identifier
+    #   Specifies the identifier of the dataset that you want to associate the
+    #   KMS key with. For the `default` dataset, you can specify either
+    #   `default` or the full dataset Amazon Resource Name (ARN) in the format
+    #   `arn:aws:cloudwatch:Region:account-id:dataset/default`.
+    #
+    # @option params [required, String] :kms_key_arn
+    #   Specifies the Amazon Resource Name (ARN) of the customer managed KMS
+    #   key to associate with the dataset. The key must be a symmetric
+    #   encryption KMS key (`SYMMETRIC_DEFAULT`) in the same Amazon Web
+    #   Services Region as the dataset.
+    #
+    #   The ARN must be in the format
+    #   `arn:aws:kms:Region:account-id:key/key-id `. Key IDs, aliases, and
+    #   alias ARNs are not accepted.
+    #
+    #   For more information about KMS key ARNs, see [Key ARN][1] in the
+    #   *Amazon Web Services Key Management Service Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_dataset_kms_key({
+    #     dataset_identifier: "DatasetIdentifier", # required
+    #     kms_key_arn: "KmsKeyArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/AssociateDatasetKmsKey AWS API Documentation
+    #
+    # @overload associate_dataset_kms_key(params = {})
+    # @param [Hash] params ({})
+    def associate_dataset_kms_key(params = {}, options = {})
+      req = build_request(:associate_dataset_kms_key, params)
+      req.send_request(options)
+    end
+
     # Deletes a specific alarm mute rule.
     #
     # When you delete a mute rule, any alarms that are currently being muted
@@ -1467,6 +1571,63 @@ module Aws::CloudWatch
       req.send_request(options)
     end
 
+    # Removes the customer managed Amazon Web Services Key Management
+    # Service (Amazon Web Services KMS) key association from the specified
+    # dataset. After this operation completes, data that you publish to the
+    # dataset is encrypted at rest using an Amazon Web Services owned key
+    # managed by Amazon CloudWatch.
+    #
+    # Only the `default` dataset is supported. To call this operation, the
+    # dataset must currently have a customer managed KMS key associated with
+    # it. If the dataset has no associated KMS key, the operation fails with
+    # `ResourceNotFoundException`.
+    #
+    # Amazon CloudWatch performs a dry-run `kms:Decrypt` call on the key as
+    # part of this operation. This verifies that the caller is authorized to
+    # use the currently associated key. The caller must have `kms:Decrypt`
+    # permission on the currently associated key, and the key must be
+    # enabled and accessible. If the key has been disabled or scheduled for
+    # deletion, you must first re-enable or restore it before you can
+    # disassociate it from the dataset.
+    #
+    # Disassociating a KMS key from a dataset does not immediately remove
+    # the `kms:Decrypt` requirement on data plane operations. For up to
+    # three hours after disassociation, callers must continue to have
+    # `kms:Decrypt` permission on the previously associated key. Some data
+    # may still be encrypted with that key during this window. After this
+    # enforcement window elapses, the `kms:Decrypt` requirement is lifted.
+    #
+    # For more information about using customer managed keys with Amazon
+    # CloudWatch, see [Encryption at rest with customer managed keys][1] in
+    # the *Amazon CloudWatch User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html
+    #
+    # @option params [required, String] :dataset_identifier
+    #   Specifies the identifier of the dataset from which to remove the KMS
+    #   key association. For the `default` dataset, you can specify either
+    #   `default` or the full dataset Amazon Resource Name (ARN) in the format
+    #   `arn:aws:cloudwatch:Region:account-id:dataset/default`.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disassociate_dataset_kms_key({
+    #     dataset_identifier: "DatasetIdentifier", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DisassociateDatasetKmsKey AWS API Documentation
+    #
+    # @overload disassociate_dataset_kms_key(params = {})
+    # @param [Hash] params ({})
+    def disassociate_dataset_kms_key(params = {}, options = {})
+      req = build_request(:disassociate_dataset_kms_key, params)
+      req.send_request(options)
+    end
+
     # Enables the actions for the specified alarms.
     #
     # @option params [required, Array<String>] :alarm_names
@@ -1633,6 +1794,60 @@ module Aws::CloudWatch
     # @param [Hash] params ({})
     def get_dashboard(params = {}, options = {})
       req = build_request(:get_dashboard, params)
+      req.send_request(options)
+    end
+
+    # Returns information about the specified dataset. This includes its
+    # identifier, Amazon Resource Name (ARN), and any customer managed
+    # Amazon Web Services Key Management Service (Amazon Web Services KMS)
+    # key that is currently associated with it.
+    #
+    # Only the `default` dataset is supported. The `default` dataset is
+    # implicit for every account in every Region — you can call `GetDataset`
+    # for it without first creating it. If no customer managed KMS key has
+    # been associated with the dataset, the response omits the `KmsKeyArn`
+    # field, indicating that data is encrypted at rest using an Amazon Web
+    # Services owned key managed by Amazon CloudWatch.
+    #
+    # To associate a customer managed KMS key with a dataset, use
+    # [AssociateDatasetKmsKey][1]. To remove the association, use
+    # [DisassociateDatasetKmsKey][2].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DisassociateDatasetKmsKey.html
+    #
+    # @option params [required, String] :dataset_identifier
+    #   Specifies the identifier of the dataset to retrieve. For the `default`
+    #   dataset, you can specify either `default` or the full dataset Amazon
+    #   Resource Name (ARN) in the format
+    #   `arn:aws:cloudwatch:Region:account-id:dataset/default`.
+    #
+    # @return [Types::GetDatasetOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDatasetOutput#dataset_id #dataset_id} => String
+    #   * {Types::GetDatasetOutput#arn #arn} => String
+    #   * {Types::GetDatasetOutput#kms_key_arn #kms_key_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_dataset({
+    #     dataset_identifier: "DatasetIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_id #=> String
+    #   resp.arn #=> String
+    #   resp.kms_key_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetDataset AWS API Documentation
+    #
+    # @overload get_dataset(params = {})
+    # @param [Hash] params ({})
+    def get_dataset(params = {}, options = {})
+      req = build_request(:get_dataset, params)
       req.send_request(options)
     end
 
@@ -4846,7 +5061,7 @@ module Aws::CloudWatch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatch'
-      context[:gem_version] = '1.139.0'
+      context[:gem_version] = '1.140.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

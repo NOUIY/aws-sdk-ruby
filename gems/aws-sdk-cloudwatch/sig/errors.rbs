@@ -38,6 +38,15 @@ module Aws
       class InvalidParameterValueException < ::Aws::Errors::ServiceError
         def message: () -> ::String
       end
+      class KmsAccessDeniedException < ::Aws::Errors::ServiceError
+        def message: () -> ::String
+      end
+      class KmsKeyDisabledException < ::Aws::Errors::ServiceError
+        def message: () -> ::String
+      end
+      class KmsKeyNotFoundException < ::Aws::Errors::ServiceError
+        def message: () -> ::String
+      end
       class LimitExceededException < ::Aws::Errors::ServiceError
       end
       class LimitExceededFault < ::Aws::Errors::ServiceError

@@ -73,6 +73,1591 @@ module Aws::Odb
     #
     class AssociateIamRoleToResourceOutput < Aws::EmptyStructure; end
 
+    # Information about an Autonomous Database.
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_arn
+    #   The Amazon Resource Name (ARN) of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] oci_resource_anchor_name
+    #   The name of the Oracle Cloud Infrastructure (OCI) resource anchor
+    #   associated with the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] percent_progress
+    #   The progress of the current operation on the Autonomous Database, as
+    #   a percentage.
+    #   @return [Float]
+    #
+    # @!attribute [rw] ocid
+    #   The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] oci_url
+    #   The URL for accessing the OCI console page for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_name
+    #   The name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_id
+    #   The unique identifier of the source from which the Autonomous
+    #   Database was created.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_type
+    #   The type of the Autonomous Database, either a regular database or a
+    #   clone.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_version
+    #   The Oracle Database software version of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_workload
+    #   The intended use of the Autonomous Database, such as transaction
+    #   processing, data warehouse, JSON database, or APEX.
+    #   @return [String]
+    #
+    # @!attribute [rw] character_set
+    #   The character set of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] ncharacter_set
+    #   The national character set of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_edition
+    #   The Oracle Database edition of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] license_model
+    #   The Oracle license model that applies to the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] open_mode
+    #   The mode in which the Autonomous Database is open, either read-only
+    #   or read/write.
+    #   @return [String]
+    #
+    # @!attribute [rw] permission_level
+    #   The permission level of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_mtls_connection_required
+    #   Indicates whether mutual TLS (mTLS) authentication is required to
+    #   connect to the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] autonomous_maintenance_schedule_type
+    #   The maintenance schedule type for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] net_services_architecture
+    #   The Oracle Net Services architecture of the Autonomous Database,
+    #   either dedicated or shared.
+    #   @return [String]
+    #
+    # @!attribute [rw] available_upgrade_versions
+    #   The list of Oracle Database software versions to which the
+    #   Autonomous Database can be upgraded.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] byol_compute_count_limit
+    #   The maximum number of compute resources that you can allocate to the
+    #   Autonomous Database under the bring-your-own-license (BYOL) model.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] connection_string_details
+    #   The connection string details for the Autonomous Database.
+    #   @return [Types::AutonomousDatabaseConnectionStrings]
+    #
+    # @!attribute [rw] service_console_url
+    #   The URL for accessing the Oracle service console for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] sql_web_developer_url
+    #   The URL for accessing Oracle SQL Developer Web for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_contacts
+    #   The list of customer contacts that receive operational notifications
+    #   from Oracle for the Autonomous Database.
+    #   @return [Array<Types::CustomerContact>]
+    #
+    # @!attribute [rw] apex_details
+    #   The Oracle Application Express (APEX) details for the Autonomous
+    #   Database.
+    #   @return [Types::AutonomousDatabaseApex]
+    #
+    # @!attribute [rw] standby_db
+    #   The details of the standby Autonomous Database in a cross-Region
+    #   Oracle Data Guard configuration.
+    #   @return [Types::DatabaseStandbySummary]
+    #
+    # @!attribute [rw] local_standby_db
+    #   The details of the local standby Autonomous Database in an Oracle
+    #   Data Guard configuration.
+    #   @return [Types::DatabaseStandbySummary]
+    #
+    # @!attribute [rw] data_safe_status
+    #   The status of the Oracle Data Safe registration for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_management_status
+    #   The status of Oracle Database Management for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] operations_insights_status
+    #   The status of Oracle Operations Insights for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone where the Autonomous Database is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone_id
+    #   The unique identifier of the Availability Zone where the Autonomous
+    #   Database is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] maintenance_target_component
+    #   The component on the Autonomous Database that the current
+    #   maintenance is being applied to.
+    #   @return [String]
+    #
+    # @!attribute [rw] connection_urls
+    #   The connection URLs for accessing tools and services for the
+    #   Autonomous Database.
+    #   @return [Types::AutonomousDatabaseConnectionUrls]
+    #
+    # @!attribute [rw] db_tools_details
+    #   The list of database management tools enabled for the Autonomous
+    #   Database.
+    #   @return [Array<Types::DatabaseTool>]
+    #
+    # @!attribute [rw] scheduled_operations
+    #   The list of scheduled start and stop times for the Autonomous
+    #   Database.
+    #   @return [Array<Types::ScheduledOperationDetails>]
+    #
+    # @!attribute [rw] resource_pool_leader_id
+    #   The unique identifier of the resource pool leader Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_count
+    #   The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle
+    #   CPUs (OCPUs), assigned to the Autonomous Database.
+    #   @return [Float]
+    #
+    # @!attribute [rw] compute_model
+    #   The compute model of the Autonomous Database, either ECPU or OCPU.
+    #   @return [String]
+    #
+    # @!attribute [rw] cpu_core_count
+    #   The number of CPU cores allocated to the Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] memory_per_oracle_compute_unit_in_g_bs
+    #   The amount of memory allocated per Oracle Compute Unit, in GB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] provisionable_cpus
+    #   The list of CPU core counts that you can provision for the
+    #   Autonomous Database.
+    #   @return [Array<Integer>]
+    #
+    # @!attribute [rw] is_auto_scaling_enabled
+    #   Indicates whether automatic scaling of the compute resources is
+    #   enabled for the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] data_storage_size_in_t_bs
+    #   The size, in terabytes (TB), of the data volume allocated for the
+    #   Autonomous Database.
+    #   @return [Float]
+    #
+    # @!attribute [rw] data_storage_size_in_g_bs
+    #   The size, in gigabytes (GB), of the data volume allocated for the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] used_data_storage_size_in_t_bs
+    #   The amount of data storage currently in use by the Autonomous
+    #   Database, in TB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] used_data_storage_size_in_g_bs
+    #   The amount of data storage currently in use by the Autonomous
+    #   Database, in GB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] actual_used_data_storage_size_in_t_bs
+    #   The actual amount of data storage currently in use by the Autonomous
+    #   Database, in TB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] allocated_storage_size_in_t_bs
+    #   The amount of storage currently allocated to the Autonomous
+    #   Database, in TB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] in_memory_area_in_g_bs
+    #   The size of the in-memory area of the Autonomous Database, in GB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_auto_scaling_for_storage_enabled
+    #   Indicates whether automatic scaling of the storage is enabled for
+    #   the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] odb_network_id
+    #   The unique identifier of the ODB network associated with the
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] odb_network_arn
+    #   The Amazon Resource Name (ARN) of the ODB network associated with
+    #   the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint_ip
+    #   The private endpoint IP address for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint_label
+    #   The private endpoint label for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] allowlisted_ips
+    #   The list of IP addresses that are allowed to access the Autonomous
+    #   Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] standby_allowlisted_ips
+    #   The list of IP addresses that are allowed to access the standby
+    #   Autonomous Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] standby_allowlisted_ips_source
+    #   The source of the allowlisted IP addresses for the standby
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_local_data_guard_enabled
+    #   Indicates whether local Oracle Data Guard is enabled for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_remote_data_guard_enabled
+    #   Indicates whether remote Oracle Data Guard is enabled for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] local_disaster_recovery_type
+    #   The type of local disaster recovery configured for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The Oracle Data Guard role of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] peer_db_ids
+    #   The list of unique identifiers of the peer Autonomous Databases.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] failed_data_recovery_in_seconds
+    #   The amount of time, in seconds, that the data in the Autonomous
+    #   Database is behind the data in the primary database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] local_adg_auto_failover_max_data_loss_limit
+    #   The maximum data loss limit, in seconds, for automatic failover to
+    #   the local Oracle Data Guard standby database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] remote_disaster_recovery_configuration
+    #   The configuration of the remote disaster recovery for the Autonomous
+    #   Database.
+    #   @return [Types::DisasterRecoveryConfiguration]
+    #
+    # @!attribute [rw] is_refreshable_clone
+    #   Indicates whether the Autonomous Database is a refreshable clone.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] refreshable_mode
+    #   The refresh mode of the refreshable clone Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] refreshable_status
+    #   The refresh status of the refreshable clone Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] auto_refresh_frequency_in_seconds
+    #   The frequency, in seconds, at which the refreshable clone Autonomous
+    #   Database is automatically refreshed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] auto_refresh_point_lag_in_seconds
+    #   The time lag, in seconds, between the refreshable clone and its
+    #   source Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_reconnect_clone_enabled
+    #   Indicates whether reconnecting the refreshable clone to its source
+    #   Autonomous Database is enabled.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] clone_table_space_list
+    #   The list of tablespace identifiers to clone for the Autonomous
+    #   Database.
+    #   @return [Array<Integer>]
+    #
+    # @!attribute [rw] backup_retention_period_in_days
+    #   The retention period, in days, for automatic backups of the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] long_term_backup_schedule
+    #   The long-term backup schedule for the Autonomous Database.
+    #   @return [Types::LongTermBackupSchedule]
+    #
+    # @!attribute [rw] is_backup_retention_locked
+    #   Indicates whether the backup retention period of the Autonomous
+    #   Database is locked.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] total_backup_storage_size_in_g_bs
+    #   The total amount of backup storage used by the Autonomous Database,
+    #   in GB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] resource_pool_summary
+    #   The configuration of the resource pool for the Autonomous Database.
+    #   @return [Types::ResourcePoolSummary]
+    #
+    # @!attribute [rw] encryption_summary
+    #   The encryption configuration for the Autonomous Database.
+    #   @return [Types::EncryptionSummary]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time when the Autonomous Database was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_backup
+    #   The date and time of the last backup of the Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_maintenance_begin
+    #   The date and time when the next maintenance of the Autonomous
+    #   Database begins.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_maintenance_end
+    #   The date and time when the next maintenance of the Autonomous
+    #   Database ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_local_data_guard_enabled
+    #   The date and time when local Oracle Data Guard was enabled for the
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_data_guard_role_changed
+    #   The date and time when the Oracle Data Guard role of the Autonomous
+    #   Database last changed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_switchover
+    #   The date and time of the last switchover operation for the
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_failover
+    #   The date and time of the last failover operation for the Autonomous
+    #   Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_refresh
+    #   The date and time of the last refresh of the refreshable clone
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_refresh_point
+    #   The date and time as of which the data in the refreshable clone
+    #   Autonomous Database is current.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_next_refresh
+    #   The date and time of the next scheduled refresh of the refreshable
+    #   clone Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_auto_refresh_start
+    #   The date and time at which the automatic refresh of the refreshable
+    #   clone Autonomous Database starts.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_deletion_of_free_autonomous_database
+    #   The date and time when the inactive Always Free Autonomous Database
+    #   is scheduled to be automatically deleted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_reclamation_of_free_autonomous_database
+    #   The date and time when the Always Free Autonomous Database is
+    #   scheduled to be stopped because of inactivity.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_disaster_recovery_role_changed
+    #   The date and time when the disaster recovery role of the Autonomous
+    #   Database last changed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_until_reconnect_clone_enabled
+    #   The date and time until which reconnecting the refreshable clone to
+    #   its source Autonomous Database is allowed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] next_long_term_backup_time_stamp
+    #   The date and time of the next scheduled long-term backup of the
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_undeleted
+    #   The date and time when the Autonomous Database was restored after
+    #   deletion.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabase AWS API Documentation
+    #
+    class AutonomousDatabase < Struct.new(
+      :autonomous_database_id,
+      :autonomous_database_arn,
+      :oci_resource_anchor_name,
+      :percent_progress,
+      :ocid,
+      :oci_url,
+      :display_name,
+      :db_name,
+      :source_id,
+      :status,
+      :status_reason,
+      :database_type,
+      :db_version,
+      :db_workload,
+      :character_set,
+      :ncharacter_set,
+      :database_edition,
+      :license_model,
+      :open_mode,
+      :permission_level,
+      :is_mtls_connection_required,
+      :autonomous_maintenance_schedule_type,
+      :net_services_architecture,
+      :available_upgrade_versions,
+      :byol_compute_count_limit,
+      :connection_string_details,
+      :service_console_url,
+      :sql_web_developer_url,
+      :customer_contacts,
+      :apex_details,
+      :standby_db,
+      :local_standby_db,
+      :data_safe_status,
+      :database_management_status,
+      :operations_insights_status,
+      :availability_zone,
+      :availability_zone_id,
+      :maintenance_target_component,
+      :connection_urls,
+      :db_tools_details,
+      :scheduled_operations,
+      :resource_pool_leader_id,
+      :compute_count,
+      :compute_model,
+      :cpu_core_count,
+      :memory_per_oracle_compute_unit_in_g_bs,
+      :provisionable_cpus,
+      :is_auto_scaling_enabled,
+      :data_storage_size_in_t_bs,
+      :data_storage_size_in_g_bs,
+      :used_data_storage_size_in_t_bs,
+      :used_data_storage_size_in_g_bs,
+      :actual_used_data_storage_size_in_t_bs,
+      :allocated_storage_size_in_t_bs,
+      :in_memory_area_in_g_bs,
+      :is_auto_scaling_for_storage_enabled,
+      :odb_network_id,
+      :odb_network_arn,
+      :private_endpoint,
+      :private_endpoint_ip,
+      :private_endpoint_label,
+      :allowlisted_ips,
+      :standby_allowlisted_ips,
+      :standby_allowlisted_ips_source,
+      :is_local_data_guard_enabled,
+      :is_remote_data_guard_enabled,
+      :local_disaster_recovery_type,
+      :role,
+      :peer_db_ids,
+      :failed_data_recovery_in_seconds,
+      :local_adg_auto_failover_max_data_loss_limit,
+      :remote_disaster_recovery_configuration,
+      :is_refreshable_clone,
+      :refreshable_mode,
+      :refreshable_status,
+      :auto_refresh_frequency_in_seconds,
+      :auto_refresh_point_lag_in_seconds,
+      :is_reconnect_clone_enabled,
+      :clone_table_space_list,
+      :backup_retention_period_in_days,
+      :long_term_backup_schedule,
+      :is_backup_retention_locked,
+      :total_backup_storage_size_in_g_bs,
+      :resource_pool_summary,
+      :encryption_summary,
+      :created_at,
+      :time_of_last_backup,
+      :time_maintenance_begin,
+      :time_maintenance_end,
+      :time_local_data_guard_enabled,
+      :time_data_guard_role_changed,
+      :time_of_last_switchover,
+      :time_of_last_failover,
+      :time_of_last_refresh,
+      :time_of_last_refresh_point,
+      :time_of_next_refresh,
+      :time_of_auto_refresh_start,
+      :time_deletion_of_free_autonomous_database,
+      :time_reclamation_of_free_autonomous_database,
+      :time_disaster_recovery_role_changed,
+      :time_until_reconnect_clone_enabled,
+      :next_long_term_backup_time_stamp,
+      :time_undeleted)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Oracle Application Express (APEX) details for an Autonomous
+    # Database.
+    #
+    # @!attribute [rw] apex_version
+    #   The Oracle Application Express (APEX) version of the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] ords_version
+    #   The Oracle REST Data Services (ORDS) version of the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseApex AWS API Documentation
+    #
+    class AutonomousDatabaseApex < Struct.new(
+      :apex_version,
+      :ords_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about an Autonomous Database backup.
+    #
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_backup_arn
+    #   The Amazon Resource Name (ARN) of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that the backup was
+    #   created from.
+    #   @return [String]
+    #
+    # @!attribute [rw] ocid
+    #   The Oracle Cloud Identifier (OCID) of the Autonomous Database
+    #   backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_version
+    #   The Oracle Database software version of the Autonomous Database
+    #   backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database backup, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_automatic
+    #   Indicates whether the backup was created automatically.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] retention_period_in_days
+    #   The retention period, in days, for the Autonomous Database backup.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] size_in_t_bs
+    #   The size of the Autonomous Database backup, in terabytes (TB).
+    #   @return [Float]
+    #
+    # @!attribute [rw] time_available_till
+    #   The date and time until which the Autonomous Database backup is
+    #   available for restore.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_started
+    #   The date and time when the Autonomous Database backup started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_ended
+    #   The date and time when the Autonomous Database backup ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] type
+    #   The type of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseBackup AWS API Documentation
+    #
+    class AutonomousDatabaseBackup < Struct.new(
+      :autonomous_database_backup_id,
+      :autonomous_database_backup_arn,
+      :autonomous_database_id,
+      :ocid,
+      :display_name,
+      :db_version,
+      :status,
+      :status_reason,
+      :is_automatic,
+      :retention_period_in_days,
+      :size_in_t_bs,
+      :time_available_till,
+      :time_started,
+      :time_ended,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an Autonomous Database backup.
+    #
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_backup_arn
+    #   The Amazon Resource Name (ARN) of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that the backup was
+    #   created from.
+    #   @return [String]
+    #
+    # @!attribute [rw] ocid
+    #   The Oracle Cloud Identifier (OCID) of the Autonomous Database
+    #   backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_version
+    #   The Oracle Database software version of the Autonomous Database
+    #   backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database backup, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_automatic
+    #   Indicates whether the backup was created automatically.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] retention_period_in_days
+    #   The retention period, in days, for the Autonomous Database backup.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] size_in_t_bs
+    #   The size of the Autonomous Database backup, in terabytes (TB).
+    #   @return [Float]
+    #
+    # @!attribute [rw] time_available_till
+    #   The date and time until which the Autonomous Database backup is
+    #   available for restore.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_started
+    #   The date and time when the Autonomous Database backup started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_ended
+    #   The date and time when the Autonomous Database backup ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] type
+    #   The type of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseBackupSummary AWS API Documentation
+    #
+    class AutonomousDatabaseBackupSummary < Struct.new(
+      :autonomous_database_backup_id,
+      :autonomous_database_backup_arn,
+      :autonomous_database_id,
+      :ocid,
+      :display_name,
+      :db_version,
+      :status,
+      :status_reason,
+      :is_automatic,
+      :retention_period_in_days,
+      :size_in_t_bs,
+      :time_available_till,
+      :time_started,
+      :time_ended,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an available character set for Autonomous Databases.
+    #
+    # @!attribute [rw] character_set
+    #   The name of the character set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseCharacterSetSummary AWS API Documentation
+    #
+    class AutonomousDatabaseCharacterSetSummary < Struct.new(
+      :character_set)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The connection strings used to connect to an Autonomous Database.
+    #
+    # @!attribute [rw] all_connection_strings
+    #   The list of all connection strings that you can use to connect to
+    #   the Autonomous Database.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] dedicated
+    #   The connection string for connecting to the Autonomous Database with
+    #   a dedicated service.
+    #   @return [String]
+    #
+    # @!attribute [rw] high
+    #   The connection string for the high-priority database service.
+    #   @return [String]
+    #
+    # @!attribute [rw] medium
+    #   The connection string for the medium-priority database service.
+    #   @return [String]
+    #
+    # @!attribute [rw] low
+    #   The connection string for the low-priority database service.
+    #   @return [String]
+    #
+    # @!attribute [rw] profiles
+    #   The list of connection string profiles for the Autonomous Database.
+    #   @return [Array<Types::DatabaseConnectionStringProfile>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseConnectionStrings AWS API Documentation
+    #
+    class AutonomousDatabaseConnectionStrings < Struct.new(
+      :all_connection_strings,
+      :dedicated,
+      :high,
+      :medium,
+      :low,
+      :profiles)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The connection URLs for accessing tools and services for an Autonomous
+    # Database.
+    #
+    # @!attribute [rw] apex_url
+    #   The URL for accessing Oracle Application Express (APEX) for the
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_transforms_url
+    #   The URL for accessing Oracle Database Transforms for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] graph_studio_url
+    #   The URL for accessing Oracle Graph Studio for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] machine_learning_notebook_url
+    #   The URL for accessing the Oracle Machine Learning notebook for the
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] machine_learning_user_management_url
+    #   The URL for accessing Oracle Machine Learning user management for
+    #   the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] mongo_db_url
+    #   The URL for accessing the MongoDB API for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] ords_url
+    #   The URL for accessing Oracle REST Data Services (ORDS) for the
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] spatial_studio_url
+    #   The URL for accessing Oracle Spatial Studio for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] sql_dev_web_url
+    #   The URL for accessing Oracle SQL Developer Web for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseConnectionUrls AWS API Documentation
+    #
+    class AutonomousDatabaseConnectionUrls < Struct.new(
+      :apex_url,
+      :database_transforms_url,
+      :graph_studio_url,
+      :machine_learning_notebook_url,
+      :machine_learning_user_management_url,
+      :mongo_db_url,
+      :ords_url,
+      :spatial_studio_url,
+      :sql_dev_web_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of a peer database of an Autonomous Database.
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the peer Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_arn
+    #   The Amazon Resource Name (ARN) of the peer Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] ocid
+    #   The Oracle Cloud Identifier (OCID) of the peer Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region where the peer Autonomous Database is
+    #   located.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabasePeerSummary AWS API Documentation
+    #
+    class AutonomousDatabasePeerSummary < Struct.new(
+      :autonomous_database_id,
+      :autonomous_database_arn,
+      :ocid,
+      :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an Autonomous Database.
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_arn
+    #   The Amazon Resource Name (ARN) of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] oci_resource_anchor_name
+    #   The name of the Oracle Cloud Infrastructure (OCI) resource anchor
+    #   associated with the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] percent_progress
+    #   The progress of the current operation on the Autonomous Database, as
+    #   a percentage.
+    #   @return [Float]
+    #
+    # @!attribute [rw] ocid
+    #   The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] oci_url
+    #   The URL for accessing the OCI console page for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_name
+    #   The name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_id
+    #   The unique identifier of the source from which the Autonomous
+    #   Database was created.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_type
+    #   The type of the Autonomous Database, either a regular database or a
+    #   clone.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_version
+    #   The Oracle Database software version of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_workload
+    #   The intended use of the Autonomous Database, such as transaction
+    #   processing, data warehouse, JSON database, or APEX.
+    #   @return [String]
+    #
+    # @!attribute [rw] character_set
+    #   The character set of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] ncharacter_set
+    #   The national character set of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_edition
+    #   The Oracle Database edition of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] license_model
+    #   The Oracle license model that applies to the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] open_mode
+    #   The mode in which the Autonomous Database is open, either read-only
+    #   or read/write.
+    #   @return [String]
+    #
+    # @!attribute [rw] permission_level
+    #   The permission level of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_mtls_connection_required
+    #   Indicates whether mutual TLS (mTLS) authentication is required to
+    #   connect to the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] autonomous_maintenance_schedule_type
+    #   The maintenance schedule type for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] net_services_architecture
+    #   The Oracle Net Services architecture of the Autonomous Database,
+    #   either dedicated or shared.
+    #   @return [String]
+    #
+    # @!attribute [rw] available_upgrade_versions
+    #   The list of Oracle Database software versions to which the
+    #   Autonomous Database can be upgraded.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] byol_compute_count_limit
+    #   The maximum number of compute resources that you can allocate to the
+    #   Autonomous Database under the bring-your-own-license (BYOL) model.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] connection_string_details
+    #   The connection string details for the Autonomous Database.
+    #   @return [Types::AutonomousDatabaseConnectionStrings]
+    #
+    # @!attribute [rw] service_console_url
+    #   The URL for accessing the Oracle service console for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] sql_web_developer_url
+    #   The URL for accessing Oracle SQL Developer Web for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_contacts
+    #   The list of customer contacts that receive operational notifications
+    #   from Oracle for the Autonomous Database.
+    #   @return [Array<Types::CustomerContact>]
+    #
+    # @!attribute [rw] apex_details
+    #   The Oracle Application Express (APEX) details for the Autonomous
+    #   Database.
+    #   @return [Types::AutonomousDatabaseApex]
+    #
+    # @!attribute [rw] standby_db
+    #   The details of the standby Autonomous Database in a cross-Region
+    #   Oracle Data Guard configuration.
+    #   @return [Types::DatabaseStandbySummary]
+    #
+    # @!attribute [rw] local_standby_db
+    #   The details of the local standby Autonomous Database in an Oracle
+    #   Data Guard configuration.
+    #   @return [Types::DatabaseStandbySummary]
+    #
+    # @!attribute [rw] data_safe_status
+    #   The status of the Oracle Data Safe registration for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_management_status
+    #   The status of Oracle Database Management for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] operations_insights_status
+    #   The status of Oracle Operations Insights for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone where the Autonomous Database is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone_id
+    #   The unique identifier of the Availability Zone where the Autonomous
+    #   Database is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] maintenance_target_component
+    #   The component on the Autonomous Database that the current
+    #   maintenance is being applied to.
+    #   @return [String]
+    #
+    # @!attribute [rw] connection_urls
+    #   The connection URLs for accessing tools and services for the
+    #   Autonomous Database.
+    #   @return [Types::AutonomousDatabaseConnectionUrls]
+    #
+    # @!attribute [rw] db_tools_details
+    #   The list of database management tools enabled for the Autonomous
+    #   Database.
+    #   @return [Array<Types::DatabaseTool>]
+    #
+    # @!attribute [rw] scheduled_operations
+    #   The list of scheduled start and stop times for the Autonomous
+    #   Database.
+    #   @return [Array<Types::ScheduledOperationDetails>]
+    #
+    # @!attribute [rw] resource_pool_leader_id
+    #   The unique identifier of the resource pool leader Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_count
+    #   The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle
+    #   CPUs (OCPUs), assigned to the Autonomous Database.
+    #   @return [Float]
+    #
+    # @!attribute [rw] compute_model
+    #   The compute model of the Autonomous Database, either ECPU or OCPU.
+    #   @return [String]
+    #
+    # @!attribute [rw] cpu_core_count
+    #   The number of CPU cores allocated to the Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] memory_per_oracle_compute_unit_in_g_bs
+    #   The amount of memory allocated per Oracle Compute Unit, in GB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] provisionable_cpus
+    #   The list of CPU core counts that you can provision for the
+    #   Autonomous Database.
+    #   @return [Array<Integer>]
+    #
+    # @!attribute [rw] is_auto_scaling_enabled
+    #   Indicates whether automatic scaling of the compute resources is
+    #   enabled for the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] data_storage_size_in_t_bs
+    #   The size, in terabytes (TB), of the data volume allocated for the
+    #   Autonomous Database.
+    #   @return [Float]
+    #
+    # @!attribute [rw] data_storage_size_in_g_bs
+    #   The size, in gigabytes (GB), of the data volume allocated for the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] used_data_storage_size_in_t_bs
+    #   The amount of data storage currently in use by the Autonomous
+    #   Database, in TB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] used_data_storage_size_in_g_bs
+    #   The amount of data storage currently in use by the Autonomous
+    #   Database, in GB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] actual_used_data_storage_size_in_t_bs
+    #   The actual amount of data storage currently in use by the Autonomous
+    #   Database, in TB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] allocated_storage_size_in_t_bs
+    #   The amount of storage currently allocated to the Autonomous
+    #   Database, in TB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] in_memory_area_in_g_bs
+    #   The size of the in-memory area of the Autonomous Database, in GB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_auto_scaling_for_storage_enabled
+    #   Indicates whether automatic scaling of the storage is enabled for
+    #   the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] odb_network_id
+    #   The unique identifier of the ODB network associated with the
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] odb_network_arn
+    #   The Amazon Resource Name (ARN) of the ODB network associated with
+    #   the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint
+    #   The private endpoint for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint_ip
+    #   The private endpoint IP address for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint_label
+    #   The private endpoint label for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] allowlisted_ips
+    #   The list of IP addresses that are allowed to access the Autonomous
+    #   Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] standby_allowlisted_ips
+    #   The list of IP addresses that are allowed to access the standby
+    #   Autonomous Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] standby_allowlisted_ips_source
+    #   The source of the allowlisted IP addresses for the standby
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_local_data_guard_enabled
+    #   Indicates whether local Oracle Data Guard is enabled for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_remote_data_guard_enabled
+    #   Indicates whether remote Oracle Data Guard is enabled for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] local_disaster_recovery_type
+    #   The type of local disaster recovery configured for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The Oracle Data Guard role of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] peer_db_ids
+    #   The list of unique identifiers of the peer Autonomous Databases.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] failed_data_recovery_in_seconds
+    #   The amount of time, in seconds, that the data in the Autonomous
+    #   Database is behind the data in the primary database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] local_adg_auto_failover_max_data_loss_limit
+    #   The maximum data loss limit, in seconds, for automatic failover to
+    #   the local Oracle Data Guard standby database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] remote_disaster_recovery_configuration
+    #   The configuration of the remote disaster recovery for the Autonomous
+    #   Database.
+    #   @return [Types::DisasterRecoveryConfiguration]
+    #
+    # @!attribute [rw] is_refreshable_clone
+    #   Indicates whether the Autonomous Database is a refreshable clone.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] refreshable_mode
+    #   The refresh mode of the refreshable clone Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] refreshable_status
+    #   The refresh status of the refreshable clone Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] auto_refresh_frequency_in_seconds
+    #   The frequency, in seconds, at which the refreshable clone Autonomous
+    #   Database is automatically refreshed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] auto_refresh_point_lag_in_seconds
+    #   The time lag, in seconds, between the refreshable clone and its
+    #   source Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_reconnect_clone_enabled
+    #   Indicates whether reconnecting the refreshable clone to its source
+    #   Autonomous Database is enabled.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] clone_table_space_list
+    #   The list of tablespace identifiers to clone for the Autonomous
+    #   Database.
+    #   @return [Array<Integer>]
+    #
+    # @!attribute [rw] backup_retention_period_in_days
+    #   The retention period, in days, for automatic backups of the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] long_term_backup_schedule
+    #   The long-term backup schedule for the Autonomous Database.
+    #   @return [Types::LongTermBackupSchedule]
+    #
+    # @!attribute [rw] is_backup_retention_locked
+    #   Indicates whether the backup retention period of the Autonomous
+    #   Database is locked.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] total_backup_storage_size_in_g_bs
+    #   The total amount of backup storage used by the Autonomous Database,
+    #   in GB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] resource_pool_summary
+    #   The configuration of the resource pool for the Autonomous Database.
+    #   @return [Types::ResourcePoolSummary]
+    #
+    # @!attribute [rw] encryption_summary
+    #   The encryption configuration for the Autonomous Database.
+    #   @return [Types::EncryptionSummary]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time when the Autonomous Database was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_backup
+    #   The date and time of the last backup of the Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_maintenance_begin
+    #   The date and time when the next maintenance of the Autonomous
+    #   Database begins.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_maintenance_end
+    #   The date and time when the next maintenance of the Autonomous
+    #   Database ends.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_local_data_guard_enabled
+    #   The date and time when local Oracle Data Guard was enabled for the
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_data_guard_role_changed
+    #   The date and time when the Oracle Data Guard role of the Autonomous
+    #   Database last changed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_switchover
+    #   The date and time of the last switchover operation for the
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_failover
+    #   The date and time of the last failover operation for the Autonomous
+    #   Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_refresh
+    #   The date and time of the last refresh of the refreshable clone
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_last_refresh_point
+    #   The date and time as of which the data in the refreshable clone
+    #   Autonomous Database is current.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_next_refresh
+    #   The date and time of the next scheduled refresh of the refreshable
+    #   clone Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_of_auto_refresh_start
+    #   The date and time at which the automatic refresh of the refreshable
+    #   clone Autonomous Database starts.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_deletion_of_free_autonomous_database
+    #   The date and time when the inactive Always Free Autonomous Database
+    #   is scheduled to be automatically deleted.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_reclamation_of_free_autonomous_database
+    #   The date and time when the Always Free Autonomous Database is
+    #   scheduled to be stopped because of inactivity.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_disaster_recovery_role_changed
+    #   The date and time when the disaster recovery role of the Autonomous
+    #   Database last changed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_until_reconnect_clone_enabled
+    #   The date and time until which reconnecting the refreshable clone to
+    #   its source Autonomous Database is allowed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] next_long_term_backup_time_stamp
+    #   The date and time of the next scheduled long-term backup of the
+    #   Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_undeleted
+    #   The date and time when the Autonomous Database was restored after
+    #   deletion.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseSummary AWS API Documentation
+    #
+    class AutonomousDatabaseSummary < Struct.new(
+      :autonomous_database_id,
+      :autonomous_database_arn,
+      :oci_resource_anchor_name,
+      :percent_progress,
+      :ocid,
+      :oci_url,
+      :display_name,
+      :db_name,
+      :source_id,
+      :status,
+      :status_reason,
+      :database_type,
+      :db_version,
+      :db_workload,
+      :character_set,
+      :ncharacter_set,
+      :database_edition,
+      :license_model,
+      :open_mode,
+      :permission_level,
+      :is_mtls_connection_required,
+      :autonomous_maintenance_schedule_type,
+      :net_services_architecture,
+      :available_upgrade_versions,
+      :byol_compute_count_limit,
+      :connection_string_details,
+      :service_console_url,
+      :sql_web_developer_url,
+      :customer_contacts,
+      :apex_details,
+      :standby_db,
+      :local_standby_db,
+      :data_safe_status,
+      :database_management_status,
+      :operations_insights_status,
+      :availability_zone,
+      :availability_zone_id,
+      :maintenance_target_component,
+      :connection_urls,
+      :db_tools_details,
+      :scheduled_operations,
+      :resource_pool_leader_id,
+      :compute_count,
+      :compute_model,
+      :cpu_core_count,
+      :memory_per_oracle_compute_unit_in_g_bs,
+      :provisionable_cpus,
+      :is_auto_scaling_enabled,
+      :data_storage_size_in_t_bs,
+      :data_storage_size_in_g_bs,
+      :used_data_storage_size_in_t_bs,
+      :used_data_storage_size_in_g_bs,
+      :actual_used_data_storage_size_in_t_bs,
+      :allocated_storage_size_in_t_bs,
+      :in_memory_area_in_g_bs,
+      :is_auto_scaling_for_storage_enabled,
+      :odb_network_id,
+      :odb_network_arn,
+      :private_endpoint,
+      :private_endpoint_ip,
+      :private_endpoint_label,
+      :allowlisted_ips,
+      :standby_allowlisted_ips,
+      :standby_allowlisted_ips_source,
+      :is_local_data_guard_enabled,
+      :is_remote_data_guard_enabled,
+      :local_disaster_recovery_type,
+      :role,
+      :peer_db_ids,
+      :failed_data_recovery_in_seconds,
+      :local_adg_auto_failover_max_data_loss_limit,
+      :remote_disaster_recovery_configuration,
+      :is_refreshable_clone,
+      :refreshable_mode,
+      :refreshable_status,
+      :auto_refresh_frequency_in_seconds,
+      :auto_refresh_point_lag_in_seconds,
+      :is_reconnect_clone_enabled,
+      :clone_table_space_list,
+      :backup_retention_period_in_days,
+      :long_term_backup_schedule,
+      :is_backup_retention_locked,
+      :total_backup_storage_size_in_g_bs,
+      :resource_pool_summary,
+      :encryption_summary,
+      :created_at,
+      :time_of_last_backup,
+      :time_maintenance_begin,
+      :time_maintenance_end,
+      :time_local_data_guard_enabled,
+      :time_data_guard_role_changed,
+      :time_of_last_switchover,
+      :time_of_last_failover,
+      :time_of_last_refresh,
+      :time_of_last_refresh_point,
+      :time_of_next_refresh,
+      :time_of_auto_refresh_start,
+      :time_deletion_of_free_autonomous_database,
+      :time_reclamation_of_free_autonomous_database,
+      :time_disaster_recovery_role_changed,
+      :time_until_reconnect_clone_enabled,
+      :next_long_term_backup_time_stamp,
+      :time_undeleted)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an available Oracle Database software version for
+    # Autonomous Databases.
+    #
+    # @!attribute [rw] db_workload
+    #   The intended use of the Autonomous Database that the version
+    #   supports, such as transaction processing, data warehouse, JSON
+    #   database, or APEX.
+    #   @return [String]
+    #
+    # @!attribute [rw] details
+    #   Additional details about the Autonomous Database software version.
+    #   @return [String]
+    #
+    # @!attribute [rw] version
+    #   The Oracle Database software version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseVersionSummary AWS API Documentation
+    #
+    class AutonomousDatabaseVersionSummary < Struct.new(
+      :db_workload,
+      :details,
+      :version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The wallet details for an Autonomous Database.
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database wallet.
+    #   @return [String]
+    #
+    # @!attribute [rw] time_rotated
+    #   The date and time when the Autonomous Database wallet was last
+    #   rotated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AutonomousDatabaseWalletDetails AWS API Documentation
+    #
+    class AutonomousDatabaseWalletDetails < Struct.new(
+      :status,
+      :time_rotated)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A summary of an Autonomous Virtual Machine (VM) within an Autonomous
     # VM cluster.
     #
@@ -150,6 +1735,111 @@ module Aws::Odb
       :cloud_autonomous_vm_cluster_id,
       :ocid,
       :oci_resource_anchor_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of the Amazon Web Services Key Management Service
+    # (KMS) encryption key used for an Autonomous Database.
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Web Services Identity
+    #   and Access Management (IAM) role that grants access to the KMS key.
+    #   @return [String]
+    #
+    # @!attribute [rw] external_id_type
+    #   The type of external identifier associated with the encryption key.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The identifier or ARN of the Amazon Web Services KMS key used for
+    #   encryption.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AwsEncryptionKeyConfiguration AWS API Documentation
+    #
+    class AwsEncryptionKeyConfiguration < Struct.new(
+      :iam_role_arn,
+      :external_id_type,
+      :kms_key_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of the Amazon Web Services Key Management Service
+    # (KMS) encryption key to use for an Autonomous Database.
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Web Services Identity
+    #   and Access Management (IAM) role that grants access to the KMS key.
+    #   @return [String]
+    #
+    # @!attribute [rw] external_id_type
+    #   The type of external identifier associated with the encryption key.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The identifier or ARN of the Amazon Web Services KMS key to use for
+    #   encryption.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/AwsEncryptionKeyConfigurationInput AWS API Documentation
+    #
+    class AwsEncryptionKeyConfigurationInput < Struct.new(
+      :iam_role_arn,
+      :external_id_type,
+      :kms_key_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for creating an Autonomous Database as a refreshable
+    # clone.
+    #
+    # @!attribute [rw] source_autonomous_database_id
+    #   The unique identifier of the source Autonomous Database to create
+    #   the refreshable clone from.
+    #   @return [String]
+    #
+    # @!attribute [rw] refreshable_mode
+    #   The refresh mode of the refreshable clone, either automatic or
+    #   manual.
+    #   @return [String]
+    #
+    # @!attribute [rw] auto_refresh_frequency_in_seconds
+    #   The frequency, in seconds, at which the refreshable clone is
+    #   automatically refreshed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] auto_refresh_point_lag_in_seconds
+    #   The time lag, in seconds, between the refreshable clone and its
+    #   source database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] time_of_auto_refresh_start
+    #   The date and time at which the automatic refresh of the refreshable
+    #   clone starts.
+    #   @return [Time]
+    #
+    # @!attribute [rw] open_mode
+    #   The mode in which to open the refreshable clone, either read-only or
+    #   read/write.
+    #   @return [String]
+    #
+    # @!attribute [rw] clone_type
+    #   The type of clone to create.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CloneToRefreshableConfiguration AWS API Documentation
+    #
+    class CloneToRefreshableConfiguration < Struct.new(
+      :source_autonomous_database_id,
+      :refreshable_mode,
+      :auto_refresh_frequency_in_seconds,
+      :auto_refresh_point_lag_in_seconds,
+      :time_of_auto_refresh_start,
+      :open_mode,
+      :clone_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1818,6 +3508,381 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to back up.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name for the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] retention_period_in_days
+    #   The retention period, in days, for the Autonomous Database backup.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] client_token
+    #   A client-provided token to ensure the idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The list of resource tags to apply to the Autonomous Database
+    #   backup. Each tag is a key-value pair with no predefined name, type,
+    #   or namespace.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseBackupInput AWS API Documentation
+    #
+    class CreateAutonomousDatabaseBackupInput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :retention_period_in_days,
+      :client_token,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database backup that was
+    #   created.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database backup, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup that was
+    #   created.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseBackupOutput AWS API Documentation
+    #
+    class CreateAutonomousDatabaseBackupOutput < Struct.new(
+      :display_name,
+      :status,
+      :status_reason,
+      :autonomous_database_backup_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] odb_network_id
+    #   The unique identifier of the ODB network to be used for the
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name for the Autonomous Database. The name does
+    #   not have to be unique.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_name
+    #   The name of the Autonomous Database. The name must begin with an
+    #   alphabetic character and can contain a maximum of 30 alphanumeric
+    #   characters. Special characters are not permitted. The name must be
+    #   unique in the Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] admin_password
+    #   The password for the `ADMIN` user of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_count
+    #   The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle
+    #   CPUs (OCPUs), to assign to the Autonomous Database.
+    #   @return [Float]
+    #
+    # @!attribute [rw] data_storage_size_in_t_bs
+    #   The size, in terabytes (TB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] data_storage_size_in_g_bs
+    #   The size, in gigabytes (GB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] db_workload
+    #   The intended use of the Autonomous Database, such as transaction
+    #   processing, data warehouse, JSON database, or APEX.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_auto_scaling_enabled
+    #   Specifies whether to enable automatic scaling of the compute
+    #   resources for the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_auto_scaling_for_storage_enabled
+    #   Specifies whether to enable automatic scaling of the storage for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] license_model
+    #   The Oracle license model to apply to the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] character_set
+    #   The character set to use for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] ncharacter_set
+    #   The national character set to use for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_version
+    #   The Oracle Database software version to use for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_edition
+    #   The Oracle Database edition to apply to the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] standby_allowlisted_ips_source
+    #   The source of the allowlisted IP addresses for the standby
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_maintenance_schedule_type
+    #   The maintenance schedule type for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] backup_retention_period_in_days
+    #   The retention period, in days, for automatic backups of the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] byol_compute_count_limit
+    #   The maximum number of compute resources that you can allocate to the
+    #   Autonomous Database under the bring-your-own-license (BYOL) model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] cpu_core_count
+    #   The number of CPU cores to allocate to the Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] customer_contacts_to_send_to_oci
+    #   The list of customer contacts to receive operational notifications
+    #   from Oracle Cloud Infrastructure (OCI) for the Autonomous Database.
+    #   @return [Array<Types::CustomerContact>]
+    #
+    # @!attribute [rw] private_endpoint_ip
+    #   The private endpoint IP address for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint_label
+    #   The private endpoint label for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_pool_leader_id
+    #   The unique identifier of the resource pool leader Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_pool_summary
+    #   The configuration of the resource pool for the Autonomous Database.
+    #   @return [Types::ResourcePoolSummary]
+    #
+    # @!attribute [rw] scheduled_operations
+    #   The list of scheduled start and stop times for the Autonomous
+    #   Database.
+    #   @return [Array<Types::ScheduledOperationDetails>]
+    #
+    # @!attribute [rw] standby_allowlisted_ips
+    #   The list of IP addresses that are allowed to access the standby
+    #   Autonomous Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] allowlisted_ips
+    #   The list of IP addresses that are allowed to access the Autonomous
+    #   Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] transportable_tablespace
+    #   The transportable tablespace configuration to use when creating the
+    #   Autonomous Database.
+    #   @return [Types::TransportableTablespace]
+    #
+    # @!attribute [rw] is_backup_retention_locked
+    #   Specifies whether to lock the backup retention period of the
+    #   Autonomous Database to prevent it from being shortened.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_local_data_guard_enabled
+    #   Specifies whether to enable local Oracle Data Guard for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_mtls_connection_required
+    #   Specifies whether mutual TLS (mTLS) authentication is required to
+    #   connect to the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] db_tools_details
+    #   The list of database management tools to enable for the Autonomous
+    #   Database.
+    #   @return [Array<Types::DatabaseTool>]
+    #
+    # @!attribute [rw] source
+    #   The source from which to create the Autonomous Database, such as a
+    #   clone, backup, or cross-Region copy.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_configuration
+    #   The configuration details for the source used to create the
+    #   Autonomous Database.
+    #   @return [Types::SourceConfiguration]
+    #
+    # @!attribute [rw] encryption_key_provider
+    #   The provider of the encryption key to use for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_key_configuration
+    #   The configuration of the encryption key to use for the Autonomous
+    #   Database.
+    #   @return [Types::EncryptionKeyConfigurationInput]
+    #
+    # @!attribute [rw] client_token
+    #   A client-provided token to ensure the idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The list of resource tags to apply to the Autonomous Database. Each
+    #   tag is a key-value pair with no predefined name, type, or namespace.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseInput AWS API Documentation
+    #
+    class CreateAutonomousDatabaseInput < Struct.new(
+      :odb_network_id,
+      :display_name,
+      :db_name,
+      :admin_password,
+      :compute_count,
+      :data_storage_size_in_t_bs,
+      :data_storage_size_in_g_bs,
+      :db_workload,
+      :is_auto_scaling_enabled,
+      :is_auto_scaling_for_storage_enabled,
+      :license_model,
+      :character_set,
+      :ncharacter_set,
+      :db_version,
+      :database_edition,
+      :standby_allowlisted_ips_source,
+      :autonomous_maintenance_schedule_type,
+      :backup_retention_period_in_days,
+      :byol_compute_count_limit,
+      :cpu_core_count,
+      :customer_contacts_to_send_to_oci,
+      :private_endpoint_ip,
+      :private_endpoint_label,
+      :resource_pool_leader_id,
+      :resource_pool_summary,
+      :scheduled_operations,
+      :standby_allowlisted_ips,
+      :allowlisted_ips,
+      :transportable_tablespace,
+      :is_backup_retention_locked,
+      :is_local_data_guard_enabled,
+      :is_mtls_connection_required,
+      :db_tools_details,
+      :source,
+      :source_configuration,
+      :encryption_key_provider,
+      :encryption_key_configuration,
+      :client_token,
+      :tags)
+      SENSITIVE = [:admin_password]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was created.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database that was created.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database, if applicable.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseOutput AWS API Documentation
+    #
+    class CreateAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to create a wallet
+    #   for.
+    #   @return [String]
+    #
+    # @!attribute [rw] wallet_type
+    #   The type of wallet to create, either a regional wallet or an
+    #   instance wallet.
+    #   @return [String]
+    #
+    # @!attribute [rw] password
+    #   The password to encrypt the keys inside the wallet.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A client-provided token to ensure the idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseWalletInput AWS API Documentation
+    #
+    class CreateAutonomousDatabaseWalletInput < Struct.new(
+      :autonomous_database_id,
+      :wallet_type,
+      :password,
+      :client_token)
+      SENSITIVE = [:password]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_wallet_file
+    #   The generated wallet file for the Autonomous Database, returned as a
+    #   compressed archive.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CreateAutonomousDatabaseWalletOutput AWS API Documentation
+    #
+    class CreateAutonomousDatabaseWalletOutput < Struct.new(
+      :autonomous_database_wallet_file)
+      SENSITIVE = [:autonomous_database_wallet_file]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] cloud_exadata_infrastructure_id
     #   The unique identifier of the Exadata infrastructure where the VM
     #   cluster will be created.
@@ -2519,6 +4584,50 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # The configuration for creating an Autonomous Database as a
+    # cross-Region Oracle Data Guard peer.
+    #
+    # @!attribute [rw] source_autonomous_database_arn
+    #   The Amazon Resource Name (ARN) of the source Autonomous Database for
+    #   the cross-Region Oracle Data Guard configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CrossRegionDataGuardConfiguration AWS API Documentation
+    #
+    class CrossRegionDataGuardConfiguration < Struct.new(
+      :source_autonomous_database_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for creating an Autonomous Database as a
+    # cross-Region disaster recovery peer.
+    #
+    # @!attribute [rw] source_autonomous_database_arn
+    #   The Amazon Resource Name (ARN) of the source Autonomous Database for
+    #   the cross-Region disaster recovery configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] remote_disaster_recovery_type
+    #   The type of remote disaster recovery to configure, either Autonomous
+    #   Data Guard or backup-based.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_replicate_automatic_backups
+    #   Indicates whether automatic backups are replicated to the disaster
+    #   recovery database.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CrossRegionDisasterRecoveryConfiguration AWS API Documentation
+    #
+    class CrossRegionDisasterRecoveryConfiguration < Struct.new(
+      :source_autonomous_database_arn,
+      :remote_disaster_recovery_type,
+      :is_replicate_automatic_backups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The configuration access for the cross-Region Amazon S3 database
     # restore source for the ODB network.
     #
@@ -2585,6 +4694,174 @@ module Aws::Odb
       :is_diagnostics_events_enabled,
       :is_health_monitoring_enabled,
       :is_incident_logs_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for creating an Autonomous Database as a clone of an
+    # existing database.
+    #
+    # @!attribute [rw] source_autonomous_database_id
+    #   The unique identifier of the source Autonomous Database to clone.
+    #   @return [String]
+    #
+    # @!attribute [rw] clone_type
+    #   The type of clone to create, either a full clone, a metadata clone,
+    #   or a partial clone.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DatabaseCloneConfiguration AWS API Documentation
+    #
+    class DatabaseCloneConfiguration < Struct.new(
+      :source_autonomous_database_id,
+      :clone_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A connection string profile for an Autonomous Database.
+    #
+    # @!attribute [rw] consumer_group
+    #   The consumer group associated with the connection string profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the connection string profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_format
+    #   The host name format used in the connection string.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_regional
+    #   Indicates whether the connection string profile is regional.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] protocol
+    #   The protocol used by the connection string profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_mode
+    #   The session mode of the connection string profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] syntax_format
+    #   The syntax format of the connection string profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_authentication
+    #   The TLS authentication method used by the connection string profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The connection string value of the profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DatabaseConnectionStringProfile AWS API Documentation
+    #
+    class DatabaseConnectionStringProfile < Struct.new(
+      :consumer_group,
+      :display_name,
+      :host_format,
+      :is_regional,
+      :protocol,
+      :session_mode,
+      :syntax_format,
+      :tls_authentication,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of a standby Autonomous Database in an Oracle Data Guard
+    # configuration.
+    #
+    # @!attribute [rw] availability_domain
+    #   The availability domain of the standby Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] lag_time_in_seconds
+    #   The time lag, in seconds, between the standby database and the
+    #   primary database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status
+    #   The current status of the standby Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the standby
+    #   Autonomous Database, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] maintenance_target_component
+    #   The component on the standby Autonomous Database that the current
+    #   maintenance is being applied to.
+    #   @return [String]
+    #
+    # @!attribute [rw] time_data_guard_role_changed
+    #   The date and time when the Oracle Data Guard role of the standby
+    #   database last changed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_disaster_recovery_role_changed
+    #   The date and time when the disaster recovery role of the standby
+    #   database last changed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_maintenance_begin
+    #   The date and time when the next maintenance of the standby database
+    #   begins.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_maintenance_end
+    #   The date and time when the next maintenance of the standby database
+    #   ends.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DatabaseStandbySummary AWS API Documentation
+    #
+    class DatabaseStandbySummary < Struct.new(
+      :availability_domain,
+      :lag_time_in_seconds,
+      :status,
+      :status_reason,
+      :maintenance_target_component,
+      :time_data_guard_role_changed,
+      :time_disaster_recovery_role_changed,
+      :time_maintenance_begin,
+      :time_maintenance_end)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a database management tool for an Autonomous
+    # Database.
+    #
+    # @!attribute [rw] is_enabled
+    #   Indicates whether the database management tool is enabled.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] name
+    #   The name of the database management tool.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_count
+    #   The compute capacity allocated to the database management tool.
+    #   @return [Float]
+    #
+    # @!attribute [rw] max_idle_time_in_minutes
+    #   The maximum amount of time, in minutes, that the database management
+    #   tool can be idle before it is shut down.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DatabaseTool AWS API Documentation
+    #
+    class DatabaseTool < Struct.new(
+      :is_enabled,
+      :name,
+      :compute_count,
+      :max_idle_time_in_minutes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3355,6 +5632,38 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DeleteAutonomousDatabaseBackupInput AWS API Documentation
+    #
+    class DeleteAutonomousDatabaseBackupInput < Struct.new(
+      :autonomous_database_backup_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DeleteAutonomousDatabaseBackupOutput AWS API Documentation
+    #
+    class DeleteAutonomousDatabaseBackupOutput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DeleteAutonomousDatabaseInput AWS API Documentation
+    #
+    class DeleteAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DeleteAutonomousDatabaseOutput AWS API Documentation
+    #
+    class DeleteAutonomousDatabaseOutput < Aws::EmptyStructure; end
+
     # @!attribute [rw] cloud_autonomous_vm_cluster_id
     #   The unique identifier of the Autonomous VM cluster to delete.
     #   @return [String]
@@ -3473,6 +5782,119 @@ module Aws::Odb
     #
     class DisassociateIamRoleFromResourceOutput < Aws::EmptyStructure; end
 
+    # The disaster recovery configuration for an Autonomous Database.
+    #
+    # @!attribute [rw] disaster_recovery_type
+    #   The type of disaster recovery configured for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_replicate_automatic_backups
+    #   Indicates whether automatic backups are replicated to the disaster
+    #   recovery database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_snapshot_standby
+    #   Indicates whether the standby database is a snapshot standby.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] time_snapshot_standby_enabled_till
+    #   The date and time until which the snapshot standby database remains
+    #   enabled.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/DisasterRecoveryConfiguration AWS API Documentation
+    #
+    class DisasterRecoveryConfiguration < Struct.new(
+      :disaster_recovery_type,
+      :is_replicate_automatic_backups,
+      :is_snapshot_standby,
+      :time_snapshot_standby_enabled_till)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of the encryption key used for an Autonomous
+    # Database. This is a union, so only one of the following members can be
+    # specified.
+    #
+    # @note EncryptionKeyConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of EncryptionKeyConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] aws_encryption_key
+    #   The configuration of the Amazon Web Services Key Management Service
+    #   (KMS) encryption key.
+    #   @return [Types::AwsEncryptionKeyConfiguration]
+    #
+    # @!attribute [rw] oci_encryption_key
+    #   The configuration of the Oracle Cloud Infrastructure (OCI) Vault
+    #   encryption key.
+    #   @return [Types::OciEncryptionKeyConfiguration]
+    #
+    # @!attribute [rw] okv_encryption_key
+    #   The configuration of the Oracle Key Vault (OKV) encryption key.
+    #   @return [Types::OkvEncryptionKeyConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/EncryptionKeyConfiguration AWS API Documentation
+    #
+    class EncryptionKeyConfiguration < Struct.new(
+      :aws_encryption_key,
+      :oci_encryption_key,
+      :okv_encryption_key,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AwsEncryptionKey < EncryptionKeyConfiguration; end
+      class OciEncryptionKey < EncryptionKeyConfiguration; end
+      class OkvEncryptionKey < EncryptionKeyConfiguration; end
+      class Unknown < EncryptionKeyConfiguration; end
+    end
+
+    # The configuration of the encryption key to use for an Autonomous
+    # Database. This is a union, so only one of the following members can be
+    # specified.
+    #
+    # @note EncryptionKeyConfigurationInput is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] aws_encryption_key
+    #   The configuration of the Amazon Web Services Key Management Service
+    #   (KMS) encryption key to use.
+    #   @return [Types::AwsEncryptionKeyConfigurationInput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/EncryptionKeyConfigurationInput AWS API Documentation
+    #
+    class EncryptionKeyConfigurationInput < Struct.new(
+      :aws_encryption_key,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AwsEncryptionKey < EncryptionKeyConfigurationInput; end
+      class Unknown < EncryptionKeyConfigurationInput; end
+    end
+
+    # The encryption configuration for an Autonomous Database.
+    #
+    # @!attribute [rw] encryption_key_provider
+    #   The provider of the encryption key used for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_key_configuration
+    #   The configuration of the encryption key used for the Autonomous
+    #   Database.
+    #   @return [Types::EncryptionKeyConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/EncryptionSummary AWS API Documentation
+    #
+    class EncryptionSummary < Struct.new(
+      :encryption_key_provider,
+      :encryption_key_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The IORM settings of the Exadata DB system.
     #
     # @!attribute [rw] db_plans
@@ -3499,6 +5921,129 @@ module Aws::Odb
       :lifecycle_details,
       :lifecycle_state,
       :objective)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to fail over.
+    #   @return [String]
+    #
+    # @!attribute [rw] peer_db_arn
+    #   The Amazon Resource Name (ARN) of the peer Autonomous Database to
+    #   fail over to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/FailoverAutonomousDatabaseInput AWS API Documentation
+    #
+    class FailoverAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id,
+      :peer_db_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was failed
+    #   over.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database after the failover
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the status of the Autonomous Database
+    #   after the failover operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/FailoverAutonomousDatabaseOutput AWS API Documentation
+    #
+    class FailoverAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup to retrieve
+    #   information about.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseBackupInput AWS API Documentation
+    #
+    class GetAutonomousDatabaseBackupInput < Struct.new(
+      :autonomous_database_backup_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_backup
+    #   The details of the requested Autonomous Database backup.
+    #   @return [Types::AutonomousDatabaseBackup]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseBackupOutput AWS API Documentation
+    #
+    class GetAutonomousDatabaseBackupOutput < Struct.new(
+      :autonomous_database_backup)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to retrieve
+    #   information about.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseInput AWS API Documentation
+    #
+    class GetAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database
+    #   The details of the requested Autonomous Database.
+    #   @return [Types::AutonomousDatabase]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseOutput AWS API Documentation
+    #
+    class GetAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to retrieve wallet
+    #   details for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseWalletDetailsInput AWS API Documentation
+    #
+    class GetAutonomousDatabaseWalletDetailsInput < Struct.new(
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_wallet_details
+    #   The wallet details for the Autonomous Database.
+    #   @return [Types::AutonomousDatabaseWalletDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetAutonomousDatabaseWalletDetailsOutput AWS API Documentation
+    #
+    class GetAutonomousDatabaseWalletDetailsOutput < Struct.new(
+      :autonomous_database_wallet_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3691,13 +6236,38 @@ module Aws::Odb
     #   the onboarding status response.
     #   @return [Types::OciIdentityDomain]
     #
+    # @!attribute [rw] autonomous_database_oci_integration_iam_roles
+    #   The list of Amazon Web Services Identity and Access Management (IAM)
+    #   service roles used for Autonomous Database integration with Oracle
+    #   Cloud Infrastructure (OCI).
+    #   @return [Array<Types::OciIamRole>]
+    #
+    # @!attribute [rw] linked_oci_tenancy_id
+    #   The unique identifier of the Oracle Cloud Infrastructure (OCI)
+    #   tenancy that is linked to your Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] linked_oci_compartment_id
+    #   The unique identifier of the Oracle Cloud Infrastructure (OCI)
+    #   compartment that is linked to your Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] subscription_errors
+    #   The list of errors that occurred during the subscription process for
+    #   your Amazon Web Services account, if any.
+    #   @return [Array<Types::SubscriptionError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/GetOciOnboardingStatusOutput AWS API Documentation
     #
     class GetOciOnboardingStatusOutput < Struct.new(
       :status,
       :existing_tenancy_activation_link,
       :new_tenancy_activation_link,
-      :oci_identity_domain)
+      :oci_identity_domain,
+      :autonomous_database_oci_integration_iam_roles,
+      :linked_oci_tenancy_id,
+      :linked_oci_compartment_id,
+      :subscription_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3870,6 +6440,281 @@ module Aws::Odb
       :ipv4_addresses,
       :domain_name,
       :kms_policy_document)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database whose backups you
+    #   want to list.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the Autonomous Database backups to return results for.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the Autonomous Database backups to return results for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseBackupsInput AWS API Documentation
+    #
+    class ListAutonomousDatabaseBackupsInput < Struct.new(
+      :max_results,
+      :next_token,
+      :autonomous_database_id,
+      :status,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to include in another request to get the next page of
+    #   items. This value is `null` when there are no more items to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_backups
+    #   The list of Autonomous Database backups along with their properties.
+    #   @return [Array<Types::AutonomousDatabaseBackupSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseBackupsOutput AWS API Documentation
+    #
+    class ListAutonomousDatabaseBackupsOutput < Struct.new(
+      :next_token,
+      :autonomous_database_backups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] character_set_type
+    #   The type of character set to return results for, either the database
+    #   character set or the national character set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseCharacterSetsInput AWS API Documentation
+    #
+    class ListAutonomousDatabaseCharacterSetsInput < Struct.new(
+      :max_results,
+      :next_token,
+      :character_set_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to include in another request to get the next page of
+    #   items. This value is `null` when there are no more items to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_character_sets
+    #   The list of available Autonomous Database character sets.
+    #   @return [Array<Types::AutonomousDatabaseCharacterSetSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseCharacterSetsOutput AWS API Documentation
+    #
+    class ListAutonomousDatabaseCharacterSetsOutput < Struct.new(
+      :next_token,
+      :autonomous_database_character_sets)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the source Autonomous Database whose clones
+    #   you want to list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseClonesInput AWS API Documentation
+    #
+    class ListAutonomousDatabaseClonesInput < Struct.new(
+      :max_results,
+      :next_token,
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to include in another request to get the next page of
+    #   items. This value is `null` when there are no more items to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_clones
+    #   The list of Autonomous Database clones along with their properties.
+    #   @return [Array<Types::AutonomousDatabaseSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseClonesOutput AWS API Documentation
+    #
+    class ListAutonomousDatabaseClonesOutput < Struct.new(
+      :next_token,
+      :autonomous_database_clones)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database whose peer
+    #   databases you want to list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabasePeersInput AWS API Documentation
+    #
+    class ListAutonomousDatabasePeersInput < Struct.new(
+      :max_results,
+      :next_token,
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to include in another request to get the next page of
+    #   items. This value is `null` when there are no more items to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_peers
+    #   The list of peer databases for the Autonomous Database.
+    #   @return [Array<Types::AutonomousDatabasePeerSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabasePeersOutput AWS API Documentation
+    #
+    class ListAutonomousDatabasePeersOutput < Struct.new(
+      :next_token,
+      :autonomous_database_peers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous
+    #   request.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_workload
+    #   The intended use of the Autonomous Database to return versions for,
+    #   such as transaction processing, data warehouse, JSON database, or
+    #   APEX.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseVersionsInput AWS API Documentation
+    #
+    class ListAutonomousDatabaseVersionsInput < Struct.new(
+      :max_results,
+      :next_token,
+      :db_workload)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to include in another request to get the next page of
+    #   items. This value is `null` when there are no more items to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_versions
+    #   The list of available Autonomous Database software versions.
+    #   @return [Array<Types::AutonomousDatabaseVersionSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabaseVersionsOutput AWS API Documentation
+    #
+    class ListAutonomousDatabaseVersionsOutput < Struct.new(
+      :next_token,
+      :autonomous_database_versions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this request. To get the
+    #   next page of items, make another request with the token returned in
+    #   the output.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token returned from a previous paginated request. Pagination
+    #   continues from the end of the items returned by the previous
+    #   request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabasesInput AWS API Documentation
+    #
+    class ListAutonomousDatabasesInput < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to include in another request to get the next page of
+    #   items. This value is `null` when there are no more items to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_databases
+    #   The list of Autonomous Databases along with their properties.
+    #   @return [Array<Types::AutonomousDatabaseSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ListAutonomousDatabasesOutput AWS API Documentation
+    #
+    class ListAutonomousDatabasesOutput < Struct.new(
+      :next_token,
+      :autonomous_databases)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4400,6 +7245,35 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # The long-term backup schedule for an Autonomous Database.
+    #
+    # @!attribute [rw] is_disabled
+    #   Indicates whether the long-term backup schedule is disabled.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] repeat_cadence
+    #   The cadence at which long-term backups are taken.
+    #   @return [String]
+    #
+    # @!attribute [rw] retention_period_in_days
+    #   The retention period, in days, for long-term backups.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] time_of_backup
+    #   The date and time at which the long-term backup is taken.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/LongTermBackupSchedule AWS API Documentation
+    #
+    class LongTermBackupSchedule < Struct.new(
+      :is_disabled,
+      :repeat_cadence,
+      :retention_period_in_days,
+      :time_of_backup)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The scheduling details for the maintenance window. Patching and system
     # updates take place during the maintenance window.
     #
@@ -4573,6 +7447,52 @@ module Aws::Odb
     class OciDnsForwardingConfig < Struct.new(
       :domain_name,
       :oci_dns_listener_ip)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of the Oracle Cloud Infrastructure (OCI) Vault
+    # encryption key used for an Autonomous Database.
+    #
+    # @!attribute [rw] kms_key_id
+    #   The Oracle Cloud Identifier (OCID) of the OCI Vault key to use for
+    #   encryption.
+    #   @return [String]
+    #
+    # @!attribute [rw] vault_id
+    #   The Oracle Cloud Identifier (OCID) of the OCI Vault that contains
+    #   the encryption key.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/OciEncryptionKeyConfiguration AWS API Documentation
+    #
+    class OciEncryptionKeyConfiguration < Struct.new(
+      :kms_key_id,
+      :vault_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about an Amazon Web Services Identity and Access
+    # Management (IAM) service role used for Autonomous Database integration
+    # with Oracle Cloud Infrastructure (OCI).
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Web Services Identity
+    #   and Access Management (IAM) service role.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_integration
+    #   The Amazon Web Services integration configuration settings for the
+    #   Amazon Web Services Identity and Access Management (IAM) service
+    #   role.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/OciIamRole AWS API Documentation
+    #
+    class OciIamRole < Struct.new(
+      :iam_role_arn,
+      :aws_integration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5018,6 +7938,129 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # The configuration of the Oracle Key Vault (OKV) encryption key used
+    # for an Autonomous Database.
+    #
+    # @!attribute [rw] certificate_directory_name
+    #   The name of the directory that contains the Oracle Key Vault (OKV)
+    #   certificate.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_id
+    #   The identifier of the Oracle Key Vault (OKV) certificate.
+    #   @return [String]
+    #
+    # @!attribute [rw] directory_name
+    #   The name of the directory where the Oracle Key Vault (OKV)
+    #   configuration is stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] okv_kms_key
+    #   The identifier of the Oracle Key Vault (OKV) key to use for
+    #   encryption.
+    #   @return [String]
+    #
+    # @!attribute [rw] okv_uri
+    #   The URI of the Oracle Key Vault (OKV) server.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/OkvEncryptionKeyConfiguration AWS API Documentation
+    #
+    class OkvEncryptionKeyConfiguration < Struct.new(
+      :certificate_directory_name,
+      :certificate_id,
+      :directory_name,
+      :okv_kms_key,
+      :okv_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for creating an Autonomous Database by restoring to
+    # a point in time.
+    #
+    # @!attribute [rw] source_autonomous_database_id
+    #   The unique identifier of the source Autonomous Database to restore
+    #   from.
+    #   @return [String]
+    #
+    # @!attribute [rw] clone_type
+    #   The type of clone to create from the point-in-time restore.
+    #   @return [String]
+    #
+    # @!attribute [rw] timestamp
+    #   The date and time to which to restore the Autonomous Database.
+    #   @return [Time]
+    #
+    # @!attribute [rw] use_latest_available_backup_timestamp
+    #   Indicates whether to use the latest available backup timestamp for
+    #   the restore.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] clone_table_space_list
+    #   The list of tablespace identifiers to clone from the point-in-time
+    #   restore.
+    #   @return [Array<Integer>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/PointInTimeRestoreConfiguration AWS API Documentation
+    #
+    class PointInTimeRestoreConfiguration < Struct.new(
+      :source_autonomous_database_id,
+      :clone_type,
+      :timestamp,
+      :use_latest_available_backup_timestamp,
+      :clone_table_space_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to reboot.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_online_reboot
+    #   Specifies whether to perform an online reboot of the Autonomous
+    #   Database without interrupting active connections.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/RebootAutonomousDatabaseInput AWS API Documentation
+    #
+    class RebootAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id,
+      :is_online_reboot)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was rebooted.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database after the reboot
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the status of the Autonomous Database
+    #   after the reboot operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/RebootAutonomousDatabaseOutput AWS API Documentation
+    #
+    class RebootAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] cloud_vm_cluster_id
     #   The unique identifier of the VM cluster that contains the DB node to
     #   reboot.
@@ -5083,6 +8126,118 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # The configuration of a resource pool for an Autonomous Database.
+    #
+    # @!attribute [rw] is_disabled
+    #   Indicates whether the resource pool is disabled.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] pool_size
+    #   The number of Autonomous Databases that the resource pool can
+    #   contain.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pool_storage_size_in_t_bs
+    #   The total storage size of the resource pool, in terabytes (TB).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] available_storage_capacity_in_t_bs
+    #   The available storage capacity in the resource pool, in TB.
+    #   @return [Float]
+    #
+    # @!attribute [rw] total_compute_capacity
+    #   The total compute capacity of the resource pool.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] available_compute_capacity
+    #   The available compute capacity in the resource pool.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ResourcePoolSummary AWS API Documentation
+    #
+    class ResourcePoolSummary < Struct.new(
+      :is_disabled,
+      :pool_size,
+      :pool_storage_size_in_t_bs,
+      :available_storage_capacity_in_t_bs,
+      :total_compute_capacity,
+      :available_compute_capacity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to restore.
+    #   @return [String]
+    #
+    # @!attribute [rw] timestamp
+    #   The date and time to which to restore the Autonomous Database.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/RestoreAutonomousDatabaseInput AWS API Documentation
+    #
+    class RestoreAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id,
+      :timestamp)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was restored.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database after the restore
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the status of the Autonomous Database
+    #   after the restore operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/RestoreAutonomousDatabaseOutput AWS API Documentation
+    #
+    class RestoreAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for creating an Autonomous Database by restoring
+    # from a backup.
+    #
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup to restore
+    #   from.
+    #   @return [String]
+    #
+    # @!attribute [rw] clone_type
+    #   The type of clone to create from the backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] clone_table_space_list
+    #   The list of tablespace identifiers to clone from the backup.
+    #   @return [Array<Integer>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/RestoreFromBackupConfiguration AWS API Documentation
+    #
+    class RestoreFromBackupConfiguration < Struct.new(
+      :autonomous_database_backup_id,
+      :clone_type,
+      :clone_table_space_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The configuration for Amazon S3 access from the ODB network.
     #
     # @!attribute [rw] status
@@ -5108,6 +8263,31 @@ module Aws::Odb
       :ipv4_addresses,
       :domain_name,
       :s3_policy_document)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The scheduled start and stop times for an Autonomous Database on a
+    # specific day of the week.
+    #
+    # @!attribute [rw] day_of_week
+    #   The day of the week on which the scheduled operation occurs.
+    #   @return [Types::DayOfWeek]
+    #
+    # @!attribute [rw] scheduled_start_time
+    #   The scheduled start time for the Autonomous Database, in UTC.
+    #   @return [String]
+    #
+    # @!attribute [rw] scheduled_stop_time
+    #   The scheduled stop time for the Autonomous Database, in UTC.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ScheduledOperationDetails AWS API Documentation
+    #
+    class ScheduledOperationDetails < Struct.new(
+      :day_of_week,
+      :scheduled_start_time,
+      :scheduled_stop_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5159,6 +8339,147 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to shrink.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ShrinkAutonomousDatabaseInput AWS API Documentation
+    #
+    class ShrinkAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was shrunk.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database after the shrink
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the status of the Autonomous Database
+    #   after the shrink operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/ShrinkAutonomousDatabaseOutput AWS API Documentation
+    #
+    class ShrinkAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration details for the source used to create an Autonomous
+    # Database. This is a union, so only one of the following members can be
+    # specified.
+    #
+    # @note SourceConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] database_clone
+    #   The configuration for creating the Autonomous Database as a clone of
+    #   an existing database.
+    #   @return [Types::DatabaseCloneConfiguration]
+    #
+    # @!attribute [rw] restore_from_backup
+    #   The configuration for creating the Autonomous Database by restoring
+    #   from a backup.
+    #   @return [Types::RestoreFromBackupConfiguration]
+    #
+    # @!attribute [rw] point_in_time_restore
+    #   The configuration for creating the Autonomous Database by restoring
+    #   to a point in time.
+    #   @return [Types::PointInTimeRestoreConfiguration]
+    #
+    # @!attribute [rw] cross_region_data_guard
+    #   The configuration for creating the Autonomous Database as a
+    #   cross-Region Oracle Data Guard peer.
+    #   @return [Types::CrossRegionDataGuardConfiguration]
+    #
+    # @!attribute [rw] cross_region_disaster_recovery
+    #   The configuration for creating the Autonomous Database as a
+    #   cross-Region disaster recovery peer.
+    #   @return [Types::CrossRegionDisasterRecoveryConfiguration]
+    #
+    # @!attribute [rw] clone_to_refreshable
+    #   The configuration for creating the Autonomous Database as a
+    #   refreshable clone.
+    #   @return [Types::CloneToRefreshableConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/SourceConfiguration AWS API Documentation
+    #
+    class SourceConfiguration < Struct.new(
+      :database_clone,
+      :restore_from_backup,
+      :point_in_time_restore,
+      :cross_region_data_guard,
+      :cross_region_disaster_recovery,
+      :clone_to_refreshable,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class DatabaseClone < SourceConfiguration; end
+      class RestoreFromBackup < SourceConfiguration; end
+      class PointInTimeRestore < SourceConfiguration; end
+      class CrossRegionDataGuard < SourceConfiguration; end
+      class CrossRegionDisasterRecovery < SourceConfiguration; end
+      class CloneToRefreshable < SourceConfiguration; end
+      class Unknown < SourceConfiguration; end
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to start.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/StartAutonomousDatabaseInput AWS API Documentation
+    #
+    class StartAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was started.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database after the start
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the status of the Autonomous Database
+    #   after the start operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/StartAutonomousDatabaseOutput AWS API Documentation
+    #
+    class StartAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] cloud_vm_cluster_id
     #   The unique identifier of the VM cluster that contains the DB node to
     #   start.
@@ -5194,6 +8515,47 @@ module Aws::Odb
     #
     class StartDbNodeOutput < Struct.new(
       :db_node_id,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/StopAutonomousDatabaseInput AWS API Documentation
+    #
+    class StopAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was stopped.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database after the stop
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the status of the Autonomous Database
+    #   after the stop operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/StopAutonomousDatabaseOutput AWS API Documentation
+    #
+    class StopAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
       :status,
       :status_reason)
       SENSITIVE = []
@@ -5275,6 +8637,69 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # Information about an error that occurred during the subscription
+    # process.
+    #
+    # @!attribute [rw] error_message
+    #   A human-readable message that describes the subscription error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/SubscriptionError AWS API Documentation
+    #
+    class SubscriptionError < Struct.new(
+      :error_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to switch over.
+    #   @return [String]
+    #
+    # @!attribute [rw] peer_db_arn
+    #   The Amazon Resource Name (ARN) of the peer Autonomous Database to
+    #   switch over to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/SwitchoverAutonomousDatabaseInput AWS API Documentation
+    #
+    class SwitchoverAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id,
+      :peer_db_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was switched
+    #   over.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database after the switchover
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the status of the Autonomous Database
+    #   after the switchover operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/SwitchoverAutonomousDatabaseOutput AWS API Documentation
+    #
+    class SwitchoverAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about the compatible system versions that can be used with
     # a specific Exadata shape and Grid Infrastructure (GI) version.
     #
@@ -5341,6 +8766,22 @@ module Aws::Odb
       include Aws::Structure
     end
 
+    # The transportable tablespace configuration used when creating an
+    # Autonomous Database.
+    #
+    # @!attribute [rw] tts_bundle_url
+    #   The URL of the transportable tablespace bundle to use when creating
+    #   the Autonomous Database.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/TransportableTablespace AWS API Documentation
+    #
+    class TransportableTablespace < Struct.new(
+      :tts_bundle_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource to remove tags from.
     #   @return [String]
@@ -5361,6 +8802,329 @@ module Aws::Odb
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/UntagResourceResponse AWS API Documentation
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] retention_period_in_days
+    #   The retention period, in days, for the Autonomous Database backup.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/UpdateAutonomousDatabaseBackupInput AWS API Documentation
+    #
+    class UpdateAutonomousDatabaseBackupInput < Struct.new(
+      :autonomous_database_backup_id,
+      :retention_period_in_days)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database backup.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database backup, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] autonomous_database_backup_id
+    #   The unique identifier of the Autonomous Database backup that was
+    #   updated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/UpdateAutonomousDatabaseBackupOutput AWS API Documentation
+    #
+    class UpdateAutonomousDatabaseBackupOutput < Struct.new(
+      :display_name,
+      :status,
+      :status_reason,
+      :autonomous_database_backup_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] admin_password
+    #   The new password for the `ADMIN` user of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_count
+    #   The compute capacity, in number of ECPUs or OCPUs, to assign to the
+    #   Autonomous Database.
+    #   @return [Float]
+    #
+    # @!attribute [rw] cpu_core_count
+    #   The number of CPU cores to allocate to the Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] data_storage_size_in_t_bs
+    #   The size, in terabytes (TB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] data_storage_size_in_g_bs
+    #   The size, in gigabytes (GB), of the data volume to allocate for the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] display_name
+    #   The new user-friendly name for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_name
+    #   The new name of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_version
+    #   The Oracle Database software version to use for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_workload
+    #   The intended use of the Autonomous Database, such as transaction
+    #   processing, data warehouse, JSON database, or APEX.
+    #   @return [String]
+    #
+    # @!attribute [rw] db_tools_details
+    #   The list of database management tools to enable for the Autonomous
+    #   Database.
+    #   @return [Array<Types::DatabaseTool>]
+    #
+    # @!attribute [rw] database_edition
+    #   The Oracle Database edition to apply to the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] license_model
+    #   The Oracle license model to apply to the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_auto_scaling_enabled
+    #   Specifies whether to enable automatic scaling of the compute
+    #   resources for the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_auto_scaling_for_storage_enabled
+    #   Specifies whether to enable automatic scaling of the storage for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_backup_retention_locked
+    #   Specifies whether to lock the backup retention period of the
+    #   Autonomous Database to prevent it from being shortened.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_local_data_guard_enabled
+    #   Specifies whether to enable local Oracle Data Guard for the
+    #   Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_mtls_connection_required
+    #   Specifies whether mutual TLS (mTLS) authentication is required to
+    #   connect to the Autonomous Database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_refreshable_clone
+    #   Specifies whether the Autonomous Database is a refreshable clone.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_disconnect_peer
+    #   Specifies whether to disconnect the Autonomous Database from its
+    #   peer database.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] backup_retention_period_in_days
+    #   The retention period, in days, for automatic backups of the
+    #   Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] byol_compute_count_limit
+    #   The maximum number of compute resources that you can allocate to the
+    #   Autonomous Database under the bring-your-own-license (BYOL) model.
+    #   @return [Float]
+    #
+    # @!attribute [rw] local_adg_auto_failover_max_data_loss_limit
+    #   The maximum data loss limit, in seconds, for automatic failover to
+    #   the local Oracle Data Guard standby database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] autonomous_maintenance_schedule_type
+    #   The maintenance schedule type for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_contacts_to_send_to_oci
+    #   The list of customer contacts to receive operational notifications
+    #   from OCI for the Autonomous Database.
+    #   @return [Array<Types::CustomerContact>]
+    #
+    # @!attribute [rw] scheduled_operations
+    #   The list of scheduled start and stop times for the Autonomous
+    #   Database.
+    #   @return [Array<Types::ScheduledOperationDetails>]
+    #
+    # @!attribute [rw] long_term_backup_schedule
+    #   The long-term backup schedule for the Autonomous Database.
+    #   @return [Types::LongTermBackupSchedule]
+    #
+    # @!attribute [rw] open_mode
+    #   The mode in which to open the Autonomous Database, either read-only
+    #   or read/write.
+    #   @return [String]
+    #
+    # @!attribute [rw] permission_level
+    #   The permission level of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] refreshable_mode
+    #   The refresh mode of the refreshable clone Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint_ip
+    #   The private endpoint IP address for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_endpoint_label
+    #   The private endpoint label for the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] peer_db_id
+    #   The unique identifier of the peer Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_pool_leader_id
+    #   The unique identifier of the resource pool leader Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_pool_summary
+    #   The configuration of the resource pool for the Autonomous Database.
+    #   @return [Types::ResourcePoolSummary]
+    #
+    # @!attribute [rw] standby_allowlisted_ips_source
+    #   The source of the allowlisted IP addresses for the standby
+    #   Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] standby_allowlisted_ips
+    #   The list of IP addresses that are allowed to access the standby
+    #   Autonomous Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] allowlisted_ips
+    #   The list of IP addresses that are allowed to access the Autonomous
+    #   Database.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] auto_refresh_frequency_in_seconds
+    #   The frequency, in seconds, at which the refreshable clone Autonomous
+    #   Database is automatically refreshed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] auto_refresh_point_lag_in_seconds
+    #   The time lag, in seconds, between the refreshable clone and its
+    #   source Autonomous Database.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] time_of_auto_refresh_start
+    #   The date and time at which the automatic refresh of the refreshable
+    #   clone Autonomous Database starts.
+    #   @return [Time]
+    #
+    # @!attribute [rw] encryption_key_provider
+    #   The provider of the encryption key to use for the Autonomous
+    #   Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_key_configuration
+    #   The configuration of the encryption key to use for the Autonomous
+    #   Database.
+    #   @return [Types::EncryptionKeyConfigurationInput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/UpdateAutonomousDatabaseInput AWS API Documentation
+    #
+    class UpdateAutonomousDatabaseInput < Struct.new(
+      :autonomous_database_id,
+      :admin_password,
+      :compute_count,
+      :cpu_core_count,
+      :data_storage_size_in_t_bs,
+      :data_storage_size_in_g_bs,
+      :display_name,
+      :db_name,
+      :db_version,
+      :db_workload,
+      :db_tools_details,
+      :database_edition,
+      :license_model,
+      :is_auto_scaling_enabled,
+      :is_auto_scaling_for_storage_enabled,
+      :is_backup_retention_locked,
+      :is_local_data_guard_enabled,
+      :is_mtls_connection_required,
+      :is_refreshable_clone,
+      :is_disconnect_peer,
+      :backup_retention_period_in_days,
+      :byol_compute_count_limit,
+      :local_adg_auto_failover_max_data_loss_limit,
+      :autonomous_maintenance_schedule_type,
+      :customer_contacts_to_send_to_oci,
+      :scheduled_operations,
+      :long_term_backup_schedule,
+      :open_mode,
+      :permission_level,
+      :refreshable_mode,
+      :private_endpoint_ip,
+      :private_endpoint_label,
+      :peer_db_id,
+      :resource_pool_leader_id,
+      :resource_pool_summary,
+      :standby_allowlisted_ips_source,
+      :standby_allowlisted_ips,
+      :allowlisted_ips,
+      :auto_refresh_frequency_in_seconds,
+      :auto_refresh_point_lag_in_seconds,
+      :time_of_auto_refresh_start,
+      :encryption_key_provider,
+      :encryption_key_configuration)
+      SENSITIVE = [:admin_password]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] autonomous_database_id
+    #   The unique identifier of the Autonomous Database that was updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name of the Autonomous Database that was updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the Autonomous Database.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Additional information about the current status of the Autonomous
+    #   Database, if applicable.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/UpdateAutonomousDatabaseOutput AWS API Documentation
+    #
+    class UpdateAutonomousDatabaseOutput < Struct.new(
+      :autonomous_database_id,
+      :display_name,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] cloud_exadata_infrastructure_id
     #   The unique identifier of the Exadata infrastructure to update.

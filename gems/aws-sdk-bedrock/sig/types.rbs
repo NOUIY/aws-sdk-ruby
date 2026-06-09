@@ -1680,6 +1680,15 @@ module Aws::Bedrock
       SENSITIVE: []
     end
 
+    class GetAccountDataRetentionRequest < Aws::EmptyStructure
+    end
+
+    class GetAccountDataRetentionResponse
+      attr_accessor mode: ("default" | "none" | "provider_data_share" | "inherit")
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
     class GetAdvancedPromptOptimizationJobRequest
       attr_accessor job_identifier: ::String
       SENSITIVE: []
@@ -3142,6 +3151,17 @@ module Aws::Bedrock
       attr_accessor commitment_expiration_time: ::Time
       attr_accessor creation_time: ::Time
       attr_accessor last_modified_time: ::Time
+      SENSITIVE: []
+    end
+
+    class PutAccountDataRetentionRequest
+      attr_accessor mode: ("default" | "none" | "provider_data_share" | "inherit")
+      SENSITIVE: []
+    end
+
+    class PutAccountDataRetentionResponse
+      attr_accessor mode: ("default" | "none" | "provider_data_share" | "inherit")
+      attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
 

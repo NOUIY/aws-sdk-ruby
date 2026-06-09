@@ -6033,6 +6033,29 @@ module Aws::Bedrock
       include Aws::Structure
     end
 
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetAccountDataRetentionRequest AWS API Documentation
+    #
+    class GetAccountDataRetentionRequest < Aws::EmptyStructure; end
+
+    # @!attribute [rw] mode
+    #   The data retention mode configured for the account.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The time at which the data retention mode was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/GetAccountDataRetentionResponse AWS API Documentation
+    #
+    class GetAccountDataRetentionResponse < Struct.new(
+      :mode,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Get Advanced Prompt Optimization Job Request
     #
     # @!attribute [rw] job_identifier
@@ -12465,6 +12488,35 @@ module Aws::Bedrock
       :commitment_expiration_time,
       :creation_time,
       :last_modified_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] mode
+    #   The data retention mode to set for the account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/PutAccountDataRetentionRequest AWS API Documentation
+    #
+    class PutAccountDataRetentionRequest < Struct.new(
+      :mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] mode
+    #   The data retention mode set for the account.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The time at which the data retention mode was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-2023-04-20/PutAccountDataRetentionResponse AWS API Documentation
+    #
+    class PutAccountDataRetentionResponse < Struct.new(
+      :mode,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end

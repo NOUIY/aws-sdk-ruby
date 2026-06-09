@@ -8,6 +8,15 @@
 module Aws
   module Odb
     module Params
+      type resource_pool_summary = {
+      is_disabled: bool?,
+      pool_size: ::Integer?,
+      pool_storage_size_in_t_bs: ::Integer?,
+      available_storage_capacity_in_t_bs: ::Float?,
+      total_compute_capacity: ::Integer?,
+      available_compute_capacity: ::Integer?
+    }
+
       type maintenance_window = {
       custom_action_timeout_in_mins: ::Integer?,
       days_of_week: Array[

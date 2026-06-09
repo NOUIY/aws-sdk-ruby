@@ -18,12 +18,41 @@ module Aws::Odb
     AcceptMarketplaceRegistrationOutput = Shapes::StructureShape.new(name: 'AcceptMarketplaceRegistrationOutput')
     Access = Shapes::StringShape.new(name: 'Access')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
+    Arn = Shapes::StringShape.new(name: 'Arn')
     AssociateIamRoleToResourceInput = Shapes::StructureShape.new(name: 'AssociateIamRoleToResourceInput')
     AssociateIamRoleToResourceInputResourceArnString = Shapes::StringShape.new(name: 'AssociateIamRoleToResourceInputResourceArnString')
     AssociateIamRoleToResourceOutput = Shapes::StructureShape.new(name: 'AssociateIamRoleToResourceOutput')
+    AutonomousDatabase = Shapes::StructureShape.new(name: 'AutonomousDatabase')
+    AutonomousDatabaseApex = Shapes::StructureShape.new(name: 'AutonomousDatabaseApex')
+    AutonomousDatabaseBackup = Shapes::StructureShape.new(name: 'AutonomousDatabaseBackup')
+    AutonomousDatabaseBackupList = Shapes::ListShape.new(name: 'AutonomousDatabaseBackupList')
+    AutonomousDatabaseBackupStatus = Shapes::StringShape.new(name: 'AutonomousDatabaseBackupStatus')
+    AutonomousDatabaseBackupSummary = Shapes::StructureShape.new(name: 'AutonomousDatabaseBackupSummary')
+    AutonomousDatabaseBackupType = Shapes::StringShape.new(name: 'AutonomousDatabaseBackupType')
+    AutonomousDatabaseCharacterSetList = Shapes::ListShape.new(name: 'AutonomousDatabaseCharacterSetList')
+    AutonomousDatabaseCharacterSetSummary = Shapes::StructureShape.new(name: 'AutonomousDatabaseCharacterSetSummary')
+    AutonomousDatabaseConnectionStrings = Shapes::StructureShape.new(name: 'AutonomousDatabaseConnectionStrings')
+    AutonomousDatabaseConnectionUrls = Shapes::StructureShape.new(name: 'AutonomousDatabaseConnectionUrls')
+    AutonomousDatabaseList = Shapes::ListShape.new(name: 'AutonomousDatabaseList')
+    AutonomousDatabasePeerList = Shapes::ListShape.new(name: 'AutonomousDatabasePeerList')
+    AutonomousDatabasePeerSummary = Shapes::StructureShape.new(name: 'AutonomousDatabasePeerSummary')
+    AutonomousDatabaseResourceStatus = Shapes::StringShape.new(name: 'AutonomousDatabaseResourceStatus')
+    AutonomousDatabaseSummary = Shapes::StructureShape.new(name: 'AutonomousDatabaseSummary')
+    AutonomousDatabaseVersionList = Shapes::ListShape.new(name: 'AutonomousDatabaseVersionList')
+    AutonomousDatabaseVersionSummary = Shapes::StructureShape.new(name: 'AutonomousDatabaseVersionSummary')
+    AutonomousDatabaseWalletDetails = Shapes::StructureShape.new(name: 'AutonomousDatabaseWalletDetails')
+    AutonomousDatabaseWalletFile = Shapes::BlobShape.new(name: 'AutonomousDatabaseWalletFile')
+    AutonomousDatabaseWalletStatus = Shapes::StringShape.new(name: 'AutonomousDatabaseWalletStatus')
+    AutonomousMaintenanceScheduleType = Shapes::StringShape.new(name: 'AutonomousMaintenanceScheduleType')
     AutonomousVirtualMachineList = Shapes::ListShape.new(name: 'AutonomousVirtualMachineList')
     AutonomousVirtualMachineSummary = Shapes::StructureShape.new(name: 'AutonomousVirtualMachineSummary')
+    AwsEncryptionKeyConfiguration = Shapes::StructureShape.new(name: 'AwsEncryptionKeyConfiguration')
+    AwsEncryptionKeyConfigurationInput = Shapes::StructureShape.new(name: 'AwsEncryptionKeyConfigurationInput')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
+    CloneToRefreshableConfiguration = Shapes::StructureShape.new(name: 'CloneToRefreshableConfiguration')
+    CloneToRefreshableConfigurationAutoRefreshFrequencyInSecondsInteger = Shapes::IntegerShape.new(name: 'CloneToRefreshableConfigurationAutoRefreshFrequencyInSecondsInteger')
+    CloneToRefreshableConfigurationAutoRefreshPointLagInSecondsInteger = Shapes::IntegerShape.new(name: 'CloneToRefreshableConfigurationAutoRefreshPointLagInSecondsInteger')
+    CloneType = Shapes::StringShape.new(name: 'CloneType')
     CloudAutonomousVmCluster = Shapes::StructureShape.new(name: 'CloudAutonomousVmCluster')
     CloudAutonomousVmClusterList = Shapes::ListShape.new(name: 'CloudAutonomousVmClusterList')
     CloudAutonomousVmClusterResourceDetails = Shapes::StructureShape.new(name: 'CloudAutonomousVmClusterResourceDetails')
@@ -36,8 +65,30 @@ module Aws::Odb
     CloudVmCluster = Shapes::StructureShape.new(name: 'CloudVmCluster')
     CloudVmClusterList = Shapes::ListShape.new(name: 'CloudVmClusterList')
     CloudVmClusterSummary = Shapes::StructureShape.new(name: 'CloudVmClusterSummary')
+    ClusterName = Shapes::StringShape.new(name: 'ClusterName')
     ComputeModel = Shapes::StringShape.new(name: 'ComputeModel')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
+    CreateAutonomousDatabaseBackupInput = Shapes::StructureShape.new(name: 'CreateAutonomousDatabaseBackupInput')
+    CreateAutonomousDatabaseBackupInputClientTokenString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseBackupInputClientTokenString')
+    CreateAutonomousDatabaseBackupInputRetentionPeriodInDaysInteger = Shapes::IntegerShape.new(name: 'CreateAutonomousDatabaseBackupInputRetentionPeriodInDaysInteger')
+    CreateAutonomousDatabaseBackupOutput = Shapes::StructureShape.new(name: 'CreateAutonomousDatabaseBackupOutput')
+    CreateAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'CreateAutonomousDatabaseInput')
+    CreateAutonomousDatabaseInputAdminPasswordString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseInputAdminPasswordString')
+    CreateAutonomousDatabaseInputByolComputeCountLimitDouble = Shapes::FloatShape.new(name: 'CreateAutonomousDatabaseInputByolComputeCountLimitDouble')
+    CreateAutonomousDatabaseInputCharacterSetString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseInputCharacterSetString')
+    CreateAutonomousDatabaseInputClientTokenString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseInputClientTokenString')
+    CreateAutonomousDatabaseInputComputeCountDouble = Shapes::FloatShape.new(name: 'CreateAutonomousDatabaseInputComputeCountDouble')
+    CreateAutonomousDatabaseInputCpuCoreCountInteger = Shapes::IntegerShape.new(name: 'CreateAutonomousDatabaseInputCpuCoreCountInteger')
+    CreateAutonomousDatabaseInputDataStorageSizeInGBsInteger = Shapes::IntegerShape.new(name: 'CreateAutonomousDatabaseInputDataStorageSizeInGBsInteger')
+    CreateAutonomousDatabaseInputDataStorageSizeInTBsInteger = Shapes::IntegerShape.new(name: 'CreateAutonomousDatabaseInputDataStorageSizeInTBsInteger')
+    CreateAutonomousDatabaseInputDbNameString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseInputDbNameString')
+    CreateAutonomousDatabaseInputDbVersionString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseInputDbVersionString')
+    CreateAutonomousDatabaseInputNcharacterSetString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseInputNcharacterSetString')
+    CreateAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'CreateAutonomousDatabaseOutput')
+    CreateAutonomousDatabaseWalletInput = Shapes::StructureShape.new(name: 'CreateAutonomousDatabaseWalletInput')
+    CreateAutonomousDatabaseWalletInputClientTokenString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseWalletInputClientTokenString')
+    CreateAutonomousDatabaseWalletInputPasswordString = Shapes::StringShape.new(name: 'CreateAutonomousDatabaseWalletInputPasswordString')
+    CreateAutonomousDatabaseWalletOutput = Shapes::StructureShape.new(name: 'CreateAutonomousDatabaseWalletOutput')
     CreateCloudAutonomousVmClusterInput = Shapes::StructureShape.new(name: 'CreateCloudAutonomousVmClusterInput')
     CreateCloudAutonomousVmClusterInputAutonomousDataStorageSizeInTBsDouble = Shapes::FloatShape.new(name: 'CreateCloudAutonomousVmClusterInputAutonomousDataStorageSizeInTBsDouble')
     CreateCloudAutonomousVmClusterInputClientTokenString = Shapes::StringShape.new(name: 'CreateCloudAutonomousVmClusterInputClientTokenString')
@@ -59,10 +110,8 @@ module Aws::Odb
     CreateCloudExadataInfrastructureOutput = Shapes::StructureShape.new(name: 'CreateCloudExadataInfrastructureOutput')
     CreateCloudVmClusterInput = Shapes::StructureShape.new(name: 'CreateCloudVmClusterInput')
     CreateCloudVmClusterInputClientTokenString = Shapes::StringShape.new(name: 'CreateCloudVmClusterInputClientTokenString')
-    CreateCloudVmClusterInputClusterNameString = Shapes::StringShape.new(name: 'CreateCloudVmClusterInputClusterNameString')
     CreateCloudVmClusterInputCpuCoreCountInteger = Shapes::IntegerShape.new(name: 'CreateCloudVmClusterInputCpuCoreCountInteger')
     CreateCloudVmClusterInputGiVersionString = Shapes::StringShape.new(name: 'CreateCloudVmClusterInputGiVersionString')
-    CreateCloudVmClusterInputHostnameString = Shapes::StringShape.new(name: 'CreateCloudVmClusterInputHostnameString')
     CreateCloudVmClusterInputScanListenerPortTcpInteger = Shapes::IntegerShape.new(name: 'CreateCloudVmClusterInputScanListenerPortTcpInteger')
     CreateCloudVmClusterInputSystemVersionString = Shapes::StringShape.new(name: 'CreateCloudVmClusterInputSystemVersionString')
     CreateCloudVmClusterInputTimeZoneString = Shapes::StringShape.new(name: 'CreateCloudVmClusterInputTimeZoneString')
@@ -79,12 +128,26 @@ module Aws::Odb
     CreateOdbPeeringConnectionInput = Shapes::StructureShape.new(name: 'CreateOdbPeeringConnectionInput')
     CreateOdbPeeringConnectionInputClientTokenString = Shapes::StringShape.new(name: 'CreateOdbPeeringConnectionInputClientTokenString')
     CreateOdbPeeringConnectionOutput = Shapes::StructureShape.new(name: 'CreateOdbPeeringConnectionOutput')
+    CrossRegionDataGuardConfiguration = Shapes::StructureShape.new(name: 'CrossRegionDataGuardConfiguration')
+    CrossRegionDisasterRecoveryConfiguration = Shapes::StructureShape.new(name: 'CrossRegionDisasterRecoveryConfiguration')
     CrossRegionS3RestoreSourcesAccess = Shapes::StructureShape.new(name: 'CrossRegionS3RestoreSourcesAccess')
     CrossRegionS3RestoreSourcesAccessList = Shapes::ListShape.new(name: 'CrossRegionS3RestoreSourcesAccessList')
     CustomerContact = Shapes::StructureShape.new(name: 'CustomerContact')
     CustomerContactEmailString = Shapes::StringShape.new(name: 'CustomerContactEmailString')
     CustomerContacts = Shapes::ListShape.new(name: 'CustomerContacts')
     DataCollectionOptions = Shapes::StructureShape.new(name: 'DataCollectionOptions')
+    DataGuardRole = Shapes::StringShape.new(name: 'DataGuardRole')
+    DataSafeStatus = Shapes::StringShape.new(name: 'DataSafeStatus')
+    DatabaseCloneConfiguration = Shapes::StructureShape.new(name: 'DatabaseCloneConfiguration')
+    DatabaseConnectionStringMap = Shapes::MapShape.new(name: 'DatabaseConnectionStringMap')
+    DatabaseConnectionStringProfile = Shapes::StructureShape.new(name: 'DatabaseConnectionStringProfile')
+    DatabaseConnectionStringProfileList = Shapes::ListShape.new(name: 'DatabaseConnectionStringProfileList')
+    DatabaseEdition = Shapes::StringShape.new(name: 'DatabaseEdition')
+    DatabaseManagementStatus = Shapes::StringShape.new(name: 'DatabaseManagementStatus')
+    DatabaseStandbySummary = Shapes::StructureShape.new(name: 'DatabaseStandbySummary')
+    DatabaseTool = Shapes::StructureShape.new(name: 'DatabaseTool')
+    DatabaseToolList = Shapes::ListShape.new(name: 'DatabaseToolList')
+    DatabaseType = Shapes::StringShape.new(name: 'DatabaseType')
     DayOfWeek = Shapes::StructureShape.new(name: 'DayOfWeek')
     DayOfWeekName = Shapes::StringShape.new(name: 'DayOfWeekName')
     DaysOfWeek = Shapes::ListShape.new(name: 'DaysOfWeek')
@@ -102,6 +165,11 @@ module Aws::Odb
     DbServerSummary = Shapes::StructureShape.new(name: 'DbServerSummary')
     DbSystemShapeList = Shapes::ListShape.new(name: 'DbSystemShapeList')
     DbSystemShapeSummary = Shapes::StructureShape.new(name: 'DbSystemShapeSummary')
+    DbWorkload = Shapes::StringShape.new(name: 'DbWorkload')
+    DeleteAutonomousDatabaseBackupInput = Shapes::StructureShape.new(name: 'DeleteAutonomousDatabaseBackupInput')
+    DeleteAutonomousDatabaseBackupOutput = Shapes::StructureShape.new(name: 'DeleteAutonomousDatabaseBackupOutput')
+    DeleteAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'DeleteAutonomousDatabaseInput')
+    DeleteAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'DeleteAutonomousDatabaseOutput')
     DeleteCloudAutonomousVmClusterInput = Shapes::StructureShape.new(name: 'DeleteCloudAutonomousVmClusterInput')
     DeleteCloudAutonomousVmClusterOutput = Shapes::StructureShape.new(name: 'DeleteCloudAutonomousVmClusterOutput')
     DeleteCloudExadataInfrastructureInput = Shapes::StructureShape.new(name: 'DeleteCloudExadataInfrastructureInput')
@@ -115,10 +183,26 @@ module Aws::Odb
     DisassociateIamRoleFromResourceInput = Shapes::StructureShape.new(name: 'DisassociateIamRoleFromResourceInput')
     DisassociateIamRoleFromResourceInputResourceArnString = Shapes::StringShape.new(name: 'DisassociateIamRoleFromResourceInputResourceArnString')
     DisassociateIamRoleFromResourceOutput = Shapes::StructureShape.new(name: 'DisassociateIamRoleFromResourceOutput')
+    DisasterRecoveryConfiguration = Shapes::StructureShape.new(name: 'DisasterRecoveryConfiguration')
+    DisasterRecoveryType = Shapes::StringShape.new(name: 'DisasterRecoveryType')
     DiskRedundancy = Shapes::StringShape.new(name: 'DiskRedundancy')
     Double = Shapes::FloatShape.new(name: 'Double')
+    EncryptionKeyConfiguration = Shapes::UnionShape.new(name: 'EncryptionKeyConfiguration')
+    EncryptionKeyConfigurationInput = Shapes::UnionShape.new(name: 'EncryptionKeyConfigurationInput')
+    EncryptionKeyProvider = Shapes::StringShape.new(name: 'EncryptionKeyProvider')
+    EncryptionKeyProviderInput = Shapes::StringShape.new(name: 'EncryptionKeyProviderInput')
+    EncryptionSummary = Shapes::StructureShape.new(name: 'EncryptionSummary')
     ExadataIormConfig = Shapes::StructureShape.new(name: 'ExadataIormConfig')
+    ExternalIdType = Shapes::StringShape.new(name: 'ExternalIdType')
+    FailoverAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'FailoverAutonomousDatabaseInput')
+    FailoverAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'FailoverAutonomousDatabaseOutput')
     Float = Shapes::FloatShape.new(name: 'Float')
+    GetAutonomousDatabaseBackupInput = Shapes::StructureShape.new(name: 'GetAutonomousDatabaseBackupInput')
+    GetAutonomousDatabaseBackupOutput = Shapes::StructureShape.new(name: 'GetAutonomousDatabaseBackupOutput')
+    GetAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'GetAutonomousDatabaseInput')
+    GetAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'GetAutonomousDatabaseOutput')
+    GetAutonomousDatabaseWalletDetailsInput = Shapes::StructureShape.new(name: 'GetAutonomousDatabaseWalletDetailsInput')
+    GetAutonomousDatabaseWalletDetailsOutput = Shapes::StructureShape.new(name: 'GetAutonomousDatabaseWalletDetailsOutput')
     GetCloudAutonomousVmClusterInput = Shapes::StructureShape.new(name: 'GetCloudAutonomousVmClusterInput')
     GetCloudAutonomousVmClusterOutput = Shapes::StructureShape.new(name: 'GetCloudAutonomousVmClusterOutput')
     GetCloudExadataInfrastructureInput = Shapes::StructureShape.new(name: 'GetCloudExadataInfrastructureInput')
@@ -139,6 +223,7 @@ module Aws::Odb
     GetOdbPeeringConnectionOutput = Shapes::StructureShape.new(name: 'GetOdbPeeringConnectionOutput')
     GiVersionList = Shapes::ListShape.new(name: 'GiVersionList')
     GiVersionSummary = Shapes::StructureShape.new(name: 'GiVersionSummary')
+    Hostname = Shapes::StringShape.new(name: 'Hostname')
     HoursOfDay = Shapes::ListShape.new(name: 'HoursOfDay')
     IamRole = Shapes::StructureShape.new(name: 'IamRole')
     IamRoleList = Shapes::ListShape.new(name: 'IamRoleList')
@@ -146,10 +231,36 @@ module Aws::Odb
     InitializeServiceInput = Shapes::StructureShape.new(name: 'InitializeServiceInput')
     InitializeServiceOutput = Shapes::StructureShape.new(name: 'InitializeServiceOutput')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
+    IntegerList = Shapes::ListShape.new(name: 'IntegerList')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     IormLifecycleState = Shapes::StringShape.new(name: 'IormLifecycleState')
     KmsAccess = Shapes::StructureShape.new(name: 'KmsAccess')
+    KmsKeyIdOrArn = Shapes::StringShape.new(name: 'KmsKeyIdOrArn')
     LicenseModel = Shapes::StringShape.new(name: 'LicenseModel')
+    ListAutonomousDatabaseBackupsInput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseBackupsInput')
+    ListAutonomousDatabaseBackupsInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAutonomousDatabaseBackupsInputMaxResultsInteger')
+    ListAutonomousDatabaseBackupsInputNextTokenString = Shapes::StringShape.new(name: 'ListAutonomousDatabaseBackupsInputNextTokenString')
+    ListAutonomousDatabaseBackupsOutput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseBackupsOutput')
+    ListAutonomousDatabaseCharacterSetsInput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseCharacterSetsInput')
+    ListAutonomousDatabaseCharacterSetsInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAutonomousDatabaseCharacterSetsInputMaxResultsInteger')
+    ListAutonomousDatabaseCharacterSetsInputNextTokenString = Shapes::StringShape.new(name: 'ListAutonomousDatabaseCharacterSetsInputNextTokenString')
+    ListAutonomousDatabaseCharacterSetsOutput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseCharacterSetsOutput')
+    ListAutonomousDatabaseClonesInput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseClonesInput')
+    ListAutonomousDatabaseClonesInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAutonomousDatabaseClonesInputMaxResultsInteger')
+    ListAutonomousDatabaseClonesInputNextTokenString = Shapes::StringShape.new(name: 'ListAutonomousDatabaseClonesInputNextTokenString')
+    ListAutonomousDatabaseClonesOutput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseClonesOutput')
+    ListAutonomousDatabasePeersInput = Shapes::StructureShape.new(name: 'ListAutonomousDatabasePeersInput')
+    ListAutonomousDatabasePeersInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAutonomousDatabasePeersInputMaxResultsInteger')
+    ListAutonomousDatabasePeersInputNextTokenString = Shapes::StringShape.new(name: 'ListAutonomousDatabasePeersInputNextTokenString')
+    ListAutonomousDatabasePeersOutput = Shapes::StructureShape.new(name: 'ListAutonomousDatabasePeersOutput')
+    ListAutonomousDatabaseVersionsInput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseVersionsInput')
+    ListAutonomousDatabaseVersionsInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAutonomousDatabaseVersionsInputMaxResultsInteger')
+    ListAutonomousDatabaseVersionsInputNextTokenString = Shapes::StringShape.new(name: 'ListAutonomousDatabaseVersionsInputNextTokenString')
+    ListAutonomousDatabaseVersionsOutput = Shapes::StructureShape.new(name: 'ListAutonomousDatabaseVersionsOutput')
+    ListAutonomousDatabasesInput = Shapes::StructureShape.new(name: 'ListAutonomousDatabasesInput')
+    ListAutonomousDatabasesInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAutonomousDatabasesInputMaxResultsInteger')
+    ListAutonomousDatabasesInputNextTokenString = Shapes::StringShape.new(name: 'ListAutonomousDatabasesInputNextTokenString')
+    ListAutonomousDatabasesOutput = Shapes::StructureShape.new(name: 'ListAutonomousDatabasesOutput')
     ListAutonomousVirtualMachinesInput = Shapes::StructureShape.new(name: 'ListAutonomousVirtualMachinesInput')
     ListAutonomousVirtualMachinesInputMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListAutonomousVirtualMachinesInputMaxResultsInteger')
     ListAutonomousVirtualMachinesInputNextTokenString = Shapes::StringShape.new(name: 'ListAutonomousVirtualMachinesInputNextTokenString')
@@ -201,6 +312,8 @@ module Aws::Odb
     ListSystemVersionsOutput = Shapes::StructureShape.new(name: 'ListSystemVersionsOutput')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
+    LongTermBackupSchedule = Shapes::StructureShape.new(name: 'LongTermBackupSchedule')
+    LongTermBackupScheduleRetentionPeriodInDaysInteger = Shapes::IntegerShape.new(name: 'LongTermBackupScheduleRetentionPeriodInDaysInteger')
     MaintenanceWindow = Shapes::StructureShape.new(name: 'MaintenanceWindow')
     MaintenanceWindowCustomActionTimeoutInMinsInteger = Shapes::IntegerShape.new(name: 'MaintenanceWindowCustomActionTimeoutInMinsInteger')
     MaintenanceWindowLeadTimeInWeeksInteger = Shapes::IntegerShape.new(name: 'MaintenanceWindowLeadTimeInWeeksInteger')
@@ -210,10 +323,17 @@ module Aws::Odb
     Month = Shapes::StructureShape.new(name: 'Month')
     MonthName = Shapes::StringShape.new(name: 'MonthName')
     Months = Shapes::ListShape.new(name: 'Months')
+    NetServicesArchitecture = Shapes::StringShape.new(name: 'NetServicesArchitecture')
     Objective = Shapes::StringShape.new(name: 'Objective')
+    OciAwsIntegration = Shapes::StringShape.new(name: 'OciAwsIntegration')
     OciDnsForwardingConfig = Shapes::StructureShape.new(name: 'OciDnsForwardingConfig')
     OciDnsForwardingConfigDomainNameString = Shapes::StringShape.new(name: 'OciDnsForwardingConfigDomainNameString')
     OciDnsForwardingConfigList = Shapes::ListShape.new(name: 'OciDnsForwardingConfigList')
+    OciEncryptionKeyConfiguration = Shapes::StructureShape.new(name: 'OciEncryptionKeyConfiguration')
+    OciEncryptionKeyConfigurationKmsKeyIdString = Shapes::StringShape.new(name: 'OciEncryptionKeyConfigurationKmsKeyIdString')
+    OciEncryptionKeyConfigurationVaultIdString = Shapes::StringShape.new(name: 'OciEncryptionKeyConfigurationVaultIdString')
+    OciIamRole = Shapes::StructureShape.new(name: 'OciIamRole')
+    OciIamRoleList = Shapes::ListShape.new(name: 'OciIamRoleList')
     OciIdentityDomain = Shapes::StructureShape.new(name: 'OciIdentityDomain')
     OciOnboardingStatus = Shapes::StringShape.new(name: 'OciOnboardingStatus')
     OdbNetwork = Shapes::StructureShape.new(name: 'OdbNetwork')
@@ -238,15 +358,25 @@ module Aws::Odb
     OdbPeeringConnection = Shapes::StructureShape.new(name: 'OdbPeeringConnection')
     OdbPeeringConnectionList = Shapes::ListShape.new(name: 'OdbPeeringConnectionList')
     OdbPeeringConnectionSummary = Shapes::StructureShape.new(name: 'OdbPeeringConnectionSummary')
+    OkvEncryptionKeyConfiguration = Shapes::StructureShape.new(name: 'OkvEncryptionKeyConfiguration')
+    OpenMode = Shapes::StringShape.new(name: 'OpenMode')
+    OperationsInsightsStatus = Shapes::StringShape.new(name: 'OperationsInsightsStatus')
     PatchingModeType = Shapes::StringShape.new(name: 'PatchingModeType')
     PeerNetworkRouteTableId = Shapes::StringShape.new(name: 'PeerNetworkRouteTableId')
     PeerNetworkRouteTableIdList = Shapes::ListShape.new(name: 'PeerNetworkRouteTableIdList')
     PeeredCidr = Shapes::StringShape.new(name: 'PeeredCidr')
     PeeredCidrList = Shapes::ListShape.new(name: 'PeeredCidrList')
+    PermissionLevel = Shapes::StringShape.new(name: 'PermissionLevel')
+    PointInTimeRestoreConfiguration = Shapes::StructureShape.new(name: 'PointInTimeRestoreConfiguration')
     PolicyDocument = Shapes::StringShape.new(name: 'PolicyDocument')
     PreferenceType = Shapes::StringShape.new(name: 'PreferenceType')
+    RebootAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'RebootAutonomousDatabaseInput')
+    RebootAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'RebootAutonomousDatabaseOutput')
     RebootDbNodeInput = Shapes::StructureShape.new(name: 'RebootDbNodeInput')
     RebootDbNodeOutput = Shapes::StructureShape.new(name: 'RebootDbNodeOutput')
+    RefreshableMode = Shapes::StringShape.new(name: 'RefreshableMode')
+    RefreshableStatus = Shapes::StringShape.new(name: 'RefreshableStatus')
+    RepeatCadence = Shapes::StringShape.new(name: 'RepeatCadence')
     RequestTagMap = Shapes::MapShape.new(name: 'RequestTagMap')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceDisplayName = Shapes::StringShape.new(name: 'ResourceDisplayName')
@@ -254,23 +384,42 @@ module Aws::Odb
     ResourceIdList = Shapes::ListShape.new(name: 'ResourceIdList')
     ResourceIdOrArn = Shapes::StringShape.new(name: 'ResourceIdOrArn')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    ResourcePoolSummary = Shapes::StructureShape.new(name: 'ResourcePoolSummary')
     ResourceStatus = Shapes::StringShape.new(name: 'ResourceStatus')
     ResponseTagMap = Shapes::MapShape.new(name: 'ResponseTagMap')
+    RestoreAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'RestoreAutonomousDatabaseInput')
+    RestoreAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'RestoreAutonomousDatabaseOutput')
+    RestoreFromBackupConfiguration = Shapes::StructureShape.new(name: 'RestoreFromBackupConfiguration')
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
     S3Access = Shapes::StructureShape.new(name: 'S3Access')
+    ScheduledOperationDetails = Shapes::StructureShape.new(name: 'ScheduledOperationDetails')
+    ScheduledOperationDetailsList = Shapes::ListShape.new(name: 'ScheduledOperationDetailsList')
     SensitiveString = Shapes::StringShape.new(name: 'SensitiveString')
     SensitiveStringList = Shapes::ListShape.new(name: 'SensitiveStringList')
     ServiceNetworkEndpoint = Shapes::StructureShape.new(name: 'ServiceNetworkEndpoint')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ShapeType = Shapes::StringShape.new(name: 'ShapeType')
+    ShrinkAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'ShrinkAutonomousDatabaseInput')
+    ShrinkAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'ShrinkAutonomousDatabaseOutput')
+    SourceConfiguration = Shapes::UnionShape.new(name: 'SourceConfiguration')
+    SourceType = Shapes::StringShape.new(name: 'SourceType')
+    StandbyAllowlistedIpsSource = Shapes::StringShape.new(name: 'StandbyAllowlistedIpsSource')
+    StartAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'StartAutonomousDatabaseInput')
+    StartAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'StartAutonomousDatabaseOutput')
     StartDbNodeInput = Shapes::StructureShape.new(name: 'StartDbNodeInput')
     StartDbNodeOutput = Shapes::StructureShape.new(name: 'StartDbNodeOutput')
+    StopAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'StopAutonomousDatabaseInput')
+    StopAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'StopAutonomousDatabaseOutput')
     StopDbNodeInput = Shapes::StructureShape.new(name: 'StopDbNodeInput')
     StopDbNodeOutput = Shapes::StructureShape.new(name: 'StopDbNodeOutput')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
     StsAccess = Shapes::StructureShape.new(name: 'StsAccess')
+    SubscriptionError = Shapes::StructureShape.new(name: 'SubscriptionError')
+    SubscriptionErrors = Shapes::ListShape.new(name: 'SubscriptionErrors')
     SupportedAwsIntegration = Shapes::StringShape.new(name: 'SupportedAwsIntegration')
+    SwitchoverAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'SwitchoverAutonomousDatabaseInput')
+    SwitchoverAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'SwitchoverAutonomousDatabaseOutput')
     SyntheticTimestamp_date_time = Shapes::TimestampShape.new(name: 'SyntheticTimestamp_date_time', timestampFormat: "iso8601")
     SystemVersionList = Shapes::ListShape.new(name: 'SystemVersionList')
     SystemVersionSummary = Shapes::StructureShape.new(name: 'SystemVersionSummary')
@@ -280,8 +429,26 @@ module Aws::Odb
     TagResourceResponse = Shapes::StructureShape.new(name: 'TagResourceResponse')
     TagValue = Shapes::StringShape.new(name: 'TagValue')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
+    TransportableTablespace = Shapes::StructureShape.new(name: 'TransportableTablespace')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
+    UpdateAutonomousDatabaseBackupInput = Shapes::StructureShape.new(name: 'UpdateAutonomousDatabaseBackupInput')
+    UpdateAutonomousDatabaseBackupInputRetentionPeriodInDaysInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseBackupInputRetentionPeriodInDaysInteger')
+    UpdateAutonomousDatabaseBackupOutput = Shapes::StructureShape.new(name: 'UpdateAutonomousDatabaseBackupOutput')
+    UpdateAutonomousDatabaseInput = Shapes::StructureShape.new(name: 'UpdateAutonomousDatabaseInput')
+    UpdateAutonomousDatabaseInputAdminPasswordString = Shapes::StringShape.new(name: 'UpdateAutonomousDatabaseInputAdminPasswordString')
+    UpdateAutonomousDatabaseInputAutoRefreshFrequencyInSecondsInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseInputAutoRefreshFrequencyInSecondsInteger')
+    UpdateAutonomousDatabaseInputAutoRefreshPointLagInSecondsInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseInputAutoRefreshPointLagInSecondsInteger')
+    UpdateAutonomousDatabaseInputBackupRetentionPeriodInDaysInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseInputBackupRetentionPeriodInDaysInteger')
+    UpdateAutonomousDatabaseInputByolComputeCountLimitDouble = Shapes::FloatShape.new(name: 'UpdateAutonomousDatabaseInputByolComputeCountLimitDouble')
+    UpdateAutonomousDatabaseInputComputeCountDouble = Shapes::FloatShape.new(name: 'UpdateAutonomousDatabaseInputComputeCountDouble')
+    UpdateAutonomousDatabaseInputCpuCoreCountInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseInputCpuCoreCountInteger')
+    UpdateAutonomousDatabaseInputDataStorageSizeInGBsInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseInputDataStorageSizeInGBsInteger')
+    UpdateAutonomousDatabaseInputDataStorageSizeInTBsInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseInputDataStorageSizeInTBsInteger')
+    UpdateAutonomousDatabaseInputDbNameString = Shapes::StringShape.new(name: 'UpdateAutonomousDatabaseInputDbNameString')
+    UpdateAutonomousDatabaseInputDbVersionString = Shapes::StringShape.new(name: 'UpdateAutonomousDatabaseInputDbVersionString')
+    UpdateAutonomousDatabaseInputLocalAdgAutoFailoverMaxDataLossLimitInteger = Shapes::IntegerShape.new(name: 'UpdateAutonomousDatabaseInputLocalAdgAutoFailoverMaxDataLossLimitInteger')
+    UpdateAutonomousDatabaseOutput = Shapes::StructureShape.new(name: 'UpdateAutonomousDatabaseOutput')
     UpdateCloudExadataInfrastructureInput = Shapes::StructureShape.new(name: 'UpdateCloudExadataInfrastructureInput')
     UpdateCloudExadataInfrastructureOutput = Shapes::StructureShape.new(name: 'UpdateCloudExadataInfrastructureOutput')
     UpdateOdbNetworkInput = Shapes::StructureShape.new(name: 'UpdateOdbNetworkInput')
@@ -293,8 +460,10 @@ module Aws::Odb
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
     ValidationExceptionReason = Shapes::StringShape.new(name: 'ValidationExceptionReason')
     VpcEndpointType = Shapes::StringShape.new(name: 'VpcEndpointType')
+    WalletType = Shapes::StringShape.new(name: 'WalletType')
     WeeksOfMonth = Shapes::ListShape.new(name: 'WeeksOfMonth')
     ZeroEtlAccess = Shapes::StructureShape.new(name: 'ZeroEtlAccess')
+    characterSetType = Shapes::StringShape.new(name: 'characterSetType')
 
     AcceptMarketplaceRegistrationInput.add_member(:marketplace_registration_token, Shapes::ShapeRef.new(shape: String, required: true, location_name: "marketplaceRegistrationToken"))
     AcceptMarketplaceRegistrationInput.struct_class = Types::AcceptMarketplaceRegistrationInput
@@ -310,6 +479,301 @@ module Aws::Odb
     AssociateIamRoleToResourceInput.struct_class = Types::AssociateIamRoleToResourceInput
 
     AssociateIamRoleToResourceOutput.struct_class = Types::AssociateIamRoleToResourceOutput
+
+    AutonomousDatabase.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, location_name: "autonomousDatabaseId"))
+    AutonomousDatabase.add_member(:autonomous_database_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "autonomousDatabaseArn"))
+    AutonomousDatabase.add_member(:oci_resource_anchor_name, Shapes::ShapeRef.new(shape: String, location_name: "ociResourceAnchorName"))
+    AutonomousDatabase.add_member(:percent_progress, Shapes::ShapeRef.new(shape: Float, location_name: "percentProgress"))
+    AutonomousDatabase.add_member(:ocid, Shapes::ShapeRef.new(shape: String, location_name: "ocid"))
+    AutonomousDatabase.add_member(:oci_url, Shapes::ShapeRef.new(shape: String, location_name: "ociUrl"))
+    AutonomousDatabase.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    AutonomousDatabase.add_member(:db_name, Shapes::ShapeRef.new(shape: String, location_name: "dbName"))
+    AutonomousDatabase.add_member(:source_id, Shapes::ShapeRef.new(shape: String, location_name: "sourceId"))
+    AutonomousDatabase.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    AutonomousDatabase.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    AutonomousDatabase.add_member(:database_type, Shapes::ShapeRef.new(shape: DatabaseType, location_name: "databaseType"))
+    AutonomousDatabase.add_member(:db_version, Shapes::ShapeRef.new(shape: String, location_name: "dbVersion"))
+    AutonomousDatabase.add_member(:db_workload, Shapes::ShapeRef.new(shape: DbWorkload, location_name: "dbWorkload"))
+    AutonomousDatabase.add_member(:character_set, Shapes::ShapeRef.new(shape: String, location_name: "characterSet"))
+    AutonomousDatabase.add_member(:ncharacter_set, Shapes::ShapeRef.new(shape: String, location_name: "ncharacterSet"))
+    AutonomousDatabase.add_member(:database_edition, Shapes::ShapeRef.new(shape: DatabaseEdition, location_name: "databaseEdition"))
+    AutonomousDatabase.add_member(:license_model, Shapes::ShapeRef.new(shape: LicenseModel, location_name: "licenseModel"))
+    AutonomousDatabase.add_member(:open_mode, Shapes::ShapeRef.new(shape: OpenMode, location_name: "openMode"))
+    AutonomousDatabase.add_member(:permission_level, Shapes::ShapeRef.new(shape: PermissionLevel, location_name: "permissionLevel"))
+    AutonomousDatabase.add_member(:is_mtls_connection_required, Shapes::ShapeRef.new(shape: Boolean, location_name: "isMtlsConnectionRequired"))
+    AutonomousDatabase.add_member(:autonomous_maintenance_schedule_type, Shapes::ShapeRef.new(shape: AutonomousMaintenanceScheduleType, location_name: "autonomousMaintenanceScheduleType"))
+    AutonomousDatabase.add_member(:net_services_architecture, Shapes::ShapeRef.new(shape: NetServicesArchitecture, location_name: "netServicesArchitecture"))
+    AutonomousDatabase.add_member(:available_upgrade_versions, Shapes::ShapeRef.new(shape: StringList, location_name: "availableUpgradeVersions"))
+    AutonomousDatabase.add_member(:byol_compute_count_limit, Shapes::ShapeRef.new(shape: Integer, location_name: "byolComputeCountLimit"))
+    AutonomousDatabase.add_member(:connection_string_details, Shapes::ShapeRef.new(shape: AutonomousDatabaseConnectionStrings, location_name: "connectionStringDetails"))
+    AutonomousDatabase.add_member(:service_console_url, Shapes::ShapeRef.new(shape: String, location_name: "serviceConsoleUrl"))
+    AutonomousDatabase.add_member(:sql_web_developer_url, Shapes::ShapeRef.new(shape: String, location_name: "sqlWebDeveloperUrl"))
+    AutonomousDatabase.add_member(:customer_contacts, Shapes::ShapeRef.new(shape: CustomerContacts, location_name: "customerContacts"))
+    AutonomousDatabase.add_member(:apex_details, Shapes::ShapeRef.new(shape: AutonomousDatabaseApex, location_name: "apexDetails"))
+    AutonomousDatabase.add_member(:standby_db, Shapes::ShapeRef.new(shape: DatabaseStandbySummary, location_name: "standbyDb"))
+    AutonomousDatabase.add_member(:local_standby_db, Shapes::ShapeRef.new(shape: DatabaseStandbySummary, location_name: "localStandbyDb"))
+    AutonomousDatabase.add_member(:data_safe_status, Shapes::ShapeRef.new(shape: DataSafeStatus, location_name: "dataSafeStatus"))
+    AutonomousDatabase.add_member(:database_management_status, Shapes::ShapeRef.new(shape: DatabaseManagementStatus, location_name: "databaseManagementStatus"))
+    AutonomousDatabase.add_member(:operations_insights_status, Shapes::ShapeRef.new(shape: OperationsInsightsStatus, location_name: "operationsInsightsStatus"))
+    AutonomousDatabase.add_member(:availability_zone, Shapes::ShapeRef.new(shape: String, location_name: "availabilityZone"))
+    AutonomousDatabase.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: String, location_name: "availabilityZoneId"))
+    AutonomousDatabase.add_member(:maintenance_target_component, Shapes::ShapeRef.new(shape: String, location_name: "maintenanceTargetComponent"))
+    AutonomousDatabase.add_member(:connection_urls, Shapes::ShapeRef.new(shape: AutonomousDatabaseConnectionUrls, location_name: "connectionUrls"))
+    AutonomousDatabase.add_member(:db_tools_details, Shapes::ShapeRef.new(shape: DatabaseToolList, location_name: "dbToolsDetails"))
+    AutonomousDatabase.add_member(:scheduled_operations, Shapes::ShapeRef.new(shape: ScheduledOperationDetailsList, location_name: "scheduledOperations"))
+    AutonomousDatabase.add_member(:resource_pool_leader_id, Shapes::ShapeRef.new(shape: String, location_name: "resourcePoolLeaderId"))
+    AutonomousDatabase.add_member(:compute_count, Shapes::ShapeRef.new(shape: Float, location_name: "computeCount"))
+    AutonomousDatabase.add_member(:compute_model, Shapes::ShapeRef.new(shape: ComputeModel, location_name: "computeModel"))
+    AutonomousDatabase.add_member(:cpu_core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "cpuCoreCount"))
+    AutonomousDatabase.add_member(:memory_per_oracle_compute_unit_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "memoryPerOracleComputeUnitInGBs"))
+    AutonomousDatabase.add_member(:provisionable_cpus, Shapes::ShapeRef.new(shape: IntegerList, location_name: "provisionableCpus"))
+    AutonomousDatabase.add_member(:is_auto_scaling_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingEnabled"))
+    AutonomousDatabase.add_member(:data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "dataStorageSizeInTBs"))
+    AutonomousDatabase.add_member(:data_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "dataStorageSizeInGBs"))
+    AutonomousDatabase.add_member(:used_data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "usedDataStorageSizeInTBs"))
+    AutonomousDatabase.add_member(:used_data_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "usedDataStorageSizeInGBs"))
+    AutonomousDatabase.add_member(:actual_used_data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "actualUsedDataStorageSizeInTBs"))
+    AutonomousDatabase.add_member(:allocated_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "allocatedStorageSizeInTBs"))
+    AutonomousDatabase.add_member(:in_memory_area_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "inMemoryAreaInGBs"))
+    AutonomousDatabase.add_member(:is_auto_scaling_for_storage_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingForStorageEnabled"))
+    AutonomousDatabase.add_member(:odb_network_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "odbNetworkId"))
+    AutonomousDatabase.add_member(:odb_network_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "odbNetworkArn"))
+    AutonomousDatabase.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpoint"))
+    AutonomousDatabase.add_member(:private_endpoint_ip, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointIp"))
+    AutonomousDatabase.add_member(:private_endpoint_label, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointLabel"))
+    AutonomousDatabase.add_member(:allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "allowlistedIps"))
+    AutonomousDatabase.add_member(:standby_allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "standbyAllowlistedIps"))
+    AutonomousDatabase.add_member(:standby_allowlisted_ips_source, Shapes::ShapeRef.new(shape: StandbyAllowlistedIpsSource, location_name: "standbyAllowlistedIpsSource"))
+    AutonomousDatabase.add_member(:is_local_data_guard_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isLocalDataGuardEnabled"))
+    AutonomousDatabase.add_member(:is_remote_data_guard_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isRemoteDataGuardEnabled"))
+    AutonomousDatabase.add_member(:local_disaster_recovery_type, Shapes::ShapeRef.new(shape: DisasterRecoveryType, location_name: "localDisasterRecoveryType"))
+    AutonomousDatabase.add_member(:role, Shapes::ShapeRef.new(shape: DataGuardRole, location_name: "role"))
+    AutonomousDatabase.add_member(:peer_db_ids, Shapes::ShapeRef.new(shape: StringList, location_name: "peerDbIds"))
+    AutonomousDatabase.add_member(:failed_data_recovery_in_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "failedDataRecoveryInSeconds"))
+    AutonomousDatabase.add_member(:local_adg_auto_failover_max_data_loss_limit, Shapes::ShapeRef.new(shape: Integer, location_name: "localAdgAutoFailoverMaxDataLossLimit"))
+    AutonomousDatabase.add_member(:remote_disaster_recovery_configuration, Shapes::ShapeRef.new(shape: DisasterRecoveryConfiguration, location_name: "remoteDisasterRecoveryConfiguration"))
+    AutonomousDatabase.add_member(:is_refreshable_clone, Shapes::ShapeRef.new(shape: Boolean, location_name: "isRefreshableClone"))
+    AutonomousDatabase.add_member(:refreshable_mode, Shapes::ShapeRef.new(shape: RefreshableMode, location_name: "refreshableMode"))
+    AutonomousDatabase.add_member(:refreshable_status, Shapes::ShapeRef.new(shape: RefreshableStatus, location_name: "refreshableStatus"))
+    AutonomousDatabase.add_member(:auto_refresh_frequency_in_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "autoRefreshFrequencyInSeconds"))
+    AutonomousDatabase.add_member(:auto_refresh_point_lag_in_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "autoRefreshPointLagInSeconds"))
+    AutonomousDatabase.add_member(:is_reconnect_clone_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isReconnectCloneEnabled"))
+    AutonomousDatabase.add_member(:clone_table_space_list, Shapes::ShapeRef.new(shape: IntegerList, location_name: "cloneTableSpaceList"))
+    AutonomousDatabase.add_member(:backup_retention_period_in_days, Shapes::ShapeRef.new(shape: Integer, location_name: "backupRetentionPeriodInDays"))
+    AutonomousDatabase.add_member(:long_term_backup_schedule, Shapes::ShapeRef.new(shape: LongTermBackupSchedule, location_name: "longTermBackupSchedule"))
+    AutonomousDatabase.add_member(:is_backup_retention_locked, Shapes::ShapeRef.new(shape: Boolean, location_name: "isBackupRetentionLocked"))
+    AutonomousDatabase.add_member(:total_backup_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: Double, location_name: "totalBackupStorageSizeInGBs"))
+    AutonomousDatabase.add_member(:resource_pool_summary, Shapes::ShapeRef.new(shape: ResourcePoolSummary, location_name: "resourcePoolSummary"))
+    AutonomousDatabase.add_member(:encryption_summary, Shapes::ShapeRef.new(shape: EncryptionSummary, location_name: "encryptionSummary"))
+    AutonomousDatabase.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    AutonomousDatabase.add_member(:time_of_last_backup, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastBackup"))
+    AutonomousDatabase.add_member(:time_maintenance_begin, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeMaintenanceBegin"))
+    AutonomousDatabase.add_member(:time_maintenance_end, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeMaintenanceEnd"))
+    AutonomousDatabase.add_member(:time_local_data_guard_enabled, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeLocalDataGuardEnabled"))
+    AutonomousDatabase.add_member(:time_data_guard_role_changed, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDataGuardRoleChanged"))
+    AutonomousDatabase.add_member(:time_of_last_switchover, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastSwitchover"))
+    AutonomousDatabase.add_member(:time_of_last_failover, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastFailover"))
+    AutonomousDatabase.add_member(:time_of_last_refresh, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastRefresh"))
+    AutonomousDatabase.add_member(:time_of_last_refresh_point, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastRefreshPoint"))
+    AutonomousDatabase.add_member(:time_of_next_refresh, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfNextRefresh"))
+    AutonomousDatabase.add_member(:time_of_auto_refresh_start, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfAutoRefreshStart"))
+    AutonomousDatabase.add_member(:time_deletion_of_free_autonomous_database, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDeletionOfFreeAutonomousDatabase"))
+    AutonomousDatabase.add_member(:time_reclamation_of_free_autonomous_database, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeReclamationOfFreeAutonomousDatabase"))
+    AutonomousDatabase.add_member(:time_disaster_recovery_role_changed, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDisasterRecoveryRoleChanged"))
+    AutonomousDatabase.add_member(:time_until_reconnect_clone_enabled, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeUntilReconnectCloneEnabled"))
+    AutonomousDatabase.add_member(:next_long_term_backup_time_stamp, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "nextLongTermBackupTimeStamp"))
+    AutonomousDatabase.add_member(:time_undeleted, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeUndeleted"))
+    AutonomousDatabase.struct_class = Types::AutonomousDatabase
+
+    AutonomousDatabaseApex.add_member(:apex_version, Shapes::ShapeRef.new(shape: String, location_name: "apexVersion"))
+    AutonomousDatabaseApex.add_member(:ords_version, Shapes::ShapeRef.new(shape: String, location_name: "ordsVersion"))
+    AutonomousDatabaseApex.struct_class = Types::AutonomousDatabaseApex
+
+    AutonomousDatabaseBackup.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "autonomousDatabaseBackupId"))
+    AutonomousDatabaseBackup.add_member(:autonomous_database_backup_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "autonomousDatabaseBackupArn"))
+    AutonomousDatabaseBackup.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "autonomousDatabaseId"))
+    AutonomousDatabaseBackup.add_member(:ocid, Shapes::ShapeRef.new(shape: String, location_name: "ocid"))
+    AutonomousDatabaseBackup.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    AutonomousDatabaseBackup.add_member(:db_version, Shapes::ShapeRef.new(shape: String, location_name: "dbVersion"))
+    AutonomousDatabaseBackup.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupStatus, location_name: "status"))
+    AutonomousDatabaseBackup.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    AutonomousDatabaseBackup.add_member(:is_automatic, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutomatic"))
+    AutonomousDatabaseBackup.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: Integer, location_name: "retentionPeriodInDays"))
+    AutonomousDatabaseBackup.add_member(:size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "sizeInTBs"))
+    AutonomousDatabaseBackup.add_member(:time_available_till, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeAvailableTill"))
+    AutonomousDatabaseBackup.add_member(:time_started, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeStarted"))
+    AutonomousDatabaseBackup.add_member(:time_ended, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeEnded"))
+    AutonomousDatabaseBackup.add_member(:type, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupType, location_name: "type"))
+    AutonomousDatabaseBackup.struct_class = Types::AutonomousDatabaseBackup
+
+    AutonomousDatabaseBackupList.member = Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupSummary)
+
+    AutonomousDatabaseBackupSummary.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "autonomousDatabaseBackupId"))
+    AutonomousDatabaseBackupSummary.add_member(:autonomous_database_backup_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "autonomousDatabaseBackupArn"))
+    AutonomousDatabaseBackupSummary.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "autonomousDatabaseId"))
+    AutonomousDatabaseBackupSummary.add_member(:ocid, Shapes::ShapeRef.new(shape: String, location_name: "ocid"))
+    AutonomousDatabaseBackupSummary.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    AutonomousDatabaseBackupSummary.add_member(:db_version, Shapes::ShapeRef.new(shape: String, location_name: "dbVersion"))
+    AutonomousDatabaseBackupSummary.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupStatus, location_name: "status"))
+    AutonomousDatabaseBackupSummary.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    AutonomousDatabaseBackupSummary.add_member(:is_automatic, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutomatic"))
+    AutonomousDatabaseBackupSummary.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: Integer, location_name: "retentionPeriodInDays"))
+    AutonomousDatabaseBackupSummary.add_member(:size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "sizeInTBs"))
+    AutonomousDatabaseBackupSummary.add_member(:time_available_till, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeAvailableTill"))
+    AutonomousDatabaseBackupSummary.add_member(:time_started, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeStarted"))
+    AutonomousDatabaseBackupSummary.add_member(:time_ended, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeEnded"))
+    AutonomousDatabaseBackupSummary.add_member(:type, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupType, location_name: "type"))
+    AutonomousDatabaseBackupSummary.struct_class = Types::AutonomousDatabaseBackupSummary
+
+    AutonomousDatabaseCharacterSetList.member = Shapes::ShapeRef.new(shape: AutonomousDatabaseCharacterSetSummary)
+
+    AutonomousDatabaseCharacterSetSummary.add_member(:character_set, Shapes::ShapeRef.new(shape: String, location_name: "characterSet"))
+    AutonomousDatabaseCharacterSetSummary.struct_class = Types::AutonomousDatabaseCharacterSetSummary
+
+    AutonomousDatabaseConnectionStrings.add_member(:all_connection_strings, Shapes::ShapeRef.new(shape: DatabaseConnectionStringMap, location_name: "allConnectionStrings"))
+    AutonomousDatabaseConnectionStrings.add_member(:dedicated, Shapes::ShapeRef.new(shape: String, location_name: "dedicated"))
+    AutonomousDatabaseConnectionStrings.add_member(:high, Shapes::ShapeRef.new(shape: String, location_name: "high"))
+    AutonomousDatabaseConnectionStrings.add_member(:medium, Shapes::ShapeRef.new(shape: String, location_name: "medium"))
+    AutonomousDatabaseConnectionStrings.add_member(:low, Shapes::ShapeRef.new(shape: String, location_name: "low"))
+    AutonomousDatabaseConnectionStrings.add_member(:profiles, Shapes::ShapeRef.new(shape: DatabaseConnectionStringProfileList, location_name: "profiles"))
+    AutonomousDatabaseConnectionStrings.struct_class = Types::AutonomousDatabaseConnectionStrings
+
+    AutonomousDatabaseConnectionUrls.add_member(:apex_url, Shapes::ShapeRef.new(shape: String, location_name: "apexUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:database_transforms_url, Shapes::ShapeRef.new(shape: String, location_name: "databaseTransformsUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:graph_studio_url, Shapes::ShapeRef.new(shape: String, location_name: "graphStudioUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:machine_learning_notebook_url, Shapes::ShapeRef.new(shape: String, location_name: "machineLearningNotebookUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:machine_learning_user_management_url, Shapes::ShapeRef.new(shape: String, location_name: "machineLearningUserManagementUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:mongo_db_url, Shapes::ShapeRef.new(shape: String, location_name: "mongoDbUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:ords_url, Shapes::ShapeRef.new(shape: String, location_name: "ordsUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:spatial_studio_url, Shapes::ShapeRef.new(shape: String, location_name: "spatialStudioUrl"))
+    AutonomousDatabaseConnectionUrls.add_member(:sql_dev_web_url, Shapes::ShapeRef.new(shape: String, location_name: "sqlDevWebUrl"))
+    AutonomousDatabaseConnectionUrls.struct_class = Types::AutonomousDatabaseConnectionUrls
+
+    AutonomousDatabaseList.member = Shapes::ShapeRef.new(shape: AutonomousDatabaseSummary)
+
+    AutonomousDatabasePeerList.member = Shapes::ShapeRef.new(shape: AutonomousDatabasePeerSummary)
+
+    AutonomousDatabasePeerSummary.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "autonomousDatabaseId"))
+    AutonomousDatabasePeerSummary.add_member(:autonomous_database_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "autonomousDatabaseArn"))
+    AutonomousDatabasePeerSummary.add_member(:ocid, Shapes::ShapeRef.new(shape: String, location_name: "ocid"))
+    AutonomousDatabasePeerSummary.add_member(:region, Shapes::ShapeRef.new(shape: String, location_name: "region"))
+    AutonomousDatabasePeerSummary.struct_class = Types::AutonomousDatabasePeerSummary
+
+    AutonomousDatabaseSummary.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, location_name: "autonomousDatabaseId"))
+    AutonomousDatabaseSummary.add_member(:autonomous_database_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "autonomousDatabaseArn"))
+    AutonomousDatabaseSummary.add_member(:oci_resource_anchor_name, Shapes::ShapeRef.new(shape: String, location_name: "ociResourceAnchorName"))
+    AutonomousDatabaseSummary.add_member(:percent_progress, Shapes::ShapeRef.new(shape: Float, location_name: "percentProgress"))
+    AutonomousDatabaseSummary.add_member(:ocid, Shapes::ShapeRef.new(shape: String, location_name: "ocid"))
+    AutonomousDatabaseSummary.add_member(:oci_url, Shapes::ShapeRef.new(shape: String, location_name: "ociUrl"))
+    AutonomousDatabaseSummary.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    AutonomousDatabaseSummary.add_member(:db_name, Shapes::ShapeRef.new(shape: String, location_name: "dbName"))
+    AutonomousDatabaseSummary.add_member(:source_id, Shapes::ShapeRef.new(shape: String, location_name: "sourceId"))
+    AutonomousDatabaseSummary.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    AutonomousDatabaseSummary.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    AutonomousDatabaseSummary.add_member(:database_type, Shapes::ShapeRef.new(shape: DatabaseType, location_name: "databaseType"))
+    AutonomousDatabaseSummary.add_member(:db_version, Shapes::ShapeRef.new(shape: String, location_name: "dbVersion"))
+    AutonomousDatabaseSummary.add_member(:db_workload, Shapes::ShapeRef.new(shape: DbWorkload, location_name: "dbWorkload"))
+    AutonomousDatabaseSummary.add_member(:character_set, Shapes::ShapeRef.new(shape: String, location_name: "characterSet"))
+    AutonomousDatabaseSummary.add_member(:ncharacter_set, Shapes::ShapeRef.new(shape: String, location_name: "ncharacterSet"))
+    AutonomousDatabaseSummary.add_member(:database_edition, Shapes::ShapeRef.new(shape: DatabaseEdition, location_name: "databaseEdition"))
+    AutonomousDatabaseSummary.add_member(:license_model, Shapes::ShapeRef.new(shape: LicenseModel, location_name: "licenseModel"))
+    AutonomousDatabaseSummary.add_member(:open_mode, Shapes::ShapeRef.new(shape: OpenMode, location_name: "openMode"))
+    AutonomousDatabaseSummary.add_member(:permission_level, Shapes::ShapeRef.new(shape: PermissionLevel, location_name: "permissionLevel"))
+    AutonomousDatabaseSummary.add_member(:is_mtls_connection_required, Shapes::ShapeRef.new(shape: Boolean, location_name: "isMtlsConnectionRequired"))
+    AutonomousDatabaseSummary.add_member(:autonomous_maintenance_schedule_type, Shapes::ShapeRef.new(shape: AutonomousMaintenanceScheduleType, location_name: "autonomousMaintenanceScheduleType"))
+    AutonomousDatabaseSummary.add_member(:net_services_architecture, Shapes::ShapeRef.new(shape: NetServicesArchitecture, location_name: "netServicesArchitecture"))
+    AutonomousDatabaseSummary.add_member(:available_upgrade_versions, Shapes::ShapeRef.new(shape: StringList, location_name: "availableUpgradeVersions"))
+    AutonomousDatabaseSummary.add_member(:byol_compute_count_limit, Shapes::ShapeRef.new(shape: Integer, location_name: "byolComputeCountLimit"))
+    AutonomousDatabaseSummary.add_member(:connection_string_details, Shapes::ShapeRef.new(shape: AutonomousDatabaseConnectionStrings, location_name: "connectionStringDetails"))
+    AutonomousDatabaseSummary.add_member(:service_console_url, Shapes::ShapeRef.new(shape: String, location_name: "serviceConsoleUrl"))
+    AutonomousDatabaseSummary.add_member(:sql_web_developer_url, Shapes::ShapeRef.new(shape: String, location_name: "sqlWebDeveloperUrl"))
+    AutonomousDatabaseSummary.add_member(:customer_contacts, Shapes::ShapeRef.new(shape: CustomerContacts, location_name: "customerContacts"))
+    AutonomousDatabaseSummary.add_member(:apex_details, Shapes::ShapeRef.new(shape: AutonomousDatabaseApex, location_name: "apexDetails"))
+    AutonomousDatabaseSummary.add_member(:standby_db, Shapes::ShapeRef.new(shape: DatabaseStandbySummary, location_name: "standbyDb"))
+    AutonomousDatabaseSummary.add_member(:local_standby_db, Shapes::ShapeRef.new(shape: DatabaseStandbySummary, location_name: "localStandbyDb"))
+    AutonomousDatabaseSummary.add_member(:data_safe_status, Shapes::ShapeRef.new(shape: DataSafeStatus, location_name: "dataSafeStatus"))
+    AutonomousDatabaseSummary.add_member(:database_management_status, Shapes::ShapeRef.new(shape: DatabaseManagementStatus, location_name: "databaseManagementStatus"))
+    AutonomousDatabaseSummary.add_member(:operations_insights_status, Shapes::ShapeRef.new(shape: OperationsInsightsStatus, location_name: "operationsInsightsStatus"))
+    AutonomousDatabaseSummary.add_member(:availability_zone, Shapes::ShapeRef.new(shape: String, location_name: "availabilityZone"))
+    AutonomousDatabaseSummary.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: String, location_name: "availabilityZoneId"))
+    AutonomousDatabaseSummary.add_member(:maintenance_target_component, Shapes::ShapeRef.new(shape: String, location_name: "maintenanceTargetComponent"))
+    AutonomousDatabaseSummary.add_member(:connection_urls, Shapes::ShapeRef.new(shape: AutonomousDatabaseConnectionUrls, location_name: "connectionUrls"))
+    AutonomousDatabaseSummary.add_member(:db_tools_details, Shapes::ShapeRef.new(shape: DatabaseToolList, location_name: "dbToolsDetails"))
+    AutonomousDatabaseSummary.add_member(:scheduled_operations, Shapes::ShapeRef.new(shape: ScheduledOperationDetailsList, location_name: "scheduledOperations"))
+    AutonomousDatabaseSummary.add_member(:resource_pool_leader_id, Shapes::ShapeRef.new(shape: String, location_name: "resourcePoolLeaderId"))
+    AutonomousDatabaseSummary.add_member(:compute_count, Shapes::ShapeRef.new(shape: Float, location_name: "computeCount"))
+    AutonomousDatabaseSummary.add_member(:compute_model, Shapes::ShapeRef.new(shape: ComputeModel, location_name: "computeModel"))
+    AutonomousDatabaseSummary.add_member(:cpu_core_count, Shapes::ShapeRef.new(shape: Integer, location_name: "cpuCoreCount"))
+    AutonomousDatabaseSummary.add_member(:memory_per_oracle_compute_unit_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "memoryPerOracleComputeUnitInGBs"))
+    AutonomousDatabaseSummary.add_member(:provisionable_cpus, Shapes::ShapeRef.new(shape: IntegerList, location_name: "provisionableCpus"))
+    AutonomousDatabaseSummary.add_member(:is_auto_scaling_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingEnabled"))
+    AutonomousDatabaseSummary.add_member(:data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "dataStorageSizeInTBs"))
+    AutonomousDatabaseSummary.add_member(:data_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "dataStorageSizeInGBs"))
+    AutonomousDatabaseSummary.add_member(:used_data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "usedDataStorageSizeInTBs"))
+    AutonomousDatabaseSummary.add_member(:used_data_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "usedDataStorageSizeInGBs"))
+    AutonomousDatabaseSummary.add_member(:actual_used_data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "actualUsedDataStorageSizeInTBs"))
+    AutonomousDatabaseSummary.add_member(:allocated_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "allocatedStorageSizeInTBs"))
+    AutonomousDatabaseSummary.add_member(:in_memory_area_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "inMemoryAreaInGBs"))
+    AutonomousDatabaseSummary.add_member(:is_auto_scaling_for_storage_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingForStorageEnabled"))
+    AutonomousDatabaseSummary.add_member(:odb_network_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "odbNetworkId"))
+    AutonomousDatabaseSummary.add_member(:odb_network_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "odbNetworkArn"))
+    AutonomousDatabaseSummary.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpoint"))
+    AutonomousDatabaseSummary.add_member(:private_endpoint_ip, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointIp"))
+    AutonomousDatabaseSummary.add_member(:private_endpoint_label, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointLabel"))
+    AutonomousDatabaseSummary.add_member(:allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "allowlistedIps"))
+    AutonomousDatabaseSummary.add_member(:standby_allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "standbyAllowlistedIps"))
+    AutonomousDatabaseSummary.add_member(:standby_allowlisted_ips_source, Shapes::ShapeRef.new(shape: StandbyAllowlistedIpsSource, location_name: "standbyAllowlistedIpsSource"))
+    AutonomousDatabaseSummary.add_member(:is_local_data_guard_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isLocalDataGuardEnabled"))
+    AutonomousDatabaseSummary.add_member(:is_remote_data_guard_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isRemoteDataGuardEnabled"))
+    AutonomousDatabaseSummary.add_member(:local_disaster_recovery_type, Shapes::ShapeRef.new(shape: DisasterRecoveryType, location_name: "localDisasterRecoveryType"))
+    AutonomousDatabaseSummary.add_member(:role, Shapes::ShapeRef.new(shape: DataGuardRole, location_name: "role"))
+    AutonomousDatabaseSummary.add_member(:peer_db_ids, Shapes::ShapeRef.new(shape: StringList, location_name: "peerDbIds"))
+    AutonomousDatabaseSummary.add_member(:failed_data_recovery_in_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "failedDataRecoveryInSeconds"))
+    AutonomousDatabaseSummary.add_member(:local_adg_auto_failover_max_data_loss_limit, Shapes::ShapeRef.new(shape: Integer, location_name: "localAdgAutoFailoverMaxDataLossLimit"))
+    AutonomousDatabaseSummary.add_member(:remote_disaster_recovery_configuration, Shapes::ShapeRef.new(shape: DisasterRecoveryConfiguration, location_name: "remoteDisasterRecoveryConfiguration"))
+    AutonomousDatabaseSummary.add_member(:is_refreshable_clone, Shapes::ShapeRef.new(shape: Boolean, location_name: "isRefreshableClone"))
+    AutonomousDatabaseSummary.add_member(:refreshable_mode, Shapes::ShapeRef.new(shape: RefreshableMode, location_name: "refreshableMode"))
+    AutonomousDatabaseSummary.add_member(:refreshable_status, Shapes::ShapeRef.new(shape: RefreshableStatus, location_name: "refreshableStatus"))
+    AutonomousDatabaseSummary.add_member(:auto_refresh_frequency_in_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "autoRefreshFrequencyInSeconds"))
+    AutonomousDatabaseSummary.add_member(:auto_refresh_point_lag_in_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "autoRefreshPointLagInSeconds"))
+    AutonomousDatabaseSummary.add_member(:is_reconnect_clone_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isReconnectCloneEnabled"))
+    AutonomousDatabaseSummary.add_member(:clone_table_space_list, Shapes::ShapeRef.new(shape: IntegerList, location_name: "cloneTableSpaceList"))
+    AutonomousDatabaseSummary.add_member(:backup_retention_period_in_days, Shapes::ShapeRef.new(shape: Integer, location_name: "backupRetentionPeriodInDays"))
+    AutonomousDatabaseSummary.add_member(:long_term_backup_schedule, Shapes::ShapeRef.new(shape: LongTermBackupSchedule, location_name: "longTermBackupSchedule"))
+    AutonomousDatabaseSummary.add_member(:is_backup_retention_locked, Shapes::ShapeRef.new(shape: Boolean, location_name: "isBackupRetentionLocked"))
+    AutonomousDatabaseSummary.add_member(:total_backup_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: Double, location_name: "totalBackupStorageSizeInGBs"))
+    AutonomousDatabaseSummary.add_member(:resource_pool_summary, Shapes::ShapeRef.new(shape: ResourcePoolSummary, location_name: "resourcePoolSummary"))
+    AutonomousDatabaseSummary.add_member(:encryption_summary, Shapes::ShapeRef.new(shape: EncryptionSummary, location_name: "encryptionSummary"))
+    AutonomousDatabaseSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    AutonomousDatabaseSummary.add_member(:time_of_last_backup, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastBackup"))
+    AutonomousDatabaseSummary.add_member(:time_maintenance_begin, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeMaintenanceBegin"))
+    AutonomousDatabaseSummary.add_member(:time_maintenance_end, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeMaintenanceEnd"))
+    AutonomousDatabaseSummary.add_member(:time_local_data_guard_enabled, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeLocalDataGuardEnabled"))
+    AutonomousDatabaseSummary.add_member(:time_data_guard_role_changed, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDataGuardRoleChanged"))
+    AutonomousDatabaseSummary.add_member(:time_of_last_switchover, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastSwitchover"))
+    AutonomousDatabaseSummary.add_member(:time_of_last_failover, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastFailover"))
+    AutonomousDatabaseSummary.add_member(:time_of_last_refresh, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastRefresh"))
+    AutonomousDatabaseSummary.add_member(:time_of_last_refresh_point, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfLastRefreshPoint"))
+    AutonomousDatabaseSummary.add_member(:time_of_next_refresh, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfNextRefresh"))
+    AutonomousDatabaseSummary.add_member(:time_of_auto_refresh_start, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfAutoRefreshStart"))
+    AutonomousDatabaseSummary.add_member(:time_deletion_of_free_autonomous_database, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDeletionOfFreeAutonomousDatabase"))
+    AutonomousDatabaseSummary.add_member(:time_reclamation_of_free_autonomous_database, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeReclamationOfFreeAutonomousDatabase"))
+    AutonomousDatabaseSummary.add_member(:time_disaster_recovery_role_changed, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDisasterRecoveryRoleChanged"))
+    AutonomousDatabaseSummary.add_member(:time_until_reconnect_clone_enabled, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeUntilReconnectCloneEnabled"))
+    AutonomousDatabaseSummary.add_member(:next_long_term_backup_time_stamp, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "nextLongTermBackupTimeStamp"))
+    AutonomousDatabaseSummary.add_member(:time_undeleted, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeUndeleted"))
+    AutonomousDatabaseSummary.struct_class = Types::AutonomousDatabaseSummary
+
+    AutonomousDatabaseVersionList.member = Shapes::ShapeRef.new(shape: AutonomousDatabaseVersionSummary)
+
+    AutonomousDatabaseVersionSummary.add_member(:db_workload, Shapes::ShapeRef.new(shape: DbWorkload, location_name: "dbWorkload"))
+    AutonomousDatabaseVersionSummary.add_member(:details, Shapes::ShapeRef.new(shape: String, location_name: "details"))
+    AutonomousDatabaseVersionSummary.add_member(:version, Shapes::ShapeRef.new(shape: String, location_name: "version"))
+    AutonomousDatabaseVersionSummary.struct_class = Types::AutonomousDatabaseVersionSummary
+
+    AutonomousDatabaseWalletDetails.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseWalletStatus, location_name: "status"))
+    AutonomousDatabaseWalletDetails.add_member(:time_rotated, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeRotated"))
+    AutonomousDatabaseWalletDetails.struct_class = Types::AutonomousDatabaseWalletDetails
 
     AutonomousVirtualMachineList.member = Shapes::ShapeRef.new(shape: AutonomousVirtualMachineSummary)
 
@@ -327,6 +791,25 @@ module Aws::Odb
     AutonomousVirtualMachineSummary.add_member(:ocid, Shapes::ShapeRef.new(shape: String, location_name: "ocid"))
     AutonomousVirtualMachineSummary.add_member(:oci_resource_anchor_name, Shapes::ShapeRef.new(shape: String, location_name: "ociResourceAnchorName"))
     AutonomousVirtualMachineSummary.struct_class = Types::AutonomousVirtualMachineSummary
+
+    AwsEncryptionKeyConfiguration.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "iamRoleArn"))
+    AwsEncryptionKeyConfiguration.add_member(:external_id_type, Shapes::ShapeRef.new(shape: ExternalIdType, location_name: "externalIdType"))
+    AwsEncryptionKeyConfiguration.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyIdOrArn, location_name: "kmsKeyId"))
+    AwsEncryptionKeyConfiguration.struct_class = Types::AwsEncryptionKeyConfiguration
+
+    AwsEncryptionKeyConfigurationInput.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "iamRoleArn"))
+    AwsEncryptionKeyConfigurationInput.add_member(:external_id_type, Shapes::ShapeRef.new(shape: ExternalIdType, location_name: "externalIdType"))
+    AwsEncryptionKeyConfigurationInput.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyIdOrArn, location_name: "kmsKeyId"))
+    AwsEncryptionKeyConfigurationInput.struct_class = Types::AwsEncryptionKeyConfigurationInput
+
+    CloneToRefreshableConfiguration.add_member(:source_autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "sourceAutonomousDatabaseId"))
+    CloneToRefreshableConfiguration.add_member(:refreshable_mode, Shapes::ShapeRef.new(shape: RefreshableMode, location_name: "refreshableMode"))
+    CloneToRefreshableConfiguration.add_member(:auto_refresh_frequency_in_seconds, Shapes::ShapeRef.new(shape: CloneToRefreshableConfigurationAutoRefreshFrequencyInSecondsInteger, location_name: "autoRefreshFrequencyInSeconds"))
+    CloneToRefreshableConfiguration.add_member(:auto_refresh_point_lag_in_seconds, Shapes::ShapeRef.new(shape: CloneToRefreshableConfigurationAutoRefreshPointLagInSecondsInteger, location_name: "autoRefreshPointLagInSeconds"))
+    CloneToRefreshableConfiguration.add_member(:time_of_auto_refresh_start, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfAutoRefreshStart"))
+    CloneToRefreshableConfiguration.add_member(:open_mode, Shapes::ShapeRef.new(shape: OpenMode, location_name: "openMode"))
+    CloneToRefreshableConfiguration.add_member(:clone_type, Shapes::ShapeRef.new(shape: CloneType, location_name: "cloneType"))
+    CloneToRefreshableConfiguration.struct_class = Types::CloneToRefreshableConfiguration
 
     CloudAutonomousVmCluster.add_member(:cloud_autonomous_vm_cluster_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "cloudAutonomousVmClusterId"))
     CloudAutonomousVmCluster.add_member(:cloud_autonomous_vm_cluster_arn, Shapes::ShapeRef.new(shape: String, location_name: "cloudAutonomousVmClusterArn"))
@@ -632,6 +1115,75 @@ module Aws::Odb
     ConflictException.add_member(:resource_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "resourceType"))
     ConflictException.struct_class = Types::ConflictException
 
+    CreateAutonomousDatabaseBackupInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    CreateAutonomousDatabaseBackupInput.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceDisplayName, location_name: "displayName"))
+    CreateAutonomousDatabaseBackupInput.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseBackupInputRetentionPeriodInDaysInteger, location_name: "retentionPeriodInDays"))
+    CreateAutonomousDatabaseBackupInput.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseBackupInputClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateAutonomousDatabaseBackupInput.add_member(:tags, Shapes::ShapeRef.new(shape: RequestTagMap, location_name: "tags"))
+    CreateAutonomousDatabaseBackupInput.struct_class = Types::CreateAutonomousDatabaseBackupInput
+
+    CreateAutonomousDatabaseBackupOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    CreateAutonomousDatabaseBackupOutput.add_member(:status, Shapes::ShapeRef.new(shape: ResourceStatus, location_name: "status"))
+    CreateAutonomousDatabaseBackupOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    CreateAutonomousDatabaseBackupOutput.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseBackupId"))
+    CreateAutonomousDatabaseBackupOutput.struct_class = Types::CreateAutonomousDatabaseBackupOutput
+
+    CreateAutonomousDatabaseInput.add_member(:odb_network_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, location_name: "odbNetworkId"))
+    CreateAutonomousDatabaseInput.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceDisplayName, location_name: "displayName"))
+    CreateAutonomousDatabaseInput.add_member(:db_name, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputDbNameString, location_name: "dbName"))
+    CreateAutonomousDatabaseInput.add_member(:admin_password, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputAdminPasswordString, location_name: "adminPassword"))
+    CreateAutonomousDatabaseInput.add_member(:compute_count, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputComputeCountDouble, location_name: "computeCount"))
+    CreateAutonomousDatabaseInput.add_member(:data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputDataStorageSizeInTBsInteger, location_name: "dataStorageSizeInTBs"))
+    CreateAutonomousDatabaseInput.add_member(:data_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputDataStorageSizeInGBsInteger, location_name: "dataStorageSizeInGBs"))
+    CreateAutonomousDatabaseInput.add_member(:db_workload, Shapes::ShapeRef.new(shape: DbWorkload, location_name: "dbWorkload"))
+    CreateAutonomousDatabaseInput.add_member(:is_auto_scaling_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingEnabled"))
+    CreateAutonomousDatabaseInput.add_member(:is_auto_scaling_for_storage_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingForStorageEnabled"))
+    CreateAutonomousDatabaseInput.add_member(:license_model, Shapes::ShapeRef.new(shape: LicenseModel, location_name: "licenseModel"))
+    CreateAutonomousDatabaseInput.add_member(:character_set, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputCharacterSetString, location_name: "characterSet"))
+    CreateAutonomousDatabaseInput.add_member(:ncharacter_set, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputNcharacterSetString, location_name: "ncharacterSet"))
+    CreateAutonomousDatabaseInput.add_member(:db_version, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputDbVersionString, location_name: "dbVersion"))
+    CreateAutonomousDatabaseInput.add_member(:database_edition, Shapes::ShapeRef.new(shape: DatabaseEdition, location_name: "databaseEdition"))
+    CreateAutonomousDatabaseInput.add_member(:standby_allowlisted_ips_source, Shapes::ShapeRef.new(shape: StandbyAllowlistedIpsSource, location_name: "standbyAllowlistedIpsSource"))
+    CreateAutonomousDatabaseInput.add_member(:autonomous_maintenance_schedule_type, Shapes::ShapeRef.new(shape: AutonomousMaintenanceScheduleType, location_name: "autonomousMaintenanceScheduleType"))
+    CreateAutonomousDatabaseInput.add_member(:backup_retention_period_in_days, Shapes::ShapeRef.new(shape: Integer, location_name: "backupRetentionPeriodInDays"))
+    CreateAutonomousDatabaseInput.add_member(:byol_compute_count_limit, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputByolComputeCountLimitDouble, location_name: "byolComputeCountLimit"))
+    CreateAutonomousDatabaseInput.add_member(:cpu_core_count, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputCpuCoreCountInteger, location_name: "cpuCoreCount"))
+    CreateAutonomousDatabaseInput.add_member(:customer_contacts_to_send_to_oci, Shapes::ShapeRef.new(shape: CustomerContacts, location_name: "customerContactsToSendToOCI"))
+    CreateAutonomousDatabaseInput.add_member(:private_endpoint_ip, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointIp"))
+    CreateAutonomousDatabaseInput.add_member(:private_endpoint_label, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointLabel"))
+    CreateAutonomousDatabaseInput.add_member(:resource_pool_leader_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, location_name: "resourcePoolLeaderId"))
+    CreateAutonomousDatabaseInput.add_member(:resource_pool_summary, Shapes::ShapeRef.new(shape: ResourcePoolSummary, location_name: "resourcePoolSummary"))
+    CreateAutonomousDatabaseInput.add_member(:scheduled_operations, Shapes::ShapeRef.new(shape: ScheduledOperationDetailsList, location_name: "scheduledOperations"))
+    CreateAutonomousDatabaseInput.add_member(:standby_allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "standbyAllowlistedIps"))
+    CreateAutonomousDatabaseInput.add_member(:allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "allowlistedIps"))
+    CreateAutonomousDatabaseInput.add_member(:transportable_tablespace, Shapes::ShapeRef.new(shape: TransportableTablespace, location_name: "transportableTablespace"))
+    CreateAutonomousDatabaseInput.add_member(:is_backup_retention_locked, Shapes::ShapeRef.new(shape: Boolean, location_name: "isBackupRetentionLocked"))
+    CreateAutonomousDatabaseInput.add_member(:is_local_data_guard_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isLocalDataGuardEnabled"))
+    CreateAutonomousDatabaseInput.add_member(:is_mtls_connection_required, Shapes::ShapeRef.new(shape: Boolean, location_name: "isMtlsConnectionRequired"))
+    CreateAutonomousDatabaseInput.add_member(:db_tools_details, Shapes::ShapeRef.new(shape: DatabaseToolList, location_name: "dbToolsDetails"))
+    CreateAutonomousDatabaseInput.add_member(:source, Shapes::ShapeRef.new(shape: SourceType, location_name: "source"))
+    CreateAutonomousDatabaseInput.add_member(:source_configuration, Shapes::ShapeRef.new(shape: SourceConfiguration, location_name: "sourceConfiguration"))
+    CreateAutonomousDatabaseInput.add_member(:encryption_key_provider, Shapes::ShapeRef.new(shape: EncryptionKeyProviderInput, location_name: "encryptionKeyProvider"))
+    CreateAutonomousDatabaseInput.add_member(:encryption_key_configuration, Shapes::ShapeRef.new(shape: EncryptionKeyConfigurationInput, location_name: "encryptionKeyConfiguration"))
+    CreateAutonomousDatabaseInput.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInputClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateAutonomousDatabaseInput.add_member(:tags, Shapes::ShapeRef.new(shape: RequestTagMap, location_name: "tags"))
+    CreateAutonomousDatabaseInput.struct_class = Types::CreateAutonomousDatabaseInput
+
+    CreateAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    CreateAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    CreateAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    CreateAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    CreateAutonomousDatabaseOutput.struct_class = Types::CreateAutonomousDatabaseOutput
+
+    CreateAutonomousDatabaseWalletInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    CreateAutonomousDatabaseWalletInput.add_member(:wallet_type, Shapes::ShapeRef.new(shape: WalletType, location_name: "walletType"))
+    CreateAutonomousDatabaseWalletInput.add_member(:password, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseWalletInputPasswordString, required: true, location_name: "password"))
+    CreateAutonomousDatabaseWalletInput.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseWalletInputClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateAutonomousDatabaseWalletInput.struct_class = Types::CreateAutonomousDatabaseWalletInput
+
+    CreateAutonomousDatabaseWalletOutput.add_member(:autonomous_database_wallet_file, Shapes::ShapeRef.new(shape: AutonomousDatabaseWalletFile, required: true, location_name: "autonomousDatabaseWalletFile"))
+    CreateAutonomousDatabaseWalletOutput.struct_class = Types::CreateAutonomousDatabaseWalletOutput
+
     CreateCloudAutonomousVmClusterInput.add_member(:cloud_exadata_infrastructure_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "cloudExadataInfrastructureId"))
     CreateCloudAutonomousVmClusterInput.add_member(:odb_network_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "odbNetworkId"))
     CreateCloudAutonomousVmClusterInput.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceDisplayName, required: true, location_name: "displayName"))
@@ -681,10 +1233,10 @@ module Aws::Odb
     CreateCloudVmClusterInput.add_member(:cpu_core_count, Shapes::ShapeRef.new(shape: CreateCloudVmClusterInputCpuCoreCountInteger, required: true, location_name: "cpuCoreCount"))
     CreateCloudVmClusterInput.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceDisplayName, required: true, location_name: "displayName"))
     CreateCloudVmClusterInput.add_member(:gi_version, Shapes::ShapeRef.new(shape: CreateCloudVmClusterInputGiVersionString, required: true, location_name: "giVersion"))
-    CreateCloudVmClusterInput.add_member(:hostname, Shapes::ShapeRef.new(shape: CreateCloudVmClusterInputHostnameString, required: true, location_name: "hostname"))
+    CreateCloudVmClusterInput.add_member(:hostname, Shapes::ShapeRef.new(shape: Hostname, required: true, location_name: "hostname"))
     CreateCloudVmClusterInput.add_member(:ssh_public_keys, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "sshPublicKeys"))
     CreateCloudVmClusterInput.add_member(:odb_network_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "odbNetworkId"))
-    CreateCloudVmClusterInput.add_member(:cluster_name, Shapes::ShapeRef.new(shape: CreateCloudVmClusterInputClusterNameString, location_name: "clusterName"))
+    CreateCloudVmClusterInput.add_member(:cluster_name, Shapes::ShapeRef.new(shape: ClusterName, location_name: "clusterName"))
     CreateCloudVmClusterInput.add_member(:data_collection_options, Shapes::ShapeRef.new(shape: DataCollectionOptions, location_name: "dataCollectionOptions"))
     CreateCloudVmClusterInput.add_member(:data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "dataStorageSizeInTBs"))
     CreateCloudVmClusterInput.add_member(:db_node_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "dbNodeStorageSizeInGBs"))
@@ -746,6 +1298,14 @@ module Aws::Odb
     CreateOdbPeeringConnectionOutput.add_member(:odb_peering_connection_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "odbPeeringConnectionId"))
     CreateOdbPeeringConnectionOutput.struct_class = Types::CreateOdbPeeringConnectionOutput
 
+    CrossRegionDataGuardConfiguration.add_member(:source_autonomous_database_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "sourceAutonomousDatabaseArn"))
+    CrossRegionDataGuardConfiguration.struct_class = Types::CrossRegionDataGuardConfiguration
+
+    CrossRegionDisasterRecoveryConfiguration.add_member(:source_autonomous_database_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "sourceAutonomousDatabaseArn"))
+    CrossRegionDisasterRecoveryConfiguration.add_member(:remote_disaster_recovery_type, Shapes::ShapeRef.new(shape: DisasterRecoveryType, required: true, location_name: "remoteDisasterRecoveryType"))
+    CrossRegionDisasterRecoveryConfiguration.add_member(:is_replicate_automatic_backups, Shapes::ShapeRef.new(shape: Boolean, location_name: "isReplicateAutomaticBackups"))
+    CrossRegionDisasterRecoveryConfiguration.struct_class = Types::CrossRegionDisasterRecoveryConfiguration
+
     CrossRegionS3RestoreSourcesAccess.add_member(:region, Shapes::ShapeRef.new(shape: String, location_name: "region"))
     CrossRegionS3RestoreSourcesAccess.add_member(:ipv4_addresses, Shapes::ShapeRef.new(shape: StringList, location_name: "ipv4Addresses"))
     CrossRegionS3RestoreSourcesAccess.add_member(:status, Shapes::ShapeRef.new(shape: ManagedResourceStatus, location_name: "status"))
@@ -762,6 +1322,45 @@ module Aws::Odb
     DataCollectionOptions.add_member(:is_health_monitoring_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isHealthMonitoringEnabled"))
     DataCollectionOptions.add_member(:is_incident_logs_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isIncidentLogsEnabled"))
     DataCollectionOptions.struct_class = Types::DataCollectionOptions
+
+    DatabaseCloneConfiguration.add_member(:source_autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "sourceAutonomousDatabaseId"))
+    DatabaseCloneConfiguration.add_member(:clone_type, Shapes::ShapeRef.new(shape: CloneType, required: true, location_name: "cloneType"))
+    DatabaseCloneConfiguration.struct_class = Types::DatabaseCloneConfiguration
+
+    DatabaseConnectionStringMap.key = Shapes::ShapeRef.new(shape: String)
+    DatabaseConnectionStringMap.value = Shapes::ShapeRef.new(shape: String)
+
+    DatabaseConnectionStringProfile.add_member(:consumer_group, Shapes::ShapeRef.new(shape: String, location_name: "consumerGroup"))
+    DatabaseConnectionStringProfile.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    DatabaseConnectionStringProfile.add_member(:host_format, Shapes::ShapeRef.new(shape: String, location_name: "hostFormat"))
+    DatabaseConnectionStringProfile.add_member(:is_regional, Shapes::ShapeRef.new(shape: Boolean, location_name: "isRegional"))
+    DatabaseConnectionStringProfile.add_member(:protocol, Shapes::ShapeRef.new(shape: String, location_name: "protocol"))
+    DatabaseConnectionStringProfile.add_member(:session_mode, Shapes::ShapeRef.new(shape: String, location_name: "sessionMode"))
+    DatabaseConnectionStringProfile.add_member(:syntax_format, Shapes::ShapeRef.new(shape: String, location_name: "syntaxFormat"))
+    DatabaseConnectionStringProfile.add_member(:tls_authentication, Shapes::ShapeRef.new(shape: String, location_name: "tlsAuthentication"))
+    DatabaseConnectionStringProfile.add_member(:value, Shapes::ShapeRef.new(shape: String, location_name: "value"))
+    DatabaseConnectionStringProfile.struct_class = Types::DatabaseConnectionStringProfile
+
+    DatabaseConnectionStringProfileList.member = Shapes::ShapeRef.new(shape: DatabaseConnectionStringProfile)
+
+    DatabaseStandbySummary.add_member(:availability_domain, Shapes::ShapeRef.new(shape: String, location_name: "availabilityDomain"))
+    DatabaseStandbySummary.add_member(:lag_time_in_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "lagTimeInSeconds"))
+    DatabaseStandbySummary.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    DatabaseStandbySummary.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    DatabaseStandbySummary.add_member(:maintenance_target_component, Shapes::ShapeRef.new(shape: String, location_name: "maintenanceTargetComponent"))
+    DatabaseStandbySummary.add_member(:time_data_guard_role_changed, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDataGuardRoleChanged"))
+    DatabaseStandbySummary.add_member(:time_disaster_recovery_role_changed, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeDisasterRecoveryRoleChanged"))
+    DatabaseStandbySummary.add_member(:time_maintenance_begin, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeMaintenanceBegin"))
+    DatabaseStandbySummary.add_member(:time_maintenance_end, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeMaintenanceEnd"))
+    DatabaseStandbySummary.struct_class = Types::DatabaseStandbySummary
+
+    DatabaseTool.add_member(:is_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isEnabled"))
+    DatabaseTool.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    DatabaseTool.add_member(:compute_count, Shapes::ShapeRef.new(shape: Double, location_name: "computeCount"))
+    DatabaseTool.add_member(:max_idle_time_in_minutes, Shapes::ShapeRef.new(shape: Integer, location_name: "maxIdleTimeInMinutes"))
+    DatabaseTool.struct_class = Types::DatabaseTool
+
+    DatabaseToolList.member = Shapes::ShapeRef.new(shape: DatabaseTool)
 
     DayOfWeek.add_member(:name, Shapes::ShapeRef.new(shape: DayOfWeekName, location_name: "name"))
     DayOfWeek.struct_class = Types::DayOfWeek
@@ -915,6 +1514,16 @@ module Aws::Odb
     DbSystemShapeSummary.add_member(:are_server_types_supported, Shapes::ShapeRef.new(shape: Boolean, location_name: "areServerTypesSupported"))
     DbSystemShapeSummary.struct_class = Types::DbSystemShapeSummary
 
+    DeleteAutonomousDatabaseBackupInput.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "autonomousDatabaseBackupId"))
+    DeleteAutonomousDatabaseBackupInput.struct_class = Types::DeleteAutonomousDatabaseBackupInput
+
+    DeleteAutonomousDatabaseBackupOutput.struct_class = Types::DeleteAutonomousDatabaseBackupOutput
+
+    DeleteAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    DeleteAutonomousDatabaseInput.struct_class = Types::DeleteAutonomousDatabaseInput
+
+    DeleteAutonomousDatabaseOutput.struct_class = Types::DeleteAutonomousDatabaseOutput
+
     DeleteCloudAutonomousVmClusterInput.add_member(:cloud_autonomous_vm_cluster_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "cloudAutonomousVmClusterId"))
     DeleteCloudAutonomousVmClusterInput.struct_class = Types::DeleteCloudAutonomousVmClusterInput
 
@@ -948,11 +1557,65 @@ module Aws::Odb
 
     DisassociateIamRoleFromResourceOutput.struct_class = Types::DisassociateIamRoleFromResourceOutput
 
+    DisasterRecoveryConfiguration.add_member(:disaster_recovery_type, Shapes::ShapeRef.new(shape: DisasterRecoveryType, location_name: "disasterRecoveryType"))
+    DisasterRecoveryConfiguration.add_member(:is_replicate_automatic_backups, Shapes::ShapeRef.new(shape: Boolean, location_name: "isReplicateAutomaticBackups"))
+    DisasterRecoveryConfiguration.add_member(:is_snapshot_standby, Shapes::ShapeRef.new(shape: Boolean, location_name: "isSnapshotStandby"))
+    DisasterRecoveryConfiguration.add_member(:time_snapshot_standby_enabled_till, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeSnapshotStandbyEnabledTill"))
+    DisasterRecoveryConfiguration.struct_class = Types::DisasterRecoveryConfiguration
+
+    EncryptionKeyConfiguration.add_member(:aws_encryption_key, Shapes::ShapeRef.new(shape: AwsEncryptionKeyConfiguration, location_name: "awsEncryptionKey"))
+    EncryptionKeyConfiguration.add_member(:oci_encryption_key, Shapes::ShapeRef.new(shape: OciEncryptionKeyConfiguration, location_name: "ociEncryptionKey"))
+    EncryptionKeyConfiguration.add_member(:okv_encryption_key, Shapes::ShapeRef.new(shape: OkvEncryptionKeyConfiguration, location_name: "okvEncryptionKey"))
+    EncryptionKeyConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    EncryptionKeyConfiguration.add_member_subclass(:aws_encryption_key, Types::EncryptionKeyConfiguration::AwsEncryptionKey)
+    EncryptionKeyConfiguration.add_member_subclass(:oci_encryption_key, Types::EncryptionKeyConfiguration::OciEncryptionKey)
+    EncryptionKeyConfiguration.add_member_subclass(:okv_encryption_key, Types::EncryptionKeyConfiguration::OkvEncryptionKey)
+    EncryptionKeyConfiguration.add_member_subclass(:unknown, Types::EncryptionKeyConfiguration::Unknown)
+    EncryptionKeyConfiguration.struct_class = Types::EncryptionKeyConfiguration
+
+    EncryptionKeyConfigurationInput.add_member(:aws_encryption_key, Shapes::ShapeRef.new(shape: AwsEncryptionKeyConfigurationInput, location_name: "awsEncryptionKey"))
+    EncryptionKeyConfigurationInput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    EncryptionKeyConfigurationInput.add_member_subclass(:aws_encryption_key, Types::EncryptionKeyConfigurationInput::AwsEncryptionKey)
+    EncryptionKeyConfigurationInput.add_member_subclass(:unknown, Types::EncryptionKeyConfigurationInput::Unknown)
+    EncryptionKeyConfigurationInput.struct_class = Types::EncryptionKeyConfigurationInput
+
+    EncryptionSummary.add_member(:encryption_key_provider, Shapes::ShapeRef.new(shape: EncryptionKeyProvider, location_name: "encryptionKeyProvider"))
+    EncryptionSummary.add_member(:encryption_key_configuration, Shapes::ShapeRef.new(shape: EncryptionKeyConfiguration, location_name: "encryptionKeyConfiguration"))
+    EncryptionSummary.struct_class = Types::EncryptionSummary
+
     ExadataIormConfig.add_member(:db_plans, Shapes::ShapeRef.new(shape: DbIormConfigList, location_name: "dbPlans"))
     ExadataIormConfig.add_member(:lifecycle_details, Shapes::ShapeRef.new(shape: String, location_name: "lifecycleDetails"))
     ExadataIormConfig.add_member(:lifecycle_state, Shapes::ShapeRef.new(shape: IormLifecycleState, location_name: "lifecycleState"))
     ExadataIormConfig.add_member(:objective, Shapes::ShapeRef.new(shape: Objective, location_name: "objective"))
     ExadataIormConfig.struct_class = Types::ExadataIormConfig
+
+    FailoverAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    FailoverAutonomousDatabaseInput.add_member(:peer_db_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "peerDbArn"))
+    FailoverAutonomousDatabaseInput.struct_class = Types::FailoverAutonomousDatabaseInput
+
+    FailoverAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    FailoverAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    FailoverAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    FailoverAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    FailoverAutonomousDatabaseOutput.struct_class = Types::FailoverAutonomousDatabaseOutput
+
+    GetAutonomousDatabaseBackupInput.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "autonomousDatabaseBackupId"))
+    GetAutonomousDatabaseBackupInput.struct_class = Types::GetAutonomousDatabaseBackupInput
+
+    GetAutonomousDatabaseBackupOutput.add_member(:autonomous_database_backup, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackup, location_name: "autonomousDatabaseBackup"))
+    GetAutonomousDatabaseBackupOutput.struct_class = Types::GetAutonomousDatabaseBackupOutput
+
+    GetAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    GetAutonomousDatabaseInput.struct_class = Types::GetAutonomousDatabaseInput
+
+    GetAutonomousDatabaseOutput.add_member(:autonomous_database, Shapes::ShapeRef.new(shape: AutonomousDatabase, required: true, location_name: "autonomousDatabase"))
+    GetAutonomousDatabaseOutput.struct_class = Types::GetAutonomousDatabaseOutput
+
+    GetAutonomousDatabaseWalletDetailsInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    GetAutonomousDatabaseWalletDetailsInput.struct_class = Types::GetAutonomousDatabaseWalletDetailsInput
+
+    GetAutonomousDatabaseWalletDetailsOutput.add_member(:autonomous_database_wallet_details, Shapes::ShapeRef.new(shape: AutonomousDatabaseWalletDetails, required: true, location_name: "autonomousDatabaseWalletDetails"))
+    GetAutonomousDatabaseWalletDetailsOutput.struct_class = Types::GetAutonomousDatabaseWalletDetailsOutput
 
     GetCloudAutonomousVmClusterInput.add_member(:cloud_autonomous_vm_cluster_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "cloudAutonomousVmClusterId"))
     GetCloudAutonomousVmClusterInput.struct_class = Types::GetCloudAutonomousVmClusterInput
@@ -999,6 +1662,10 @@ module Aws::Odb
     GetOciOnboardingStatusOutput.add_member(:existing_tenancy_activation_link, Shapes::ShapeRef.new(shape: String, location_name: "existingTenancyActivationLink"))
     GetOciOnboardingStatusOutput.add_member(:new_tenancy_activation_link, Shapes::ShapeRef.new(shape: String, location_name: "newTenancyActivationLink"))
     GetOciOnboardingStatusOutput.add_member(:oci_identity_domain, Shapes::ShapeRef.new(shape: OciIdentityDomain, location_name: "ociIdentityDomain"))
+    GetOciOnboardingStatusOutput.add_member(:autonomous_database_oci_integration_iam_roles, Shapes::ShapeRef.new(shape: OciIamRoleList, location_name: "autonomousDatabaseOciIntegrationIamRoles"))
+    GetOciOnboardingStatusOutput.add_member(:linked_oci_tenancy_id, Shapes::ShapeRef.new(shape: String, location_name: "linkedOciTenancyId"))
+    GetOciOnboardingStatusOutput.add_member(:linked_oci_compartment_id, Shapes::ShapeRef.new(shape: String, location_name: "linkedOciCompartmentId"))
+    GetOciOnboardingStatusOutput.add_member(:subscription_errors, Shapes::ShapeRef.new(shape: SubscriptionErrors, location_name: "subscriptionErrors"))
     GetOciOnboardingStatusOutput.struct_class = Types::GetOciOnboardingStatusOutput
 
     GetOdbNetworkInput.add_member(:odb_network_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "odbNetworkId"))
@@ -1033,6 +1700,8 @@ module Aws::Odb
 
     InitializeServiceOutput.struct_class = Types::InitializeServiceOutput
 
+    IntegerList.member = Shapes::ShapeRef.new(shape: Integer)
+
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     InternalServerException.add_member(:retry_after_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "retryAfterSeconds"))
     InternalServerException.struct_class = Types::InternalServerException
@@ -1042,6 +1711,61 @@ module Aws::Odb
     KmsAccess.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, location_name: "domainName"))
     KmsAccess.add_member(:kms_policy_document, Shapes::ShapeRef.new(shape: String, location_name: "kmsPolicyDocument"))
     KmsAccess.struct_class = Types::KmsAccess
+
+    ListAutonomousDatabaseBackupsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseBackupsInputMaxResultsInteger, location_name: "maxResults"))
+    ListAutonomousDatabaseBackupsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseBackupsInputNextTokenString, location_name: "nextToken"))
+    ListAutonomousDatabaseBackupsInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "autonomousDatabaseId"))
+    ListAutonomousDatabaseBackupsInput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupStatus, location_name: "status"))
+    ListAutonomousDatabaseBackupsInput.add_member(:type, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupType, location_name: "type"))
+    ListAutonomousDatabaseBackupsInput.struct_class = Types::ListAutonomousDatabaseBackupsInput
+
+    ListAutonomousDatabaseBackupsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListAutonomousDatabaseBackupsOutput.add_member(:autonomous_database_backups, Shapes::ShapeRef.new(shape: AutonomousDatabaseBackupList, required: true, location_name: "autonomousDatabaseBackups"))
+    ListAutonomousDatabaseBackupsOutput.struct_class = Types::ListAutonomousDatabaseBackupsOutput
+
+    ListAutonomousDatabaseCharacterSetsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseCharacterSetsInputMaxResultsInteger, location_name: "maxResults"))
+    ListAutonomousDatabaseCharacterSetsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseCharacterSetsInputNextTokenString, location_name: "nextToken"))
+    ListAutonomousDatabaseCharacterSetsInput.add_member(:character_set_type, Shapes::ShapeRef.new(shape: characterSetType, location_name: "characterSetType"))
+    ListAutonomousDatabaseCharacterSetsInput.struct_class = Types::ListAutonomousDatabaseCharacterSetsInput
+
+    ListAutonomousDatabaseCharacterSetsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListAutonomousDatabaseCharacterSetsOutput.add_member(:autonomous_database_character_sets, Shapes::ShapeRef.new(shape: AutonomousDatabaseCharacterSetList, required: true, location_name: "autonomousDatabaseCharacterSets"))
+    ListAutonomousDatabaseCharacterSetsOutput.struct_class = Types::ListAutonomousDatabaseCharacterSetsOutput
+
+    ListAutonomousDatabaseClonesInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseClonesInputMaxResultsInteger, location_name: "maxResults"))
+    ListAutonomousDatabaseClonesInput.add_member(:next_token, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseClonesInputNextTokenString, location_name: "nextToken"))
+    ListAutonomousDatabaseClonesInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    ListAutonomousDatabaseClonesInput.struct_class = Types::ListAutonomousDatabaseClonesInput
+
+    ListAutonomousDatabaseClonesOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListAutonomousDatabaseClonesOutput.add_member(:autonomous_database_clones, Shapes::ShapeRef.new(shape: AutonomousDatabaseList, required: true, location_name: "autonomousDatabaseClones"))
+    ListAutonomousDatabaseClonesOutput.struct_class = Types::ListAutonomousDatabaseClonesOutput
+
+    ListAutonomousDatabasePeersInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAutonomousDatabasePeersInputMaxResultsInteger, location_name: "maxResults"))
+    ListAutonomousDatabasePeersInput.add_member(:next_token, Shapes::ShapeRef.new(shape: ListAutonomousDatabasePeersInputNextTokenString, location_name: "nextToken"))
+    ListAutonomousDatabasePeersInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    ListAutonomousDatabasePeersInput.struct_class = Types::ListAutonomousDatabasePeersInput
+
+    ListAutonomousDatabasePeersOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListAutonomousDatabasePeersOutput.add_member(:autonomous_database_peers, Shapes::ShapeRef.new(shape: AutonomousDatabasePeerList, required: true, location_name: "autonomousDatabasePeers"))
+    ListAutonomousDatabasePeersOutput.struct_class = Types::ListAutonomousDatabasePeersOutput
+
+    ListAutonomousDatabaseVersionsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseVersionsInputMaxResultsInteger, location_name: "maxResults"))
+    ListAutonomousDatabaseVersionsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: ListAutonomousDatabaseVersionsInputNextTokenString, location_name: "nextToken"))
+    ListAutonomousDatabaseVersionsInput.add_member(:db_workload, Shapes::ShapeRef.new(shape: DbWorkload, location_name: "dbWorkload"))
+    ListAutonomousDatabaseVersionsInput.struct_class = Types::ListAutonomousDatabaseVersionsInput
+
+    ListAutonomousDatabaseVersionsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListAutonomousDatabaseVersionsOutput.add_member(:autonomous_database_versions, Shapes::ShapeRef.new(shape: AutonomousDatabaseVersionList, required: true, location_name: "autonomousDatabaseVersions"))
+    ListAutonomousDatabaseVersionsOutput.struct_class = Types::ListAutonomousDatabaseVersionsOutput
+
+    ListAutonomousDatabasesInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAutonomousDatabasesInputMaxResultsInteger, location_name: "maxResults"))
+    ListAutonomousDatabasesInput.add_member(:next_token, Shapes::ShapeRef.new(shape: ListAutonomousDatabasesInputNextTokenString, location_name: "nextToken"))
+    ListAutonomousDatabasesInput.struct_class = Types::ListAutonomousDatabasesInput
+
+    ListAutonomousDatabasesOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListAutonomousDatabasesOutput.add_member(:autonomous_databases, Shapes::ShapeRef.new(shape: AutonomousDatabaseList, required: true, location_name: "autonomousDatabases"))
+    ListAutonomousDatabasesOutput.struct_class = Types::ListAutonomousDatabasesOutput
 
     ListAutonomousVirtualMachinesInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListAutonomousVirtualMachinesInputMaxResultsInteger, location_name: "maxResults"))
     ListAutonomousVirtualMachinesInput.add_member(:next_token, Shapes::ShapeRef.new(shape: ListAutonomousVirtualMachinesInputNextTokenString, location_name: "nextToken"))
@@ -1148,6 +1872,12 @@ module Aws::Odb
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: ResponseTagMap, location_name: "tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
 
+    LongTermBackupSchedule.add_member(:is_disabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isDisabled"))
+    LongTermBackupSchedule.add_member(:repeat_cadence, Shapes::ShapeRef.new(shape: RepeatCadence, location_name: "repeatCadence"))
+    LongTermBackupSchedule.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: LongTermBackupScheduleRetentionPeriodInDaysInteger, location_name: "retentionPeriodInDays"))
+    LongTermBackupSchedule.add_member(:time_of_backup, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfBackup"))
+    LongTermBackupSchedule.struct_class = Types::LongTermBackupSchedule
+
     MaintenanceWindow.add_member(:custom_action_timeout_in_mins, Shapes::ShapeRef.new(shape: MaintenanceWindowCustomActionTimeoutInMinsInteger, location_name: "customActionTimeoutInMins"))
     MaintenanceWindow.add_member(:days_of_week, Shapes::ShapeRef.new(shape: DaysOfWeek, location_name: "daysOfWeek"))
     MaintenanceWindow.add_member(:hours_of_day, Shapes::ShapeRef.new(shape: HoursOfDay, location_name: "hoursOfDay"))
@@ -1186,6 +1916,16 @@ module Aws::Odb
     OciDnsForwardingConfig.struct_class = Types::OciDnsForwardingConfig
 
     OciDnsForwardingConfigList.member = Shapes::ShapeRef.new(shape: OciDnsForwardingConfig)
+
+    OciEncryptionKeyConfiguration.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: OciEncryptionKeyConfigurationKmsKeyIdString, required: true, location_name: "kmsKeyId"))
+    OciEncryptionKeyConfiguration.add_member(:vault_id, Shapes::ShapeRef.new(shape: OciEncryptionKeyConfigurationVaultIdString, required: true, location_name: "vaultId"))
+    OciEncryptionKeyConfiguration.struct_class = Types::OciEncryptionKeyConfiguration
+
+    OciIamRole.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "iamRoleArn"))
+    OciIamRole.add_member(:aws_integration, Shapes::ShapeRef.new(shape: OciAwsIntegration, location_name: "awsIntegration"))
+    OciIamRole.struct_class = Types::OciIamRole
+
+    OciIamRoleList.member = Shapes::ShapeRef.new(shape: OciIamRole)
 
     OciIdentityDomain.add_member(:oci_identity_domain_id, Shapes::ShapeRef.new(shape: String, location_name: "ociIdentityDomainId"))
     OciIdentityDomain.add_member(:oci_identity_domain_resource_url, Shapes::ShapeRef.new(shape: String, location_name: "ociIdentityDomainResourceUrl"))
@@ -1273,9 +2013,33 @@ module Aws::Odb
     OdbPeeringConnectionSummary.add_member(:percent_progress, Shapes::ShapeRef.new(shape: Float, location_name: "percentProgress"))
     OdbPeeringConnectionSummary.struct_class = Types::OdbPeeringConnectionSummary
 
+    OkvEncryptionKeyConfiguration.add_member(:certificate_directory_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "certificateDirectoryName"))
+    OkvEncryptionKeyConfiguration.add_member(:certificate_id, Shapes::ShapeRef.new(shape: String, location_name: "certificateId"))
+    OkvEncryptionKeyConfiguration.add_member(:directory_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "directoryName"))
+    OkvEncryptionKeyConfiguration.add_member(:okv_kms_key, Shapes::ShapeRef.new(shape: String, required: true, location_name: "okvKmsKey"))
+    OkvEncryptionKeyConfiguration.add_member(:okv_uri, Shapes::ShapeRef.new(shape: String, required: true, location_name: "okvUri"))
+    OkvEncryptionKeyConfiguration.struct_class = Types::OkvEncryptionKeyConfiguration
+
     PeerNetworkRouteTableIdList.member = Shapes::ShapeRef.new(shape: PeerNetworkRouteTableId)
 
     PeeredCidrList.member = Shapes::ShapeRef.new(shape: PeeredCidr)
+
+    PointInTimeRestoreConfiguration.add_member(:source_autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "sourceAutonomousDatabaseId"))
+    PointInTimeRestoreConfiguration.add_member(:clone_type, Shapes::ShapeRef.new(shape: CloneType, required: true, location_name: "cloneType"))
+    PointInTimeRestoreConfiguration.add_member(:timestamp, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timestamp"))
+    PointInTimeRestoreConfiguration.add_member(:use_latest_available_backup_timestamp, Shapes::ShapeRef.new(shape: Boolean, location_name: "useLatestAvailableBackupTimestamp"))
+    PointInTimeRestoreConfiguration.add_member(:clone_table_space_list, Shapes::ShapeRef.new(shape: IntegerList, location_name: "cloneTableSpaceList"))
+    PointInTimeRestoreConfiguration.struct_class = Types::PointInTimeRestoreConfiguration
+
+    RebootAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    RebootAutonomousDatabaseInput.add_member(:is_online_reboot, Shapes::ShapeRef.new(shape: Boolean, location_name: "isOnlineReboot"))
+    RebootAutonomousDatabaseInput.struct_class = Types::RebootAutonomousDatabaseInput
+
+    RebootAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    RebootAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    RebootAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    RebootAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    RebootAutonomousDatabaseOutput.struct_class = Types::RebootAutonomousDatabaseOutput
 
     RebootDbNodeInput.add_member(:cloud_vm_cluster_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "cloudVmClusterId"))
     RebootDbNodeInput.add_member(:db_node_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "dbNodeId"))
@@ -1296,14 +2060,44 @@ module Aws::Odb
     ResourceNotFoundException.add_member(:resource_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "resourceType"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
+    ResourcePoolSummary.add_member(:is_disabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isDisabled"))
+    ResourcePoolSummary.add_member(:pool_size, Shapes::ShapeRef.new(shape: Integer, location_name: "poolSize"))
+    ResourcePoolSummary.add_member(:pool_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: Integer, location_name: "poolStorageSizeInTBs"))
+    ResourcePoolSummary.add_member(:available_storage_capacity_in_t_bs, Shapes::ShapeRef.new(shape: Double, location_name: "availableStorageCapacityInTBs"))
+    ResourcePoolSummary.add_member(:total_compute_capacity, Shapes::ShapeRef.new(shape: Integer, location_name: "totalComputeCapacity"))
+    ResourcePoolSummary.add_member(:available_compute_capacity, Shapes::ShapeRef.new(shape: Integer, location_name: "availableComputeCapacity"))
+    ResourcePoolSummary.struct_class = Types::ResourcePoolSummary
+
     ResponseTagMap.key = Shapes::ShapeRef.new(shape: TagKey)
     ResponseTagMap.value = Shapes::ShapeRef.new(shape: TagValue)
+
+    RestoreAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    RestoreAutonomousDatabaseInput.add_member(:timestamp, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "timestamp"))
+    RestoreAutonomousDatabaseInput.struct_class = Types::RestoreAutonomousDatabaseInput
+
+    RestoreAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    RestoreAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    RestoreAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    RestoreAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    RestoreAutonomousDatabaseOutput.struct_class = Types::RestoreAutonomousDatabaseOutput
+
+    RestoreFromBackupConfiguration.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseBackupId"))
+    RestoreFromBackupConfiguration.add_member(:clone_type, Shapes::ShapeRef.new(shape: CloneType, required: true, location_name: "cloneType"))
+    RestoreFromBackupConfiguration.add_member(:clone_table_space_list, Shapes::ShapeRef.new(shape: IntegerList, location_name: "cloneTableSpaceList"))
+    RestoreFromBackupConfiguration.struct_class = Types::RestoreFromBackupConfiguration
 
     S3Access.add_member(:status, Shapes::ShapeRef.new(shape: ManagedResourceStatus, location_name: "status"))
     S3Access.add_member(:ipv4_addresses, Shapes::ShapeRef.new(shape: StringList, location_name: "ipv4Addresses"))
     S3Access.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, location_name: "domainName"))
     S3Access.add_member(:s3_policy_document, Shapes::ShapeRef.new(shape: String, location_name: "s3PolicyDocument"))
     S3Access.struct_class = Types::S3Access
+
+    ScheduledOperationDetails.add_member(:day_of_week, Shapes::ShapeRef.new(shape: DayOfWeek, required: true, location_name: "dayOfWeek"))
+    ScheduledOperationDetails.add_member(:scheduled_start_time, Shapes::ShapeRef.new(shape: String, location_name: "scheduledStartTime"))
+    ScheduledOperationDetails.add_member(:scheduled_stop_time, Shapes::ShapeRef.new(shape: String, location_name: "scheduledStopTime"))
+    ScheduledOperationDetails.struct_class = Types::ScheduledOperationDetails
+
+    ScheduledOperationDetailsList.member = Shapes::ShapeRef.new(shape: ScheduledOperationDetails)
 
     SensitiveStringList.member = Shapes::ShapeRef.new(shape: SensitiveString)
 
@@ -1317,6 +2111,40 @@ module Aws::Odb
     ServiceQuotaExceededException.add_member(:quota_code, Shapes::ShapeRef.new(shape: String, required: true, location_name: "quotaCode"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 
+    ShrinkAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    ShrinkAutonomousDatabaseInput.struct_class = Types::ShrinkAutonomousDatabaseInput
+
+    ShrinkAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    ShrinkAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    ShrinkAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    ShrinkAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    ShrinkAutonomousDatabaseOutput.struct_class = Types::ShrinkAutonomousDatabaseOutput
+
+    SourceConfiguration.add_member(:database_clone, Shapes::ShapeRef.new(shape: DatabaseCloneConfiguration, location_name: "databaseClone"))
+    SourceConfiguration.add_member(:restore_from_backup, Shapes::ShapeRef.new(shape: RestoreFromBackupConfiguration, location_name: "restoreFromBackup"))
+    SourceConfiguration.add_member(:point_in_time_restore, Shapes::ShapeRef.new(shape: PointInTimeRestoreConfiguration, location_name: "pointInTimeRestore"))
+    SourceConfiguration.add_member(:cross_region_data_guard, Shapes::ShapeRef.new(shape: CrossRegionDataGuardConfiguration, location_name: "crossRegionDataGuard"))
+    SourceConfiguration.add_member(:cross_region_disaster_recovery, Shapes::ShapeRef.new(shape: CrossRegionDisasterRecoveryConfiguration, location_name: "crossRegionDisasterRecovery"))
+    SourceConfiguration.add_member(:clone_to_refreshable, Shapes::ShapeRef.new(shape: CloneToRefreshableConfiguration, location_name: "cloneToRefreshable"))
+    SourceConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SourceConfiguration.add_member_subclass(:database_clone, Types::SourceConfiguration::DatabaseClone)
+    SourceConfiguration.add_member_subclass(:restore_from_backup, Types::SourceConfiguration::RestoreFromBackup)
+    SourceConfiguration.add_member_subclass(:point_in_time_restore, Types::SourceConfiguration::PointInTimeRestore)
+    SourceConfiguration.add_member_subclass(:cross_region_data_guard, Types::SourceConfiguration::CrossRegionDataGuard)
+    SourceConfiguration.add_member_subclass(:cross_region_disaster_recovery, Types::SourceConfiguration::CrossRegionDisasterRecovery)
+    SourceConfiguration.add_member_subclass(:clone_to_refreshable, Types::SourceConfiguration::CloneToRefreshable)
+    SourceConfiguration.add_member_subclass(:unknown, Types::SourceConfiguration::Unknown)
+    SourceConfiguration.struct_class = Types::SourceConfiguration
+
+    StartAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    StartAutonomousDatabaseInput.struct_class = Types::StartAutonomousDatabaseInput
+
+    StartAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    StartAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    StartAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    StartAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    StartAutonomousDatabaseOutput.struct_class = Types::StartAutonomousDatabaseOutput
+
     StartDbNodeInput.add_member(:cloud_vm_cluster_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "cloudVmClusterId"))
     StartDbNodeInput.add_member(:db_node_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "dbNodeId"))
     StartDbNodeInput.struct_class = Types::StartDbNodeInput
@@ -1325,6 +2153,15 @@ module Aws::Odb
     StartDbNodeOutput.add_member(:status, Shapes::ShapeRef.new(shape: DbNodeResourceStatus, location_name: "status"))
     StartDbNodeOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
     StartDbNodeOutput.struct_class = Types::StartDbNodeOutput
+
+    StopAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    StopAutonomousDatabaseInput.struct_class = Types::StopAutonomousDatabaseInput
+
+    StopAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    StopAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    StopAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    StopAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    StopAutonomousDatabaseOutput.struct_class = Types::StopAutonomousDatabaseOutput
 
     StopDbNodeInput.add_member(:cloud_vm_cluster_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "cloudVmClusterId"))
     StopDbNodeInput.add_member(:db_node_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "dbNodeId"))
@@ -1342,6 +2179,21 @@ module Aws::Odb
     StsAccess.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, location_name: "domainName"))
     StsAccess.add_member(:sts_policy_document, Shapes::ShapeRef.new(shape: String, location_name: "stsPolicyDocument"))
     StsAccess.struct_class = Types::StsAccess
+
+    SubscriptionError.add_member(:error_message, Shapes::ShapeRef.new(shape: String, location_name: "errorMessage"))
+    SubscriptionError.struct_class = Types::SubscriptionError
+
+    SubscriptionErrors.member = Shapes::ShapeRef.new(shape: SubscriptionError)
+
+    SwitchoverAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    SwitchoverAutonomousDatabaseInput.add_member(:peer_db_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "peerDbArn"))
+    SwitchoverAutonomousDatabaseInput.struct_class = Types::SwitchoverAutonomousDatabaseInput
+
+    SwitchoverAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    SwitchoverAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    SwitchoverAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    SwitchoverAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    SwitchoverAutonomousDatabaseOutput.struct_class = Types::SwitchoverAutonomousDatabaseOutput
 
     SystemVersionList.member = Shapes::ShapeRef.new(shape: SystemVersionSummary)
 
@@ -1362,11 +2214,75 @@ module Aws::Odb
     ThrottlingException.add_member(:retry_after_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "retryAfterSeconds"))
     ThrottlingException.struct_class = Types::ThrottlingException
 
+    TransportableTablespace.add_member(:tts_bundle_url, Shapes::ShapeRef.new(shape: String, location_name: "ttsBundleUrl"))
+    TransportableTablespace.struct_class = Types::TransportableTablespace
+
     UntagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "resourceArn"))
     UntagResourceRequest.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeys, required: true, location_name: "tagKeys"))
     UntagResourceRequest.struct_class = Types::UntagResourceRequest
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
+
+    UpdateAutonomousDatabaseBackupInput.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "autonomousDatabaseBackupId"))
+    UpdateAutonomousDatabaseBackupInput.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseBackupInputRetentionPeriodInDaysInteger, location_name: "retentionPeriodInDays"))
+    UpdateAutonomousDatabaseBackupInput.struct_class = Types::UpdateAutonomousDatabaseBackupInput
+
+    UpdateAutonomousDatabaseBackupOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    UpdateAutonomousDatabaseBackupOutput.add_member(:status, Shapes::ShapeRef.new(shape: ResourceStatus, location_name: "status"))
+    UpdateAutonomousDatabaseBackupOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    UpdateAutonomousDatabaseBackupOutput.add_member(:autonomous_database_backup_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseBackupId"))
+    UpdateAutonomousDatabaseBackupOutput.struct_class = Types::UpdateAutonomousDatabaseBackupOutput
+
+    UpdateAutonomousDatabaseInput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "autonomousDatabaseId"))
+    UpdateAutonomousDatabaseInput.add_member(:admin_password, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputAdminPasswordString, location_name: "adminPassword"))
+    UpdateAutonomousDatabaseInput.add_member(:compute_count, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputComputeCountDouble, location_name: "computeCount"))
+    UpdateAutonomousDatabaseInput.add_member(:cpu_core_count, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputCpuCoreCountInteger, location_name: "cpuCoreCount"))
+    UpdateAutonomousDatabaseInput.add_member(:data_storage_size_in_t_bs, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputDataStorageSizeInTBsInteger, location_name: "dataStorageSizeInTBs"))
+    UpdateAutonomousDatabaseInput.add_member(:data_storage_size_in_g_bs, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputDataStorageSizeInGBsInteger, location_name: "dataStorageSizeInGBs"))
+    UpdateAutonomousDatabaseInput.add_member(:display_name, Shapes::ShapeRef.new(shape: ResourceDisplayName, location_name: "displayName"))
+    UpdateAutonomousDatabaseInput.add_member(:db_name, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputDbNameString, location_name: "dbName"))
+    UpdateAutonomousDatabaseInput.add_member(:db_version, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputDbVersionString, location_name: "dbVersion"))
+    UpdateAutonomousDatabaseInput.add_member(:db_workload, Shapes::ShapeRef.new(shape: DbWorkload, location_name: "dbWorkload"))
+    UpdateAutonomousDatabaseInput.add_member(:db_tools_details, Shapes::ShapeRef.new(shape: DatabaseToolList, location_name: "dbToolsDetails"))
+    UpdateAutonomousDatabaseInput.add_member(:database_edition, Shapes::ShapeRef.new(shape: DatabaseEdition, location_name: "databaseEdition"))
+    UpdateAutonomousDatabaseInput.add_member(:license_model, Shapes::ShapeRef.new(shape: LicenseModel, location_name: "licenseModel"))
+    UpdateAutonomousDatabaseInput.add_member(:is_auto_scaling_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingEnabled"))
+    UpdateAutonomousDatabaseInput.add_member(:is_auto_scaling_for_storage_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isAutoScalingForStorageEnabled"))
+    UpdateAutonomousDatabaseInput.add_member(:is_backup_retention_locked, Shapes::ShapeRef.new(shape: Boolean, location_name: "isBackupRetentionLocked"))
+    UpdateAutonomousDatabaseInput.add_member(:is_local_data_guard_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isLocalDataGuardEnabled"))
+    UpdateAutonomousDatabaseInput.add_member(:is_mtls_connection_required, Shapes::ShapeRef.new(shape: Boolean, location_name: "isMtlsConnectionRequired"))
+    UpdateAutonomousDatabaseInput.add_member(:is_refreshable_clone, Shapes::ShapeRef.new(shape: Boolean, location_name: "isRefreshableClone"))
+    UpdateAutonomousDatabaseInput.add_member(:is_disconnect_peer, Shapes::ShapeRef.new(shape: Boolean, location_name: "isDisconnectPeer"))
+    UpdateAutonomousDatabaseInput.add_member(:backup_retention_period_in_days, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputBackupRetentionPeriodInDaysInteger, location_name: "backupRetentionPeriodInDays"))
+    UpdateAutonomousDatabaseInput.add_member(:byol_compute_count_limit, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputByolComputeCountLimitDouble, location_name: "byolComputeCountLimit"))
+    UpdateAutonomousDatabaseInput.add_member(:local_adg_auto_failover_max_data_loss_limit, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputLocalAdgAutoFailoverMaxDataLossLimitInteger, location_name: "localAdgAutoFailoverMaxDataLossLimit"))
+    UpdateAutonomousDatabaseInput.add_member(:autonomous_maintenance_schedule_type, Shapes::ShapeRef.new(shape: AutonomousMaintenanceScheduleType, location_name: "autonomousMaintenanceScheduleType"))
+    UpdateAutonomousDatabaseInput.add_member(:customer_contacts_to_send_to_oci, Shapes::ShapeRef.new(shape: CustomerContacts, location_name: "customerContactsToSendToOCI"))
+    UpdateAutonomousDatabaseInput.add_member(:scheduled_operations, Shapes::ShapeRef.new(shape: ScheduledOperationDetailsList, location_name: "scheduledOperations"))
+    UpdateAutonomousDatabaseInput.add_member(:long_term_backup_schedule, Shapes::ShapeRef.new(shape: LongTermBackupSchedule, location_name: "longTermBackupSchedule"))
+    UpdateAutonomousDatabaseInput.add_member(:open_mode, Shapes::ShapeRef.new(shape: OpenMode, location_name: "openMode"))
+    UpdateAutonomousDatabaseInput.add_member(:permission_level, Shapes::ShapeRef.new(shape: PermissionLevel, location_name: "permissionLevel"))
+    UpdateAutonomousDatabaseInput.add_member(:refreshable_mode, Shapes::ShapeRef.new(shape: RefreshableMode, location_name: "refreshableMode"))
+    UpdateAutonomousDatabaseInput.add_member(:private_endpoint_ip, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointIp"))
+    UpdateAutonomousDatabaseInput.add_member(:private_endpoint_label, Shapes::ShapeRef.new(shape: String, location_name: "privateEndpointLabel"))
+    UpdateAutonomousDatabaseInput.add_member(:peer_db_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, location_name: "peerDbId"))
+    UpdateAutonomousDatabaseInput.add_member(:resource_pool_leader_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, location_name: "resourcePoolLeaderId"))
+    UpdateAutonomousDatabaseInput.add_member(:resource_pool_summary, Shapes::ShapeRef.new(shape: ResourcePoolSummary, location_name: "resourcePoolSummary"))
+    UpdateAutonomousDatabaseInput.add_member(:standby_allowlisted_ips_source, Shapes::ShapeRef.new(shape: StandbyAllowlistedIpsSource, location_name: "standbyAllowlistedIpsSource"))
+    UpdateAutonomousDatabaseInput.add_member(:standby_allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "standbyAllowlistedIps"))
+    UpdateAutonomousDatabaseInput.add_member(:allowlisted_ips, Shapes::ShapeRef.new(shape: StringList, location_name: "allowlistedIps"))
+    UpdateAutonomousDatabaseInput.add_member(:auto_refresh_frequency_in_seconds, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputAutoRefreshFrequencyInSecondsInteger, location_name: "autoRefreshFrequencyInSeconds"))
+    UpdateAutonomousDatabaseInput.add_member(:auto_refresh_point_lag_in_seconds, Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInputAutoRefreshPointLagInSecondsInteger, location_name: "autoRefreshPointLagInSeconds"))
+    UpdateAutonomousDatabaseInput.add_member(:time_of_auto_refresh_start, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "timeOfAutoRefreshStart"))
+    UpdateAutonomousDatabaseInput.add_member(:encryption_key_provider, Shapes::ShapeRef.new(shape: EncryptionKeyProviderInput, location_name: "encryptionKeyProvider"))
+    UpdateAutonomousDatabaseInput.add_member(:encryption_key_configuration, Shapes::ShapeRef.new(shape: EncryptionKeyConfigurationInput, location_name: "encryptionKeyConfiguration"))
+    UpdateAutonomousDatabaseInput.struct_class = Types::UpdateAutonomousDatabaseInput
+
+    UpdateAutonomousDatabaseOutput.add_member(:autonomous_database_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "autonomousDatabaseId"))
+    UpdateAutonomousDatabaseOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
+    UpdateAutonomousDatabaseOutput.add_member(:status, Shapes::ShapeRef.new(shape: AutonomousDatabaseResourceStatus, location_name: "status"))
+    UpdateAutonomousDatabaseOutput.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
+    UpdateAutonomousDatabaseOutput.struct_class = Types::UpdateAutonomousDatabaseOutput
 
     UpdateCloudExadataInfrastructureInput.add_member(:cloud_exadata_infrastructure_id, Shapes::ShapeRef.new(shape: ResourceIdOrArn, required: true, location_name: "cloudExadataInfrastructureId"))
     UpdateCloudExadataInfrastructureInput.add_member(:maintenance_window, Shapes::ShapeRef.new(shape: MaintenanceWindow, location_name: "maintenanceWindow"))
@@ -1476,6 +2392,49 @@ module Aws::Odb
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:create_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:create_autonomous_database_backup, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAutonomousDatabaseBackup"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseBackupInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseBackupOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:create_autonomous_database_wallet, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAutonomousDatabaseWallet"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseWalletInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateAutonomousDatabaseWalletOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:create_cloud_autonomous_vm_cluster, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateCloudAutonomousVmCluster"
         o.http_method = "POST"
@@ -1540,6 +2499,34 @@ module Aws::Odb
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: CreateOdbPeeringConnectionInput)
         o.output = Shapes::ShapeRef.new(shape: CreateOdbPeeringConnectionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:delete_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:delete_autonomous_database_backup, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAutonomousDatabaseBackup"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAutonomousDatabaseBackupInput)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAutonomousDatabaseBackupOutput)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
@@ -1623,6 +2610,59 @@ module Aws::Odb
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:failover_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "FailoverAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: FailoverAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: FailoverAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: GetAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_autonomous_database_backup, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAutonomousDatabaseBackup"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetAutonomousDatabaseBackupInput)
+        o.output = Shapes::ShapeRef.new(shape: GetAutonomousDatabaseBackupOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_autonomous_database_wallet_details, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAutonomousDatabaseWalletDetails"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetAutonomousDatabaseWalletDetailsInput)
+        o.output = Shapes::ShapeRef.new(shape: GetAutonomousDatabaseWalletDetailsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
@@ -1754,6 +2794,117 @@ module Aws::Odb
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:list_autonomous_database_backups, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAutonomousDatabaseBackups"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseBackupsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseBackupsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_autonomous_database_character_sets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAutonomousDatabaseCharacterSets"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseCharacterSetsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseCharacterSetsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_autonomous_database_clones, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAutonomousDatabaseClones"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseClonesInput)
+        o.output = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseClonesOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_autonomous_database_peers, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAutonomousDatabasePeers"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAutonomousDatabasePeersInput)
+        o.output = Shapes::ShapeRef.new(shape: ListAutonomousDatabasePeersOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_autonomous_database_versions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAutonomousDatabaseVersions"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseVersionsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListAutonomousDatabaseVersionsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_autonomous_databases, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAutonomousDatabases"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAutonomousDatabasesInput)
+        o.output = Shapes::ShapeRef.new(shape: ListAutonomousDatabasesOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_autonomous_virtual_machines, Seahorse::Model::Operation.new.tap do |o|
@@ -1970,6 +3121,20 @@ module Aws::Odb
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:reboot_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "RebootAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: RebootAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: RebootAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:reboot_db_node, Seahorse::Model::Operation.new.tap do |o|
         o.name = "RebootDbNode"
         o.http_method = "POST"
@@ -1978,6 +3143,48 @@ module Aws::Odb
         o.output = Shapes::ShapeRef.new(shape: RebootDbNodeOutput)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:restore_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "RestoreAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: RestoreAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: RestoreAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:shrink_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ShrinkAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ShrinkAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: ShrinkAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:start_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: StartAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
@@ -1996,6 +3203,20 @@ module Aws::Odb
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:stop_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StopAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: StopAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:stop_db_node, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StopDbNode"
         o.http_method = "POST"
@@ -2004,6 +3225,20 @@ module Aws::Odb
         o.output = Shapes::ShapeRef.new(shape: StopDbNodeOutput)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:switchover_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SwitchoverAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: SwitchoverAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: SwitchoverAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
@@ -2025,6 +3260,34 @@ module Aws::Odb
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UntagResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: UntagResourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:update_autonomous_database, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateAutonomousDatabase"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:update_autonomous_database_backup, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateAutonomousDatabaseBackup"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseBackupInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateAutonomousDatabaseBackupOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 

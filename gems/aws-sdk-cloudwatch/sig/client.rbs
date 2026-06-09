@@ -79,6 +79,16 @@ module Aws
                   | (?Hash[Symbol, untyped]) -> instance
 
 
+      interface _AssociateDatasetKmsKeyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::AssociateDatasetKmsKeyOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#associate_dataset_kms_key-instance_method
+      def associate_dataset_kms_key: (
+                                       dataset_identifier: ::String,
+                                       kms_key_arn: ::String
+                                     ) -> _AssociateDatasetKmsKeyResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateDatasetKmsKeyResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#delete_alarm_mute_rule-instance_method
       def delete_alarm_mute_rule: (
                                     alarm_mute_rule_name: ::String
@@ -259,6 +269,15 @@ module Aws
                                  ) -> _DisableInsightRulesResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DisableInsightRulesResponseSuccess
 
+      interface _DisassociateDatasetKmsKeyResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DisassociateDatasetKmsKeyOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#disassociate_dataset_kms_key-instance_method
+      def disassociate_dataset_kms_key: (
+                                          dataset_identifier: ::String
+                                        ) -> _DisassociateDatasetKmsKeyResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DisassociateDatasetKmsKeyResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#enable_alarm_actions-instance_method
       def enable_alarm_actions: (
                                   alarm_names: Array[::String]
@@ -305,6 +324,18 @@ module Aws
                            dashboard_name: ::String
                          ) -> _GetDashboardResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetDashboardResponseSuccess
+
+      interface _GetDatasetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetDatasetOutput]
+        def dataset_id: () -> ::String
+        def arn: () -> ::String
+        def kms_key_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatch/Client.html#get_dataset-instance_method
+      def get_dataset: (
+                         dataset_identifier: ::String
+                       ) -> _GetDatasetResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetDatasetResponseSuccess
 
       interface _GetInsightRuleReportResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetInsightRuleReportOutput]

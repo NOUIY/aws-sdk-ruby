@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.140.0 (2026-06-09)
+------------------
+
+* Feature - This release adds the APIs (AssociateDatasetKmsKey, DisassociateDatasetKmsKey, GetDataset) to manage encryption at rest for OpenTelemetry metrics in CloudWatch using AWS KMS customer managed keys.
+
 1.139.0 (2026-06-02)
 ------------------
 

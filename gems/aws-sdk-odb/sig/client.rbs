@@ -99,6 +99,148 @@ module Aws
                                           ) -> _AssociateIamRoleToResourceResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateIamRoleToResourceResponseSuccess
 
+      interface _CreateAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#create_autonomous_database-instance_method
+      def create_autonomous_database: (
+                                        ?odb_network_id: ::String,
+                                        ?display_name: ::String,
+                                        ?db_name: ::String,
+                                        ?admin_password: ::String,
+                                        ?compute_count: ::Float,
+                                        ?data_storage_size_in_t_bs: ::Integer,
+                                        ?data_storage_size_in_g_bs: ::Integer,
+                                        ?db_workload: ("OLTP" | "AJD" | "APEX" | "LH"),
+                                        ?is_auto_scaling_enabled: bool,
+                                        ?is_auto_scaling_for_storage_enabled: bool,
+                                        ?license_model: ("BRING_YOUR_OWN_LICENSE" | "LICENSE_INCLUDED"),
+                                        ?character_set: ::String,
+                                        ?ncharacter_set: ::String,
+                                        ?db_version: ::String,
+                                        ?database_edition: ("STANDARD_EDITION" | "ENTERPRISE_EDITION"),
+                                        ?standby_allowlisted_ips_source: ("PRIMARY" | "SEPARATE" | "NOT_APPLICABLE"),
+                                        ?autonomous_maintenance_schedule_type: ("EARLY" | "REGULAR"),
+                                        ?backup_retention_period_in_days: ::Integer,
+                                        ?byol_compute_count_limit: ::Float,
+                                        ?cpu_core_count: ::Integer,
+                                        ?customer_contacts_to_send_to_oci: Array[
+                                          {
+                                            email: ::String?
+                                          }
+                                        ],
+                                        ?private_endpoint_ip: ::String,
+                                        ?private_endpoint_label: ::String,
+                                        ?resource_pool_leader_id: ::String,
+                                        ?resource_pool_summary: Params::resource_pool_summary,
+                                        ?scheduled_operations: Array[
+                                          {
+                                            day_of_week: {
+                                              name: ("MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY")?
+                                            },
+                                            scheduled_start_time: ::String?,
+                                            scheduled_stop_time: ::String?
+                                          }
+                                        ],
+                                        ?standby_allowlisted_ips: Array[::String],
+                                        ?allowlisted_ips: Array[::String],
+                                        ?transportable_tablespace: {
+                                          tts_bundle_url: ::String?
+                                        },
+                                        ?is_backup_retention_locked: bool,
+                                        ?is_local_data_guard_enabled: bool,
+                                        ?is_mtls_connection_required: bool,
+                                        ?db_tools_details: Array[
+                                          {
+                                            is_enabled: bool?,
+                                            name: ::String?,
+                                            compute_count: ::Float?,
+                                            max_idle_time_in_minutes: ::Integer?
+                                          }
+                                        ],
+                                        ?source: ("NONE" | "DATABASE" | "BACKUP_FROM_ID" | "BACKUP_FROM_TIMESTAMP" | "CROSS_REGION_DATAGUARD" | "CROSS_REGION_DISASTER_RECOVERY" | "CLONE_TO_REFRESHABLE"),
+                                        ?source_configuration: {
+                                          database_clone: {
+                                            source_autonomous_database_id: ::String,
+                                            clone_type: ("FULL" | "METADATA" | "PARTIAL")
+                                          }?,
+                                          restore_from_backup: {
+                                            autonomous_database_backup_id: ::String,
+                                            clone_type: ("FULL" | "METADATA" | "PARTIAL"),
+                                            clone_table_space_list: Array[::Integer]?
+                                          }?,
+                                          point_in_time_restore: {
+                                            source_autonomous_database_id: ::String,
+                                            clone_type: ("FULL" | "METADATA" | "PARTIAL"),
+                                            timestamp: ::Time?,
+                                            use_latest_available_backup_timestamp: bool?,
+                                            clone_table_space_list: Array[::Integer]?
+                                          }?,
+                                          cross_region_data_guard: {
+                                            source_autonomous_database_arn: ::String
+                                          }?,
+                                          cross_region_disaster_recovery: {
+                                            source_autonomous_database_arn: ::String,
+                                            remote_disaster_recovery_type: ("ADG" | "BACKUP_BASED"),
+                                            is_replicate_automatic_backups: bool?
+                                          }?,
+                                          clone_to_refreshable: {
+                                            source_autonomous_database_id: ::String,
+                                            refreshable_mode: ("AUTOMATIC" | "MANUAL")?,
+                                            auto_refresh_frequency_in_seconds: ::Integer?,
+                                            auto_refresh_point_lag_in_seconds: ::Integer?,
+                                            time_of_auto_refresh_start: ::Time?,
+                                            open_mode: ("READ_ONLY" | "READ_WRITE")?,
+                                            clone_type: ("FULL" | "METADATA" | "PARTIAL")?
+                                          }?
+                                        },
+                                        ?encryption_key_provider: ("ORACLE_MANAGED" | "AWS_KMS"),
+                                        ?encryption_key_configuration: {
+                                          aws_encryption_key: {
+                                            iam_role_arn: ::String?,
+                                            external_id_type: ("database_ocid" | "compartment_ocid" | "tenant_ocid")?,
+                                            kms_key_id: ::String?
+                                          }?
+                                        },
+                                        ?client_token: ::String,
+                                        ?tags: Hash[::String, ::String]
+                                      ) -> _CreateAutonomousDatabaseResponseSuccess
+                                    | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAutonomousDatabaseResponseSuccess
+
+      interface _CreateAutonomousDatabaseBackupResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAutonomousDatabaseBackupOutput]
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS")
+        def status_reason: () -> ::String
+        def autonomous_database_backup_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#create_autonomous_database_backup-instance_method
+      def create_autonomous_database_backup: (
+                                               autonomous_database_id: ::String,
+                                               ?display_name: ::String,
+                                               ?retention_period_in_days: ::Integer,
+                                               ?client_token: ::String,
+                                               ?tags: Hash[::String, ::String]
+                                             ) -> _CreateAutonomousDatabaseBackupResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAutonomousDatabaseBackupResponseSuccess
+
+      interface _CreateAutonomousDatabaseWalletResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAutonomousDatabaseWalletOutput]
+        def autonomous_database_wallet_file: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#create_autonomous_database_wallet-instance_method
+      def create_autonomous_database_wallet: (
+                                               autonomous_database_id: ::String,
+                                               ?wallet_type: ("REGIONAL" | "INSTANCE"),
+                                               password: ::String,
+                                               ?client_token: ::String
+                                             ) -> _CreateAutonomousDatabaseWalletResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAutonomousDatabaseWalletResponseSuccess
+
       interface _CreateCloudAutonomousVmClusterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateCloudAutonomousVmClusterOutput]
         def display_name: () -> ::String
@@ -241,6 +383,24 @@ module Aws
                                          ) -> _CreateOdbPeeringConnectionResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateOdbPeeringConnectionResponseSuccess
 
+      interface _DeleteAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAutonomousDatabaseOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#delete_autonomous_database-instance_method
+      def delete_autonomous_database: (
+                                        autonomous_database_id: ::String
+                                      ) -> _DeleteAutonomousDatabaseResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAutonomousDatabaseResponseSuccess
+
+      interface _DeleteAutonomousDatabaseBackupResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAutonomousDatabaseBackupOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#delete_autonomous_database_backup-instance_method
+      def delete_autonomous_database_backup: (
+                                               autonomous_database_backup_id: ::String
+                                             ) -> _DeleteAutonomousDatabaseBackupResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAutonomousDatabaseBackupResponseSuccess
+
       interface _DeleteCloudAutonomousVmClusterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteCloudAutonomousVmClusterOutput]
       end
@@ -297,6 +457,50 @@ module Aws
                                                  resource_arn: ::String
                                                ) -> _DisassociateIamRoleFromResourceResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DisassociateIamRoleFromResourceResponseSuccess
+
+      interface _FailoverAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::FailoverAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#failover_autonomous_database-instance_method
+      def failover_autonomous_database: (
+                                          autonomous_database_id: ::String,
+                                          ?peer_db_arn: ::String
+                                        ) -> _FailoverAutonomousDatabaseResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _FailoverAutonomousDatabaseResponseSuccess
+
+      interface _GetAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAutonomousDatabaseOutput]
+        def autonomous_database: () -> Types::AutonomousDatabase
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#get_autonomous_database-instance_method
+      def get_autonomous_database: (
+                                     autonomous_database_id: ::String
+                                   ) -> _GetAutonomousDatabaseResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAutonomousDatabaseResponseSuccess
+
+      interface _GetAutonomousDatabaseBackupResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAutonomousDatabaseBackupOutput]
+        def autonomous_database_backup: () -> Types::AutonomousDatabaseBackup
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#get_autonomous_database_backup-instance_method
+      def get_autonomous_database_backup: (
+                                            autonomous_database_backup_id: ::String
+                                          ) -> _GetAutonomousDatabaseBackupResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAutonomousDatabaseBackupResponseSuccess
+
+      interface _GetAutonomousDatabaseWalletDetailsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAutonomousDatabaseWalletDetailsOutput]
+        def autonomous_database_wallet_details: () -> Types::AutonomousDatabaseWalletDetails
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#get_autonomous_database_wallet_details-instance_method
+      def get_autonomous_database_wallet_details: (
+                                                    autonomous_database_id: ::String
+                                                  ) -> _GetAutonomousDatabaseWalletDetailsResponseSuccess
+                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAutonomousDatabaseWalletDetailsResponseSuccess
 
       interface _GetCloudAutonomousVmClusterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetCloudAutonomousVmClusterOutput]
@@ -367,6 +571,10 @@ module Aws
         def existing_tenancy_activation_link: () -> ::String
         def new_tenancy_activation_link: () -> ::String
         def oci_identity_domain: () -> Types::OciIdentityDomain
+        def autonomous_database_oci_integration_iam_roles: () -> ::Array[Types::OciIamRole]
+        def linked_oci_tenancy_id: () -> ::String
+        def linked_oci_compartment_id: () -> ::String
+        def subscription_errors: () -> ::Array[Types::SubscriptionError]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#get_oci_onboarding_status-instance_method
       def get_oci_onboarding_status: (
@@ -401,6 +609,85 @@ module Aws
                                 ?oci_identity_domain: bool
                               ) -> _InitializeServiceResponseSuccess
                             | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _InitializeServiceResponseSuccess
+
+      interface _ListAutonomousDatabaseBackupsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAutonomousDatabaseBackupsOutput]
+        def next_token: () -> ::String
+        def autonomous_database_backups: () -> ::Array[Types::AutonomousDatabaseBackupSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#list_autonomous_database_backups-instance_method
+      def list_autonomous_database_backups: (
+                                              ?max_results: ::Integer,
+                                              ?next_token: ::String,
+                                              autonomous_database_id: ::String,
+                                              ?status: ("ACTIVE" | "CREATING" | "UPDATING" | "DELETING" | "FAILED"),
+                                              ?type: ("INCREMENTAL" | "FULL" | "LONGTERM" | "VIRTUAL_FULL" | "CUMULATIVE_INCREMENTAL" | "ROLL_FORWARD_IMAGE_COPY")
+                                            ) -> _ListAutonomousDatabaseBackupsResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAutonomousDatabaseBackupsResponseSuccess
+
+      interface _ListAutonomousDatabaseCharacterSetsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAutonomousDatabaseCharacterSetsOutput]
+        def next_token: () -> ::String
+        def autonomous_database_character_sets: () -> ::Array[Types::AutonomousDatabaseCharacterSetSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#list_autonomous_database_character_sets-instance_method
+      def list_autonomous_database_character_sets: (
+                                                     ?max_results: ::Integer,
+                                                     ?next_token: ::String,
+                                                     ?character_set_type: ("DATABASE" | "NATIONAL")
+                                                   ) -> _ListAutonomousDatabaseCharacterSetsResponseSuccess
+                                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAutonomousDatabaseCharacterSetsResponseSuccess
+
+      interface _ListAutonomousDatabaseClonesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAutonomousDatabaseClonesOutput]
+        def next_token: () -> ::String
+        def autonomous_database_clones: () -> ::Array[Types::AutonomousDatabaseSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#list_autonomous_database_clones-instance_method
+      def list_autonomous_database_clones: (
+                                             ?max_results: ::Integer,
+                                             ?next_token: ::String,
+                                             autonomous_database_id: ::String
+                                           ) -> _ListAutonomousDatabaseClonesResponseSuccess
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAutonomousDatabaseClonesResponseSuccess
+
+      interface _ListAutonomousDatabasePeersResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAutonomousDatabasePeersOutput]
+        def next_token: () -> ::String
+        def autonomous_database_peers: () -> ::Array[Types::AutonomousDatabasePeerSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#list_autonomous_database_peers-instance_method
+      def list_autonomous_database_peers: (
+                                            ?max_results: ::Integer,
+                                            ?next_token: ::String,
+                                            autonomous_database_id: ::String
+                                          ) -> _ListAutonomousDatabasePeersResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAutonomousDatabasePeersResponseSuccess
+
+      interface _ListAutonomousDatabaseVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAutonomousDatabaseVersionsOutput]
+        def next_token: () -> ::String
+        def autonomous_database_versions: () -> ::Array[Types::AutonomousDatabaseVersionSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#list_autonomous_database_versions-instance_method
+      def list_autonomous_database_versions: (
+                                               ?max_results: ::Integer,
+                                               ?next_token: ::String,
+                                               ?db_workload: ("OLTP" | "AJD" | "APEX" | "LH")
+                                             ) -> _ListAutonomousDatabaseVersionsResponseSuccess
+                                           | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAutonomousDatabaseVersionsResponseSuccess
+
+      interface _ListAutonomousDatabasesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAutonomousDatabasesOutput]
+        def next_token: () -> ::String
+        def autonomous_databases: () -> ::Array[Types::AutonomousDatabaseSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#list_autonomous_databases-instance_method
+      def list_autonomous_databases: (
+                                       ?max_results: ::Integer,
+                                       ?next_token: ::String
+                                     ) -> _ListAutonomousDatabasesResponseSuccess
+                                   | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAutonomousDatabasesResponseSuccess
 
       interface _ListAutonomousVirtualMachinesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAutonomousVirtualMachinesOutput]
@@ -555,6 +842,20 @@ module Aws
                                   ) -> _ListTagsForResourceResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTagsForResourceResponseSuccess
 
+      interface _RebootAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::RebootAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#reboot_autonomous_database-instance_method
+      def reboot_autonomous_database: (
+                                        autonomous_database_id: ::String,
+                                        ?is_online_reboot: bool
+                                      ) -> _RebootAutonomousDatabaseResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RebootAutonomousDatabaseResponseSuccess
+
       interface _RebootDbNodeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::RebootDbNodeOutput]
         def db_node_id: () -> ::String
@@ -567,6 +868,46 @@ module Aws
                             db_node_id: ::String
                           ) -> _RebootDbNodeResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RebootDbNodeResponseSuccess
+
+      interface _RestoreAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::RestoreAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#restore_autonomous_database-instance_method
+      def restore_autonomous_database: (
+                                         autonomous_database_id: ::String,
+                                         timestamp: ::Time
+                                       ) -> _RestoreAutonomousDatabaseResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RestoreAutonomousDatabaseResponseSuccess
+
+      interface _ShrinkAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ShrinkAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#shrink_autonomous_database-instance_method
+      def shrink_autonomous_database: (
+                                        autonomous_database_id: ::String
+                                      ) -> _ShrinkAutonomousDatabaseResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ShrinkAutonomousDatabaseResponseSuccess
+
+      interface _StartAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#start_autonomous_database-instance_method
+      def start_autonomous_database: (
+                                       autonomous_database_id: ::String
+                                     ) -> _StartAutonomousDatabaseResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartAutonomousDatabaseResponseSuccess
 
       interface _StartDbNodeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartDbNodeOutput]
@@ -581,6 +922,19 @@ module Aws
                          ) -> _StartDbNodeResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartDbNodeResponseSuccess
 
+      interface _StopAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#stop_autonomous_database-instance_method
+      def stop_autonomous_database: (
+                                      autonomous_database_id: ::String
+                                    ) -> _StopAutonomousDatabaseResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopAutonomousDatabaseResponseSuccess
+
       interface _StopDbNodeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StopDbNodeOutput]
         def db_node_id: () -> ::String
@@ -593,6 +947,20 @@ module Aws
                           db_node_id: ::String
                         ) -> _StopDbNodeResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopDbNodeResponseSuccess
+
+      interface _SwitchoverAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SwitchoverAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#switchover_autonomous_database-instance_method
+      def switchover_autonomous_database: (
+                                            autonomous_database_id: ::String,
+                                            ?peer_db_arn: ::String
+                                          ) -> _SwitchoverAutonomousDatabaseResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SwitchoverAutonomousDatabaseResponseSuccess
 
       interface _TagResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::TagResourceResponse]
@@ -613,6 +981,105 @@ module Aws
                             tag_keys: Array[::String]
                           ) -> _UntagResourceResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UntagResourceResponseSuccess
+
+      interface _UpdateAutonomousDatabaseResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAutonomousDatabaseOutput]
+        def autonomous_database_id: () -> ::String
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS" | "STOPPING" | "STOPPED" | "STARTING" | "UNAVAILABLE" | "RESTORE_IN_PROGRESS" | "RESTORE_FAILED" | "BACKUP_IN_PROGRESS" | "SCALE_IN_PROGRESS" | "AVAILABLE_NEEDS_ATTENTION" | "RESTARTING" | "RECREATING" | "ROLE_CHANGE_IN_PROGRESS" | "UPGRADING" | "INACCESSIBLE" | "STANDBY")
+        def status_reason: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#update_autonomous_database-instance_method
+      def update_autonomous_database: (
+                                        autonomous_database_id: ::String,
+                                        ?admin_password: ::String,
+                                        ?compute_count: ::Float,
+                                        ?cpu_core_count: ::Integer,
+                                        ?data_storage_size_in_t_bs: ::Integer,
+                                        ?data_storage_size_in_g_bs: ::Integer,
+                                        ?display_name: ::String,
+                                        ?db_name: ::String,
+                                        ?db_version: ::String,
+                                        ?db_workload: ("OLTP" | "AJD" | "APEX" | "LH"),
+                                        ?db_tools_details: Array[
+                                          {
+                                            is_enabled: bool?,
+                                            name: ::String?,
+                                            compute_count: ::Float?,
+                                            max_idle_time_in_minutes: ::Integer?
+                                          }
+                                        ],
+                                        ?database_edition: ("STANDARD_EDITION" | "ENTERPRISE_EDITION"),
+                                        ?license_model: ("BRING_YOUR_OWN_LICENSE" | "LICENSE_INCLUDED"),
+                                        ?is_auto_scaling_enabled: bool,
+                                        ?is_auto_scaling_for_storage_enabled: bool,
+                                        ?is_backup_retention_locked: bool,
+                                        ?is_local_data_guard_enabled: bool,
+                                        ?is_mtls_connection_required: bool,
+                                        ?is_refreshable_clone: bool,
+                                        ?is_disconnect_peer: bool,
+                                        ?backup_retention_period_in_days: ::Integer,
+                                        ?byol_compute_count_limit: ::Float,
+                                        ?local_adg_auto_failover_max_data_loss_limit: ::Integer,
+                                        ?autonomous_maintenance_schedule_type: ("EARLY" | "REGULAR"),
+                                        ?customer_contacts_to_send_to_oci: Array[
+                                          {
+                                            email: ::String?
+                                          }
+                                        ],
+                                        ?scheduled_operations: Array[
+                                          {
+                                            day_of_week: {
+                                              name: ("MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY")?
+                                            },
+                                            scheduled_start_time: ::String?,
+                                            scheduled_stop_time: ::String?
+                                          }
+                                        ],
+                                        ?long_term_backup_schedule: {
+                                          is_disabled: bool?,
+                                          repeat_cadence: ("ONE_TIME" | "WEEKLY" | "MONTHLY" | "YEARLY")?,
+                                          retention_period_in_days: ::Integer?,
+                                          time_of_backup: ::Time?
+                                        },
+                                        ?open_mode: ("READ_ONLY" | "READ_WRITE"),
+                                        ?permission_level: ("RESTRICTED" | "UNRESTRICTED"),
+                                        ?refreshable_mode: ("AUTOMATIC" | "MANUAL"),
+                                        ?private_endpoint_ip: ::String,
+                                        ?private_endpoint_label: ::String,
+                                        ?peer_db_id: ::String,
+                                        ?resource_pool_leader_id: ::String,
+                                        ?resource_pool_summary: Params::resource_pool_summary,
+                                        ?standby_allowlisted_ips_source: ("PRIMARY" | "SEPARATE" | "NOT_APPLICABLE"),
+                                        ?standby_allowlisted_ips: Array[::String],
+                                        ?allowlisted_ips: Array[::String],
+                                        ?auto_refresh_frequency_in_seconds: ::Integer,
+                                        ?auto_refresh_point_lag_in_seconds: ::Integer,
+                                        ?time_of_auto_refresh_start: ::Time,
+                                        ?encryption_key_provider: ("ORACLE_MANAGED" | "AWS_KMS"),
+                                        ?encryption_key_configuration: {
+                                          aws_encryption_key: {
+                                            iam_role_arn: ::String?,
+                                            external_id_type: ("database_ocid" | "compartment_ocid" | "tenant_ocid")?,
+                                            kms_key_id: ::String?
+                                          }?
+                                        }
+                                      ) -> _UpdateAutonomousDatabaseResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAutonomousDatabaseResponseSuccess
+
+      interface _UpdateAutonomousDatabaseBackupResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAutonomousDatabaseBackupOutput]
+        def display_name: () -> ::String
+        def status: () -> ("AVAILABLE" | "FAILED" | "PROVISIONING" | "TERMINATED" | "TERMINATING" | "UPDATING" | "MAINTENANCE_IN_PROGRESS")
+        def status_reason: () -> ::String
+        def autonomous_database_backup_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Odb/Client.html#update_autonomous_database_backup-instance_method
+      def update_autonomous_database_backup: (
+                                               autonomous_database_backup_id: ::String,
+                                               ?retention_period_in_days: ::Integer
+                                             ) -> _UpdateAutonomousDatabaseBackupResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAutonomousDatabaseBackupResponseSuccess
 
       interface _UpdateCloudExadataInfrastructureResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateCloudExadataInfrastructureOutput]

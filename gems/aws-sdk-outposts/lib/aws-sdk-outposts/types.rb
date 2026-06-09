@@ -254,6 +254,31 @@ module Aws::Outposts
     #
     class CancelOrderOutput < Aws::EmptyStructure; end
 
+    # A summary of the capacity changes for a quote option.
+    #
+    # @!attribute [rw] existing_capacities
+    #   The existing capacities on the Outpost before the quote is
+    #   fulfilled.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @!attribute [rw] final_capacities
+    #   The final capacities on the Outpost after the quote is fulfilled.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @!attribute [rw] capacity_change
+    #   The change in capacity between the existing and final state.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CapacitySummary AWS API Documentation
+    #
+    class CapacitySummary < Struct.new(
+      :existing_capacities,
+      :final_capacities,
+      :capacity_change)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The capacity tasks that failed.
     #
     # @!attribute [rw] reason
@@ -575,6 +600,68 @@ module Aws::Outposts
       include Aws::Structure
     end
 
+    # @!attribute [rw] outpost_identifier
+    #   The ID or ARN of the Outpost to associate with the quote. If not
+    #   specified, the quote is created without an Outpost association.
+    #   @return [String]
+    #
+    # @!attribute [rw] country_code
+    #   The country code for the Outpost site location.
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_capacities
+    #   The capacity requirements for the quote. Each entry specifies a
+    #   capacity type (such as Amazon EC2), the unit, and the quantity. For
+    #   Amazon EC2, the quantity is the number of additional instances to
+    #   add to the Outpost. For Amazon EBS and Amazon S3, the quantity is
+    #   the total desired end-state capacity of the Outpost.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @!attribute [rw] requested_constraints
+    #   The physical constraints for the quote, such as maximum number of
+    #   racks, maximum power draw per rack, or maximum weight per rack.
+    #   @return [Array<Types::QuoteConstraint>]
+    #
+    # @!attribute [rw] requested_payment_options
+    #   The payment options to include in the quote pricing. If not
+    #   specified, all available payment options are returned.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] requested_payment_terms
+    #   The payment terms to include in the quote pricing. If not specified,
+    #   all available payment terms are returned.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] description
+    #   A description for the quote.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CreateQuoteInput AWS API Documentation
+    #
+    class CreateQuoteInput < Struct.new(
+      :outpost_identifier,
+      :country_code,
+      :requested_capacities,
+      :requested_constraints,
+      :requested_payment_options,
+      :requested_payment_terms,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quote
+    #   Information about the quote.
+    #   @return [Types::Quote]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CreateQuoteOutput AWS API Documentation
+    #
+    class CreateQuoteOutput < Struct.new(
+      :quote)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] payment_option
     #   The payment option.
     #   @return [String]
@@ -626,6 +713,10 @@ module Aws::Outposts
     #   The monthly recurring price of the renewal.
     #   @return [Float]
     #
+    # @!attribute [rw] currency
+    #   The currency of the renewal price.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CreateRenewalOutput AWS API Documentation
     #
     class CreateRenewalOutput < Struct.new(
@@ -633,7 +724,8 @@ module Aws::Outposts
       :payment_term,
       :outpost_id,
       :upfront_price,
-      :monthly_recurring_price)
+      :monthly_recurring_price,
+      :currency)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -720,6 +812,22 @@ module Aws::Outposts
     #
     class DeleteOutpostOutput < Aws::EmptyStructure; end
 
+    # @!attribute [rw] quote_identifier
+    #   The ID or ARN of the quote.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/DeleteQuoteInput AWS API Documentation
+    #
+    class DeleteQuoteInput < Struct.new(
+      :quote_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/DeleteQuoteOutput AWS API Documentation
+    #
+    class DeleteQuoteOutput < Aws::EmptyStructure; end
+
     # @!attribute [rw] site_id
     #   The ID or the Amazon Resource Name (ARN) of the site.
     #   @return [String]
@@ -735,6 +843,42 @@ module Aws::Outposts
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/DeleteSiteOutput AWS API Documentation
     #
     class DeleteSiteOutput < Aws::EmptyStructure; end
+
+    # Information about an instance type that can be ordered for an Outpost,
+    # including hardware specifications and supported form factors.
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type.
+    #   @return [String]
+    #
+    # @!attribute [rw] vcp_us
+    #   The number of default VCPUs in the instance type.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] memory_in_mib
+    #   The memory size of the instance type, in MiB.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] network_performance
+    #   The network performance of the instance type.
+    #   @return [String]
+    #
+    # @!attribute [rw] form_factor_configs
+    #   The supported form factor and Outpost generation configurations for
+    #   the instance type.
+    #   @return [Array<Types::FormFactorConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/DetailedInstanceTypeItem AWS API Documentation
+    #
+    class DetailedInstanceTypeItem < Struct.new(
+      :instance_type,
+      :vcp_us,
+      :memory_in_mib,
+      :network_performance,
+      :form_factor_configs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Information about EC2 capacity.
     #
@@ -756,6 +900,30 @@ module Aws::Outposts
       :family,
       :max_size,
       :quantity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A supported form factor and Outpost generation configuration for an
+    # instance type.
+    #
+    # @!attribute [rw] form_factor
+    #   The form factor. Valid values are `RACK` for rack-based Outposts and
+    #   `SERVER` for server-based Outposts.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_generation
+    #   The Outpost generation. Valid values are `GENERATION_1` for
+    #   first-generation rack deployments and `GENERATION_2` for
+    #   second-generation rack deployments. This value is not set for server
+    #   form factors.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/FormFactorConfig AWS API Documentation
+    #
+    class FormFactorConfig < Struct.new(
+      :form_factor,
+      :outpost_generation)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1137,6 +1305,30 @@ module Aws::Outposts
     class GetOutpostSupportedInstanceTypesOutput < Struct.new(
       :instance_types,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quote_identifier
+    #   The ID or ARN of the quote.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetQuoteInput AWS API Documentation
+    #
+    class GetQuoteInput < Struct.new(
+      :quote_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quote
+    #   Information about the quote.
+    #   @return [Types::Quote]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetQuoteOutput AWS API Documentation
+    #
+    class GetQuoteOutput < Struct.new(
+      :quote)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1667,6 +1859,48 @@ module Aws::Outposts
       include Aws::Structure
     end
 
+    # @!attribute [rw] outpost_generation_filter
+    #   Filters the results by Outpost generation. Specify `GENERATION_1`
+    #   for first-generation rack deployments or `GENERATION_2` for
+    #   second-generation rack deployments.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum page size.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListOrderableInstanceTypesInput AWS API Documentation
+    #
+    class ListOrderableInstanceTypesInput < Struct.new(
+      :outpost_generation_filter,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_types
+    #   Information about the instance types that can be ordered for the
+    #   Outpost.
+    #   @return [Array<Types::DetailedInstanceTypeItem>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListOrderableInstanceTypesOutput AWS API Documentation
+    #
+    class ListOrderableInstanceTypesOutput < Struct.new(
+      :instance_types,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] outpost_identifier_filter
     #   The ID or the Amazon Resource Name (ARN) of the Outpost.
     #   @return [String]
@@ -1751,6 +1985,40 @@ module Aws::Outposts
     #
     class ListOutpostsOutput < Struct.new(
       :outposts,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum page size.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListQuotesInput AWS API Documentation
+    #
+    class ListQuotesInput < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quotes
+    #   Information about the quotes.
+    #   @return [Array<Types::QuoteSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListQuotesOutput AWS API Documentation
+    #
+    class ListQuotesOutput < Struct.new(
+      :quotes,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -1974,6 +2242,82 @@ module Aws::Outposts
       include Aws::Structure
     end
 
+    # A requirement that must be met before an order can be submitted for a
+    # quote.
+    #
+    # @!attribute [rw] status_message
+    #   A message about the ordering requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] ordering_requirement_type
+    #   The type of ordering requirement. Indicates which check failed or
+    #   passed.
+    #
+    #   * `OUTPOST_ACTIVE_CHECK_ERROR` - The Outpost must be in an active
+    #     state.
+    #
+    #   * `MAXIMUM_ALLOWED_ORDERS_CHECK_ERROR` - The maximum number of
+    #     allowed orders has been reached.
+    #
+    #   * `VALID_ZIP_CODE_CHECK_ERROR` - The site address must have a valid
+    #     zip code.
+    #
+    #   * `RACK_PHYSICAL_PROPERTIES_CHECK_ERROR` - The rack physical
+    #     properties do not meet requirements.
+    #
+    #   * `OPERATING_ADDRESS_EXISTENCE_CHECK_ERROR` - The site must have an
+    #     operating address.
+    #
+    #   * `SHIPPING_ADDRESS_EXISTENCE_CHECK_ERROR` - The site must have a
+    #     shipping address.
+    #
+    #   * `COUNTRY_CODE_MISMATCH_CHECK_ERROR` - The country code on the
+    #     quote does not match the Outpost site country.
+    #
+    #   * `OUTPOST_GENERATION_MISMATCH_ERROR` - The Outpost generation does
+    #     not match the requested configuration.
+    #
+    #   * `OUTPOST_ID_MISSING_ON_QUOTE_ERROR` - The quote must be associated
+    #     with an Outpost before submitting an order.
+    #
+    #   * `ENTERPRISE_SUPPORT_ERROR` - Enterprise Support is required.
+    #
+    #   * `SHIPPING_ADDRESS_MISSING_CONTACT_NAME_ERROR` - The shipping
+    #     address must have a contact name.
+    #
+    #   * `SHIPPING_ADDRESS_MISSING_CONTACT_NUMBER_ERROR` - The shipping
+    #     address must have a contact phone number.
+    #
+    #   * `SHIPPING_ADDRESS_MISSING_CONTACT_INFO_ERROR` - The shipping
+    #     address must have contact information.
+    #
+    #   * `OUTPOST_STATE_CHANGED_ERROR` - The Outpost state has changed
+    #     since the quote was created.
+    #
+    #   * `OUTPOST_NOT_FOUND_ERROR` - The Outpost associated with the quote
+    #     was not found.
+    #
+    #   * `OUTPOST_RENEWAL_REQUIRED_ERROR` - The Outpost requires a renewal
+    #     before a new order can be submitted.
+    #
+    #   * `UNSUPPORTED` - The requirement type is not recognized.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the ordering requirement. Valid values are `PASS`,
+    #   `FAIL`, and `EXEMPT`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/OrderingRequirement AWS API Documentation
+    #
+    class OrderingRequirement < Struct.new(
+      :status_message,
+      :ordering_requirement_type,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about an Outpost.
     #
     # @!attribute [rw] outpost_id
@@ -2062,6 +2406,313 @@ module Aws::Outposts
       include Aws::Structure
     end
 
+    # Information about a quote for an Outpost. A quote provides pricing and
+    # configuration options based on the requested capacity.
+    #
+    # @!attribute [rw] quote_id
+    #   The ID of the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the account that owns the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] quote_status
+    #   The status of the quote.
+    #
+    #   * `CREATED` - The quote has been created and is available for
+    #     review.
+    #
+    #   * `ORDER_SUBMITTED` - An order has been submitted for the quote.
+    #
+    #   * `EXPIRED` - The quote has expired and can no longer be used to
+    #     submit an order.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   A message about the status of the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_arn
+    #   The ARN of the Outpost associated with the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] country_code
+    #   The country code for the Outpost site location.
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_capacities
+    #   The capacity requirements specified in the quote request.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @!attribute [rw] requested_constraints
+    #   The physical constraints specified in the quote request.
+    #   @return [Array<Types::QuoteConstraint>]
+    #
+    # @!attribute [rw] requested_payment_options
+    #   The payment options specified in the quote request.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] requested_payment_terms
+    #   The payment terms specified in the quote request.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] quote_options
+    #   The configuration and pricing options for the quote. Each option
+    #   includes capacity details, physical specifications, and pricing
+    #   information.
+    #   @return [Array<Types::QuoteOption>]
+    #
+    # @!attribute [rw] ordering_requirements
+    #   The requirements that must be met before an order can be submitted
+    #   for the quote.
+    #   @return [Array<Types::OrderingRequirement>]
+    #
+    # @!attribute [rw] submitted_order_id
+    #   The ID of the order submitted for the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_date
+    #   The date the quote was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] expiration_date
+    #   The date the quote expires.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the quote.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/Quote AWS API Documentation
+    #
+    class Quote < Struct.new(
+      :quote_id,
+      :account_id,
+      :quote_status,
+      :status_message,
+      :outpost_arn,
+      :country_code,
+      :requested_capacities,
+      :requested_constraints,
+      :requested_payment_options,
+      :requested_payment_terms,
+      :quote_options,
+      :ordering_requirements,
+      :submitted_order_id,
+      :created_date,
+      :expiration_date,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # A capacity requirement for a quote. Specifies the type of capacity,
+    # the unit, and the quantity.
+    #
+    # @!attribute [rw] quote_capacity_type
+    #   The type of capacity. Valid values are `EC2`, `EBS`, and `S3`.
+    #   @return [String]
+    #
+    # @!attribute [rw] unit
+    #   The unit of measurement for the capacity. For Amazon EC2, this is
+    #   the instance type (for example, `c5.24xlarge`). For Amazon EBS and
+    #   Amazon S3, this is the storage unit (for example, `TiB` for
+    #   tebibytes).
+    #   @return [String]
+    #
+    # @!attribute [rw] quantity
+    #   The quantity of the specified capacity unit. For Amazon EC2, this is
+    #   the number of additional instances to add to the Outpost. For Amazon
+    #   EBS and Amazon S3, this is the total desired end-state capacity of
+    #   the Outpost.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/QuoteCapacity AWS API Documentation
+    #
+    class QuoteCapacity < Struct.new(
+      :quote_capacity_type,
+      :unit,
+      :quantity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A physical constraint for a quote.
+    #
+    # @!attribute [rw] quote_constraint_type
+    #   The type of constraint. Valid values are `RACK_MAXIMUM`,
+    #   `RACK_MAX_POWER_KVA`, and `RACK_MAX_WEIGHT_LBS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the constraint.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/QuoteConstraint AWS API Documentation
+    #
+    class QuoteConstraint < Struct.new(
+      :quote_constraint_type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A configuration and pricing option for a quote. Each option includes
+    # the capacity breakdown, physical specifications for the racks or
+    # servers, and pricing details.
+    #
+    # @!attribute [rw] quote_option_identifier
+    #   The ID of the quote option.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacities
+    #   The capacities included in this quote option.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @!attribute [rw] capacity_summary
+    #   A summary of the existing, final, and changed capacity for this
+    #   quote option.
+    #   @return [Types::CapacitySummary]
+    #
+    # @!attribute [rw] specifications
+    #   The physical specifications for the racks or servers in this quote
+    #   option.
+    #   @return [Array<Types::QuoteSpecification>]
+    #
+    # @!attribute [rw] pricing_options
+    #   The pricing options for this quote option.
+    #   @return [Array<Types::PricingOption>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/QuoteOption AWS API Documentation
+    #
+    class QuoteOption < Struct.new(
+      :quote_option_identifier,
+      :capacities,
+      :capacity_summary,
+      :specifications,
+      :pricing_options)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A physical specification for a quote option. Describes the rack or
+    # server configuration that would be deployed.
+    #
+    # @!attribute [rw] quote_specification_type
+    #   The type of specification. Valid values are `NEW_RACK`,
+    #   `UPDATED_RACK`, `EXISTING_RACK`, and `SERVER`.
+    #   @return [String]
+    #
+    # @!attribute [rw] existing_rack_specification_details
+    #   The existing rack specification details, if the specification type
+    #   is `UPDATED_RACK` or `EXISTING_RACK`.
+    #   @return [Types::RackSpecificationDetails]
+    #
+    # @!attribute [rw] final_rack_specification_details
+    #   The final rack specification details after the quote is fulfilled.
+    #   @return [Types::RackSpecificationDetails]
+    #
+    # @!attribute [rw] server_specification_details
+    #   The server specification details, if the specification type is
+    #   `SERVER`.
+    #   @return [Types::ServerSpecificationDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/QuoteSpecification AWS API Documentation
+    #
+    class QuoteSpecification < Struct.new(
+      :quote_specification_type,
+      :existing_rack_specification_details,
+      :final_rack_specification_details,
+      :server_specification_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a quote.
+    #
+    # @!attribute [rw] quote_id
+    #   The ID of the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the account that owns the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] quote_status
+    #   The status of the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   A message about the status of the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_arn
+    #   The ARN of the Outpost associated with the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] country_code
+    #   The country code for the Outpost site location.
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_capacities
+    #   The capacity requirements specified in the quote request.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @!attribute [rw] requested_constraints
+    #   The physical constraints specified in the quote request.
+    #   @return [Array<Types::QuoteConstraint>]
+    #
+    # @!attribute [rw] requested_payment_options
+    #   The payment options specified in the quote request.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] requested_payment_terms
+    #   The payment terms specified in the quote request.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] quote_options
+    #   The configuration and pricing options for the quote.
+    #   @return [Array<Types::QuoteOption>]
+    #
+    # @!attribute [rw] submitted_order_id
+    #   The ID of the order submitted for the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_date
+    #   The date the quote was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] expiration_date
+    #   The date the quote expires.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the quote.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/QuoteSummary AWS API Documentation
+    #
+    class QuoteSummary < Struct.new(
+      :quote_id,
+      :account_id,
+      :quote_status,
+      :status_message,
+      :outpost_arn,
+      :country_code,
+      :requested_capacities,
+      :requested_constraints,
+      :requested_payment_options,
+      :requested_payment_terms,
+      :quote_options,
+      :submitted_order_id,
+      :created_date,
+      :expiration_date,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # Information about the physical and logistical details for racks at
     # sites. For more information about hardware requirements for racks, see
     # [Network readiness checklist][1] in the Amazon Web Services Outposts
@@ -2129,6 +2780,114 @@ module Aws::Outposts
       :fiber_optic_cable_type,
       :optical_standard,
       :maximum_supported_weight_lbs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The physical specification details for a rack in a quote option.
+    #
+    # @!attribute [rw] rack_id
+    #   The ID of the rack.
+    #   @return [String]
+    #
+    # @!attribute [rw] rack_use
+    #   The use of the rack. Valid values are `COMPUTE` and `NETWORKING`.
+    #   @return [String]
+    #
+    # @!attribute [rw] rack_power_draw_kva
+    #   The maximum power draw of the rack in kVA.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rack_weight_lbs
+    #   The weight of the rack in pounds.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rack_height_inches
+    #   The height of the rack in inches.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rack_width_inches
+    #   The width of the rack in inches.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rack_depth_inches
+    #   The depth of the rack in inches.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rack_unit_height
+    #   The rack unit height.
+    #
+    #   * `HEIGHT_42U` - 42 rack units.
+    #
+    #   * `HEIGHT_2U` - 2 rack units.
+    #
+    #   * `HEIGHT_1U` - 1 rack unit.
+    #   @return [String]
+    #
+    # @!attribute [rw] ec2_capacities
+    #   The Amazon EC2 capacities for the rack.
+    #   @return [Array<Types::EC2Capacity>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/RackSpecificationDetails AWS API Documentation
+    #
+    class RackSpecificationDetails < Struct.new(
+      :rack_id,
+      :rack_use,
+      :rack_power_draw_kva,
+      :rack_weight_lbs,
+      :rack_height_inches,
+      :rack_width_inches,
+      :rack_depth_inches,
+      :rack_unit_height,
+      :ec2_capacities)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The physical specification details for a server in a quote option.
+    #
+    # @!attribute [rw] server_power_draw_kva
+    #   The maximum power draw of the server in kVA.
+    #   @return [Float]
+    #
+    # @!attribute [rw] server_weight_lbs
+    #   The weight of the server in pounds.
+    #   @return [Float]
+    #
+    # @!attribute [rw] server_height_inches
+    #   The height of the server in inches.
+    #   @return [Float]
+    #
+    # @!attribute [rw] server_width_inches
+    #   The width of the server in inches.
+    #   @return [Float]
+    #
+    # @!attribute [rw] server_depth_inches
+    #   The depth of the server in inches.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rack_unit_height
+    #   The rack unit height of the server.
+    #
+    #   * `HEIGHT_2U` - 2 rack units.
+    #
+    #   * `HEIGHT_1U` - 1 rack unit.
+    #   @return [String]
+    #
+    # @!attribute [rw] ec2_capacities
+    #   The Amazon EC2 capacities for the server.
+    #   @return [Array<Types::EC2Capacity>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ServerSpecificationDetails AWS API Documentation
+    #
+    class ServerSpecificationDetails < Struct.new(
+      :server_power_draw_kva,
+      :server_weight_lbs,
+      :server_height_inches,
+      :server_width_inches,
+      :server_depth_inches,
+      :rack_unit_height,
+      :ec2_capacities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2495,6 +3254,11 @@ module Aws::Outposts
     #   The date your subscription ends.
     #   @return [Time]
     #
+    # @!attribute [rw] currency
+    #   The currency of the subscription price. Currently only `USD` is
+    #   supported.
+    #   @return [String]
+    #
     # @!attribute [rw] monthly_recurring_price
     #   The amount you are billed each month in the subscription period.
     #   @return [Float]
@@ -2513,6 +3277,7 @@ module Aws::Outposts
       :order_ids,
       :begin_date,
       :end_date,
+      :currency,
       :monthly_recurring_price,
       :upfront_price)
       SENSITIVE = []
@@ -2537,13 +3302,18 @@ module Aws::Outposts
     #   The monthly recurring price.
     #   @return [Float]
     #
+    # @!attribute [rw] currency
+    #   The currency of the price. Currently only `USD` is supported.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/SubscriptionPricingDetails AWS API Documentation
     #
     class SubscriptionPricingDetails < Struct.new(
       :payment_option,
       :payment_term,
       :upfront_price,
-      :monthly_recurring_price)
+      :monthly_recurring_price,
+      :currency)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2625,6 +3395,66 @@ module Aws::Outposts
     #
     class UpdateOutpostOutput < Struct.new(
       :outpost)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quote_identifier
+    #   The ID or ARN of the quote.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_identifier
+    #   The ID or ARN of the Outpost to associate with the quote. Specify an
+    #   empty string to remove the Outpost association.
+    #   @return [String]
+    #
+    # @!attribute [rw] country_code
+    #   The country code for the Outpost site location.
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_capacities
+    #   The updated capacity requirements for the quote.
+    #   @return [Array<Types::QuoteCapacity>]
+    #
+    # @!attribute [rw] requested_constraints
+    #   The updated physical constraints for the quote.
+    #   @return [Array<Types::QuoteConstraint>]
+    #
+    # @!attribute [rw] requested_payment_options
+    #   The updated payment options to include in the quote pricing.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] requested_payment_terms
+    #   The updated payment terms to include in the quote pricing.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] description
+    #   A description for the quote.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/UpdateQuoteInput AWS API Documentation
+    #
+    class UpdateQuoteInput < Struct.new(
+      :quote_identifier,
+      :outpost_identifier,
+      :country_code,
+      :requested_capacities,
+      :requested_constraints,
+      :requested_payment_options,
+      :requested_payment_terms,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] quote
+    #   Information about the updated quote.
+    #   @return [Types::Quote]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/UpdateQuoteOutput AWS API Documentation
+    #
+    class UpdateQuoteOutput < Struct.new(
+      :quote)
       SENSITIVE = []
       include Aws::Structure
     end
