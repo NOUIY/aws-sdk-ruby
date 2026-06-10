@@ -80,6 +80,7 @@ module Aws::ConnectHealth
     ManagedTemplate = Shapes::StructureShape.new(name: 'ManagedTemplate')
     ManagedTemplateResponse = Shapes::StructureShape.new(name: 'ManagedTemplateResponse')
     MedicalScribeAudioEvent = Shapes::StructureShape.new(name: 'MedicalScribeAudioEvent')
+    MedicalScribeBinaryAudioEvent = Shapes::StructureShape.new(name: 'MedicalScribeBinaryAudioEvent')
     MedicalScribeChannelDefinition = Shapes::StructureShape.new(name: 'MedicalScribeChannelDefinition')
     MedicalScribeChannelDefinitions = Shapes::ListShape.new(name: 'MedicalScribeChannelDefinitions')
     MedicalScribeChannelId = Shapes::IntegerShape.new(name: 'MedicalScribeChannelId')
@@ -353,6 +354,9 @@ module Aws::ConnectHealth
     MedicalScribeAudioEvent.add_member(:audio_chunk, Shapes::ShapeRef.new(shape: AudioChunk, required: true, location_name: "audioChunk"))
     MedicalScribeAudioEvent.struct_class = Types::MedicalScribeAudioEvent
 
+    MedicalScribeBinaryAudioEvent.add_member(:audio_chunk, Shapes::ShapeRef.new(shape: AudioChunk, required: true, eventpayload: true, eventpayload_type: 'blob', location_name: "audioChunk", metadata: {"eventpayload" => true}))
+    MedicalScribeBinaryAudioEvent.struct_class = Types::MedicalScribeBinaryAudioEvent
+
     MedicalScribeChannelDefinition.add_member(:channel_id, Shapes::ShapeRef.new(shape: MedicalScribeChannelId, required: true, location_name: "channelId"))
     MedicalScribeChannelDefinition.add_member(:participant_role, Shapes::ShapeRef.new(shape: MedicalScribeParticipantRole, required: true, location_name: "participantRole"))
     MedicalScribeChannelDefinition.struct_class = Types::MedicalScribeChannelDefinition
@@ -365,6 +369,7 @@ module Aws::ConnectHealth
     MedicalScribeConfigurationEvent.struct_class = Types::MedicalScribeConfigurationEvent
 
     MedicalScribeInputStream.add_member(:audio_event, Shapes::ShapeRef.new(shape: MedicalScribeAudioEvent, event: true, location_name: "audioEvent"))
+    MedicalScribeInputStream.add_member(:binary_audio_event, Shapes::ShapeRef.new(shape: MedicalScribeBinaryAudioEvent, event: true, location_name: "binaryAudioEvent"))
     MedicalScribeInputStream.add_member(:session_control_event, Shapes::ShapeRef.new(shape: MedicalScribeSessionControlEvent, event: true, location_name: "sessionControlEvent"))
     MedicalScribeInputStream.add_member(:configuration_event, Shapes::ShapeRef.new(shape: MedicalScribeConfigurationEvent, event: true, location_name: "configurationEvent"))
     MedicalScribeInputStream.struct_class = Types::MedicalScribeInputStream

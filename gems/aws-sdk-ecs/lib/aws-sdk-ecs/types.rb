@@ -4951,6 +4951,21 @@ module Aws::ECS
     #   The principal that registered the daemon task definition.
     #   @return [String]
     #
+    # @!attribute [rw] pid_mode
+    #   The process namespace mode for the daemon. A value of `shared` means
+    #   the daemon shares the PID namespace with co-located tasks, giving it
+    #   visibility into application processes. A value of `none` means the
+    #   daemon has its own isolated PID namespace.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipc_mode
+    #   The IPC namespace mode for the daemon. A value of `shared` means the
+    #   daemon shares the IPC namespace with co-located tasks, allowing
+    #   communication through POSIX shared memory, semaphores, and message
+    #   queues. A value of `none` means the daemon has its own isolated IPC
+    #   namespace.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DaemonTaskDefinition AWS API Documentation
     #
     class DaemonTaskDefinition < Struct.new(
@@ -4966,7 +4981,9 @@ module Aws::ECS
       :status,
       :registered_at,
       :delete_requested_at,
-      :registered_by)
+      :registered_by,
+      :pid_mode,
+      :ipc_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13002,6 +13019,22 @@ module Aws::ECS
     #     against your tags per resource limit.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] pid_mode
+    #   The process namespace mode for the daemon. When set to `shared`, the
+    #   daemon shares the PID namespace with co-located tasks on the same
+    #   container instance, giving the daemon visibility into application
+    #   processes. When set to `none`, the daemon gets its own isolated PID
+    #   namespace. The default is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipc_mode
+    #   The IPC namespace mode for the daemon. When set to `shared`, the
+    #   daemon shares the IPC namespace with co-located tasks on the same
+    #   container instance, allowing communication through POSIX shared
+    #   memory, semaphores, and message queues. When set to `none`, the
+    #   daemon gets its own isolated IPC namespace. The default is `none`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/RegisterDaemonTaskDefinitionRequest AWS API Documentation
     #
     class RegisterDaemonTaskDefinitionRequest < Struct.new(
@@ -13012,7 +13045,9 @@ module Aws::ECS
       :cpu,
       :memory,
       :volumes,
-      :tags)
+      :tags,
+      :pid_mode,
+      :ipc_mode)
       SENSITIVE = []
       include Aws::Structure
     end

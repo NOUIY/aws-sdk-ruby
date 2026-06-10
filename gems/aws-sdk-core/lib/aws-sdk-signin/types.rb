@@ -71,6 +71,30 @@ module Aws::Signin
       include Aws::Structure
     end
 
+    # Error thrown when request conflicts with current state
+    #
+    # HTTP Status Code: 409 Conflict
+    #
+    # Used when the request conflicts with the current state of the resource
+    #
+    # @!attribute [rw] error
+    #   OAuth 2.0 error code indicating conflict Will be CONFLICT
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Detailed message explaining the conflict Provides specific
+    #   information about what caused the conflict
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/ConflictException AWS API Documentation
+    #
+    class ConflictException < Struct.new(
+      :error,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input structure for CreateOAuth2Token operation
     #
     # Contains flattened token operation inputs for both authorization code
@@ -208,6 +232,132 @@ module Aws::Signin
       include Aws::Structure
     end
 
+    # Input for DeleteConsoleAuthorizationConfiguration operation
+    #
+    # @!attribute [rw] target_id
+    #   Target account identifier
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/DeleteConsoleAuthorizationConfigurationInput AWS API Documentation
+    #
+    class DeleteConsoleAuthorizationConfigurationInput < Struct.new(
+      :target_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for DeleteConsoleAuthorizationConfiguration operation
+    #
+    # @!attribute [rw] target_id
+    #   Target account identifier
+    #   @return [String]
+    #
+    # @!attribute [rw] scope
+    #   Authorization scope
+    #   @return [String]
+    #
+    # @!attribute [rw] console_authorization_enabled
+    #   Whether console authorization is enabled
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/DeleteConsoleAuthorizationConfigurationOutput AWS API Documentation
+    #
+    class DeleteConsoleAuthorizationConfigurationOutput < Struct.new(
+      :target_id,
+      :scope,
+      :console_authorization_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for DeleteResourcePermissionStatement operation
+    #
+    # @!attribute [rw] statement_id
+    #   Unique identifier of the permission statement to delete
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   Idempotency token for the request
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/DeleteResourcePermissionStatementInput AWS API Documentation
+    #
+    class DeleteResourcePermissionStatementInput < Struct.new(
+      :statement_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for DeleteResourcePermissionStatement operation
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/DeleteResourcePermissionStatementOutput AWS API Documentation
+    #
+    class DeleteResourcePermissionStatementOutput < Aws::EmptyStructure; end
+
+    # Input for GetConsoleAuthorizationConfiguration operation
+    #
+    # @!attribute [rw] target_id
+    #   Target account identifier
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/GetConsoleAuthorizationConfigurationInput AWS API Documentation
+    #
+    class GetConsoleAuthorizationConfigurationInput < Struct.new(
+      :target_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for GetConsoleAuthorizationConfiguration operation
+    #
+    # @!attribute [rw] target_id
+    #   Target account identifier
+    #   @return [String]
+    #
+    # @!attribute [rw] scope
+    #   Authorization scope
+    #   @return [String]
+    #
+    # @!attribute [rw] console_authorization_enabled
+    #   Whether console authorization is enabled
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/GetConsoleAuthorizationConfigurationOutput AWS API Documentation
+    #
+    class GetConsoleAuthorizationConfigurationOutput < Struct.new(
+      :target_id,
+      :scope,
+      :console_authorization_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for GetResourcePolicy operation
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/GetResourcePolicyInput AWS API Documentation
+    #
+    class GetResourcePolicyInput < Aws::EmptyStructure; end
+
+    # Output for GetResourcePolicy operation
+    #
+    # @!attribute [rw] signin_resource_based_policy
+    #   The account's SignIn resource-based policy
+    #   @return [Types::SigninResourceBasedPolicy]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/GetResourcePolicyOutput AWS API Documentation
+    #
+    class GetResourcePolicyOutput < Struct.new(
+      :signin_resource_based_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Error thrown when an internal server error occurs
     #
     # HTTP Status Code: 500 Internal Server Error
@@ -230,6 +380,272 @@ module Aws::Signin
     class InternalServerException < Struct.new(
       :error,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for ListResourcePermissionStatements operation
+    #
+    # @!attribute [rw] max_results
+    #   Maximum number of results to return
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Token for pagination
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/ListResourcePermissionStatementsInput AWS API Documentation
+    #
+    class ListResourcePermissionStatementsInput < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for ListResourcePermissionStatements operation
+    #
+    # @!attribute [rw] permission_statements
+    #   List of permission statement summaries
+    #   @return [Array<Types::PermissionStatementSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   Token for next page of results
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/ListResourcePermissionStatementsOutput AWS API Documentation
+    #
+    class ListResourcePermissionStatementsOutput < Struct.new(
+      :permission_statements,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary of a permission statement
+    #
+    # @!attribute [rw] sid
+    #   Unique identifier for the permission statement
+    #   @return [String]
+    #
+    # @!attribute [rw] condition
+    #   Condition block for the permission statement
+    #   @return [Hash<String,Hash<String,Array<String>>>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PermissionStatementSummary AWS API Documentation
+    #
+    class PermissionStatementSummary < Struct.new(
+      :sid,
+      :condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Individual policy statement within a resource-based policy
+    #
+    # @!attribute [rw] effect
+    #   Effect of the policy statement (Allow/Deny)
+    #   @return [String]
+    #
+    # @!attribute [rw] principal
+    #   Principal the statement applies to
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] action
+    #   Actions the statement controls
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] resource
+    #   Resource the statement applies to
+    #   @return [String]
+    #
+    # @!attribute [rw] condition
+    #   Condition block for the statement
+    #   @return [Hash<String,Hash<String,Array<String>>>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PolicyStatement AWS API Documentation
+    #
+    class PolicyStatement < Struct.new(
+      :effect,
+      :principal,
+      :action,
+      :resource,
+      :condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for PutConsoleAuthorizationConfiguration operation
+    #
+    # @!attribute [rw] target_id
+    #   Target account identifier
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PutConsoleAuthorizationConfigurationInput AWS API Documentation
+    #
+    class PutConsoleAuthorizationConfigurationInput < Struct.new(
+      :target_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for PutConsoleAuthorizationConfiguration operation
+    #
+    # @!attribute [rw] target_id
+    #   Target account identifier
+    #   @return [String]
+    #
+    # @!attribute [rw] scope
+    #   Authorization scope
+    #   @return [String]
+    #
+    # @!attribute [rw] console_authorization_enabled
+    #   Whether console authorization is enabled
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PutConsoleAuthorizationConfigurationOutput AWS API Documentation
+    #
+    class PutConsoleAuthorizationConfigurationOutput < Struct.new(
+      :target_id,
+      :scope,
+      :console_authorization_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for PutResourcePermissionStatement operation
+    #
+    # @!attribute [rw] source_vpc
+    #   VPC identifier to restrict console access
+    #   @return [String]
+    #
+    # @!attribute [rw] signin_source_vpce
+    #   SignIn VPC endpoint identifier
+    #   @return [String]
+    #
+    # @!attribute [rw] console_source_vpce
+    #   Console VPC endpoint identifier
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_source_ip
+    #   Source IP address within VPC
+    #   @return [String]
+    #
+    # @!attribute [rw] source_ip
+    #   Source IP address
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_region
+    #   AWS region where the VPC and VPC endpoint reside Required when
+    #   sourceVpc or signinSourceVpce/consoleSourceVpce is provided
+    #   @return [String]
+    #
+    # @!attribute [rw] excluded_principal
+    #   Principal to exclude from the permission statement
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   Idempotency token for the request
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PutResourcePermissionStatementInput AWS API Documentation
+    #
+    class PutResourcePermissionStatementInput < Struct.new(
+      :source_vpc,
+      :signin_source_vpce,
+      :console_source_vpce,
+      :vpc_source_ip,
+      :source_ip,
+      :requested_region,
+      :excluded_principal,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for PutResourcePermissionStatement operation
+    #
+    # @!attribute [rw] statement_id
+    #   Unique identifier for the created permission statement
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PutResourcePermissionStatementOutput AWS API Documentation
+    #
+    class PutResourcePermissionStatementOutput < Struct.new(
+      :statement_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Error thrown when requested resource is not found
+    #
+    # HTTP Status Code: 404 Not Found
+    #
+    # Used when the specified resource does not exist
+    #
+    # @!attribute [rw] error
+    #   OAuth 2.0 error code indicating resource not found Will be
+    #   RESOURCE\_NOT\_FOUND
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Detailed message explaining which resource was not found Provides
+    #   specific information about the missing resource
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/ResourceNotFoundException AWS API Documentation
+    #
+    class ResourceNotFoundException < Struct.new(
+      :error,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Error thrown when service quota is exceeded
+    #
+    # HTTP Status Code: 402 Payment Required (used as quota exceeded
+    # indicator)
+    #
+    # Used when the request would cause a service quota to be exceeded
+    #
+    # @!attribute [rw] error
+    #   OAuth 2.0 error code indicating service quota exceeded Will be
+    #   SERVICE\_QUOTA\_EXCEEDED
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Detailed message explaining which quota was exceeded Provides
+    #   specific information about the limit and current usage
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/ServiceQuotaExceededException AWS API Documentation
+    #
+    class ServiceQuotaExceededException < Struct.new(
+      :error,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # SignIn resource-based policy document
+    #
+    # @!attribute [rw] version
+    #   Policy version
+    #   @return [String]
+    #
+    # @!attribute [rw] statement
+    #   Policy statements
+    #   @return [Array<Types::PolicyStatement>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/SigninResourceBasedPolicy AWS API Documentation
+    #
+    class SigninResourceBasedPolicy < Struct.new(
+      :version,
+      :statement)
       SENSITIVE = []
       include Aws::Structure
     end

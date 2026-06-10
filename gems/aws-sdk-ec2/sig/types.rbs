@@ -802,6 +802,18 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class AttachImageWatermarkRequest
+      attr_accessor image_id: ::String
+      attr_accessor watermark_name: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class AttachImageWatermarkResult
+      attr_accessor watermark_key: ::String
+      SENSITIVE: []
+    end
+
     class AttachInternetGatewayRequest
       attr_accessor dry_run: bool
       attr_accessor internet_gateway_id: ::String
@@ -7876,6 +7888,18 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class DetachImageWatermarkRequest
+      attr_accessor image_id: ::String
+      attr_accessor watermark_key: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class DetachImageWatermarkResult
+      attr_accessor return: bool
+      SENSITIVE: []
+    end
+
     class DetachInternetGatewayRequest
       attr_accessor dry_run: bool
       attr_accessor internet_gateway_id: ::String
@@ -10717,6 +10741,7 @@ module Aws::EC2
       attr_accessor source_image_id: ::String
       attr_accessor source_image_region: ::String
       attr_accessor free_tier_eligible: bool
+      attr_accessor image_watermarks: ::Array[Types::ImageWatermark]
       attr_accessor image_id: ::String
       attr_accessor image_location: ::String
       attr_accessor state: ("pending" | "available" | "invalid" | "deregistered" | "transient" | "failed" | "error" | "disabled")
@@ -10797,6 +10822,7 @@ module Aws::EC2
       attr_accessor deprecation_time: ::String
       attr_accessor image_allowed: bool
       attr_accessor is_public: bool
+      attr_accessor image_watermarks: ::Array[Types::ImageWatermark]
       SENSITIVE: []
     end
 
@@ -10860,6 +10886,15 @@ module Aws::EC2
     class ImageUsageResourceTypeRequest
       attr_accessor resource_type: ::String
       attr_accessor resource_type_options: ::Array[Types::ImageUsageResourceTypeOptionRequest]
+      SENSITIVE: []
+    end
+
+    class ImageWatermark
+      attr_accessor watermark_key: ::String
+      attr_accessor source_image_region: ::String
+      attr_accessor source_image_id: ::String
+      attr_accessor source_image_creation_time: ::Time
+      attr_accessor watermark_creation_time: ::Time
       SENSITIVE: []
     end
 

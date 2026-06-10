@@ -14,13 +14,13 @@ module Aws::Signin
   describe EndpointProvider do
     subject { Aws::Signin::EndpointProvider.new }
 
-    context "For custom endpoint with region not set and fips disabled" do
+    context "Control Plane operation in us-east-1 (aws partition)" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://example.com"}}
+        {"endpoint" => {"url" => "https://signin.us-east-1.api.aws", "properties" => {"authSchemes" => [{"name" => "sigv4", "signingName" => "signin", "signingRegion" => "us-east-1"}]}}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{endpoint: "https://example.com", use_fips: false})
+        params = EndpointParameters.new(**{is_control_plane: true, region: "us-east-1", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -28,39 +28,13 @@ module Aws::Signin
       end
     end
 
-    context "For custom endpoint with fips enabled" do
+    context "Control Plane operation in cn-north-1 (aws-cn partition)" do
       let(:expected) do
-        {"error" => "Invalid Configuration: FIPS and custom endpoint are not supported"}
+        {"endpoint" => {"url" => "https://signin.cn-north-1.api.amazonwebservices.com.cn", "properties" => {"authSchemes" => [{"name" => "sigv4", "signingName" => "signin", "signingRegion" => "cn-north-1"}]}}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{endpoint: "https://example.com", use_fips: true})
-        expect do
-          subject.resolve_endpoint(params)
-        end.to raise_error(ArgumentError, expected['error'])
-      end
-    end
-
-    context "For custom endpoint with fips disabled and dualstack enabled" do
-      let(:expected) do
-        {"error" => "Invalid Configuration: Dualstack and custom endpoint are not supported"}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{endpoint: "https://example.com", use_fips: false, use_dual_stack: true})
-        expect do
-          subject.resolve_endpoint(params)
-        end.to raise_error(ArgumentError, expected['error'])
-      end
-    end
-
-    context "For region us-east-1 with FIPS enabled and DualStack enabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.us-east-1.api.aws"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-east-1", use_fips: true, use_dual_stack: true})
+        params = EndpointParameters.new(**{is_control_plane: true, region: "cn-north-1", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -68,13 +42,13 @@ module Aws::Signin
       end
     end
 
-    context "For region us-east-1 with FIPS enabled and DualStack disabled" do
+    context "Data Plane operation in us-east-1" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.us-east-1.amazonaws.com"}}
+        {"endpoint" => {"url" => "https://us-east-1.signin.aws.amazon.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-east-1", use_fips: true, use_dual_stack: false})
+        params = EndpointParameters.new(**{is_control_plane: false, region: "us-east-1", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -82,21 +56,7 @@ module Aws::Signin
       end
     end
 
-    context "For region us-east-1 with FIPS disabled and DualStack enabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin.us-east-1.api.aws"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-east-1", use_fips: false, use_dual_stack: true})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-east-1 with FIPS disabled and DualStack disabled" do
+    context "Data Plane operation in us-east-1 (IsControlPlane not set)" do
       let(:expected) do
         {"endpoint" => {"url" => "https://us-east-1.signin.aws.amazon.com"}}
       end
@@ -110,13 +70,13 @@ module Aws::Signin
       end
     end
 
-    context "For region cn-northwest-1 with FIPS enabled and DualStack enabled" do
+    context "Data Plane operation in cn-north-1" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.cn-northwest-1.api.amazonwebservices.com.cn"}}
+        {"endpoint" => {"url" => "https://cn-north-1.signin.amazonaws.cn"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: true, use_dual_stack: true})
+        params = EndpointParameters.new(**{is_control_plane: false, region: "cn-north-1", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -124,13 +84,13 @@ module Aws::Signin
       end
     end
 
-    context "For region cn-northwest-1 with FIPS enabled and DualStack disabled" do
+    context "Data Plane operation in us-gov-west-1" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.cn-northwest-1.amazonaws.com.cn"}}
+        {"endpoint" => {"url" => "https://us-gov-west-1.signin.amazonaws-us-gov.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: true, use_dual_stack: false})
+        params = EndpointParameters.new(**{is_control_plane: false, region: "us-gov-west-1", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -138,191 +98,9 @@ module Aws::Signin
       end
     end
 
-    context "For region cn-northwest-1 with FIPS disabled and DualStack enabled" do
+    context "FIPS endpoint in us-gov-west-1 (global endpoint)" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://signin.cn-northwest-1.api.amazonwebservices.com.cn"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: false, use_dual_stack: true})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region cn-northwest-1 with FIPS disabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://cn-northwest-1.signin.amazonaws.cn"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "cn-northwest-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region eusc-de-east-1 with FIPS enabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.eusc-de-east-1.amazonaws.eu"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eusc-de-east-1", use_fips: true, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region eusc-de-east-1 with FIPS disabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin.eusc-de-east-1.amazonaws.eu"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eusc-de-east-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-iso-east-1 with FIPS enabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.us-iso-east-1.c2s.ic.gov"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-iso-east-1", use_fips: true, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-iso-east-1 with FIPS disabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin.us-iso-east-1.c2s.ic.gov"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-iso-east-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-isob-east-1 with FIPS enabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.us-isob-east-1.sc2s.sgov.gov"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-isob-east-1", use_fips: true, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-isob-east-1 with FIPS disabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin.us-isob-east-1.sc2s.sgov.gov"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-isob-east-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region eu-isoe-west-1 with FIPS enabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.eu-isoe-west-1.cloud.adc-e.uk"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eu-isoe-west-1", use_fips: true, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region eu-isoe-west-1 with FIPS disabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin.eu-isoe-west-1.cloud.adc-e.uk"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "eu-isoe-west-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-isof-south-1 with FIPS enabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.us-isof-south-1.csp.hci.ic.gov"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-isof-south-1", use_fips: true, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-isof-south-1 with FIPS disabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin.us-isof-south-1.csp.hci.ic.gov"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-isof-south-1", use_fips: false, use_dual_stack: false})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-gov-west-1 with FIPS enabled and DualStack enabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.us-gov-west-1.api.aws"}}
-      end
-
-      it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-gov-west-1", use_fips: true, use_dual_stack: true})
-        endpoint = subject.resolve_endpoint(params)
-        expect(endpoint.url).to eq(expected['endpoint']['url'])
-        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
-        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
-      end
-    end
-
-    context "For region us-gov-west-1 with FIPS enabled and DualStack disabled" do
-      let(:expected) do
-        {"endpoint" => {"url" => "https://signin-fips.us-gov-west-1.amazonaws.com"}}
+        {"endpoint" => {"url" => "https://signin-fips.amazonaws-us-gov.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
@@ -334,7 +112,63 @@ module Aws::Signin
       end
     end
 
-    context "For region us-gov-west-1 with FIPS disabled and DualStack enabled" do
+    context "FIPS endpoint in us-gov-east-1 (regional endpoint)" do
+      let(:expected) do
+        {"endpoint" => {"url" => "https://us-gov-east-1.signin-fips.amazonaws-us-gov.com"}}
+      end
+
+      it 'produces the expected output from the EndpointProvider' do
+        params = EndpointParameters.new(**{region: "us-gov-east-1", use_fips: true, use_dual_stack: false})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+      end
+    end
+
+    context "FIPS endpoint in us-east-1" do
+      let(:expected) do
+        {"endpoint" => {"url" => "https://signin-fips.us-east-1.amazonaws.com"}}
+      end
+
+      it 'produces the expected output from the EndpointProvider' do
+        params = EndpointParameters.new(**{region: "us-east-1", use_fips: true, use_dual_stack: false})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+      end
+    end
+
+    context "DualStack falls through to default SDK endpoint in us-east-1 (aws partition)" do
+      let(:expected) do
+        {"endpoint" => {"url" => "https://signin.us-east-1.api.aws"}}
+      end
+
+      it 'produces the expected output from the EndpointProvider' do
+        params = EndpointParameters.new(**{region: "us-east-1", use_fips: false, use_dual_stack: true})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+      end
+    end
+
+    context "DualStack falls through to default SDK endpoint in cn-north-1 (aws-cn partition)" do
+      let(:expected) do
+        {"endpoint" => {"url" => "https://signin.cn-north-1.api.amazonwebservices.com.cn"}}
+      end
+
+      it 'produces the expected output from the EndpointProvider' do
+        params = EndpointParameters.new(**{region: "cn-north-1", use_fips: false, use_dual_stack: true})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+      end
+    end
+
+    context "DualStack falls through to default SDK endpoint in us-gov-west-1 (aws-us-gov partition)" do
       let(:expected) do
         {"endpoint" => {"url" => "https://signin.us-gov-west-1.api.aws"}}
       end
@@ -348,13 +182,13 @@ module Aws::Signin
       end
     end
 
-    context "For region us-gov-west-1 with FIPS disabled and DualStack disabled" do
+    context "Custom SDK endpoint override" do
       let(:expected) do
-        {"endpoint" => {"url" => "https://us-gov-west-1.signin.amazonaws-us-gov.com"}}
+        {"endpoint" => {"url" => "https://custom.signin.example.com"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{region: "us-gov-west-1", use_fips: false, use_dual_stack: false})
+        params = EndpointParameters.new(**{region: "us-east-1", endpoint: "https://custom.signin.example.com", use_fips: false, use_dual_stack: false})
         endpoint = subject.resolve_endpoint(params)
         expect(endpoint.url).to eq(expected['endpoint']['url'])
         expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
@@ -362,16 +196,31 @@ module Aws::Signin
       end
     end
 
-    context "Missing region" do
+    context "ISO partition (us-iso-east-1)" do
       let(:expected) do
-        {"error" => "Invalid Configuration: Missing Region"}
+        {"endpoint" => {"url" => "https://us-iso-east-1.signin.c2shome.ic.gov"}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
-        params = EndpointParameters.new(**{})
-        expect do
-          subject.resolve_endpoint(params)
-        end.to raise_error(ArgumentError, expected['error'])
+        params = EndpointParameters.new(**{region: "us-iso-east-1", use_fips: false, use_dual_stack: false})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+      end
+    end
+
+    context "ISO-B partition (us-isob-east-1)" do
+      let(:expected) do
+        {"endpoint" => {"url" => "https://us-isob-east-1.signin.sc2shome.sgov.gov"}}
+      end
+
+      it 'produces the expected output from the EndpointProvider' do
+        params = EndpointParameters.new(**{region: "us-isob-east-1", use_fips: false, use_dual_stack: false})
+        endpoint = subject.resolve_endpoint(params)
+        expect(endpoint.url).to eq(expected['endpoint']['url'])
+        expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+        expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
       end
     end
 

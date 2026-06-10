@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.623.0 (2026-06-10)
+------------------
+
+* Feature - This release adds support for AMI Watermark which a structured identifier that helps in tracking AMI provenance
+
 1.622.0 (2026-06-09)
 ------------------
 

@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+3.252.0 (2026-06-10)
+------------------
+
+* Feature - Updated Aws::Signin::Client with the latest API changes.
+
+* Feature - AWS Sign-In now allows customers to control access to the AWS Management Console using resource-based policies. With this release customers can restrict console access based on network perimeters such as VPC IDs, VPC endpoints, and IP addresses.
+
 3.251.0 (2026-06-02)
 ------------------
 

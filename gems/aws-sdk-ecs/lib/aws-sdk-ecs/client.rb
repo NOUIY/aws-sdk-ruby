@@ -5888,6 +5888,8 @@ module Aws::ECS
     #   resp.daemon_task_definition.registered_at #=> Time
     #   resp.daemon_task_definition.delete_requested_at #=> Time
     #   resp.daemon_task_definition.registered_by #=> String
+    #   resp.daemon_task_definition.pid_mode #=> String, one of "none", "shared"
+    #   resp.daemon_task_definition.ipc_mode #=> String, one of "none", "shared"
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -10390,6 +10392,20 @@ module Aws::ECS
     #     values with this prefix. Tags with this prefix do not count against
     #     your tags per resource limit.
     #
+    # @option params [String] :pid_mode
+    #   The process namespace mode for the daemon. When set to `shared`, the
+    #   daemon shares the PID namespace with co-located tasks on the same
+    #   container instance, giving the daemon visibility into application
+    #   processes. When set to `none`, the daemon gets its own isolated PID
+    #   namespace. The default is `none`.
+    #
+    # @option params [String] :ipc_mode
+    #   The IPC namespace mode for the daemon. When set to `shared`, the
+    #   daemon shares the IPC namespace with co-located tasks on the same
+    #   container instance, allowing communication through POSIX shared
+    #   memory, semaphores, and message queues. When set to `none`, the daemon
+    #   gets its own isolated IPC namespace. The default is `none`.
+    #
     # @return [Types::RegisterDaemonTaskDefinitionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RegisterDaemonTaskDefinitionResponse#daemon_task_definition_arn #daemon_task_definition_arn} => String
@@ -10576,6 +10592,8 @@ module Aws::ECS
     #         value: "TagValue",
     #       },
     #     ],
+    #     pid_mode: "none", # accepts none, shared
+    #     ipc_mode: "none", # accepts none, shared
     #   })
     #
     # @example Response structure
@@ -16010,7 +16028,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.235.0'
+      context[:gem_version] = '1.236.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

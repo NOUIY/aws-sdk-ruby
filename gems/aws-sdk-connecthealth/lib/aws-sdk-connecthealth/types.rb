@@ -872,6 +872,23 @@ module Aws::ConnectHealth
       include Aws::Structure
     end
 
+    # An event containing raw binary audio data for the Medical Scribe
+    # stream. The audio is sent as a raw binary payload rather than as a
+    # base64-encoded value.
+    #
+    # @!attribute [rw] audio_chunk
+    #   The raw binary audio data chunk
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connecthealth-2025-01-29/MedicalScribeBinaryAudioEvent AWS API Documentation
+    #
+    class MedicalScribeBinaryAudioEvent < Struct.new(
+      :audio_chunk,
+      :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Defines a channel in the audio stream
     #
     # @!attribute [rw] channel_id
@@ -1585,6 +1602,7 @@ module Aws::ConnectHealth
       def event_types
         [
           :audio_event,
+          :binary_audio_event,
           :session_control_event,
           :configuration_event
         ]

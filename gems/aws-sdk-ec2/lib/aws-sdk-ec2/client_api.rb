@@ -189,6 +189,8 @@ module Aws::EC2
     AthenaIntegrationsSet = Shapes::ListShape.new(name: 'AthenaIntegrationsSet')
     AttachClassicLinkVpcRequest = Shapes::StructureShape.new(name: 'AttachClassicLinkVpcRequest')
     AttachClassicLinkVpcResult = Shapes::StructureShape.new(name: 'AttachClassicLinkVpcResult')
+    AttachImageWatermarkRequest = Shapes::StructureShape.new(name: 'AttachImageWatermarkRequest')
+    AttachImageWatermarkResult = Shapes::StructureShape.new(name: 'AttachImageWatermarkResult')
     AttachInternetGatewayRequest = Shapes::StructureShape.new(name: 'AttachInternetGatewayRequest')
     AttachNetworkInterfaceRequest = Shapes::StructureShape.new(name: 'AttachNetworkInterfaceRequest')
     AttachNetworkInterfaceResult = Shapes::StructureShape.new(name: 'AttachNetworkInterfaceResult')
@@ -1442,6 +1444,8 @@ module Aws::EC2
     DestinationOptionsResponse = Shapes::StructureShape.new(name: 'DestinationOptionsResponse')
     DetachClassicLinkVpcRequest = Shapes::StructureShape.new(name: 'DetachClassicLinkVpcRequest')
     DetachClassicLinkVpcResult = Shapes::StructureShape.new(name: 'DetachClassicLinkVpcResult')
+    DetachImageWatermarkRequest = Shapes::StructureShape.new(name: 'DetachImageWatermarkRequest')
+    DetachImageWatermarkResult = Shapes::StructureShape.new(name: 'DetachImageWatermarkResult')
     DetachInternetGatewayRequest = Shapes::StructureShape.new(name: 'DetachInternetGatewayRequest')
     DetachNetworkInterfaceRequest = Shapes::StructureShape.new(name: 'DetachNetworkInterfaceRequest')
     DetachVerifiedAccessTrustProviderRequest = Shapes::StructureShape.new(name: 'DetachVerifiedAccessTrustProviderRequest')
@@ -2068,6 +2072,9 @@ module Aws::EC2
     ImageUsageResourceTypeOptionValuesList = Shapes::ListShape.new(name: 'ImageUsageResourceTypeOptionValuesList')
     ImageUsageResourceTypeRequest = Shapes::StructureShape.new(name: 'ImageUsageResourceTypeRequest')
     ImageUsageResourceTypeRequestList = Shapes::ListShape.new(name: 'ImageUsageResourceTypeRequestList')
+    ImageWatermark = Shapes::StructureShape.new(name: 'ImageWatermark')
+    ImageWatermarkList = Shapes::ListShape.new(name: 'ImageWatermarkList')
+    ImageWatermarkNameRequest = Shapes::StringShape.new(name: 'ImageWatermarkNameRequest')
     ImdsSupportValues = Shapes::StringShape.new(name: 'ImdsSupportValues')
     ImportClientVpnClientCertificateRevocationListRequest = Shapes::StructureShape.new(name: 'ImportClientVpnClientCertificateRevocationListRequest')
     ImportClientVpnClientCertificateRevocationListResult = Shapes::StructureShape.new(name: 'ImportClientVpnClientCertificateRevocationListResult')
@@ -4701,6 +4708,14 @@ module Aws::EC2
 
     AttachClassicLinkVpcResult.add_member(:return, Shapes::ShapeRef.new(shape: Boolean, location_name: "return"))
     AttachClassicLinkVpcResult.struct_class = Types::AttachClassicLinkVpcResult
+
+    AttachImageWatermarkRequest.add_member(:image_id, Shapes::ShapeRef.new(shape: ImageId, required: true, location_name: "ImageId"))
+    AttachImageWatermarkRequest.add_member(:watermark_name, Shapes::ShapeRef.new(shape: ImageWatermarkNameRequest, required: true, location_name: "WatermarkName"))
+    AttachImageWatermarkRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    AttachImageWatermarkRequest.struct_class = Types::AttachImageWatermarkRequest
+
+    AttachImageWatermarkResult.add_member(:watermark_key, Shapes::ShapeRef.new(shape: String, location_name: "watermarkKey"))
+    AttachImageWatermarkResult.struct_class = Types::AttachImageWatermarkResult
 
     AttachInternetGatewayRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     AttachInternetGatewayRequest.add_member(:internet_gateway_id, Shapes::ShapeRef.new(shape: InternetGatewayId, required: true, location_name: "internetGatewayId"))
@@ -10068,6 +10083,14 @@ module Aws::EC2
     DetachClassicLinkVpcResult.add_member(:return, Shapes::ShapeRef.new(shape: Boolean, location_name: "return"))
     DetachClassicLinkVpcResult.struct_class = Types::DetachClassicLinkVpcResult
 
+    DetachImageWatermarkRequest.add_member(:image_id, Shapes::ShapeRef.new(shape: ImageId, required: true, location_name: "ImageId"))
+    DetachImageWatermarkRequest.add_member(:watermark_key, Shapes::ShapeRef.new(shape: String, required: true, location_name: "WatermarkKey"))
+    DetachImageWatermarkRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    DetachImageWatermarkRequest.struct_class = Types::DetachImageWatermarkRequest
+
+    DetachImageWatermarkResult.add_member(:return, Shapes::ShapeRef.new(shape: Boolean, location_name: "return"))
+    DetachImageWatermarkResult.struct_class = Types::DetachImageWatermarkResult
+
     DetachInternetGatewayRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     DetachInternetGatewayRequest.add_member(:internet_gateway_id, Shapes::ShapeRef.new(shape: InternetGatewayId, required: true, location_name: "internetGatewayId"))
     DetachInternetGatewayRequest.add_member(:vpc_id, Shapes::ShapeRef.new(shape: VpcId, required: true, location_name: "vpcId"))
@@ -12280,6 +12303,7 @@ module Aws::EC2
     Image.add_member(:source_image_id, Shapes::ShapeRef.new(shape: String, location_name: "sourceImageId"))
     Image.add_member(:source_image_region, Shapes::ShapeRef.new(shape: String, location_name: "sourceImageRegion"))
     Image.add_member(:free_tier_eligible, Shapes::ShapeRef.new(shape: Boolean, location_name: "freeTierEligible"))
+    Image.add_member(:image_watermarks, Shapes::ShapeRef.new(shape: ImageWatermarkList, location_name: "imageWatermarkSet"))
     Image.add_member(:image_id, Shapes::ShapeRef.new(shape: String, location_name: "imageId"))
     Image.add_member(:image_location, Shapes::ShapeRef.new(shape: String, location_name: "imageLocation"))
     Image.add_member(:state, Shapes::ShapeRef.new(shape: ImageState, location_name: "imageState"))
@@ -12362,6 +12386,7 @@ module Aws::EC2
     ImageMetadata.add_member(:deprecation_time, Shapes::ShapeRef.new(shape: String, location_name: "deprecationTime"))
     ImageMetadata.add_member(:image_allowed, Shapes::ShapeRef.new(shape: Boolean, location_name: "imageAllowed"))
     ImageMetadata.add_member(:is_public, Shapes::ShapeRef.new(shape: Boolean, location_name: "isPublic"))
+    ImageMetadata.add_member(:image_watermarks, Shapes::ShapeRef.new(shape: ImageWatermarkList, location_name: "imageWatermarkSet"))
     ImageMetadata.struct_class = Types::ImageMetadata
 
     ImageNameCriteriaRequestList.member = Shapes::ShapeRef.new(shape: ImageNameCriteriaRequest, location_name: "item")
@@ -12440,6 +12465,15 @@ module Aws::EC2
     ImageUsageResourceTypeRequest.struct_class = Types::ImageUsageResourceTypeRequest
 
     ImageUsageResourceTypeRequestList.member = Shapes::ShapeRef.new(shape: ImageUsageResourceTypeRequest)
+
+    ImageWatermark.add_member(:watermark_key, Shapes::ShapeRef.new(shape: String, location_name: "watermarkKey"))
+    ImageWatermark.add_member(:source_image_region, Shapes::ShapeRef.new(shape: String, location_name: "sourceImageRegion"))
+    ImageWatermark.add_member(:source_image_id, Shapes::ShapeRef.new(shape: String, location_name: "sourceImageId"))
+    ImageWatermark.add_member(:source_image_creation_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "sourceImageCreationTime"))
+    ImageWatermark.add_member(:watermark_creation_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "watermarkCreationTime"))
+    ImageWatermark.struct_class = Types::ImageWatermark
+
+    ImageWatermarkList.member = Shapes::ShapeRef.new(shape: ImageWatermark, location_name: "item")
 
     ImportClientVpnClientCertificateRevocationListRequest.add_member(:client_vpn_endpoint_id, Shapes::ShapeRef.new(shape: ClientVpnEndpointId, required: true, location_name: "ClientVpnEndpointId"))
     ImportClientVpnClientCertificateRevocationListRequest.add_member(:certificate_revocation_list, Shapes::ShapeRef.new(shape: String, required: true, location_name: "CertificateRevocationList"))
@@ -20143,6 +20177,14 @@ module Aws::EC2
         o.output = Shapes::ShapeRef.new(shape: AttachClassicLinkVpcResult)
       end)
 
+      api.add_operation(:attach_image_watermark, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AttachImageWatermark"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: AttachImageWatermarkRequest)
+        o.output = Shapes::ShapeRef.new(shape: AttachImageWatermarkResult)
+      end)
+
       api.add_operation(:attach_internet_gateway, Seahorse::Model::Operation.new.tap do |o|
         o.name = "AttachInternetGateway"
         o.http_method = "POST"
@@ -24308,6 +24350,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DetachClassicLinkVpcRequest)
         o.output = Shapes::ShapeRef.new(shape: DetachClassicLinkVpcResult)
+      end)
+
+      api.add_operation(:detach_image_watermark, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DetachImageWatermark"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DetachImageWatermarkRequest)
+        o.output = Shapes::ShapeRef.new(shape: DetachImageWatermarkResult)
       end)
 
       api.add_operation(:detach_internet_gateway, Seahorse::Model::Operation.new.tap do |o|

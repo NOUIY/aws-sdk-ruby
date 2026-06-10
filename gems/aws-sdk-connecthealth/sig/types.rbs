@@ -297,6 +297,12 @@ module Aws::ConnectHealth
       SENSITIVE: []
     end
 
+    class MedicalScribeBinaryAudioEvent
+      attr_accessor audio_chunk: ::String
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
     class MedicalScribeChannelDefinition
       attr_accessor channel_id: ::Integer
       attr_accessor participant_role: ("PATIENT" | "CLINICIAN")
@@ -525,7 +531,7 @@ module Aws::ConnectHealth
     end
 
     class MedicalScribeInputStream < Enumerator[untyped, untyped]
-      def event_types: () -> [:audio_event, :session_control_event, :configuration_event]
+      def event_types: () -> [:audio_event, :binary_audio_event, :session_control_event, :configuration_event]
     end
 
     class MedicalScribeOutputStream < Enumerator[untyped, untyped]

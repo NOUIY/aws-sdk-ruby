@@ -1184,7 +1184,9 @@ module Aws
                                                  key: ::String?,
                                                  value: ::String?
                                                }
-                                             ]
+                                             ],
+                                             ?pid_mode: ("none" | "shared"),
+                                             ?ipc_mode: ("none" | "shared")
                                            ) -> _RegisterDaemonTaskDefinitionResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RegisterDaemonTaskDefinitionResponseSuccess
 

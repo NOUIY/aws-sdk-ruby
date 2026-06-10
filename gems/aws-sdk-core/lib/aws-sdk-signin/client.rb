@@ -559,6 +559,267 @@ module Aws::Signin
       req.send_request(options)
     end
 
+    # Delete console authorization configuration with automatic scope
+    # detection
+    #
+    # @option params [String] :target_id
+    #   Target account identifier
+    #
+    # @return [Types::DeleteConsoleAuthorizationConfigurationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteConsoleAuthorizationConfigurationOutput#target_id #target_id} => String
+    #   * {Types::DeleteConsoleAuthorizationConfigurationOutput#scope #scope} => String
+    #   * {Types::DeleteConsoleAuthorizationConfigurationOutput#console_authorization_enabled #console_authorization_enabled} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_console_authorization_configuration({
+    #     target_id: "TargetId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_id #=> String
+    #   resp.scope #=> String
+    #   resp.console_authorization_enabled #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/DeleteConsoleAuthorizationConfiguration AWS API Documentation
+    #
+    # @overload delete_console_authorization_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_console_authorization_configuration(params = {}, options = {})
+      req = build_request(:delete_console_authorization_configuration, params)
+      req.send_request(options)
+    end
+
+    # Remove a permission statement from the account's SignIn
+    # resource-based policy
+    #
+    # @option params [required, String] :statement_id
+    #   Unique identifier of the permission statement to delete
+    #
+    # @option params [String] :client_token
+    #   Idempotency token for the request
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_permission_statement({
+    #     statement_id: "StatementId", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/DeleteResourcePermissionStatement AWS API Documentation
+    #
+    # @overload delete_resource_permission_statement(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_permission_statement(params = {}, options = {})
+      req = build_request(:delete_resource_permission_statement, params)
+      req.send_request(options)
+    end
+
+    # Get console authorization configuration with automatic scope detection
+    #
+    # @option params [String] :target_id
+    #   Target account identifier
+    #
+    # @return [Types::GetConsoleAuthorizationConfigurationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetConsoleAuthorizationConfigurationOutput#target_id #target_id} => String
+    #   * {Types::GetConsoleAuthorizationConfigurationOutput#scope #scope} => String
+    #   * {Types::GetConsoleAuthorizationConfigurationOutput#console_authorization_enabled #console_authorization_enabled} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_console_authorization_configuration({
+    #     target_id: "TargetId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_id #=> String
+    #   resp.scope #=> String
+    #   resp.console_authorization_enabled #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/GetConsoleAuthorizationConfiguration AWS API Documentation
+    #
+    # @overload get_console_authorization_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_console_authorization_configuration(params = {}, options = {})
+      req = build_request(:get_console_authorization_configuration, params)
+      req.send_request(options)
+    end
+
+    # Retrieve the account's consolidated SignIn resource-based policy
+    #
+    # @return [Types::GetResourcePolicyOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyOutput#signin_resource_based_policy #signin_resource_based_policy} => Types::SigninResourceBasedPolicy
+    #
+    # @example Response structure
+    #
+    #   resp.signin_resource_based_policy.version #=> String
+    #   resp.signin_resource_based_policy.statement #=> Array
+    #   resp.signin_resource_based_policy.statement[0].effect #=> String
+    #   resp.signin_resource_based_policy.statement[0].principal #=> Hash
+    #   resp.signin_resource_based_policy.statement[0].principal["String"] #=> String
+    #   resp.signin_resource_based_policy.statement[0].action #=> Array
+    #   resp.signin_resource_based_policy.statement[0].action[0] #=> String
+    #   resp.signin_resource_based_policy.statement[0].resource #=> String
+    #   resp.signin_resource_based_policy.statement[0].condition #=> Hash
+    #   resp.signin_resource_based_policy.statement[0].condition["ConditionType"] #=> Hash
+    #   resp.signin_resource_based_policy.statement[0].condition["ConditionType"]["String"] #=> Array
+    #   resp.signin_resource_based_policy.statement[0].condition["ConditionType"]["String"][0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # Retrieve all permission statements in the account's SignIn
+    # resource-based policy
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of results to return
+    #
+    # @option params [String] :next_token
+    #   Token for pagination
+    #
+    # @return [Types::ListResourcePermissionStatementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListResourcePermissionStatementsOutput#permission_statements #permission_statements} => Array&lt;Types::PermissionStatementSummary&gt;
+    #   * {Types::ListResourcePermissionStatementsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_resource_permission_statements({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.permission_statements #=> Array
+    #   resp.permission_statements[0].sid #=> String
+    #   resp.permission_statements[0].condition #=> Hash
+    #   resp.permission_statements[0].condition["ConditionType"] #=> Hash
+    #   resp.permission_statements[0].condition["ConditionType"]["String"] #=> Array
+    #   resp.permission_statements[0].condition["ConditionType"]["String"][0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/ListResourcePermissionStatements AWS API Documentation
+    #
+    # @overload list_resource_permission_statements(params = {})
+    # @param [Hash] params ({})
+    def list_resource_permission_statements(params = {}, options = {})
+      req = build_request(:list_resource_permission_statements, params)
+      req.send_request(options)
+    end
+
+    # Enable console authorization configuration with automatic scope
+    # detection
+    #
+    # @option params [String] :target_id
+    #   Target account identifier
+    #
+    # @return [Types::PutConsoleAuthorizationConfigurationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutConsoleAuthorizationConfigurationOutput#target_id #target_id} => String
+    #   * {Types::PutConsoleAuthorizationConfigurationOutput#scope #scope} => String
+    #   * {Types::PutConsoleAuthorizationConfigurationOutput#console_authorization_enabled #console_authorization_enabled} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_console_authorization_configuration({
+    #     target_id: "TargetId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_id #=> String
+    #   resp.scope #=> String
+    #   resp.console_authorization_enabled #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PutConsoleAuthorizationConfiguration AWS API Documentation
+    #
+    # @overload put_console_authorization_configuration(params = {})
+    # @param [Hash] params ({})
+    def put_console_authorization_configuration(params = {}, options = {})
+      req = build_request(:put_console_authorization_configuration, params)
+      req.send_request(options)
+    end
+
+    # Create a permission statement in the account's SignIn resource-based
+    # policy
+    #
+    # @option params [String] :source_vpc
+    #   VPC identifier to restrict console access
+    #
+    # @option params [String] :signin_source_vpce
+    #   SignIn VPC endpoint identifier
+    #
+    # @option params [String] :console_source_vpce
+    #   Console VPC endpoint identifier
+    #
+    # @option params [String] :vpc_source_ip
+    #   Source IP address within VPC
+    #
+    # @option params [String] :source_ip
+    #   Source IP address
+    #
+    # @option params [String] :requested_region
+    #   AWS region where the VPC and VPC endpoint reside Required when
+    #   sourceVpc or signinSourceVpce/consoleSourceVpce is provided
+    #
+    # @option params [String] :excluded_principal
+    #   Principal to exclude from the permission statement
+    #
+    # @option params [String] :client_token
+    #   Idempotency token for the request
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutResourcePermissionStatementOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePermissionStatementOutput#statement_id #statement_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_permission_statement({
+    #     source_vpc: "SourceVpc",
+    #     signin_source_vpce: "SourceVpce",
+    #     console_source_vpce: "SourceVpce",
+    #     vpc_source_ip: "VpcSourceIp",
+    #     source_ip: "SourceIp",
+    #     requested_region: "RequestedRegion",
+    #     excluded_principal: "ExcludedPrincipal",
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.statement_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signin-2023-01-01/PutResourcePermissionStatement AWS API Documentation
+    #
+    # @overload put_resource_permission_statement(params = {})
+    # @param [Hash] params ({})
+    def put_resource_permission_statement(params = {}, options = {})
+      req = build_request(:put_resource_permission_statement, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
@@ -577,7 +838,7 @@ module Aws::Signin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-core'
-      context[:gem_version] = '3.251.0'
+      context[:gem_version] = '3.252.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

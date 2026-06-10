@@ -1,6 +1,9 @@
 Unreleased Changes
 ------------------
 
+1.225.1 (2026-06-10)
+------------------
+
 * Issue - Fix `download_file` single-request mode not writing to a temporary file when given a String/Pathname destination.
 
 1.225.0 (2026-06-02)

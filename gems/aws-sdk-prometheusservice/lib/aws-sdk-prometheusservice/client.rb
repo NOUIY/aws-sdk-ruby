@@ -1867,6 +1867,8 @@ module Aws::PrometheusService
     #   resp.workspace_configuration.limits_per_label_set[0].label_set #=> Hash
     #   resp.workspace_configuration.limits_per_label_set[0].label_set["LabelName"] #=> String
     #   resp.workspace_configuration.retention_period_in_days #=> Integer
+    #   resp.workspace_configuration.out_of_order_time_window_in_seconds #=> Integer
+    #   resp.workspace_configuration.rule_query_offset_in_seconds #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/amp-2020-08-01/DescribeWorkspaceConfiguration AWS API Documentation
     #
@@ -3027,6 +3029,15 @@ module Aws::PrometheusService
     #   Specifies how many days that metrics will be retained in the
     #   workspace.
     #
+    # @option params [Integer] :out_of_order_time_window_in_seconds
+    #   Specifies the time window in seconds for accepting out of order
+    #   samples. Out of order samples older than this window are rejected.
+    #
+    # @option params [Integer] :rule_query_offset_in_seconds
+    #   Specifies the duration in seconds to offset rule evaluation queries
+    #   into the past. This allows ingested samples to be available before
+    #   rule evaluation.
+    #
     # @return [Types::UpdateWorkspaceConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateWorkspaceConfigurationResponse#status #status} => Types::WorkspaceConfigurationStatus
@@ -3047,6 +3058,8 @@ module Aws::PrometheusService
     #       },
     #     ],
     #     retention_period_in_days: 1,
+    #     out_of_order_time_window_in_seconds: 1,
+    #     rule_query_offset_in_seconds: 1,
     #   })
     #
     # @example Response structure
@@ -3081,7 +3094,7 @@ module Aws::PrometheusService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-prometheusservice'
-      context[:gem_version] = '1.73.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

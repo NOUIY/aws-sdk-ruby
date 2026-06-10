@@ -657,6 +657,18 @@ module Aws
                                    ) -> _AttachClassicLinkVpcResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AttachClassicLinkVpcResponseSuccess
 
+      interface _AttachImageWatermarkResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::AttachImageWatermarkResult]
+        def watermark_key: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#attach_image_watermark-instance_method
+      def attach_image_watermark: (
+                                    image_id: ::String,
+                                    watermark_name: ::String,
+                                    ?dry_run: bool
+                                  ) -> _AttachImageWatermarkResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AttachImageWatermarkResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#attach_internet_gateway-instance_method
       def attach_internet_gateway: (
                                      ?dry_run: bool,
@@ -8832,6 +8844,18 @@ module Aws
                                      vpc_id: ::String
                                    ) -> _DetachClassicLinkVpcResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DetachClassicLinkVpcResponseSuccess
+
+      interface _DetachImageWatermarkResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DetachImageWatermarkResult]
+        def return: () -> bool
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#detach_image_watermark-instance_method
+      def detach_image_watermark: (
+                                    image_id: ::String,
+                                    watermark_key: ::String,
+                                    ?dry_run: bool
+                                  ) -> _DetachImageWatermarkResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DetachImageWatermarkResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#detach_internet_gateway-instance_method
       def detach_internet_gateway: (

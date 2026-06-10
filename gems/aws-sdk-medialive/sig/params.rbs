@@ -310,9 +310,11 @@ module Aws
 
       type audio_description = {
       audio_normalization_settings: {
-        algorithm: ("ITU_1770_1" | "ITU_1770_2")?,
+        algorithm: ("ITU_1770_1" | "ITU_1770_2" | "ITU_1770_3" | "ITU_1770_4")?,
         algorithm_control: ("CORRECT_AUDIO")?,
-        target_lkfs: ::Float?
+        target_lkfs: ::Float?,
+        peak_calculation: ("NONE" | "TRUE_PEAK")?,
+        peak_limiter_threshold: ::Float?
       }?,
       audio_selector_name: ::String,
       audio_type: ("CLEAN_EFFECTS" | "HEARING_IMPAIRED" | "UNDEFINED" | "VISUAL_IMPAIRED_COMMENTARY")?,
@@ -1272,11 +1274,16 @@ module Aws
       failover_condition_settings: Params::failover_condition_settings?
     }
 
+      type audio_pid_selection = {
+      pid: ::Integer,
+      pids: Array[
+        Params::audio_pid
+      ]?
+    }
+
       type audio_track_selection = {
       tracks: Array[
-        {
-          track: ::Integer
-        }
+        Params::audio_track
       ],
       dolby_e_decode: {
         program_selection: ("ALL_CHANNELS" | "PROGRAM_1" | "PROGRAM_2" | "PROGRAM_3" | "PROGRAM_4" | "PROGRAM_5" | "PROGRAM_6" | "PROGRAM_7" | "PROGRAM_8")
@@ -1292,15 +1299,39 @@ module Aws
         language_code: ::String,
         language_selection_policy: ("LOOSE" | "STRICT")?
       }?,
-      audio_pid_selection: {
-        pid: ::Integer
-      }?,
+      audio_pid_selection: Params::audio_pid_selection?,
       audio_track_selection: Params::audio_track_selection?
     }
 
       type audio_selector = {
       name: ::String,
       selector_settings: Params::audio_selector_settings?
+    }
+
+      type audio_pre_mixer_settings = {
+      audio_normalization_settings: {
+        algorithm: ("ITU_1770_1" | "ITU_1770_2" | "ITU_1770_3" | "ITU_1770_4")?,
+        algorithm_control: ("CORRECT_AUDIO")?,
+        target_lkfs: ::Float?,
+        peak_calculation: ("NONE" | "TRUE_PEAK")?,
+        peak_limiter_threshold: ::Float?
+      }?,
+      channels: ::Integer?,
+      gain_db: ::Float?,
+      remix_settings: Params::remix_settings?
+    }
+
+      type audio_pid = {
+      dolby_e_decode: {
+        program_selection: ("ALL_CHANNELS" | "PROGRAM_1" | "PROGRAM_2" | "PROGRAM_3" | "PROGRAM_4" | "PROGRAM_5" | "PROGRAM_6" | "PROGRAM_7" | "PROGRAM_8")
+      }?,
+      pid: ::Integer,
+      premix_settings: Params::audio_pre_mixer_settings?
+    }
+
+      type audio_track = {
+      track: ::Integer,
+      premix_settings: Params::audio_pre_mixer_settings?
     }
 
       type teletext_source_settings = {

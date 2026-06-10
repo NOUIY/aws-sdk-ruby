@@ -3099,13 +3099,26 @@ module Aws::PrometheusService
     #   workspace.
     #   @return [Integer]
     #
+    # @!attribute [rw] out_of_order_time_window_in_seconds
+    #   Specifies the time window in seconds for accepting out of order
+    #   samples. Out of order samples older than this window are rejected.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] rule_query_offset_in_seconds
+    #   Specifies the duration in seconds to offset rule evaluation queries
+    #   into the past. This allows ingested samples to be available before
+    #   rule evaluation.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/amp-2020-08-01/UpdateWorkspaceConfigurationRequest AWS API Documentation
     #
     class UpdateWorkspaceConfigurationRequest < Struct.new(
       :workspace_id,
       :client_token,
       :limits_per_label_set,
-      :retention_period_in_days)
+      :retention_period_in_days,
+      :out_of_order_time_window_in_seconds,
+      :rule_query_offset_in_seconds)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3211,12 +3224,24 @@ module Aws::PrometheusService
     #   workspace.
     #   @return [Integer]
     #
+    # @!attribute [rw] out_of_order_time_window_in_seconds
+    #   This field displays the out of order time window in seconds for
+    #   accepting out of order samples.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] rule_query_offset_in_seconds
+    #   This field displays the duration in seconds that rule evaluation
+    #   queries are offset into the past.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/amp-2020-08-01/WorkspaceConfigurationDescription AWS API Documentation
     #
     class WorkspaceConfigurationDescription < Struct.new(
       :status,
       :limits_per_label_set,
-      :retention_period_in_days)
+      :retention_period_in_days,
+      :out_of_order_time_window_in_seconds,
+      :rule_query_offset_in_seconds)
       SENSITIVE = []
       include Aws::Structure
     end

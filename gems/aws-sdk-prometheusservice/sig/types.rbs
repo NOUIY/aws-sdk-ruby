@@ -845,6 +845,8 @@ module Aws::PrometheusService
       attr_accessor client_token: ::String
       attr_accessor limits_per_label_set: ::Array[Types::LimitsPerLabelSet]
       attr_accessor retention_period_in_days: ::Integer
+      attr_accessor out_of_order_time_window_in_seconds: ::Integer
+      attr_accessor rule_query_offset_in_seconds: ::Integer
       SENSITIVE: []
     end
 
@@ -876,6 +878,8 @@ module Aws::PrometheusService
       attr_accessor status: Types::WorkspaceConfigurationStatus
       attr_accessor limits_per_label_set: ::Array[Types::LimitsPerLabelSet]
       attr_accessor retention_period_in_days: ::Integer
+      attr_accessor out_of_order_time_window_in_seconds: ::Integer
+      attr_accessor rule_query_offset_in_seconds: ::Integer
       SENSITIVE: []
     end
 

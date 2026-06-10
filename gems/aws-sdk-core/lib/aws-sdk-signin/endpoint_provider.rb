@@ -10,6 +10,48 @@
 module Aws::Signin
   class EndpointProvider
     def resolve_endpoint(parameters)
+      if Aws::Endpoints::Matchers.set?(parameters.is_control_plane) && Aws::Endpoints::Matchers.boolean_equals?(parameters.is_control_plane, true) && Aws::Endpoints::Matchers.set?(parameters.region) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region))
+        if Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws")
+          return Aws::Endpoints::Endpoint.new(url: "https://signin.#{parameters.region}.api.aws", headers: {}, properties: {"authSchemes" => [{"name" => "sigv4", "signingName" => "signin", "signingRegion" => "#{parameters.region}"}]})
+        end
+        if Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-cn")
+          return Aws::Endpoints::Endpoint.new(url: "https://signin.#{parameters.region}.api.amazonwebservices.com.cn", headers: {}, properties: {"authSchemes" => [{"name" => "sigv4", "signingName" => "signin", "signingRegion" => "#{parameters.region}"}]})
+        end
+        return Aws::Endpoints::Endpoint.new(url: "https://signin.#{parameters.region}.#{partition_result['dualStackDnsSuffix']}", headers: {}, properties: {"authSchemes" => [{"name" => "sigv4", "signingName" => "signin", "signingRegion" => "#{parameters.region}"}]})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.aws.amazon.com", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-cn")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.amazonaws.cn", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-us-gov")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.amazonaws-us-gov.com", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-iso")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.c2shome.ic.gov", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-iso-b")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.sc2shome.sgov.gov", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-iso-f")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.csphome.hci.ic.gov", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-iso-e")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.csphome.adc-e.uk", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-eusc")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.amazonaws-eusc.eu", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && Aws::Endpoints::Matchers.string_equals?(parameters.region, "us-gov-west-1")
+        return Aws::Endpoints::Endpoint.new(url: "https://signin-fips.amazonaws-us-gov.com", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-us-gov")
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin-fips.amazonaws-us-gov.com", headers: {}, properties: {})
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.region) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, false) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, false) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region))
+        return Aws::Endpoints::Endpoint.new(url: "https://#{parameters.region}.signin.#{partition_result['dnsSuffix']}", headers: {}, properties: {})
+      end
       if Aws::Endpoints::Matchers.set?(parameters.endpoint)
         if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true)
           raise ArgumentError, "Invalid Configuration: FIPS and custom endpoint are not supported"

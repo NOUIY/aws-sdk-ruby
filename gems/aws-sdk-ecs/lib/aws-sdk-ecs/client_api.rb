@@ -149,9 +149,11 @@ module Aws::ECS
     DaemonDeploymentSummaryList = Shapes::ListShape.new(name: 'DaemonDeploymentSummaryList')
     DaemonDetail = Shapes::StructureShape.new(name: 'DaemonDetail')
     DaemonDrainPercent = Shapes::FloatShape.new(name: 'DaemonDrainPercent')
+    DaemonIpcMode = Shapes::StringShape.new(name: 'DaemonIpcMode')
     DaemonLinuxParameters = Shapes::StructureShape.new(name: 'DaemonLinuxParameters')
     DaemonNotActiveException = Shapes::StructureShape.new(name: 'DaemonNotActiveException')
     DaemonNotFoundException = Shapes::StructureShape.new(name: 'DaemonNotFoundException')
+    DaemonPidMode = Shapes::StringShape.new(name: 'DaemonPidMode')
     DaemonPropagateTags = Shapes::StringShape.new(name: 'DaemonPropagateTags')
     DaemonRevision = Shapes::StructureShape.new(name: 'DaemonRevision')
     DaemonRevisionDetail = Shapes::StructureShape.new(name: 'DaemonRevisionDetail')
@@ -1259,6 +1261,8 @@ module Aws::ECS
     DaemonTaskDefinition.add_member(:registered_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "registeredAt"))
     DaemonTaskDefinition.add_member(:delete_requested_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "deleteRequestedAt"))
     DaemonTaskDefinition.add_member(:registered_by, Shapes::ShapeRef.new(shape: String, location_name: "registeredBy"))
+    DaemonTaskDefinition.add_member(:pid_mode, Shapes::ShapeRef.new(shape: DaemonPidMode, location_name: "pidMode"))
+    DaemonTaskDefinition.add_member(:ipc_mode, Shapes::ShapeRef.new(shape: DaemonIpcMode, location_name: "ipcMode"))
     DaemonTaskDefinition.struct_class = Types::DaemonTaskDefinition
 
     DaemonTaskDefinitionSummaries.member = Shapes::ShapeRef.new(shape: DaemonTaskDefinitionSummary)
@@ -2331,6 +2335,8 @@ module Aws::ECS
     RegisterDaemonTaskDefinitionRequest.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
     RegisterDaemonTaskDefinitionRequest.add_member(:volumes, Shapes::ShapeRef.new(shape: DaemonVolumeList, location_name: "volumes"))
     RegisterDaemonTaskDefinitionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
+    RegisterDaemonTaskDefinitionRequest.add_member(:pid_mode, Shapes::ShapeRef.new(shape: DaemonPidMode, location_name: "pidMode"))
+    RegisterDaemonTaskDefinitionRequest.add_member(:ipc_mode, Shapes::ShapeRef.new(shape: DaemonIpcMode, location_name: "ipcMode"))
     RegisterDaemonTaskDefinitionRequest.struct_class = Types::RegisterDaemonTaskDefinitionRequest
 
     RegisterDaemonTaskDefinitionResponse.add_member(:daemon_task_definition_arn, Shapes::ShapeRef.new(shape: String, location_name: "daemonTaskDefinitionArn"))

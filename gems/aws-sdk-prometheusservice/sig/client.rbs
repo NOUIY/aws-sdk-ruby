@@ -647,7 +647,9 @@ module Aws
                                                 label_set: Hash[::String, ::String]
                                               }
                                             ],
-                                            ?retention_period_in_days: ::Integer
+                                            ?retention_period_in_days: ::Integer,
+                                            ?out_of_order_time_window_in_seconds: ::Integer,
+                                            ?rule_query_offset_in_seconds: ::Integer
                                           ) -> _UpdateWorkspaceConfigurationResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateWorkspaceConfigurationResponseSuccess
 

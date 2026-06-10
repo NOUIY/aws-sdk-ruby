@@ -60,11 +60,14 @@ module Aws::MediaLive
     AudioLanguageSelectionPolicy = Shapes::StringShape.new(name: 'AudioLanguageSelectionPolicy')
     AudioNormalizationAlgorithm = Shapes::StringShape.new(name: 'AudioNormalizationAlgorithm')
     AudioNormalizationAlgorithmControl = Shapes::StringShape.new(name: 'AudioNormalizationAlgorithmControl')
+    AudioNormalizationPeakCalculation = Shapes::StringShape.new(name: 'AudioNormalizationPeakCalculation')
     AudioNormalizationSettings = Shapes::StructureShape.new(name: 'AudioNormalizationSettings')
     AudioOnlyHlsSegmentType = Shapes::StringShape.new(name: 'AudioOnlyHlsSegmentType')
     AudioOnlyHlsSettings = Shapes::StructureShape.new(name: 'AudioOnlyHlsSettings')
     AudioOnlyHlsTrackType = Shapes::StringShape.new(name: 'AudioOnlyHlsTrackType')
+    AudioPid = Shapes::StructureShape.new(name: 'AudioPid')
     AudioPidSelection = Shapes::StructureShape.new(name: 'AudioPidSelection')
+    AudioPreMixerSettings = Shapes::StructureShape.new(name: 'AudioPreMixerSettings')
     AudioSelector = Shapes::StructureShape.new(name: 'AudioSelector')
     AudioSelectorSettings = Shapes::StructureShape.new(name: 'AudioSelectorSettings')
     AudioSilenceFailoverSettings = Shapes::StructureShape.new(name: 'AudioSilenceFailoverSettings')
@@ -1098,8 +1101,11 @@ module Aws::MediaLive
     __doubleMin1Max65535 = Shapes::FloatShape.new(name: '__doubleMin1Max65535')
     __doubleMin250Max5000 = Shapes::FloatShape.new(name: '__doubleMin250Max5000')
     __doubleMin32Max46 = Shapes::FloatShape.new(name: '__doubleMin32Max46')
+    __doubleMinNegative100Max0 = Shapes::FloatShape.new(name: '__doubleMinNegative100Max0')
     __doubleMinNegative1Max5 = Shapes::FloatShape.new(name: '__doubleMinNegative1Max5')
     __doubleMinNegative59Max0 = Shapes::FloatShape.new(name: '__doubleMinNegative59Max0')
+    __doubleMinNegative60Max60 = Shapes::FloatShape.new(name: '__doubleMinNegative60Max60')
+    __doubleMinNegative8Max0 = Shapes::FloatShape.new(name: '__doubleMinNegative8Max0')
     __integer = Shapes::IntegerShape.new(name: '__integer')
     __integerMax5 = Shapes::IntegerShape.new(name: '__integerMax5')
     __integerMin0 = Shapes::IntegerShape.new(name: '__integerMin0')
@@ -1171,6 +1177,7 @@ module Aws::MediaLive
     __listOfAudioChannelMapping = Shapes::ListShape.new(name: '__listOfAudioChannelMapping')
     __listOfAudioDescription = Shapes::ListShape.new(name: '__listOfAudioDescription')
     __listOfAudioFeedInput = Shapes::ListShape.new(name: '__listOfAudioFeedInput')
+    __listOfAudioPid = Shapes::ListShape.new(name: '__listOfAudioPid')
     __listOfAudioSelector = Shapes::ListShape.new(name: '__listOfAudioSelector')
     __listOfAudioTrack = Shapes::ListShape.new(name: '__listOfAudioTrack')
     __listOfBatchFailedResultModel = Shapes::ListShape.new(name: '__listOfBatchFailedResultModel')
@@ -1423,6 +1430,8 @@ module Aws::MediaLive
     AudioNormalizationSettings.add_member(:algorithm, Shapes::ShapeRef.new(shape: AudioNormalizationAlgorithm, location_name: "algorithm"))
     AudioNormalizationSettings.add_member(:algorithm_control, Shapes::ShapeRef.new(shape: AudioNormalizationAlgorithmControl, location_name: "algorithmControl"))
     AudioNormalizationSettings.add_member(:target_lkfs, Shapes::ShapeRef.new(shape: __doubleMinNegative59Max0, location_name: "targetLkfs"))
+    AudioNormalizationSettings.add_member(:peak_calculation, Shapes::ShapeRef.new(shape: AudioNormalizationPeakCalculation, location_name: "peakCalculation"))
+    AudioNormalizationSettings.add_member(:peak_limiter_threshold, Shapes::ShapeRef.new(shape: __doubleMinNegative8Max0, location_name: "peakLimiterThreshold"))
     AudioNormalizationSettings.struct_class = Types::AudioNormalizationSettings
 
     AudioOnlyHlsSettings.add_member(:audio_group_id, Shapes::ShapeRef.new(shape: __string, location_name: "audioGroupId"))
@@ -1431,8 +1440,20 @@ module Aws::MediaLive
     AudioOnlyHlsSettings.add_member(:segment_type, Shapes::ShapeRef.new(shape: AudioOnlyHlsSegmentType, location_name: "segmentType"))
     AudioOnlyHlsSettings.struct_class = Types::AudioOnlyHlsSettings
 
+    AudioPid.add_member(:dolby_e_decode, Shapes::ShapeRef.new(shape: AudioDolbyEDecode, location_name: "dolbyEDecode"))
+    AudioPid.add_member(:pid, Shapes::ShapeRef.new(shape: __integerMin0Max8191, required: true, location_name: "pid"))
+    AudioPid.add_member(:premix_settings, Shapes::ShapeRef.new(shape: AudioPreMixerSettings, location_name: "premixSettings"))
+    AudioPid.struct_class = Types::AudioPid
+
     AudioPidSelection.add_member(:pid, Shapes::ShapeRef.new(shape: __integerMin0Max8191, required: true, location_name: "pid"))
+    AudioPidSelection.add_member(:pids, Shapes::ShapeRef.new(shape: __listOfAudioPid, location_name: "pids"))
     AudioPidSelection.struct_class = Types::AudioPidSelection
+
+    AudioPreMixerSettings.add_member(:audio_normalization_settings, Shapes::ShapeRef.new(shape: AudioNormalizationSettings, location_name: "audioNormalizationSettings"))
+    AudioPreMixerSettings.add_member(:channels, Shapes::ShapeRef.new(shape: __integerMin1Max16, location_name: "channels"))
+    AudioPreMixerSettings.add_member(:gain_db, Shapes::ShapeRef.new(shape: __doubleMinNegative60Max60, location_name: "gainDb"))
+    AudioPreMixerSettings.add_member(:remix_settings, Shapes::ShapeRef.new(shape: RemixSettings, location_name: "remixSettings"))
+    AudioPreMixerSettings.struct_class = Types::AudioPreMixerSettings
 
     AudioSelector.add_member(:name, Shapes::ShapeRef.new(shape: __stringMin1, required: true, location_name: "name"))
     AudioSelector.add_member(:selector_settings, Shapes::ShapeRef.new(shape: AudioSelectorSettings, location_name: "selectorSettings"))
@@ -1449,6 +1470,7 @@ module Aws::MediaLive
     AudioSilenceFailoverSettings.struct_class = Types::AudioSilenceFailoverSettings
 
     AudioTrack.add_member(:track, Shapes::ShapeRef.new(shape: __integerMin1, required: true, location_name: "track"))
+    AudioTrack.add_member(:premix_settings, Shapes::ShapeRef.new(shape: AudioPreMixerSettings, location_name: "premixSettings"))
     AudioTrack.struct_class = Types::AudioTrack
 
     AudioTrackSelection.add_member(:tracks, Shapes::ShapeRef.new(shape: __listOfAudioTrack, required: true, location_name: "tracks"))
@@ -5955,6 +5977,8 @@ module Aws::MediaLive
     __listOfAudioDescription.member = Shapes::ShapeRef.new(shape: AudioDescription)
 
     __listOfAudioFeedInput.member = Shapes::ShapeRef.new(shape: AudioFeedInput)
+
+    __listOfAudioPid.member = Shapes::ShapeRef.new(shape: AudioPid)
 
     __listOfAudioSelector.member = Shapes::ShapeRef.new(shape: AudioSelector)
 

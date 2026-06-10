@@ -3189,6 +3189,49 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] image_id
+    #   The ID of the AMI.
+    #   @return [String]
+    #
+    # @!attribute [rw] watermark_name
+    #   The name for the watermark. Combined with the caller's account ID
+    #   to form the `WatermarkKey` (`accountId:watermarkName`).
+    #
+    #   Constraints: 3-128 alphanumeric characters, parentheses (()), square
+    #   brackets (\[\]), spaces ( ), periods (.), slashes (/), dashes (-),
+    #   single quotes ('), at-signs (@), or underscores(\_)
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AttachImageWatermarkRequest AWS API Documentation
+    #
+    class AttachImageWatermarkRequest < Struct.new(
+      :image_id,
+      :watermark_name,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] watermark_key
+    #   The watermark identifier, in `accountId:watermarkName` format (for
+    #   example, `123456789012:approvedAmi`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AttachImageWatermarkResult AWS API Documentation
+    #
+    class AttachImageWatermarkResult < Struct.new(
+      :watermark_key)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -36479,6 +36522,45 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] image_id
+    #   The ID of the AMI.
+    #   @return [String]
+    #
+    # @!attribute [rw] watermark_key
+    #   The watermark key to remove, in `accountId:watermarkName` format
+    #   (for example, `123456789012:approvedAmi`).
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DetachImageWatermarkRequest AWS API Documentation
+    #
+    class DetachImageWatermarkRequest < Struct.new(
+      :image_id,
+      :watermark_key,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] return
+    #   Returns `true` if the request succeeds; otherwise, it returns an
+    #   error.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DetachImageWatermarkResult AWS API Documentation
+    #
+    class DetachImageWatermarkResult < Struct.new(
+      :return)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -48469,6 +48551,10 @@ module Aws::EC2
     #   * If `false`, the AMI is not eligible for Free Tier.
     #   @return [Boolean]
     #
+    # @!attribute [rw] image_watermarks
+    #   The watermarks attached to the AMI.
+    #   @return [Array<Types::ImageWatermark>]
+    #
     # @!attribute [rw] image_id
     #   The ID of the AMI.
     #   @return [String]
@@ -48551,6 +48637,7 @@ module Aws::EC2
       :source_image_id,
       :source_image_region,
       :free_tier_eligible,
+      :image_watermarks,
       :image_id,
       :image_location,
       :state,
@@ -48991,6 +49078,10 @@ module Aws::EC2
     #   account) launch permissions.
     #   @return [Boolean]
     #
+    # @!attribute [rw] image_watermarks
+    #   The watermarks attached to the AMI.
+    #   @return [Array<Types::ImageWatermark>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImageMetadata AWS API Documentation
     #
     class ImageMetadata < Struct.new(
@@ -49002,7 +49093,8 @@ module Aws::EC2
       :creation_date,
       :deprecation_time,
       :image_allowed,
-      :is_public)
+      :is_public,
+      :image_watermarks)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -49258,6 +49350,46 @@ module Aws::EC2
     class ImageUsageResourceTypeRequest < Struct.new(
       :resource_type,
       :resource_type_options)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes a watermark attached to an AMI.
+    #
+    # @!attribute [rw] watermark_key
+    #   The watermark identifier, in `accountId:watermarkName` format (for
+    #   example, `123456789012:approvedAmi`). The `accountId` portion is the
+    #   Amazon Web Services account ID of the watermark creator. The
+    #   `watermarkName` portion is customer-provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_image_region
+    #   The Region where the watermark was originally attached.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_image_id
+    #   The ID of the AMI to which the watermark was originally attached.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_image_creation_time
+    #   The creation date of the source AMI, in the following format:
+    #   *YYYY*-*MM*-*DD*T*HH*:*MM*:*SS*.*ssssss*+*HH*:*MM*.
+    #   @return [Time]
+    #
+    # @!attribute [rw] watermark_creation_time
+    #   The date and time the watermark was attached to the AMI, in the
+    #   following format:
+    #   *YYYY*-*MM*-*DD*T*HH*:*MM*:*SS*.*ssssss*+*HH*:*MM*.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImageWatermark AWS API Documentation
+    #
+    class ImageWatermark < Struct.new(
+      :watermark_key,
+      :source_image_region,
+      :source_image_id,
+      :source_image_creation_time,
+      :watermark_creation_time)
       SENSITIVE = []
       include Aws::Structure
     end

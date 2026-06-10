@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.373.0 (2026-06-10)
+------------------
+
+* Feature - Add support for G6e instances (ml.g6e.xlarge through ml.g6e.48xlarge) on Amazon SageMaker Notebook Instances.
+
 1.372.0 (2026-06-05)
 ------------------
 

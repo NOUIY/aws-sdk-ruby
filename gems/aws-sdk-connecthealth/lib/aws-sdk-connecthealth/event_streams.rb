@@ -22,6 +22,13 @@ module Aws::ConnectHealth
         @event_emitter.emit(:audio_event, params)
       end
 
+      # @option params [String, StringIO, File] :audio_chunk
+      #   The raw binary audio data chunk
+      #
+      def signal_binary_audio_event_event(params = {})
+        @event_emitter.emit(:binary_audio_event, params)
+      end
+
       # @option params [String] :type
       #   The type of session control event
       #

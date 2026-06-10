@@ -30,11 +30,17 @@ module Aws::Signin
   #
   #   @return [string]
   #
+  # @!attribute is_control_plane
+  #   Indicates if the operation targets the control plane endpoint
+  #
+  #   @return [boolean]
+  #
   EndpointParameters = Struct.new(
     :use_dual_stack,
     :use_fips,
     :endpoint,
     :region,
+    :is_control_plane,
   ) do
     include Aws::Structure
 
@@ -45,6 +51,7 @@ module Aws::Signin
         'UseFIPS' => :use_fips,
         'Endpoint' => :endpoint,
         'Region' => :region,
+        'IsControlPlane' => :is_control_plane,
       }.freeze
     end
 
@@ -55,6 +62,7 @@ module Aws::Signin
       self[:use_fips] = false if self[:use_fips].nil?
       self[:endpoint] = options[:endpoint]
       self[:region] = options[:region]
+      self[:is_control_plane] = options[:is_control_plane]
     end
 
     def self.create(config, options={})

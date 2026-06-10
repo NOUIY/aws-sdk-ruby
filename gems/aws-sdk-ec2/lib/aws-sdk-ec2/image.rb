@@ -264,6 +264,12 @@ module Aws::EC2
       data[:free_tier_eligible]
     end
 
+    # The watermarks attached to the AMI.
+    # @return [Array<Types::ImageWatermark>]
+    def image_watermarks
+      data[:image_watermarks]
+    end
+
     # The location of the AMI.
     # @return [String]
     def image_location

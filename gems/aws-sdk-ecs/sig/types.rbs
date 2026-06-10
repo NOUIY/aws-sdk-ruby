@@ -704,6 +704,8 @@ module Aws::ECS
       attr_accessor registered_at: ::Time
       attr_accessor delete_requested_at: ::Time
       attr_accessor registered_by: ::String
+      attr_accessor pid_mode: ("none" | "shared")
+      attr_accessor ipc_mode: ("none" | "shared")
       SENSITIVE: []
     end
 
@@ -2057,6 +2059,8 @@ module Aws::ECS
       attr_accessor memory: ::String
       attr_accessor volumes: ::Array[Types::DaemonVolume]
       attr_accessor tags: ::Array[Types::Tag]
+      attr_accessor pid_mode: ("none" | "shared")
+      attr_accessor ipc_mode: ("none" | "shared")
       SENSITIVE: []
     end
 

@@ -3202,6 +3202,62 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Attaches a watermark to a non-public AMI. The watermark is a
+    # structured identifier that automatically propagates to all derivative
+    # images created through [CreateImage][1], [CopyImage][2], and
+    # [CreateRestoreImageTask][3].
+    #
+    # Only the AMI owner can attach watermarks. Watermarks cannot be added
+    # to public AMIs.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html
+    # [2]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopyImage.html
+    # [3]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateRestoreImageTask.html
+    #
+    # @option params [required, String] :image_id
+    #   The ID of the AMI.
+    #
+    # @option params [required, String] :watermark_name
+    #   The name for the watermark. Combined with the caller's account ID to
+    #   form the `WatermarkKey` (`accountId:watermarkName`).
+    #
+    #   Constraints: 3-128 alphanumeric characters, parentheses (()), square
+    #   brackets (\[\]), spaces ( ), periods (.), slashes (/), dashes (-),
+    #   single quotes ('), at-signs (@), or underscores(\_)
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::AttachImageWatermarkResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AttachImageWatermarkResult#watermark_key #watermark_key} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.attach_image_watermark({
+    #     image_id: "ImageId", # required
+    #     watermark_name: "ImageWatermarkNameRequest", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.watermark_key #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AttachImageWatermark AWS API Documentation
+    #
+    # @overload attach_image_watermark(params = {})
+    # @param [Hash] params ({})
+    def attach_image_watermark(params = {}, options = {})
+      req = build_request(:attach_image_watermark, params)
+      req.send_request(options)
+    end
+
     # Attaches an internet gateway or a virtual private gateway to a VPC,
     # enabling connectivity between the internet and the VPC. For more
     # information, see [Internet gateways][1] in the *Amazon VPC User
@@ -30401,6 +30457,12 @@ module Aws::EC2
     #   resp.images[0].source_image_id #=> String
     #   resp.images[0].source_image_region #=> String
     #   resp.images[0].free_tier_eligible #=> Boolean
+    #   resp.images[0].image_watermarks #=> Array
+    #   resp.images[0].image_watermarks[0].watermark_key #=> String
+    #   resp.images[0].image_watermarks[0].source_image_region #=> String
+    #   resp.images[0].image_watermarks[0].source_image_id #=> String
+    #   resp.images[0].image_watermarks[0].source_image_creation_time #=> Time
+    #   resp.images[0].image_watermarks[0].watermark_creation_time #=> Time
     #   resp.images[0].image_id #=> String
     #   resp.images[0].image_location #=> String
     #   resp.images[0].state #=> String, one of "pending", "available", "invalid", "deregistered", "transient", "failed", "error", "disabled"
@@ -31288,6 +31350,12 @@ module Aws::EC2
     #   resp.instance_image_metadata[0].image_metadata.deprecation_time #=> String
     #   resp.instance_image_metadata[0].image_metadata.image_allowed #=> Boolean
     #   resp.instance_image_metadata[0].image_metadata.is_public #=> Boolean
+    #   resp.instance_image_metadata[0].image_metadata.image_watermarks #=> Array
+    #   resp.instance_image_metadata[0].image_metadata.image_watermarks[0].watermark_key #=> String
+    #   resp.instance_image_metadata[0].image_metadata.image_watermarks[0].source_image_region #=> String
+    #   resp.instance_image_metadata[0].image_metadata.image_watermarks[0].source_image_id #=> String
+    #   resp.instance_image_metadata[0].image_metadata.image_watermarks[0].source_image_creation_time #=> Time
+    #   resp.instance_image_metadata[0].image_metadata.image_watermarks[0].watermark_creation_time #=> Time
     #   resp.instance_image_metadata[0].operator.managed #=> Boolean
     #   resp.instance_image_metadata[0].operator.principal #=> String
     #   resp.instance_image_metadata[0].operator.hidden_by_default #=> Boolean
@@ -47658,6 +47726,53 @@ module Aws::EC2
     # @param [Hash] params ({})
     def detach_classic_link_vpc(params = {}, options = {})
       req = build_request(:detach_classic_link_vpc, params)
+      req.send_request(options)
+    end
+
+    # Removes a watermark from the specified AMI. This is an idempotent
+    # operation. It succeeds even if the watermark does not exist on the
+    # image.
+    #
+    # Removing a watermark from an image does not affect derivative images
+    # that already carry the watermark.
+    #
+    # Only the AMI owner can detach watermarks.
+    #
+    # @option params [required, String] :image_id
+    #   The ID of the AMI.
+    #
+    # @option params [required, String] :watermark_key
+    #   The watermark key to remove, in `accountId:watermarkName` format (for
+    #   example, `123456789012:approvedAmi`).
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::DetachImageWatermarkResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DetachImageWatermarkResult#return #return} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.detach_image_watermark({
+    #     image_id: "ImageId", # required
+    #     watermark_key: "String", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.return #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DetachImageWatermark AWS API Documentation
+    #
+    # @overload detach_image_watermark(params = {})
+    # @param [Hash] params ({})
+    def detach_image_watermark(params = {}, options = {})
+      req = build_request(:detach_image_watermark, params)
       req.send_request(options)
     end
 
@@ -73969,7 +74084,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.622.0'
+      context[:gem_version] = '1.623.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -472,6 +472,9 @@ module Aws::ConnectHealth
     #   input_stream.signal_audio_event_event(
     #     # ...
     #   )
+    #   input_stream.signal_binary_audio_event_event(
+    #     # ...
+    #   )
     #   input_stream.signal_session_control_event_event(
     #     # ...
     #   )
@@ -614,7 +617,7 @@ module Aws::ConnectHealth
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connecthealth'
-      context[:gem_version] = '1.6.0'
+      context[:gem_version] = '1.7.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

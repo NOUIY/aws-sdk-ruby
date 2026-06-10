@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.190.0 (2026-06-10)
+------------------
+
+* Feature - Adding premixer settings to pid and track audio inputs in MediaLIve to allow greater control over mixing audio from multiple source streams including support for AudioPidSelectors made up of multiple audio PIDs.
+
 1.189.0 (2026-06-02)
 ------------------
 

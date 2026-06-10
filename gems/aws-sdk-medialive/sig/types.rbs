@@ -144,9 +144,11 @@ module Aws::MediaLive
     end
 
     class AudioNormalizationSettings
-      attr_accessor algorithm: ("ITU_1770_1" | "ITU_1770_2")
+      attr_accessor algorithm: ("ITU_1770_1" | "ITU_1770_2" | "ITU_1770_3" | "ITU_1770_4")
       attr_accessor algorithm_control: ("CORRECT_AUDIO")
       attr_accessor target_lkfs: ::Float
+      attr_accessor peak_calculation: ("NONE" | "TRUE_PEAK")
+      attr_accessor peak_limiter_threshold: ::Float
       SENSITIVE: []
     end
 
@@ -160,6 +162,7 @@ module Aws::MediaLive
 
     class AudioPidSelection
       attr_accessor pid: ::Integer
+      attr_accessor pids: ::Array[Types::AudioPid]
       SENSITIVE: []
     end
 
@@ -185,6 +188,7 @@ module Aws::MediaLive
 
     class AudioTrack
       attr_accessor track: ::Integer
+      attr_accessor premix_settings: Types::AudioPreMixerSettings
       SENSITIVE: []
     end
 
@@ -6016,6 +6020,21 @@ module Aws::MediaLive
     class SmartSubtitleSourceSettings
       attr_accessor caption_synchronization_mode: ("NO_VIDEO_DELAY" | "VIDEO_ALIGNED_CAPTIONS")
       attr_accessor inference_feed_output: ::String
+      SENSITIVE: []
+    end
+
+    class AudioPid
+      attr_accessor dolby_e_decode: Types::AudioDolbyEDecode
+      attr_accessor pid: ::Integer
+      attr_accessor premix_settings: Types::AudioPreMixerSettings
+      SENSITIVE: []
+    end
+
+    class AudioPreMixerSettings
+      attr_accessor audio_normalization_settings: Types::AudioNormalizationSettings
+      attr_accessor channels: ::Integer
+      attr_accessor gain_db: ::Float
+      attr_accessor remix_settings: Types::RemixSettings
       SENSITIVE: []
     end
   end

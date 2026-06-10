@@ -200,7 +200,9 @@ module Aws::PrometheusService
     UpdateScraperResponse = Shapes::StructureShape.new(name: 'UpdateScraperResponse')
     UpdateWorkspaceAliasRequest = Shapes::StructureShape.new(name: 'UpdateWorkspaceAliasRequest')
     UpdateWorkspaceConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateWorkspaceConfigurationRequest')
+    UpdateWorkspaceConfigurationRequestOutOfOrderTimeWindowInSecondsInteger = Shapes::IntegerShape.new(name: 'UpdateWorkspaceConfigurationRequestOutOfOrderTimeWindowInSecondsInteger')
     UpdateWorkspaceConfigurationRequestRetentionPeriodInDaysInteger = Shapes::IntegerShape.new(name: 'UpdateWorkspaceConfigurationRequestRetentionPeriodInDaysInteger')
+    UpdateWorkspaceConfigurationRequestRuleQueryOffsetInSecondsInteger = Shapes::IntegerShape.new(name: 'UpdateWorkspaceConfigurationRequestRuleQueryOffsetInSecondsInteger')
     UpdateWorkspaceConfigurationResponse = Shapes::StructureShape.new(name: 'UpdateWorkspaceConfigurationResponse')
     Uri = Shapes::StringShape.new(name: 'Uri')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
@@ -211,7 +213,9 @@ module Aws::PrometheusService
     WorkspaceAlias = Shapes::StringShape.new(name: 'WorkspaceAlias')
     WorkspaceArn = Shapes::StringShape.new(name: 'WorkspaceArn')
     WorkspaceConfigurationDescription = Shapes::StructureShape.new(name: 'WorkspaceConfigurationDescription')
+    WorkspaceConfigurationDescriptionOutOfOrderTimeWindowInSecondsInteger = Shapes::IntegerShape.new(name: 'WorkspaceConfigurationDescriptionOutOfOrderTimeWindowInSecondsInteger')
     WorkspaceConfigurationDescriptionRetentionPeriodInDaysInteger = Shapes::IntegerShape.new(name: 'WorkspaceConfigurationDescriptionRetentionPeriodInDaysInteger')
+    WorkspaceConfigurationDescriptionRuleQueryOffsetInSecondsInteger = Shapes::IntegerShape.new(name: 'WorkspaceConfigurationDescriptionRuleQueryOffsetInSecondsInteger')
     WorkspaceConfigurationStatus = Shapes::StructureShape.new(name: 'WorkspaceConfigurationStatus')
     WorkspaceConfigurationStatusCode = Shapes::StringShape.new(name: 'WorkspaceConfigurationStatusCode')
     WorkspaceDescription = Shapes::StructureShape.new(name: 'WorkspaceDescription')
@@ -841,6 +845,8 @@ module Aws::PrometheusService
     UpdateWorkspaceConfigurationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: IdempotencyToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     UpdateWorkspaceConfigurationRequest.add_member(:limits_per_label_set, Shapes::ShapeRef.new(shape: LimitsPerLabelSetList, location_name: "limitsPerLabelSet"))
     UpdateWorkspaceConfigurationRequest.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: UpdateWorkspaceConfigurationRequestRetentionPeriodInDaysInteger, location_name: "retentionPeriodInDays"))
+    UpdateWorkspaceConfigurationRequest.add_member(:out_of_order_time_window_in_seconds, Shapes::ShapeRef.new(shape: UpdateWorkspaceConfigurationRequestOutOfOrderTimeWindowInSecondsInteger, location_name: "outOfOrderTimeWindowInSeconds"))
+    UpdateWorkspaceConfigurationRequest.add_member(:rule_query_offset_in_seconds, Shapes::ShapeRef.new(shape: UpdateWorkspaceConfigurationRequestRuleQueryOffsetInSecondsInteger, location_name: "ruleQueryOffsetInSeconds"))
     UpdateWorkspaceConfigurationRequest.struct_class = Types::UpdateWorkspaceConfigurationRequest
 
     UpdateWorkspaceConfigurationResponse.add_member(:status, Shapes::ShapeRef.new(shape: WorkspaceConfigurationStatus, required: true, location_name: "status"))
@@ -864,6 +870,8 @@ module Aws::PrometheusService
     WorkspaceConfigurationDescription.add_member(:status, Shapes::ShapeRef.new(shape: WorkspaceConfigurationStatus, required: true, location_name: "status"))
     WorkspaceConfigurationDescription.add_member(:limits_per_label_set, Shapes::ShapeRef.new(shape: LimitsPerLabelSetList, location_name: "limitsPerLabelSet"))
     WorkspaceConfigurationDescription.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: WorkspaceConfigurationDescriptionRetentionPeriodInDaysInteger, location_name: "retentionPeriodInDays"))
+    WorkspaceConfigurationDescription.add_member(:out_of_order_time_window_in_seconds, Shapes::ShapeRef.new(shape: WorkspaceConfigurationDescriptionOutOfOrderTimeWindowInSecondsInteger, location_name: "outOfOrderTimeWindowInSeconds"))
+    WorkspaceConfigurationDescription.add_member(:rule_query_offset_in_seconds, Shapes::ShapeRef.new(shape: WorkspaceConfigurationDescriptionRuleQueryOffsetInSecondsInteger, location_name: "ruleQueryOffsetInSeconds"))
     WorkspaceConfigurationDescription.struct_class = Types::WorkspaceConfigurationDescription
 
     WorkspaceConfigurationStatus.add_member(:status_code, Shapes::ShapeRef.new(shape: WorkspaceConfigurationStatusCode, required: true, location_name: "statusCode"))

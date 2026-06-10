@@ -543,8 +543,17 @@ module Aws::MediaLive
     # Audio Normalization Settings
     #
     # @!attribute [rw] algorithm
-    #   Audio normalization algorithm to use. itu17701 conforms to the CALM
-    #   Act specification, itu17702 conforms to the EBU R-128 specification.
+    #   Choose one of the following audio normalization algorithms: ITU-R
+    #   BS.1770-1: Ungated loudness. A measurement of ungated average
+    #   loudness for an entire piece of content, suitable for measurement of
+    #   short-form content under ATSC recommendation A/85. Supports up to
+    #   5.1 audio channels. ITU-R BS.1770-2: Gated loudness. A measurement
+    #   of gated average loudness compliant with the requirements of
+    #   EBU-R128. Supports up to 5.1 audio channels. ITU-R BS.1770-3:
+    #   Modified peak. The same loudness measurement algorithm as 1770-2,
+    #   with an updated true peak measurement. ITU-R BS.1770-4: Higher
+    #   channel count. Allows for more audio channels than the other
+    #   algorithms, including configurations such as 7.1.
     #   @return [String]
     #
     # @!attribute [rw] algorithm_control
@@ -560,12 +569,28 @@ module Aws::MediaLive
     #   specification recommends a target of -23 LKFS.
     #   @return [Float]
     #
+    # @!attribute [rw] peak_calculation
+    #   If set to TRUE\_PEAK, calculate the TruePeak for each output's
+    #   audio track loudness.
+    #   @return [String]
+    #
+    # @!attribute [rw] peak_limiter_threshold
+    #   Peak limiter threshold in decibels relative to true peak (dBTP) if
+    #   TRUE\_PEAK is enabled. If TRUE\_PEAK is not enabled a full scale
+    #   (dbFS) value is used. The peak inter-audio sample loudness in your
+    #   output will be limited to the value that you specify, without
+    #   affecting the overall target LKFS. Leave blank to use the default
+    #   value 0.
+    #   @return [Float]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/AudioNormalizationSettings AWS API Documentation
     #
     class AudioNormalizationSettings < Struct.new(
       :algorithm,
       :algorithm_control,
-      :target_lkfs)
+      :target_lkfs,
+      :peak_calculation,
+      :peak_limiter_threshold)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -620,10 +645,16 @@ module Aws::MediaLive
     #   Selects a specific PID from within a source.
     #   @return [Integer]
     #
+    # @!attribute [rw] pids
+    #   Selects one or more unique PIDs from within a source. When using
+    #   'pids', you can specify per-PID audio pre-mixer settings.
+    #   @return [Array<Types::AudioPid>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/AudioPidSelection AWS API Documentation
     #
     class AudioPidSelection < Struct.new(
-      :pid)
+      :pid,
+      :pids)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -699,16 +730,24 @@ module Aws::MediaLive
       include Aws::Structure
     end
 
-    # Audio Track
+    # Represents a single audio track for selection with optional pre-mixer
+    # settings
     #
     # @!attribute [rw] track
     #   1-based integer value that maps to a specific audio track
     #   @return [Integer]
     #
+    # @!attribute [rw] premix_settings
+    #   Optional audio pre-mixer settings for this track. When specified,
+    #   allows per-track audio processing including channel remixing, gain
+    #   adjustment, and loudness normalization before interleaving.
+    #   @return [Types::AudioPreMixerSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/AudioTrack AWS API Documentation
     #
     class AudioTrack < Struct.new(
-      :track)
+      :track,
+      :premix_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -23174,6 +23213,73 @@ module Aws::MediaLive
     class SmartSubtitleSourceSettings < Struct.new(
       :caption_synchronization_mode,
       :inference_feed_output)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a single PID value for audio selection with optional
+    # pre-mixer settings
+    #
+    # @!attribute [rw] dolby_e_decode
+    #   Configure decoding options for Dolby E streams - these should be
+    #   Dolby E frames carried in PCM streams tagged with SMPTE-337. When
+    #   using the 'pids' array, if this field is not specified and Dolby E
+    #   content is present, the decoder will extract the specified program.
+    #   To maintain legacy behavior (allPrograms), explicitly set
+    #   programSelection to "allChannels".
+    #   @return [Types::AudioDolbyEDecode]
+    #
+    # @!attribute [rw] pid
+    #   PID value from within a source.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] premix_settings
+    #   Optional audio pre-mixer settings for this PID. When specified,
+    #   allows per-PID audio processing including channel remixing, gain
+    #   adjustment, and loudness normalization before interleaving.
+    #   @return [Types::AudioPreMixerSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/AudioPid AWS API Documentation
+    #
+    class AudioPid < Struct.new(
+      :dolby_e_decode,
+      :pid,
+      :premix_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Audio pre-mixer settings for normalizing audio before interleaving.
+    # These settings can be applied to individual PIDs or tracks before they
+    # are combined.
+    #
+    # @!attribute [rw] audio_normalization_settings
+    #   Audio normalization settings for loudness control. When specified,
+    #   audio loudness will be normalized according to the chosen algorithm.
+    #   @return [Types::AudioNormalizationSettings]
+    #
+    # @!attribute [rw] channels
+    #   Number of audio channels. If specified, the audio will be remixed to
+    #   match this channel count. Ignored if remixSettings is specified.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] gain_db
+    #   Gain adjustment in dB to apply. Range: -60 to +60 dB
+    #   @return [Float]
+    #
+    # @!attribute [rw] remix_settings
+    #   Settings that control how input audio channels are remixed. When
+    #   specified, allows fine-grained control over channel mapping and gain
+    #   levels. Takes precedence over the 'channels' setting.
+    #   @return [Types::RemixSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/AudioPreMixerSettings AWS API Documentation
+    #
+    class AudioPreMixerSettings < Struct.new(
+      :audio_normalization_settings,
+      :channels,
+      :gain_db,
+      :remix_settings)
       SENSITIVE = []
       include Aws::Structure
     end
