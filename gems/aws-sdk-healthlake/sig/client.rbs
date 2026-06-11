@@ -83,7 +83,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateFHIRDatastoreResponse]
         def datastore_id: () -> ::String
         def datastore_arn: () -> ::String
-        def datastore_status: () -> ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED")
+        def datastore_status: () -> ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED")
         def datastore_endpoint: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/HealthLake/Client.html#create_fhir_datastore-instance_method
@@ -119,7 +119,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteFHIRDatastoreResponse]
         def datastore_id: () -> ::String
         def datastore_arn: () -> ::String
-        def datastore_status: () -> ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED")
+        def datastore_status: () -> ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED")
         def datastore_endpoint: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/HealthLake/Client.html#delete_fhir_datastore-instance_method
@@ -169,7 +169,7 @@ module Aws
       def list_fhir_datastores: (
                                   ?filter: {
                                     datastore_name: ::String?,
-                                    datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED")?,
+                                    datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED")?,
                                     created_before: ::Time?,
                                     created_after: ::Time?
                                   },
@@ -292,6 +292,32 @@ module Aws
                             tag_keys: Array[::String]
                           ) -> _UntagResourceResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UntagResourceResponseSuccess
+
+      interface _UpdateFHIRDatastoreResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateFHIRDatastoreResponse]
+        def datastore_properties: () -> Types::DatastoreProperties
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/HealthLake/Client.html#update_fhir_datastore-instance_method
+      def update_fhir_datastore: (
+                                   datastore_id: ::String,
+                                   ?datastore_name: ::String,
+                                   ?analytics_configuration: {
+                                     status: ("ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | "PAUSING" | "PAUSED")?
+                                   },
+                                   ?nlp_configuration: {
+                                     status: ("ENABLED" | "DISABLED" | "ENABLING" | "DISABLING")?
+                                   },
+                                   ?profile_configuration: {
+                                     default_profiles: Array[::String]?
+                                   },
+                                   ?identity_provider_configuration: {
+                                     authorization_strategy: ("SMART_ON_FHIR_V1" | "SMART_ON_FHIR" | "AWS_AUTH"),
+                                     fine_grained_authorization_enabled: bool?,
+                                     metadata: ::String?,
+                                     idp_lambda_arn: ::String?
+                                   }
+                                 ) -> _UpdateFHIRDatastoreResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateFHIRDatastoreResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/HealthLake/Client.html#wait_until-instance_method
       def wait_until: (:fhir_datastore_active waiter_name, 

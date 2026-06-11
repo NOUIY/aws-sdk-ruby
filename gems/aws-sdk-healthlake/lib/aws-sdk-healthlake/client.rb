@@ -550,7 +550,7 @@ module Aws::HealthLake
     #
     #   resp.datastore_id #=> String
     #   resp.datastore_arn #=> String
-    #   resp.datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED"
+    #   resp.datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED"
     #   resp.datastore_endpoint #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/CreateFHIRDatastore AWS API Documentation
@@ -584,7 +584,7 @@ module Aws::HealthLake
     #
     #   resp.datastore_id #=> String
     #   resp.datastore_arn #=> String
-    #   resp.datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED"
+    #   resp.datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED"
     #   resp.datastore_endpoint #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/DeleteFHIRDatastore AWS API Documentation
@@ -616,7 +616,7 @@ module Aws::HealthLake
     #   resp.datastore_properties.datastore_id #=> String
     #   resp.datastore_properties.datastore_arn #=> String
     #   resp.datastore_properties.datastore_name #=> String
-    #   resp.datastore_properties.datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED"
+    #   resp.datastore_properties.datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED"
     #   resp.datastore_properties.created_at #=> Time
     #   resp.datastore_properties.datastore_type_version #=> String, one of "R4"
     #   resp.datastore_properties.datastore_endpoint #=> String
@@ -629,6 +629,10 @@ module Aws::HealthLake
     #   resp.datastore_properties.identity_provider_configuration.idp_lambda_arn #=> String
     #   resp.datastore_properties.error_cause.error_message #=> String
     #   resp.datastore_properties.error_cause.error_category #=> String, one of "RETRYABLE_ERROR", "NON_RETRYABLE_ERROR"
+    #   resp.datastore_properties.nlp_configuration.status #=> String, one of "ENABLED", "DISABLED", "ENABLING", "DISABLING"
+    #   resp.datastore_properties.analytics_configuration.status #=> String, one of "ENABLED", "ENABLING", "DISABLED", "DISABLING", "PAUSING", "PAUSED"
+    #   resp.datastore_properties.profile_configuration.default_profiles #=> Array
+    #   resp.datastore_properties.profile_configuration.default_profiles[0] #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -773,7 +777,7 @@ module Aws::HealthLake
     #   resp = client.list_fhir_datastores({
     #     filter: {
     #       datastore_name: "DatastoreName",
-    #       datastore_status: "CREATING", # accepts CREATING, ACTIVE, DELETING, DELETED, CREATE_FAILED
+    #       datastore_status: "CREATING", # accepts CREATING, ACTIVE, DELETING, DELETED, CREATE_FAILED, UPDATING, UPDATE_FAILED
     #       created_before: Time.now,
     #       created_after: Time.now,
     #     },
@@ -787,7 +791,7 @@ module Aws::HealthLake
     #   resp.datastore_properties_list[0].datastore_id #=> String
     #   resp.datastore_properties_list[0].datastore_arn #=> String
     #   resp.datastore_properties_list[0].datastore_name #=> String
-    #   resp.datastore_properties_list[0].datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED"
+    #   resp.datastore_properties_list[0].datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED"
     #   resp.datastore_properties_list[0].created_at #=> Time
     #   resp.datastore_properties_list[0].datastore_type_version #=> String, one of "R4"
     #   resp.datastore_properties_list[0].datastore_endpoint #=> String
@@ -800,6 +804,10 @@ module Aws::HealthLake
     #   resp.datastore_properties_list[0].identity_provider_configuration.idp_lambda_arn #=> String
     #   resp.datastore_properties_list[0].error_cause.error_message #=> String
     #   resp.datastore_properties_list[0].error_cause.error_category #=> String, one of "RETRYABLE_ERROR", "NON_RETRYABLE_ERROR"
+    #   resp.datastore_properties_list[0].nlp_configuration.status #=> String, one of "ENABLED", "DISABLED", "ENABLING", "DISABLING"
+    #   resp.datastore_properties_list[0].analytics_configuration.status #=> String, one of "ENABLED", "ENABLING", "DISABLED", "DISABLING", "PAUSING", "PAUSED"
+    #   resp.datastore_properties_list[0].profile_configuration.default_profiles #=> Array
+    #   resp.datastore_properties_list[0].profile_configuration.default_profiles[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/ListFHIRDatastores AWS API Documentation
@@ -1184,6 +1192,84 @@ module Aws::HealthLake
       req.send_request(options)
     end
 
+    # <para>Update the properties of a FHIR-enabled data store.</para>
+    #
+    # @option params [required, String] :datastore_id
+    #   <para>The data store identifier.</para>
+    #
+    # @option params [String] :datastore_name
+    #   <para>The data store name.</para>
+    #
+    # @option params [Types::AnalyticsConfiguration] :analytics_configuration
+    #   <para>The analytics configuration for the data store.</para>
+    #
+    # @option params [Types::NlpConfiguration] :nlp_configuration
+    #   <para>The NLP configuration for the data store.</para>
+    #
+    # @option params [Types::ProfileConfiguration] :profile_configuration
+    #   <para>The profile configuration for the data store.</para>
+    #
+    # @option params [Types::IdentityProviderConfiguration] :identity_provider_configuration
+    #   <para>The identity provider configuration for the data store.</para>
+    #
+    # @return [Types::UpdateFHIRDatastoreResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateFHIRDatastoreResponse#datastore_properties #datastore_properties} => Types::DatastoreProperties
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_fhir_datastore({
+    #     datastore_id: "DatastoreId", # required
+    #     datastore_name: "DatastoreName",
+    #     analytics_configuration: {
+    #       status: "ENABLED", # accepts ENABLED, ENABLING, DISABLED, DISABLING, PAUSING, PAUSED
+    #     },
+    #     nlp_configuration: {
+    #       status: "ENABLED", # accepts ENABLED, DISABLED, ENABLING, DISABLING
+    #     },
+    #     profile_configuration: {
+    #       default_profiles: ["String"],
+    #     },
+    #     identity_provider_configuration: {
+    #       authorization_strategy: "SMART_ON_FHIR_V1", # required, accepts SMART_ON_FHIR_V1, SMART_ON_FHIR, AWS_AUTH
+    #       fine_grained_authorization_enabled: false,
+    #       metadata: "ConfigurationMetadata",
+    #       idp_lambda_arn: "LambdaArn",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.datastore_properties.datastore_id #=> String
+    #   resp.datastore_properties.datastore_arn #=> String
+    #   resp.datastore_properties.datastore_name #=> String
+    #   resp.datastore_properties.datastore_status #=> String, one of "CREATING", "ACTIVE", "DELETING", "DELETED", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED"
+    #   resp.datastore_properties.created_at #=> Time
+    #   resp.datastore_properties.datastore_type_version #=> String, one of "R4"
+    #   resp.datastore_properties.datastore_endpoint #=> String
+    #   resp.datastore_properties.sse_configuration.kms_encryption_config.cmk_type #=> String, one of "CUSTOMER_MANAGED_KMS_KEY", "AWS_OWNED_KMS_KEY"
+    #   resp.datastore_properties.sse_configuration.kms_encryption_config.kms_key_id #=> String
+    #   resp.datastore_properties.preload_data_config.preload_data_type #=> String, one of "SYNTHEA"
+    #   resp.datastore_properties.identity_provider_configuration.authorization_strategy #=> String, one of "SMART_ON_FHIR_V1", "SMART_ON_FHIR", "AWS_AUTH"
+    #   resp.datastore_properties.identity_provider_configuration.fine_grained_authorization_enabled #=> Boolean
+    #   resp.datastore_properties.identity_provider_configuration.metadata #=> String
+    #   resp.datastore_properties.identity_provider_configuration.idp_lambda_arn #=> String
+    #   resp.datastore_properties.error_cause.error_message #=> String
+    #   resp.datastore_properties.error_cause.error_category #=> String, one of "RETRYABLE_ERROR", "NON_RETRYABLE_ERROR"
+    #   resp.datastore_properties.nlp_configuration.status #=> String, one of "ENABLED", "DISABLED", "ENABLING", "DISABLING"
+    #   resp.datastore_properties.analytics_configuration.status #=> String, one of "ENABLED", "ENABLING", "DISABLED", "DISABLING", "PAUSING", "PAUSED"
+    #   resp.datastore_properties.profile_configuration.default_profiles #=> Array
+    #   resp.datastore_properties.profile_configuration.default_profiles[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/UpdateFHIRDatastore AWS API Documentation
+    #
+    # @overload update_fhir_datastore(params = {})
+    # @param [Hash] params ({})
+    def update_fhir_datastore(params = {}, options = {})
+      req = build_request(:update_fhir_datastore, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
@@ -1202,7 +1288,7 @@ module Aws::HealthLake
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-healthlake'
-      context[:gem_version] = '1.64.0'
+      context[:gem_version] = '1.65.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1489,6 +1489,11 @@ module Aws::EKS
     #       control_plane_instance_type: "String", # required
     #       control_plane_placement: {
     #         group_name: "String",
+    #         spread_level: "host", # accepts host, rack
+    #       },
+    #       etcd_instance_type: "String",
+    #       etcd_placement: {
+    #         spread_level: "host", # accepts host, rack
     #       },
     #     },
     #     access_config: {
@@ -1582,6 +1587,9 @@ module Aws::EKS
     #   resp.cluster.outpost_config.outpost_arns[0] #=> String
     #   resp.cluster.outpost_config.control_plane_instance_type #=> String
     #   resp.cluster.outpost_config.control_plane_placement.group_name #=> String
+    #   resp.cluster.outpost_config.control_plane_placement.spread_level #=> String, one of "host", "rack"
+    #   resp.cluster.outpost_config.etcd_instance_type #=> String
+    #   resp.cluster.outpost_config.etcd_placement.spread_level #=> String, one of "host", "rack"
     #   resp.cluster.access_config.bootstrap_cluster_creator_admin_permissions #=> Boolean
     #   resp.cluster.access_config.authentication_mode #=> String, one of "API", "API_AND_CONFIG_MAP", "CONFIG_MAP"
     #   resp.cluster.upgrade_policy.support_type #=> String, one of "STANDARD", "EXTENDED"
@@ -2676,6 +2684,9 @@ module Aws::EKS
     #   resp.cluster.outpost_config.outpost_arns[0] #=> String
     #   resp.cluster.outpost_config.control_plane_instance_type #=> String
     #   resp.cluster.outpost_config.control_plane_placement.group_name #=> String
+    #   resp.cluster.outpost_config.control_plane_placement.spread_level #=> String, one of "host", "rack"
+    #   resp.cluster.outpost_config.etcd_instance_type #=> String
+    #   resp.cluster.outpost_config.etcd_placement.spread_level #=> String, one of "host", "rack"
     #   resp.cluster.access_config.bootstrap_cluster_creator_admin_permissions #=> Boolean
     #   resp.cluster.access_config.authentication_mode #=> String, one of "API", "API_AND_CONFIG_MAP", "CONFIG_MAP"
     #   resp.cluster.upgrade_policy.support_type #=> String, one of "STANDARD", "EXTENDED"
@@ -3028,6 +3039,9 @@ module Aws::EKS
     #   resp.cluster.outpost_config.outpost_arns[0] #=> String
     #   resp.cluster.outpost_config.control_plane_instance_type #=> String
     #   resp.cluster.outpost_config.control_plane_placement.group_name #=> String
+    #   resp.cluster.outpost_config.control_plane_placement.spread_level #=> String, one of "host", "rack"
+    #   resp.cluster.outpost_config.etcd_instance_type #=> String
+    #   resp.cluster.outpost_config.etcd_placement.spread_level #=> String, one of "host", "rack"
     #   resp.cluster.access_config.bootstrap_cluster_creator_admin_permissions #=> Boolean
     #   resp.cluster.access_config.authentication_mode #=> String, one of "API", "API_AND_CONFIG_MAP", "CONFIG_MAP"
     #   resp.cluster.upgrade_policy.support_type #=> String, one of "STANDARD", "EXTENDED"
@@ -3491,6 +3505,9 @@ module Aws::EKS
     #   resp.cluster.outpost_config.outpost_arns[0] #=> String
     #   resp.cluster.outpost_config.control_plane_instance_type #=> String
     #   resp.cluster.outpost_config.control_plane_placement.group_name #=> String
+    #   resp.cluster.outpost_config.control_plane_placement.spread_level #=> String, one of "host", "rack"
+    #   resp.cluster.outpost_config.etcd_instance_type #=> String
+    #   resp.cluster.outpost_config.etcd_placement.spread_level #=> String, one of "host", "rack"
     #   resp.cluster.access_config.bootstrap_cluster_creator_admin_permissions #=> Boolean
     #   resp.cluster.access_config.authentication_mode #=> String, one of "API", "API_AND_CONFIG_MAP", "CONFIG_MAP"
     #   resp.cluster.upgrade_policy.support_type #=> String, one of "STANDARD", "EXTENDED"
@@ -5160,6 +5177,9 @@ module Aws::EKS
     #   resp.cluster.outpost_config.outpost_arns[0] #=> String
     #   resp.cluster.outpost_config.control_plane_instance_type #=> String
     #   resp.cluster.outpost_config.control_plane_placement.group_name #=> String
+    #   resp.cluster.outpost_config.control_plane_placement.spread_level #=> String, one of "host", "rack"
+    #   resp.cluster.outpost_config.etcd_instance_type #=> String
+    #   resp.cluster.outpost_config.etcd_placement.spread_level #=> String, one of "host", "rack"
     #   resp.cluster.access_config.bootstrap_cluster_creator_admin_permissions #=> Boolean
     #   resp.cluster.access_config.authentication_mode #=> String, one of "API", "API_AND_CONFIG_MAP", "CONFIG_MAP"
     #   resp.cluster.upgrade_policy.support_type #=> String, one of "STANDARD", "EXTENDED"
@@ -6437,7 +6457,7 @@ module Aws::EKS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-eks'
-      context[:gem_version] = '1.167.0'
+      context[:gem_version] = '1.168.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

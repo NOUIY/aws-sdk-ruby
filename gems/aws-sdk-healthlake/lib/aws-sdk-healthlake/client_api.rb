@@ -16,6 +16,8 @@ module Aws::HealthLake
 
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
     AmazonResourceName = Shapes::StringShape.new(name: 'AmazonResourceName')
+    AnalyticsConfiguration = Shapes::StructureShape.new(name: 'AnalyticsConfiguration')
+    AnalyticsStatus = Shapes::StringShape.new(name: 'AnalyticsStatus')
     AuthorizationStrategy = Shapes::StringShape.new(name: 'AuthorizationStrategy')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     BoundedLengthString = Shapes::StringShape.new(name: 'BoundedLengthString')
@@ -32,6 +34,7 @@ module Aws::HealthLake
     DatastoreProperties = Shapes::StructureShape.new(name: 'DatastoreProperties')
     DatastorePropertiesList = Shapes::ListShape.new(name: 'DatastorePropertiesList')
     DatastoreStatus = Shapes::StringShape.new(name: 'DatastoreStatus')
+    DefaultProfiles = Shapes::ListShape.new(name: 'DefaultProfiles')
     DeleteFHIRDatastoreRequest = Shapes::StructureShape.new(name: 'DeleteFHIRDatastoreRequest')
     DeleteFHIRDatastoreResponse = Shapes::StructureShape.new(name: 'DeleteFHIRDatastoreResponse')
     DescribeFHIRDatastoreRequest = Shapes::StructureShape.new(name: 'DescribeFHIRDatastoreRequest')
@@ -72,9 +75,12 @@ module Aws::HealthLake
     MaxResultsInteger = Shapes::IntegerShape.new(name: 'MaxResultsInteger')
     Message = Shapes::StringShape.new(name: 'Message')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
+    NlpConfiguration = Shapes::StructureShape.new(name: 'NlpConfiguration')
+    NlpStatus = Shapes::StringShape.new(name: 'NlpStatus')
     OutputDataConfig = Shapes::UnionShape.new(name: 'OutputDataConfig')
     PreloadDataConfig = Shapes::StructureShape.new(name: 'PreloadDataConfig')
     PreloadDataType = Shapes::StringShape.new(name: 'PreloadDataType')
+    ProfileConfiguration = Shapes::StructureShape.new(name: 'ProfileConfiguration')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     S3Configuration = Shapes::StructureShape.new(name: 'S3Configuration')
     S3Uri = Shapes::StringShape.new(name: 'S3Uri')
@@ -95,11 +101,16 @@ module Aws::HealthLake
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
+    UpdateFHIRDatastoreRequest = Shapes::StructureShape.new(name: 'UpdateFHIRDatastoreRequest')
+    UpdateFHIRDatastoreResponse = Shapes::StructureShape.new(name: 'UpdateFHIRDatastoreResponse')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationLevel = Shapes::StringShape.new(name: 'ValidationLevel')
 
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
+
+    AnalyticsConfiguration.add_member(:status, Shapes::ShapeRef.new(shape: AnalyticsStatus, location_name: "Status"))
+    AnalyticsConfiguration.struct_class = Types::AnalyticsConfiguration
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     ConflictException.struct_class = Types::ConflictException
@@ -136,9 +147,14 @@ module Aws::HealthLake
     DatastoreProperties.add_member(:preload_data_config, Shapes::ShapeRef.new(shape: PreloadDataConfig, location_name: "PreloadDataConfig"))
     DatastoreProperties.add_member(:identity_provider_configuration, Shapes::ShapeRef.new(shape: IdentityProviderConfiguration, location_name: "IdentityProviderConfiguration"))
     DatastoreProperties.add_member(:error_cause, Shapes::ShapeRef.new(shape: ErrorCause, location_name: "ErrorCause"))
+    DatastoreProperties.add_member(:nlp_configuration, Shapes::ShapeRef.new(shape: NlpConfiguration, location_name: "NlpConfiguration"))
+    DatastoreProperties.add_member(:analytics_configuration, Shapes::ShapeRef.new(shape: AnalyticsConfiguration, location_name: "AnalyticsConfiguration"))
+    DatastoreProperties.add_member(:profile_configuration, Shapes::ShapeRef.new(shape: ProfileConfiguration, location_name: "ProfileConfiguration"))
     DatastoreProperties.struct_class = Types::DatastoreProperties
 
     DatastorePropertiesList.member = Shapes::ShapeRef.new(shape: DatastoreProperties)
+
+    DefaultProfiles.member = Shapes::ShapeRef.new(shape: String)
 
     DeleteFHIRDatastoreRequest.add_member(:datastore_id, Shapes::ShapeRef.new(shape: DatastoreId, required: true, location_name: "DatastoreId"))
     DeleteFHIRDatastoreRequest.struct_class = Types::DeleteFHIRDatastoreRequest
@@ -272,6 +288,9 @@ module Aws::HealthLake
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
 
+    NlpConfiguration.add_member(:status, Shapes::ShapeRef.new(shape: NlpStatus, location_name: "Status"))
+    NlpConfiguration.struct_class = Types::NlpConfiguration
+
     OutputDataConfig.add_member(:s3_configuration, Shapes::ShapeRef.new(shape: S3Configuration, location_name: "S3Configuration"))
     OutputDataConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     OutputDataConfig.add_member_subclass(:s3_configuration, Types::OutputDataConfig::S3Configuration)
@@ -280,6 +299,9 @@ module Aws::HealthLake
 
     PreloadDataConfig.add_member(:preload_data_type, Shapes::ShapeRef.new(shape: PreloadDataType, required: true, location_name: "PreloadDataType"))
     PreloadDataConfig.struct_class = Types::PreloadDataConfig
+
+    ProfileConfiguration.add_member(:default_profiles, Shapes::ShapeRef.new(shape: DefaultProfiles, location_name: "DefaultProfiles"))
+    ProfileConfiguration.struct_class = Types::ProfileConfiguration
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
@@ -339,6 +361,17 @@ module Aws::HealthLake
     UntagResourceRequest.struct_class = Types::UntagResourceRequest
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
+
+    UpdateFHIRDatastoreRequest.add_member(:datastore_id, Shapes::ShapeRef.new(shape: DatastoreId, required: true, location_name: "DatastoreId"))
+    UpdateFHIRDatastoreRequest.add_member(:datastore_name, Shapes::ShapeRef.new(shape: DatastoreName, location_name: "DatastoreName"))
+    UpdateFHIRDatastoreRequest.add_member(:analytics_configuration, Shapes::ShapeRef.new(shape: AnalyticsConfiguration, location_name: "AnalyticsConfiguration"))
+    UpdateFHIRDatastoreRequest.add_member(:nlp_configuration, Shapes::ShapeRef.new(shape: NlpConfiguration, location_name: "NlpConfiguration"))
+    UpdateFHIRDatastoreRequest.add_member(:profile_configuration, Shapes::ShapeRef.new(shape: ProfileConfiguration, location_name: "ProfileConfiguration"))
+    UpdateFHIRDatastoreRequest.add_member(:identity_provider_configuration, Shapes::ShapeRef.new(shape: IdentityProviderConfiguration, location_name: "IdentityProviderConfiguration"))
+    UpdateFHIRDatastoreRequest.struct_class = Types::UpdateFHIRDatastoreRequest
+
+    UpdateFHIRDatastoreResponse.add_member(:datastore_properties, Shapes::ShapeRef.new(shape: DatastoreProperties, required: true, location_name: "DatastoreProperties"))
+    UpdateFHIRDatastoreResponse.struct_class = Types::UpdateFHIRDatastoreResponse
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     ValidationException.struct_class = Types::ValidationException
@@ -536,6 +569,20 @@ module Aws::HealthLake
         o.output = Shapes::ShapeRef.new(shape: UntagResourceResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:update_fhir_datastore, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateFHIRDatastore"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateFHIRDatastoreRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateFHIRDatastoreResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
     end
 

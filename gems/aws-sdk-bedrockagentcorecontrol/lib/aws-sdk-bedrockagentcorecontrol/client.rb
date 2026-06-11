@@ -474,21 +474,10 @@ module Aws::BedrockAgentCoreControl
 
     # @!group API Operations
 
-    # Adds examples to the dataset's DRAFT.
-    #
-    # **Validation:** All examples are validated against the dataset's
-    # schemaType before any writes occur. If any example fails validation,
-    # the entire batch is rejected with ValidationException — no examples
-    # are written (all-or-nothing semantics).
-    #
-    # **Asynchronous:** Operates in-place on DRAFT. No version bump occurs.
-    # Use CreateDatasetVersion to publish DRAFT as a new numbered version.
-    #
-    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
-    # the dataset status is not in \{DRAFT, ACTIVE}.
-    #
-    # **Request size limit:** Max 5 MB total request body. Max 1000 examples
-    # per call.
+    # Adds examples to the dataset's DRAFT. All examples are validated
+    # against the dataset's schema type before any writes occur. If any
+    # example fails validation, the entire batch is rejected (all-or-nothing
+    # semantics).
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset to add examples to.
@@ -1250,20 +1239,27 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Creates a new Dataset resource asynchronously.
-    #
-    # Returns immediately with status CREATING. Poll GetDataset until status
-    # transitions to ACTIVE or CREATE\_FAILED (with failureReason).
+    # Creates a new dataset resource asynchronously. Returns immediately
+    # with status CREATING. Poll `GetDataset` until status transitions to
+    # ACTIVE or CREATE\_FAILED.
     #
     # @option params [String] :client_token
-    #   Optional idempotency token.
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a previous
+    #   request, the service ignores the request, but doesn't return an
+    #   error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
+    #
     # @option params [required, String] :dataset_name
-    #   Human-readable name for the dataset. Unique within the account
-    #   (case-insensitive). Immutable after creation.
+    #   Human-readable name for the dataset. Must be unique within the
+    #   account. Immutable after creation.
     #
     # @option params [String] :description
     #   A description of the dataset.
@@ -1277,7 +1273,8 @@ module Aws::BedrockAgentCoreControl
     #   after creation.
     #
     # @option params [String] :kms_key_arn
-    #   Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+    #   Optional KMS key ARN for server-side encryption on service Amazon S3
+    #   writes.
     #
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to the dataset.
@@ -1329,20 +1326,10 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Publishes the current DRAFT as a new numbered version.
-    #
-    # Snapshots the DRAFT examples as the next version (1, 2, 3, ...). The
-    # DRAFT is preserved and remains editable after publishing. Returns
-    # immediately with status UPDATING. Poll GetDataset until status
-    # transitions to ACTIVE (draftStatus=UNMODIFIED) or UPDATE\_FAILED.
-    #
-    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
-    # status is in \{CREATING, UPDATING, DELETING}, or
-    # DATASET\_IN\_FAILED\_STATE if status is in \{CREATE\_FAILED,
-    # DELETE\_FAILED}.
-    #
-    # **Quota:** MAX\_VERSIONS\_PER\_DATASET applies to published versions
-    # only (not DRAFT).
+    # Publishes the current DRAFT as a new numbered version. The DRAFT is
+    # preserved and remains editable after publishing. Returns immediately
+    # with status UPDATING. Poll `GetDataset` until status transitions to
+    # ACTIVE or UPDATE\_FAILED.
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset to publish a version for.
@@ -2819,6 +2806,7 @@ module Aws::BedrockAgentCoreControl
     #               {
     #                 key: "MetadataKey", # required
     #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                 extraction_config: {
     #                   llm_extraction_config: {
     #                     llm_extraction_instruction: "LlmExtractionInstruction",
@@ -2852,6 +2840,7 @@ module Aws::BedrockAgentCoreControl
     #               {
     #                 key: "MetadataKey", # required
     #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                 extraction_config: {
     #                   llm_extraction_config: {
     #                     llm_extraction_instruction: "LlmExtractionInstruction",
@@ -2885,6 +2874,7 @@ module Aws::BedrockAgentCoreControl
     #               {
     #                 key: "MetadataKey", # required
     #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                 extraction_config: {
     #                   llm_extraction_config: {
     #                     llm_extraction_instruction: "LlmExtractionInstruction",
@@ -2959,6 +2949,7 @@ module Aws::BedrockAgentCoreControl
     #                     {
     #                       key: "MetadataKey", # required
     #                       type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                       extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                       extraction_config: {
     #                         llm_extraction_config: {
     #                           llm_extraction_instruction: "LlmExtractionInstruction",
@@ -3009,6 +3000,7 @@ module Aws::BedrockAgentCoreControl
     #               {
     #                 key: "MetadataKey", # required
     #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                 extraction_config: {
     #                   llm_extraction_config: {
     #                     llm_extraction_instruction: "LlmExtractionInstruction",
@@ -3045,6 +3037,7 @@ module Aws::BedrockAgentCoreControl
     #                 {
     #                   key: "MetadataKey", # required
     #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                   extraction_config: {
     #                     llm_extraction_config: {
     #                       llm_extraction_instruction: "LlmExtractionInstruction",
@@ -3073,6 +3066,7 @@ module Aws::BedrockAgentCoreControl
     #               {
     #                 key: "MetadataKey", # required
     #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                 extraction_config: {
     #                   llm_extraction_config: {
     #                     llm_extraction_instruction: "LlmExtractionInstruction",
@@ -3133,7 +3127,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.encryption_key_arn #=> String
     #   resp.memory.memory_execution_role_arn #=> String
     #   resp.memory.event_expiry_duration #=> Integer
-    #   resp.memory.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.memory.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING", "UPDATING"
     #   resp.memory.failure_reason #=> String
     #   resp.memory.created_at #=> Time
     #   resp.memory.updated_at #=> Time
@@ -3165,6 +3159,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -3181,6 +3176,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -3208,6 +3204,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -4849,48 +4846,16 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Deletes a dataset version or an entire dataset (all versions + name
-    # claim). Asynchronous 202.
-    #
-    # **State transitions:**
-    #
-    # * If `datasetVersion` is absent (full delete): status transitions to
-    #   DELETING immediately.
-    # * If `datasetVersion` is provided (version-specific delete): status
-    #   transitions to UPDATING.
-    #
-    # **State guard (full delete):** Returns ConflictException
-    # (DATASET\_NOT\_READY) if the dataset status is in \{CREATING,
-    # UPDATING}. Deletion is allowed from ACTIVE, CREATE\_FAILED,
-    # UPDATE\_FAILED, and DELETE\_FAILED states.
-    #
-    # **State guard (version-specific delete):** Returns ConflictException
-    # (DATASET\_NOT\_READY) if the dataset status is not in \{ACTIVE,
-    # CREATE\_FAILED, UPDATE\_FAILED}.
-    #
-    # Fails with ConflictException (REFERENCED\_BY\_EVAL\_JOB) if referenced
-    # by an active evaluation job (full delete only).
-    #
-    # If the delete workflow fails after retries, status is set to
-    # DELETE\_FAILED (full delete) or UPDATE\_FAILED (version-specific
-    # delete). Calling DeleteDataset on a DELETE\_FAILED dataset re-triggers
-    # the delete workflow (idempotent retry path).
-    #
-    # **Version parameter:**
-    #
-    # * If `datasetVersion` is absent: deletes ALL versions and the Dataset
-    #   record itself.
-    # * If `datasetVersion` is provided: deletes only that specific
-    #   DatasetVersion. Returns ResourceNotFoundException if the specified
-    #   version does not exist.
+    # Deletes a dataset version or an entire dataset asynchronously. If
+    # `datasetVersion` is absent, deletes all versions and the dataset
+    # record itself. If provided, deletes only that specific version.
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset to delete.
     #
     # @option params [String] :dataset_version
-    #   Optional version to delete. Use "DRAFT" or omit to delete the draft.
-    #   Returns ResourceNotFoundException if the specified version does not
-    #   exist.
+    #   Optional version to delete. If absent, deletes the entire dataset. If
+    #   provided, deletes only that specific version.
     #
     # @return [Types::DeleteDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4924,18 +4889,9 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Deletes specific examples by ID from DRAFT.
-    #
-    # **Validation:** All example IDs are validated before any deletes
-    # occur. If any ID does not exist in DRAFT, the entire batch is rejected
-    # with ResourceNotFoundException — no examples are deleted
-    # (all-or-nothing semantics).
-    #
-    # **Asynchronous:** Operates in-place on DRAFT. No version bump occurs.
-    # Use CreateDatasetVersion to publish DRAFT as a new numbered version.
-    #
-    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
-    # the dataset status is not in \{DRAFT, ACTIVE}.
+    # Deletes specific examples by ID from DRAFT. All example IDs are
+    # validated before any deletes occur. If any ID does not exist in DRAFT,
+    # the entire batch is rejected (all-or-nothing semantics).
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset.
@@ -5328,7 +5284,7 @@ module Aws::BedrockAgentCoreControl
     # @example Response structure
     #
     #   resp.memory_id #=> String
-    #   resp.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING", "UPDATING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteMemory AWS API Documentation
     #
@@ -6231,36 +6187,16 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Retrieves dataset metadata only.
-    #
-    # Use `?datasetVersion=DRAFT` or `?datasetVersion=N` to retrieve a
-    # specific version's metadata. If absent, defaults to DRAFT (the
-    # mutable working copy). Returns ResourceNotFoundException if the
-    # specified version is not found.
-    #
-    # **Initial state after CreateDataset:** When CreateDataset completes
-    # successfully (status transitions to ACTIVE), only a DRAFT working copy
-    # exists. No published versions exist until CreateDatasetVersion is
-    # called. At this point draftStatus is MODIFIED because the DRAFT has
-    # content that has never been published.
-    #
-    # **Default version behavior:** When `datasetVersion` is omitted, the
-    # operation returns the DRAFT working copy. To retrieve a specific
-    # published version, pass the version number as a string (e.g.
-    # `?datasetVersion=1`).
-    #
-    # **State guard:** Allowed for all statuses including DELETING. Returns
-    # the dataset record with its current status so callers can observe the
-    # deletion in progress.
-    #
-    # For paginated example IDs use ListDatasetExamples.
+    # Retrieves dataset metadata. Use the `datasetVersion` query parameter
+    # to retrieve a specific version's metadata. If absent, defaults to
+    # DRAFT. For paginated example content, use `ListDatasetExamples`.
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset to retrieve.
     #
     # @option params [String] :dataset_version
-    #   Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT if
-    #   absent.
+    #   Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT
+    #   if absent.
     #
     # @return [Types::GetDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -6899,7 +6835,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.encryption_key_arn #=> String
     #   resp.memory.memory_execution_role_arn #=> String
     #   resp.memory.event_expiry_duration #=> Integer
-    #   resp.memory.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.memory.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING", "UPDATING"
     #   resp.memory.failure_reason #=> String
     #   resp.memory.created_at #=> Time
     #   resp.memory.updated_at #=> Time
@@ -6931,6 +6867,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -6947,6 +6884,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -6974,6 +6912,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -8474,31 +8413,21 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Returns paginated examples from the dataset.
-    #
-    # **Version-pinned pagination:** The server embeds the resolved version
-    # in the `nextToken`. Once pagination begins, all subsequent pages are
-    # pinned to that version regardless of concurrent mutations or whether
-    # `datasetVersion` is passed on subsequent requests. The
-    # `datasetVersion` query parameter is only used for the first request
-    # (when `nextToken` is absent); if omitted, defaults to DRAFT.
-    #
-    # **State guard:** Allowed for all statuses including DELETING.
+    # Returns paginated examples from the dataset. The server embeds the
+    # resolved version in the pagination token. Once pagination begins, all
+    # subsequent pages are pinned to that version regardless of concurrent
+    # mutations.
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset.
     #
     # @option params [String] :dataset_version
-    #   Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if
-    #   absent. Only used on the first request (when nextToken is absent). For
-    #   subsequent pages, the version is extracted from the nextToken and this
-    #   parameter is ignored.
+    #   Version to paginate: "DRAFT" or a version number. Defaults to DRAFT
+    #   if absent. Only used on the first request; for subsequent pages, the
+    #   version is extracted from the pagination token.
     #
     # @option params [Integer] :max_results
-    #   Maximum number of examples to return per page. Default: 1000. Min: 1,
-    #   max: 1000. Response size is validated against 5 MB limit after
-    #   reading. For bulk access to all examples, use the `downloadUrl` field
-    #   from GetDataset.
+    #   Maximum number of examples to return per page.
     #
     # @option params [String] :next_token
     #   The token for the next page of results.
@@ -8542,8 +8471,6 @@ module Aws::BedrockAgentCoreControl
     # Lists all published versions of a dataset, sorted by version number
     # descending (newest first). Does not include the DRAFT working copy.
     #
-    # **State guard:** Allowed for all statuses including DELETING.
-    #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset.
     #
@@ -8585,8 +8512,7 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Lists all datasets in the caller's account, paginated. No presigned
-    # URLs in list results.
+    # Lists all datasets in the caller's account, paginated.
     #
     # @option params [String] :next_token
     #   The token for the next page of results.
@@ -8933,7 +8859,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memories #=> Array
     #   resp.memories[0].arn #=> String
     #   resp.memories[0].id #=> String
-    #   resp.memories[0].status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.memories[0].status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING", "UPDATING"
     #   resp.memories[0].created_at #=> Time
     #   resp.memories[0].updated_at #=> Time
     #   resp.next_token #=> String
@@ -10679,12 +10605,9 @@ module Aws::BedrockAgentCoreControl
     end
 
     # Updates a dataset's metadata. Synchronous operation. Only provided
-    # fields are updated; omitted fields remain unchanged.
-    #
-    # To modify dataset content, use AddDatasetExamples,
-    # UpdateDatasetExamples, or DeleteDatasetExamples.
-    #
-    # Cannot update: name, schemaType, kmsKeyArn (immutable after creation).
+    # fields are updated; omitted fields remain unchanged. To modify dataset
+    # content, use `AddDatasetExamples`, `UpdateDatasetExamples`, or
+    # `DeleteDatasetExamples`.
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset to update.
@@ -10735,24 +10658,10 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Updates multiple existing examples in-place on DRAFT.
-    #
-    # **Validation:** All examples are validated against the dataset's
-    # schemaType before any writes occur. If any example fails validation,
-    # the entire batch is rejected with ValidationException — no examples
-    # are updated (all-or-nothing semantics).
-    #
-    # **Asynchronous:** Operates in-place on DRAFT. No version bump occurs.
-    # Use CreateDatasetVersion to publish DRAFT as a new numbered version.
-    #
-    # Fails with ResourceNotFoundException if any exampleId does not exist
-    # in DRAFT. To add new examples, use AddDatasetExamples instead.
-    #
-    # **State guard:** Returns ConflictException (DATASET\_NOT\_READY) if
-    # the dataset status is not in \{DRAFT, ACTIVE}.
-    #
-    # **Request size limit:** Max 5 MB total request body. Max 1000 examples
-    # per call.
+    # Updates multiple existing examples in-place on DRAFT. All examples are
+    # validated against the dataset's schema type before any writes occur.
+    # If any example fails validation, the entire batch is rejected
+    # (all-or-nothing semantics).
     #
     # @option params [required, String] :dataset_id
     #   The unique identifier of the dataset.
@@ -10773,11 +10682,8 @@ module Aws::BedrockAgentCoreControl
     #
     # @option params [required, Array<Hash,Array,String,Numeric,Boolean>] :examples
     #   Examples to update. Each element is a JSON object containing a
-    #   required `exampleId` string field identifying the existing example,
-    #   plus the replacement fields. The `exampleId` is extracted and removed
-    #   before persistence; the remaining document is validated against the
-    #   dataset's schemaType. Max 1000 examples per call. Total request body
-    #   must not exceed 5 MB.
+    #   required `exampleId` field identifying the existing example, plus the
+    #   replacement fields. Maximum 1000 examples per call.
     #
     # @return [Types::UpdateDatasetExamplesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -12171,6 +12077,7 @@ module Aws::BedrockAgentCoreControl
     #                 {
     #                   key: "MetadataKey", # required
     #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                   extraction_config: {
     #                     llm_extraction_config: {
     #                       llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12204,6 +12111,7 @@ module Aws::BedrockAgentCoreControl
     #                 {
     #                   key: "MetadataKey", # required
     #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                   extraction_config: {
     #                     llm_extraction_config: {
     #                       llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12237,6 +12145,7 @@ module Aws::BedrockAgentCoreControl
     #                 {
     #                   key: "MetadataKey", # required
     #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                   extraction_config: {
     #                     llm_extraction_config: {
     #                       llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12311,6 +12220,7 @@ module Aws::BedrockAgentCoreControl
     #                       {
     #                         key: "MetadataKey", # required
     #                         type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                         extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                         extraction_config: {
     #                           llm_extraction_config: {
     #                             llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12361,6 +12271,7 @@ module Aws::BedrockAgentCoreControl
     #                 {
     #                   key: "MetadataKey", # required
     #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                   extraction_config: {
     #                     llm_extraction_config: {
     #                       llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12397,6 +12308,7 @@ module Aws::BedrockAgentCoreControl
     #                   {
     #                     key: "MetadataKey", # required
     #                     type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                     extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                     extraction_config: {
     #                       llm_extraction_config: {
     #                         llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12425,6 +12337,7 @@ module Aws::BedrockAgentCoreControl
     #                 {
     #                   key: "MetadataKey", # required
     #                   type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                   extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                   extraction_config: {
     #                     llm_extraction_config: {
     #                       llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12502,6 +12415,7 @@ module Aws::BedrockAgentCoreControl
     #                     {
     #                       key: "MetadataKey", # required
     #                       type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                       extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                       extraction_config: {
     #                         llm_extraction_config: {
     #                           llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12536,6 +12450,7 @@ module Aws::BedrockAgentCoreControl
     #                       {
     #                         key: "MetadataKey", # required
     #                         type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                         extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                         extraction_config: {
     #                           llm_extraction_config: {
     #                             llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12587,6 +12502,7 @@ module Aws::BedrockAgentCoreControl
     #               {
     #                 key: "MetadataKey", # required
     #                 type: "STRING", # accepts STRING, STRINGLIST, NUMBER
+    #                 extraction_type: "LLM_INFERRED", # accepts LLM_INFERRED, STRICTLY_CONSISTENT
     #                 extraction_config: {
     #                   llm_extraction_config: {
     #                     llm_extraction_instruction: "LlmExtractionInstruction",
@@ -12649,7 +12565,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.encryption_key_arn #=> String
     #   resp.memory.memory_execution_role_arn #=> String
     #   resp.memory.event_expiry_duration #=> Integer
-    #   resp.memory.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.memory.status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING", "UPDATING"
     #   resp.memory.failure_reason #=> String
     #   resp.memory.created_at #=> Time
     #   resp.memory.updated_at #=> Time
@@ -12681,6 +12597,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].configuration.reflection.custom_reflection_configuration.episodic_reflection_override.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -12697,6 +12614,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].configuration.reflection.episodic_reflection_configuration.memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -12724,6 +12642,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema #=> Array
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].key #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_type #=> String, one of "LLM_INFERRED", "STRICTLY_CONSISTENT"
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.llm_extraction_instruction #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.definition #=> String
     #   resp.memory.strategies[0].memory_record_schema.metadata_schema[0].extraction_config.llm_extraction_config.validation.string_validation.allowed_values #=> Array
@@ -14108,7 +14027,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.51.0'
+      context[:gem_version] = '1.52.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

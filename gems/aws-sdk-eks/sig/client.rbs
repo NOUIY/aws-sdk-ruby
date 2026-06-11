@@ -264,7 +264,12 @@ module Aws
                               outpost_arns: Array[::String],
                               control_plane_instance_type: ::String,
                               control_plane_placement: {
-                                group_name: ::String?
+                                group_name: ::String?,
+                                spread_level: ("host" | "rack")?
+                              }?,
+                              etcd_instance_type: ::String?,
+                              etcd_placement: {
+                                spread_level: ("host" | "rack")?
                               }?
                             },
                             ?access_config: {

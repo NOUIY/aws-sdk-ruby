@@ -367,6 +367,7 @@ module Aws::BedrockAgentCoreControl
     ExceptionLevel = Shapes::StringShape.new(name: 'ExceptionLevel')
     ExtractionConfig = Shapes::UnionShape.new(name: 'ExtractionConfig')
     ExtractionConfiguration = Shapes::UnionShape.new(name: 'ExtractionConfiguration')
+    ExtractionType = Shapes::StringShape.new(name: 'ExtractionType')
     FilesystemConfiguration = Shapes::UnionShape.new(name: 'FilesystemConfiguration')
     FilesystemConfigurations = Shapes::ListShape.new(name: 'FilesystemConfigurations')
     Filter = Shapes::StructureShape.new(name: 'Filter')
@@ -3877,6 +3878,7 @@ module Aws::BedrockAgentCoreControl
 
     MetadataSchemaEntry.add_member(:key, Shapes::ShapeRef.new(shape: MetadataKey, required: true, location_name: "key"))
     MetadataSchemaEntry.add_member(:type, Shapes::ShapeRef.new(shape: MetadataValueType, location_name: "type"))
+    MetadataSchemaEntry.add_member(:extraction_type, Shapes::ShapeRef.new(shape: ExtractionType, location_name: "extractionType"))
     MetadataSchemaEntry.add_member(:extraction_config, Shapes::ShapeRef.new(shape: ExtractionConfig, location_name: "extractionConfig"))
     MetadataSchemaEntry.struct_class = Types::MetadataSchemaEntry
 

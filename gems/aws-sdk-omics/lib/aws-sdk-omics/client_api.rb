@@ -2305,6 +2305,7 @@ module Aws::Omics
     RunListItem.add_member(:stop_time, Shapes::ShapeRef.new(shape: RunTimestamp, location_name: "stopTime"))
     RunListItem.add_member(:storage_type, Shapes::ShapeRef.new(shape: StorageType, location_name: "storageType"))
     RunListItem.add_member(:workflow_version_name, Shapes::ShapeRef.new(shape: WorkflowVersionName, location_name: "workflowVersionName"))
+    RunListItem.add_member(:workflow_name, Shapes::ShapeRef.new(shape: WorkflowName, location_name: "workflowName"))
     RunListItem.struct_class = Types::RunListItem
 
     RunLogLocation.add_member(:engine_log_stream, Shapes::ShapeRef.new(shape: EngineLogStream, location_name: "engineLogStream"))

@@ -958,7 +958,7 @@ module Aws
       interface _DeleteMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteMemoryOutput]
         def memory_id: () -> ::String
-        def status: () -> ("CREATING" | "ACTIVE" | "FAILED" | "DELETING")
+        def status: () -> ("CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_memory-instance_method
       def delete_memory: (

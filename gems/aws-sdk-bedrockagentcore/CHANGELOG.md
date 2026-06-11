@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.39.0 (2026-06-11)
+------------------
+
+* Feature - Adds support to perform cross account data plane actions on an AgentCore Memory resource
+
 1.38.0 (2026-06-09)
 ------------------
 

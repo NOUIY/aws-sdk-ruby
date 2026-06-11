@@ -76,6 +76,7 @@ module Aws::Neptune
       attr_accessor storage_type: ::String
       attr_accessor allocated_storage: ::Integer
       attr_accessor iops: ::Integer
+      attr_accessor network_type: ::String
       SENSITIVE: []
     end
 
@@ -174,6 +175,7 @@ module Aws::Neptune
       attr_accessor serverless_v2_scaling_configuration: Types::ServerlessV2ScalingConfiguration
       attr_accessor global_cluster_identifier: ::String
       attr_accessor storage_type: ::String
+      attr_accessor network_type: ::String
       attr_accessor source_region: ::String
       SENSITIVE: []
     end
@@ -365,6 +367,7 @@ module Aws::Neptune
       attr_accessor global_cluster_identifier: ::String
       attr_accessor io_optimized_next_allowed_modification_time: ::Time
       attr_accessor storage_type: ::String
+      attr_accessor network_type: ::String
       SENSITIVE: []
     end
 
@@ -596,6 +599,7 @@ module Aws::Neptune
       attr_accessor performance_insights_kms_key_id: ::String
       attr_accessor enabled_cloudwatch_logs_exports: ::Array[::String]
       attr_accessor deletion_protection: bool
+      attr_accessor network_type: ::String
       SENSITIVE: []
     end
 
@@ -681,6 +685,7 @@ module Aws::Neptune
       attr_accessor subnet_group_status: ::String
       attr_accessor subnets: ::Array[Types::Subnet]
       attr_accessor db_subnet_group_arn: ::String
+      attr_accessor supported_network_types: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -1251,6 +1256,7 @@ module Aws::Neptune
       attr_accessor copy_tags_to_snapshot: bool
       attr_accessor serverless_v2_scaling_configuration: Types::ServerlessV2ScalingConfiguration
       attr_accessor storage_type: ::String
+      attr_accessor network_type: ::String
       SENSITIVE: []
     end
 
@@ -1370,6 +1376,9 @@ module Aws::Neptune
       SENSITIVE: []
     end
 
+    class NetworkTypeNotSupportedFault < Aws::EmptyStructure
+    end
+
     class OptionGroupMembership
       attr_accessor option_group_name: ::String
       attr_accessor status: ::String
@@ -1401,6 +1410,7 @@ module Aws::Neptune
       attr_accessor min_iops_per_gib: ::Float
       attr_accessor max_iops_per_gib: ::Float
       attr_accessor supports_global_databases: bool
+      attr_accessor supported_network_types: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -1573,6 +1583,7 @@ module Aws::Neptune
       attr_accessor copy_tags_to_snapshot: bool
       attr_accessor serverless_v2_scaling_configuration: Types::ServerlessV2ScalingConfiguration
       attr_accessor storage_type: ::String
+      attr_accessor network_type: ::String
       SENSITIVE: []
     end
 
@@ -1599,6 +1610,7 @@ module Aws::Neptune
       attr_accessor deletion_protection: bool
       attr_accessor serverless_v2_scaling_configuration: Types::ServerlessV2ScalingConfiguration
       attr_accessor storage_type: ::String
+      attr_accessor network_type: ::String
       SENSITIVE: []
     end
 

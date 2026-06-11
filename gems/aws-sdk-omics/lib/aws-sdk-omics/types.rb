@@ -7424,6 +7424,10 @@ module Aws::Omics
     #   The name of the workflow version.
     #   @return [String]
     #
+    # @!attribute [rw] workflow_name
+    #   The name of the workflow.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/RunListItem AWS API Documentation
     #
     class RunListItem < Struct.new(
@@ -7439,7 +7443,8 @@ module Aws::Omics
       :start_time,
       :stop_time,
       :storage_type,
-      :workflow_version_name)
+      :workflow_version_name,
+      :workflow_name)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1464,7 +1464,7 @@ module Aws::BedrockAgentCoreControl
 
     class DeleteMemoryOutput
       attr_accessor memory_id: ::String
-      attr_accessor status: ("CREATING" | "ACTIVE" | "FAILED" | "DELETING")
+      attr_accessor status: ("CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING")
       SENSITIVE: []
     end
 
@@ -3537,7 +3537,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor encryption_key_arn: ::String
       attr_accessor memory_execution_role_arn: ::String
       attr_accessor event_expiry_duration: ::Integer
-      attr_accessor status: ("CREATING" | "ACTIVE" | "FAILED" | "DELETING")
+      attr_accessor status: ("CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING")
       attr_accessor failure_reason: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
@@ -3593,7 +3593,7 @@ module Aws::BedrockAgentCoreControl
     class MemorySummary
       attr_accessor arn: ::String
       attr_accessor id: ::String
-      attr_accessor status: ("CREATING" | "ACTIVE" | "FAILED" | "DELETING")
+      attr_accessor status: ("CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING")
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       SENSITIVE: []
@@ -3619,6 +3619,7 @@ module Aws::BedrockAgentCoreControl
     class MetadataSchemaEntry
       attr_accessor key: ::String
       attr_accessor type: ("STRING" | "STRINGLIST" | "NUMBER")
+      attr_accessor extraction_type: ("LLM_INFERRED" | "STRICTLY_CONSISTENT")
       attr_accessor extraction_config: Types::ExtractionConfig
       SENSITIVE: []
     end

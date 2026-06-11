@@ -5432,6 +5432,7 @@ module Aws::Omics
     #   resp.items[0].stop_time #=> Time
     #   resp.items[0].storage_type #=> String, one of "STATIC", "DYNAMIC"
     #   resp.items[0].workflow_version_name #=> String
+    #   resp.items[0].workflow_name #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListRuns AWS API Documentation
@@ -7400,7 +7401,7 @@ module Aws::Omics
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-omics'
-      context[:gem_version] = '1.72.0'
+      context[:gem_version] = '1.73.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

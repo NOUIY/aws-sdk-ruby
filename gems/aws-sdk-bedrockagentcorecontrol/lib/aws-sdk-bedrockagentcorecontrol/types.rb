@@ -2187,15 +2187,24 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] client_token
-    #   Optional idempotency token.
+    #   A unique, case-sensitive identifier to ensure that the API request
+    #   completes no more than one time. If you don't specify this field, a
+    #   value is randomly generated for you. If this token matches a
+    #   previous request, the service ignores the request, but doesn't
+    #   return an error. For more information, see [Ensuring
+    #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
     #   @return [String]
     #
     # @!attribute [rw] dataset_name
-    #   Human-readable name for the dataset. Unique within the account
-    #   (case-insensitive). Immutable after creation.
+    #   Human-readable name for the dataset. Must be unique within the
+    #   account. Immutable after creation.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -2213,7 +2222,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] kms_key_arn
-    #   Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+    #   Optional KMS key ARN for server-side encryption on service Amazon S3
+    #   writes.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -2243,8 +2253,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   Always CREATING immediately after this call. Poll GetDataset until
-    #   status == ACTIVE (draftStatus=MODIFIED) or CREATE\_FAILED.
+    #   Always CREATING immediately after this call. Poll `GetDataset` until
+    #   status transitions to ACTIVE or CREATE\_FAILED.
     #   @return [String]
     #
     # @!attribute [rw] created_at
@@ -2300,12 +2310,12 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   Always UPDATING immediately after this call. Poll GetDataset until
-    #   status == ACTIVE (draftStatus=UNMODIFIED) or UPDATE\_FAILED.
+    #   Always UPDATING immediately after this call. Poll `GetDataset` until
+    #   status transitions to ACTIVE or UPDATE\_FAILED.
     #   @return [String]
     #
     # @!attribute [rw] dataset_version
-    #   The version being created.
+    #   The version number being created.
     #   @return [String]
     #
     # @!attribute [rw] created_at
@@ -4710,8 +4720,7 @@ module Aws::BedrockAgentCoreControl
     #   @return [Types::InlineExamplesSource]
     #
     # @!attribute [rw] s3_source
-    #   S3 URI pointing to a JSONL file in the customer's bucket. The
-    #   service reads this file using the caller's FAS credentials.
+    #   Amazon S3 URI pointing to a JSONL file in the customer's bucket.
     #   @return [Types::S3Source]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DataSourceType AWS API Documentation
@@ -4752,7 +4761,7 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] draft_status
-    #   Publish synchronization state. Only authoritative when status ==
+    #   Publish synchronization state. Only authoritative when status is
     #   ACTIVE.
     #   @return [String]
     #
@@ -4792,23 +4801,7 @@ module Aws::BedrockAgentCoreControl
     # Summary information about a published dataset version.
     #
     # @!attribute [rw] dataset_version
-    #   Dataset version identifier. Accepts "DRAFT" or a non-negative
-    #   integer string.
-    #
-    #   "DRAFT" refers to the single mutable working copy of the dataset.
-    #
-    #   * Always present after CreateDataset ingestion completes.
-    #   * Content changes in-place when examples are added, updated, or
-    #     deleted.
-    #   * NOT tracked as a DDB DatasetVersionItem — state lives in S3
-    #     (draft/manifest.json, draft/dataset.jsonl) and the
-    #     DatasetItem.exampleCount field.
-    #   * Default for read operations when ?datasetVersion is absent.
-    #
-    #   An integer string (e.g. "1", "2", "3") refers to a published,
-    #   immutable snapshot created by CreateDatasetVersion. Once created, a
-    #   published version's content never changes. Stored as a DDB
-    #   DatasetVersionItem (SK=VERSION#\{zero-padded-N}).
+    #   The version number of this published snapshot.
     #   @return [String]
     #
     # @!attribute [rw] example_count
@@ -5187,9 +5180,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] dataset_version
-    #   Optional version to delete. Use "DRAFT" or omit to delete the draft.
-    #   Returns ResourceNotFoundException if the specified version does not
-    #   exist.
+    #   Optional version to delete. If absent, deletes the entire dataset.
+    #   If provided, deletes only that specific version.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteDatasetRequest AWS API Documentation
@@ -5214,7 +5206,7 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] dataset_version
-    #   The version deleted.
+    #   The version that was deleted.
     #   @return [String]
     #
     # @!attribute [rw] updated_at
@@ -7560,8 +7552,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] dataset_version
-    #   Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT
-    #   if absent.
+    #   Version to retrieve: "DRAFT" or a version number. Defaults to
+    #   DRAFT if absent.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetDatasetRequest AWS API Documentation
@@ -7599,15 +7591,14 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] draft_status
-    #   Publish synchronization state. Only authoritative when status ==
-    #   ACTIVE. MODIFIED — DRAFT has unpublished changes (or no published
-    #   versions yet). UNMODIFIED — DRAFT matches the latest published
-    #   version exactly.
+    #   Publish synchronization state. Only authoritative when status is
+    #   ACTIVE. MODIFIED indicates DRAFT has unpublished changes. UNMODIFIED
+    #   indicates DRAFT matches the latest published version.
     #   @return [String]
     #
     # @!attribute [rw] failure_reason
     #   Populated when status is CREATE\_FAILED, UPDATE\_FAILED, or
-    #   DELETE\_FAILED.
+    #   DELETE\_FAILED. Describes the reason for the failure.
     #   @return [String]
     #
     # @!attribute [rw] schema_type
@@ -7615,23 +7606,22 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] kms_key_arn
-    #   AWS KMS key ARN used for SSE-KMS on service S3 writes, if
-    #   configured.
+    #   KMS key ARN used for server-side encryption on service Amazon S3
+    #   writes, if configured.
     #   @return [String]
     #
     # @!attribute [rw] example_count
-    #   Example count for DRAFT.
+    #   The number of examples in the DRAFT.
     #   @return [Integer]
     #
     # @!attribute [rw] download_url
-    #   Presigned S3 URL to download the consolidated dataset.jsonl file for
-    #   the resolved version (DRAFT or published). TTL: 5 minutes. Omitted
-    #   if the file does not yet exist (e.g. during CREATING) or on presign
-    #   failure.
+    #   Presigned Amazon S3 URL to download the consolidated dataset file
+    #   for the resolved version. Expires after 5 minutes. Omitted if the
+    #   file does not yet exist.
     #   @return [String]
     #
     # @!attribute [rw] download_url_expires_at
-    #   Expiry timestamp for downloadUrl.
+    #   Expiry timestamp for the download URL.
     #   @return [Time]
     #
     # @!attribute [rw] created_at
@@ -11218,17 +11208,13 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] dataset_version
-    #   Version to paginate: "DRAFT" or a version number. Defaults to DRAFT
-    #   if absent. Only used on the first request (when nextToken is
-    #   absent). For subsequent pages, the version is extracted from the
-    #   nextToken and this parameter is ignored.
+    #   Version to paginate: "DRAFT" or a version number. Defaults to
+    #   DRAFT if absent. Only used on the first request; for subsequent
+    #   pages, the version is extracted from the pagination token.
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   Maximum number of examples to return per page. Default: 1000. Min:
-    #   1, max: 1000. Response size is validated against 5 MB limit after
-    #   reading. For bulk access to all examples, use the `downloadUrl`
-    #   field from GetDataset.
+    #   Maximum number of examples to return per page.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -13077,9 +13063,14 @@ module Aws::BedrockAgentCoreControl
     #   The MetadataValueType.
     #   @return [String]
     #
+    # @!attribute [rw] extraction_type
+    #   Specifies whether the metadata value is extracted by the LLM or
+    #   passed through deterministically from the event.
+    #   @return [String]
+    #
     # @!attribute [rw] extraction_config
     #   Configuration for extracting this metadata value from conversational
-    #   content.
+    #   content. Applicable only if extractionType is LLM inferred.
     #   @return [Types::ExtractionConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/MetadataSchemaEntry AWS API Documentation
@@ -13087,6 +13078,7 @@ module Aws::BedrockAgentCoreControl
     class MetadataSchemaEntry < Struct.new(
       :key,
       :type,
+      :extraction_type,
       :extraction_config)
       SENSITIVE = []
       include Aws::Structure
@@ -15254,11 +15246,11 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # S3 location of a JSONL file containing dataset examples.
+    # Amazon S3 location of a JSONL file containing dataset examples.
     #
     # @!attribute [rw] s3_uri
-    #   S3 URI of the JSONL file (e.g.
-    #   s3://my-bucket/path/to/examples.jsonl).
+    #   Amazon S3 URI of the JSONL file (for example,
+    #   `s3://my-bucket/path/to/examples.jsonl`).
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/S3Source AWS API Documentation
@@ -17313,11 +17305,8 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] examples
     #   Examples to update. Each element is a JSON object containing a
-    #   required `exampleId` string field identifying the existing example,
-    #   plus the replacement fields. The `exampleId` is extracted and
-    #   removed before persistence; the remaining document is validated
-    #   against the dataset's schemaType. Max 1000 examples per call. Total
-    #   request body must not exceed 5 MB.
+    #   required `exampleId` field identifying the existing example, plus
+    #   the replacement fields. Maximum 1000 examples per call.
     #   @return [Array<Hash,Array,String,Numeric,Boolean>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateDatasetExamplesRequest AWS API Documentation

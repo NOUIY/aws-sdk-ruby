@@ -115,6 +115,8 @@ module Aws
       end
       class KMSKeyNotAccessibleFault < ::Aws::Errors::ServiceError
       end
+      class NetworkTypeNotSupportedFault < ::Aws::Errors::ServiceError
+      end
       class OptionGroupNotFoundFault < ::Aws::Errors::ServiceError
       end
       class ProvisionedIopsNotAvailableInAZFault < ::Aws::Errors::ServiceError

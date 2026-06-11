@@ -24,6 +24,20 @@ module Aws::HealthLake
       include Aws::Structure
     end
 
+    # <para>The analytics configuration for a data store.</para>
+    #
+    # @!attribute [rw] status
+    #   <para>The status of the analytics configuration.</para>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/AnalyticsConfiguration AWS API Documentation
+    #
+    class AnalyticsConfiguration < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The data store is in a transition state and the user requested action
     # cannot be performed.
     #
@@ -193,6 +207,18 @@ module Aws::HealthLake
     #   The error cause for the current data store operation.
     #   @return [Types::ErrorCause]
     #
+    # @!attribute [rw] nlp_configuration
+    #   <para>The natural language processing (NLP) configuration for the data store.</para>
+    #   @return [Types::NlpConfiguration]
+    #
+    # @!attribute [rw] analytics_configuration
+    #   <para>The analytics configuration for the data store.</para>
+    #   @return [Types::AnalyticsConfiguration]
+    #
+    # @!attribute [rw] profile_configuration
+    #   <para>The profile configuration for the data store.</para>
+    #   @return [Types::ProfileConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/DatastoreProperties AWS API Documentation
     #
     class DatastoreProperties < Struct.new(
@@ -206,7 +232,10 @@ module Aws::HealthLake
       :sse_configuration,
       :preload_data_config,
       :identity_provider_configuration,
-      :error_cause)
+      :error_cause,
+      :nlp_configuration,
+      :analytics_configuration,
+      :profile_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -863,6 +892,20 @@ module Aws::HealthLake
       include Aws::Structure
     end
 
+    # <para>The natural language processing (NLP) configuration for a data store.</para>
+    #
+    # @!attribute [rw] status
+    #   <para>The status of the NLP configuration.</para>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/NlpConfiguration AWS API Documentation
+    #
+    class NlpConfiguration < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The output data configuration supplied when the export job was
     # created.
     #
@@ -899,6 +942,20 @@ module Aws::HealthLake
     #
     class PreloadDataConfig < Struct.new(
       :preload_data_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # <para>The profile configuration for a data store.</para>
+    #
+    # @!attribute [rw] default_profiles
+    #   <para>The list of default profiles for the data store.</para>
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/ProfileConfiguration AWS API Documentation
+    #
+    class ProfileConfiguration < Struct.new(
+      :default_profiles)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1160,6 +1217,55 @@ module Aws::HealthLake
     # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/UntagResourceResponse AWS API Documentation
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] datastore_id
+    #   <para>The data store identifier.</para>
+    #   @return [String]
+    #
+    # @!attribute [rw] datastore_name
+    #   <para>The data store name.</para>
+    #   @return [String]
+    #
+    # @!attribute [rw] analytics_configuration
+    #   <para>The analytics configuration for the data store.</para>
+    #   @return [Types::AnalyticsConfiguration]
+    #
+    # @!attribute [rw] nlp_configuration
+    #   <para>The NLP configuration for the data store.</para>
+    #   @return [Types::NlpConfiguration]
+    #
+    # @!attribute [rw] profile_configuration
+    #   <para>The profile configuration for the data store.</para>
+    #   @return [Types::ProfileConfiguration]
+    #
+    # @!attribute [rw] identity_provider_configuration
+    #   <para>The identity provider configuration for the data store.</para>
+    #   @return [Types::IdentityProviderConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/UpdateFHIRDatastoreRequest AWS API Documentation
+    #
+    class UpdateFHIRDatastoreRequest < Struct.new(
+      :datastore_id,
+      :datastore_name,
+      :analytics_configuration,
+      :nlp_configuration,
+      :profile_configuration,
+      :identity_provider_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] datastore_properties
+    #   <para>The data store properties.</para>
+    #   @return [Types::DatastoreProperties]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/healthlake-2017-07-01/UpdateFHIRDatastoreResponse AWS API Documentation
+    #
+    class UpdateFHIRDatastoreResponse < Struct.new(
+      :datastore_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # The user input parameter was invalid.
     #

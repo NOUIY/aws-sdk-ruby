@@ -1745,10 +1745,17 @@ module Aws::EKS
     #   instances. This setting can't be changed after cluster creation.
     #   @return [String]
     #
+    # @!attribute [rw] spread_level
+    #   Optional parameter to specify the placement group spread level for
+    #   control plane instances. If not provided, Amazon EKS will deploy
+    #   control plane instances without a placement group.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/ControlPlanePlacementRequest AWS API Documentation
     #
     class ControlPlanePlacementRequest < Struct.new(
-      :group_name)
+      :group_name,
+      :spread_level)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1767,10 +1774,17 @@ module Aws::EKS
     #   instances.
     #   @return [String]
     #
+    # @!attribute [rw] spread_level
+    #   The spread level used with the placement group for control plane
+    #   instances on your local Amazon EKS cluster on Amazon Web Services
+    #   Outposts.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/ControlPlanePlacementResponse AWS API Documentation
     #
     class ControlPlanePlacementResponse < Struct.new(
-      :group_name)
+      :group_name,
+      :spread_level)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4166,6 +4180,51 @@ module Aws::EKS
       :error_code,
       :error_message,
       :resource_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The placement configuration for the etcd instances of your local
+    # Amazon EKS cluster on an Amazon Web Services Outpost. For more
+    # information, see [Capacity considerations][1] in the *Amazon EKS User
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html
+    #
+    # @!attribute [rw] spread_level
+    #   Optional parameter to specify the placement group spread level for
+    #   etcd instances. If not provided, Amazon EKS will deploy etcd
+    #   instances without a placement group.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/EtcdPlacementRequest AWS API Documentation
+    #
+    class EtcdPlacementRequest < Struct.new(
+      :spread_level)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The placement configuration for the etcd instances of your local
+    # Amazon EKS cluster on an Amazon Web Services Outpost. For more
+    # information, see [Capacity considerations][1] in the *Amazon EKS User
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html
+    #
+    # @!attribute [rw] spread_level
+    #   The spread level used with the placement group for etcd instances on
+    #   your local Amazon EKS cluster on Amazon Web Services Outposts.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/EtcdPlacementResponse AWS API Documentation
+    #
+    class EtcdPlacementResponse < Struct.new(
+      :spread_level)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6587,15 +6646,13 @@ module Aws::EKS
     #   @return [Array<String>]
     #
     # @!attribute [rw] control_plane_instance_type
-    #   The Amazon EC2 instance type that you want to use for your local
-    #   Amazon EKS cluster on Outposts. Choose an instance type based on the
-    #   number of nodes that your cluster will have. For more information,
-    #   see [Capacity considerations][1] in the *Amazon EKS User Guide*.
+    #   The Amazon EC2 instance type for the Kubernetes control plane
+    #   instances of your local Amazon EKS cluster on Amazon Web Services
+    #   Outposts. This instance type applies to all control plane instances
+    #   and cannot be changed after cluster creation.
     #
-    #   The instance type that you specify is used for all Kubernetes
-    #   control plane instances. The instance type can't be changed after
-    #   cluster creation. The control plane is not automatically scaled by
-    #   Amazon EKS.
+    #   For more information, see [Capacity considerations][1] in the
+    #   *Amazon EKS User Guide*.
     #
     #
     #
@@ -6615,12 +6672,32 @@ module Aws::EKS
     #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html
     #   @return [Types::ControlPlanePlacementRequest]
     #
+    # @!attribute [rw] etcd_instance_type
+    #   The Amazon EC2 instance type for etcd instances of your local Amazon
+    #   EKS cluster on Amazon Web Services Outposts. This instance type
+    #   applies to all etcd instances and cannot be changed after cluster
+    #   creation.
+    #   @return [String]
+    #
+    # @!attribute [rw] etcd_placement
+    #   An object representing the placement configuration for the etcd
+    #   instances of your local Amazon EKS cluster on an Amazon Web Services
+    #   Outpost. For more information, see [Capacity considerations][1] in
+    #   the *Amazon EKS User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html
+    #   @return [Types::EtcdPlacementRequest]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/OutpostConfigRequest AWS API Documentation
     #
     class OutpostConfigRequest < Struct.new(
       :outpost_arns,
       :control_plane_instance_type,
-      :control_plane_placement)
+      :control_plane_placement,
+      :etcd_instance_type,
+      :etcd_placement)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6635,8 +6712,10 @@ module Aws::EKS
     #   @return [Array<String>]
     #
     # @!attribute [rw] control_plane_instance_type
-    #   The Amazon EC2 instance type used for the control plane. The
-    #   instance type is the same for all control plane instances.
+    #   The Amazon EC2 instance type for the Kubernetes control plane
+    #   instances of your local Amazon EKS cluster on Amazon Web Services
+    #   Outposts. The instance type is the same for all control plane
+    #   instances.
     #   @return [String]
     #
     # @!attribute [rw] control_plane_placement
@@ -6650,12 +6729,31 @@ module Aws::EKS
     #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html
     #   @return [Types::ControlPlanePlacementResponse]
     #
+    # @!attribute [rw] etcd_instance_type
+    #   The Amazon EC2 instance type for etcd instances of your local Amazon
+    #   EKS cluster on Amazon Web Services Outposts. The instance type is
+    #   the same for all etcd instances.
+    #   @return [String]
+    #
+    # @!attribute [rw] etcd_placement
+    #   An object representing the placement configuration for the etcd
+    #   instances of your local Amazon EKS cluster on an Amazon Web Services
+    #   Outpost. For more information, see [Capacity considerations][1] in
+    #   the *Amazon EKS User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html
+    #   @return [Types::EtcdPlacementResponse]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/OutpostConfigResponse AWS API Documentation
     #
     class OutpostConfigResponse < Struct.new(
       :outpost_arns,
       :control_plane_instance_type,
-      :control_plane_placement)
+      :control_plane_placement,
+      :etcd_instance_type,
+      :etcd_placement)
       SENSITIVE = []
       include Aws::Structure
     end

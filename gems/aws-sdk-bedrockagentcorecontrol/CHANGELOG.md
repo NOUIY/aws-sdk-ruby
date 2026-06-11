@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.52.0 (2026-06-11)
+------------------
+
+* Feature - Supports deterministic metadata for AgentCore Memory
+
 1.51.0 (2026-05-29)
 ------------------
 

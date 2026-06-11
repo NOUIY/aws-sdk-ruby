@@ -401,11 +401,13 @@ module Aws::EKS
 
     class ControlPlanePlacementRequest
       attr_accessor group_name: ::String
+      attr_accessor spread_level: ("host" | "rack")
       SENSITIVE: []
     end
 
     class ControlPlanePlacementResponse
       attr_accessor group_name: ::String
+      attr_accessor spread_level: ("host" | "rack")
       SENSITIVE: []
     end
 
@@ -930,6 +932,16 @@ module Aws::EKS
       SENSITIVE: []
     end
 
+    class EtcdPlacementRequest
+      attr_accessor spread_level: ("host" | "rack")
+      SENSITIVE: []
+    end
+
+    class EtcdPlacementResponse
+      attr_accessor spread_level: ("host" | "rack")
+      SENSITIVE: []
+    end
+
     class FargateProfile
       attr_accessor fargate_profile_name: ::String
       attr_accessor fargate_profile_arn: ::String
@@ -1411,6 +1423,8 @@ module Aws::EKS
       attr_accessor outpost_arns: ::Array[::String]
       attr_accessor control_plane_instance_type: ::String
       attr_accessor control_plane_placement: Types::ControlPlanePlacementRequest
+      attr_accessor etcd_instance_type: ::String
+      attr_accessor etcd_placement: Types::EtcdPlacementRequest
       SENSITIVE: []
     end
 
@@ -1418,6 +1432,8 @@ module Aws::EKS
       attr_accessor outpost_arns: ::Array[::String]
       attr_accessor control_plane_instance_type: ::String
       attr_accessor control_plane_placement: Types::ControlPlanePlacementResponse
+      attr_accessor etcd_instance_type: ::String
+      attr_accessor etcd_placement: Types::EtcdPlacementResponse
       SENSITIVE: []
     end
 

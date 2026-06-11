@@ -699,6 +699,7 @@ module Aws
       type metadata_schema_entry = {
       key: ::String,
       type: ("STRING" | "STRINGLIST" | "NUMBER")?,
+      extraction_type: ("LLM_INFERRED" | "STRICTLY_CONSISTENT")?,
       extraction_config: Params::extraction_config?
     }
 

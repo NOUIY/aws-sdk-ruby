@@ -298,6 +298,12 @@ module Aws::Neptune
     #   is only for Multi-AZ DB clusters.
     #   @return [Integer]
     #
+    # @!attribute [rw] network_type
+    #   The pending change in network type for the DB cluster.
+    #
+    #   Valid Values: `IPV4`, `DUAL`
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/ClusterPendingModifiedValues AWS API Documentation
     #
     class ClusterPendingModifiedValues < Struct.new(
@@ -308,7 +314,8 @@ module Aws::Neptune
       :backup_retention_period,
       :storage_type,
       :allocated_storage,
-      :iops)
+      :iops,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -322,14 +329,12 @@ module Aws::Neptune
     #
     #   * Must specify a valid DB cluster parameter group.
     #
-    #   * If the source DB cluster parameter group is in the same Amazon
-    #     Region as the copy, specify a valid DB parameter group identifier,
-    #     for example `my-db-cluster-param-group`, or a valid ARN.
+    #   * Must specify a valid DB cluster parameter group identifier, for
+    #     example `my-db-cluster-param-group`, or a valid ARN.
     #
-    #   * If the source DB parameter group is in a different Amazon Region
-    #     than the copy, specify a valid DB cluster parameter group ARN, for
-    #     example
-    #     `arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1`.
+    #   * The source DB cluster parameter group must be in the same Amazon
+    #     Region as the copy. Neptune does not support cross-Region copying
+    #     of parameter groups.
     #
     #
     #
@@ -500,6 +505,10 @@ module Aws::Neptune
     #
     #   * Must specify a valid DB parameter group identifier, for example
     #     `my-db-param-group`, or a valid ARN.
+    #
+    #   * The source DB parameter group must be in the same Amazon Region as
+    #     the copy. Neptune does not support cross-Region copying of
+    #     parameter groups.
     #
     #
     #
@@ -711,9 +720,7 @@ module Aws::Neptune
     #   @return [Boolean]
     #
     # @!attribute [rw] database_name
-    #   The name for your database of up to 64 alpha-numeric characters. If
-    #   you do not provide a name, Amazon Neptune will not create a database
-    #   in the DB cluster you are creating.
+    #   Not supported by Neptune.
     #   @return [String]
     #
     # @!attribute [rw] db_cluster_identifier
@@ -945,6 +952,19 @@ module Aws::Neptune
     #   [1]: https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage
     #   @return [String]
     #
+    # @!attribute [rw] network_type
+    #   The network type of the DB cluster.
+    #
+    #   Valid Values:
+    #
+    #   * <b> <code>IPV4</code> </b>   –   ( *the default* ) The DB cluster
+    #     uses only IPv4 addresses for communication.
+    #
+    #   * <b> <code>DUAL</code> </b>   –   The DB cluster uses both IPv4 and
+    #     IPv6 addresses for communication. The DB subnet group associated
+    #     with the cluster must support IPv6.
+    #   @return [String]
+    #
     # @!attribute [rw] source_region
     #   The source region of the snapshot. This is only needed when the
     #   shapshot is encrypted and in a different region.
@@ -981,6 +1001,7 @@ module Aws::Neptune
       :serverless_v2_scaling_configuration,
       :global_cluster_identifier,
       :storage_type,
+      :network_type,
       :source_region)
       SENSITIVE = []
       include Aws::Structure
@@ -2043,6 +2064,18 @@ module Aws::Neptune
     #   [1]: https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage
     #   @return [String]
     #
+    # @!attribute [rw] network_type
+    #   The network type of the DB cluster.
+    #
+    #   Valid Values:
+    #
+    #   * <b> <code>IPV4</code> </b>   –   The DB cluster uses only IPv4
+    #     addresses for communication.
+    #
+    #   * <b> <code>DUAL</code> </b>   –   The DB cluster uses both IPv4 and
+    #     IPv6 addresses for communication.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/DBCluster AWS API Documentation
     #
     class DBCluster < Struct.new(
@@ -2090,7 +2123,8 @@ module Aws::Neptune
       :serverless_v2_scaling_configuration,
       :global_cluster_identifier,
       :io_optimized_next_allowed_modification_time,
-      :storage_type)
+      :storage_type,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3083,6 +3117,12 @@ module Aws::Neptune
     #   [1]: https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-instances-delete.html
     #   @return [Boolean]
     #
+    # @!attribute [rw] network_type
+    #   The network type of the DB instance. Inherited from the DB cluster.
+    #
+    #   Valid Values: `IPV4`, `DUAL`
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/DBInstance AWS API Documentation
     #
     class DBInstance < Struct.new(
@@ -3138,7 +3178,8 @@ module Aws::Neptune
       :performance_insights_enabled,
       :performance_insights_kms_key_id,
       :enabled_cloudwatch_logs_exports,
-      :deletion_protection)
+      :deletion_protection,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3405,6 +3446,14 @@ module Aws::Neptune
     #   The Amazon Resource Name (ARN) for the DB subnet group.
     #   @return [String]
     #
+    # @!attribute [rw] supported_network_types
+    #   The network types supported by the DB subnet group.
+    #
+    #   Valid network types include `IPV4` and `DUAL`. A DB subnet group
+    #   supports `DUAL` if all subnets in the group have both IPv4 and IPv6
+    #   CIDRs.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/DBSubnetGroup AWS API Documentation
     #
     class DBSubnetGroup < Struct.new(
@@ -3413,7 +3462,8 @@ module Aws::Neptune
       :vpc_id,
       :subnet_group_status,
       :subnets,
-      :db_subnet_group_arn)
+      :db_subnet_group_arn,
+      :supported_network_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6043,6 +6093,19 @@ module Aws::Neptune
     #   [1]: https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage
     #   @return [String]
     #
+    # @!attribute [rw] network_type
+    #   The network type of the DB cluster.
+    #
+    #   Valid Values:
+    #
+    #   * <b> <code>IPV4</code> </b>   –   The DB cluster uses only IPv4
+    #     addresses for communication.
+    #
+    #   * <b> <code>DUAL</code> </b>   –   The DB cluster uses both IPv4 and
+    #     IPv6 addresses for communication. The DB subnet group associated
+    #     with the cluster must support IPv6.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/ModifyDBClusterMessage AWS API Documentation
     #
     class ModifyDBClusterMessage < Struct.new(
@@ -6065,7 +6128,8 @@ module Aws::Neptune
       :deletion_protection,
       :copy_tags_to_snapshot,
       :serverless_v2_scaling_configuration,
-      :storage_type)
+      :storage_type,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6787,6 +6851,13 @@ module Aws::Neptune
       include Aws::Structure
     end
 
+    # The specified *NetworkType* is not supported for the DB cluster, DB
+    # subnet group, or orderable DB instance option.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/NetworkTypeNotSupportedFault AWS API Documentation
+    #
+    class NetworkTypeNotSupportedFault < Aws::EmptyStructure; end
+
     # Not supported by Neptune.
     #
     # @!attribute [rw] option_group_name
@@ -6905,6 +6976,10 @@ module Aws::Neptune
     #   with a specific combination of other DB engine attributes.
     #   @return [Boolean]
     #
+    # @!attribute [rw] supported_network_types
+    #   The network types supported by the orderable DB instance option.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/OrderableDBInstanceOption AWS API Documentation
     #
     class OrderableDBInstanceOption < Struct.new(
@@ -6928,7 +7003,8 @@ module Aws::Neptune
       :max_iops_per_db_instance,
       :min_iops_per_gib,
       :max_iops_per_gib,
-      :supports_global_databases)
+      :supports_global_databases,
+      :supported_network_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7678,6 +7754,19 @@ module Aws::Neptune
     #   Default: `standard`
     #   @return [String]
     #
+    # @!attribute [rw] network_type
+    #   The network type of the DB cluster.
+    #
+    #   Valid Values:
+    #
+    #   * <b> <code>IPV4</code> </b>   –   ( *the default* ) The DB cluster
+    #     uses only IPv4 addresses for communication.
+    #
+    #   * <b> <code>DUAL</code> </b>   –   The DB cluster uses both IPv4 and
+    #     IPv6 addresses for communication. The DB subnet group associated
+    #     with the cluster must support IPv6.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/RestoreDBClusterFromSnapshotMessage AWS API Documentation
     #
     class RestoreDBClusterFromSnapshotMessage < Struct.new(
@@ -7699,7 +7788,8 @@ module Aws::Neptune
       :deletion_protection,
       :copy_tags_to_snapshot,
       :serverless_v2_scaling_configuration,
-      :storage_type)
+      :storage_type,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7893,6 +7983,19 @@ module Aws::Neptune
     #   Default: `standard`
     #   @return [String]
     #
+    # @!attribute [rw] network_type
+    #   The network type of the DB cluster.
+    #
+    #   Valid Values:
+    #
+    #   * <b> <code>IPV4</code> </b>   –   ( *the default* ) The DB cluster
+    #     uses only IPv4 addresses for communication.
+    #
+    #   * <b> <code>DUAL</code> </b>   –   The DB cluster uses both IPv4 and
+    #     IPv6 addresses for communication. The DB subnet group associated
+    #     with the cluster must support IPv6.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/neptune-2014-10-31/RestoreDBClusterToPointInTimeMessage AWS API Documentation
     #
     class RestoreDBClusterToPointInTimeMessage < Struct.new(
@@ -7912,7 +8015,8 @@ module Aws::Neptune
       :db_cluster_parameter_group_name,
       :deletion_protection,
       :serverless_v2_scaling_configuration,
-      :storage_type)
+      :storage_type,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end

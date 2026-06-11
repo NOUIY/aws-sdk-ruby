@@ -193,6 +193,8 @@ module Aws::EKS
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
     ErrorDetail = Shapes::StructureShape.new(name: 'ErrorDetail')
     ErrorDetails = Shapes::ListShape.new(name: 'ErrorDetails')
+    EtcdPlacementRequest = Shapes::StructureShape.new(name: 'EtcdPlacementRequest')
+    EtcdPlacementResponse = Shapes::StructureShape.new(name: 'EtcdPlacementResponse')
     FargateProfile = Shapes::StructureShape.new(name: 'FargateProfile')
     FargateProfileHealth = Shapes::StructureShape.new(name: 'FargateProfileHealth')
     FargateProfileIssue = Shapes::StructureShape.new(name: 'FargateProfileIssue')
@@ -319,6 +321,7 @@ module Aws::EKS
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
     ServerException = Shapes::StructureShape.new(name: 'ServerException')
     ServiceUnavailableException = Shapes::StructureShape.new(name: 'ServiceUnavailableException')
+    SpreadLevel = Shapes::StringShape.new(name: 'SpreadLevel')
     SsoIdentity = Shapes::StructureShape.new(name: 'SsoIdentity')
     SsoIdentityList = Shapes::ListShape.new(name: 'SsoIdentityList')
     SsoIdentityType = Shapes::StringShape.new(name: 'SsoIdentityType')
@@ -724,9 +727,11 @@ module Aws::EKS
     ConnectorConfigResponse.struct_class = Types::ConnectorConfigResponse
 
     ControlPlanePlacementRequest.add_member(:group_name, Shapes::ShapeRef.new(shape: String, location_name: "groupName"))
+    ControlPlanePlacementRequest.add_member(:spread_level, Shapes::ShapeRef.new(shape: SpreadLevel, location_name: "spreadLevel"))
     ControlPlanePlacementRequest.struct_class = Types::ControlPlanePlacementRequest
 
     ControlPlanePlacementResponse.add_member(:group_name, Shapes::ShapeRef.new(shape: String, location_name: "groupName"))
+    ControlPlanePlacementResponse.add_member(:spread_level, Shapes::ShapeRef.new(shape: SpreadLevel, location_name: "spreadLevel"))
     ControlPlanePlacementResponse.struct_class = Types::ControlPlanePlacementResponse
 
     ControlPlaneScalingConfig.add_member(:tier, Shapes::ShapeRef.new(shape: ProvisionedControlPlaneTier, location_name: "tier"))
@@ -1110,6 +1115,12 @@ module Aws::EKS
 
     ErrorDetails.member = Shapes::ShapeRef.new(shape: ErrorDetail)
 
+    EtcdPlacementRequest.add_member(:spread_level, Shapes::ShapeRef.new(shape: SpreadLevel, location_name: "spreadLevel"))
+    EtcdPlacementRequest.struct_class = Types::EtcdPlacementRequest
+
+    EtcdPlacementResponse.add_member(:spread_level, Shapes::ShapeRef.new(shape: SpreadLevel, location_name: "spreadLevel"))
+    EtcdPlacementResponse.struct_class = Types::EtcdPlacementResponse
+
     FargateProfile.add_member(:fargate_profile_name, Shapes::ShapeRef.new(shape: String, location_name: "fargateProfileName"))
     FargateProfile.add_member(:fargate_profile_arn, Shapes::ShapeRef.new(shape: String, location_name: "fargateProfileArn"))
     FargateProfile.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, location_name: "clusterName"))
@@ -1491,11 +1502,15 @@ module Aws::EKS
     OutpostConfigRequest.add_member(:outpost_arns, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "outpostArns"))
     OutpostConfigRequest.add_member(:control_plane_instance_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "controlPlaneInstanceType"))
     OutpostConfigRequest.add_member(:control_plane_placement, Shapes::ShapeRef.new(shape: ControlPlanePlacementRequest, location_name: "controlPlanePlacement"))
+    OutpostConfigRequest.add_member(:etcd_instance_type, Shapes::ShapeRef.new(shape: String, location_name: "etcdInstanceType"))
+    OutpostConfigRequest.add_member(:etcd_placement, Shapes::ShapeRef.new(shape: EtcdPlacementRequest, location_name: "etcdPlacement"))
     OutpostConfigRequest.struct_class = Types::OutpostConfigRequest
 
     OutpostConfigResponse.add_member(:outpost_arns, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "outpostArns"))
     OutpostConfigResponse.add_member(:control_plane_instance_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "controlPlaneInstanceType"))
     OutpostConfigResponse.add_member(:control_plane_placement, Shapes::ShapeRef.new(shape: ControlPlanePlacementResponse, location_name: "controlPlanePlacement"))
+    OutpostConfigResponse.add_member(:etcd_instance_type, Shapes::ShapeRef.new(shape: String, location_name: "etcdInstanceType"))
+    OutpostConfigResponse.add_member(:etcd_placement, Shapes::ShapeRef.new(shape: EtcdPlacementResponse, location_name: "etcdPlacement"))
     OutpostConfigResponse.struct_class = Types::OutpostConfigResponse
 
     PodIdentityAssociation.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, location_name: "clusterName"))

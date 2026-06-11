@@ -13,6 +13,11 @@ module Aws::HealthLake
       SENSITIVE: []
     end
 
+    class AnalyticsConfiguration
+      attr_accessor status: ("ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | "PAUSING" | "PAUSED")
+      SENSITIVE: []
+    end
+
     class ConflictException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -32,14 +37,14 @@ module Aws::HealthLake
     class CreateFHIRDatastoreResponse
       attr_accessor datastore_id: ::String
       attr_accessor datastore_arn: ::String
-      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED")
+      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED")
       attr_accessor datastore_endpoint: ::String
       SENSITIVE: []
     end
 
     class DatastoreFilter
       attr_accessor datastore_name: ::String
-      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED")
+      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED")
       attr_accessor created_before: ::Time
       attr_accessor created_after: ::Time
       SENSITIVE: []
@@ -49,7 +54,7 @@ module Aws::HealthLake
       attr_accessor datastore_id: ::String
       attr_accessor datastore_arn: ::String
       attr_accessor datastore_name: ::String
-      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED")
+      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED")
       attr_accessor created_at: ::Time
       attr_accessor datastore_type_version: ("R4")
       attr_accessor datastore_endpoint: ::String
@@ -57,6 +62,9 @@ module Aws::HealthLake
       attr_accessor preload_data_config: Types::PreloadDataConfig
       attr_accessor identity_provider_configuration: Types::IdentityProviderConfiguration
       attr_accessor error_cause: Types::ErrorCause
+      attr_accessor nlp_configuration: Types::NlpConfiguration
+      attr_accessor analytics_configuration: Types::AnalyticsConfiguration
+      attr_accessor profile_configuration: Types::ProfileConfiguration
       SENSITIVE: []
     end
 
@@ -68,7 +76,7 @@ module Aws::HealthLake
     class DeleteFHIRDatastoreResponse
       attr_accessor datastore_id: ::String
       attr_accessor datastore_arn: ::String
-      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED")
+      attr_accessor datastore_status: ("CREATING" | "ACTIVE" | "DELETING" | "DELETED" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED")
       attr_accessor datastore_endpoint: ::String
       SENSITIVE: []
     end
@@ -239,6 +247,11 @@ module Aws::HealthLake
       SENSITIVE: []
     end
 
+    class NlpConfiguration
+      attr_accessor status: ("ENABLED" | "DISABLED" | "ENABLING" | "DISABLING")
+      SENSITIVE: []
+    end
+
     class OutputDataConfig
       attr_accessor s3_configuration: Types::S3Configuration
       attr_accessor unknown: untyped
@@ -252,6 +265,11 @@ module Aws::HealthLake
 
     class PreloadDataConfig
       attr_accessor preload_data_type: ("SYNTHEA")
+      SENSITIVE: []
+    end
+
+    class ProfileConfiguration
+      attr_accessor default_profiles: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -332,6 +350,21 @@ module Aws::HealthLake
     end
 
     class UntagResourceResponse < Aws::EmptyStructure
+    end
+
+    class UpdateFHIRDatastoreRequest
+      attr_accessor datastore_id: ::String
+      attr_accessor datastore_name: ::String
+      attr_accessor analytics_configuration: Types::AnalyticsConfiguration
+      attr_accessor nlp_configuration: Types::NlpConfiguration
+      attr_accessor profile_configuration: Types::ProfileConfiguration
+      attr_accessor identity_provider_configuration: Types::IdentityProviderConfiguration
+      SENSITIVE: []
+    end
+
+    class UpdateFHIRDatastoreResponse
+      attr_accessor datastore_properties: Types::DatastoreProperties
+      SENSITIVE: []
     end
 
     class ValidationException

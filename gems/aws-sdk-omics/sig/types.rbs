@@ -2004,6 +2004,7 @@ module Aws::Omics
       attr_accessor stop_time: ::Time
       attr_accessor storage_type: ("STATIC" | "DYNAMIC")
       attr_accessor workflow_version_name: ::String
+      attr_accessor workflow_name: ::String
       SENSITIVE: []
     end
 
