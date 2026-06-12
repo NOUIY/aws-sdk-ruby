@@ -1188,6 +1188,9 @@ module Aws::BedrockAgentCoreControl
     #   The source that created this version, including the source name and
     #   optional ARN.
     #
+    # @option params [String] :kms_key_arn
+    #   Optional KMS key ARN for encrypting component configurations.
+    #
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to the configuration bundle.
     #   Tags enable you to categorize your resources in different ways, for
@@ -1218,6 +1221,7 @@ module Aws::BedrockAgentCoreControl
     #       name: "String", # required
     #       arn: "String",
     #     },
+    #     kms_key_arn: "KmsKeyArn",
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -3574,10 +3578,17 @@ module Aws::BedrockAgentCoreControl
     #   The data source configuration that specifies CloudWatch log groups and
     #   service names to monitor for agent traces.
     #
-    # @option params [required, Array<Types::EvaluatorReference>] :evaluators
+    # @option params [Array<Types::EvaluatorReference>] :evaluators
     #   The list of evaluators to apply during online evaluation. Can include
     #   both built-in evaluators and custom evaluators created with
     #   `CreateEvaluator`.
+    #
+    # @option params [Array<Types::Insight>] :insights
+    #   The list of insight types to run against agent sessions.
+    #
+    # @option params [Types::ClusteringConfig] :clustering_config
+    #   Configuration for periodic batch evaluation clustering of insight
+    #   results.
     #
     # @option params [required, String] :evaluation_execution_role_arn
     #   The Amazon Resource Name (ARN) of the IAM role that grants permissions
@@ -3642,11 +3653,19 @@ module Aws::BedrockAgentCoreControl
     #         service_names: ["ServiceName"], # required
     #       },
     #     },
-    #     evaluators: [ # required
+    #     evaluators: [
     #       {
     #         evaluator_id: "EvaluatorId",
     #       },
     #     ],
+    #     insights: [
+    #       {
+    #         insight_id: "InsightId", # required
+    #       },
+    #     ],
+    #     clustering_config: {
+    #       frequencies: ["DAILY"], # required, accepts DAILY, WEEKLY, MONTHLY
+    #     },
     #     evaluation_execution_role_arn: "RoleArn", # required
     #     enable_on_create: false, # required
     #     tags: {
@@ -6098,6 +6117,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetConfigurationBundleResponse#lineage_metadata #lineage_metadata} => Types::VersionLineageMetadata
     #   * {Types::GetConfigurationBundleResponse#created_at #created_at} => Time
     #   * {Types::GetConfigurationBundleResponse#updated_at #updated_at} => Time
+    #   * {Types::GetConfigurationBundleResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -6122,6 +6142,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.lineage_metadata.commit_message #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundle AWS API Documentation
     #
@@ -6153,6 +6174,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetConfigurationBundleVersionResponse#lineage_metadata #lineage_metadata} => Types::VersionLineageMetadata
     #   * {Types::GetConfigurationBundleVersionResponse#created_at #created_at} => Time
     #   * {Types::GetConfigurationBundleVersionResponse#version_created_at #version_created_at} => Time
+    #   * {Types::GetConfigurationBundleVersionResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -6177,6 +6199,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.lineage_metadata.commit_message #=> String
     #   resp.created_at #=> Time
     #   resp.version_created_at #=> Time
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleVersion AWS API Documentation
     #
@@ -7119,6 +7142,8 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetOnlineEvaluationConfigResponse#rule #rule} => Types::Rule
     #   * {Types::GetOnlineEvaluationConfigResponse#data_source_config #data_source_config} => Types::DataSourceConfig
     #   * {Types::GetOnlineEvaluationConfigResponse#evaluators #evaluators} => Array&lt;Types::EvaluatorReference&gt;
+    #   * {Types::GetOnlineEvaluationConfigResponse#insights #insights} => Array&lt;Types::Insight&gt;
+    #   * {Types::GetOnlineEvaluationConfigResponse#clustering_config #clustering_config} => Types::ClusteringConfig
     #   * {Types::GetOnlineEvaluationConfigResponse#output_config #output_config} => Types::OutputConfig
     #   * {Types::GetOnlineEvaluationConfigResponse#evaluation_execution_role_arn #evaluation_execution_role_arn} => String
     #   * {Types::GetOnlineEvaluationConfigResponse#status #status} => String
@@ -7153,6 +7178,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.data_source_config.cloud_watch_logs.service_names[0] #=> String
     #   resp.evaluators #=> Array
     #   resp.evaluators[0].evaluator_id #=> String
+    #   resp.insights #=> Array
+    #   resp.insights[0].insight_id #=> String
+    #   resp.clustering_config.frequencies #=> Array
+    #   resp.clustering_config.frequencies[0] #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.output_config.cloud_watch_config.log_group_name #=> String
     #   resp.evaluation_execution_role_arn #=> String
     #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "ERROR"
@@ -8951,6 +8980,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.online_evaluation_configs[0].created_at #=> Time
     #   resp.online_evaluation_configs[0].updated_at #=> Time
     #   resp.online_evaluation_configs[0].failure_reason #=> String
+    #   resp.online_evaluation_configs[0].insights #=> Array
+    #   resp.online_evaluation_configs[0].insights[0].insight_id #=> String
+    #   resp.online_evaluation_configs[0].clustering_config.frequencies #=> Array
+    #   resp.online_evaluation_configs[0].clustering_config.frequencies[0] #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListOnlineEvaluationConfigs AWS API Documentation
@@ -10559,6 +10592,11 @@ module Aws::BedrockAgentCoreControl
     #   The source that created this version, including the source name and
     #   optional ARN.
     #
+    # @option params [String] :kms_key_arn
+    #   Optional KMS key ARN for encrypting component configurations. If
+    #   provided, components will be encrypted with this key. If the bundle
+    #   already has a KMS key, this rotates to the new key.
+    #
     # @return [Types::UpdateConfigurationBundleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateConfigurationBundleResponse#bundle_arn #bundle_arn} => String
@@ -10586,6 +10624,7 @@ module Aws::BedrockAgentCoreControl
     #       name: "String", # required
     #       arn: "String",
     #     },
+    #     kms_key_arn: "KmsKeyArn",
     #   })
     #
     # @example Response structure
@@ -13008,6 +13047,12 @@ module Aws::BedrockAgentCoreControl
     # @option params [Array<Types::EvaluatorReference>] :evaluators
     #   The updated list of evaluators to apply during online evaluation.
     #
+    # @option params [Array<Types::Insight>] :insights
+    #   The updated list of insight types to run against agent sessions.
+    #
+    # @option params [Types::ClusteringConfig] :clustering_config
+    #   The updated clustering configuration for periodic batch evaluation.
+    #
     # @option params [String] :evaluation_execution_role_arn
     #   The updated Amazon Resource Name (ARN) of the IAM role used for
     #   evaluation execution.
@@ -13061,6 +13106,14 @@ module Aws::BedrockAgentCoreControl
     #         evaluator_id: "EvaluatorId",
     #       },
     #     ],
+    #     insights: [
+    #       {
+    #         insight_id: "InsightId", # required
+    #       },
+    #     ],
+    #     clustering_config: {
+    #       frequencies: ["DAILY"], # required, accepts DAILY, WEEKLY, MONTHLY
+    #     },
     #     evaluation_execution_role_arn: "RoleArn",
     #     execution_status: "ENABLED", # accepts ENABLED, DISABLED
     #   })
@@ -14027,7 +14080,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.52.0'
+      context[:gem_version] = '1.53.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

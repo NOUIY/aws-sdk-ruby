@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.9.0 (2026-06-12)
+------------------
+
+* Feature - Adds support for Trigger CRUD APIs (CreateTrigger, GetTrigger, UpdateTrigger, DeleteTrigger, ListTriggers) for managing schedule-based automation triggers in DevOps Agent agent spaces.
+
 1.8.0 (2026-06-08)
 ------------------
 

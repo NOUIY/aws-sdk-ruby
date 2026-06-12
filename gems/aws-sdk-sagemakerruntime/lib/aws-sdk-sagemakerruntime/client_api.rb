@@ -14,6 +14,7 @@ module Aws::SageMakerRuntime
 
     include Seahorse::Model
 
+    AsyncBodyBlob = Shapes::BlobShape.new(name: 'AsyncBodyBlob')
     BodyBlob = Shapes::BlobShape.new(name: 'BodyBlob')
     CustomAttributesHeader = Shapes::StringShape.new(name: 'CustomAttributesHeader')
     EnableExplanationsHeader = Shapes::StringShape.new(name: 'EnableExplanationsHeader')
@@ -68,12 +69,15 @@ module Aws::SageMakerRuntime
     InvokeEndpointAsyncInput.add_member(:accept, Shapes::ShapeRef.new(shape: Header, location: "header", location_name: "X-Amzn-SageMaker-Accept"))
     InvokeEndpointAsyncInput.add_member(:custom_attributes, Shapes::ShapeRef.new(shape: CustomAttributesHeader, location: "header", location_name: "X-Amzn-SageMaker-Custom-Attributes"))
     InvokeEndpointAsyncInput.add_member(:inference_id, Shapes::ShapeRef.new(shape: InferenceId, location: "header", location_name: "X-Amzn-SageMaker-Inference-Id"))
-    InvokeEndpointAsyncInput.add_member(:input_location, Shapes::ShapeRef.new(shape: InputLocationHeader, required: true, location: "header", location_name: "X-Amzn-SageMaker-InputLocation"))
+    InvokeEndpointAsyncInput.add_member(:input_location, Shapes::ShapeRef.new(shape: InputLocationHeader, location: "header", location_name: "X-Amzn-SageMaker-InputLocation"))
     InvokeEndpointAsyncInput.add_member(:s3_output_path_extension, Shapes::ShapeRef.new(shape: S3OutputPathExtensionHeader, location: "header", location_name: "X-Amzn-SageMaker-S3OutputPathExtension"))
     InvokeEndpointAsyncInput.add_member(:filename, Shapes::ShapeRef.new(shape: FilenameHeader, location: "header", location_name: "X-Amzn-SageMaker-Filename"))
     InvokeEndpointAsyncInput.add_member(:request_ttl_seconds, Shapes::ShapeRef.new(shape: RequestTTLSecondsHeader, location: "header", location_name: "X-Amzn-SageMaker-RequestTTLSeconds"))
     InvokeEndpointAsyncInput.add_member(:invocation_timeout_seconds, Shapes::ShapeRef.new(shape: InvocationTimeoutSecondsHeader, location: "header", location_name: "X-Amzn-SageMaker-InvocationTimeoutSeconds"))
+    InvokeEndpointAsyncInput.add_member(:body, Shapes::ShapeRef.new(shape: AsyncBodyBlob, location_name: "Body"))
     InvokeEndpointAsyncInput.struct_class = Types::InvokeEndpointAsyncInput
+    InvokeEndpointAsyncInput[:payload] = :body
+    InvokeEndpointAsyncInput[:payload_member] = InvokeEndpointAsyncInput.member(:body)
 
     InvokeEndpointAsyncOutput.add_member(:inference_id, Shapes::ShapeRef.new(shape: Header, location_name: "InferenceId"))
     InvokeEndpointAsyncOutput.add_member(:output_location, Shapes::ShapeRef.new(shape: Header, location: "header", location_name: "X-Amzn-SageMaker-OutputLocation"))

@@ -302,6 +302,7 @@ module Aws
                                            name: ::String,
                                            arn: ::String?
                                          },
+                                         ?kms_key_arn: ::String,
                                          ?tags: Hash[::String, ::String]
                                        ) -> _CreateConfigurationBundleResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateConfigurationBundleResponseSuccess
@@ -576,11 +577,19 @@ module Aws
                                                  service_names: Array[::String]
                                                }?
                                              },
-                                             evaluators: Array[
+                                             ?evaluators: Array[
                                                {
                                                  evaluator_id: ::String?
                                                }
                                              ],
+                                             ?insights: Array[
+                                               {
+                                                 insight_id: ::String
+                                               }
+                                             ],
+                                             ?clustering_config: {
+                                               frequencies: Array[("DAILY" | "WEEKLY" | "MONTHLY")]
+                                             },
                                              evaluation_execution_role_arn: ::String,
                                              enable_on_create: bool,
                                              ?tags: Hash[::String, ::String]
@@ -1238,6 +1247,7 @@ module Aws
         def lineage_metadata: () -> Types::VersionLineageMetadata
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
+        def kms_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_configuration_bundle-instance_method
       def get_configuration_bundle: (
@@ -1257,6 +1267,7 @@ module Aws
         def lineage_metadata: () -> Types::VersionLineageMetadata
         def created_at: () -> ::Time
         def version_created_at: () -> ::Time
+        def kms_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_configuration_bundle_version-instance_method
       def get_configuration_bundle_version: (
@@ -1437,6 +1448,8 @@ module Aws
         def rule: () -> Types::Rule
         def data_source_config: () -> Types::DataSourceConfig
         def evaluators: () -> ::Array[Types::EvaluatorReference]
+        def insights: () -> ::Array[Types::Insight]
+        def clustering_config: () -> Types::ClusteringConfig
         def output_config: () -> Types::OutputConfig
         def evaluation_execution_role_arn: () -> ::String
         def status: () -> ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "ERROR")
@@ -2340,7 +2353,8 @@ module Aws
                                          ?created_by: {
                                            name: ::String,
                                            arn: ::String?
-                                         }
+                                         },
+                                         ?kms_key_arn: ::String
                                        ) -> _UpdateConfigurationBundleResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateConfigurationBundleResponseSuccess
 
@@ -2689,6 +2703,14 @@ module Aws
                                                  evaluator_id: ::String?
                                                }
                                              ],
+                                             ?insights: Array[
+                                               {
+                                                 insight_id: ::String
+                                               }
+                                             ],
+                                             ?clustering_config: {
+                                               frequencies: Array[("DAILY" | "WEEKLY" | "MONTHLY")]
+                                             },
                                              ?evaluation_execution_role_arn: ::String,
                                              ?execution_status: ("ENABLED" | "DISABLED")
                                            ) -> _UpdateOnlineEvaluationConfigResponseSuccess

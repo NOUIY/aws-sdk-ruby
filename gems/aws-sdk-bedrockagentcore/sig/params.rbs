@@ -60,7 +60,10 @@ module Aws
         {
         }
       ]?,
-      cloudwatch_logs: Params::cloud_watch_logs_trace_config?
+      cloudwatch_logs: Params::cloud_watch_logs_trace_config?,
+      batch_evaluation: {
+        batch_evaluation_arn: ::String
+      }?
     }
 
       type cloud_watch_logs_filter = {

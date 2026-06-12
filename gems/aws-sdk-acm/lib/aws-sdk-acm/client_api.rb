@@ -257,7 +257,7 @@ module Aws::ACM
     CertificateMetadata.add_member_subclass(:unknown, Types::CertificateMetadata::Unknown)
     CertificateMetadata.struct_class = Types::CertificateMetadata
 
-    CertificateOptions.add_member(:certificate_transparency_logging_preference, Shapes::ShapeRef.new(shape: CertificateTransparencyLoggingPreference, location_name: "CertificateTransparencyLoggingPreference"))
+    CertificateOptions.add_member(:certificate_transparency_logging_preference, Shapes::ShapeRef.new(shape: CertificateTransparencyLoggingPreference, deprecated: true, location_name: "CertificateTransparencyLoggingPreference", metadata: {"deprecatedMessage" => "Certificate transparency logging opt-out is no longer available.", "deprecatedSince" => "12th June 2026"}))
     CertificateOptions.add_member(:export, Shapes::ShapeRef.new(shape: CertificateExport, location_name: "Export"))
     CertificateOptions.struct_class = Types::CertificateOptions
 

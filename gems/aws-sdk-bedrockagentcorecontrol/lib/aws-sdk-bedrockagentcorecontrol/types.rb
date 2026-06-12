@@ -1040,6 +1040,22 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Configuration for periodic batch evaluation clustering, specifying how
+    # often clustering jobs run.
+    #
+    # @!attribute [rw] frequencies
+    #   The list of frequencies at which clustering batch evaluations are
+    #   triggered.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ClusteringConfig AWS API Documentation
+    #
+    class ClusteringConfig < Struct.new(
+      :frequencies)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The source code configuration that specifies the location and details
     # of the code to be executed.
     #
@@ -2138,6 +2154,10 @@ module Aws::BedrockAgentCoreControl
     #   optional ARN.
     #   @return [Types::VersionCreatedBySource]
     #
+    # @!attribute [rw] kms_key_arn
+    #   Optional KMS key ARN for encrypting component configurations.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   A map of tag keys and values to assign to the configuration bundle.
     #   Tags enable you to categorize your resources in different ways, for
@@ -2154,6 +2174,7 @@ module Aws::BedrockAgentCoreControl
       :branch_name,
       :commit_message,
       :created_by,
+      :kms_key_arn,
       :tags)
       SENSITIVE = [:description, :components]
       include Aws::Structure
@@ -3257,6 +3278,15 @@ module Aws::BedrockAgentCoreControl
     #   `CreateEvaluator`.
     #   @return [Array<Types::EvaluatorReference>]
     #
+    # @!attribute [rw] insights
+    #   The list of insight types to run against agent sessions.
+    #   @return [Array<Types::Insight>]
+    #
+    # @!attribute [rw] clustering_config
+    #   Configuration for periodic batch evaluation clustering of insight
+    #   results.
+    #   @return [Types::ClusteringConfig]
+    #
     # @!attribute [rw] evaluation_execution_role_arn
     #   The Amazon Resource Name (ARN) of the IAM role that grants
     #   permissions to read from CloudWatch logs, write evaluation results,
@@ -3292,6 +3322,8 @@ module Aws::BedrockAgentCoreControl
       :rule,
       :data_source_config,
       :evaluators,
+      :insights,
+      :clustering_config,
       :evaluation_execution_role_arn,
       :enable_on_create,
       :tags)
@@ -7459,6 +7491,11 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when the configuration bundle was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] kms_key_arn
+    #   KMS key ARN used to encrypt component configurations, if CMK was
+    #   provided.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleResponse AWS API Documentation
     #
     class GetConfigurationBundleResponse < Struct.new(
@@ -7470,7 +7507,8 @@ module Aws::BedrockAgentCoreControl
       :components,
       :lineage_metadata,
       :created_at,
-      :updated_at)
+      :updated_at,
+      :kms_key_arn)
       SENSITIVE = [:description, :components]
       include Aws::Structure
     end
@@ -7531,6 +7569,11 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when this specific version was created.
     #   @return [Time]
     #
+    # @!attribute [rw] kms_key_arn
+    #   KMS key ARN used to encrypt component configurations, if CMK was
+    #   provided.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConfigurationBundleVersionResponse AWS API Documentation
     #
     class GetConfigurationBundleVersionResponse < Struct.new(
@@ -7542,7 +7585,8 @@ module Aws::BedrockAgentCoreControl
       :components,
       :lineage_metadata,
       :created_at,
-      :version_created_at)
+      :version_created_at,
+      :kms_key_arn)
       SENSITIVE = [:description, :components]
       include Aws::Structure
     end
@@ -8245,6 +8289,14 @@ module Aws::BedrockAgentCoreControl
     #   The list of evaluators applied during online evaluation.
     #   @return [Array<Types::EvaluatorReference>]
     #
+    # @!attribute [rw] insights
+    #   The list of insight types configured for this evaluation.
+    #   @return [Array<Types::Insight>]
+    #
+    # @!attribute [rw] clustering_config
+    #   The clustering configuration for periodic batch evaluation.
+    #   @return [Types::ClusteringConfig]
+    #
     # @!attribute [rw] output_config
     #   The output configuration specifying where evaluation results are
     #   written.
@@ -8288,6 +8340,8 @@ module Aws::BedrockAgentCoreControl
       :rule,
       :data_source_config,
       :evaluators,
+      :insights,
+      :clustering_config,
       :output_config,
       :evaluation_execution_role_arn,
       :status,
@@ -10582,6 +10636,22 @@ module Aws::BedrockAgentCoreControl
     class InlineExamplesSource < Struct.new(
       :examples)
       SENSITIVE = [:examples]
+      include Aws::Structure
+    end
+
+    # A reference to an insight analysis to run against sessions.
+    #
+    # @!attribute [rw] insight_id
+    #   Canonical insight identifiers using the Builtin.Insight.* naming
+    #   convention. Used by BatchEvaluate, InternalEvaluate, and
+    #   ServiceEngineEvaluate flows.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Insight AWS API Documentation
+    #
+    class Insight < Struct.new(
+      :insight_id)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -13791,6 +13861,14 @@ module Aws::BedrockAgentCoreControl
     #   execution failed.
     #   @return [String]
     #
+    # @!attribute [rw] insights
+    #   The list of insight types configured for this evaluation.
+    #   @return [Array<Types::Insight>]
+    #
+    # @!attribute [rw] clustering_config
+    #   The clustering configuration for periodic batch evaluation.
+    #   @return [Types::ClusteringConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/OnlineEvaluationConfigSummary AWS API Documentation
     #
     class OnlineEvaluationConfigSummary < Struct.new(
@@ -13802,7 +13880,9 @@ module Aws::BedrockAgentCoreControl
       :execution_status,
       :created_at,
       :updated_at,
-      :failure_reason)
+      :failure_reason,
+      :insights,
+      :clustering_config)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -17240,6 +17320,12 @@ module Aws::BedrockAgentCoreControl
     #   optional ARN.
     #   @return [Types::VersionCreatedBySource]
     #
+    # @!attribute [rw] kms_key_arn
+    #   Optional KMS key ARN for encrypting component configurations. If
+    #   provided, components will be encrypted with this key. If the bundle
+    #   already has a KMS key, this rotates to the new key.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateConfigurationBundleRequest AWS API Documentation
     #
     class UpdateConfigurationBundleRequest < Struct.new(
@@ -17251,7 +17337,8 @@ module Aws::BedrockAgentCoreControl
       :parent_version_ids,
       :branch_name,
       :commit_message,
-      :created_by)
+      :created_by,
+      :kms_key_arn)
       SENSITIVE = [:description, :components]
       include Aws::Structure
     end
@@ -18258,6 +18345,14 @@ module Aws::BedrockAgentCoreControl
     #   The updated list of evaluators to apply during online evaluation.
     #   @return [Array<Types::EvaluatorReference>]
     #
+    # @!attribute [rw] insights
+    #   The updated list of insight types to run against agent sessions.
+    #   @return [Array<Types::Insight>]
+    #
+    # @!attribute [rw] clustering_config
+    #   The updated clustering configuration for periodic batch evaluation.
+    #   @return [Types::ClusteringConfig]
+    #
     # @!attribute [rw] evaluation_execution_role_arn
     #   The updated Amazon Resource Name (ARN) of the IAM role used for
     #   evaluation execution.
@@ -18277,6 +18372,8 @@ module Aws::BedrockAgentCoreControl
       :rule,
       :data_source_config,
       :evaluators,
+      :insights,
+      :clustering_config,
       :evaluation_execution_role_arn,
       :execution_status)
       SENSITIVE = [:description]

@@ -120,11 +120,12 @@ module Aws
                                    ?accept: ::String,
                                    ?custom_attributes: ::String,
                                    ?inference_id: ::String,
-                                   input_location: ::String,
+                                   ?input_location: ::String,
                                    ?s3_output_path_extension: ::String,
                                    ?filename: ::String,
                                    ?request_ttl_seconds: ::Integer,
-                                   ?invocation_timeout_seconds: ::Integer
+                                   ?invocation_timeout_seconds: ::Integer,
+                                   ?body: ::String
                                  ) -> _InvokeEndpointAsyncResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _InvokeEndpointAsyncResponseSuccess
 

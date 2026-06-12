@@ -125,6 +125,24 @@ module Aws::SageMakerRuntime
     #   it is marked as expired. The default is 15 minutes, or 900 seconds.
     #   @return [Integer]
     #
+    # @!attribute [rw] body
+    #   Provides inline input data for the inference request, in the format
+    #   specified in the `ContentType` request header. Use this parameter to
+    #   send the request payload directly in the API call instead of
+    #   uploading it to Amazon S3 and referencing it with `InputLocation`.
+    #   The inline payload can be up to 128,000 bytes.
+    #
+    #   `Body` and `InputLocation` are mutually exclusive. Provide exactly
+    #   one of them.
+    #
+    #   For information about the format of the request body, see [Common
+    #   Data Formats-Inference][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/runtime.sagemaker-2017-05-13/InvokeEndpointAsyncInput AWS API Documentation
     #
     class InvokeEndpointAsyncInput < Struct.new(
@@ -137,8 +155,9 @@ module Aws::SageMakerRuntime
       :s3_output_path_extension,
       :filename,
       :request_ttl_seconds,
-      :invocation_timeout_seconds)
-      SENSITIVE = [:custom_attributes]
+      :invocation_timeout_seconds,
+      :body)
+      SENSITIVE = [:custom_attributes, :body]
       include Aws::Structure
     end
 

@@ -15235,6 +15235,21 @@ module Aws::Glue
     #   create or update an Glue Data Catalog view.
     #   @return [Boolean]
     #
+    # @!attribute [rw] attributes_to_get
+    #   Specifies the table fields returned by the `GetTable` call. This
+    #   parameter doesn't accept an empty list.
+    #
+    #   The following are the valid combinations of values:
+    #
+    #   * `DEFAULT` - Returns the Hive-style table definition only.
+    #
+    #   * `LATEST_ICEBERG_METADATA` - Returns only the latest Apache Iceberg
+    #     table metadata.
+    #
+    #   * `DEFAULT`, `LATEST_ICEBERG_METADATA` - Returns both the Hive-style
+    #     table definition and the latest Apache Iceberg table metadata.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetTableRequest AWS API Documentation
     #
     class GetTableRequest < Struct.new(
@@ -15244,7 +15259,8 @@ module Aws::Glue
       :transaction_id,
       :query_as_of_time,
       :audit_context,
-      :include_status_details)
+      :include_status_details,
+      :attributes_to_get)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17175,6 +17191,92 @@ module Aws::Glue
       :doc,
       :initial_default,
       :write_default)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Apache Iceberg table metadata, including format version, table
+    # identifier, schemas, partition specifications, sort orders, and table
+    # properties. This structure captures the current state of an Iceberg
+    # table's metadata as managed by the Glue Data Catalog.
+    #
+    # @!attribute [rw] format_version
+    #   The Apache Iceberg table format version, such as `1` or `2`.
+    #   Determines the set of features and on-disk layout supported by the
+    #   table.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_uuid
+    #   The unique identifier (UUID) for the Iceberg table, assigned when
+    #   the table is created and used to track the table across metadata
+    #   updates.
+    #   @return [String]
+    #
+    # @!attribute [rw] location
+    #   The base S3 location where the Iceberg table's data and metadata
+    #   files are stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] properties
+    #   A map of key-value pairs that define table-level properties and
+    #   configuration settings for the Iceberg table.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] schemas
+    #   The list of schemas that have been associated with the Iceberg table
+    #   over its history, supporting schema evolution.
+    #   @return [Array<Types::IcebergSchema>]
+    #
+    # @!attribute [rw] current_schema_id
+    #   The identifier of the schema that is currently active for the
+    #   Iceberg table. Matches an entry in `Schemas`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] last_column_id
+    #   The highest column identifier that has been assigned in the Iceberg
+    #   table's schema, used to ensure unique IDs as new columns are added.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] partition_specs
+    #   The list of partition specifications that have been associated with
+    #   the Iceberg table over its history, supporting partition evolution.
+    #   @return [Array<Types::IcebergPartitionSpec>]
+    #
+    # @!attribute [rw] default_spec_id
+    #   The identifier of the partition specification that is currently used
+    #   by default when writing new data to the Iceberg table.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] last_partition_id
+    #   The highest partition field identifier that has been assigned across
+    #   the table's partition specifications.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sort_orders
+    #   The list of sort order specifications that have been associated with
+    #   the Iceberg table over its history.
+    #   @return [Array<Types::IcebergSortOrder>]
+    #
+    # @!attribute [rw] default_sort_order_id
+    #   The identifier of the sort order that is currently used by default
+    #   when writing new data to the Iceberg table.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/IcebergTableMetadata AWS API Documentation
+    #
+    class IcebergTableMetadata < Struct.new(
+      :format_version,
+      :table_uuid,
+      :location,
+      :properties,
+      :schemas,
+      :current_schema_id,
+      :last_column_id,
+      :partition_specs,
+      :default_spec_id,
+      :last_partition_id,
+      :sort_orders,
+      :default_sort_order_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -28042,6 +28144,13 @@ module Aws::Glue
     #   Indicates a table is a `MaterializedView`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] iceberg_table_metadata
+    #   The latest Apache Iceberg table metadata for the table, including
+    #   format version, schemas, partition specifications, and sort orders.
+    #   This field is populated for Iceberg tables and reflects the current
+    #   state of the table's Iceberg metadata.
+    #   @return [Types::IcebergTableMetadata]
+    #
     # @!attribute [rw] status
     #   Indicates the the state of an asynchronous change to a table.
     #   @return [Types::TableStatus]
@@ -28073,6 +28182,7 @@ module Aws::Glue
       :view_definition,
       :is_multi_dialect_view,
       :is_materialized_view,
+      :iceberg_table_metadata,
       :status)
       SENSITIVE = []
       include Aws::Structure

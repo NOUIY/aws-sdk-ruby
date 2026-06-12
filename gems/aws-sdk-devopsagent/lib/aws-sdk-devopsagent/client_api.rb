@@ -81,6 +81,9 @@ module Aws::DevOpsAgent
     CreateChatResponse = Shapes::StructureShape.new(name: 'CreateChatResponse')
     CreatePrivateConnectionInput = Shapes::StructureShape.new(name: 'CreatePrivateConnectionInput')
     CreatePrivateConnectionOutput = Shapes::StructureShape.new(name: 'CreatePrivateConnectionOutput')
+    CreateTriggerRequest = Shapes::StructureShape.new(name: 'CreateTriggerRequest')
+    CreateTriggerRequestClientTokenString = Shapes::StringShape.new(name: 'CreateTriggerRequestClientTokenString')
+    CreateTriggerResponse = Shapes::StructureShape.new(name: 'CreateTriggerResponse')
     CustomHeaderName = Shapes::StringShape.new(name: 'CustomHeaderName')
     CustomHeaderValue = Shapes::StringShape.new(name: 'CustomHeaderValue')
     CustomHeaders = Shapes::MapShape.new(name: 'CustomHeaders')
@@ -96,6 +99,8 @@ module Aws::DevOpsAgent
     DeleteAssetResponse = Shapes::StructureShape.new(name: 'DeleteAssetResponse')
     DeletePrivateConnectionInput = Shapes::StructureShape.new(name: 'DeletePrivateConnectionInput')
     DeletePrivateConnectionOutput = Shapes::StructureShape.new(name: 'DeletePrivateConnectionOutput')
+    DeleteTriggerRequest = Shapes::StructureShape.new(name: 'DeleteTriggerRequest')
+    DeleteTriggerResponse = Shapes::StructureShape.new(name: 'DeleteTriggerResponse')
     DeregisterServiceInput = Shapes::StructureShape.new(name: 'DeregisterServiceInput')
     DeregisterServiceOutput = Shapes::StructureShape.new(name: 'DeregisterServiceOutput')
     DescribePrivateConnectionInput = Shapes::StructureShape.new(name: 'DescribePrivateConnectionInput')
@@ -150,6 +155,8 @@ module Aws::DevOpsAgent
     GetRecommendationResponse = Shapes::StructureShape.new(name: 'GetRecommendationResponse')
     GetServiceInput = Shapes::StructureShape.new(name: 'GetServiceInput')
     GetServiceOutput = Shapes::StructureShape.new(name: 'GetServiceOutput')
+    GetTriggerRequest = Shapes::StructureShape.new(name: 'GetTriggerRequest')
+    GetTriggerResponse = Shapes::StructureShape.new(name: 'GetTriggerResponse')
     GitHubConfiguration = Shapes::StructureShape.new(name: 'GitHubConfiguration')
     GitLabConfiguration = Shapes::StructureShape.new(name: 'GitLabConfiguration')
     GitLabDetails = Shapes::StructureShape.new(name: 'GitLabDetails')
@@ -231,6 +238,9 @@ module Aws::DevOpsAgent
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceRequestResourceArnString = Shapes::StringShape.new(name: 'ListTagsForResourceRequestResourceArnString')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
+    ListTriggersRequest = Shapes::StructureShape.new(name: 'ListTriggersRequest')
+    ListTriggersRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListTriggersRequestMaxResultsInteger')
+    ListTriggersResponse = Shapes::StructureShape.new(name: 'ListTriggersResponse')
     ListWebhooksInput = Shapes::StructureShape.new(name: 'ListWebhooksInput')
     ListWebhooksOutput = Shapes::StructureShape.new(name: 'ListWebhooksOutput')
     Locale = Shapes::StringShape.new(name: 'Locale')
@@ -353,6 +363,8 @@ module Aws::DevOpsAgent
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
+    ScheduleCondition = Shapes::StructureShape.new(name: 'ScheduleCondition')
+    ScheduleExpression = Shapes::StringShape.new(name: 'ScheduleExpression')
     SchedulerState = Shapes::StringShape.new(name: 'SchedulerState')
     Scopes = Shapes::ListShape.new(name: 'Scopes')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
@@ -419,6 +431,12 @@ module Aws::DevOpsAgent
     TaskType = Shapes::StringShape.new(name: 'TaskType')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
+    Trigger = Shapes::StructureShape.new(name: 'Trigger')
+    TriggerAction = Shapes::DocumentShape.new(name: 'TriggerAction', document: true)
+    TriggerCondition = Shapes::UnionShape.new(name: 'TriggerCondition')
+    TriggerList = Shapes::ListShape.new(name: 'TriggerList')
+    TriggerStatus = Shapes::StringShape.new(name: 'TriggerStatus')
+    TriggerType = Shapes::StringShape.new(name: 'TriggerType')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceRequestResourceArnString = Shapes::StringShape.new(name: 'UntagResourceRequestResourceArnString')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
@@ -442,6 +460,9 @@ module Aws::DevOpsAgent
     UpdatePrivateConnectionCertificateOutput = Shapes::StructureShape.new(name: 'UpdatePrivateConnectionCertificateOutput')
     UpdateRecommendationRequest = Shapes::StructureShape.new(name: 'UpdateRecommendationRequest')
     UpdateRecommendationResponse = Shapes::StructureShape.new(name: 'UpdateRecommendationResponse')
+    UpdateTriggerRequest = Shapes::StructureShape.new(name: 'UpdateTriggerRequest')
+    UpdateTriggerRequestClientTokenString = Shapes::StringShape.new(name: 'UpdateTriggerRequestClientTokenString')
+    UpdateTriggerResponse = Shapes::StructureShape.new(name: 'UpdateTriggerResponse')
     UsageMetric = Shapes::StructureShape.new(name: 'UsageMetric')
     UserMessage = Shapes::ListShape.new(name: 'UserMessage')
     UserMessageBlock = Shapes::UnionShape.new(name: 'UserMessageBlock')
@@ -707,6 +728,17 @@ module Aws::DevOpsAgent
     CreatePrivateConnectionOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     CreatePrivateConnectionOutput.struct_class = Types::CreatePrivateConnectionOutput
 
+    CreateTriggerRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    CreateTriggerRequest.add_member(:type, Shapes::ShapeRef.new(shape: TriggerType, required: true, location_name: "type"))
+    CreateTriggerRequest.add_member(:condition, Shapes::ShapeRef.new(shape: TriggerCondition, required: true, location_name: "condition"))
+    CreateTriggerRequest.add_member(:action, Shapes::ShapeRef.new(shape: TriggerAction, required: true, location_name: "action"))
+    CreateTriggerRequest.add_member(:status, Shapes::ShapeRef.new(shape: TriggerStatus, location_name: "status"))
+    CreateTriggerRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateTriggerRequestClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateTriggerRequest.struct_class = Types::CreateTriggerRequest
+
+    CreateTriggerResponse.add_member(:trigger, Shapes::ShapeRef.new(shape: Trigger, required: true, location_name: "trigger"))
+    CreateTriggerResponse.struct_class = Types::CreateTriggerResponse
+
     CustomHeaders.key = Shapes::ShapeRef.new(shape: CustomHeaderName)
     CustomHeaders.value = Shapes::ShapeRef.new(shape: CustomHeaderValue)
 
@@ -746,6 +778,12 @@ module Aws::DevOpsAgent
     DeletePrivateConnectionOutput.add_member(:name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "name"))
     DeletePrivateConnectionOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
     DeletePrivateConnectionOutput.struct_class = Types::DeletePrivateConnectionOutput
+
+    DeleteTriggerRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    DeleteTriggerRequest.add_member(:trigger_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "triggerId"))
+    DeleteTriggerRequest.struct_class = Types::DeleteTriggerRequest
+
+    DeleteTriggerResponse.struct_class = Types::DeleteTriggerResponse
 
     DeregisterServiceInput.add_member(:service_id, Shapes::ShapeRef.new(shape: ServiceId, required: true, location: "uri", location_name: "serviceId"))
     DeregisterServiceInput.struct_class = Types::DeregisterServiceInput
@@ -927,6 +965,13 @@ module Aws::DevOpsAgent
     GetServiceOutput.add_member(:service, Shapes::ShapeRef.new(shape: RegisteredService, required: true, location_name: "service"))
     GetServiceOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     GetServiceOutput.struct_class = Types::GetServiceOutput
+
+    GetTriggerRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    GetTriggerRequest.add_member(:trigger_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "triggerId"))
+    GetTriggerRequest.struct_class = Types::GetTriggerRequest
+
+    GetTriggerResponse.add_member(:trigger, Shapes::ShapeRef.new(shape: Trigger, required: true, location_name: "trigger"))
+    GetTriggerResponse.struct_class = Types::GetTriggerResponse
 
     GitHubConfiguration.add_member(:repo_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "repoName"))
     GitHubConfiguration.add_member(:repo_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "repoId"))
@@ -1181,6 +1226,16 @@ module Aws::DevOpsAgent
 
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, required: true, location_name: "tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
+
+    ListTriggersRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    ListTriggersRequest.add_member(:status, Shapes::ShapeRef.new(shape: TriggerStatus, location: "querystring", location_name: "status"))
+    ListTriggersRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListTriggersRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListTriggersRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListTriggersRequest.struct_class = Types::ListTriggersRequest
+
+    ListTriggersResponse.add_member(:items, Shapes::ShapeRef.new(shape: TriggerList, required: true, location_name: "items"))
+    ListTriggersResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListTriggersResponse.struct_class = Types::ListTriggersResponse
 
     ListWebhooksInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     ListWebhooksInput.add_member(:association_id, Shapes::ShapeRef.new(shape: AssociationId, required: true, location: "uri", location_name: "associationId"))
@@ -1487,6 +1542,9 @@ module Aws::DevOpsAgent
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
+    ScheduleCondition.add_member(:expression, Shapes::ShapeRef.new(shape: ScheduleExpression, required: true, location_name: "expression"))
+    ScheduleCondition.struct_class = Types::ScheduleCondition
+
     Scopes.member = Shapes::ShapeRef.new(shape: OAuthScope)
 
     SelfManagedInput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationArn, required: true, location_name: "resourceConfigurationId"))
@@ -1755,6 +1813,24 @@ module Aws::DevOpsAgent
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ThrottlingException.struct_class = Types::ThrottlingException
 
+    Trigger.add_member(:trigger_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "triggerId"))
+    Trigger.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location_name: "agentSpaceId"))
+    Trigger.add_member(:type, Shapes::ShapeRef.new(shape: TriggerType, required: true, location_name: "type"))
+    Trigger.add_member(:condition, Shapes::ShapeRef.new(shape: TriggerCondition, required: true, location_name: "condition"))
+    Trigger.add_member(:action, Shapes::ShapeRef.new(shape: TriggerAction, required: true, location_name: "action"))
+    Trigger.add_member(:status, Shapes::ShapeRef.new(shape: TriggerStatus, required: true, location_name: "status"))
+    Trigger.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    Trigger.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    Trigger.struct_class = Types::Trigger
+
+    TriggerCondition.add_member(:schedule, Shapes::ShapeRef.new(shape: ScheduleCondition, location_name: "schedule"))
+    TriggerCondition.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    TriggerCondition.add_member_subclass(:schedule, Types::TriggerCondition::Schedule)
+    TriggerCondition.add_member_subclass(:unknown, Types::TriggerCondition::Unknown)
+    TriggerCondition.struct_class = Types::TriggerCondition
+
+    TriggerList.member = Shapes::ShapeRef.new(shape: Trigger)
+
     UntagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: UntagResourceRequestResourceArnString, required: true, location: "uri", location_name: "resourceArn"))
     UntagResourceRequest.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeyList, required: true, location: "querystring", location_name: "tagKeys"))
     UntagResourceRequest.struct_class = Types::UntagResourceRequest
@@ -1851,6 +1927,15 @@ module Aws::DevOpsAgent
 
     UpdateRecommendationResponse.add_member(:recommendation, Shapes::ShapeRef.new(shape: Recommendation, required: true, location_name: "recommendation"))
     UpdateRecommendationResponse.struct_class = Types::UpdateRecommendationResponse
+
+    UpdateTriggerRequest.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
+    UpdateTriggerRequest.add_member(:trigger_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "triggerId"))
+    UpdateTriggerRequest.add_member(:status, Shapes::ShapeRef.new(shape: TriggerStatus, location_name: "status"))
+    UpdateTriggerRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: UpdateTriggerRequestClientTokenString, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    UpdateTriggerRequest.struct_class = Types::UpdateTriggerRequest
+
+    UpdateTriggerResponse.add_member(:trigger, Shapes::ShapeRef.new(shape: Trigger, required: true, location_name: "trigger"))
+    UpdateTriggerResponse.struct_class = Types::UpdateTriggerResponse
 
     UsageMetric.add_member(:limit, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "limit"))
     UsageMetric.add_member(:usage, Shapes::ShapeRef.new(shape: Double, required: true, location_name: "usage"))
@@ -2053,6 +2138,26 @@ module Aws::DevOpsAgent
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:create_trigger, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateTrigger"
+        o.http_method = "POST"
+        o.http_request_uri = "/trigger/agent-space/{agentSpaceId}/triggers"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: CreateTriggerRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateTriggerResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
       api.add_operation(:delete_agent_space, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteAgentSpace"
         o.http_method = "DELETE"
@@ -2122,6 +2227,26 @@ module Aws::DevOpsAgent
         }
         o.input = Shapes::ShapeRef.new(shape: DeletePrivateConnectionInput)
         o.output = Shapes::ShapeRef.new(shape: DeletePrivateConnectionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:delete_trigger, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteTrigger"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/trigger/agent-space/{agentSpaceId}/triggers/{triggerId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DeleteTriggerRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteTriggerResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
@@ -2424,6 +2549,26 @@ module Aws::DevOpsAgent
         }
         o.input = Shapes::ShapeRef.new(shape: GetServiceInput)
         o.output = Shapes::ShapeRef.new(shape: GetServiceOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:get_trigger, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetTrigger"
+        o.http_method = "GET"
+        o.http_request_uri = "/trigger/agent-space/{agentSpaceId}/triggers/{triggerId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetTriggerRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetTriggerResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
@@ -2821,6 +2966,32 @@ module Aws::DevOpsAgent
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
+      api.add_operation(:list_triggers, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListTriggers"
+        o.http_method = "GET"
+        o.http_request_uri = "/trigger/agent-space/{agentSpaceId}/triggers"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListTriggersRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListTriggersResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_webhooks, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListWebhooks"
         o.http_method = "POST"
@@ -3090,6 +3261,26 @@ module Aws::DevOpsAgent
         }
         o.input = Shapes::ShapeRef.new(shape: UpdateRecommendationRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateRecommendationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
+      api.add_operation(:update_trigger, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateTrigger"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/trigger/agent-space/{agentSpaceId}/triggers/{triggerId}"
+        o.endpoint_pattern = {
+          "hostPrefix" => "dp.",
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateTriggerRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateTriggerResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ContentSizeExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)

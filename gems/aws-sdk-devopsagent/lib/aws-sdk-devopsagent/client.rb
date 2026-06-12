@@ -1058,6 +1058,75 @@ module Aws::DevOpsAgent
       req.send_request(options)
     end
 
+    # Creates a new Trigger in the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #
+    # @option params [required, String] :type
+    #   How the new Trigger fires
+    #
+    # @option params [required, Types::TriggerCondition] :condition
+    #   The condition that fires the new Trigger
+    #
+    # @option params [required, Hash,Array,String,Numeric,Boolean] :action
+    #   The action the new Trigger performs when it fires
+    #
+    #   Document type used to carry open content
+    #   (Hash,Array,String,Numeric,Boolean). A document type value is
+    #   serialized using the same format as its surroundings and requires no
+    #   additional encoding or escaping.
+    #
+    # @option params [String] :status
+    #   The initial status of the Trigger
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier used for idempotent Trigger
+    #   creation
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateTriggerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTriggerResponse#trigger #trigger} => Types::Trigger
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_trigger({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     type: "TriggerType", # required
+    #     condition: { # required
+    #       schedule: {
+    #         expression: "ScheduleExpression", # required
+    #       },
+    #     },
+    #     action: { # required
+    #     },
+    #     status: "TriggerStatus",
+    #     client_token: "CreateTriggerRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trigger.trigger_id #=> String
+    #   resp.trigger.agent_space_id #=> String
+    #   resp.trigger.type #=> String
+    #   resp.trigger.condition.schedule.expression #=> String
+    #   resp.trigger.status #=> String
+    #   resp.trigger.created_at #=> Time
+    #   resp.trigger.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateTrigger AWS API Documentation
+    #
+    # @overload create_trigger(params = {})
+    # @param [Hash] params ({})
+    def create_trigger(params = {}, options = {})
+      req = build_request(:create_trigger, params)
+      req.send_request(options)
+    end
+
     # Deletes an AgentSpace. This operation is idempotent and returns a 204
     # No Content response on success.
     #
@@ -1165,6 +1234,34 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def delete_private_connection(params = {}, options = {})
       req = build_request(:delete_private_connection, params)
+      req.send_request(options)
+    end
+
+    # Deletes a Trigger from the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #
+    # @option params [required, String] :trigger_id
+    #   Generic resource identifier (allows alphanumeric characters, hyphens,
+    #   and underscores; 1-128 characters)
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_trigger({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     trigger_id: "ResourceId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteTrigger AWS API Documentation
+    #
+    # @overload delete_trigger(params = {})
+    # @param [Hash] params ({})
+    def delete_trigger(params = {}, options = {})
+      req = build_request(:delete_trigger, params)
       req.send_request(options)
     end
 
@@ -1876,6 +1973,46 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def get_service(params = {}, options = {})
       req = build_request(:get_service, params)
+      req.send_request(options)
+    end
+
+    # Gets a Trigger from the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #
+    # @option params [required, String] :trigger_id
+    #   Generic resource identifier (allows alphanumeric characters, hyphens,
+    #   and underscores; 1-128 characters)
+    #
+    # @return [Types::GetTriggerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetTriggerResponse#trigger #trigger} => Types::Trigger
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_trigger({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     trigger_id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trigger.trigger_id #=> String
+    #   resp.trigger.agent_space_id #=> String
+    #   resp.trigger.type #=> String
+    #   resp.trigger.condition.schedule.expression #=> String
+    #   resp.trigger.status #=> String
+    #   resp.trigger.created_at #=> Time
+    #   resp.trigger.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetTrigger AWS API Documentation
+    #
+    # @overload get_trigger(params = {})
+    # @param [Hash] params ({})
+    def get_trigger(params = {}, options = {})
+      req = build_request(:get_trigger, params)
       req.send_request(options)
     end
 
@@ -2792,6 +2929,59 @@ module Aws::DevOpsAgent
     # @param [Hash] params ({})
     def list_tags_for_resource(params = {}, options = {})
       req = build_request(:list_tags_for_resource, params)
+      req.send_request(options)
+    end
+
+    # Lists Triggers in the specified agent space
+    #
+    # @option params [required, String] :agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #
+    # @option params [String] :status
+    #   Filter results to Triggers in this status
+    #
+    # @option params [String] :next_token
+    #   Pagination token from a previous response to retrieve the next page of
+    #   results
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single response
+    #
+    # @return [Types::ListTriggersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTriggersResponse#items #items} => Array&lt;Types::Trigger&gt;
+    #   * {Types::ListTriggersResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_triggers({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     status: "TriggerStatus",
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].trigger_id #=> String
+    #   resp.items[0].agent_space_id #=> String
+    #   resp.items[0].type #=> String
+    #   resp.items[0].condition.schedule.expression #=> String
+    #   resp.items[0].status #=> String
+    #   resp.items[0].created_at #=> Time
+    #   resp.items[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListTriggers AWS API Documentation
+    #
+    # @overload list_triggers(params = {})
+    # @param [Hash] params ({})
+    def list_triggers(params = {}, options = {})
+      req = build_request(:list_triggers, params)
       req.send_request(options)
     end
 
@@ -4089,6 +4279,57 @@ module Aws::DevOpsAgent
       req.send_request(options)
     end
 
+    # Updates the status of an existing Trigger
+    #
+    # @option params [required, String] :agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #
+    # @option params [required, String] :trigger_id
+    #   Generic resource identifier (allows alphanumeric characters, hyphens,
+    #   and underscores; 1-128 characters)
+    #
+    # @option params [String] :status
+    #   The new status for the Trigger
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier used for idempotent Trigger update
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateTriggerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateTriggerResponse#trigger #trigger} => Types::Trigger
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_trigger({
+    #     agent_space_id: "AgentSpaceId", # required
+    #     trigger_id: "ResourceId", # required
+    #     status: "TriggerStatus",
+    #     client_token: "UpdateTriggerRequestClientTokenString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trigger.trigger_id #=> String
+    #   resp.trigger.agent_space_id #=> String
+    #   resp.trigger.type #=> String
+    #   resp.trigger.condition.schedule.expression #=> String
+    #   resp.trigger.status #=> String
+    #   resp.trigger.created_at #=> Time
+    #   resp.trigger.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateTrigger AWS API Documentation
+    #
+    # @overload update_trigger(params = {})
+    # @param [Hash] params ({})
+    def update_trigger(params = {}, options = {})
+      req = build_request(:update_trigger, params)
+      req.send_request(options)
+    end
+
     # Validates an aws association and set status and returns a 204 No
     # Content response on success.
     #
@@ -4130,7 +4371,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.8.0'
+      context[:gem_version] = '1.9.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

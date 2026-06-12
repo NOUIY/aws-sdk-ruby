@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.148.0 (2026-06-12)
+------------------
+
+* Feature - Updating documentation for select service-specific credential APIs
+
 1.147.0 (2026-06-01)
 ------------------
 

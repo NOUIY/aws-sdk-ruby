@@ -217,6 +217,26 @@ module Aws
                                      ) -> _CreatePrivateConnectionResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePrivateConnectionResponseSuccess
 
+      interface _CreateTriggerResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateTriggerResponse]
+        def trigger: () -> Types::Trigger
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#create_trigger-instance_method
+      def create_trigger: (
+                            agent_space_id: ::String,
+                            type: ::String,
+                            condition: {
+                              schedule: {
+                                expression: ::String
+                              }?
+                            },
+                            action: {
+                            },
+                            ?status: ::String,
+                            ?client_token: ::String
+                          ) -> _CreateTriggerResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTriggerResponseSuccess
+
       interface _DeleteAgentSpaceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAgentSpaceOutput]
       end
@@ -257,6 +277,16 @@ module Aws
                                        name: ::String
                                      ) -> _DeletePrivateConnectionResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeletePrivateConnectionResponseSuccess
+
+      interface _DeleteTriggerResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTriggerResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#delete_trigger-instance_method
+      def delete_trigger: (
+                            agent_space_id: ::String,
+                            trigger_id: ::String
+                          ) -> _DeleteTriggerResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTriggerResponseSuccess
 
       interface _DeregisterServiceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeregisterServiceOutput]
@@ -445,6 +475,17 @@ module Aws
                          service_id: ::String
                        ) -> _GetServiceResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetServiceResponseSuccess
+
+      interface _GetTriggerResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetTriggerResponse]
+        def trigger: () -> Types::Trigger
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#get_trigger-instance_method
+      def get_trigger: (
+                         agent_space_id: ::String,
+                         trigger_id: ::String
+                       ) -> _GetTriggerResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetTriggerResponseSuccess
 
       interface _ListAgentSpacesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAgentSpacesOutput]
@@ -673,6 +714,20 @@ module Aws
                                     resource_arn: ::String
                                   ) -> _ListTagsForResourceResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTagsForResourceResponseSuccess
+
+      interface _ListTriggersResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListTriggersResponse]
+        def items: () -> ::Array[Types::Trigger]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#list_triggers-instance_method
+      def list_triggers: (
+                           agent_space_id: ::String,
+                           ?status: ::String,
+                           ?next_token: ::String,
+                           ?max_results: ::Integer
+                         ) -> _ListTriggersResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTriggersResponseSuccess
 
       interface _ListWebhooksResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListWebhooksOutput]
@@ -968,6 +1023,19 @@ module Aws
                                    ?client_token: ::String
                                  ) -> _UpdateRecommendationResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateRecommendationResponseSuccess
+
+      interface _UpdateTriggerResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateTriggerResponse]
+        def trigger: () -> Types::Trigger
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#update_trigger-instance_method
+      def update_trigger: (
+                            agent_space_id: ::String,
+                            trigger_id: ::String,
+                            ?status: ::String,
+                            ?client_token: ::String
+                          ) -> _UpdateTriggerResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTriggerResponseSuccess
 
       interface _ValidateAwsAssociationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ValidateAwsAssociationsOutput]

@@ -117,6 +117,9 @@ module Aws::BedrockAgentCoreControl
     CloudWatchLogsInputConfigLogGroupNamesList = Shapes::ListShape.new(name: 'CloudWatchLogsInputConfigLogGroupNamesList')
     CloudWatchLogsInputConfigServiceNamesList = Shapes::ListShape.new(name: 'CloudWatchLogsInputConfigServiceNamesList')
     CloudWatchOutputConfig = Shapes::StructureShape.new(name: 'CloudWatchOutputConfig')
+    ClusteringConfig = Shapes::StructureShape.new(name: 'ClusteringConfig')
+    ClusteringFrequency = Shapes::StringShape.new(name: 'ClusteringFrequency')
+    ClusteringFrequencyList = Shapes::ListShape.new(name: 'ClusteringFrequencyList')
     Code = Shapes::UnionShape.new(name: 'Code')
     CodeBasedEvaluatorConfig = Shapes::UnionShape.new(name: 'CodeBasedEvaluatorConfig')
     CodeConfiguration = Shapes::StructureShape.new(name: 'CodeConfiguration')
@@ -565,6 +568,9 @@ module Aws::BedrockAgentCoreControl
     InlineExamplesSource = Shapes::StructureShape.new(name: 'InlineExamplesSource')
     InlineExamplesSourceExamplesList = Shapes::ListShape.new(name: 'InlineExamplesSourceExamplesList')
     InlinePayload = Shapes::StringShape.new(name: 'InlinePayload')
+    Insight = Shapes::StructureShape.new(name: 'Insight')
+    InsightId = Shapes::StringShape.new(name: 'InsightId')
+    InsightList = Shapes::ListShape.new(name: 'InsightList')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InterceptorConfiguration = Shapes::UnionShape.new(name: 'InterceptorConfiguration')
     InterceptorInputConfiguration = Shapes::StructureShape.new(name: 'InterceptorInputConfiguration')
@@ -1396,6 +1402,11 @@ module Aws::BedrockAgentCoreControl
     CloudWatchOutputConfig.add_member(:log_group_name, Shapes::ShapeRef.new(shape: LogGroupName, required: true, location_name: "logGroupName"))
     CloudWatchOutputConfig.struct_class = Types::CloudWatchOutputConfig
 
+    ClusteringConfig.add_member(:frequencies, Shapes::ShapeRef.new(shape: ClusteringFrequencyList, required: true, location_name: "frequencies"))
+    ClusteringConfig.struct_class = Types::ClusteringConfig
+
+    ClusteringFrequencyList.member = Shapes::ShapeRef.new(shape: ClusteringFrequency)
+
     Code.add_member(:s3, Shapes::ShapeRef.new(shape: S3Location, location_name: "s3"))
     Code.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     Code.add_member_subclass(:s3, Types::Code::S3)
@@ -1627,6 +1638,7 @@ module Aws::BedrockAgentCoreControl
     CreateConfigurationBundleRequest.add_member(:branch_name, Shapes::ShapeRef.new(shape: BranchName, location_name: "branchName"))
     CreateConfigurationBundleRequest.add_member(:commit_message, Shapes::ShapeRef.new(shape: CreateConfigurationBundleRequestCommitMessageString, location_name: "commitMessage"))
     CreateConfigurationBundleRequest.add_member(:created_by, Shapes::ShapeRef.new(shape: VersionCreatedBySource, location_name: "createdBy"))
+    CreateConfigurationBundleRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     CreateConfigurationBundleRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateConfigurationBundleRequest.struct_class = Types::CreateConfigurationBundleRequest
 
@@ -1819,7 +1831,9 @@ module Aws::BedrockAgentCoreControl
     CreateOnlineEvaluationConfigRequest.add_member(:description, Shapes::ShapeRef.new(shape: EvaluationConfigDescription, location_name: "description"))
     CreateOnlineEvaluationConfigRequest.add_member(:rule, Shapes::ShapeRef.new(shape: Rule, required: true, location_name: "rule"))
     CreateOnlineEvaluationConfigRequest.add_member(:data_source_config, Shapes::ShapeRef.new(shape: DataSourceConfig, required: true, location_name: "dataSourceConfig"))
-    CreateOnlineEvaluationConfigRequest.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, required: true, location_name: "evaluators"))
+    CreateOnlineEvaluationConfigRequest.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    CreateOnlineEvaluationConfigRequest.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "insights"))
+    CreateOnlineEvaluationConfigRequest.add_member(:clustering_config, Shapes::ShapeRef.new(shape: ClusteringConfig, location_name: "clusteringConfig"))
     CreateOnlineEvaluationConfigRequest.add_member(:evaluation_execution_role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "evaluationExecutionRoleArn"))
     CreateOnlineEvaluationConfigRequest.add_member(:enable_on_create, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "enableOnCreate"))
     CreateOnlineEvaluationConfigRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
@@ -2710,6 +2724,7 @@ module Aws::BedrockAgentCoreControl
     GetConfigurationBundleResponse.add_member(:lineage_metadata, Shapes::ShapeRef.new(shape: VersionLineageMetadata, location_name: "lineageMetadata"))
     GetConfigurationBundleResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     GetConfigurationBundleResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    GetConfigurationBundleResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     GetConfigurationBundleResponse.struct_class = Types::GetConfigurationBundleResponse
 
     GetConfigurationBundleVersionRequest.add_member(:bundle_id, Shapes::ShapeRef.new(shape: ConfigurationBundleId, required: true, location: "uri", location_name: "bundleId"))
@@ -2725,6 +2740,7 @@ module Aws::BedrockAgentCoreControl
     GetConfigurationBundleVersionResponse.add_member(:lineage_metadata, Shapes::ShapeRef.new(shape: VersionLineageMetadata, location_name: "lineageMetadata"))
     GetConfigurationBundleVersionResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     GetConfigurationBundleVersionResponse.add_member(:version_created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "versionCreatedAt"))
+    GetConfigurationBundleVersionResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     GetConfigurationBundleVersionResponse.struct_class = Types::GetConfigurationBundleVersionResponse
 
     GetDatasetRequest.add_member(:dataset_id, Shapes::ShapeRef.new(shape: DatasetId, required: true, location: "uri", location_name: "datasetId"))
@@ -2867,7 +2883,9 @@ module Aws::BedrockAgentCoreControl
     GetOnlineEvaluationConfigResponse.add_member(:description, Shapes::ShapeRef.new(shape: EvaluationConfigDescription, location_name: "description"))
     GetOnlineEvaluationConfigResponse.add_member(:rule, Shapes::ShapeRef.new(shape: Rule, required: true, location_name: "rule"))
     GetOnlineEvaluationConfigResponse.add_member(:data_source_config, Shapes::ShapeRef.new(shape: DataSourceConfig, required: true, location_name: "dataSourceConfig"))
-    GetOnlineEvaluationConfigResponse.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, required: true, location_name: "evaluators"))
+    GetOnlineEvaluationConfigResponse.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    GetOnlineEvaluationConfigResponse.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "insights"))
+    GetOnlineEvaluationConfigResponse.add_member(:clustering_config, Shapes::ShapeRef.new(shape: ClusteringConfig, location_name: "clusteringConfig"))
     GetOnlineEvaluationConfigResponse.add_member(:output_config, Shapes::ShapeRef.new(shape: OutputConfig, location_name: "outputConfig"))
     GetOnlineEvaluationConfigResponse.add_member(:evaluation_execution_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "evaluationExecutionRoleArn"))
     GetOnlineEvaluationConfigResponse.add_member(:status, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigStatus, required: true, location_name: "status"))
@@ -3368,6 +3386,11 @@ module Aws::BedrockAgentCoreControl
     InlineExamplesSource.struct_class = Types::InlineExamplesSource
 
     InlineExamplesSourceExamplesList.member = Shapes::ShapeRef.new(shape: SensitiveJson)
+
+    Insight.add_member(:insight_id, Shapes::ShapeRef.new(shape: InsightId, required: true, location_name: "insightId"))
+    Insight.struct_class = Types::Insight
+
+    InsightList.member = Shapes::ShapeRef.new(shape: Insight)
 
     InterceptorConfiguration.add_member(:lambda, Shapes::ShapeRef.new(shape: LambdaInterceptorConfiguration, location_name: "lambda"))
     InterceptorConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -4059,6 +4082,8 @@ module Aws::BedrockAgentCoreControl
     OnlineEvaluationConfigSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
     OnlineEvaluationConfigSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
     OnlineEvaluationConfigSummary.add_member(:failure_reason, Shapes::ShapeRef.new(shape: String, location_name: "failureReason"))
+    OnlineEvaluationConfigSummary.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "insights"))
+    OnlineEvaluationConfigSummary.add_member(:clustering_config, Shapes::ShapeRef.new(shape: ClusteringConfig, location_name: "clusteringConfig"))
     OnlineEvaluationConfigSummary.struct_class = Types::OnlineEvaluationConfigSummary
 
     OnlineEvaluationConfigSummaryList.member = Shapes::ShapeRef.new(shape: OnlineEvaluationConfigSummary)
@@ -4829,6 +4854,7 @@ module Aws::BedrockAgentCoreControl
     UpdateConfigurationBundleRequest.add_member(:branch_name, Shapes::ShapeRef.new(shape: BranchName, location_name: "branchName"))
     UpdateConfigurationBundleRequest.add_member(:commit_message, Shapes::ShapeRef.new(shape: UpdateConfigurationBundleRequestCommitMessageString, location_name: "commitMessage"))
     UpdateConfigurationBundleRequest.add_member(:created_by, Shapes::ShapeRef.new(shape: VersionCreatedBySource, location_name: "createdBy"))
+    UpdateConfigurationBundleRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     UpdateConfigurationBundleRequest.struct_class = Types::UpdateConfigurationBundleRequest
 
     UpdateConfigurationBundleResponse.add_member(:bundle_arn, Shapes::ShapeRef.new(shape: ConfigurationBundleArn, required: true, location_name: "bundleArn"))
@@ -5017,6 +5043,8 @@ module Aws::BedrockAgentCoreControl
     UpdateOnlineEvaluationConfigRequest.add_member(:rule, Shapes::ShapeRef.new(shape: Rule, location_name: "rule"))
     UpdateOnlineEvaluationConfigRequest.add_member(:data_source_config, Shapes::ShapeRef.new(shape: DataSourceConfig, location_name: "dataSourceConfig"))
     UpdateOnlineEvaluationConfigRequest.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    UpdateOnlineEvaluationConfigRequest.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "insights"))
+    UpdateOnlineEvaluationConfigRequest.add_member(:clustering_config, Shapes::ShapeRef.new(shape: ClusteringConfig, location_name: "clusteringConfig"))
     UpdateOnlineEvaluationConfigRequest.add_member(:evaluation_execution_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "evaluationExecutionRoleArn"))
     UpdateOnlineEvaluationConfigRequest.add_member(:execution_status, Shapes::ShapeRef.new(shape: OnlineEvaluationExecutionStatus, location_name: "executionStatus"))
     UpdateOnlineEvaluationConfigRequest.struct_class = Types::UpdateOnlineEvaluationConfigRequest

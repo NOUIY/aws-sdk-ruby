@@ -163,6 +163,41 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # A session affected by a detected failure pattern, including root cause
+    # details.
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the affected session.
+    #   @return [String]
+    #
+    # @!attribute [rw] explanation
+    #   An explanation of how the failure manifested in this session.
+    #   @return [String]
+    #
+    # @!attribute [rw] fix_type
+    #   The type of fix recommended for this failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation
+    #   The specific fix recommendation for this session.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_spans
+    #   The list of spans where failures were detected in this session.
+    #   @return [Array<Types::FailureSpanDetail>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/AffectedSession AWS API Documentation
+    #
+    class AffectedSession < Struct.new(
+      :session_id,
+      :explanation,
+      :fix_type,
+      :recommendation,
+      :failure_spans)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The agent card definition for A2A descriptors, including the schema
     # version and inline content that describes the agent's capabilities.
     #
@@ -218,11 +253,16 @@ module Aws::BedrockAgentCore
     #   Agent traces read from CloudWatch Logs.
     #   @return [Types::CloudWatchLogsTraceConfig]
     #
+    # @!attribute [rw] batch_evaluation
+    #   Use a completed batch evaluation as the source of agent traces.
+    #   @return [Types::BatchEvaluationTraceConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/AgentTracesConfig AWS API Documentation
     #
     class AgentTracesConfig < Struct.new(
       :session_spans,
       :cloudwatch_logs,
+      :batch_evaluation,
       :unknown)
       SENSITIVE = [:session_spans]
       include Aws::Structure
@@ -230,6 +270,7 @@ module Aws::BedrockAgentCore
 
       class SessionSpans < AgentTracesConfig; end
       class CloudwatchLogs < AgentTracesConfig; end
+      class BatchEvaluation < AgentTracesConfig; end
       class Unknown < AgentTracesConfig; end
     end
 
@@ -451,6 +492,10 @@ module Aws::BedrockAgentCore
     #   The list of evaluators applied during the batch evaluation.
     #   @return [Array<Types::Evaluator>]
     #
+    # @!attribute [rw] insights
+    #   The list of insight analyses applied during the batch evaluation.
+    #   @return [Array<Types::Insight>]
+    #
     # @!attribute [rw] evaluation_results
     #   The aggregated evaluation results.
     #   @return [Types::EvaluationJobResults]
@@ -458,6 +503,10 @@ module Aws::BedrockAgentCore
     # @!attribute [rw] error_details
     #   The error details if the batch evaluation encountered failures.
     #   @return [Array<String>]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used to encrypt evaluation data.
+    #   @return [String]
     #
     # @!attribute [rw] updated_at
     #   The timestamp when the batch evaluation was last updated.
@@ -473,9 +522,27 @@ module Aws::BedrockAgentCore
       :created_at,
       :description,
       :evaluators,
+      :insights,
       :evaluation_results,
       :error_details,
+      :kms_key_arn,
       :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for using a batch evaluation as the source of agent
+    # traces for recommendations.
+    #
+    # @!attribute [rw] batch_evaluation_arn
+    #   The ARN of the completed batch evaluation to use as the trace
+    #   source.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/BatchEvaluationTraceConfig AWS API Documentation
+    #
+    class BatchEvaluationTraceConfig < Struct.new(
+      :batch_evaluation_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1494,6 +1561,10 @@ module Aws::BedrockAgentCore
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to associate with the A/B test.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CreateABTestRequest AWS API Documentation
     #
     class CreateABTestRequest < Struct.new(
@@ -1505,7 +1576,8 @@ module Aws::BedrockAgentCore
       :evaluation_config,
       :role_arn,
       :enable_on_create,
-      :client_token)
+      :client_token,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1802,16 +1874,22 @@ module Aws::BedrockAgentCore
     #   Configuration for pulling agent session traces from CloudWatch Logs.
     #   @return [Types::CloudWatchLogsSource]
     #
+    # @!attribute [rw] online_evaluation_config_source
+    #   Reference an existing OnlineEvaluationConfig as session source
+    #   @return [Types::OnlineEvaluationConfigSource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DataSourceConfig AWS API Documentation
     #
     class DataSourceConfig < Struct.new(
       :cloud_watch_logs,
+      :online_evaluation_config_source,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class CloudWatchLogs < DataSourceConfig; end
+      class OnlineEvaluationConfigSource < DataSourceConfig; end
       class Unknown < DataSourceConfig; end
     end
 
@@ -2504,7 +2582,7 @@ module Aws::BedrockAgentCore
       class Unknown < EvaluationTarget; end
     end
 
-    # An evaluator to run against sessions.
+    # An evaluator to run against sessions
     #
     # @!attribute [rw] evaluator_id
     #   The unique identifier of the evaluator. Can reference built-in
@@ -2663,6 +2741,79 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # A session associated with an execution summary cluster.
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] approach_taken
+    #   The approach taken by the agent during this session.
+    #   @return [String]
+    #
+    # @!attribute [rw] final_outcome
+    #   The final outcome of the session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ExecutionSummaryAffectedSession AWS API Documentation
+    #
+    class ExecutionSummaryAffectedSession < Struct.new(
+      :session_id,
+      :approach_taken,
+      :final_outcome)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A cluster of similar execution patterns identified across sessions.
+    #
+    # @!attribute [rw] cluster_id
+    #   The unique identifier of the execution summary cluster.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] name
+    #   The name of the execution pattern cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the execution pattern.
+    #   @return [String]
+    #
+    # @!attribute [rw] affected_session_count
+    #   The number of sessions with this execution pattern.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] affected_sessions
+    #   The list of sessions with this execution pattern.
+    #   @return [Array<Types::ExecutionSummaryAffectedSession>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ExecutionSummaryCluster AWS API Documentation
+    #
+    class ExecutionSummaryCluster < Struct.new(
+      :cluster_id,
+      :name,
+      :description,
+      :affected_session_count,
+      :affected_sessions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Customer-facing execution summary clustering result written to S3.
+    #
+    # @!attribute [rw] execution_summaries
+    #   The list of execution summary clusters identified across analyzed
+    #   sessions.
+    #   @return [Array<Types::ExecutionSummaryCluster>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ExecutionSummaryClusteringResultContent AWS API Documentation
+    #
+    class ExecutionSummaryClusteringResultContent < Struct.new(
+      :execution_summaries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for a customer-managed external proxy server. Includes
     # server location, optional domain-based routing patterns, and
     # authentication credentials.
@@ -2811,6 +2962,114 @@ module Aws::BedrockAgentCore
       :strategy_id,
       :session_id,
       :actor_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Unified customer-facing clustering result written to S3.
+    #
+    # @!attribute [rw] failures
+    #   The list of failure category clusters identified across analyzed
+    #   sessions.
+    #   @return [Array<Types::FailureCategoryCluster>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/FailureAnalysisResultContent AWS API Documentation
+    #
+    class FailureAnalysisResultContent < Struct.new(
+      :failures)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A top-level failure category identified by clustering similar failure
+    # patterns across sessions.
+    #
+    # @!attribute [rw] cluster_id
+    #   The unique identifier of the failure category cluster.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] name
+    #   The name of the failure category.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the failure category pattern.
+    #   @return [String]
+    #
+    # @!attribute [rw] affected_session_count
+    #   The number of sessions affected by this failure category.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sub_categories
+    #   The list of failure subcategories within this category.
+    #   @return [Array<Types::FailureSubCategoryCluster>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/FailureCategoryCluster AWS API Documentation
+    #
+    class FailureCategoryCluster < Struct.new(
+      :cluster_id,
+      :name,
+      :description,
+      :affected_session_count,
+      :sub_categories)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about a specific span where a failure was detected.
+    #
+    # @!attribute [rw] span_id
+    #   The unique identifier of the span where the failure occurred.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_id
+    #   The trace identifier associated with the failure span.
+    #   @return [String]
+    #
+    # @!attribute [rw] signals
+    #   The failure signals detected in this span.
+    #   @return [Array<Types::InsightsFailureSignal>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/FailureSpanDetail AWS API Documentation
+    #
+    class FailureSpanDetail < Struct.new(
+      :span_id,
+      :trace_id,
+      :signals)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A subcategory of failures within a top-level failure category.
+    #
+    # @!attribute [rw] cluster_id
+    #   The unique identifier of the failure subcategory cluster.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] name
+    #   The name of the failure subcategory.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the failure subcategory pattern.
+    #   @return [String]
+    #
+    # @!attribute [rw] affected_session_count
+    #   The number of sessions affected by this failure subcategory.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] root_causes
+    #   The list of root cause clusters identified within this subcategory.
+    #   @return [Array<Types::RootCauseCluster>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/FailureSubCategoryCluster AWS API Documentation
+    #
+    class FailureSubCategoryCluster < Struct.new(
+      :cluster_id,
+      :name,
+      :description,
+      :affected_session_count,
+      :root_causes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3087,6 +3346,10 @@ module Aws::BedrockAgentCore
     #   The list of evaluators applied during the batch evaluation.
     #   @return [Array<Types::Evaluator>]
     #
+    # @!attribute [rw] insights
+    #   The list of insight analyses applied during the batch evaluation.
+    #   @return [Array<Types::Insight>]
+    #
     # @!attribute [rw] data_source_config
     #   The data source configuration specifying where agent traces are
     #   pulled from.
@@ -3102,6 +3365,18 @@ module Aws::BedrockAgentCore
     #   counts and evaluator score summaries.
     #   @return [Types::EvaluationJobResults]
     #
+    # @!attribute [rw] failure_analysis_result
+    #   Unified customer-facing clustering result written to S3.
+    #   @return [Types::FailureAnalysisResultContent]
+    #
+    # @!attribute [rw] user_intent_result
+    #   Customer-facing user intent clustering result written to S3.
+    #   @return [Types::UserIntentClusteringResultContent]
+    #
+    # @!attribute [rw] execution_summary_result
+    #   Customer-facing execution summary clustering result written to S3.
+    #   @return [Types::ExecutionSummaryClusteringResultContent]
+    #
     # @!attribute [rw] error_details
     #   The error details if the batch evaluation encountered failures.
     #   @return [Array<String>]
@@ -3114,6 +3389,10 @@ module Aws::BedrockAgentCore
     #   The timestamp when the batch evaluation was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used to encrypt evaluation data.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetBatchEvaluationResponse AWS API Documentation
     #
     class GetBatchEvaluationResponse < Struct.new(
@@ -3123,12 +3402,17 @@ module Aws::BedrockAgentCore
       :status,
       :created_at,
       :evaluators,
+      :insights,
       :data_source_config,
       :output_config,
       :evaluation_results,
+      :failure_analysis_result,
+      :user_intent_result,
+      :execution_summary_result,
       :error_details,
       :description,
-      :updated_at)
+      :updated_at,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3587,6 +3871,10 @@ module Aws::BedrockAgentCore
     #   status is `COMPLETED`.
     #   @return [Types::RecommendationResult]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used to encrypt recommendation data.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetRecommendationResponse AWS API Documentation
     #
     class GetRecommendationResponse < Struct.new(
@@ -3599,7 +3887,8 @@ module Aws::BedrockAgentCore
       :status,
       :created_at,
       :updated_at,
-      :recommendation_result)
+      :recommendation_result,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5031,6 +5320,48 @@ module Aws::BedrockAgentCore
       :text,
       :blob)
       SENSITIVE = [:blob]
+      include Aws::Structure
+    end
+
+    # A reference to an insight analysis to run against sessions.
+    #
+    # @!attribute [rw] insight_id
+    #   Canonical insight identifiers using the Builtin.Insight.* naming
+    #   convention. Used by BatchEvaluate, InternalEvaluate, and
+    #   ServiceEngineEvaluate flows.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Insight AWS API Documentation
+    #
+    class Insight < Struct.new(
+      :insight_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A signal indicating a detected failure within a span.
+    #
+    # @!attribute [rw] category
+    #   Failure category taxonomy for agent session insights. Values must
+    #   stay in sync with the category registry in AgentCoreLens
+    #   (amzn\_agentcore\_lens.config.failure\_detection.FAILURE\_CATEGORIES).
+    #   @return [String]
+    #
+    # @!attribute [rw] evidence
+    #   The evidence supporting the failure detection.
+    #   @return [String]
+    #
+    # @!attribute [rw] confidence
+    #   The confidence score of the failure detection.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InsightsFailureSignal AWS API Documentation
+    #
+    class InsightsFailureSignal < Struct.new(
+      :category,
+      :evidence,
+      :confidence)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -7194,6 +7525,28 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # A reference to an existing online evaluation configuration to use as
+    # the data source for batch evaluation.
+    #
+    # @!attribute [rw] online_evaluation_config_arn
+    #   The Amazon Resource Name (ARN) of the online evaluation
+    #   configuration to use as the session source.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_filter_config
+    #   Optional session filter configuration to narrow down which sessions
+    #   from the online evaluation configuration to include.
+    #   @return [Types::SessionFilterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/OnlineEvaluationConfigSource AWS API Documentation
+    #
+    class OnlineEvaluationConfigSource < Struct.new(
+      :online_evaluation_config_arn,
+      :session_filter_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Output destination configuration.
     #
     # @note OutputConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of OutputConfig corresponding to the set member.
@@ -8204,6 +8557,46 @@ module Aws::BedrockAgentCore
       class Unknown < RightExpression; end
     end
 
+    # A cluster of similar root causes identified within a failure
+    # subcategory.
+    #
+    # @!attribute [rw] cluster_id
+    #   The unique identifier of the root cause cluster.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] name
+    #   The name of the root cause cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] root_cause
+    #   The root cause explanation for this cluster of failures.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation
+    #   The recommended fix for this root cause.
+    #   @return [String]
+    #
+    # @!attribute [rw] affected_session_count
+    #   The number of sessions affected by this root cause.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] affected_sessions
+    #   The list of sessions affected by this root cause.
+    #   @return [Array<Types::AffectedSession>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/RootCauseCluster AWS API Documentation
+    #
+    class RootCauseCluster < Struct.new(
+      :cluster_id,
+      :name,
+      :root_cause,
+      :recommendation,
+      :affected_session_count,
+      :affected_sessions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The exception that occurs when there is an error in the runtime
     # client. This can happen due to network issues, invalid configuration,
     # or other client-side problems. Check the error message for specific
@@ -8698,6 +9091,11 @@ module Aws::BedrockAgentCore
     #   10 evaluators.
     #   @return [Array<Types::Evaluator>]
     #
+    # @!attribute [rw] insights
+    #   The list of insight analyses to run against sessions during the
+    #   batch evaluation. Maximum of 10 insights.
+    #   @return [Array<Types::Insight>]
+    #
     # @!attribute [rw] data_source_config
     #   The data source configuration that specifies where to pull agent
     #   session traces from for evaluation.
@@ -8718,6 +9116,15 @@ module Aws::BedrockAgentCore
     #   ground truth data and test scenario identifiers.
     #   @return [Types::EvaluationMetadata]
     #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to associate with the batch evaluation.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used to encrypt evaluation data. If provided,
+    #   customer data is encrypted at rest with the specified key.
+    #   @return [String]
+    #
     # @!attribute [rw] description
     #   The description of the batch evaluation.
     #   @return [String]
@@ -8727,9 +9134,12 @@ module Aws::BedrockAgentCore
     class StartBatchEvaluationRequest < Struct.new(
       :batch_evaluation_name,
       :evaluators,
+      :insights,
       :data_source_config,
       :client_token,
       :evaluation_metadata,
+      :tags,
+      :kms_key_arn,
       :description)
       SENSITIVE = []
       include Aws::Structure
@@ -8751,6 +9161,10 @@ module Aws::BedrockAgentCore
     #   The list of evaluators applied during the batch evaluation.
     #   @return [Array<Types::Evaluator>]
     #
+    # @!attribute [rw] insights
+    #   The list of insight analyses applied during the batch evaluation.
+    #   @return [Array<Types::Insight>]
+    #
     # @!attribute [rw] status
     #   The status of the batch evaluation.
     #   @return [String]
@@ -8764,6 +9178,14 @@ module Aws::BedrockAgentCore
     #   written.
     #   @return [Types::OutputConfig]
     #
+    # @!attribute [rw] tags
+    #   The tags associated with the batch evaluation.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used to encrypt evaluation data.
+    #   @return [String]
+    #
     # @!attribute [rw] description
     #   The description of the batch evaluation.
     #   @return [String]
@@ -8775,9 +9197,12 @@ module Aws::BedrockAgentCore
       :batch_evaluation_arn,
       :batch_evaluation_name,
       :evaluators,
+      :insights,
       :status,
       :created_at,
       :output_config,
+      :tags,
+      :kms_key_arn,
       :description)
       SENSITIVE = []
       include Aws::Structure
@@ -9039,6 +9464,11 @@ module Aws::BedrockAgentCore
     #   optimize, agent traces to analyze, and evaluation settings.
     #   @return [Types::RecommendationConfig]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used to encrypt recommendation data. If
+    #   provided, customer data is encrypted at rest with the specified key.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -9049,6 +9479,10 @@ module Aws::BedrockAgentCore
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to associate with the recommendation.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartRecommendationRequest AWS API Documentation
     #
     class StartRecommendationRequest < Struct.new(
@@ -9056,7 +9490,9 @@ module Aws::BedrockAgentCore
       :description,
       :type,
       :recommendation_config,
-      :client_token)
+      :kms_key_arn,
+      :client_token,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9501,6 +9937,11 @@ module Aws::BedrockAgentCore
     #   if the input was sourced from a configuration bundle.
     #   @return [Types::RecommendationResultConfigurationBundle]
     #
+    # @!attribute [rw] explanation
+    #   An explanation of why the recommendation was generated and what
+    #   patterns were identified in the agent traces.
+    #   @return [String]
+    #
     # @!attribute [rw] error_code
     #   The error code if the recommendation failed.
     #   @return [String]
@@ -9514,6 +9955,7 @@ module Aws::BedrockAgentCore
     class SystemPromptRecommendationResult < Struct.new(
       :recommended_system_prompt,
       :configuration_bundle,
+      :explanation,
       :error_code,
       :error_message)
       SENSITIVE = [:recommended_system_prompt]
@@ -9777,11 +10219,17 @@ module Aws::BedrockAgentCore
     #   The optimized tool description text generated by the recommendation.
     #   @return [String]
     #
+    # @!attribute [rw] explanation
+    #   An explanation of why the recommendation was generated for this tool
+    #   and what patterns were identified in the agent traces.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ToolDescriptionOutput AWS API Documentation
     #
     class ToolDescriptionOutput < Struct.new(
       :tool_name,
-      :recommended_tool_description)
+      :recommended_tool_description,
+      :explanation)
       SENSITIVE = [:recommended_tool_description]
       include Aws::Structure
     end
@@ -10148,6 +10596,75 @@ module Aws::BedrockAgentCore
       class UserToken < UserIdentifier; end
       class UserId < UserIdentifier; end
       class Unknown < UserIdentifier; end
+    end
+
+    # A session associated with a user intent cluster.
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_messages
+    #   The user messages from this session that contributed to the intent
+    #   cluster.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/UserIntentAffectedSession AWS API Documentation
+    #
+    class UserIntentAffectedSession < Struct.new(
+      :session_id,
+      :user_messages)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A cluster of similar user intents identified across sessions.
+    #
+    # @!attribute [rw] cluster_id
+    #   The unique identifier of the user intent cluster.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] name
+    #   The name of the user intent cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the user intent pattern.
+    #   @return [String]
+    #
+    # @!attribute [rw] affected_session_count
+    #   The number of sessions with this user intent.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] affected_sessions
+    #   The list of sessions with this user intent.
+    #   @return [Array<Types::UserIntentAffectedSession>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/UserIntentCluster AWS API Documentation
+    #
+    class UserIntentCluster < Struct.new(
+      :cluster_id,
+      :name,
+      :description,
+      :affected_session_count,
+      :affected_sessions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Customer-facing user intent clustering result written to S3.
+    #
+    # @!attribute [rw] user_intents
+    #   The list of user intent clusters identified across analyzed
+    #   sessions.
+    #   @return [Array<Types::UserIntentCluster>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/UserIntentClusteringResultContent AWS API Documentation
+    #
+    class UserIntentClusteringResultContent < Struct.new(
+      :user_intents)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # The exception that occurs when the input fails to satisfy the

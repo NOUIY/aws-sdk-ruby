@@ -3800,6 +3800,7 @@ module Aws::Glue
       attr_accessor query_as_of_time: ::Time
       attr_accessor audit_context: Types::AuditContext
       attr_accessor include_status_details: bool
+      attr_accessor attributes_to_get: ::Array[("NAME" | "TABLE_TYPE" | "DEFAULT" | "LATEST_ICEBERG_METADATA")]
       SENSITIVE: []
     end
 
@@ -3848,7 +3849,7 @@ module Aws::Glue
       attr_accessor query_as_of_time: ::Time
       attr_accessor audit_context: Types::AuditContext
       attr_accessor include_status_details: bool
-      attr_accessor attributes_to_get: ::Array[("NAME" | "TABLE_TYPE")]
+      attr_accessor attributes_to_get: ::Array[("NAME" | "TABLE_TYPE" | "DEFAULT" | "LATEST_ICEBERG_METADATA")]
       SENSITIVE: []
     end
 
@@ -4255,6 +4256,22 @@ module Aws::Glue
       attr_accessor doc: ::String
       attr_accessor initial_default: untyped
       attr_accessor write_default: untyped
+      SENSITIVE: []
+    end
+
+    class IcebergTableMetadata
+      attr_accessor format_version: ::String
+      attr_accessor table_uuid: ::String
+      attr_accessor location: ::String
+      attr_accessor properties: ::Hash[::String, ::String]
+      attr_accessor schemas: ::Array[Types::IcebergSchema]
+      attr_accessor current_schema_id: ::Integer
+      attr_accessor last_column_id: ::Integer
+      attr_accessor partition_specs: ::Array[Types::IcebergPartitionSpec]
+      attr_accessor default_spec_id: ::Integer
+      attr_accessor last_partition_id: ::Integer
+      attr_accessor sort_orders: ::Array[Types::IcebergSortOrder]
+      attr_accessor default_sort_order_id: ::Integer
       SENSITIVE: []
     end
 
@@ -6868,6 +6885,7 @@ module Aws::Glue
       attr_accessor view_definition: Types::ViewDefinition
       attr_accessor is_multi_dialect_view: bool
       attr_accessor is_materialized_view: bool
+      attr_accessor iceberg_table_metadata: Types::IcebergTableMetadata
       attr_accessor status: Types::TableStatus
       SENSITIVE: []
     end

@@ -1764,9 +1764,16 @@ module Aws::IAM
     #
     # @!attribute [rw] credential_age_days
     #   The number of days until the service specific credential expires.
-    #   This field is only valid for Bedrock and CloudWatch Logs API keys
-    #   and must be a positive integer. When not specified, the credential
-    #   will not expire.
+    #   This field is only valid for services that support long-term API
+    #   keys and must be a positive integer. When not specified, the
+    #   credential will not expire.
+    #
+    #   To see which services support long-term API keys, refer to [API keys
+    #   for Amazon Web Services services][1] in the *IAM User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceSpecificCredentialRequest AWS API Documentation

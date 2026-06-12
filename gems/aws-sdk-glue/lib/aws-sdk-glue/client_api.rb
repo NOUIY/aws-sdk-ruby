@@ -867,16 +867,20 @@ module Aws::Glue
     IcebergPartitionField = Shapes::StructureShape.new(name: 'IcebergPartitionField')
     IcebergPartitionSpec = Shapes::StructureShape.new(name: 'IcebergPartitionSpec')
     IcebergPartitionSpecFieldList = Shapes::ListShape.new(name: 'IcebergPartitionSpecFieldList')
+    IcebergPartitionSpecList = Shapes::ListShape.new(name: 'IcebergPartitionSpecList')
     IcebergRetentionConfiguration = Shapes::StructureShape.new(name: 'IcebergRetentionConfiguration')
     IcebergRetentionMetrics = Shapes::StructureShape.new(name: 'IcebergRetentionMetrics')
     IcebergSchema = Shapes::StructureShape.new(name: 'IcebergSchema')
+    IcebergSchemaList = Shapes::ListShape.new(name: 'IcebergSchemaList')
     IcebergSortDirection = Shapes::StringShape.new(name: 'IcebergSortDirection')
     IcebergSortField = Shapes::StructureShape.new(name: 'IcebergSortField')
     IcebergSortOrder = Shapes::StructureShape.new(name: 'IcebergSortOrder')
     IcebergSortOrderFieldList = Shapes::ListShape.new(name: 'IcebergSortOrderFieldList')
+    IcebergSortOrderList = Shapes::ListShape.new(name: 'IcebergSortOrderList')
     IcebergStructField = Shapes::StructureShape.new(name: 'IcebergStructField')
     IcebergStructFieldList = Shapes::ListShape.new(name: 'IcebergStructFieldList')
     IcebergStructTypeEnum = Shapes::StringShape.new(name: 'IcebergStructTypeEnum')
+    IcebergTableMetadata = Shapes::StructureShape.new(name: 'IcebergTableMetadata')
     IcebergTableUpdate = Shapes::StructureShape.new(name: 'IcebergTableUpdate')
     IcebergTableUpdateList = Shapes::ListShape.new(name: 'IcebergTableUpdateList')
     IcebergTarget = Shapes::StructureShape.new(name: 'IcebergTarget')
@@ -1497,6 +1501,7 @@ module Aws::Glue
     TableAttributesList = Shapes::ListShape.new(name: 'TableAttributesList')
     TableError = Shapes::StructureShape.new(name: 'TableError')
     TableErrors = Shapes::ListShape.new(name: 'TableErrors')
+    TableIdString = Shapes::StringShape.new(name: 'TableIdString')
     TableIdentifier = Shapes::StructureShape.new(name: 'TableIdentifier')
     TableInput = Shapes::StructureShape.new(name: 'TableInput')
     TableList = Shapes::ListShape.new(name: 'TableList')
@@ -4781,6 +4786,7 @@ module Aws::Glue
     GetTableRequest.add_member(:query_as_of_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "QueryAsOfTime"))
     GetTableRequest.add_member(:audit_context, Shapes::ShapeRef.new(shape: AuditContext, location_name: "AuditContext"))
     GetTableRequest.add_member(:include_status_details, Shapes::ShapeRef.new(shape: BooleanNullable, location_name: "IncludeStatusDetails"))
+    GetTableRequest.add_member(:attributes_to_get, Shapes::ShapeRef.new(shape: TableAttributesList, location_name: "AttributesToGet"))
     GetTableRequest.struct_class = Types::GetTableRequest
 
     GetTableResponse.add_member(:table, Shapes::ShapeRef.new(shape: Table, location_name: "Table"))
@@ -5100,6 +5106,8 @@ module Aws::Glue
 
     IcebergPartitionSpecFieldList.member = Shapes::ShapeRef.new(shape: IcebergPartitionField)
 
+    IcebergPartitionSpecList.member = Shapes::ShapeRef.new(shape: IcebergPartitionSpec)
+
     IcebergRetentionConfiguration.add_member(:snapshot_retention_period_in_days, Shapes::ShapeRef.new(shape: NullableInteger, location_name: "snapshotRetentionPeriodInDays"))
     IcebergRetentionConfiguration.add_member(:number_of_snapshots_to_retain, Shapes::ShapeRef.new(shape: NullableInteger, location_name: "numberOfSnapshotsToRetain"))
     IcebergRetentionConfiguration.add_member(:clean_expired_files, Shapes::ShapeRef.new(shape: NullableBoolean, location_name: "cleanExpiredFiles"))
@@ -5120,6 +5128,8 @@ module Aws::Glue
     IcebergSchema.add_member(:fields, Shapes::ShapeRef.new(shape: IcebergStructFieldList, required: true, location_name: "Fields"))
     IcebergSchema.struct_class = Types::IcebergSchema
 
+    IcebergSchemaList.member = Shapes::ShapeRef.new(shape: IcebergSchema)
+
     IcebergSortField.add_member(:source_id, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "SourceId"))
     IcebergSortField.add_member(:transform, Shapes::ShapeRef.new(shape: IcebergTransformString, required: true, location_name: "Transform"))
     IcebergSortField.add_member(:direction, Shapes::ShapeRef.new(shape: IcebergSortDirection, required: true, location_name: "Direction"))
@@ -5132,6 +5142,8 @@ module Aws::Glue
 
     IcebergSortOrderFieldList.member = Shapes::ShapeRef.new(shape: IcebergSortField)
 
+    IcebergSortOrderList.member = Shapes::ShapeRef.new(shape: IcebergSortOrder)
+
     IcebergStructField.add_member(:id, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "Id"))
     IcebergStructField.add_member(:name, Shapes::ShapeRef.new(shape: ColumnNameString, required: true, location_name: "Name"))
     IcebergStructField.add_member(:type, Shapes::ShapeRef.new(shape: IcebergDocument, required: true, location_name: "Type"))
@@ -5142,6 +5154,20 @@ module Aws::Glue
     IcebergStructField.struct_class = Types::IcebergStructField
 
     IcebergStructFieldList.member = Shapes::ShapeRef.new(shape: IcebergStructField)
+
+    IcebergTableMetadata.add_member(:format_version, Shapes::ShapeRef.new(shape: VersionString, location_name: "FormatVersion"))
+    IcebergTableMetadata.add_member(:table_uuid, Shapes::ShapeRef.new(shape: TableIdString, location_name: "TableUuid"))
+    IcebergTableMetadata.add_member(:location, Shapes::ShapeRef.new(shape: LocationString, location_name: "Location"))
+    IcebergTableMetadata.add_member(:properties, Shapes::ShapeRef.new(shape: StringToStringMap, location_name: "Properties"))
+    IcebergTableMetadata.add_member(:schemas, Shapes::ShapeRef.new(shape: IcebergSchemaList, location_name: "Schemas"))
+    IcebergTableMetadata.add_member(:current_schema_id, Shapes::ShapeRef.new(shape: Integer, location_name: "CurrentSchemaId"))
+    IcebergTableMetadata.add_member(:last_column_id, Shapes::ShapeRef.new(shape: Integer, location_name: "LastColumnId"))
+    IcebergTableMetadata.add_member(:partition_specs, Shapes::ShapeRef.new(shape: IcebergPartitionSpecList, location_name: "PartitionSpecs"))
+    IcebergTableMetadata.add_member(:default_spec_id, Shapes::ShapeRef.new(shape: Integer, location_name: "DefaultSpecId"))
+    IcebergTableMetadata.add_member(:last_partition_id, Shapes::ShapeRef.new(shape: Integer, location_name: "LastPartitionId"))
+    IcebergTableMetadata.add_member(:sort_orders, Shapes::ShapeRef.new(shape: IcebergSortOrderList, location_name: "SortOrders"))
+    IcebergTableMetadata.add_member(:default_sort_order_id, Shapes::ShapeRef.new(shape: Integer, location_name: "DefaultSortOrderId"))
+    IcebergTableMetadata.struct_class = Types::IcebergTableMetadata
 
     IcebergTableUpdate.add_member(:schema, Shapes::ShapeRef.new(shape: IcebergSchema, required: true, location_name: "Schema"))
     IcebergTableUpdate.add_member(:partition_spec, Shapes::ShapeRef.new(shape: IcebergPartitionSpec, location_name: "PartitionSpec"))
@@ -7311,6 +7337,7 @@ module Aws::Glue
     Table.add_member(:view_definition, Shapes::ShapeRef.new(shape: ViewDefinition, location_name: "ViewDefinition"))
     Table.add_member(:is_multi_dialect_view, Shapes::ShapeRef.new(shape: NullableBoolean, location_name: "IsMultiDialectView"))
     Table.add_member(:is_materialized_view, Shapes::ShapeRef.new(shape: NullableBoolean, location_name: "IsMaterializedView"))
+    Table.add_member(:iceberg_table_metadata, Shapes::ShapeRef.new(shape: IcebergTableMetadata, location_name: "IcebergTableMetadata"))
     Table.add_member(:status, Shapes::ShapeRef.new(shape: TableStatus, location_name: "Status"))
     Table.struct_class = Types::Table
 

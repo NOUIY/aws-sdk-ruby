@@ -30,6 +30,8 @@ module Aws::BedrockAgentCore
     ActorId = Shapes::StringShape.new(name: 'ActorId')
     ActorSummary = Shapes::StructureShape.new(name: 'ActorSummary')
     ActorSummaryList = Shapes::ListShape.new(name: 'ActorSummaryList')
+    AffectedSession = Shapes::StructureShape.new(name: 'AffectedSession')
+    AffectedSessionList = Shapes::ListShape.new(name: 'AffectedSessionList')
     AgentCard = Shapes::DocumentShape.new(name: 'AgentCard', document: true)
     AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
     AgentSkillsDescriptor = Shapes::StructureShape.new(name: 'AgentSkillsDescriptor')
@@ -56,6 +58,7 @@ module Aws::BedrockAgentCore
     BatchEvaluationStatus = Shapes::StringShape.new(name: 'BatchEvaluationStatus')
     BatchEvaluationSummary = Shapes::StructureShape.new(name: 'BatchEvaluationSummary')
     BatchEvaluationSummaryList = Shapes::ListShape.new(name: 'BatchEvaluationSummaryList')
+    BatchEvaluationTraceConfig = Shapes::StructureShape.new(name: 'BatchEvaluationTraceConfig')
     BatchUpdateMemoryRecordsInput = Shapes::StructureShape.new(name: 'BatchUpdateMemoryRecordsInput')
     BatchUpdateMemoryRecordsOutput = Shapes::StructureShape.new(name: 'BatchUpdateMemoryRecordsOutput')
     Blob = Shapes::BlobShape.new(name: 'Blob')
@@ -214,6 +217,11 @@ module Aws::BedrockAgentCore
     EventList = Shapes::ListShape.new(name: 'EventList')
     EventMetadataFilterExpression = Shapes::StructureShape.new(name: 'EventMetadataFilterExpression')
     EventMetadataFilterList = Shapes::ListShape.new(name: 'EventMetadataFilterList')
+    ExecutionSummaryAffectedSession = Shapes::StructureShape.new(name: 'ExecutionSummaryAffectedSession')
+    ExecutionSummaryAffectedSessionList = Shapes::ListShape.new(name: 'ExecutionSummaryAffectedSessionList')
+    ExecutionSummaryCluster = Shapes::StructureShape.new(name: 'ExecutionSummaryCluster')
+    ExecutionSummaryClusterList = Shapes::ListShape.new(name: 'ExecutionSummaryClusterList')
+    ExecutionSummaryClusteringResultContent = Shapes::StructureShape.new(name: 'ExecutionSummaryClusteringResultContent')
     ExternalProxy = Shapes::StructureShape.new(name: 'ExternalProxy')
     ExternalProxyPortInteger = Shapes::IntegerShape.new(name: 'ExternalProxyPortInteger')
     ExtractionJob = Shapes::StructureShape.new(name: 'ExtractionJob')
@@ -222,6 +230,13 @@ module Aws::BedrockAgentCore
     ExtractionJobMetadata = Shapes::StructureShape.new(name: 'ExtractionJobMetadata')
     ExtractionJobMetadataList = Shapes::ListShape.new(name: 'ExtractionJobMetadataList')
     ExtractionJobStatus = Shapes::StringShape.new(name: 'ExtractionJobStatus')
+    FailureAnalysisResultContent = Shapes::StructureShape.new(name: 'FailureAnalysisResultContent')
+    FailureCategoryCluster = Shapes::StructureShape.new(name: 'FailureCategoryCluster')
+    FailureCategoryClusterList = Shapes::ListShape.new(name: 'FailureCategoryClusterList')
+    FailureSpanDetail = Shapes::StructureShape.new(name: 'FailureSpanDetail')
+    FailureSpanDetailList = Shapes::ListShape.new(name: 'FailureSpanDetailList')
+    FailureSubCategoryCluster = Shapes::StructureShape.new(name: 'FailureSubCategoryCluster')
+    FailureSubCategoryClusterList = Shapes::ListShape.new(name: 'FailureSubCategoryClusterList')
     FilterInput = Shapes::StructureShape.new(name: 'FilterInput')
     FilterStringValue = Shapes::StringShape.new(name: 'FilterStringValue')
     FilterValue = Shapes::UnionShape.new(name: 'FilterValue')
@@ -349,6 +364,12 @@ module Aws::BedrockAgentCore
     InlineGroundTruthTurnsList = Shapes::ListShape.new(name: 'InlineGroundTruthTurnsList')
     InputContentBlock = Shapes::StructureShape.new(name: 'InputContentBlock')
     InputContentBlockList = Shapes::ListShape.new(name: 'InputContentBlockList')
+    Insight = Shapes::StructureShape.new(name: 'Insight')
+    InsightId = Shapes::StringShape.new(name: 'InsightId')
+    InsightList = Shapes::ListShape.new(name: 'InsightList')
+    InsightsFailureCategory = Shapes::StringShape.new(name: 'InsightsFailureCategory')
+    InsightsFailureSignal = Shapes::StructureShape.new(name: 'InsightsFailureSignal')
+    InsightsFailureSignalList = Shapes::ListShape.new(name: 'InsightsFailureSignalList')
     InstrumentBalanceToken = Shapes::StringShape.new(name: 'InstrumentBalanceToken')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
@@ -390,6 +411,7 @@ module Aws::BedrockAgentCore
     KeyTypeArguments = Shapes::StructureShape.new(name: 'KeyTypeArguments')
     KeyTypeArgumentsTextString = Shapes::StringShape.new(name: 'KeyTypeArgumentsTextString')
     KeyTypeResult = Shapes::StructureShape.new(name: 'KeyTypeResult')
+    KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
     LanguageRuntime = Shapes::StringShape.new(name: 'LanguageRuntime')
     LeftExpression = Shapes::UnionShape.new(name: 'LeftExpression')
     LinkedAccount = Shapes::UnionShape.new(name: 'LinkedAccount')
@@ -499,6 +521,7 @@ module Aws::BedrockAgentCore
     OAuthScopes = Shapes::ListShape.new(name: 'OAuthScopes')
     Oauth2FlowType = Shapes::StringShape.new(name: 'Oauth2FlowType')
     OnlineEvaluationConfigArn = Shapes::StringShape.new(name: 'OnlineEvaluationConfigArn')
+    OnlineEvaluationConfigSource = Shapes::StructureShape.new(name: 'OnlineEvaluationConfigSource')
     OperatorType = Shapes::StringShape.new(name: 'OperatorType')
     OutputConfig = Shapes::UnionShape.new(name: 'OutputConfig')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
@@ -550,6 +573,7 @@ module Aws::BedrockAgentCore
     RecommendationEvaluationConfig = Shapes::StructureShape.new(name: 'RecommendationEvaluationConfig')
     RecommendationEvaluationConfigEvaluatorsList = Shapes::ListShape.new(name: 'RecommendationEvaluationConfigEvaluatorsList')
     RecommendationEvaluatorReference = Shapes::StructureShape.new(name: 'RecommendationEvaluatorReference')
+    RecommendationExplanation = Shapes::StringShape.new(name: 'RecommendationExplanation')
     RecommendationId = Shapes::StringShape.new(name: 'RecommendationId')
     RecommendationName = Shapes::StringShape.new(name: 'RecommendationName')
     RecommendationResult = Shapes::UnionShape.new(name: 'RecommendationResult')
@@ -585,6 +609,8 @@ module Aws::BedrockAgentCore
     RightExpression = Shapes::UnionShape.new(name: 'RightExpression')
     Role = Shapes::StringShape.new(name: 'Role')
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
+    RootCauseCluster = Shapes::StructureShape.new(name: 'RootCauseCluster')
+    RootCauseClusterList = Shapes::ListShape.new(name: 'RootCauseClusterList')
     RuntimeClientError = Shapes::StructureShape.new(name: 'RuntimeClientError')
     S3Location = Shapes::StructureShape.new(name: 'S3Location')
     S3LocationBucketString = Shapes::StringShape.new(name: 'S3LocationBucketString')
@@ -636,6 +662,7 @@ module Aws::BedrockAgentCore
     Spans = Shapes::ListShape.new(name: 'Spans')
     StartBatchEvaluationRequest = Shapes::StructureShape.new(name: 'StartBatchEvaluationRequest')
     StartBatchEvaluationRequestEvaluatorsList = Shapes::ListShape.new(name: 'StartBatchEvaluationRequestEvaluatorsList')
+    StartBatchEvaluationRequestInsightsList = Shapes::ListShape.new(name: 'StartBatchEvaluationRequestInsightsList')
     StartBatchEvaluationResponse = Shapes::StructureShape.new(name: 'StartBatchEvaluationResponse')
     StartBrowserSessionRequest = Shapes::StructureShape.new(name: 'StartBrowserSessionRequest')
     StartBrowserSessionRequestTraceIdString = Shapes::StringShape.new(name: 'StartBrowserSessionRequestTraceIdString')
@@ -684,6 +711,9 @@ module Aws::BedrockAgentCore
     SystemPromptRecommendationConfig = Shapes::StructureShape.new(name: 'SystemPromptRecommendationConfig')
     SystemPromptRecommendationResult = Shapes::StructureShape.new(name: 'SystemPromptRecommendationResult')
     SystemPromptText = Shapes::StringShape.new(name: 'SystemPromptText')
+    TagKey = Shapes::StringShape.new(name: 'TagKey')
+    TagValue = Shapes::StringShape.new(name: 'TagValue')
+    TagsMap = Shapes::MapShape.new(name: 'TagsMap')
     TargetName = Shapes::StringShape.new(name: 'TargetName')
     TargetPathList = Shapes::ListShape.new(name: 'TargetPathList')
     TargetRef = Shapes::StructureShape.new(name: 'TargetRef')
@@ -722,6 +752,12 @@ module Aws::BedrockAgentCore
     UserId = Shapes::StringShape.new(name: 'UserId')
     UserIdType = Shapes::StringShape.new(name: 'UserIdType')
     UserIdentifier = Shapes::UnionShape.new(name: 'UserIdentifier')
+    UserIntentAffectedSession = Shapes::StructureShape.new(name: 'UserIntentAffectedSession')
+    UserIntentAffectedSessionList = Shapes::ListShape.new(name: 'UserIntentAffectedSessionList')
+    UserIntentCluster = Shapes::StructureShape.new(name: 'UserIntentCluster')
+    UserIntentClusterList = Shapes::ListShape.new(name: 'UserIntentClusterList')
+    UserIntentClusteringResultContent = Shapes::StructureShape.new(name: 'UserIntentClusteringResultContent')
+    UserIntentList = Shapes::ListShape.new(name: 'UserIntentList')
     UserTokenType = Shapes::StringShape.new(name: 'UserTokenType')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
@@ -776,6 +812,15 @@ module Aws::BedrockAgentCore
 
     ActorSummaryList.member = Shapes::ShapeRef.new(shape: ActorSummary)
 
+    AffectedSession.add_member(:session_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "sessionId"))
+    AffectedSession.add_member(:explanation, Shapes::ShapeRef.new(shape: String, required: true, location_name: "explanation"))
+    AffectedSession.add_member(:fix_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "fixType"))
+    AffectedSession.add_member(:recommendation, Shapes::ShapeRef.new(shape: String, required: true, location_name: "recommendation"))
+    AffectedSession.add_member(:failure_spans, Shapes::ShapeRef.new(shape: FailureSpanDetailList, required: true, location_name: "failureSpans"))
+    AffectedSession.struct_class = Types::AffectedSession
+
+    AffectedSessionList.member = Shapes::ShapeRef.new(shape: AffectedSession)
+
     AgentCardDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
     AgentCardDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
     AgentCardDefinition.struct_class = Types::AgentCardDefinition
@@ -786,9 +831,11 @@ module Aws::BedrockAgentCore
 
     AgentTracesConfig.add_member(:session_spans, Shapes::ShapeRef.new(shape: Spans, location_name: "sessionSpans"))
     AgentTracesConfig.add_member(:cloudwatch_logs, Shapes::ShapeRef.new(shape: CloudWatchLogsTraceConfig, location_name: "cloudwatchLogs"))
+    AgentTracesConfig.add_member(:batch_evaluation, Shapes::ShapeRef.new(shape: BatchEvaluationTraceConfig, location_name: "batchEvaluation"))
     AgentTracesConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     AgentTracesConfig.add_member_subclass(:session_spans, Types::AgentTracesConfig::SessionSpans)
     AgentTracesConfig.add_member_subclass(:cloudwatch_logs, Types::AgentTracesConfig::CloudwatchLogs)
+    AgentTracesConfig.add_member_subclass(:batch_evaluation, Types::AgentTracesConfig::BatchEvaluation)
     AgentTracesConfig.add_member_subclass(:unknown, Types::AgentTracesConfig::Unknown)
     AgentTracesConfig.struct_class = Types::AgentTracesConfig
 
@@ -836,12 +883,17 @@ module Aws::BedrockAgentCore
     BatchEvaluationSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
     BatchEvaluationSummary.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
     BatchEvaluationSummary.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    BatchEvaluationSummary.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "insights"))
     BatchEvaluationSummary.add_member(:evaluation_results, Shapes::ShapeRef.new(shape: EvaluationJobResults, location_name: "evaluationResults"))
     BatchEvaluationSummary.add_member(:error_details, Shapes::ShapeRef.new(shape: ErrorDetailsList, location_name: "errorDetails"))
+    BatchEvaluationSummary.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     BatchEvaluationSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     BatchEvaluationSummary.struct_class = Types::BatchEvaluationSummary
 
     BatchEvaluationSummaryList.member = Shapes::ShapeRef.new(shape: BatchEvaluationSummary)
+
+    BatchEvaluationTraceConfig.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
+    BatchEvaluationTraceConfig.struct_class = Types::BatchEvaluationTraceConfig
 
     BatchUpdateMemoryRecordsInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     BatchUpdateMemoryRecordsInput.add_member(:records, Shapes::ShapeRef.new(shape: MemoryRecordsUpdateInputList, required: true, location_name: "records"))
@@ -1088,6 +1140,7 @@ module Aws::BedrockAgentCore
     CreateABTestRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
     CreateABTestRequest.add_member(:enable_on_create, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableOnCreate"))
     CreateABTestRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateABTestRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateABTestRequest.struct_class = Types::CreateABTestRequest
 
     CreateABTestResponse.add_member(:ab_test_id, Shapes::ShapeRef.new(shape: ABTestId, required: true, location_name: "abTestId"))
@@ -1149,8 +1202,10 @@ module Aws::BedrockAgentCore
     CustomRequestParametersType.value = Shapes::ShapeRef.new(shape: CustomRequestValueType)
 
     DataSourceConfig.add_member(:cloud_watch_logs, Shapes::ShapeRef.new(shape: CloudWatchLogsSource, location_name: "cloudWatchLogs"))
+    DataSourceConfig.add_member(:online_evaluation_config_source, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigSource, location_name: "onlineEvaluationConfigSource"))
     DataSourceConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     DataSourceConfig.add_member_subclass(:cloud_watch_logs, Types::DataSourceConfig::CloudWatchLogs)
+    DataSourceConfig.add_member_subclass(:online_evaluation_config_source, Types::DataSourceConfig::OnlineEvaluationConfigSource)
     DataSourceConfig.add_member_subclass(:unknown, Types::DataSourceConfig::Unknown)
     DataSourceConfig.struct_class = Types::DataSourceConfig
 
@@ -1344,6 +1399,25 @@ module Aws::BedrockAgentCore
 
     EventMetadataFilterList.member = Shapes::ShapeRef.new(shape: EventMetadataFilterExpression)
 
+    ExecutionSummaryAffectedSession.add_member(:session_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "sessionId"))
+    ExecutionSummaryAffectedSession.add_member(:approach_taken, Shapes::ShapeRef.new(shape: String, required: true, location_name: "approachTaken"))
+    ExecutionSummaryAffectedSession.add_member(:final_outcome, Shapes::ShapeRef.new(shape: String, required: true, location_name: "finalOutcome"))
+    ExecutionSummaryAffectedSession.struct_class = Types::ExecutionSummaryAffectedSession
+
+    ExecutionSummaryAffectedSessionList.member = Shapes::ShapeRef.new(shape: ExecutionSummaryAffectedSession)
+
+    ExecutionSummaryCluster.add_member(:cluster_id, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "clusterId"))
+    ExecutionSummaryCluster.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    ExecutionSummaryCluster.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    ExecutionSummaryCluster.add_member(:affected_session_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "affectedSessionCount"))
+    ExecutionSummaryCluster.add_member(:affected_sessions, Shapes::ShapeRef.new(shape: ExecutionSummaryAffectedSessionList, required: true, location_name: "affectedSessions"))
+    ExecutionSummaryCluster.struct_class = Types::ExecutionSummaryCluster
+
+    ExecutionSummaryClusterList.member = Shapes::ShapeRef.new(shape: ExecutionSummaryCluster)
+
+    ExecutionSummaryClusteringResultContent.add_member(:execution_summaries, Shapes::ShapeRef.new(shape: ExecutionSummaryClusterList, required: true, location_name: "executionSummaries"))
+    ExecutionSummaryClusteringResultContent.struct_class = Types::ExecutionSummaryClusteringResultContent
+
     ExternalProxy.add_member(:server, Shapes::ShapeRef.new(shape: HostName, required: true, location_name: "server"))
     ExternalProxy.add_member(:port, Shapes::ShapeRef.new(shape: ExternalProxyPortInteger, required: true, location_name: "port"))
     ExternalProxy.add_member(:domain_patterns, Shapes::ShapeRef.new(shape: DomainPatterns, location_name: "domainPatterns"))
@@ -1375,6 +1449,34 @@ module Aws::BedrockAgentCore
     ExtractionJobMetadata.struct_class = Types::ExtractionJobMetadata
 
     ExtractionJobMetadataList.member = Shapes::ShapeRef.new(shape: ExtractionJobMetadata)
+
+    FailureAnalysisResultContent.add_member(:failures, Shapes::ShapeRef.new(shape: FailureCategoryClusterList, required: true, location_name: "failures"))
+    FailureAnalysisResultContent.struct_class = Types::FailureAnalysisResultContent
+
+    FailureCategoryCluster.add_member(:cluster_id, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "clusterId"))
+    FailureCategoryCluster.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    FailureCategoryCluster.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    FailureCategoryCluster.add_member(:affected_session_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "affectedSessionCount"))
+    FailureCategoryCluster.add_member(:sub_categories, Shapes::ShapeRef.new(shape: FailureSubCategoryClusterList, required: true, location_name: "subCategories"))
+    FailureCategoryCluster.struct_class = Types::FailureCategoryCluster
+
+    FailureCategoryClusterList.member = Shapes::ShapeRef.new(shape: FailureCategoryCluster)
+
+    FailureSpanDetail.add_member(:span_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "spanId"))
+    FailureSpanDetail.add_member(:trace_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "traceId"))
+    FailureSpanDetail.add_member(:signals, Shapes::ShapeRef.new(shape: InsightsFailureSignalList, required: true, location_name: "signals"))
+    FailureSpanDetail.struct_class = Types::FailureSpanDetail
+
+    FailureSpanDetailList.member = Shapes::ShapeRef.new(shape: FailureSpanDetail)
+
+    FailureSubCategoryCluster.add_member(:cluster_id, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "clusterId"))
+    FailureSubCategoryCluster.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    FailureSubCategoryCluster.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    FailureSubCategoryCluster.add_member(:affected_session_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "affectedSessionCount"))
+    FailureSubCategoryCluster.add_member(:root_causes, Shapes::ShapeRef.new(shape: RootCauseClusterList, required: true, location_name: "rootCauses"))
+    FailureSubCategoryCluster.struct_class = Types::FailureSubCategoryCluster
+
+    FailureSubCategoryClusterList.member = Shapes::ShapeRef.new(shape: FailureSubCategoryCluster)
 
     FilterInput.add_member(:branch, Shapes::ShapeRef.new(shape: BranchFilter, location_name: "branch"))
     FilterInput.add_member(:event_metadata, Shapes::ShapeRef.new(shape: EventMetadataFilterList, location_name: "eventMetadata"))
@@ -1438,12 +1540,17 @@ module Aws::BedrockAgentCore
     GetBatchEvaluationResponse.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
     GetBatchEvaluationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
     GetBatchEvaluationResponse.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    GetBatchEvaluationResponse.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "insights"))
     GetBatchEvaluationResponse.add_member(:data_source_config, Shapes::ShapeRef.new(shape: DataSourceConfig, location_name: "dataSourceConfig"))
     GetBatchEvaluationResponse.add_member(:output_config, Shapes::ShapeRef.new(shape: OutputConfig, location_name: "outputConfig"))
     GetBatchEvaluationResponse.add_member(:evaluation_results, Shapes::ShapeRef.new(shape: EvaluationJobResults, location_name: "evaluationResults"))
+    GetBatchEvaluationResponse.add_member(:failure_analysis_result, Shapes::ShapeRef.new(shape: FailureAnalysisResultContent, location_name: "failureAnalysisResult"))
+    GetBatchEvaluationResponse.add_member(:user_intent_result, Shapes::ShapeRef.new(shape: UserIntentClusteringResultContent, location_name: "userIntentResult"))
+    GetBatchEvaluationResponse.add_member(:execution_summary_result, Shapes::ShapeRef.new(shape: ExecutionSummaryClusteringResultContent, location_name: "executionSummaryResult"))
     GetBatchEvaluationResponse.add_member(:error_details, Shapes::ShapeRef.new(shape: ErrorDetailsList, location_name: "errorDetails"))
     GetBatchEvaluationResponse.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
     GetBatchEvaluationResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    GetBatchEvaluationResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     GetBatchEvaluationResponse.struct_class = Types::GetBatchEvaluationResponse
 
     GetBrowserSessionRequest.add_member(:browser_identifier, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "browserIdentifier"))
@@ -1541,6 +1648,7 @@ module Aws::BedrockAgentCore
     GetRecommendationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
     GetRecommendationResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
     GetRecommendationResponse.add_member(:recommendation_result, Shapes::ShapeRef.new(shape: RecommendationResult, location_name: "recommendationResult"))
+    GetRecommendationResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     GetRecommendationResponse.struct_class = Types::GetRecommendationResponse
 
     GetResourceApiKeyRequest.add_member(:workload_identity_token, Shapes::ShapeRef.new(shape: WorkloadIdentityTokenType, required: true, location_name: "workloadIdentityToken"))
@@ -1899,6 +2007,18 @@ module Aws::BedrockAgentCore
     InputContentBlock.struct_class = Types::InputContentBlock
 
     InputContentBlockList.member = Shapes::ShapeRef.new(shape: InputContentBlock)
+
+    Insight.add_member(:insight_id, Shapes::ShapeRef.new(shape: InsightId, required: true, location_name: "insightId"))
+    Insight.struct_class = Types::Insight
+
+    InsightList.member = Shapes::ShapeRef.new(shape: Insight)
+
+    InsightsFailureSignal.add_member(:category, Shapes::ShapeRef.new(shape: InsightsFailureCategory, required: true, location_name: "category"))
+    InsightsFailureSignal.add_member(:evidence, Shapes::ShapeRef.new(shape: String, required: true, location_name: "evidence"))
+    InsightsFailureSignal.add_member(:confidence, Shapes::ShapeRef.new(shape: Double, required: true, location_name: "confidence"))
+    InsightsFailureSignal.struct_class = Types::InsightsFailureSignal
+
+    InsightsFailureSignalList.member = Shapes::ShapeRef.new(shape: InsightsFailureSignal)
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
@@ -2399,6 +2519,10 @@ module Aws::BedrockAgentCore
 
     OAuthScopes.member = Shapes::ShapeRef.new(shape: OAuthScope)
 
+    OnlineEvaluationConfigSource.add_member(:online_evaluation_config_arn, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigArn, required: true, location_name: "onlineEvaluationConfigArn"))
+    OnlineEvaluationConfigSource.add_member(:session_filter_config, Shapes::ShapeRef.new(shape: SessionFilterConfig, location_name: "sessionFilterConfig"))
+    OnlineEvaluationConfigSource.struct_class = Types::OnlineEvaluationConfigSource
+
     OutputConfig.add_member(:cloud_watch_config, Shapes::ShapeRef.new(shape: CloudWatchOutputConfig, location_name: "cloudWatchConfig"))
     OutputConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     OutputConfig.add_member_subclass(:cloud_watch_config, Types::OutputConfig::CloudWatchConfig)
@@ -2639,6 +2763,16 @@ module Aws::BedrockAgentCore
     RightExpression.add_member_subclass(:unknown, Types::RightExpression::Unknown)
     RightExpression.struct_class = Types::RightExpression
 
+    RootCauseCluster.add_member(:cluster_id, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "clusterId"))
+    RootCauseCluster.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    RootCauseCluster.add_member(:root_cause, Shapes::ShapeRef.new(shape: String, required: true, location_name: "rootCause"))
+    RootCauseCluster.add_member(:recommendation, Shapes::ShapeRef.new(shape: String, required: true, location_name: "recommendation"))
+    RootCauseCluster.add_member(:affected_session_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "affectedSessionCount"))
+    RootCauseCluster.add_member(:affected_sessions, Shapes::ShapeRef.new(shape: AffectedSessionList, required: true, location_name: "affectedSessions"))
+    RootCauseCluster.struct_class = Types::RootCauseCluster
+
+    RootCauseClusterList.member = Shapes::ShapeRef.new(shape: RootCauseCluster)
+
     RuntimeClientError.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     RuntimeClientError.struct_class = Types::RuntimeClientError
 
@@ -2746,21 +2880,29 @@ module Aws::BedrockAgentCore
 
     StartBatchEvaluationRequest.add_member(:batch_evaluation_name, Shapes::ShapeRef.new(shape: BatchEvaluationName, required: true, location_name: "batchEvaluationName"))
     StartBatchEvaluationRequest.add_member(:evaluators, Shapes::ShapeRef.new(shape: StartBatchEvaluationRequestEvaluatorsList, location_name: "evaluators"))
+    StartBatchEvaluationRequest.add_member(:insights, Shapes::ShapeRef.new(shape: StartBatchEvaluationRequestInsightsList, location_name: "insights"))
     StartBatchEvaluationRequest.add_member(:data_source_config, Shapes::ShapeRef.new(shape: DataSourceConfig, required: true, location_name: "dataSourceConfig"))
     StartBatchEvaluationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     StartBatchEvaluationRequest.add_member(:evaluation_metadata, Shapes::ShapeRef.new(shape: EvaluationMetadata, location_name: "evaluationMetadata"))
+    StartBatchEvaluationRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
+    StartBatchEvaluationRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     StartBatchEvaluationRequest.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
     StartBatchEvaluationRequest.struct_class = Types::StartBatchEvaluationRequest
 
     StartBatchEvaluationRequestEvaluatorsList.member = Shapes::ShapeRef.new(shape: Evaluator)
 
+    StartBatchEvaluationRequestInsightsList.member = Shapes::ShapeRef.new(shape: Insight)
+
     StartBatchEvaluationResponse.add_member(:batch_evaluation_id, Shapes::ShapeRef.new(shape: BatchEvaluationId, required: true, location_name: "batchEvaluationId"))
     StartBatchEvaluationResponse.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
     StartBatchEvaluationResponse.add_member(:batch_evaluation_name, Shapes::ShapeRef.new(shape: BatchEvaluationName, required: true, location_name: "batchEvaluationName"))
     StartBatchEvaluationResponse.add_member(:evaluators, Shapes::ShapeRef.new(shape: EvaluatorList, location_name: "evaluators"))
+    StartBatchEvaluationResponse.add_member(:insights, Shapes::ShapeRef.new(shape: InsightList, location_name: "insights"))
     StartBatchEvaluationResponse.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
     StartBatchEvaluationResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
     StartBatchEvaluationResponse.add_member(:output_config, Shapes::ShapeRef.new(shape: OutputConfig, location_name: "outputConfig"))
+    StartBatchEvaluationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
+    StartBatchEvaluationResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     StartBatchEvaluationResponse.add_member(:description, Shapes::ShapeRef.new(shape: BatchEvaluationDescription, location_name: "description"))
     StartBatchEvaluationResponse.struct_class = Types::StartBatchEvaluationResponse
 
@@ -2810,7 +2952,9 @@ module Aws::BedrockAgentCore
     StartRecommendationRequest.add_member(:description, Shapes::ShapeRef.new(shape: RecommendationDescription, location_name: "description"))
     StartRecommendationRequest.add_member(:type, Shapes::ShapeRef.new(shape: RecommendationType, required: true, location_name: "type"))
     StartRecommendationRequest.add_member(:recommendation_config, Shapes::ShapeRef.new(shape: RecommendationConfig, required: true, location_name: "recommendationConfig"))
+    StartRecommendationRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     StartRecommendationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    StartRecommendationRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     StartRecommendationRequest.struct_class = Types::StartRecommendationRequest
 
     StartRecommendationResponse.add_member(:recommendation_id, Shapes::ShapeRef.new(shape: RecommendationId, required: true, location_name: "recommendationId"))
@@ -2907,14 +3051,18 @@ module Aws::BedrockAgentCore
 
     SystemPromptRecommendationConfig.add_member(:system_prompt, Shapes::ShapeRef.new(shape: SystemPromptConfig, required: true, location_name: "systemPrompt"))
     SystemPromptRecommendationConfig.add_member(:agent_traces, Shapes::ShapeRef.new(shape: AgentTracesConfig, required: true, location_name: "agentTraces"))
-    SystemPromptRecommendationConfig.add_member(:evaluation_config, Shapes::ShapeRef.new(shape: RecommendationEvaluationConfig, required: true, location_name: "evaluationConfig"))
+    SystemPromptRecommendationConfig.add_member(:evaluation_config, Shapes::ShapeRef.new(shape: RecommendationEvaluationConfig, location_name: "evaluationConfig"))
     SystemPromptRecommendationConfig.struct_class = Types::SystemPromptRecommendationConfig
 
     SystemPromptRecommendationResult.add_member(:recommended_system_prompt, Shapes::ShapeRef.new(shape: SystemPromptText, location_name: "recommendedSystemPrompt"))
     SystemPromptRecommendationResult.add_member(:configuration_bundle, Shapes::ShapeRef.new(shape: RecommendationResultConfigurationBundle, location_name: "configurationBundle"))
+    SystemPromptRecommendationResult.add_member(:explanation, Shapes::ShapeRef.new(shape: RecommendationExplanation, location_name: "explanation"))
     SystemPromptRecommendationResult.add_member(:error_code, Shapes::ShapeRef.new(shape: RecommendationErrorCode, location_name: "errorCode"))
     SystemPromptRecommendationResult.add_member(:error_message, Shapes::ShapeRef.new(shape: RecommendationErrorMessage, location_name: "errorMessage"))
     SystemPromptRecommendationResult.struct_class = Types::SystemPromptRecommendationResult
+
+    TagsMap.key = Shapes::ShapeRef.new(shape: TagKey)
+    TagsMap.value = Shapes::ShapeRef.new(shape: TagValue)
 
     TargetPathList.member = Shapes::ShapeRef.new(shape: PathPattern)
 
@@ -2970,6 +3118,7 @@ module Aws::BedrockAgentCore
 
     ToolDescriptionOutput.add_member(:tool_name, Shapes::ShapeRef.new(shape: RecommendationToolName, required: true, location_name: "toolName"))
     ToolDescriptionOutput.add_member(:recommended_tool_description, Shapes::ShapeRef.new(shape: ToolDescriptionText, location_name: "recommendedToolDescription"))
+    ToolDescriptionOutput.add_member(:explanation, Shapes::ShapeRef.new(shape: RecommendationExplanation, location_name: "explanation"))
     ToolDescriptionOutput.struct_class = Types::ToolDescriptionOutput
 
     ToolDescriptionRecommendationConfig.add_member(:tool_description, Shapes::ShapeRef.new(shape: ToolDescriptionSource, required: true, location_name: "toolDescription"))
@@ -3051,6 +3200,26 @@ module Aws::BedrockAgentCore
     UserIdentifier.add_member_subclass(:user_id, Types::UserIdentifier::UserId)
     UserIdentifier.add_member_subclass(:unknown, Types::UserIdentifier::Unknown)
     UserIdentifier.struct_class = Types::UserIdentifier
+
+    UserIntentAffectedSession.add_member(:session_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "sessionId"))
+    UserIntentAffectedSession.add_member(:user_messages, Shapes::ShapeRef.new(shape: UserIntentList, required: true, location_name: "userMessages"))
+    UserIntentAffectedSession.struct_class = Types::UserIntentAffectedSession
+
+    UserIntentAffectedSessionList.member = Shapes::ShapeRef.new(shape: UserIntentAffectedSession)
+
+    UserIntentCluster.add_member(:cluster_id, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "clusterId"))
+    UserIntentCluster.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    UserIntentCluster.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    UserIntentCluster.add_member(:affected_session_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "affectedSessionCount"))
+    UserIntentCluster.add_member(:affected_sessions, Shapes::ShapeRef.new(shape: UserIntentAffectedSessionList, required: true, location_name: "affectedSessions"))
+    UserIntentCluster.struct_class = Types::UserIntentCluster
+
+    UserIntentClusterList.member = Shapes::ShapeRef.new(shape: UserIntentCluster)
+
+    UserIntentClusteringResultContent.add_member(:user_intents, Shapes::ShapeRef.new(shape: UserIntentClusterList, required: true, location_name: "userIntents"))
+    UserIntentClusteringResultContent.struct_class = Types::UserIntentClusteringResultContent
+
+    UserIntentList.member = Shapes::ShapeRef.new(shape: String)
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ValidationException.add_member(:reason, Shapes::ShapeRef.new(shape: ValidationExceptionReason, required: true, location_name: "reason"))

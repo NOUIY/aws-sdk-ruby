@@ -400,12 +400,9 @@ module Aws::ACM
     #   @return [String]
     #
     # @!attribute [rw] options
-    #   Value that specifies whether to add the certificate to a
-    #   transparency log. Certificate transparency makes it possible to
-    #   detect SSL certificates that have been mistakenly or maliciously
-    #   issued. A browser might respond to certificate that has not been
-    #   logged by showing an error message. The logs are cryptographically
-    #   secure.
+    #   Contains the certificate options. Certificate transparency logging
+    #   opt-out is no longer available. All public certificates are recorded
+    #   in a certificate transparency log.
     #   @return [Types::CertificateOptions]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-2015-12-08/CertificateDetail AWS API Documentation
@@ -539,15 +536,11 @@ module Aws::ACM
     end
 
     # Structure that contains options for your certificate. You can use this
-    # structure to specify whether to opt in to or out of certificate
-    # transparency logging and export your certificate.
+    # structure to specify whether to export your certificate.
     #
-    # Some browsers require that public certificates issued for your domain
-    # be recorded in a log. Certificates that are not logged typically
-    # generate a browser error. Transparency makes it possible for you to
-    # detect SSL/TLS certificates that have been mistakenly or maliciously
-    # issued for your domain. For general information, see [Certificate
-    # Transparency Logging][1].
+    # Certificate transparency logging opt-out is no longer available. All
+    # public certificates are recorded in a certificate transparency log.
+    # For general information, see [Certificate Transparency Logging][1].
     #
     # You can export public ACM certificates to use with Amazon Web Services
     # services as well as outside Amazon Web Services Cloud. For more
@@ -560,8 +553,9 @@ module Aws::ACM
     # [2]: https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html
     #
     # @!attribute [rw] certificate_transparency_logging_preference
-    #   You can opt out of certificate transparency logging by specifying
-    #   the `DISABLED` option. Opt in by specifying `ENABLED`.
+    #   This parameter has been deprecated. Certificate transparency logging
+    #   opt-out is no longer available. All public certificates are recorded
+    #   in a certificate transparency log.
     #   @return [String]
     #
     # @!attribute [rw] export
@@ -1916,14 +1910,12 @@ module Aws::ACM
     #   @return [Array<Types::DomainValidationOption>]
     #
     # @!attribute [rw] options
-    #   You can use this parameter to specify whether to add the certificate
-    #   to a certificate transparency log and export your certificate.
+    #   You can use this parameter to specify whether to export your
+    #   certificate.
     #
-    #   Certificate transparency makes it possible to detect SSL/TLS
-    #   certificates that have been mistakenly or maliciously issued.
-    #   Certificates that have not been logged typically produce an error
-    #   message in a browser. For more information, see [Opting Out of
-    #   Certificate Transparency Logging][1].
+    #   Certificate transparency logging opt-out is no longer available. All
+    #   public certificates are recorded in a certificate transparency log.
+    #   For more information, see [Certificate Transparency Logging][1].
     #
     #   You can export public ACM certificates to use with Amazon Web
     #   Services services as well as outside the Amazon Web Services Cloud.
@@ -1932,7 +1924,7 @@ module Aws::ACM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency
+    #   [1]: https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency
     #   [2]: https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html
     #   @return [Types::CertificateOptions]
     #
@@ -2398,11 +2390,14 @@ module Aws::ACM
     #
     # @!attribute [rw] options
     #   Use to update the options for your certificate. Currently, you can
-    #   specify whether to add your certificate to a transparency log or
-    #   export your certificate. Certificate transparency makes it possible
-    #   to detect SSL/TLS certificates that have been mistakenly or
-    #   maliciously issued. Certificates that have not been logged typically
-    #   produce an error message in a browser.
+    #   specify whether to export your certificate. Certificate transparency
+    #   logging opt-out is no longer available. All public certificates are
+    #   recorded in a certificate transparency log. For more information,
+    #   see [Certificate Transparency Logging][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency
     #   @return [Types::CertificateOptions]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-2015-12-08/UpdateCertificateOptionsRequest AWS API Documentation

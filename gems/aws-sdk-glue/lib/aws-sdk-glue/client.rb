@@ -10553,6 +10553,20 @@ module Aws::Glue
     #   Specifies whether to include status details related to a request to
     #   create or update an Glue Data Catalog view.
     #
+    # @option params [Array<String>] :attributes_to_get
+    #   Specifies the table fields returned by the `GetTable` call. This
+    #   parameter doesn't accept an empty list.
+    #
+    #   The following are the valid combinations of values:
+    #
+    #   * `DEFAULT` - Returns the Hive-style table definition only.
+    #
+    #   * `LATEST_ICEBERG_METADATA` - Returns only the latest Apache Iceberg
+    #     table metadata.
+    #
+    #   * `DEFAULT`, `LATEST_ICEBERG_METADATA` - Returns both the Hive-style
+    #     table definition and the latest Apache Iceberg table metadata.
+    #
     # @return [Types::GetTableResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetTableResponse#table #table} => Types::Table
@@ -10571,6 +10585,7 @@ module Aws::Glue
     #       all_columns_requested: false,
     #     },
     #     include_status_details: false,
+    #     attributes_to_get: ["NAME"], # accepts NAME, TABLE_TYPE, DEFAULT, LATEST_ICEBERG_METADATA
     #   })
     #
     # @example Response structure
@@ -10662,6 +10677,40 @@ module Aws::Glue
     #   resp.table.view_definition.representations[0].is_stale #=> Boolean
     #   resp.table.is_multi_dialect_view #=> Boolean
     #   resp.table.is_materialized_view #=> Boolean
+    #   resp.table.iceberg_table_metadata.format_version #=> String
+    #   resp.table.iceberg_table_metadata.table_uuid #=> String
+    #   resp.table.iceberg_table_metadata.location #=> String
+    #   resp.table.iceberg_table_metadata.properties #=> Hash
+    #   resp.table.iceberg_table_metadata.properties["NullableString"] #=> String
+    #   resp.table.iceberg_table_metadata.schemas #=> Array
+    #   resp.table.iceberg_table_metadata.schemas[0].schema_id #=> Integer
+    #   resp.table.iceberg_table_metadata.schemas[0].identifier_field_ids #=> Array
+    #   resp.table.iceberg_table_metadata.schemas[0].identifier_field_ids[0] #=> Integer
+    #   resp.table.iceberg_table_metadata.schemas[0].type #=> String, one of "struct"
+    #   resp.table.iceberg_table_metadata.schemas[0].fields #=> Array
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].id #=> Integer
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].name #=> String
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].required #=> Boolean
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].doc #=> String
+    #   resp.table.iceberg_table_metadata.current_schema_id #=> Integer
+    #   resp.table.iceberg_table_metadata.last_column_id #=> Integer
+    #   resp.table.iceberg_table_metadata.partition_specs #=> Array
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields #=> Array
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].source_id #=> Integer
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].transform #=> String
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].name #=> String
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].field_id #=> Integer
+    #   resp.table.iceberg_table_metadata.partition_specs[0].spec_id #=> Integer
+    #   resp.table.iceberg_table_metadata.default_spec_id #=> Integer
+    #   resp.table.iceberg_table_metadata.last_partition_id #=> Integer
+    #   resp.table.iceberg_table_metadata.sort_orders #=> Array
+    #   resp.table.iceberg_table_metadata.sort_orders[0].order_id #=> Integer
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields #=> Array
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].source_id #=> Integer
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].transform #=> String
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].direction #=> String, one of "asc", "desc"
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].null_order #=> String, one of "nulls-first", "nulls-last"
+    #   resp.table.iceberg_table_metadata.default_sort_order_id #=> Integer
     #   resp.table.status.requested_by #=> String
     #   resp.table.status.updated_by #=> String
     #   resp.table.status.request_time #=> Time
@@ -10902,6 +10951,40 @@ module Aws::Glue
     #   resp.table_version.table.view_definition.representations[0].is_stale #=> Boolean
     #   resp.table_version.table.is_multi_dialect_view #=> Boolean
     #   resp.table_version.table.is_materialized_view #=> Boolean
+    #   resp.table_version.table.iceberg_table_metadata.format_version #=> String
+    #   resp.table_version.table.iceberg_table_metadata.table_uuid #=> String
+    #   resp.table_version.table.iceberg_table_metadata.location #=> String
+    #   resp.table_version.table.iceberg_table_metadata.properties #=> Hash
+    #   resp.table_version.table.iceberg_table_metadata.properties["NullableString"] #=> String
+    #   resp.table_version.table.iceberg_table_metadata.schemas #=> Array
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].schema_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].identifier_field_ids #=> Array
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].identifier_field_ids[0] #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].type #=> String, one of "struct"
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].fields #=> Array
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].fields[0].id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].fields[0].name #=> String
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].fields[0].required #=> Boolean
+    #   resp.table_version.table.iceberg_table_metadata.schemas[0].fields[0].doc #=> String
+    #   resp.table_version.table.iceberg_table_metadata.current_schema_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.last_column_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.partition_specs #=> Array
+    #   resp.table_version.table.iceberg_table_metadata.partition_specs[0].fields #=> Array
+    #   resp.table_version.table.iceberg_table_metadata.partition_specs[0].fields[0].source_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.partition_specs[0].fields[0].transform #=> String
+    #   resp.table_version.table.iceberg_table_metadata.partition_specs[0].fields[0].name #=> String
+    #   resp.table_version.table.iceberg_table_metadata.partition_specs[0].fields[0].field_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.partition_specs[0].spec_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.default_spec_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.last_partition_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.sort_orders #=> Array
+    #   resp.table_version.table.iceberg_table_metadata.sort_orders[0].order_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.sort_orders[0].fields #=> Array
+    #   resp.table_version.table.iceberg_table_metadata.sort_orders[0].fields[0].source_id #=> Integer
+    #   resp.table_version.table.iceberg_table_metadata.sort_orders[0].fields[0].transform #=> String
+    #   resp.table_version.table.iceberg_table_metadata.sort_orders[0].fields[0].direction #=> String, one of "asc", "desc"
+    #   resp.table_version.table.iceberg_table_metadata.sort_orders[0].fields[0].null_order #=> String, one of "nulls-first", "nulls-last"
+    #   resp.table_version.table.iceberg_table_metadata.default_sort_order_id #=> Integer
     #   resp.table_version.table.status.requested_by #=> String
     #   resp.table_version.table.status.updated_by #=> String
     #   resp.table_version.table.status.request_time #=> Time
@@ -11066,6 +11149,40 @@ module Aws::Glue
     #   resp.table_versions[0].table.view_definition.representations[0].is_stale #=> Boolean
     #   resp.table_versions[0].table.is_multi_dialect_view #=> Boolean
     #   resp.table_versions[0].table.is_materialized_view #=> Boolean
+    #   resp.table_versions[0].table.iceberg_table_metadata.format_version #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.table_uuid #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.location #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.properties #=> Hash
+    #   resp.table_versions[0].table.iceberg_table_metadata.properties["NullableString"] #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas #=> Array
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].schema_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].identifier_field_ids #=> Array
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].identifier_field_ids[0] #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].type #=> String, one of "struct"
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].fields #=> Array
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].fields[0].id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].fields[0].name #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].fields[0].required #=> Boolean
+    #   resp.table_versions[0].table.iceberg_table_metadata.schemas[0].fields[0].doc #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.current_schema_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.last_column_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.partition_specs #=> Array
+    #   resp.table_versions[0].table.iceberg_table_metadata.partition_specs[0].fields #=> Array
+    #   resp.table_versions[0].table.iceberg_table_metadata.partition_specs[0].fields[0].source_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.partition_specs[0].fields[0].transform #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.partition_specs[0].fields[0].name #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.partition_specs[0].fields[0].field_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.partition_specs[0].spec_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.default_spec_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.last_partition_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.sort_orders #=> Array
+    #   resp.table_versions[0].table.iceberg_table_metadata.sort_orders[0].order_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.sort_orders[0].fields #=> Array
+    #   resp.table_versions[0].table.iceberg_table_metadata.sort_orders[0].fields[0].source_id #=> Integer
+    #   resp.table_versions[0].table.iceberg_table_metadata.sort_orders[0].fields[0].transform #=> String
+    #   resp.table_versions[0].table.iceberg_table_metadata.sort_orders[0].fields[0].direction #=> String, one of "asc", "desc"
+    #   resp.table_versions[0].table.iceberg_table_metadata.sort_orders[0].fields[0].null_order #=> String, one of "nulls-first", "nulls-last"
+    #   resp.table_versions[0].table.iceberg_table_metadata.default_sort_order_id #=> Integer
     #   resp.table_versions[0].table.status.requested_by #=> String
     #   resp.table_versions[0].table.status.updated_by #=> String
     #   resp.table_versions[0].table.status.request_time #=> Time
@@ -11169,7 +11286,7 @@ module Aws::Glue
     #       all_columns_requested: false,
     #     },
     #     include_status_details: false,
-    #     attributes_to_get: ["NAME"], # accepts NAME, TABLE_TYPE
+    #     attributes_to_get: ["NAME"], # accepts NAME, TABLE_TYPE, DEFAULT, LATEST_ICEBERG_METADATA
     #   })
     #
     # @example Response structure
@@ -11262,6 +11379,40 @@ module Aws::Glue
     #   resp.table_list[0].view_definition.representations[0].is_stale #=> Boolean
     #   resp.table_list[0].is_multi_dialect_view #=> Boolean
     #   resp.table_list[0].is_materialized_view #=> Boolean
+    #   resp.table_list[0].iceberg_table_metadata.format_version #=> String
+    #   resp.table_list[0].iceberg_table_metadata.table_uuid #=> String
+    #   resp.table_list[0].iceberg_table_metadata.location #=> String
+    #   resp.table_list[0].iceberg_table_metadata.properties #=> Hash
+    #   resp.table_list[0].iceberg_table_metadata.properties["NullableString"] #=> String
+    #   resp.table_list[0].iceberg_table_metadata.schemas #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].schema_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].identifier_field_ids #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].identifier_field_ids[0] #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].type #=> String, one of "struct"
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].name #=> String
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].required #=> Boolean
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].doc #=> String
+    #   resp.table_list[0].iceberg_table_metadata.current_schema_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.last_column_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].source_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].transform #=> String
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].name #=> String
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].field_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].spec_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.default_spec_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.last_partition_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].order_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].source_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].transform #=> String
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].direction #=> String, one of "asc", "desc"
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].null_order #=> String, one of "nulls-first", "nulls-last"
+    #   resp.table_list[0].iceberg_table_metadata.default_sort_order_id #=> Integer
     #   resp.table_list[0].status.requested_by #=> String
     #   resp.table_list[0].status.updated_by #=> String
     #   resp.table_list[0].status.request_time #=> Time
@@ -12007,6 +12158,40 @@ module Aws::Glue
     #   resp.table.view_definition.representations[0].is_stale #=> Boolean
     #   resp.table.is_multi_dialect_view #=> Boolean
     #   resp.table.is_materialized_view #=> Boolean
+    #   resp.table.iceberg_table_metadata.format_version #=> String
+    #   resp.table.iceberg_table_metadata.table_uuid #=> String
+    #   resp.table.iceberg_table_metadata.location #=> String
+    #   resp.table.iceberg_table_metadata.properties #=> Hash
+    #   resp.table.iceberg_table_metadata.properties["NullableString"] #=> String
+    #   resp.table.iceberg_table_metadata.schemas #=> Array
+    #   resp.table.iceberg_table_metadata.schemas[0].schema_id #=> Integer
+    #   resp.table.iceberg_table_metadata.schemas[0].identifier_field_ids #=> Array
+    #   resp.table.iceberg_table_metadata.schemas[0].identifier_field_ids[0] #=> Integer
+    #   resp.table.iceberg_table_metadata.schemas[0].type #=> String, one of "struct"
+    #   resp.table.iceberg_table_metadata.schemas[0].fields #=> Array
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].id #=> Integer
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].name #=> String
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].required #=> Boolean
+    #   resp.table.iceberg_table_metadata.schemas[0].fields[0].doc #=> String
+    #   resp.table.iceberg_table_metadata.current_schema_id #=> Integer
+    #   resp.table.iceberg_table_metadata.last_column_id #=> Integer
+    #   resp.table.iceberg_table_metadata.partition_specs #=> Array
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields #=> Array
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].source_id #=> Integer
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].transform #=> String
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].name #=> String
+    #   resp.table.iceberg_table_metadata.partition_specs[0].fields[0].field_id #=> Integer
+    #   resp.table.iceberg_table_metadata.partition_specs[0].spec_id #=> Integer
+    #   resp.table.iceberg_table_metadata.default_spec_id #=> Integer
+    #   resp.table.iceberg_table_metadata.last_partition_id #=> Integer
+    #   resp.table.iceberg_table_metadata.sort_orders #=> Array
+    #   resp.table.iceberg_table_metadata.sort_orders[0].order_id #=> Integer
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields #=> Array
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].source_id #=> Integer
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].transform #=> String
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].direction #=> String, one of "asc", "desc"
+    #   resp.table.iceberg_table_metadata.sort_orders[0].fields[0].null_order #=> String, one of "nulls-first", "nulls-last"
+    #   resp.table.iceberg_table_metadata.default_sort_order_id #=> Integer
     #   resp.table.status.requested_by #=> String
     #   resp.table.status.updated_by #=> String
     #   resp.table.status.request_time #=> Time
@@ -15676,6 +15861,40 @@ module Aws::Glue
     #   resp.table_list[0].view_definition.representations[0].is_stale #=> Boolean
     #   resp.table_list[0].is_multi_dialect_view #=> Boolean
     #   resp.table_list[0].is_materialized_view #=> Boolean
+    #   resp.table_list[0].iceberg_table_metadata.format_version #=> String
+    #   resp.table_list[0].iceberg_table_metadata.table_uuid #=> String
+    #   resp.table_list[0].iceberg_table_metadata.location #=> String
+    #   resp.table_list[0].iceberg_table_metadata.properties #=> Hash
+    #   resp.table_list[0].iceberg_table_metadata.properties["NullableString"] #=> String
+    #   resp.table_list[0].iceberg_table_metadata.schemas #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].schema_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].identifier_field_ids #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].identifier_field_ids[0] #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].type #=> String, one of "struct"
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].name #=> String
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].required #=> Boolean
+    #   resp.table_list[0].iceberg_table_metadata.schemas[0].fields[0].doc #=> String
+    #   resp.table_list[0].iceberg_table_metadata.current_schema_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.last_column_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].source_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].transform #=> String
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].name #=> String
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].fields[0].field_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.partition_specs[0].spec_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.default_spec_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.last_partition_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].order_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields #=> Array
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].source_id #=> Integer
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].transform #=> String
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].direction #=> String, one of "asc", "desc"
+    #   resp.table_list[0].iceberg_table_metadata.sort_orders[0].fields[0].null_order #=> String, one of "nulls-first", "nulls-last"
+    #   resp.table_list[0].iceberg_table_metadata.default_sort_order_id #=> Integer
     #   resp.table_list[0].status.requested_by #=> String
     #   resp.table_list[0].status.updated_by #=> String
     #   resp.table_list[0].status.request_time #=> Time
@@ -19137,7 +19356,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.260.0'
+      context[:gem_version] = '1.261.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

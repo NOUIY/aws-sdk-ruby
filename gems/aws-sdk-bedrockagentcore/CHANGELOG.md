@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.40.0 (2026-06-12)
+------------------
+
+* Feature - Added tagging and CMK support across optimization, an explanation field in recommendation output, and an insights feature to identify failure patterns, extract user intents, and summarize execution behavior
+
 1.39.0 (2026-06-11)
 ------------------
 

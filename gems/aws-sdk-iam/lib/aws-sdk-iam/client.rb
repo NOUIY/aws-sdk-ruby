@@ -2479,21 +2479,30 @@ module Aws::IAM
     # You can have a maximum of two sets of service-specific credentials for
     # each supported service per user.
     #
-    # You can create service-specific credentials for Amazon Bedrock, Amazon
-    # CloudWatch Logs, CodeCommit and Amazon Keyspaces (for Apache
-    # Cassandra).
-    #
     # You can reset the password to a new service-generated value by calling
     # [ResetServiceSpecificCredential][1].
     #
-    # For more information about service-specific credentials, see
-    # [Service-specific credentials for IAM users][2] in the *IAM User
-    # Guide*.
+    # For more information about using service-specific credentials to
+    # authenticate to an Amazon Web Services service, refer to the following
+    # docs:
+    #
+    # * For service-specific credentials with CodeCommit, refer to [IAM
+    #   credentials for CodeCommit: Git credentials, SSH keys, and Amazon
+    #   Web Services access keys][2] in the *IAM User Guide*.
+    #
+    # * For service-specific credentials with Amazon Keyspaces (for Apache
+    #   Cassandra), refer to [Use IAM with Amazon Keyspaces (for Apache
+    #   Cassandra)][3] in the *IAM User Guide*.
+    #
+    # * For services that support long-term API keys, refer to [API keys for
+    #   Amazon Web Services services][4] in the *IAM User Guide*.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResetServiceSpecificCredential.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_bedrock.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_keyspaces.html
+    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html
     #
     # @option params [required, String] :user_name
     #   The name of the IAM user that is to be associated with the
@@ -2517,9 +2526,16 @@ module Aws::IAM
     #
     # @option params [Integer] :credential_age_days
     #   The number of days until the service specific credential expires. This
-    #   field is only valid for Bedrock and CloudWatch Logs API keys and must
-    #   be a positive integer. When not specified, the credential will not
-    #   expire.
+    #   field is only valid for services that support long-term API keys and
+    #   must be a positive integer. When not specified, the credential will
+    #   not expire.
+    #
+    #   To see which services support long-term API keys, refer to [API keys
+    #   for Amazon Web Services services][1] in the *IAM User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html
     #
     # @return [Types::CreateServiceSpecificCredentialResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -9868,12 +9884,25 @@ module Aws::IAM
     # empty list. The service-specific credentials returned by this
     # operation are used only for authenticating the IAM user to a specific
     # service. For more information about using service-specific credentials
-    # to authenticate to an Amazon Web Services service, see [Set up
-    # service-specific credentials][1] in the CodeCommit User Guide.
+    # to authenticate to an Amazon Web Services service, refer to the
+    # following docs:
+    #
+    # * For service-specific credentials with CodeCommit, refer to [IAM
+    #   credentials for CodeCommit: Git credentials, SSH keys, and Amazon
+    #   Web Services access keys][1] in the *IAM User Guide*.
+    #
+    # * For service-specific credentials with Amazon Keyspaces (for Apache
+    #   Cassandra), refer to [Use IAM with Amazon Keyspaces (for Apache
+    #   Cassandra)][2] in the *IAM User Guide*.
+    #
+    # * For services that support long-term API keys, refer to [API keys for
+    #   Amazon Web Services services][3] in the *IAM User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_keyspaces.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html
     #
     # @option params [String] :user_name
     #   The name of the user whose service-specific credentials you want
@@ -14697,7 +14726,7 @@ module Aws::IAM
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-iam'
-      context[:gem_version] = '1.147.0'
+      context[:gem_version] = '1.148.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

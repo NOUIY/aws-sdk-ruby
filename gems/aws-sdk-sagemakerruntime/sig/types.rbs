@@ -35,7 +35,8 @@ module Aws::SageMakerRuntime
       attr_accessor filename: ::String
       attr_accessor request_ttl_seconds: ::Integer
       attr_accessor invocation_timeout_seconds: ::Integer
-      SENSITIVE: [:custom_attributes]
+      attr_accessor body: ::String
+      SENSITIVE: [:custom_attributes, :body]
     end
 
     class InvokeEndpointAsyncOutput

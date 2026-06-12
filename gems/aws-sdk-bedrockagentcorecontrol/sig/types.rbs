@@ -310,6 +310,11 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class ClusteringConfig
+      attr_accessor frequencies: ::Array[("DAILY" | "WEEKLY" | "MONTHLY")]
+      SENSITIVE: []
+    end
+
     class Code
       attr_accessor s3: Types::S3Location
       attr_accessor unknown: untyped
@@ -609,6 +614,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor branch_name: ::String
       attr_accessor commit_message: ::String
       attr_accessor created_by: Types::VersionCreatedBySource
+      attr_accessor kms_key_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:description]
     end
@@ -842,6 +848,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor rule: Types::Rule
       attr_accessor data_source_config: Types::DataSourceConfig
       attr_accessor evaluators: ::Array[Types::EvaluatorReference]
+      attr_accessor insights: ::Array[Types::Insight]
+      attr_accessor clustering_config: Types::ClusteringConfig
       attr_accessor evaluation_execution_role_arn: ::String
       attr_accessor enable_on_create: bool
       attr_accessor tags: ::Hash[::String, ::String]
@@ -2032,6 +2040,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor lineage_metadata: Types::VersionLineageMetadata
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -2051,6 +2060,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor lineage_metadata: Types::VersionLineageMetadata
       attr_accessor created_at: ::Time
       attr_accessor version_created_at: ::Time
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -2230,6 +2240,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor rule: Types::Rule
       attr_accessor data_source_config: Types::DataSourceConfig
       attr_accessor evaluators: ::Array[Types::EvaluatorReference]
+      attr_accessor insights: ::Array[Types::Insight]
+      attr_accessor clustering_config: Types::ClusteringConfig
       attr_accessor output_config: Types::OutputConfig
       attr_accessor evaluation_execution_role_arn: ::String
       attr_accessor status: ("ACTIVE" | "CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "DELETING" | "ERROR")
@@ -2896,6 +2908,11 @@ module Aws::BedrockAgentCoreControl
 
     class InlineExamplesSource
       attr_accessor examples: ::Array[untyped]
+      SENSITIVE: []
+    end
+
+    class Insight
+      attr_accessor insight_id: ::String
       SENSITIVE: []
     end
 
@@ -3865,6 +3882,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor failure_reason: ::String
+      attr_accessor insights: ::Array[Types::Insight]
+      attr_accessor clustering_config: Types::ClusteringConfig
       SENSITIVE: [:description]
     end
 
@@ -4854,6 +4873,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor branch_name: ::String
       attr_accessor commit_message: ::String
       attr_accessor created_by: Types::VersionCreatedBySource
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -5080,6 +5100,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor rule: Types::Rule
       attr_accessor data_source_config: Types::DataSourceConfig
       attr_accessor evaluators: ::Array[Types::EvaluatorReference]
+      attr_accessor insights: ::Array[Types::Insight]
+      attr_accessor clustering_config: Types::ClusteringConfig
       attr_accessor evaluation_execution_role_arn: ::String
       attr_accessor execution_status: ("ENABLED" | "DISABLED")
       SENSITIVE: [:description]

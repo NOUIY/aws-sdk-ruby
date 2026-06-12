@@ -198,7 +198,8 @@ module Aws
                             },
                             role_arn: ::String,
                             ?enable_on_create: bool,
-                            ?client_token: ::String
+                            ?client_token: ::String,
+                            ?tags: Hash[::String, ::String]
                           ) -> _CreateABTestResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateABTestResponseSuccess
 
@@ -499,12 +500,17 @@ module Aws
         def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
         def created_at: () -> ::Time
         def evaluators: () -> ::Array[Types::Evaluator]
+        def insights: () -> ::Array[Types::Insight]
         def data_source_config: () -> Types::DataSourceConfig
         def output_config: () -> Types::OutputConfig
         def evaluation_results: () -> Types::EvaluationJobResults
+        def failure_analysis_result: () -> Types::FailureAnalysisResultContent
+        def user_intent_result: () -> Types::UserIntentClusteringResultContent
+        def execution_summary_result: () -> Types::ExecutionSummaryClusteringResultContent
         def error_details: () -> ::Array[::String]
         def description: () -> ::String
         def updated_at: () -> ::Time
+        def kms_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#get_batch_evaluation-instance_method
       def get_batch_evaluation: (
@@ -634,6 +640,7 @@ module Aws
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
         def recommendation_result: () -> Types::RecommendationResult
+        def kms_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#get_recommendation-instance_method
       def get_recommendation: (
@@ -1322,9 +1329,12 @@ module Aws
         def batch_evaluation_arn: () -> ::String
         def batch_evaluation_name: () -> ::String
         def evaluators: () -> ::Array[Types::Evaluator]
+        def insights: () -> ::Array[Types::Insight]
         def status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "COMPLETED_WITH_ERRORS" | "FAILED" | "STOPPING" | "STOPPED" | "DELETING")
         def created_at: () -> ::Time
         def output_config: () -> Types::OutputConfig
+        def tags: () -> ::Hash[::String, ::String]
+        def kms_key_arn: () -> ::String
         def description: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#start_batch_evaluation-instance_method
@@ -1333,6 +1343,11 @@ module Aws
                                     ?evaluators: Array[
                                       {
                                         evaluator_id: ::String
+                                      }
+                                    ],
+                                    ?insights: Array[
+                                      {
+                                        insight_id: ::String
                                       }
                                     ],
                                     data_source_config: {
@@ -1345,6 +1360,13 @@ module Aws
                                             start_time: ::Time?,
                                             end_time: ::Time?
                                           }?
+                                        }?
+                                      }?,
+                                      online_evaluation_config_source: {
+                                        online_evaluation_config_arn: ::String,
+                                        session_filter_config: {
+                                          start_time: ::Time?,
+                                          end_time: ::Time?
                                         }?
                                       }?
                                     },
@@ -1380,6 +1402,8 @@ module Aws
                                         }
                                       ]?
                                     },
+                                    ?tags: Hash[::String, ::String],
+                                    ?kms_key_arn: ::String,
                                     ?description: ::String
                                   ) -> _StartBatchEvaluationResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartBatchEvaluationResponseSuccess
@@ -1534,7 +1558,7 @@ module Aws
                                             evaluator_arn: ::String
                                           }
                                         ]
-                                      }
+                                      }?
                                     }?,
                                     tool_description_recommendation_config: {
                                       tool_description: {
@@ -1562,7 +1586,9 @@ module Aws
                                       agent_traces: Params::agent_traces_config
                                     }?
                                   },
-                                  ?client_token: ::String
+                                  ?kms_key_arn: ::String,
+                                  ?client_token: ::String,
+                                  ?tags: Hash[::String, ::String]
                                 ) -> _StartRecommendationResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartRecommendationResponseSuccess
 

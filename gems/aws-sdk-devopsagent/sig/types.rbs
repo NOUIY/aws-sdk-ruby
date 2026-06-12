@@ -335,6 +335,21 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class CreateTriggerRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor type: ::String
+      attr_accessor condition: Types::TriggerCondition
+      attr_accessor action: untyped
+      attr_accessor status: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateTriggerResponse
+      attr_accessor trigger: Types::Trigger
+      SENSITIVE: []
+    end
+
     class DatadogAuthorizationConfig
       attr_accessor authorization_discovery: Types::MCPServerAuthorizationDiscoveryConfig
       attr_accessor unknown: untyped
@@ -390,6 +405,15 @@ module Aws::DevOpsAgent
       attr_accessor name: ::String
       attr_accessor status: ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
       SENSITIVE: []
+    end
+
+    class DeleteTriggerRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor trigger_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteTriggerResponse < Aws::EmptyStructure
     end
 
     class DeregisterServiceInput
@@ -634,6 +658,17 @@ module Aws::DevOpsAgent
     class GetServiceOutput
       attr_accessor service: Types::RegisteredService
       attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class GetTriggerRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor trigger_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetTriggerResponse
+      attr_accessor trigger: Types::Trigger
       SENSITIVE: []
     end
 
@@ -973,6 +1008,20 @@ module Aws::DevOpsAgent
 
     class ListTagsForResourceResponse
       attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class ListTriggersRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor status: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListTriggersResponse
+      attr_accessor items: ::Array[Types::Trigger]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -1372,6 +1421,11 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class ScheduleCondition
+      attr_accessor expression: ::String
+      SENSITIVE: []
+    end
+
     class SelfManagedInput
       attr_accessor resource_configuration_id: ::String
       attr_accessor certificate: ::String
@@ -1726,6 +1780,29 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class Trigger
+      attr_accessor trigger_id: ::String
+      attr_accessor agent_space_id: ::String
+      attr_accessor type: ::String
+      attr_accessor condition: Types::TriggerCondition
+      attr_accessor action: untyped
+      attr_accessor status: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class TriggerCondition
+      attr_accessor schedule: Types::ScheduleCondition
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Schedule < TriggerCondition
+      end
+      class Unknown < TriggerCondition
+      end
+    end
+
     class UntagResourceRequest
       attr_accessor resource_arn: ::String
       attr_accessor tag_keys: ::Array[::String]
@@ -1859,6 +1936,19 @@ module Aws::DevOpsAgent
 
     class UpdateRecommendationResponse
       attr_accessor recommendation: Types::Recommendation
+      SENSITIVE: []
+    end
+
+    class UpdateTriggerRequest
+      attr_accessor agent_space_id: ::String
+      attr_accessor trigger_id: ::String
+      attr_accessor status: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateTriggerResponse
+      attr_accessor trigger: Types::Trigger
       SENSITIVE: []
     end
 

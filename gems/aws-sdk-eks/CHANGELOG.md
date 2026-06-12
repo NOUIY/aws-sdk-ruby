@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.169.0 (2026-06-12)
+------------------
+
+* Feature - Patches missing enum values for EKS updates
+
 1.168.0 (2026-06-11)
 ------------------
 

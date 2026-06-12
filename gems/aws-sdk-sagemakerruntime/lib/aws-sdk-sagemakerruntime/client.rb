@@ -742,7 +742,7 @@ module Aws::SageMakerRuntime
     #   The identifier for the inference request. Amazon SageMaker AI will
     #   generate an identifier for you if none is specified.
     #
-    # @option params [required, String] :input_location
+    # @option params [String] :input_location
     #   The Amazon S3 URI where the inference request payload is stored.
     #
     # @option params [String] :s3_output_path_extension
@@ -762,6 +762,23 @@ module Aws::SageMakerRuntime
     #   Maximum amount of time in seconds a request can be processed before it
     #   is marked as expired. The default is 15 minutes, or 900 seconds.
     #
+    # @option params [String, StringIO, File] :body
+    #   Provides inline input data for the inference request, in the format
+    #   specified in the `ContentType` request header. Use this parameter to
+    #   send the request payload directly in the API call instead of uploading
+    #   it to Amazon S3 and referencing it with `InputLocation`. The inline
+    #   payload can be up to 128,000 bytes.
+    #
+    #   `Body` and `InputLocation` are mutually exclusive. Provide exactly one
+    #   of them.
+    #
+    #   For information about the format of the request body, see [Common Data
+    #   Formats-Inference][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html
+    #
     # @return [Types::InvokeEndpointAsyncOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::InvokeEndpointAsyncOutput#inference_id #inference_id} => String
@@ -776,11 +793,12 @@ module Aws::SageMakerRuntime
     #     accept: "Header",
     #     custom_attributes: "CustomAttributesHeader",
     #     inference_id: "InferenceId",
-    #     input_location: "InputLocationHeader", # required
+    #     input_location: "InputLocationHeader",
     #     s3_output_path_extension: "S3OutputPathExtensionHeader",
     #     filename: "FilenameHeader",
     #     request_ttl_seconds: 1,
     #     invocation_timeout_seconds: 1,
+    #     body: "data",
     #   })
     #
     # @example Response structure
@@ -1117,7 +1135,7 @@ module Aws::SageMakerRuntime
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemakerruntime'
-      context[:gem_version] = '1.99.0'
+      context[:gem_version] = '1.100.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

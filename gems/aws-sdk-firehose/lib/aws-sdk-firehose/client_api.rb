@@ -15,6 +15,7 @@ module Aws::Firehose
     include Seahorse::Model
 
     AWSKMSKeyARN = Shapes::StringShape.new(name: 'AWSKMSKeyARN')
+    AWSKMSKeyARNForSSE = Shapes::StringShape.new(name: 'AWSKMSKeyARNForSSE')
     AmazonOpenSearchServerlessBufferingHints = Shapes::StructureShape.new(name: 'AmazonOpenSearchServerlessBufferingHints')
     AmazonOpenSearchServerlessBufferingIntervalInSeconds = Shapes::IntegerShape.new(name: 'AmazonOpenSearchServerlessBufferingIntervalInSeconds')
     AmazonOpenSearchServerlessBufferingSizeInMBs = Shapes::IntegerShape.new(name: 'AmazonOpenSearchServerlessBufferingSizeInMBs')
@@ -545,13 +546,13 @@ module Aws::Firehose
     DeliveryStreamDescription.add_member(:has_more_destinations, Shapes::ShapeRef.new(shape: BooleanObject, required: true, location_name: "HasMoreDestinations"))
     DeliveryStreamDescription.struct_class = Types::DeliveryStreamDescription
 
-    DeliveryStreamEncryptionConfiguration.add_member(:key_arn, Shapes::ShapeRef.new(shape: AWSKMSKeyARN, location_name: "KeyARN"))
+    DeliveryStreamEncryptionConfiguration.add_member(:key_arn, Shapes::ShapeRef.new(shape: AWSKMSKeyARNForSSE, location_name: "KeyARN"))
     DeliveryStreamEncryptionConfiguration.add_member(:key_type, Shapes::ShapeRef.new(shape: KeyType, location_name: "KeyType"))
     DeliveryStreamEncryptionConfiguration.add_member(:status, Shapes::ShapeRef.new(shape: DeliveryStreamEncryptionStatus, location_name: "Status"))
     DeliveryStreamEncryptionConfiguration.add_member(:failure_description, Shapes::ShapeRef.new(shape: FailureDescription, location_name: "FailureDescription"))
     DeliveryStreamEncryptionConfiguration.struct_class = Types::DeliveryStreamEncryptionConfiguration
 
-    DeliveryStreamEncryptionConfigurationInput.add_member(:key_arn, Shapes::ShapeRef.new(shape: AWSKMSKeyARN, location_name: "KeyARN"))
+    DeliveryStreamEncryptionConfigurationInput.add_member(:key_arn, Shapes::ShapeRef.new(shape: AWSKMSKeyARNForSSE, location_name: "KeyARN"))
     DeliveryStreamEncryptionConfigurationInput.add_member(:key_type, Shapes::ShapeRef.new(shape: KeyType, required: true, location_name: "KeyType"))
     DeliveryStreamEncryptionConfigurationInput.struct_class = Types::DeliveryStreamEncryptionConfigurationInput
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.111.0 (2026-06-12)
+------------------
+
+* Feature - Update KeyARN in DeliveryStreamEncryptionConfigurationInput to accept KMS key ARNs only (not alias ARNs), matching service behavior.
+
 1.110.0 (2026-06-03)
 ------------------
 

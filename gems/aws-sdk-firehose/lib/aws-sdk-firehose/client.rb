@@ -690,7 +690,7 @@ module Aws::Firehose
     #       role_arn: "RoleARN", # required
     #     },
     #     delivery_stream_encryption_configuration_input: {
-    #       key_arn: "AWSKMSKeyARN",
+    #       key_arn: "AWSKMSKeyARNForSSE",
     #       key_type: "AWS_OWNED_CMK", # required, accepts AWS_OWNED_CMK, CUSTOMER_MANAGED_CMK
     #     },
     #     s3_destination_configuration: {
@@ -2389,7 +2389,7 @@ module Aws::Firehose
     #   resp = client.start_delivery_stream_encryption({
     #     delivery_stream_name: "DeliveryStreamName", # required
     #     delivery_stream_encryption_configuration_input: {
-    #       key_arn: "AWSKMSKeyARN",
+    #       key_arn: "AWSKMSKeyARNForSSE",
     #       key_type: "AWS_OWNED_CMK", # required, accepts AWS_OWNED_CMK, CUSTOMER_MANAGED_CMK
     #     },
     #   })
@@ -3324,7 +3324,7 @@ module Aws::Firehose
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-firehose'
-      context[:gem_version] = '1.110.0'
+      context[:gem_version] = '1.111.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

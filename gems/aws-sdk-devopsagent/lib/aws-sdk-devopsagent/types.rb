@@ -1056,6 +1056,60 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # @!attribute [rw] agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   How the new Trigger fires
+    #   @return [String]
+    #
+    # @!attribute [rw] condition
+    #   The condition that fires the new Trigger
+    #   @return [Types::TriggerCondition]
+    #
+    # @!attribute [rw] action
+    #   The action the new Trigger performs when it fires
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] status
+    #   The initial status of the Trigger
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier used for idempotent Trigger
+    #   creation
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateTriggerRequest AWS API Documentation
+    #
+    class CreateTriggerRequest < Struct.new(
+      :agent_space_id,
+      :type,
+      :condition,
+      :action,
+      :status,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trigger
+    #   The Trigger object
+    #   @return [Types::Trigger]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CreateTriggerResponse AWS API Documentation
+    #
+    class CreateTriggerResponse < Struct.new(
+      :trigger)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Authorization configuration for Datadog MCP server (uses authorization
     # discovery only).
     #
@@ -1215,6 +1269,29 @@ module Aws::DevOpsAgent
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_id
+    #   Generic resource identifier (allows alphanumeric characters,
+    #   hyphens, and underscores; 1-128 characters)
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteTriggerRequest AWS API Documentation
+    #
+    class DeleteTriggerRequest < Struct.new(
+      :agent_space_id,
+      :trigger_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteTriggerResponse AWS API Documentation
+    #
+    class DeleteTriggerResponse < Aws::EmptyStructure; end
 
     # Input for deregistering a service.
     #
@@ -2041,6 +2118,37 @@ module Aws::DevOpsAgent
     class GetServiceOutput < Struct.new(
       :service,
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_id
+    #   Generic resource identifier (allows alphanumeric characters,
+    #   hyphens, and underscores; 1-128 characters)
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetTriggerRequest AWS API Documentation
+    #
+    class GetTriggerRequest < Struct.new(
+      :agent_space_id,
+      :trigger_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trigger
+    #   The Trigger object
+    #   @return [Types::Trigger]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetTriggerResponse AWS API Documentation
+    #
+    class GetTriggerResponse < Struct.new(
+      :trigger)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3264,6 +3372,52 @@ module Aws::DevOpsAgent
     #
     class ListTagsForResourceResponse < Struct.new(
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Filter results to Triggers in this status
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token from a previous response to retrieve the next page
+    #   of results
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single response
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListTriggersRequest AWS API Documentation
+    #
+    class ListTriggersRequest < Struct.new(
+      :agent_space_id,
+      :status,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of Triggers
+    #   @return [Array<Types::Trigger>]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token for list operations (1-2048 characters)
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListTriggersResponse AWS API Documentation
+    #
+    class ListTriggersResponse < Struct.new(
+      :items,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4601,6 +4755,20 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Schedule-based condition that fires the Trigger
+    #
+    # @!attribute [rw] expression
+    #   The schedule expression
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ScheduleCondition AWS API Documentation
+    #
+    class ScheduleCondition < Struct.new(
+      :expression)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for a self-managed Private Connection.
     #
     # @!attribute [rw] resource_configuration_id
@@ -5632,6 +5800,80 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # A Trigger fires on a schedule and invokes an agent
+    #
+    # @!attribute [rw] trigger_id
+    #   Generic resource identifier (allows alphanumeric characters,
+    #   hyphens, and underscores; 1-128 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   How this Trigger fires
+    #   @return [String]
+    #
+    # @!attribute [rw] condition
+    #   The condition that fires this Trigger
+    #   @return [Types::TriggerCondition]
+    #
+    # @!attribute [rw] action
+    #   The action this Trigger performs when it fires
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] status
+    #   The status of this Trigger
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   Timestamp when this Trigger was created
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   Timestamp when this Trigger was last updated
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/Trigger AWS API Documentation
+    #
+    class Trigger < Struct.new(
+      :trigger_id,
+      :agent_space_id,
+      :type,
+      :condition,
+      :action,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the firing condition for a Trigger
+    #
+    # @note TriggerCondition is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note TriggerCondition is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of TriggerCondition corresponding to the set member.
+    #
+    # @!attribute [rw] schedule
+    #   Time-based firing condition
+    #   @return [Types::ScheduleCondition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/TriggerCondition AWS API Documentation
+    #
+    class TriggerCondition < Struct.new(
+      :schedule,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Schedule < TriggerCondition; end
+      class Unknown < TriggerCondition; end
+    end
+
     # @!attribute [rw] resource_arn
     #   The ARN of the resource to untag.
     #   @return [String]
@@ -6121,6 +6363,51 @@ module Aws::DevOpsAgent
     #
     class UpdateRecommendationResponse < Struct.new(
       :recommendation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] agent_space_id
+    #   Unique identifier for an agent space (allows alphanumeric characters
+    #   and hyphens; 1-64 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_id
+    #   Generic resource identifier (allows alphanumeric characters,
+    #   hyphens, and underscores; 1-128 characters)
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The new status for the Trigger
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier used for idempotent Trigger
+    #   update
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateTriggerRequest AWS API Documentation
+    #
+    class UpdateTriggerRequest < Struct.new(
+      :agent_space_id,
+      :trigger_id,
+      :status,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] trigger
+    #   The Trigger object
+    #   @return [Types::Trigger]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateTriggerResponse AWS API Documentation
+    #
+    class UpdateTriggerResponse < Struct.new(
+      :trigger)
       SENSITIVE = []
       include Aws::Structure
     end

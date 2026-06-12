@@ -751,6 +751,9 @@ module Aws::BedrockAgentCore
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to associate with the A/B test.
+    #
     # @return [Types::CreateABTestResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateABTestResponse#ab_test_id #ab_test_id} => String
@@ -796,6 +799,9 @@ module Aws::BedrockAgentCore
     #     role_arn: "RoleArn", # required
     #     enable_on_create: false,
     #     client_token: "ClientToken",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -1639,12 +1645,17 @@ module Aws::BedrockAgentCore
     #   * {Types::GetBatchEvaluationResponse#status #status} => String
     #   * {Types::GetBatchEvaluationResponse#created_at #created_at} => Time
     #   * {Types::GetBatchEvaluationResponse#evaluators #evaluators} => Array&lt;Types::Evaluator&gt;
+    #   * {Types::GetBatchEvaluationResponse#insights #insights} => Array&lt;Types::Insight&gt;
     #   * {Types::GetBatchEvaluationResponse#data_source_config #data_source_config} => Types::DataSourceConfig
     #   * {Types::GetBatchEvaluationResponse#output_config #output_config} => Types::OutputConfig
     #   * {Types::GetBatchEvaluationResponse#evaluation_results #evaluation_results} => Types::EvaluationJobResults
+    #   * {Types::GetBatchEvaluationResponse#failure_analysis_result #failure_analysis_result} => Types::FailureAnalysisResultContent
+    #   * {Types::GetBatchEvaluationResponse#user_intent_result #user_intent_result} => Types::UserIntentClusteringResultContent
+    #   * {Types::GetBatchEvaluationResponse#execution_summary_result #execution_summary_result} => Types::ExecutionSummaryClusteringResultContent
     #   * {Types::GetBatchEvaluationResponse#error_details #error_details} => Array&lt;String&gt;
     #   * {Types::GetBatchEvaluationResponse#description #description} => String
     #   * {Types::GetBatchEvaluationResponse#updated_at #updated_at} => Time
+    #   * {Types::GetBatchEvaluationResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1661,6 +1672,8 @@ module Aws::BedrockAgentCore
     #   resp.created_at #=> Time
     #   resp.evaluators #=> Array
     #   resp.evaluators[0].evaluator_id #=> String
+    #   resp.insights #=> Array
+    #   resp.insights[0].insight_id #=> String
     #   resp.data_source_config.cloud_watch_logs.service_names #=> Array
     #   resp.data_source_config.cloud_watch_logs.service_names[0] #=> String
     #   resp.data_source_config.cloud_watch_logs.log_group_names #=> Array
@@ -1669,6 +1682,9 @@ module Aws::BedrockAgentCore
     #   resp.data_source_config.cloud_watch_logs.filter_config.session_ids[0] #=> String
     #   resp.data_source_config.cloud_watch_logs.filter_config.time_range.start_time #=> Time
     #   resp.data_source_config.cloud_watch_logs.filter_config.time_range.end_time #=> Time
+    #   resp.data_source_config.online_evaluation_config_source.online_evaluation_config_arn #=> String
+    #   resp.data_source_config.online_evaluation_config_source.session_filter_config.start_time #=> Time
+    #   resp.data_source_config.online_evaluation_config_source.session_filter_config.end_time #=> Time
     #   resp.output_config.cloud_watch_config.log_group_name #=> String
     #   resp.output_config.cloud_watch_config.log_stream_name #=> String
     #   resp.evaluation_results.number_of_sessions_completed #=> Integer
@@ -1681,10 +1697,57 @@ module Aws::BedrockAgentCore
     #   resp.evaluation_results.evaluator_summaries[0].statistics.average_score #=> Float
     #   resp.evaluation_results.evaluator_summaries[0].total_evaluated #=> Integer
     #   resp.evaluation_results.evaluator_summaries[0].total_failed #=> Integer
+    #   resp.failure_analysis_result.failures #=> Array
+    #   resp.failure_analysis_result.failures[0].cluster_id #=> Integer
+    #   resp.failure_analysis_result.failures[0].name #=> String
+    #   resp.failure_analysis_result.failures[0].description #=> String
+    #   resp.failure_analysis_result.failures[0].affected_session_count #=> Integer
+    #   resp.failure_analysis_result.failures[0].sub_categories #=> Array
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].cluster_id #=> Integer
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].name #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].description #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].affected_session_count #=> Integer
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes #=> Array
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].cluster_id #=> Integer
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].name #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].root_cause #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].recommendation #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_session_count #=> Integer
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions #=> Array
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].session_id #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].explanation #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].fix_type #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].recommendation #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans #=> Array
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].span_id #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].trace_id #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals #=> Array
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals[0].category #=> String, one of "execution-error-category-authentication", "execution-error-category-resource-not-found", "execution-error-category-service-errors", "execution-error-category-rate-limiting", "execution-error-category-formatting", "execution-error-category-timeout", "execution-error-category-resource-exhaustion", "execution-error-category-environment", "execution-error-category-tool-schema", "task-instruction-category-non-compliance", "task-instruction-category-problem-id", "incorrect-actions-category-tool-selection", "incorrect-actions-category-poor-information-retrieval", "incorrect-actions-category-clarification", "incorrect-actions-category-inappropriate-info-request", "context-handling-error-category-context-handling-failures", "hallucination-category-hall-capabilities", "hallucination-category-hall-misunderstand", "hallucination-category-hall-usage", "hallucination-category-hall-history", "hallucination-category-hall-params", "hallucination-category-fabricate-tool-outputs", "repetitive-behavior-category-repetition-tool", "repetitive-behavior-category-repetition-info", "repetitive-behavior-category-step-repetition", "orchestration-related-errors-category-reasoning-mismatch", "orchestration-related-errors-category-goal-deviation", "orchestration-related-errors-category-premature-termination", "orchestration-related-errors-category-unaware-termination", "llm-output-category-nonsensical", "configuration-mismatch-category-tool-definition", "coding-use-case-specific-failure-types-category-edge-case-oversights", "coding-use-case-specific-failure-types-category-dependency-issues"
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals[0].evidence #=> String
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals[0].confidence #=> Float
+    #   resp.user_intent_result.user_intents #=> Array
+    #   resp.user_intent_result.user_intents[0].cluster_id #=> Integer
+    #   resp.user_intent_result.user_intents[0].name #=> String
+    #   resp.user_intent_result.user_intents[0].description #=> String
+    #   resp.user_intent_result.user_intents[0].affected_session_count #=> Integer
+    #   resp.user_intent_result.user_intents[0].affected_sessions #=> Array
+    #   resp.user_intent_result.user_intents[0].affected_sessions[0].session_id #=> String
+    #   resp.user_intent_result.user_intents[0].affected_sessions[0].user_messages #=> Array
+    #   resp.user_intent_result.user_intents[0].affected_sessions[0].user_messages[0] #=> String
+    #   resp.execution_summary_result.execution_summaries #=> Array
+    #   resp.execution_summary_result.execution_summaries[0].cluster_id #=> Integer
+    #   resp.execution_summary_result.execution_summaries[0].name #=> String
+    #   resp.execution_summary_result.execution_summaries[0].description #=> String
+    #   resp.execution_summary_result.execution_summaries[0].affected_session_count #=> Integer
+    #   resp.execution_summary_result.execution_summaries[0].affected_sessions #=> Array
+    #   resp.execution_summary_result.execution_summaries[0].affected_sessions[0].session_id #=> String
+    #   resp.execution_summary_result.execution_summaries[0].affected_sessions[0].approach_taken #=> String
+    #   resp.execution_summary_result.execution_summaries[0].affected_sessions[0].final_outcome #=> String
     #   resp.error_details #=> Array
     #   resp.error_details[0] #=> String
     #   resp.description #=> String
     #   resp.updated_at #=> Time
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetBatchEvaluation AWS API Documentation
     #
@@ -2169,6 +2232,7 @@ module Aws::BedrockAgentCore
     #   * {Types::GetRecommendationResponse#created_at #created_at} => Time
     #   * {Types::GetRecommendationResponse#updated_at #updated_at} => Time
     #   * {Types::GetRecommendationResponse#recommendation_result #recommendation_result} => Types::RecommendationResult
+    #   * {Types::GetRecommendationResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2200,6 +2264,7 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators #=> Array
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators[0].evaluator_arn #=> String
     #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools #=> Array
@@ -2223,21 +2288,25 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
     #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
     #   resp.recommendation_result.system_prompt_recommendation_result.recommended_system_prompt #=> String
     #   resp.recommendation_result.system_prompt_recommendation_result.configuration_bundle.bundle_arn #=> String
     #   resp.recommendation_result.system_prompt_recommendation_result.configuration_bundle.version_id #=> String
+    #   resp.recommendation_result.system_prompt_recommendation_result.explanation #=> String
     #   resp.recommendation_result.system_prompt_recommendation_result.error_code #=> String
     #   resp.recommendation_result.system_prompt_recommendation_result.error_message #=> String
     #   resp.recommendation_result.tool_description_recommendation_result.tools #=> Array
     #   resp.recommendation_result.tool_description_recommendation_result.tools[0].tool_name #=> String
     #   resp.recommendation_result.tool_description_recommendation_result.tools[0].recommended_tool_description #=> String
+    #   resp.recommendation_result.tool_description_recommendation_result.tools[0].explanation #=> String
     #   resp.recommendation_result.tool_description_recommendation_result.configuration_bundle.bundle_arn #=> String
     #   resp.recommendation_result.tool_description_recommendation_result.configuration_bundle.version_id #=> String
     #   resp.recommendation_result.tool_description_recommendation_result.error_code #=> String
     #   resp.recommendation_result.tool_description_recommendation_result.error_message #=> String
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetRecommendation AWS API Documentation
     #
@@ -4016,6 +4085,8 @@ module Aws::BedrockAgentCore
     #   resp.batch_evaluations[0].description #=> String
     #   resp.batch_evaluations[0].evaluators #=> Array
     #   resp.batch_evaluations[0].evaluators[0].evaluator_id #=> String
+    #   resp.batch_evaluations[0].insights #=> Array
+    #   resp.batch_evaluations[0].insights[0].insight_id #=> String
     #   resp.batch_evaluations[0].evaluation_results.number_of_sessions_completed #=> Integer
     #   resp.batch_evaluations[0].evaluation_results.number_of_sessions_in_progress #=> Integer
     #   resp.batch_evaluations[0].evaluation_results.number_of_sessions_failed #=> Integer
@@ -4028,6 +4099,7 @@ module Aws::BedrockAgentCore
     #   resp.batch_evaluations[0].evaluation_results.evaluator_summaries[0].total_failed #=> Integer
     #   resp.batch_evaluations[0].error_details #=> Array
     #   resp.batch_evaluations[0].error_details[0] #=> String
+    #   resp.batch_evaluations[0].kms_key_arn #=> String
     #   resp.batch_evaluations[0].updated_at #=> Time
     #   resp.next_token #=> String
     #
@@ -5057,6 +5129,10 @@ module Aws::BedrockAgentCore
     #   include both built-in evaluators and custom evaluators. Maximum of 10
     #   evaluators.
     #
+    # @option params [Array<Types::Insight>] :insights
+    #   The list of insight analyses to run against sessions during the batch
+    #   evaluation. Maximum of 10 insights.
+    #
     # @option params [required, Types::DataSourceConfig] :data_source_config
     #   The data source configuration that specifies where to pull agent
     #   session traces from for evaluation.
@@ -5074,6 +5150,13 @@ module Aws::BedrockAgentCore
     #   Optional metadata for the evaluation, including session-specific
     #   ground truth data and test scenario identifiers.
     #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to associate with the batch evaluation.
+    #
+    # @option params [String] :kms_key_arn
+    #   The ARN of the KMS key used to encrypt evaluation data. If provided,
+    #   customer data is encrypted at rest with the specified key.
+    #
     # @option params [String] :description
     #   The description of the batch evaluation.
     #
@@ -5083,9 +5166,12 @@ module Aws::BedrockAgentCore
     #   * {Types::StartBatchEvaluationResponse#batch_evaluation_arn #batch_evaluation_arn} => String
     #   * {Types::StartBatchEvaluationResponse#batch_evaluation_name #batch_evaluation_name} => String
     #   * {Types::StartBatchEvaluationResponse#evaluators #evaluators} => Array&lt;Types::Evaluator&gt;
+    #   * {Types::StartBatchEvaluationResponse#insights #insights} => Array&lt;Types::Insight&gt;
     #   * {Types::StartBatchEvaluationResponse#status #status} => String
     #   * {Types::StartBatchEvaluationResponse#created_at #created_at} => Time
     #   * {Types::StartBatchEvaluationResponse#output_config #output_config} => Types::OutputConfig
+    #   * {Types::StartBatchEvaluationResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::StartBatchEvaluationResponse#kms_key_arn #kms_key_arn} => String
     #   * {Types::StartBatchEvaluationResponse#description #description} => String
     #
     # @example Request syntax with placeholder values
@@ -5095,6 +5181,11 @@ module Aws::BedrockAgentCore
     #     evaluators: [
     #       {
     #         evaluator_id: "EvaluatorId", # required
+    #       },
+    #     ],
+    #     insights: [
+    #       {
+    #         insight_id: "InsightId", # required
     #       },
     #     ],
     #     data_source_config: { # required
@@ -5107,6 +5198,13 @@ module Aws::BedrockAgentCore
     #             start_time: Time.now,
     #             end_time: Time.now,
     #           },
+    #         },
+    #       },
+    #       online_evaluation_config_source: {
+    #         online_evaluation_config_arn: "OnlineEvaluationConfigArn", # required
+    #         session_filter_config: {
+    #           start_time: Time.now,
+    #           end_time: Time.now,
     #         },
     #       },
     #     },
@@ -5144,6 +5242,10 @@ module Aws::BedrockAgentCore
     #         },
     #       ],
     #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     kms_key_arn: "KmsKeyArn",
     #     description: "BatchEvaluationDescription",
     #   })
     #
@@ -5154,10 +5256,15 @@ module Aws::BedrockAgentCore
     #   resp.batch_evaluation_name #=> String
     #   resp.evaluators #=> Array
     #   resp.evaluators[0].evaluator_id #=> String
+    #   resp.insights #=> Array
+    #   resp.insights[0].insight_id #=> String
     #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "COMPLETED_WITH_ERRORS", "FAILED", "STOPPING", "STOPPED", "DELETING"
     #   resp.created_at #=> Time
     #   resp.output_config.cloud_watch_config.log_group_name #=> String
     #   resp.output_config.cloud_watch_config.log_stream_name #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #   resp.kms_key_arn #=> String
     #   resp.description #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/StartBatchEvaluation AWS API Documentation
@@ -5520,6 +5627,10 @@ module Aws::BedrockAgentCore
     #   The configuration for the recommendation, including the input to
     #   optimize, agent traces to analyze, and evaluation settings.
     #
+    # @option params [String] :kms_key_arn
+    #   The ARN of the KMS key used to encrypt recommendation data. If
+    #   provided, customer data is encrypted at rest with the specified key.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -5528,6 +5639,9 @@ module Aws::BedrockAgentCore
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A map of tag keys and values to associate with the recommendation.
     #
     # @return [Types::StartRecommendationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5581,8 +5695,11 @@ module Aws::BedrockAgentCore
     #               ],
     #             },
     #           },
+    #           batch_evaluation: {
+    #             batch_evaluation_arn: "BatchEvaluationArn", # required
+    #           },
     #         },
-    #         evaluation_config: { # required
+    #         evaluation_config: {
     #           evaluators: [ # required
     #             {
     #               evaluator_arn: "EvaluatorArn", # required
@@ -5637,10 +5754,17 @@ module Aws::BedrockAgentCore
     #               ],
     #             },
     #           },
+    #           batch_evaluation: {
+    #             batch_evaluation_arn: "BatchEvaluationArn", # required
+    #           },
     #         },
     #       },
     #     },
+    #     kms_key_arn: "KmsKeyArn",
     #     client_token: "ClientToken",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -5667,6 +5791,7 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators #=> Array
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators[0].evaluator_arn #=> String
     #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools #=> Array
@@ -5690,6 +5815,7 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.string_value #=> String
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
     #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -6107,7 +6233,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.39.0'
+      context[:gem_version] = '1.40.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
