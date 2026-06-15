@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.82.0 (2026-06-15)
+------------------
+
+* Feature - Adds support for deleting lineage events in Amazon DataZone.
+
 1.81.0 (2026-05-26)
 ------------------
 

@@ -46,7 +46,7 @@ module Aws::WAFV2
     end
 
     class ActionCondition
-      attr_accessor action: ("ALLOW" | "BLOCK" | "COUNT" | "CAPTCHA" | "CHALLENGE" | "EXCLUDED_AS_COUNT")
+      attr_accessor action: ("ALLOW" | "BLOCK" | "COUNT" | "CAPTCHA" | "CHALLENGE" | "MONETIZE" | "EXCLUDED_AS_COUNT")
       SENSITIVE: []
     end
 
@@ -258,6 +258,7 @@ module Aws::WAFV2
       attr_accessor visibility_config: Types::VisibilityConfig
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor custom_response_bodies: ::Hash[::String, Types::CustomResponseBody]
+      attr_accessor monetization_config: Types::MonetizationConfig
       SENSITIVE: []
     end
 
@@ -282,11 +283,17 @@ module Aws::WAFV2
       attr_accessor association_config: Types::AssociationConfig
       attr_accessor on_source_d_do_s_protection_config: Types::OnSourceDDoSProtectionConfig
       attr_accessor application_config: Types::ApplicationConfig
+      attr_accessor monetization_config: Types::MonetizationConfig
       SENSITIVE: []
     end
 
     class CreateWebACLResponse
       attr_accessor summary: Types::WebACLSummary
+      SENSITIVE: []
+    end
+
+    class CryptoConfig
+      attr_accessor payment_networks: ::Array[Types::PaymentNetwork]
       SENSITIVE: []
     end
 
@@ -311,6 +318,17 @@ module Aws::WAFV2
     class CustomResponseBody
       attr_accessor content_type: ("TEXT_PLAIN" | "TEXT_HTML" | "APPLICATION_JSON")
       attr_accessor content: ::String
+      SENSITIVE: []
+    end
+
+    class DataPointEntry
+      attr_accessor date: ::Time
+      attr_accessor monetize_served_count: ::Integer
+      attr_accessor settled_count: ::Integer
+      attr_accessor total_amount: ::String
+      attr_accessor category: ::String
+      attr_accessor intent: ::String
+      attr_accessor group_by_value: ::String
       SENSITIVE: []
     end
 
@@ -654,6 +672,59 @@ module Aws::WAFV2
       SENSITIVE: []
     end
 
+    class GetRevenueStatisticsRequest
+      attr_accessor statistic_type: ("TOP_SOURCES_BY_REVENUE" | "TOP_PATHS_BY_REVENUE")
+      attr_accessor time_window: Types::TimeWindow
+      attr_accessor scope: ("CLOUDFRONT" | "REGIONAL")
+      attr_accessor currency: ("USDC")
+      attr_accessor group_by: ("NAME" | "CATEGORY" | "INTENT" | "ORGANIZATION" | "WEBACL")
+      attr_accessor filters: ::Array[Types::MonetizationFilter]
+      attr_accessor next_marker: ::String
+      attr_accessor limit: ::Integer
+      attr_accessor sort_by: ("REVENUE" | "PERCENTAGE" | "NAME")
+      attr_accessor sort_order: ("ASC" | "DESC")
+      SENSITIVE: []
+    end
+
+    class GetRevenueStatisticsResponse
+      attr_accessor source_statistics: ::Array[Types::SourceStatistics]
+      attr_accessor revenue_path_statistics: ::Array[Types::RevenuePathStatistics]
+      attr_accessor next_marker: ::String
+      SENSITIVE: []
+    end
+
+    class GetRevenueStatisticsSummaryRequest
+      attr_accessor time_window: Types::TimeWindow
+      attr_accessor scope: ("CLOUDFRONT" | "REGIONAL")
+      attr_accessor currency: ("USDC")
+      attr_accessor filters: ::Array[Types::MonetizationFilter]
+      SENSITIVE: []
+    end
+
+    class GetRevenueStatisticsSummaryResponse
+      attr_accessor revenue_breakdown: Types::RevenueBreakdown
+      SENSITIVE: []
+    end
+
+    class GetRevenueStatisticsTimeSeriesRequest
+      attr_accessor statistic_type: ("DATE_HISTOGRAM" | "PAYMENT_TRAFFIC")
+      attr_accessor time_window: Types::TimeWindow
+      attr_accessor scope: ("CLOUDFRONT" | "REGIONAL")
+      attr_accessor interval: ("MINUTELY" | "FIVE_MINUTELY" | "HOURLY" | "DAILY")
+      attr_accessor currency: ("USDC")
+      attr_accessor group_by: ("NAME" | "CATEGORY" | "INTENT" | "ORGANIZATION" | "WEBACL")
+      attr_accessor filters: ::Array[Types::MonetizationFilter]
+      attr_accessor limit: ::Integer
+      attr_accessor next_marker: ::String
+      SENSITIVE: []
+    end
+
+    class GetRevenueStatisticsTimeSeriesResponse
+      attr_accessor data_points: ::Array[Types::DataPointEntry]
+      attr_accessor next_marker: ::String
+      SENSITIVE: []
+    end
+
     class GetRuleGroupRequest
       attr_accessor name: ::String
       attr_accessor scope: ("CLOUDFRONT" | "REGIONAL")
@@ -981,6 +1052,24 @@ module Aws::WAFV2
       SENSITIVE: []
     end
 
+    class ListSettlementRecordsRequest
+      attr_accessor time_window: Types::TimeWindow
+      attr_accessor scope: ("CLOUDFRONT" | "REGIONAL")
+      attr_accessor currency: ("USDC")
+      attr_accessor filters: ::Array[Types::MonetizationFilter]
+      attr_accessor sort_by: ("TIMESTAMP" | "AMOUNT" | "NAME" | "STATUS")
+      attr_accessor sort_order: ("ASC" | "DESC")
+      attr_accessor limit: ::Integer
+      attr_accessor next_marker: ::String
+      SENSITIVE: []
+    end
+
+    class ListSettlementRecordsResponse
+      attr_accessor settlements: ::Array[Types::SettlementRecord]
+      attr_accessor next_marker: ::String
+      SENSITIVE: []
+    end
+
     class ListTagsForResourceRequest
       attr_accessor next_marker: ::String
       attr_accessor limit: ::Integer
@@ -1116,6 +1205,23 @@ module Aws::WAFV2
       SENSITIVE: []
     end
 
+    class MonetizationConfig
+      attr_accessor crypto_config: Types::CryptoConfig
+      attr_accessor currency_mode: ("REAL" | "TEST")
+      SENSITIVE: []
+    end
+
+    class MonetizationFilter
+      attr_accessor name: ::String
+      attr_accessor values: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class MonetizeAction
+      attr_accessor price_multiplier: ::String
+      SENSITIVE: []
+    end
+
     class NoneAction < Aws::EmptyStructure
     end
 
@@ -1154,8 +1260,21 @@ module Aws::WAFV2
       SENSITIVE: []
     end
 
+    class PaymentNetwork
+      attr_accessor chain: ("BASE" | "SOLANA" | "BASE_SEPOLIA" | "SOLANA_DEVNET")
+      attr_accessor wallet_address: ::String
+      attr_accessor prices: ::Array[Types::Price]
+      SENSITIVE: []
+    end
+
     class PhoneNumberField
       attr_accessor identifier: ::String
+      SENSITIVE: []
+    end
+
+    class Price
+      attr_accessor amount: ::String
+      attr_accessor currency: ("USDC")
       SENSITIVE: []
     end
 
@@ -1382,6 +1501,24 @@ module Aws::WAFV2
       SENSITIVE: []
     end
 
+    class RevenueBreakdown
+      attr_accessor total_amount: ::String
+      attr_accessor verified_amount: ::String
+      attr_accessor unverified_amount: ::String
+      attr_accessor currency: ("USDC")
+      attr_accessor total_settled: ::Integer
+      attr_accessor total_monetize_served: ::Integer
+      SENSITIVE: []
+    end
+
+    class RevenuePathStatistics
+      attr_accessor path: ::String
+      attr_accessor percentage: ::Float
+      attr_accessor amount: ::String
+      attr_accessor request_count: ::Integer
+      SENSITIVE: []
+    end
+
     class Rule
       attr_accessor name: ::String
       attr_accessor priority: ::Integer
@@ -1401,6 +1538,7 @@ module Aws::WAFV2
       attr_accessor count: Types::CountAction
       attr_accessor captcha: Types::CaptchaAction
       attr_accessor challenge: Types::ChallengeAction
+      attr_accessor monetize: Types::MonetizeAction
       SENSITIVE: []
     end
 
@@ -1422,6 +1560,7 @@ module Aws::WAFV2
       attr_accessor custom_response_bodies: ::Hash[::String, Types::CustomResponseBody]
       attr_accessor available_labels: ::Array[Types::LabelSummary]
       attr_accessor consumed_labels: ::Array[Types::LabelSummary]
+      attr_accessor monetization_config: Types::MonetizationConfig
       SENSITIVE: []
     end
 
@@ -1462,6 +1601,27 @@ module Aws::WAFV2
       SENSITIVE: []
     end
 
+    class SettlementRecord
+      attr_accessor timestamp: ::Time
+      attr_accessor payer_address: ::String
+      attr_accessor wallet_address: ::String
+      attr_accessor status: ("SETTLED" | "PENDING" | "FAILED" | "SERVICE_ERROR" | "SKIPPED_ORIGIN_ERROR" | "DUPLICATE")
+      attr_accessor amount: ::String
+      attr_accessor currency: ("USDC")
+      attr_accessor network: ::String
+      attr_accessor transaction_id: ::String
+      attr_accessor request_id: ::String
+      attr_accessor source_name: ::String
+      attr_accessor organization: ::String
+      attr_accessor source_category: ::String
+      attr_accessor intent: ::String
+      attr_accessor verified: bool
+      attr_accessor content_path: ::String
+      attr_accessor web_acl_arn: ::String
+      attr_accessor request_timestamp: ::Time
+      SENSITIVE: []
+    end
+
     class SingleHeader
       attr_accessor name: ::String
       SENSITIVE: []
@@ -1477,6 +1637,19 @@ module Aws::WAFV2
       attr_accessor comparison_operator: ("EQ" | "NE" | "LE" | "LT" | "GE" | "GT")
       attr_accessor size: ::Integer
       attr_accessor text_transformations: ::Array[Types::TextTransformation]
+      SENSITIVE: []
+    end
+
+    class SourceStatistics
+      attr_accessor source_name: ::String
+      attr_accessor percentage: ::Float
+      attr_accessor amount: ::String
+      attr_accessor request_count: ::Integer
+      attr_accessor source_category: ::String
+      attr_accessor intent: ::String
+      attr_accessor organization: ::String
+      attr_accessor verified: bool
+      attr_accessor group_by_value: ::String
       SENSITIVE: []
     end
 
@@ -1605,6 +1778,7 @@ module Aws::WAFV2
       attr_accessor visibility_config: Types::VisibilityConfig
       attr_accessor lock_token: ::String
       attr_accessor custom_response_bodies: ::Hash[::String, Types::CustomResponseBody]
+      attr_accessor monetization_config: Types::MonetizationConfig
       SENSITIVE: []
     end
 
@@ -1630,6 +1804,7 @@ module Aws::WAFV2
       attr_accessor association_config: Types::AssociationConfig
       attr_accessor on_source_d_do_s_protection_config: Types::OnSourceDDoSProtectionConfig
       attr_accessor application_config: Types::ApplicationConfig
+      attr_accessor monetization_config: Types::MonetizationConfig
       SENSITIVE: []
     end
 
@@ -1702,7 +1877,7 @@ module Aws::WAFV2
 
     class WAFInvalidParameterException
       attr_accessor message: ::String
-      attr_accessor field: ("WEB_ACL" | "RULE_GROUP" | "REGEX_PATTERN_SET" | "IP_SET" | "MANAGED_RULE_SET" | "RULE" | "EXCLUDED_RULE" | "STATEMENT" | "BYTE_MATCH_STATEMENT" | "SQLI_MATCH_STATEMENT" | "XSS_MATCH_STATEMENT" | "SIZE_CONSTRAINT_STATEMENT" | "GEO_MATCH_STATEMENT" | "RATE_BASED_STATEMENT" | "RULE_GROUP_REFERENCE_STATEMENT" | "REGEX_PATTERN_REFERENCE_STATEMENT" | "IP_SET_REFERENCE_STATEMENT" | "MANAGED_RULE_SET_STATEMENT" | "LABEL_MATCH_STATEMENT" | "AND_STATEMENT" | "OR_STATEMENT" | "NOT_STATEMENT" | "IP_ADDRESS" | "IP_ADDRESS_VERSION" | "FIELD_TO_MATCH" | "TEXT_TRANSFORMATION" | "SINGLE_QUERY_ARGUMENT" | "SINGLE_HEADER" | "DEFAULT_ACTION" | "RULE_ACTION" | "ENTITY_LIMIT" | "OVERRIDE_ACTION" | "SCOPE_VALUE" | "RESOURCE_ARN" | "RESOURCE_TYPE" | "TAGS" | "TAG_KEYS" | "METRIC_NAME" | "FIREWALL_MANAGER_STATEMENT" | "FALLBACK_BEHAVIOR" | "POSITION" | "FORWARDED_IP_CONFIG" | "IP_SET_FORWARDED_IP_CONFIG" | "HEADER_NAME" | "CUSTOM_REQUEST_HANDLING" | "RESPONSE_CONTENT_TYPE" | "CUSTOM_RESPONSE" | "CUSTOM_RESPONSE_BODY" | "JSON_MATCH_PATTERN" | "JSON_MATCH_SCOPE" | "BODY_PARSING_FALLBACK_BEHAVIOR" | "LOGGING_FILTER" | "FILTER_CONDITION" | "EXPIRE_TIMESTAMP" | "CHANGE_PROPAGATION_STATUS" | "ASSOCIABLE_RESOURCE" | "LOG_DESTINATION" | "MANAGED_RULE_GROUP_CONFIG" | "PAYLOAD_TYPE" | "HEADER_MATCH_PATTERN" | "COOKIE_MATCH_PATTERN" | "MAP_MATCH_SCOPE" | "OVERSIZE_HANDLING" | "CHALLENGE_CONFIG" | "TOKEN_DOMAIN" | "ATP_RULE_SET_RESPONSE_INSPECTION" | "ASSOCIATED_RESOURCE_TYPE" | "SCOPE_DOWN" | "CUSTOM_KEYS" | "ACP_RULE_SET_RESPONSE_INSPECTION" | "DATA_PROTECTION_CONFIG" | "LOW_REPUTATION_MODE")
+      attr_accessor field: ("WEB_ACL" | "RULE_GROUP" | "REGEX_PATTERN_SET" | "IP_SET" | "MANAGED_RULE_SET" | "RULE" | "EXCLUDED_RULE" | "STATEMENT" | "BYTE_MATCH_STATEMENT" | "SQLI_MATCH_STATEMENT" | "XSS_MATCH_STATEMENT" | "SIZE_CONSTRAINT_STATEMENT" | "GEO_MATCH_STATEMENT" | "RATE_BASED_STATEMENT" | "RULE_GROUP_REFERENCE_STATEMENT" | "REGEX_PATTERN_REFERENCE_STATEMENT" | "IP_SET_REFERENCE_STATEMENT" | "MANAGED_RULE_SET_STATEMENT" | "LABEL_MATCH_STATEMENT" | "AND_STATEMENT" | "OR_STATEMENT" | "NOT_STATEMENT" | "IP_ADDRESS" | "IP_ADDRESS_VERSION" | "FIELD_TO_MATCH" | "TEXT_TRANSFORMATION" | "SINGLE_QUERY_ARGUMENT" | "SINGLE_HEADER" | "DEFAULT_ACTION" | "RULE_ACTION" | "ENTITY_LIMIT" | "OVERRIDE_ACTION" | "SCOPE_VALUE" | "RESOURCE_ARN" | "RESOURCE_TYPE" | "TAGS" | "TAG_KEYS" | "METRIC_NAME" | "FIREWALL_MANAGER_STATEMENT" | "FALLBACK_BEHAVIOR" | "POSITION" | "FORWARDED_IP_CONFIG" | "IP_SET_FORWARDED_IP_CONFIG" | "HEADER_NAME" | "CUSTOM_REQUEST_HANDLING" | "RESPONSE_CONTENT_TYPE" | "CUSTOM_RESPONSE" | "CUSTOM_RESPONSE_BODY" | "JSON_MATCH_PATTERN" | "JSON_MATCH_SCOPE" | "BODY_PARSING_FALLBACK_BEHAVIOR" | "LOGGING_FILTER" | "FILTER_CONDITION" | "EXPIRE_TIMESTAMP" | "CHANGE_PROPAGATION_STATUS" | "ASSOCIABLE_RESOURCE" | "LOG_DESTINATION" | "MANAGED_RULE_GROUP_CONFIG" | "PAYLOAD_TYPE" | "HEADER_MATCH_PATTERN" | "COOKIE_MATCH_PATTERN" | "MAP_MATCH_SCOPE" | "OVERSIZE_HANDLING" | "CHALLENGE_CONFIG" | "TOKEN_DOMAIN" | "ATP_RULE_SET_RESPONSE_INSPECTION" | "ASSOCIATED_RESOURCE_TYPE" | "SCOPE_DOWN" | "CUSTOM_KEYS" | "ACP_RULE_SET_RESPONSE_INSPECTION" | "DATA_PROTECTION_CONFIG" | "LOW_REPUTATION_MODE" | "MONETIZATION_CONFIG" | "WALLET_ADDRESS" | "PRICE_AMOUNT" | "PAYMENT_NETWORK")
       attr_accessor parameter: ::String
       attr_accessor reason: ::String
       SENSITIVE: []
@@ -1791,6 +1966,7 @@ module Aws::WAFV2
       attr_accessor retrofitted_by_firewall_manager: bool
       attr_accessor on_source_d_do_s_protection_config: Types::OnSourceDDoSProtectionConfig
       attr_accessor application_config: Types::ApplicationConfig
+      attr_accessor monetization_config: Types::MonetizationConfig
       SENSITIVE: []
     end
 

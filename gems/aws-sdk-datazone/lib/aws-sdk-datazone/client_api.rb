@@ -336,6 +336,8 @@ module Aws::DataZone
     DeleteGlossaryOutput = Shapes::StructureShape.new(name: 'DeleteGlossaryOutput')
     DeleteGlossaryTermInput = Shapes::StructureShape.new(name: 'DeleteGlossaryTermInput')
     DeleteGlossaryTermOutput = Shapes::StructureShape.new(name: 'DeleteGlossaryTermOutput')
+    DeleteLineageEventInput = Shapes::StructureShape.new(name: 'DeleteLineageEventInput')
+    DeleteLineageEventOutput = Shapes::StructureShape.new(name: 'DeleteLineageEventOutput')
     DeleteListingInput = Shapes::StructureShape.new(name: 'DeleteListingInput')
     DeleteListingOutput = Shapes::StructureShape.new(name: 'DeleteListingOutput')
     DeleteNotebookInput = Shapes::StructureShape.new(name: 'DeleteNotebookInput')
@@ -2892,6 +2894,15 @@ module Aws::DataZone
     DeleteGlossaryTermInput.struct_class = Types::DeleteGlossaryTermInput
 
     DeleteGlossaryTermOutput.struct_class = Types::DeleteGlossaryTermOutput
+
+    DeleteLineageEventInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
+    DeleteLineageEventInput.add_member(:identifier, Shapes::ShapeRef.new(shape: LineageEventIdentifier, required: true, location: "uri", location_name: "identifier"))
+    DeleteLineageEventInput.struct_class = Types::DeleteLineageEventInput
+
+    DeleteLineageEventOutput.add_member(:id, Shapes::ShapeRef.new(shape: LineageEventIdentifier, location_name: "id"))
+    DeleteLineageEventOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, location_name: "domainId"))
+    DeleteLineageEventOutput.add_member(:processing_status, Shapes::ShapeRef.new(shape: LineageEventProcessingStatus, location_name: "processingStatus"))
+    DeleteLineageEventOutput.struct_class = Types::DeleteLineageEventOutput
 
     DeleteListingInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     DeleteListingInput.add_member(:identifier, Shapes::ShapeRef.new(shape: ListingId, required: true, location: "uri", location_name: "identifier"))
@@ -7784,6 +7795,20 @@ module Aws::DataZone
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+      end)
+
+      api.add_operation(:delete_lineage_event, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteLineageEvent"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/v2/domains/{domainIdentifier}/lineage/events/{identifier}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteLineageEventInput)
+        o.output = Shapes::ShapeRef.new(shape: DeleteLineageEventOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
       end)

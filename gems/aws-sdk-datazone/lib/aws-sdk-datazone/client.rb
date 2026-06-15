@@ -5406,6 +5406,42 @@ module Aws::DataZone
       req.send_request(options)
     end
 
+    # Deletes the specified lineage event.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The ID of the domain.
+    #
+    # @option params [required, String] :identifier
+    #   The ID of the lineage event.
+    #
+    # @return [Types::DeleteLineageEventOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteLineageEventOutput#id #id} => String
+    #   * {Types::DeleteLineageEventOutput#domain_id #domain_id} => String
+    #   * {Types::DeleteLineageEventOutput#processing_status #processing_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_lineage_event({
+    #     domain_identifier: "DomainId", # required
+    #     identifier: "LineageEventIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.domain_id #=> String
+    #   resp.processing_status #=> String, one of "REQUESTED", "PROCESSING", "SUCCESS", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteLineageEvent AWS API Documentation
+    #
+    # @overload delete_lineage_event(params = {})
+    # @param [Hash] params ({})
+    def delete_lineage_event(params = {}, options = {})
+      req = build_request(:delete_lineage_event, params)
+      req.send_request(options)
+    end
+
     # Deletes a listing (a record of an asset at a given time).
     #
     # @option params [required, String] :domain_identifier
@@ -16299,7 +16335,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.81.0'
+      context[:gem_version] = '1.82.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

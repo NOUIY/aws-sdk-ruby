@@ -693,6 +693,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -705,9 +712,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -1300,6 +1307,10 @@ module Aws::Mgn
     #   Request to store snapshot on local zone during Replication Settings
     #   template creation.
     #
+    # @option params [Types::StorageConfiguration] :storage_configuration
+    #   Request to configure storage during Replication Settings template
+    #   creation.
+    #
     # @return [Types::ReplicationConfigurationTemplate] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfigurationTemplate#replication_configuration_template_id #replication_configuration_template_id} => String
@@ -1320,6 +1331,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfigurationTemplate#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::ReplicationConfigurationTemplate#internet_protocol #internet_protocol} => String
     #   * {Types::ReplicationConfigurationTemplate#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
+    #   * {Types::ReplicationConfigurationTemplate#storage_configuration #storage_configuration} => Types::StorageConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -1344,6 +1356,13 @@ module Aws::Mgn
     #     },
     #     internet_protocol: "IPV4", # accepts IPV4, IPV6
     #     store_snapshot_on_local_zone: false,
+    #     storage_configuration: {
+    #       storage_type: "EBS", # required, accepts EBS, FSX_ONTAP
+    #       fsx_ontap_configuration: {
+    #         storage_virtual_machine_id: "StorageVirtualMachineId", # required
+    #         credentials_secret_arn: "SecretArn", # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1369,6 +1388,9 @@ module Aws::Mgn
     #   resp.tags["TagKey"] #=> String
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
     #   resp.store_snapshot_on_local_zone #=> Boolean
+    #   resp.storage_configuration.storage_type #=> String, one of "EBS", "FSX_ONTAP"
+    #   resp.storage_configuration.fsx_ontap_configuration.storage_virtual_machine_id #=> String
+    #   resp.storage_configuration.fsx_ontap_configuration.credentials_secret_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/CreateReplicationConfigurationTemplate AWS API Documentation
     #
@@ -1938,6 +1960,9 @@ module Aws::Mgn
     #   resp.items[0].tags["TagKey"] #=> String
     #   resp.items[0].internet_protocol #=> String, one of "IPV4", "IPV6"
     #   resp.items[0].store_snapshot_on_local_zone #=> Boolean
+    #   resp.items[0].storage_configuration.storage_type #=> String, one of "EBS", "FSX_ONTAP"
+    #   resp.items[0].storage_configuration.fsx_ontap_configuration.storage_virtual_machine_id #=> String
+    #   resp.items[0].storage_configuration.fsx_ontap_configuration.credentials_secret_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/DescribeReplicationConfigurationTemplates AWS API Documentation
@@ -1996,6 +2021,13 @@ module Aws::Mgn
     #   resp.items[0].launched_instance.ec2_instance_id #=> String
     #   resp.items[0].launched_instance.job_id #=> String
     #   resp.items[0].launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.items[0].launched_instance.last_known_checks #=> Array
+    #   resp.items[0].launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.items[0].launched_instance.last_known_checks[0].name #=> String
+    #   resp.items[0].launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.items[0].launched_instance.last_known_checks[0].error #=> String
+    #   resp.items[0].launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.items[0].launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.items[0].data_replication_info.lag_duration #=> String
     #   resp.items[0].data_replication_info.eta_date_time #=> String
     #   resp.items[0].data_replication_info.replicated_disks #=> Array
@@ -2008,9 +2040,9 @@ module Aws::Mgn
     #   resp.items[0].data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.items[0].data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.items[0].data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.items[0].data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.items[0].data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.items[0].data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.items[0].data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.items[0].data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.items[0].data_replication_info.data_replication_error.raw_error #=> String
     #   resp.items[0].data_replication_info.last_snapshot_date_time #=> String
     #   resp.items[0].data_replication_info.replicator_id #=> String
@@ -2226,6 +2258,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -2238,9 +2277,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -2348,6 +2387,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -2360,9 +2406,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -2688,6 +2734,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfiguration#use_fips_endpoint #use_fips_endpoint} => Boolean
     #   * {Types::ReplicationConfiguration#internet_protocol #internet_protocol} => String
     #   * {Types::ReplicationConfiguration#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
+    #   * {Types::ReplicationConfiguration#storage_configuration #storage_configuration} => Types::StorageConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -2710,7 +2757,7 @@ module Aws::Mgn
     #   resp.replicated_disks #=> Array
     #   resp.replicated_disks[0].device_name #=> String
     #   resp.replicated_disks[0].is_boot_disk #=> Boolean
-    #   resp.replicated_disks[0].staging_disk_type #=> String, one of "AUTO", "GP2", "IO1", "SC1", "ST1", "STANDARD", "GP3", "IO2"
+    #   resp.replicated_disks[0].staging_disk_type #=> String, one of "AUTO", "GP2", "IO1", "SC1", "ST1", "STANDARD", "GP3", "IO2", "FSX_ONTAP"
     #   resp.replicated_disks[0].iops #=> Integer
     #   resp.replicated_disks[0].throughput #=> Integer
     #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM"
@@ -2723,6 +2770,9 @@ module Aws::Mgn
     #   resp.use_fips_endpoint #=> Boolean
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
     #   resp.store_snapshot_on_local_zone #=> Boolean
+    #   resp.storage_configuration.storage_type #=> String, one of "EBS", "FSX_ONTAP"
+    #   resp.storage_configuration.fsx_ontap_configuration.storage_virtual_machine_id #=> String
+    #   resp.storage_configuration.fsx_ontap_configuration.credentials_secret_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/GetReplicationConfiguration AWS API Documentation
     #
@@ -4539,6 +4589,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -4551,9 +4608,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -4649,6 +4706,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -4661,9 +4725,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -5053,6 +5117,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -5065,9 +5136,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -5166,6 +5237,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -5178,9 +5256,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -5851,6 +5929,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -5863,9 +5948,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -6029,6 +6114,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -6041,9 +6133,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -7104,6 +7196,9 @@ module Aws::Mgn
     # @option params [Boolean] :store_snapshot_on_local_zone
     #   Update replication configuration store snapshot on local zone.
     #
+    # @option params [Types::StorageConfiguration] :storage_configuration
+    #   Update replication configuration storage configuration.
+    #
     # @return [Types::ReplicationConfiguration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfiguration#source_server_id #source_server_id} => String
@@ -7124,6 +7219,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfiguration#use_fips_endpoint #use_fips_endpoint} => Boolean
     #   * {Types::ReplicationConfiguration#internet_protocol #internet_protocol} => String
     #   * {Types::ReplicationConfiguration#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
+    #   * {Types::ReplicationConfiguration#storage_configuration #storage_configuration} => Types::StorageConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -7140,7 +7236,7 @@ module Aws::Mgn
     #       {
     #         device_name: "BoundedString",
     #         is_boot_disk: false,
-    #         staging_disk_type: "AUTO", # accepts AUTO, GP2, IO1, SC1, ST1, STANDARD, GP3, IO2
+    #         staging_disk_type: "AUTO", # accepts AUTO, GP2, IO1, SC1, ST1, STANDARD, GP3, IO2, FSX_ONTAP
     #         iops: 1,
     #         throughput: 1,
     #       },
@@ -7157,6 +7253,13 @@ module Aws::Mgn
     #     account_id: "AccountID",
     #     internet_protocol: "IPV4", # accepts IPV4, IPV6
     #     store_snapshot_on_local_zone: false,
+    #     storage_configuration: {
+    #       storage_type: "EBS", # required, accepts EBS, FSX_ONTAP
+    #       fsx_ontap_configuration: {
+    #         storage_virtual_machine_id: "StorageVirtualMachineId", # required
+    #         credentials_secret_arn: "SecretArn", # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -7173,7 +7276,7 @@ module Aws::Mgn
     #   resp.replicated_disks #=> Array
     #   resp.replicated_disks[0].device_name #=> String
     #   resp.replicated_disks[0].is_boot_disk #=> Boolean
-    #   resp.replicated_disks[0].staging_disk_type #=> String, one of "AUTO", "GP2", "IO1", "SC1", "ST1", "STANDARD", "GP3", "IO2"
+    #   resp.replicated_disks[0].staging_disk_type #=> String, one of "AUTO", "GP2", "IO1", "SC1", "ST1", "STANDARD", "GP3", "IO2", "FSX_ONTAP"
     #   resp.replicated_disks[0].iops #=> Integer
     #   resp.replicated_disks[0].throughput #=> Integer
     #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM"
@@ -7186,6 +7289,9 @@ module Aws::Mgn
     #   resp.use_fips_endpoint #=> Boolean
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
     #   resp.store_snapshot_on_local_zone #=> Boolean
+    #   resp.storage_configuration.storage_type #=> String, one of "EBS", "FSX_ONTAP"
+    #   resp.storage_configuration.fsx_ontap_configuration.storage_virtual_machine_id #=> String
+    #   resp.storage_configuration.fsx_ontap_configuration.credentials_secret_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfiguration AWS API Documentation
     #
@@ -7258,6 +7364,10 @@ module Aws::Mgn
     #   Update replication configuration template store snapshot on local zone
     #   request.
     #
+    # @option params [Types::StorageConfiguration] :storage_configuration
+    #   Update replication configuration template storage configuration
+    #   request.
+    #
     # @return [Types::ReplicationConfigurationTemplate] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfigurationTemplate#replication_configuration_template_id #replication_configuration_template_id} => String
@@ -7278,6 +7388,7 @@ module Aws::Mgn
     #   * {Types::ReplicationConfigurationTemplate#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::ReplicationConfigurationTemplate#internet_protocol #internet_protocol} => String
     #   * {Types::ReplicationConfigurationTemplate#store_snapshot_on_local_zone #store_snapshot_on_local_zone} => Boolean
+    #   * {Types::ReplicationConfigurationTemplate#storage_configuration #storage_configuration} => Types::StorageConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -7301,6 +7412,13 @@ module Aws::Mgn
     #     use_fips_endpoint: false,
     #     internet_protocol: "IPV4", # accepts IPV4, IPV6
     #     store_snapshot_on_local_zone: false,
+    #     storage_configuration: {
+    #       storage_type: "EBS", # required, accepts EBS, FSX_ONTAP
+    #       fsx_ontap_configuration: {
+    #         storage_virtual_machine_id: "StorageVirtualMachineId", # required
+    #         credentials_secret_arn: "SecretArn", # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -7326,6 +7444,9 @@ module Aws::Mgn
     #   resp.tags["TagKey"] #=> String
     #   resp.internet_protocol #=> String, one of "IPV4", "IPV6"
     #   resp.store_snapshot_on_local_zone #=> Boolean
+    #   resp.storage_configuration.storage_type #=> String, one of "EBS", "FSX_ONTAP"
+    #   resp.storage_configuration.fsx_ontap_configuration.storage_virtual_machine_id #=> String
+    #   resp.storage_configuration.fsx_ontap_configuration.credentials_secret_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfigurationTemplate AWS API Documentation
     #
@@ -7346,6 +7467,15 @@ module Aws::Mgn
     #
     # @option params [Types::SourceServerConnectorAction] :connector_action
     #   Update Source Server request connector action.
+    #
+    # @option params [String] :user_provided_id
+    #   Update Source Server request user provided ID.
+    #
+    # @option params [String] :fqdn_for_action_framework
+    #   Update Source Server request FQDN for action framework.
+    #
+    # @option params [String] :platform
+    #   Update Source Server request platform operating system.
     #
     # @return [Types::SourceServer] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7373,6 +7503,9 @@ module Aws::Mgn
     #       credentials_secret_arn: "SecretArn",
     #       connector_arn: "ConnectorArn",
     #     },
+    #     user_provided_id: "UserProvidedId",
+    #     fqdn_for_action_framework: "FqdnForActionFramework",
+    #     platform: "OperatingSystemString",
     #   })
     #
     # @example Response structure
@@ -7385,6 +7518,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -7397,9 +7537,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -7502,6 +7642,13 @@ module Aws::Mgn
     #   resp.launched_instance.ec2_instance_id #=> String
     #   resp.launched_instance.job_id #=> String
     #   resp.launched_instance.first_boot #=> String, one of "WAITING", "SUCCEEDED", "UNKNOWN", "STOPPED"
+    #   resp.launched_instance.last_known_checks #=> Array
+    #   resp.launched_instance.last_known_checks[0].type #=> String, one of "EC2", "FSx"
+    #   resp.launched_instance.last_known_checks[0].name #=> String
+    #   resp.launched_instance.last_known_checks[0].status #=> String, one of "PASSED", "FAILED", "PENDING"
+    #   resp.launched_instance.last_known_checks[0].error #=> String
+    #   resp.launched_instance.last_known_checks[0].checked_at #=> Time
+    #   resp.launched_instance.last_known_fsx_checks_status #=> String, one of "PASSED", "FAILED", "PENDING"
     #   resp.data_replication_info.lag_duration #=> String
     #   resp.data_replication_info.eta_date_time #=> String
     #   resp.data_replication_info.replicated_disks #=> Array
@@ -7514,9 +7661,9 @@ module Aws::Mgn
     #   resp.data_replication_info.data_replication_initiation.start_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.next_attempt_date_time #=> String
     #   resp.data_replication_info.data_replication_initiation.steps #=> Array
-    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER"
+    #   resp.data_replication_info.data_replication_initiation.steps[0].name #=> String, one of "WAIT", "CREATE_SECURITY_GROUP", "LAUNCH_REPLICATION_SERVER", "BOOT_REPLICATION_SERVER", "AUTHENTICATE_WITH_SERVICE", "DOWNLOAD_REPLICATION_SOFTWARE", "CREATE_STAGING_DISKS", "ATTACH_STAGING_DISKS", "PAIR_REPLICATION_SERVER_WITH_AGENT", "CONNECT_AGENT_TO_REPLICATION_SERVER", "START_DATA_TRANSFER", "SETUP_FSX_PROXY"
     #   resp.data_replication_info.data_replication_initiation.steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "SKIPPED"
-    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED"
+    #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER", "UNSUPPORTED_VM_CONFIGURATION", "LAST_SNAPSHOT_JOB_FAILED", "FAILED_TO_SETUP_FSX_PROXY", "FAILED_TO_CREATE_FSX_SNAPSHOT"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
     #   resp.data_replication_info.last_snapshot_date_time #=> String
     #   resp.data_replication_info.replicator_id #=> String
@@ -7649,7 +7796,7 @@ module Aws::Mgn
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mgn'
-      context[:gem_version] = '1.71.0'
+      context[:gem_version] = '1.72.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

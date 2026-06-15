@@ -3260,6 +3260,90 @@ module Aws::BedrockRuntime
       req.send_request(options)
     end
 
+    # Evaluates messages against inline guardrail checks. You specify the
+    # check configurations directly in the request, and Amazon Bedrock
+    # returns per-check results with severity or confidence scores.
+    #
+    # @option params [required, Array<Types::GuardrailChecksMessage>] :messages
+    #   The messages to evaluate against the specified guardrail checks. Each
+    #   message includes a role and one or more content blocks.
+    #
+    # @option params [required, Types::GuardrailChecksConfig] :checks
+    #   The inline check configurations that specify which guardrail checks to
+    #   run against the messages.
+    #
+    # @return [Types::InvokeGuardrailChecksResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::InvokeGuardrailChecksResponse#results #results} => Types::GuardrailChecksResults
+    #   * {Types::InvokeGuardrailChecksResponse#usage #usage} => Types::GuardrailChecksUsageResults
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.invoke_guardrail_checks({
+    #     messages: [ # required
+    #       {
+    #         role: "user", # required, accepts user, assistant, system
+    #         content: [ # required
+    #           {
+    #             text: "GuardrailChecksTextContent",
+    #           },
+    #         ],
+    #       },
+    #     ],
+    #     checks: { # required
+    #       content_filter: {
+    #         categories: [ # required
+    #           {
+    #             category: "VIOLENCE", # required, accepts VIOLENCE, HATE, SEXUAL, MISCONDUCT, INSULTS
+    #           },
+    #         ],
+    #       },
+    #       prompt_attack: {
+    #         categories: [ # required
+    #           {
+    #             category: "JAILBREAK", # required, accepts JAILBREAK, PROMPT_INJECTION, PROMPT_LEAKAGE
+    #           },
+    #         ],
+    #       },
+    #       sensitive_information: {
+    #         entities: [ # required
+    #           {
+    #             type: "ADDRESS", # required, accepts ADDRESS, AGE, AWS_ACCESS_KEY, AWS_SECRET_KEY, CA_HEALTH_NUMBER, CA_SOCIAL_INSURANCE_NUMBER, CREDIT_DEBIT_CARD_CVV, CREDIT_DEBIT_CARD_EXPIRY, CREDIT_DEBIT_CARD_NUMBER, DRIVER_ID, EMAIL, INTERNATIONAL_BANK_ACCOUNT_NUMBER, IP_ADDRESS, LICENSE_PLATE, MAC_ADDRESS, NAME, PASSWORD, PHONE, PIN, SWIFT_CODE, UK_NATIONAL_HEALTH_SERVICE_NUMBER, UK_NATIONAL_INSURANCE_NUMBER, UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER, URL, USERNAME, US_BANK_ACCOUNT_NUMBER, US_BANK_ROUTING_NUMBER, US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER, US_PASSPORT_NUMBER, US_SOCIAL_SECURITY_NUMBER, VEHICLE_IDENTIFICATION_NUMBER
+    #           },
+    #         ],
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.results.content_filter.results #=> Array
+    #   resp.results.content_filter.results[0].category #=> String, one of "VIOLENCE", "HATE", "SEXUAL", "MISCONDUCT", "INSULTS"
+    #   resp.results.content_filter.results[0].severity_score #=> Float
+    #   resp.results.prompt_attack.results #=> Array
+    #   resp.results.prompt_attack.results[0].category #=> String, one of "JAILBREAK", "PROMPT_INJECTION", "PROMPT_LEAKAGE"
+    #   resp.results.prompt_attack.results[0].severity_score #=> Float
+    #   resp.results.sensitive_information.results #=> Array
+    #   resp.results.sensitive_information.results[0].type #=> String, one of "ADDRESS", "AGE", "AWS_ACCESS_KEY", "AWS_SECRET_KEY", "CA_HEALTH_NUMBER", "CA_SOCIAL_INSURANCE_NUMBER", "CREDIT_DEBIT_CARD_CVV", "CREDIT_DEBIT_CARD_EXPIRY", "CREDIT_DEBIT_CARD_NUMBER", "DRIVER_ID", "EMAIL", "INTERNATIONAL_BANK_ACCOUNT_NUMBER", "IP_ADDRESS", "LICENSE_PLATE", "MAC_ADDRESS", "NAME", "PASSWORD", "PHONE", "PIN", "SWIFT_CODE", "UK_NATIONAL_HEALTH_SERVICE_NUMBER", "UK_NATIONAL_INSURANCE_NUMBER", "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER", "URL", "USERNAME", "US_BANK_ACCOUNT_NUMBER", "US_BANK_ROUTING_NUMBER", "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER", "US_PASSPORT_NUMBER", "US_SOCIAL_SECURITY_NUMBER", "VEHICLE_IDENTIFICATION_NUMBER"
+    #   resp.results.sensitive_information.results[0].confidence_score #=> Float
+    #   resp.results.sensitive_information.results[0].begin_offset #=> Integer
+    #   resp.results.sensitive_information.results[0].end_offset #=> Integer
+    #   resp.results.sensitive_information.results[0].message_index #=> Integer
+    #   resp.results.sensitive_information.results[0].content_index #=> Integer
+    #   resp.results.sensitive_information.truncated #=> Boolean
+    #   resp.usage.content_filter.text_units #=> Integer
+    #   resp.usage.prompt_attack.text_units #=> Integer
+    #   resp.usage.sensitive_information.text_units #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/InvokeGuardrailChecks AWS API Documentation
+    #
+    # @overload invoke_guardrail_checks(params = {})
+    # @param [Hash] params ({})
+    def invoke_guardrail_checks(params = {}, options = {})
+      req = build_request(:invoke_guardrail_checks, params)
+      req.send_request(options)
+    end
+
     # Invokes the specified Amazon Bedrock model to run inference using the
     # prompt and inference parameters provided in the request body. You use
     # model inference to generate text, images, and embeddings.
@@ -3932,7 +4016,7 @@ module Aws::BedrockRuntime
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockruntime'
-      context[:gem_version] = '1.80.0'
+      context[:gem_version] = '1.81.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

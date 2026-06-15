@@ -46,6 +46,7 @@ module Aws::WAFV2
     AttributeValue = Shapes::StringShape.new(name: 'AttributeValue')
     AttributeValues = Shapes::ListShape.new(name: 'AttributeValues')
     BlockAction = Shapes::StructureShape.new(name: 'BlockAction')
+    BlockchainChain = Shapes::StringShape.new(name: 'BlockchainChain')
     Body = Shapes::StructureShape.new(name: 'Body')
     BodyParsingFallbackBehavior = Shapes::StringShape.new(name: 'BodyParsingFallbackBehavior')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
@@ -85,6 +86,10 @@ module Aws::WAFV2
     CreateWebACLRequest = Shapes::StructureShape.new(name: 'CreateWebACLRequest')
     CreateWebACLResponse = Shapes::StructureShape.new(name: 'CreateWebACLResponse')
     CreationPathString = Shapes::StringShape.new(name: 'CreationPathString')
+    CryptoConfig = Shapes::StructureShape.new(name: 'CryptoConfig')
+    CryptoCurrency = Shapes::StringShape.new(name: 'CryptoCurrency')
+    Currency = Shapes::StringShape.new(name: 'Currency')
+    CurrencyMode = Shapes::StringShape.new(name: 'CurrencyMode')
     CustomHTTPHeader = Shapes::StructureShape.new(name: 'CustomHTTPHeader')
     CustomHTTPHeaderName = Shapes::StringShape.new(name: 'CustomHTTPHeaderName')
     CustomHTTPHeaderValue = Shapes::StringShape.new(name: 'CustomHTTPHeaderValue')
@@ -93,6 +98,8 @@ module Aws::WAFV2
     CustomResponse = Shapes::StructureShape.new(name: 'CustomResponse')
     CustomResponseBodies = Shapes::MapShape.new(name: 'CustomResponseBodies')
     CustomResponseBody = Shapes::StructureShape.new(name: 'CustomResponseBody')
+    DataPointEntry = Shapes::StructureShape.new(name: 'DataPointEntry')
+    DataPointsList = Shapes::ListShape.new(name: 'DataPointsList')
     DataProtection = Shapes::StructureShape.new(name: 'DataProtection')
     DataProtectionAction = Shapes::StringShape.new(name: 'DataProtectionAction')
     DataProtectionConfig = Shapes::StructureShape.new(name: 'DataProtectionConfig')
@@ -177,6 +184,12 @@ module Aws::WAFV2
     GetRateBasedStatementManagedKeysResponse = Shapes::StructureShape.new(name: 'GetRateBasedStatementManagedKeysResponse')
     GetRegexPatternSetRequest = Shapes::StructureShape.new(name: 'GetRegexPatternSetRequest')
     GetRegexPatternSetResponse = Shapes::StructureShape.new(name: 'GetRegexPatternSetResponse')
+    GetRevenueStatisticsRequest = Shapes::StructureShape.new(name: 'GetRevenueStatisticsRequest')
+    GetRevenueStatisticsResponse = Shapes::StructureShape.new(name: 'GetRevenueStatisticsResponse')
+    GetRevenueStatisticsSummaryRequest = Shapes::StructureShape.new(name: 'GetRevenueStatisticsSummaryRequest')
+    GetRevenueStatisticsSummaryResponse = Shapes::StructureShape.new(name: 'GetRevenueStatisticsSummaryResponse')
+    GetRevenueStatisticsTimeSeriesRequest = Shapes::StructureShape.new(name: 'GetRevenueStatisticsTimeSeriesRequest')
+    GetRevenueStatisticsTimeSeriesResponse = Shapes::StructureShape.new(name: 'GetRevenueStatisticsTimeSeriesResponse')
     GetRuleGroupRequest = Shapes::StructureShape.new(name: 'GetRuleGroupRequest')
     GetRuleGroupResponse = Shapes::StructureShape.new(name: 'GetRuleGroupResponse')
     GetSampledRequestsRequest = Shapes::StructureShape.new(name: 'GetSampledRequestsRequest')
@@ -187,6 +200,7 @@ module Aws::WAFV2
     GetWebACLForResourceResponse = Shapes::StructureShape.new(name: 'GetWebACLForResourceResponse')
     GetWebACLRequest = Shapes::StructureShape.new(name: 'GetWebACLRequest')
     GetWebACLResponse = Shapes::StructureShape.new(name: 'GetWebACLResponse')
+    GroupByType = Shapes::StringShape.new(name: 'GroupByType')
     HTTPHeader = Shapes::StructureShape.new(name: 'HTTPHeader')
     HTTPHeaders = Shapes::ListShape.new(name: 'HTTPHeaders')
     HTTPMethod = Shapes::StringShape.new(name: 'HTTPMethod')
@@ -209,6 +223,7 @@ module Aws::WAFV2
     IPString = Shapes::StringShape.new(name: 'IPString')
     ImmunityTimeProperty = Shapes::StructureShape.new(name: 'ImmunityTimeProperty')
     InspectionLevel = Shapes::StringShape.new(name: 'InspectionLevel')
+    IntervalType = Shapes::StringShape.new(name: 'IntervalType')
     JA3Fingerprint = Shapes::StructureShape.new(name: 'JA3Fingerprint')
     JA4Fingerprint = Shapes::StructureShape.new(name: 'JA4Fingerprint')
     JsonBody = Shapes::StructureShape.new(name: 'JsonBody')
@@ -247,6 +262,8 @@ module Aws::WAFV2
     ListResourcesForWebACLResponse = Shapes::StructureShape.new(name: 'ListResourcesForWebACLResponse')
     ListRuleGroupsRequest = Shapes::StructureShape.new(name: 'ListRuleGroupsRequest')
     ListRuleGroupsResponse = Shapes::StructureShape.new(name: 'ListRuleGroupsResponse')
+    ListSettlementRecordsRequest = Shapes::StructureShape.new(name: 'ListSettlementRecordsRequest')
+    ListSettlementRecordsResponse = Shapes::StructureShape.new(name: 'ListSettlementRecordsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     ListWebACLsRequest = Shapes::StructureShape.new(name: 'ListWebACLsRequest')
@@ -274,9 +291,18 @@ module Aws::WAFV2
     ManagedRuleSetSummary = Shapes::StructureShape.new(name: 'ManagedRuleSetSummary')
     ManagedRuleSetVersion = Shapes::StructureShape.new(name: 'ManagedRuleSetVersion')
     MapMatchScope = Shapes::StringShape.new(name: 'MapMatchScope')
+    MaxDataPoints = Shapes::IntegerShape.new(name: 'MaxDataPoints')
     Method = Shapes::StructureShape.new(name: 'Method')
     MetricName = Shapes::StringShape.new(name: 'MetricName')
     MobileSdkRelease = Shapes::StructureShape.new(name: 'MobileSdkRelease')
+    MonetizationAmountValue = Shapes::StringShape.new(name: 'MonetizationAmountValue')
+    MonetizationConfig = Shapes::StructureShape.new(name: 'MonetizationConfig')
+    MonetizationFilter = Shapes::StructureShape.new(name: 'MonetizationFilter')
+    MonetizationFilterList = Shapes::ListShape.new(name: 'MonetizationFilterList')
+    MonetizationFilterName = Shapes::StringShape.new(name: 'MonetizationFilterName')
+    MonetizationFilterValue = Shapes::StringShape.new(name: 'MonetizationFilterValue')
+    MonetizationFilterValueList = Shapes::ListShape.new(name: 'MonetizationFilterValueList')
+    MonetizeAction = Shapes::StructureShape.new(name: 'MonetizeAction')
     NextMarker = Shapes::StringShape.new(name: 'NextMarker')
     NoneAction = Shapes::StructureShape.new(name: 'NoneAction')
     NotStatement = Shapes::StructureShape.new(name: 'NotStatement')
@@ -295,6 +321,8 @@ module Aws::WAFV2
     PathStatisticsList = Shapes::ListShape.new(name: 'PathStatisticsList')
     PathString = Shapes::StringShape.new(name: 'PathString')
     PayloadType = Shapes::StringShape.new(name: 'PayloadType')
+    PaymentNetwork = Shapes::StructureShape.new(name: 'PaymentNetwork')
+    PaymentNetworks = Shapes::ListShape.new(name: 'PaymentNetworks')
     PercentageValue = Shapes::FloatShape.new(name: 'PercentageValue')
     PhoneNumberField = Shapes::StructureShape.new(name: 'PhoneNumberField')
     PhoneNumberFields = Shapes::ListShape.new(name: 'PhoneNumberFields')
@@ -302,6 +330,10 @@ module Aws::WAFV2
     PolicyString = Shapes::StringShape.new(name: 'PolicyString')
     PopulationSize = Shapes::IntegerShape.new(name: 'PopulationSize')
     PositionalConstraint = Shapes::StringShape.new(name: 'PositionalConstraint')
+    Price = Shapes::StructureShape.new(name: 'Price')
+    PriceAmount = Shapes::StringShape.new(name: 'PriceAmount')
+    PriceMultiplier = Shapes::StringShape.new(name: 'PriceMultiplier')
+    Prices = Shapes::ListShape.new(name: 'Prices')
     PricingPlanFeatureName = Shapes::StringShape.new(name: 'PricingPlanFeatureName')
     ProductDescription = Shapes::StringShape.new(name: 'ProductDescription')
     ProductId = Shapes::StringShape.new(name: 'ProductId')
@@ -315,6 +347,8 @@ module Aws::WAFV2
     PutPermissionPolicyRequest = Shapes::StructureShape.new(name: 'PutPermissionPolicyRequest')
     PutPermissionPolicyResponse = Shapes::StructureShape.new(name: 'PutPermissionPolicyResponse')
     QueryString = Shapes::StructureShape.new(name: 'QueryString')
+    RankingSortBy = Shapes::StringShape.new(name: 'RankingSortBy')
+    RankingStatisticType = Shapes::StringShape.new(name: 'RankingStatisticType')
     RateBasedStatement = Shapes::StructureShape.new(name: 'RateBasedStatement')
     RateBasedStatementAggregateKeyType = Shapes::StringShape.new(name: 'RateBasedStatementAggregateKeyType')
     RateBasedStatementCustomKey = Shapes::StructureShape.new(name: 'RateBasedStatementCustomKey')
@@ -373,6 +407,9 @@ module Aws::WAFV2
     ResponseInspectionStatusCodeFailureCodes = Shapes::ListShape.new(name: 'ResponseInspectionStatusCodeFailureCodes')
     ResponseInspectionStatusCodeSuccessCodes = Shapes::ListShape.new(name: 'ResponseInspectionStatusCodeSuccessCodes')
     ResponseStatusCode = Shapes::IntegerShape.new(name: 'ResponseStatusCode')
+    RevenueBreakdown = Shapes::StructureShape.new(name: 'RevenueBreakdown')
+    RevenuePathStatistics = Shapes::StructureShape.new(name: 'RevenuePathStatistics')
+    RevenuePathStatisticsList = Shapes::ListShape.new(name: 'RevenuePathStatisticsList')
     Rule = Shapes::StructureShape.new(name: 'Rule')
     RuleAction = Shapes::StructureShape.new(name: 'RuleAction')
     RuleActionOverride = Shapes::StructureShape.new(name: 'RuleActionOverride')
@@ -392,6 +429,13 @@ module Aws::WAFV2
     SearchString = Shapes::BlobShape.new(name: 'SearchString')
     SensitivityLevel = Shapes::StringShape.new(name: 'SensitivityLevel')
     SensitivityToAct = Shapes::StringShape.new(name: 'SensitivityToAct')
+    SettlementFilterString = Shapes::StringShape.new(name: 'SettlementFilterString')
+    SettlementIdString = Shapes::StringShape.new(name: 'SettlementIdString')
+    SettlementRecord = Shapes::StructureShape.new(name: 'SettlementRecord')
+    SettlementRecordLimit = Shapes::IntegerShape.new(name: 'SettlementRecordLimit')
+    SettlementRecordList = Shapes::ListShape.new(name: 'SettlementRecordList')
+    SettlementSortBy = Shapes::StringShape.new(name: 'SettlementSortBy')
+    SettlementStatus = Shapes::StringShape.new(name: 'SettlementStatus')
     SingleCookieName = Shapes::StringShape.new(name: 'SingleCookieName')
     SingleHeader = Shapes::StructureShape.new(name: 'SingleHeader')
     SingleQueryArgument = Shapes::StructureShape.new(name: 'SingleQueryArgument')
@@ -399,6 +443,9 @@ module Aws::WAFV2
     SizeConstraintStatement = Shapes::StructureShape.new(name: 'SizeConstraintStatement')
     SizeInspectionLimit = Shapes::StringShape.new(name: 'SizeInspectionLimit')
     SolveTimestamp = Shapes::IntegerShape.new(name: 'SolveTimestamp')
+    SortOrder = Shapes::StringShape.new(name: 'SortOrder')
+    SourceStatistics = Shapes::StructureShape.new(name: 'SourceStatistics')
+    SourceStatisticsList = Shapes::ListShape.new(name: 'SourceStatisticsList')
     SourceType = Shapes::StringShape.new(name: 'SourceType')
     SqliMatchStatement = Shapes::StructureShape.new(name: 'SqliMatchStatement')
     Statement = Shapes::StructureShape.new(name: 'Statement')
@@ -418,6 +465,7 @@ module Aws::WAFV2
     TextTransformationPriority = Shapes::IntegerShape.new(name: 'TextTransformationPriority')
     TextTransformationType = Shapes::StringShape.new(name: 'TextTransformationType')
     TextTransformations = Shapes::ListShape.new(name: 'TextTransformations')
+    TimeSeriesStatisticType = Shapes::StringShape.new(name: 'TimeSeriesStatisticType')
     TimeWindow = Shapes::StructureShape.new(name: 'TimeWindow')
     TimeWindowDay = Shapes::IntegerShape.new(name: 'TimeWindowDay')
     TimeWindowSecond = Shapes::IntegerShape.new(name: 'TimeWindowSecond')
@@ -443,6 +491,7 @@ module Aws::WAFV2
     UsageOfAction = Shapes::StringShape.new(name: 'UsageOfAction')
     UsernameField = Shapes::StructureShape.new(name: 'UsernameField')
     VendorName = Shapes::StringShape.new(name: 'VendorName')
+    VerifiedStatus = Shapes::BooleanShape.new(name: 'VerifiedStatus')
     VersionKeyString = Shapes::StringShape.new(name: 'VersionKeyString')
     VersionToPublish = Shapes::StructureShape.new(name: 'VersionToPublish')
     VersionsToPublish = Shapes::MapShape.new(name: 'VersionsToPublish')
@@ -467,6 +516,7 @@ module Aws::WAFV2
     WAFTagOperationInternalErrorException = Shapes::StructureShape.new(name: 'WAFTagOperationInternalErrorException')
     WAFUnavailableEntityException = Shapes::StructureShape.new(name: 'WAFUnavailableEntityException')
     WAFUnsupportedAggregateKeyTypeException = Shapes::StructureShape.new(name: 'WAFUnsupportedAggregateKeyTypeException')
+    WalletAddress = Shapes::StringShape.new(name: 'WalletAddress')
     WebACL = Shapes::StructureShape.new(name: 'WebACL')
     WebACLSummaries = Shapes::ListShape.new(name: 'WebACLSummaries')
     WebACLSummary = Shapes::StructureShape.new(name: 'WebACLSummary')
@@ -662,6 +712,7 @@ module Aws::WAFV2
     CreateRuleGroupRequest.add_member(:visibility_config, Shapes::ShapeRef.new(shape: VisibilityConfig, required: true, location_name: "VisibilityConfig"))
     CreateRuleGroupRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateRuleGroupRequest.add_member(:custom_response_bodies, Shapes::ShapeRef.new(shape: CustomResponseBodies, location_name: "CustomResponseBodies"))
+    CreateRuleGroupRequest.add_member(:monetization_config, Shapes::ShapeRef.new(shape: MonetizationConfig, location_name: "MonetizationConfig"))
     CreateRuleGroupRequest.struct_class = Types::CreateRuleGroupRequest
 
     CreateRuleGroupResponse.add_member(:summary, Shapes::ShapeRef.new(shape: RuleGroupSummary, location_name: "Summary"))
@@ -682,10 +733,14 @@ module Aws::WAFV2
     CreateWebACLRequest.add_member(:association_config, Shapes::ShapeRef.new(shape: AssociationConfig, location_name: "AssociationConfig"))
     CreateWebACLRequest.add_member(:on_source_d_do_s_protection_config, Shapes::ShapeRef.new(shape: OnSourceDDoSProtectionConfig, location_name: "OnSourceDDoSProtectionConfig"))
     CreateWebACLRequest.add_member(:application_config, Shapes::ShapeRef.new(shape: ApplicationConfig, location_name: "ApplicationConfig"))
+    CreateWebACLRequest.add_member(:monetization_config, Shapes::ShapeRef.new(shape: MonetizationConfig, location_name: "MonetizationConfig"))
     CreateWebACLRequest.struct_class = Types::CreateWebACLRequest
 
     CreateWebACLResponse.add_member(:summary, Shapes::ShapeRef.new(shape: WebACLSummary, location_name: "Summary"))
     CreateWebACLResponse.struct_class = Types::CreateWebACLResponse
+
+    CryptoConfig.add_member(:payment_networks, Shapes::ShapeRef.new(shape: PaymentNetworks, required: true, location_name: "PaymentNetworks"))
+    CryptoConfig.struct_class = Types::CryptoConfig
 
     CustomHTTPHeader.add_member(:name, Shapes::ShapeRef.new(shape: CustomHTTPHeaderName, required: true, location_name: "Name"))
     CustomHTTPHeader.add_member(:value, Shapes::ShapeRef.new(shape: CustomHTTPHeaderValue, required: true, location_name: "Value"))
@@ -707,6 +762,17 @@ module Aws::WAFV2
     CustomResponseBody.add_member(:content_type, Shapes::ShapeRef.new(shape: ResponseContentType, required: true, location_name: "ContentType"))
     CustomResponseBody.add_member(:content, Shapes::ShapeRef.new(shape: ResponseContent, required: true, location_name: "Content"))
     CustomResponseBody.struct_class = Types::CustomResponseBody
+
+    DataPointEntry.add_member(:date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "Date"))
+    DataPointEntry.add_member(:monetize_served_count, Shapes::ShapeRef.new(shape: RequestCount, location_name: "MonetizeServedCount"))
+    DataPointEntry.add_member(:settled_count, Shapes::ShapeRef.new(shape: RequestCount, location_name: "SettledCount"))
+    DataPointEntry.add_member(:total_amount, Shapes::ShapeRef.new(shape: MonetizationAmountValue, location_name: "TotalAmount"))
+    DataPointEntry.add_member(:category, Shapes::ShapeRef.new(shape: FilterString, location_name: "Category"))
+    DataPointEntry.add_member(:intent, Shapes::ShapeRef.new(shape: FilterString, location_name: "Intent"))
+    DataPointEntry.add_member(:group_by_value, Shapes::ShapeRef.new(shape: FilterString, location_name: "GroupByValue"))
+    DataPointEntry.struct_class = Types::DataPointEntry
+
+    DataPointsList.member = Shapes::ShapeRef.new(shape: DataPointEntry)
 
     DataProtection.add_member(:field, Shapes::ShapeRef.new(shape: FieldToProtect, required: true, location_name: "Field"))
     DataProtection.add_member(:action, Shapes::ShapeRef.new(shape: DataProtectionAction, required: true, location_name: "Action"))
@@ -956,6 +1022,47 @@ module Aws::WAFV2
     GetRegexPatternSetResponse.add_member(:lock_token, Shapes::ShapeRef.new(shape: LockToken, location_name: "LockToken"))
     GetRegexPatternSetResponse.struct_class = Types::GetRegexPatternSetResponse
 
+    GetRevenueStatisticsRequest.add_member(:statistic_type, Shapes::ShapeRef.new(shape: RankingStatisticType, required: true, location_name: "StatisticType"))
+    GetRevenueStatisticsRequest.add_member(:time_window, Shapes::ShapeRef.new(shape: TimeWindow, required: true, location_name: "TimeWindow"))
+    GetRevenueStatisticsRequest.add_member(:scope, Shapes::ShapeRef.new(shape: Scope, required: true, location_name: "Scope"))
+    GetRevenueStatisticsRequest.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, required: true, location_name: "Currency"))
+    GetRevenueStatisticsRequest.add_member(:group_by, Shapes::ShapeRef.new(shape: GroupByType, location_name: "GroupBy"))
+    GetRevenueStatisticsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: MonetizationFilterList, location_name: "Filters"))
+    GetRevenueStatisticsRequest.add_member(:next_marker, Shapes::ShapeRef.new(shape: NextMarker, location_name: "NextMarker"))
+    GetRevenueStatisticsRequest.add_member(:limit, Shapes::ShapeRef.new(shape: PathStatisticsLimit, location_name: "Limit"))
+    GetRevenueStatisticsRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: RankingSortBy, location_name: "SortBy"))
+    GetRevenueStatisticsRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, location_name: "SortOrder"))
+    GetRevenueStatisticsRequest.struct_class = Types::GetRevenueStatisticsRequest
+
+    GetRevenueStatisticsResponse.add_member(:source_statistics, Shapes::ShapeRef.new(shape: SourceStatisticsList, location_name: "SourceStatistics"))
+    GetRevenueStatisticsResponse.add_member(:revenue_path_statistics, Shapes::ShapeRef.new(shape: RevenuePathStatisticsList, location_name: "RevenuePathStatistics"))
+    GetRevenueStatisticsResponse.add_member(:next_marker, Shapes::ShapeRef.new(shape: NextMarker, location_name: "NextMarker"))
+    GetRevenueStatisticsResponse.struct_class = Types::GetRevenueStatisticsResponse
+
+    GetRevenueStatisticsSummaryRequest.add_member(:time_window, Shapes::ShapeRef.new(shape: TimeWindow, required: true, location_name: "TimeWindow"))
+    GetRevenueStatisticsSummaryRequest.add_member(:scope, Shapes::ShapeRef.new(shape: Scope, required: true, location_name: "Scope"))
+    GetRevenueStatisticsSummaryRequest.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, required: true, location_name: "Currency"))
+    GetRevenueStatisticsSummaryRequest.add_member(:filters, Shapes::ShapeRef.new(shape: MonetizationFilterList, location_name: "Filters"))
+    GetRevenueStatisticsSummaryRequest.struct_class = Types::GetRevenueStatisticsSummaryRequest
+
+    GetRevenueStatisticsSummaryResponse.add_member(:revenue_breakdown, Shapes::ShapeRef.new(shape: RevenueBreakdown, location_name: "RevenueBreakdown"))
+    GetRevenueStatisticsSummaryResponse.struct_class = Types::GetRevenueStatisticsSummaryResponse
+
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:statistic_type, Shapes::ShapeRef.new(shape: TimeSeriesStatisticType, required: true, location_name: "StatisticType"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:time_window, Shapes::ShapeRef.new(shape: TimeWindow, required: true, location_name: "TimeWindow"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:scope, Shapes::ShapeRef.new(shape: Scope, required: true, location_name: "Scope"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:interval, Shapes::ShapeRef.new(shape: IntervalType, required: true, location_name: "Interval"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, required: true, location_name: "Currency"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:group_by, Shapes::ShapeRef.new(shape: GroupByType, location_name: "GroupBy"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: MonetizationFilterList, location_name: "Filters"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:limit, Shapes::ShapeRef.new(shape: MaxDataPoints, location_name: "Limit"))
+    GetRevenueStatisticsTimeSeriesRequest.add_member(:next_marker, Shapes::ShapeRef.new(shape: NextMarker, location_name: "NextMarker"))
+    GetRevenueStatisticsTimeSeriesRequest.struct_class = Types::GetRevenueStatisticsTimeSeriesRequest
+
+    GetRevenueStatisticsTimeSeriesResponse.add_member(:data_points, Shapes::ShapeRef.new(shape: DataPointsList, location_name: "DataPoints"))
+    GetRevenueStatisticsTimeSeriesResponse.add_member(:next_marker, Shapes::ShapeRef.new(shape: NextMarker, location_name: "NextMarker"))
+    GetRevenueStatisticsTimeSeriesResponse.struct_class = Types::GetRevenueStatisticsTimeSeriesResponse
+
     GetRuleGroupRequest.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, location_name: "Name"))
     GetRuleGroupRequest.add_member(:scope, Shapes::ShapeRef.new(shape: Scope, location_name: "Scope"))
     GetRuleGroupRequest.add_member(:id, Shapes::ShapeRef.new(shape: EntityId, location_name: "Id"))
@@ -1201,6 +1308,20 @@ module Aws::WAFV2
     ListRuleGroupsResponse.add_member(:rule_groups, Shapes::ShapeRef.new(shape: RuleGroupSummaries, location_name: "RuleGroups"))
     ListRuleGroupsResponse.struct_class = Types::ListRuleGroupsResponse
 
+    ListSettlementRecordsRequest.add_member(:time_window, Shapes::ShapeRef.new(shape: TimeWindow, required: true, location_name: "TimeWindow"))
+    ListSettlementRecordsRequest.add_member(:scope, Shapes::ShapeRef.new(shape: Scope, required: true, location_name: "Scope"))
+    ListSettlementRecordsRequest.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, required: true, location_name: "Currency"))
+    ListSettlementRecordsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: MonetizationFilterList, location_name: "Filters"))
+    ListSettlementRecordsRequest.add_member(:sort_by, Shapes::ShapeRef.new(shape: SettlementSortBy, location_name: "SortBy"))
+    ListSettlementRecordsRequest.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, location_name: "SortOrder"))
+    ListSettlementRecordsRequest.add_member(:limit, Shapes::ShapeRef.new(shape: SettlementRecordLimit, location_name: "Limit"))
+    ListSettlementRecordsRequest.add_member(:next_marker, Shapes::ShapeRef.new(shape: NextMarker, location_name: "NextMarker"))
+    ListSettlementRecordsRequest.struct_class = Types::ListSettlementRecordsRequest
+
+    ListSettlementRecordsResponse.add_member(:settlements, Shapes::ShapeRef.new(shape: SettlementRecordList, location_name: "Settlements"))
+    ListSettlementRecordsResponse.add_member(:next_marker, Shapes::ShapeRef.new(shape: NextMarker, location_name: "NextMarker"))
+    ListSettlementRecordsResponse.struct_class = Types::ListSettlementRecordsResponse
+
     ListTagsForResourceRequest.add_member(:next_marker, Shapes::ShapeRef.new(shape: NextMarker, location_name: "NextMarker"))
     ListTagsForResourceRequest.add_member(:limit, Shapes::ShapeRef.new(shape: PaginationLimit, location_name: "Limit"))
     ListTagsForResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "ResourceARN"))
@@ -1319,6 +1440,21 @@ module Aws::WAFV2
     MobileSdkRelease.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     MobileSdkRelease.struct_class = Types::MobileSdkRelease
 
+    MonetizationConfig.add_member(:crypto_config, Shapes::ShapeRef.new(shape: CryptoConfig, location_name: "CryptoConfig"))
+    MonetizationConfig.add_member(:currency_mode, Shapes::ShapeRef.new(shape: CurrencyMode, location_name: "CurrencyMode"))
+    MonetizationConfig.struct_class = Types::MonetizationConfig
+
+    MonetizationFilter.add_member(:name, Shapes::ShapeRef.new(shape: MonetizationFilterName, required: true, location_name: "Name"))
+    MonetizationFilter.add_member(:values, Shapes::ShapeRef.new(shape: MonetizationFilterValueList, required: true, location_name: "Values"))
+    MonetizationFilter.struct_class = Types::MonetizationFilter
+
+    MonetizationFilterList.member = Shapes::ShapeRef.new(shape: MonetizationFilter)
+
+    MonetizationFilterValueList.member = Shapes::ShapeRef.new(shape: MonetizationFilterValue)
+
+    MonetizeAction.add_member(:price_multiplier, Shapes::ShapeRef.new(shape: PriceMultiplier, location_name: "PriceMultiplier"))
+    MonetizeAction.struct_class = Types::MonetizeAction
+
     NoneAction.struct_class = Types::NoneAction
 
     NotStatement.add_member(:statement, Shapes::ShapeRef.new(shape: Statement, required: true, location_name: "Statement"))
@@ -1346,10 +1482,23 @@ module Aws::WAFV2
 
     PathStatisticsList.member = Shapes::ShapeRef.new(shape: PathStatistics)
 
+    PaymentNetwork.add_member(:chain, Shapes::ShapeRef.new(shape: BlockchainChain, required: true, location_name: "Chain"))
+    PaymentNetwork.add_member(:wallet_address, Shapes::ShapeRef.new(shape: WalletAddress, required: true, location_name: "WalletAddress"))
+    PaymentNetwork.add_member(:prices, Shapes::ShapeRef.new(shape: Prices, required: true, location_name: "Prices"))
+    PaymentNetwork.struct_class = Types::PaymentNetwork
+
+    PaymentNetworks.member = Shapes::ShapeRef.new(shape: PaymentNetwork)
+
     PhoneNumberField.add_member(:identifier, Shapes::ShapeRef.new(shape: FieldIdentifier, required: true, location_name: "Identifier"))
     PhoneNumberField.struct_class = Types::PhoneNumberField
 
     PhoneNumberFields.member = Shapes::ShapeRef.new(shape: PhoneNumberField)
+
+    Price.add_member(:amount, Shapes::ShapeRef.new(shape: PriceAmount, required: true, location_name: "Amount"))
+    Price.add_member(:currency, Shapes::ShapeRef.new(shape: CryptoCurrency, required: true, location_name: "Currency"))
+    Price.struct_class = Types::Price
+
+    Prices.member = Shapes::ShapeRef.new(shape: Price)
 
     PublishedVersions.key = Shapes::ShapeRef.new(shape: VersionKeyString)
     PublishedVersions.value = Shapes::ShapeRef.new(shape: ManagedRuleSetVersion)
@@ -1542,6 +1691,22 @@ module Aws::WAFV2
 
     ResponseInspectionStatusCodeSuccessCodes.member = Shapes::ShapeRef.new(shape: SuccessCode)
 
+    RevenueBreakdown.add_member(:total_amount, Shapes::ShapeRef.new(shape: MonetizationAmountValue, location_name: "TotalAmount"))
+    RevenueBreakdown.add_member(:verified_amount, Shapes::ShapeRef.new(shape: MonetizationAmountValue, location_name: "VerifiedAmount"))
+    RevenueBreakdown.add_member(:unverified_amount, Shapes::ShapeRef.new(shape: MonetizationAmountValue, location_name: "UnverifiedAmount"))
+    RevenueBreakdown.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, location_name: "Currency"))
+    RevenueBreakdown.add_member(:total_settled, Shapes::ShapeRef.new(shape: RequestCount, location_name: "TotalSettled"))
+    RevenueBreakdown.add_member(:total_monetize_served, Shapes::ShapeRef.new(shape: RequestCount, location_name: "TotalMonetizeServed"))
+    RevenueBreakdown.struct_class = Types::RevenueBreakdown
+
+    RevenuePathStatistics.add_member(:path, Shapes::ShapeRef.new(shape: PathString, required: true, location_name: "Path"))
+    RevenuePathStatistics.add_member(:percentage, Shapes::ShapeRef.new(shape: PercentageValue, required: true, location_name: "Percentage"))
+    RevenuePathStatistics.add_member(:amount, Shapes::ShapeRef.new(shape: MonetizationAmountValue, required: true, location_name: "Amount"))
+    RevenuePathStatistics.add_member(:request_count, Shapes::ShapeRef.new(shape: RequestCount, required: true, location_name: "RequestCount"))
+    RevenuePathStatistics.struct_class = Types::RevenuePathStatistics
+
+    RevenuePathStatisticsList.member = Shapes::ShapeRef.new(shape: RevenuePathStatistics)
+
     Rule.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "Name"))
     Rule.add_member(:priority, Shapes::ShapeRef.new(shape: RulePriority, required: true, location_name: "Priority"))
     Rule.add_member(:statement, Shapes::ShapeRef.new(shape: Statement, required: true, location_name: "Statement"))
@@ -1558,6 +1723,7 @@ module Aws::WAFV2
     RuleAction.add_member(:count, Shapes::ShapeRef.new(shape: CountAction, location_name: "Count"))
     RuleAction.add_member(:captcha, Shapes::ShapeRef.new(shape: CaptchaAction, location_name: "Captcha"))
     RuleAction.add_member(:challenge, Shapes::ShapeRef.new(shape: ChallengeAction, location_name: "Challenge"))
+    RuleAction.add_member(:monetize, Shapes::ShapeRef.new(shape: MonetizeAction, location_name: "Monetize"))
     RuleAction.struct_class = Types::RuleAction
 
     RuleActionOverride.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "Name"))
@@ -1577,6 +1743,7 @@ module Aws::WAFV2
     RuleGroup.add_member(:custom_response_bodies, Shapes::ShapeRef.new(shape: CustomResponseBodies, location_name: "CustomResponseBodies"))
     RuleGroup.add_member(:available_labels, Shapes::ShapeRef.new(shape: LabelSummaries, location_name: "AvailableLabels"))
     RuleGroup.add_member(:consumed_labels, Shapes::ShapeRef.new(shape: LabelSummaries, location_name: "ConsumedLabels"))
+    RuleGroup.add_member(:monetization_config, Shapes::ShapeRef.new(shape: MonetizationConfig, location_name: "MonetizationConfig"))
     RuleGroup.struct_class = Types::RuleGroup
 
     RuleGroupReferenceStatement.add_member(:arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "ARN"))
@@ -1616,6 +1783,27 @@ module Aws::WAFV2
 
     SampledHTTPRequests.member = Shapes::ShapeRef.new(shape: SampledHTTPRequest)
 
+    SettlementRecord.add_member(:timestamp, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "Timestamp"))
+    SettlementRecord.add_member(:payer_address, Shapes::ShapeRef.new(shape: SettlementFilterString, location_name: "PayerAddress"))
+    SettlementRecord.add_member(:wallet_address, Shapes::ShapeRef.new(shape: SettlementFilterString, location_name: "WalletAddress"))
+    SettlementRecord.add_member(:status, Shapes::ShapeRef.new(shape: SettlementStatus, required: true, location_name: "Status"))
+    SettlementRecord.add_member(:amount, Shapes::ShapeRef.new(shape: MonetizationAmountValue, required: true, location_name: "Amount"))
+    SettlementRecord.add_member(:currency, Shapes::ShapeRef.new(shape: Currency, location_name: "Currency"))
+    SettlementRecord.add_member(:network, Shapes::ShapeRef.new(shape: SettlementFilterString, location_name: "Network"))
+    SettlementRecord.add_member(:transaction_id, Shapes::ShapeRef.new(shape: SettlementIdString, location_name: "TransactionId"))
+    SettlementRecord.add_member(:request_id, Shapes::ShapeRef.new(shape: SettlementFilterString, location_name: "RequestId"))
+    SettlementRecord.add_member(:source_name, Shapes::ShapeRef.new(shape: FilterString, location_name: "SourceName"))
+    SettlementRecord.add_member(:organization, Shapes::ShapeRef.new(shape: FilterString, location_name: "Organization"))
+    SettlementRecord.add_member(:source_category, Shapes::ShapeRef.new(shape: FilterString, location_name: "SourceCategory"))
+    SettlementRecord.add_member(:intent, Shapes::ShapeRef.new(shape: FilterString, location_name: "Intent"))
+    SettlementRecord.add_member(:verified, Shapes::ShapeRef.new(shape: VerifiedStatus, location_name: "Verified"))
+    SettlementRecord.add_member(:content_path, Shapes::ShapeRef.new(shape: FilterString, location_name: "ContentPath"))
+    SettlementRecord.add_member(:web_acl_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "WebAclArn"))
+    SettlementRecord.add_member(:request_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "RequestTimestamp"))
+    SettlementRecord.struct_class = Types::SettlementRecord
+
+    SettlementRecordList.member = Shapes::ShapeRef.new(shape: SettlementRecord)
+
     SingleHeader.add_member(:name, Shapes::ShapeRef.new(shape: FieldToMatchData, required: true, location_name: "Name"))
     SingleHeader.struct_class = Types::SingleHeader
 
@@ -1627,6 +1815,19 @@ module Aws::WAFV2
     SizeConstraintStatement.add_member(:size, Shapes::ShapeRef.new(shape: Size, required: true, location_name: "Size"))
     SizeConstraintStatement.add_member(:text_transformations, Shapes::ShapeRef.new(shape: TextTransformations, required: true, location_name: "TextTransformations"))
     SizeConstraintStatement.struct_class = Types::SizeConstraintStatement
+
+    SourceStatistics.add_member(:source_name, Shapes::ShapeRef.new(shape: FilterString, required: true, location_name: "SourceName"))
+    SourceStatistics.add_member(:percentage, Shapes::ShapeRef.new(shape: PercentageValue, required: true, location_name: "Percentage"))
+    SourceStatistics.add_member(:amount, Shapes::ShapeRef.new(shape: MonetizationAmountValue, required: true, location_name: "Amount"))
+    SourceStatistics.add_member(:request_count, Shapes::ShapeRef.new(shape: RequestCount, required: true, location_name: "RequestCount"))
+    SourceStatistics.add_member(:source_category, Shapes::ShapeRef.new(shape: FilterString, location_name: "SourceCategory"))
+    SourceStatistics.add_member(:intent, Shapes::ShapeRef.new(shape: FilterString, location_name: "Intent"))
+    SourceStatistics.add_member(:organization, Shapes::ShapeRef.new(shape: FilterString, location_name: "Organization"))
+    SourceStatistics.add_member(:verified, Shapes::ShapeRef.new(shape: VerifiedStatus, location_name: "Verified"))
+    SourceStatistics.add_member(:group_by_value, Shapes::ShapeRef.new(shape: FilterString, location_name: "GroupByValue"))
+    SourceStatistics.struct_class = Types::SourceStatistics
+
+    SourceStatisticsList.member = Shapes::ShapeRef.new(shape: SourceStatistics)
 
     SqliMatchStatement.add_member(:field_to_match, Shapes::ShapeRef.new(shape: FieldToMatch, required: true, location_name: "FieldToMatch"))
     SqliMatchStatement.add_member(:text_transformations, Shapes::ShapeRef.new(shape: TextTransformations, required: true, location_name: "TextTransformations"))
@@ -1732,6 +1933,7 @@ module Aws::WAFV2
     UpdateRuleGroupRequest.add_member(:visibility_config, Shapes::ShapeRef.new(shape: VisibilityConfig, required: true, location_name: "VisibilityConfig"))
     UpdateRuleGroupRequest.add_member(:lock_token, Shapes::ShapeRef.new(shape: LockToken, required: true, location_name: "LockToken"))
     UpdateRuleGroupRequest.add_member(:custom_response_bodies, Shapes::ShapeRef.new(shape: CustomResponseBodies, location_name: "CustomResponseBodies"))
+    UpdateRuleGroupRequest.add_member(:monetization_config, Shapes::ShapeRef.new(shape: MonetizationConfig, location_name: "MonetizationConfig"))
     UpdateRuleGroupRequest.struct_class = Types::UpdateRuleGroupRequest
 
     UpdateRuleGroupResponse.add_member(:next_lock_token, Shapes::ShapeRef.new(shape: LockToken, location_name: "NextLockToken"))
@@ -1753,6 +1955,7 @@ module Aws::WAFV2
     UpdateWebACLRequest.add_member(:association_config, Shapes::ShapeRef.new(shape: AssociationConfig, location_name: "AssociationConfig"))
     UpdateWebACLRequest.add_member(:on_source_d_do_s_protection_config, Shapes::ShapeRef.new(shape: OnSourceDDoSProtectionConfig, location_name: "OnSourceDDoSProtectionConfig"))
     UpdateWebACLRequest.add_member(:application_config, Shapes::ShapeRef.new(shape: ApplicationConfig, location_name: "ApplicationConfig"))
+    UpdateWebACLRequest.add_member(:monetization_config, Shapes::ShapeRef.new(shape: MonetizationConfig, location_name: "MonetizationConfig"))
     UpdateWebACLRequest.struct_class = Types::UpdateWebACLRequest
 
     UpdateWebACLResponse.add_member(:next_lock_token, Shapes::ShapeRef.new(shape: LockToken, location_name: "NextLockToken"))
@@ -1864,6 +2067,7 @@ module Aws::WAFV2
     WebACL.add_member(:retrofitted_by_firewall_manager, Shapes::ShapeRef.new(shape: Boolean, location_name: "RetrofittedByFirewallManager"))
     WebACL.add_member(:on_source_d_do_s_protection_config, Shapes::ShapeRef.new(shape: OnSourceDDoSProtectionConfig, location_name: "OnSourceDDoSProtectionConfig"))
     WebACL.add_member(:application_config, Shapes::ShapeRef.new(shape: ApplicationConfig, location_name: "ApplicationConfig"))
+    WebACL.add_member(:monetization_config, Shapes::ShapeRef.new(shape: MonetizationConfig, location_name: "MonetizationConfig"))
     WebACL.struct_class = Types::WebACL
 
     WebACLSummaries.member = Shapes::ShapeRef.new(shape: WebACLSummary)
@@ -2288,6 +2492,42 @@ module Aws::WAFV2
         o.errors << Shapes::ShapeRef.new(shape: WAFInvalidOperationException)
       end)
 
+      api.add_operation(:get_revenue_statistics, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetRevenueStatistics"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetRevenueStatisticsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetRevenueStatisticsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInternalErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFNonexistentItemException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidOperationException)
+      end)
+
+      api.add_operation(:get_revenue_statistics_summary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetRevenueStatisticsSummary"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetRevenueStatisticsSummaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetRevenueStatisticsSummaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInternalErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFNonexistentItemException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidOperationException)
+      end)
+
+      api.add_operation(:get_revenue_statistics_time_series, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetRevenueStatisticsTimeSeries"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetRevenueStatisticsTimeSeriesRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetRevenueStatisticsTimeSeriesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInternalErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFNonexistentItemException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidOperationException)
+      end)
+
       api.add_operation(:get_rule_group, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetRuleGroup"
         o.http_method = "POST"
@@ -2459,6 +2699,18 @@ module Aws::WAFV2
         o.output = Shapes::ShapeRef.new(shape: ListRuleGroupsResponse)
         o.errors << Shapes::ShapeRef.new(shape: WAFInternalErrorException)
         o.errors << Shapes::ShapeRef.new(shape: WAFInvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidOperationException)
+      end)
+
+      api.add_operation(:list_settlement_records, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListSettlementRecords"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListSettlementRecordsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListSettlementRecordsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInternalErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFInvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: WAFNonexistentItemException)
         o.errors << Shapes::ShapeRef.new(shape: WAFInvalidOperationException)
       end)
 

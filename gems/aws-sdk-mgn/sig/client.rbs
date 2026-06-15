@@ -322,6 +322,7 @@ module Aws
         def tags: () -> ::Hash[::String, ::String]
         def internet_protocol: () -> ("IPV4" | "IPV6")
         def store_snapshot_on_local_zone: () -> bool
+        def storage_configuration: () -> Types::StorageConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#create_replication_configuration_template-instance_method
       def create_replication_configuration_template: (
@@ -340,7 +341,14 @@ module Aws
                                                        ?use_fips_endpoint: bool,
                                                        ?tags: Hash[::String, ::String],
                                                        ?internet_protocol: ("IPV4" | "IPV6"),
-                                                       ?store_snapshot_on_local_zone: bool
+                                                       ?store_snapshot_on_local_zone: bool,
+                                                       ?storage_configuration: {
+                                                         storage_type: ("EBS" | "FSX_ONTAP"),
+                                                         fsx_ontap_configuration: {
+                                                           storage_virtual_machine_id: ::String,
+                                                           credentials_secret_arn: ::String
+                                                         }?
+                                                       }
                                                      ) -> _CreateReplicationConfigurationTemplateResponseSuccess
                                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateReplicationConfigurationTemplateResponseSuccess
 
@@ -680,6 +688,7 @@ module Aws
         def use_fips_endpoint: () -> bool
         def internet_protocol: () -> ("IPV4" | "IPV6")
         def store_snapshot_on_local_zone: () -> bool
+        def storage_configuration: () -> Types::StorageConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#get_replication_configuration-instance_method
       def get_replication_configuration: (
@@ -1771,6 +1780,7 @@ module Aws
         def use_fips_endpoint: () -> bool
         def internet_protocol: () -> ("IPV4" | "IPV6")
         def store_snapshot_on_local_zone: () -> bool
+        def storage_configuration: () -> Types::StorageConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#update_replication_configuration-instance_method
       def update_replication_configuration: (
@@ -1786,7 +1796,7 @@ module Aws
                                                 {
                                                   device_name: ::String?,
                                                   is_boot_disk: bool?,
-                                                  staging_disk_type: ("AUTO" | "GP2" | "IO1" | "SC1" | "ST1" | "STANDARD" | "GP3" | "IO2")?,
+                                                  staging_disk_type: ("AUTO" | "GP2" | "IO1" | "SC1" | "ST1" | "STANDARD" | "GP3" | "IO2" | "FSX_ONTAP")?,
                                                   iops: ::Integer?,
                                                   throughput: ::Integer?
                                                 }
@@ -1800,7 +1810,14 @@ module Aws
                                               ?use_fips_endpoint: bool,
                                               ?account_id: ::String,
                                               ?internet_protocol: ("IPV4" | "IPV6"),
-                                              ?store_snapshot_on_local_zone: bool
+                                              ?store_snapshot_on_local_zone: bool,
+                                              ?storage_configuration: {
+                                                storage_type: ("EBS" | "FSX_ONTAP"),
+                                                fsx_ontap_configuration: {
+                                                  storage_virtual_machine_id: ::String,
+                                                  credentials_secret_arn: ::String
+                                                }?
+                                              }
                                             ) -> _UpdateReplicationConfigurationResponseSuccess
                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateReplicationConfigurationResponseSuccess
 
@@ -1824,6 +1841,7 @@ module Aws
         def tags: () -> ::Hash[::String, ::String]
         def internet_protocol: () -> ("IPV4" | "IPV6")
         def store_snapshot_on_local_zone: () -> bool
+        def storage_configuration: () -> Types::StorageConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Mgn/Client.html#update_replication_configuration_template-instance_method
       def update_replication_configuration_template: (
@@ -1843,7 +1861,14 @@ module Aws
                                                        ?staging_area_tags: Hash[::String, ::String],
                                                        ?use_fips_endpoint: bool,
                                                        ?internet_protocol: ("IPV4" | "IPV6"),
-                                                       ?store_snapshot_on_local_zone: bool
+                                                       ?store_snapshot_on_local_zone: bool,
+                                                       ?storage_configuration: {
+                                                         storage_type: ("EBS" | "FSX_ONTAP"),
+                                                         fsx_ontap_configuration: {
+                                                           storage_virtual_machine_id: ::String,
+                                                           credentials_secret_arn: ::String
+                                                         }?
+                                                       }
                                                      ) -> _UpdateReplicationConfigurationTemplateResponseSuccess
                                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateReplicationConfigurationTemplateResponseSuccess
 
@@ -1871,7 +1896,10 @@ module Aws
                                   ?connector_action: {
                                     credentials_secret_arn: ::String?,
                                     connector_arn: ::String?
-                                  }
+                                  },
+                                  ?user_provided_id: ::String,
+                                  ?fqdn_for_action_framework: ::String,
+                                  ?platform: ::String
                                 ) -> _UpdateSourceServerResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateSourceServerResponseSuccess
 

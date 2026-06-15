@@ -654,6 +654,127 @@ module Aws::BedrockRuntime
       SENSITIVE: []
     end
 
+    class GuardrailChecksConfig
+      attr_accessor content_filter: Types::GuardrailChecksContentFilterConfig
+      attr_accessor prompt_attack: Types::GuardrailChecksPromptAttackConfig
+      attr_accessor sensitive_information: Types::GuardrailChecksSensitiveInformationConfig
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksContentBlock
+      attr_accessor text: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: [:text]
+
+      class Text < GuardrailChecksContentBlock
+      end
+      class Unknown < GuardrailChecksContentBlock
+      end
+    end
+
+    class GuardrailChecksContentFilterCategoryConfig
+      attr_accessor category: ("VIOLENCE" | "HATE" | "SEXUAL" | "MISCONDUCT" | "INSULTS")
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksContentFilterConfig
+      attr_accessor categories: ::Array[Types::GuardrailChecksContentFilterCategoryConfig]
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksContentFilterResult
+      attr_accessor results: ::Array[Types::GuardrailChecksContentFilterResultEntry]
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksContentFilterResultEntry
+      attr_accessor category: ("VIOLENCE" | "HATE" | "SEXUAL" | "MISCONDUCT" | "INSULTS")
+      attr_accessor severity_score: ::Float
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksContentFilterUsage
+      attr_accessor text_units: ::Integer
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksMessage
+      attr_accessor role: ("user" | "assistant" | "system")
+      attr_accessor content: ::Array[Types::GuardrailChecksContentBlock]
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksPromptAttackCategoryConfig
+      attr_accessor category: ("JAILBREAK" | "PROMPT_INJECTION" | "PROMPT_LEAKAGE")
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksPromptAttackConfig
+      attr_accessor categories: ::Array[Types::GuardrailChecksPromptAttackCategoryConfig]
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksPromptAttackResult
+      attr_accessor results: ::Array[Types::GuardrailChecksPromptAttackResultEntry]
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksPromptAttackResultEntry
+      attr_accessor category: ("JAILBREAK" | "PROMPT_INJECTION" | "PROMPT_LEAKAGE")
+      attr_accessor severity_score: ::Float
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksPromptAttackUsage
+      attr_accessor text_units: ::Integer
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksResults
+      attr_accessor content_filter: Types::GuardrailChecksContentFilterResult
+      attr_accessor prompt_attack: Types::GuardrailChecksPromptAttackResult
+      attr_accessor sensitive_information: Types::GuardrailChecksSensitiveInformationResult
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksSensitiveInformationConfig
+      attr_accessor entities: ::Array[Types::GuardrailChecksSensitiveInformationEntityConfig]
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksSensitiveInformationEntityConfig
+      attr_accessor type: ("ADDRESS" | "AGE" | "AWS_ACCESS_KEY" | "AWS_SECRET_KEY" | "CA_HEALTH_NUMBER" | "CA_SOCIAL_INSURANCE_NUMBER" | "CREDIT_DEBIT_CARD_CVV" | "CREDIT_DEBIT_CARD_EXPIRY" | "CREDIT_DEBIT_CARD_NUMBER" | "DRIVER_ID" | "EMAIL" | "INTERNATIONAL_BANK_ACCOUNT_NUMBER" | "IP_ADDRESS" | "LICENSE_PLATE" | "MAC_ADDRESS" | "NAME" | "PASSWORD" | "PHONE" | "PIN" | "SWIFT_CODE" | "UK_NATIONAL_HEALTH_SERVICE_NUMBER" | "UK_NATIONAL_INSURANCE_NUMBER" | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER" | "URL" | "USERNAME" | "US_BANK_ACCOUNT_NUMBER" | "US_BANK_ROUTING_NUMBER" | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER" | "US_PASSPORT_NUMBER" | "US_SOCIAL_SECURITY_NUMBER" | "VEHICLE_IDENTIFICATION_NUMBER")
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksSensitiveInformationResult
+      attr_accessor results: ::Array[Types::GuardrailChecksSensitiveInformationResultEntry]
+      attr_accessor truncated: bool
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksSensitiveInformationResultEntry
+      attr_accessor type: ("ADDRESS" | "AGE" | "AWS_ACCESS_KEY" | "AWS_SECRET_KEY" | "CA_HEALTH_NUMBER" | "CA_SOCIAL_INSURANCE_NUMBER" | "CREDIT_DEBIT_CARD_CVV" | "CREDIT_DEBIT_CARD_EXPIRY" | "CREDIT_DEBIT_CARD_NUMBER" | "DRIVER_ID" | "EMAIL" | "INTERNATIONAL_BANK_ACCOUNT_NUMBER" | "IP_ADDRESS" | "LICENSE_PLATE" | "MAC_ADDRESS" | "NAME" | "PASSWORD" | "PHONE" | "PIN" | "SWIFT_CODE" | "UK_NATIONAL_HEALTH_SERVICE_NUMBER" | "UK_NATIONAL_INSURANCE_NUMBER" | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER" | "URL" | "USERNAME" | "US_BANK_ACCOUNT_NUMBER" | "US_BANK_ROUTING_NUMBER" | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER" | "US_PASSPORT_NUMBER" | "US_SOCIAL_SECURITY_NUMBER" | "VEHICLE_IDENTIFICATION_NUMBER")
+      attr_accessor confidence_score: ::Float
+      attr_accessor begin_offset: ::Integer
+      attr_accessor end_offset: ::Integer
+      attr_accessor message_index: ::Integer
+      attr_accessor content_index: ::Integer
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksSensitiveInformationUsage
+      attr_accessor text_units: ::Integer
+      SENSITIVE: []
+    end
+
+    class GuardrailChecksUsageResults
+      attr_accessor content_filter: Types::GuardrailChecksContentFilterUsage
+      attr_accessor prompt_attack: Types::GuardrailChecksPromptAttackUsage
+      attr_accessor sensitive_information: Types::GuardrailChecksSensitiveInformationUsage
+      SENSITIVE: []
+    end
+
     class GuardrailConfiguration
       attr_accessor guardrail_identifier: ::String
       attr_accessor guardrail_version: ::String
@@ -922,6 +1043,18 @@ module Aws::BedrockRuntime
     class InternalServerException
       attr_accessor message: ::String
       attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class InvokeGuardrailChecksRequest
+      attr_accessor messages: ::Array[Types::GuardrailChecksMessage]
+      attr_accessor checks: Types::GuardrailChecksConfig
+      SENSITIVE: []
+    end
+
+    class InvokeGuardrailChecksResponse
+      attr_accessor results: Types::GuardrailChecksResults
+      attr_accessor usage: Types::GuardrailChecksUsageResults
       SENSITIVE: []
     end
 

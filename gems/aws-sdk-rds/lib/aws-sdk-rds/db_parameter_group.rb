@@ -236,6 +236,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mysql`

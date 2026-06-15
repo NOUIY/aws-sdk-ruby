@@ -1614,6 +1614,19 @@ module Aws
                                 ) -> _DeleteGlossaryTermResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteGlossaryTermResponseSuccess
 
+      interface _DeleteLineageEventResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteLineageEventOutput]
+        def id: () -> ::String
+        def domain_id: () -> ::String
+        def processing_status: () -> ("REQUESTED" | "PROCESSING" | "SUCCESS" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#delete_lineage_event-instance_method
+      def delete_lineage_event: (
+                                  domain_identifier: ::String,
+                                  identifier: ::String
+                                ) -> _DeleteLineageEventResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteLineageEventResponseSuccess
+
       interface _DeleteListingResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteListingOutput]
       end

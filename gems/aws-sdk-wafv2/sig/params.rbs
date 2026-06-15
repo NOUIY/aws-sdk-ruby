@@ -416,7 +416,10 @@ module Aws
       allow: Params::allow_action?,
       count: Params::count_action?,
       captcha: Params::captcha_action?,
-      challenge: Params::challenge_action?
+      challenge: Params::challenge_action?,
+      monetize: {
+        price_multiplier: ::String?
+      }?
     }
 
       type override_action = {
@@ -623,6 +626,28 @@ module Aws
       aws_managed_rules_atp_rule_set: Params::aws_managed_rules_atp_rule_set?,
       aws_managed_rules_acfp_rule_set: Params::aws_managed_rules_acfp_rule_set?,
       aws_managed_rules_anti_d_do_s_rule_set: Params::aws_managed_rules_anti_d_do_s_rule_set?
+    }
+
+      type crypto_config = {
+      payment_networks: Array[
+        Params::payment_network
+      ]
+    }
+
+      type monetization_config = {
+      crypto_config: Params::crypto_config?,
+      currency_mode: ("REAL" | "TEST")?
+    }
+
+      type payment_network = {
+      chain: ("BASE" | "SOLANA" | "BASE_SEPOLIA" | "SOLANA_DEVNET"),
+      wallet_address: ::String,
+      prices: Array[
+        {
+          amount: ::String,
+          currency: ("USDC")
+        }
+      ]
     }
 
       type default_action = {

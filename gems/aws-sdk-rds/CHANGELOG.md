@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.316.0 (2026-06-15)
+------------------
+
+* Feature - Adding support for RDS SQL Server BYOM and DB2 Community Edition
+
 1.315.0 (2026-06-03)
 ------------------
 

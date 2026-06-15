@@ -1416,9 +1416,7 @@ module Aws::CloudWatchLogs
     #
     # @option params [required, String] :name
     #   The name of the scheduled query. The name must be unique within your
-    #   account and region. Valid characters are alphanumeric characters,
-    #   hyphens, underscores, and periods. Length must be between 1 and 255
-    #   characters.
+    #   account and region. Length must be between 1 and 300 characters.
     #
     # @option params [String] :description
     #   An optional description for the scheduled query to help identify its
@@ -1449,6 +1447,11 @@ module Aws::CloudWatchLogs
     #   The time offset in seconds that defines the lookback period for the
     #   query. This determines how far back in time the query searches from
     #   the execution time.
+    #
+    # @option params [Integer] :end_time_offset
+    #   The time offset in seconds that defines the end of the lookback period
+    #   for the query. Together with `startTimeOffset`, this determines the
+    #   time window relative to the execution time over which the query runs.
     #
     # @option params [Types::DestinationConfiguration] :destination_configuration
     #   Configuration for where to deliver query results. Currently supports
@@ -1492,6 +1495,7 @@ module Aws::CloudWatchLogs
     #     schedule_expression: "ScheduleExpression", # required
     #     timezone: "ScheduleTimezone",
     #     start_time_offset: 1,
+    #     end_time_offset: 1,
     #     destination_configuration: {
     #       s3_configuration: { # required
     #         destination_identifier: "S3Uri", # required
@@ -4651,7 +4655,9 @@ module Aws::CloudWatchLogs
     # You can retrieve up to 100,000 log event results from a query, if
     # available, by using pagination. Use the `nextToken` returned in the
     # response to request additional pages of results, with each page
-    # returning up to 10,000 log events.
+    # returning up to 10,000 log events. This is only supported for Logs
+    # Insights QL and is currently not supported for PPL and SQL query
+    # languages.
     #
     # If you are using CloudWatch cross-account observability, you can use
     # this operation in a monitoring account to start queries in linked
@@ -4738,8 +4744,10 @@ module Aws::CloudWatchLogs
     #   * {Types::GetScheduledQueryResponse#schedule_expression #schedule_expression} => String
     #   * {Types::GetScheduledQueryResponse#timezone #timezone} => String
     #   * {Types::GetScheduledQueryResponse#start_time_offset #start_time_offset} => Integer
+    #   * {Types::GetScheduledQueryResponse#end_time_offset #end_time_offset} => Integer
     #   * {Types::GetScheduledQueryResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::GetScheduledQueryResponse#state #state} => String
+    #   * {Types::GetScheduledQueryResponse#schedule_type #schedule_type} => String
     #   * {Types::GetScheduledQueryResponse#last_triggered_time #last_triggered_time} => Integer
     #   * {Types::GetScheduledQueryResponse#last_execution_status #last_execution_status} => String
     #   * {Types::GetScheduledQueryResponse#schedule_start_time #schedule_start_time} => Integer
@@ -4766,11 +4774,13 @@ module Aws::CloudWatchLogs
     #   resp.schedule_expression #=> String
     #   resp.timezone #=> String
     #   resp.start_time_offset #=> Integer
+    #   resp.end_time_offset #=> Integer
     #   resp.destination_configuration.s3_configuration.destination_identifier #=> String
     #   resp.destination_configuration.s3_configuration.role_arn #=> String
     #   resp.destination_configuration.s3_configuration.owner_account_id #=> String
     #   resp.destination_configuration.s3_configuration.kms_key_id #=> String
     #   resp.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.schedule_type #=> String, one of "CUSTOMER_MANAGED", "AWS_MANAGED"
     #   resp.last_triggered_time #=> Integer
     #   resp.last_execution_status #=> String, one of "Running", "InvalidQuery", "Complete", "Failed", "Timeout"
     #   resp.schedule_start_time #=> Integer
@@ -5479,6 +5489,11 @@ module Aws::CloudWatchLogs
     #   Filter scheduled queries by state. Valid values are `ENABLED` and
     #   `DISABLED`. If not specified, all scheduled queries are returned.
     #
+    # @option params [String] :schedule_type
+    #   Filter scheduled queries by schedule type. Valid values are
+    #   `CUSTOMER_MANAGED` and `AWS_MANAGED`. If not specified, scheduled
+    #   queries of all schedule types are returned.
+    #
     # @return [Types::ListScheduledQueriesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListScheduledQueriesResponse#next_token #next_token} => String
@@ -5492,6 +5507,7 @@ module Aws::CloudWatchLogs
     #     max_results: 1,
     #     next_token: "NextToken",
     #     state: "ENABLED", # accepts ENABLED, DISABLED
+    #     schedule_type: "CUSTOMER_MANAGED", # accepts CUSTOMER_MANAGED, AWS_MANAGED
     #   })
     #
     # @example Response structure
@@ -5501,6 +5517,7 @@ module Aws::CloudWatchLogs
     #   resp.scheduled_queries[0].scheduled_query_arn #=> String
     #   resp.scheduled_queries[0].name #=> String
     #   resp.scheduled_queries[0].state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.scheduled_queries[0].schedule_type #=> String, one of "CUSTOMER_MANAGED", "AWS_MANAGED"
     #   resp.scheduled_queries[0].last_triggered_time #=> Integer
     #   resp.scheduled_queries[0].last_execution_status #=> String, one of "Running", "InvalidQuery", "Complete", "Failed", "Timeout"
     #   resp.scheduled_queries[0].schedule_expression #=> String
@@ -8439,11 +8456,13 @@ module Aws::CloudWatchLogs
     #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html
     #
     # @option params [Integer] :limit
-    #   The maximum number of log events to return in the query. If the query
-    #   string uses the `fields` command, only the specified fields and their
-    #   values are returned. The default is 10,000.
-    #
-    #   The maximum value is 100,000.
+    #   The maximum number of log events to return from the query. The maximum
+    #   limit is 100,000. The maximum events returned in a single
+    #   GetQueryResults API call is 10,000 log events per request. You can
+    #   retrieve up to 100,000 log event results from a query by paginating
+    #   with the `nextToken`. 100,000 limit is only supported for Logs
+    #   Insights QL and is currently not supported for PPL and SQL query
+    #   languages.
     #
     # @return [Types::StartQueryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -9183,6 +9202,10 @@ module Aws::CloudWatchLogs
     #   The updated time offset in seconds that defines the lookback period
     #   for the query.
     #
+    # @option params [Integer] :end_time_offset
+    #   The updated time offset in seconds that defines the end of the
+    #   lookback period for the query.
+    #
     # @option params [Types::DestinationConfiguration] :destination_configuration
     #   The updated configuration for where to deliver query results.
     #
@@ -9210,8 +9233,10 @@ module Aws::CloudWatchLogs
     #   * {Types::UpdateScheduledQueryResponse#schedule_expression #schedule_expression} => String
     #   * {Types::UpdateScheduledQueryResponse#timezone #timezone} => String
     #   * {Types::UpdateScheduledQueryResponse#start_time_offset #start_time_offset} => Integer
+    #   * {Types::UpdateScheduledQueryResponse#end_time_offset #end_time_offset} => Integer
     #   * {Types::UpdateScheduledQueryResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::UpdateScheduledQueryResponse#state #state} => String
+    #   * {Types::UpdateScheduledQueryResponse#schedule_type #schedule_type} => String
     #   * {Types::UpdateScheduledQueryResponse#last_triggered_time #last_triggered_time} => Integer
     #   * {Types::UpdateScheduledQueryResponse#last_execution_status #last_execution_status} => String
     #   * {Types::UpdateScheduledQueryResponse#schedule_start_time #schedule_start_time} => Integer
@@ -9231,6 +9256,7 @@ module Aws::CloudWatchLogs
     #     schedule_expression: "ScheduleExpression", # required
     #     timezone: "ScheduleTimezone",
     #     start_time_offset: 1,
+    #     end_time_offset: 1,
     #     destination_configuration: {
     #       s3_configuration: { # required
     #         destination_identifier: "S3Uri", # required
@@ -9257,11 +9283,13 @@ module Aws::CloudWatchLogs
     #   resp.schedule_expression #=> String
     #   resp.timezone #=> String
     #   resp.start_time_offset #=> Integer
+    #   resp.end_time_offset #=> Integer
     #   resp.destination_configuration.s3_configuration.destination_identifier #=> String
     #   resp.destination_configuration.s3_configuration.role_arn #=> String
     #   resp.destination_configuration.s3_configuration.owner_account_id #=> String
     #   resp.destination_configuration.s3_configuration.kms_key_id #=> String
     #   resp.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.schedule_type #=> String, one of "CUSTOMER_MANAGED", "AWS_MANAGED"
     #   resp.last_triggered_time #=> Integer
     #   resp.last_execution_status #=> String, one of "Running", "InvalidQuery", "Complete", "Failed", "Timeout"
     #   resp.schedule_start_time #=> Integer
@@ -9297,7 +9325,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.154.0'
+      context[:gem_version] = '1.155.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

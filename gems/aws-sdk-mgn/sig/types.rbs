@@ -190,6 +190,7 @@ module Aws::Mgn
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
       attr_accessor store_snapshot_on_local_zone: bool
+      attr_accessor storage_configuration: Types::StorageConfiguration
       SENSITIVE: [:staging_area_tags, :tags]
     end
 
@@ -202,7 +203,7 @@ module Aws::Mgn
     end
 
     class DataReplicationError
-      attr_accessor error: ("AGENT_NOT_SEEN" | "SNAPSHOTS_FAILURE" | "NOT_CONVERGING" | "UNSTABLE_NETWORK" | "FAILED_TO_CREATE_SECURITY_GROUP" | "FAILED_TO_LAUNCH_REPLICATION_SERVER" | "FAILED_TO_BOOT_REPLICATION_SERVER" | "FAILED_TO_AUTHENTICATE_WITH_SERVICE" | "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE" | "FAILED_TO_CREATE_STAGING_DISKS" | "FAILED_TO_ATTACH_STAGING_DISKS" | "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT" | "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER" | "FAILED_TO_START_DATA_TRANSFER" | "UNSUPPORTED_VM_CONFIGURATION" | "LAST_SNAPSHOT_JOB_FAILED")
+      attr_accessor error: ("AGENT_NOT_SEEN" | "SNAPSHOTS_FAILURE" | "NOT_CONVERGING" | "UNSTABLE_NETWORK" | "FAILED_TO_CREATE_SECURITY_GROUP" | "FAILED_TO_LAUNCH_REPLICATION_SERVER" | "FAILED_TO_BOOT_REPLICATION_SERVER" | "FAILED_TO_AUTHENTICATE_WITH_SERVICE" | "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE" | "FAILED_TO_CREATE_STAGING_DISKS" | "FAILED_TO_ATTACH_STAGING_DISKS" | "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT" | "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER" | "FAILED_TO_START_DATA_TRANSFER" | "UNSUPPORTED_VM_CONFIGURATION" | "LAST_SNAPSHOT_JOB_FAILED" | "FAILED_TO_SETUP_FSX_PROXY" | "FAILED_TO_CREATE_FSX_SNAPSHOT")
       attr_accessor raw_error: ::String
       SENSITIVE: []
     end
@@ -236,7 +237,7 @@ module Aws::Mgn
     end
 
     class DataReplicationInitiationStep
-      attr_accessor name: ("WAIT" | "CREATE_SECURITY_GROUP" | "LAUNCH_REPLICATION_SERVER" | "BOOT_REPLICATION_SERVER" | "AUTHENTICATE_WITH_SERVICE" | "DOWNLOAD_REPLICATION_SOFTWARE" | "CREATE_STAGING_DISKS" | "ATTACH_STAGING_DISKS" | "PAIR_REPLICATION_SERVER_WITH_AGENT" | "CONNECT_AGENT_TO_REPLICATION_SERVER" | "START_DATA_TRANSFER")
+      attr_accessor name: ("WAIT" | "CREATE_SECURITY_GROUP" | "LAUNCH_REPLICATION_SERVER" | "BOOT_REPLICATION_SERVER" | "AUTHENTICATE_WITH_SERVICE" | "DOWNLOAD_REPLICATION_SOFTWARE" | "CREATE_STAGING_DISKS" | "ATTACH_STAGING_DISKS" | "PAIR_REPLICATION_SERVER_WITH_AGENT" | "CONNECT_AGENT_TO_REPLICATION_SERVER" | "START_DATA_TRANSFER" | "SETUP_FSX_PROXY")
       attr_accessor status: ("NOT_STARTED" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | "SKIPPED")
       SENSITIVE: []
     end
@@ -503,6 +504,12 @@ module Aws::Mgn
       SENSITIVE: []
     end
 
+    class FsxOntapConfiguration
+      attr_accessor storage_virtual_machine_id: ::String
+      attr_accessor credentials_secret_arn: ::String
+      SENSITIVE: []
+    end
+
     class GetLaunchConfigurationRequest
       attr_accessor source_server_id: ::String
       attr_accessor account_id: ::String
@@ -660,6 +667,15 @@ module Aws::Mgn
       SENSITIVE: []
     end
 
+    class LastKnownCheck
+      attr_accessor type: ("EC2" | "FSx")
+      attr_accessor name: ::String
+      attr_accessor status: ("PASSED" | "FAILED" | "PENDING")
+      attr_accessor error: ::String
+      attr_accessor checked_at: ::Time
+      SENSITIVE: []
+    end
+
     class LaunchConfiguration
       attr_accessor source_server_id: ::String
       attr_accessor name: ::String
@@ -710,6 +726,8 @@ module Aws::Mgn
       attr_accessor ec2_instance_id: ::String
       attr_accessor job_id: ::String
       attr_accessor first_boot: ("WAITING" | "SUCCEEDED" | "UNKNOWN" | "STOPPED")
+      attr_accessor last_known_checks: ::Array[Types::LastKnownCheck]
+      attr_accessor last_known_fsx_checks_status: ("PASSED" | "FAILED" | "PENDING")
       SENSITIVE: []
     end
 
@@ -1548,13 +1566,14 @@ module Aws::Mgn
       attr_accessor use_fips_endpoint: bool
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
       attr_accessor store_snapshot_on_local_zone: bool
+      attr_accessor storage_configuration: Types::StorageConfiguration
       SENSITIVE: [:staging_area_tags]
     end
 
     class ReplicationConfigurationReplicatedDisk
       attr_accessor device_name: ::String
       attr_accessor is_boot_disk: bool
-      attr_accessor staging_disk_type: ("AUTO" | "GP2" | "IO1" | "SC1" | "ST1" | "STANDARD" | "GP3" | "IO2")
+      attr_accessor staging_disk_type: ("AUTO" | "GP2" | "IO1" | "SC1" | "ST1" | "STANDARD" | "GP3" | "IO2" | "FSX_ONTAP")
       attr_accessor iops: ::Integer
       attr_accessor throughput: ::Integer
       SENSITIVE: []
@@ -1579,6 +1598,7 @@ module Aws::Mgn
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
       attr_accessor store_snapshot_on_local_zone: bool
+      attr_accessor storage_configuration: Types::StorageConfiguration
       SENSITIVE: [:staging_area_tags, :tags]
     end
 
@@ -1882,6 +1902,12 @@ module Aws::Mgn
       SENSITIVE: []
     end
 
+    class StorageConfiguration
+      attr_accessor storage_type: ("EBS" | "FSX_ONTAP")
+      attr_accessor fsx_ontap_configuration: Types::FsxOntapConfiguration
+      SENSITIVE: []
+    end
+
     class TagResourceRequest
       attr_accessor resource_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
@@ -2080,6 +2106,7 @@ module Aws::Mgn
       attr_accessor account_id: ::String
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
       attr_accessor store_snapshot_on_local_zone: bool
+      attr_accessor storage_configuration: Types::StorageConfiguration
       SENSITIVE: [:staging_area_tags]
     end
 
@@ -2101,6 +2128,7 @@ module Aws::Mgn
       attr_accessor use_fips_endpoint: bool
       attr_accessor internet_protocol: ("IPV4" | "IPV6")
       attr_accessor store_snapshot_on_local_zone: bool
+      attr_accessor storage_configuration: Types::StorageConfiguration
       SENSITIVE: [:staging_area_tags]
     end
 
@@ -2115,6 +2143,9 @@ module Aws::Mgn
       attr_accessor account_id: ::String
       attr_accessor source_server_id: ::String
       attr_accessor connector_action: Types::SourceServerConnectorAction
+      attr_accessor user_provided_id: ::String
+      attr_accessor fqdn_for_action_framework: ::String
+      attr_accessor platform: ::String
       SENSITIVE: []
     end
 

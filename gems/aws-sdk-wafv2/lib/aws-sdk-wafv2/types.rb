@@ -1664,6 +1664,11 @@ module Aws::WAFV2
     #   [2]: https://docs.aws.amazon.com/waf/latest/developerguide/limits.html
     #   @return [Hash<String,Types::CustomResponseBody>]
     #
+    # @!attribute [rw] monetization_config
+    #   The monetization configuration for the rule group. Provide this when
+    #   any rule in the rule group uses the `Monetize` action.
+    #   @return [Types::MonetizationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/CreateRuleGroupRequest AWS API Documentation
     #
     class CreateRuleGroupRequest < Struct.new(
@@ -1674,7 +1679,8 @@ module Aws::WAFV2
       :rules,
       :visibility_config,
       :tags,
-      :custom_response_bodies)
+      :custom_response_bodies,
+      :monetization_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1840,6 +1846,11 @@ module Aws::WAFV2
     #   packs.
     #   @return [Types::ApplicationConfig]
     #
+    # @!attribute [rw] monetization_config
+    #   The monetization configuration for the web ACL. Provide this when
+    #   any rule in the web ACL uses the `Monetize` action.
+    #   @return [Types::MonetizationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/CreateWebACLRequest AWS API Documentation
     #
     class CreateWebACLRequest < Struct.new(
@@ -1857,7 +1868,8 @@ module Aws::WAFV2
       :token_domains,
       :association_config,
       :on_source_d_do_s_protection_config,
-      :application_config)
+      :application_config,
+      :monetization_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1873,6 +1885,25 @@ module Aws::WAFV2
     #
     class CreateWebACLResponse < Struct.new(
       :summary)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The cryptocurrency payment configuration for AI bot monetization.
+    # Contains the list of blockchain payment networks where you receive
+    # payments.
+    #
+    # @!attribute [rw] payment_networks
+    #   The blockchain payment networks configured to receive payments. You
+    #   can specify 1 to 2 networks. All networks must be in the same
+    #   environment-either all production networks (Base, Solana) or all
+    #   test networks (Base Sepolia, Solana Devnet).
+    #   @return [Array<Types::PaymentNetwork>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/CryptoConfig AWS API Documentation
+    #
+    class CryptoConfig < Struct.new(
+      :payment_networks)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2024,6 +2055,54 @@ module Aws::WAFV2
     class CustomResponseBody < Struct.new(
       :content_type,
       :content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A single data point in a revenue time series, representing aggregated
+    # monetization metrics for a specific time interval.
+    #
+    # @!attribute [rw] date
+    #   The timestamp for this data point.
+    #   @return [Time]
+    #
+    # @!attribute [rw] monetize_served_count
+    #   The number of HTTP 402 Payment Required responses served during this
+    #   interval.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] settled_count
+    #   The number of successfully settled payments during this interval.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_amount
+    #   The total revenue amount during this interval in the specified
+    #   currency.
+    #   @return [String]
+    #
+    # @!attribute [rw] category
+    #   The bot category for this data point, when grouped by category.
+    #   @return [String]
+    #
+    # @!attribute [rw] intent
+    #   The intent classification for this data point, when grouped by
+    #   intent.
+    #   @return [String]
+    #
+    # @!attribute [rw] group_by_value
+    #   The group-by dimension value for this data point.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/DataPointEntry AWS API Documentation
+    #
+    class DataPointEntry < Struct.new(
+      :date,
+      :monetize_served_count,
+      :settled_count,
+      :total_amount,
+      :category,
+      :intent,
+      :group_by_value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3785,6 +3864,222 @@ module Aws::WAFV2
     class GetRegexPatternSetResponse < Struct.new(
       :regex_pattern_set,
       :lock_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] statistic_type
+    #   `TOP_SOURCES_BY_REVENUE` ranks revenue from AI bot traffic, grouped
+    #   by the dimension you specify in the `GroupBy` parameter (`NAME`,
+    #   `CATEGORY`, `INTENT`, `ORGANIZATION`, or `WEBACL`); `GroupBy` is
+    #   required for this statistic type. `TOP_PATHS_BY_REVENUE` ranks
+    #   revenue by path.
+    #   @return [String]
+    #
+    # @!attribute [rw] time_window
+    #   The time range for the query. Specify start and end timestamps.
+    #   @return [Types::TimeWindow]
+    #
+    # @!attribute [rw] scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`).
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The currency for the revenue amounts in the response.
+    #   @return [String]
+    #
+    # @!attribute [rw] group_by
+    #   The dimension to group results by: `NAME`, `CATEGORY`, `INTENT`,
+    #   `ORGANIZATION`, or `WEBACL`. Required when `StatisticType` is
+    #   `TOP_SOURCES_BY_REVENUE`. Not required for `TOP_PATHS_BY_REVENUE`,
+    #   where results are grouped by content path. If `StatisticType` is
+    #   `TOP_SOURCES_BY_REVENUE` and `GroupBy` is omitted, the request is
+    #   rejected with a `WAFInvalidParameterException`.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Optional filters to narrow the results.
+    #   @return [Array<Types::MonetizationFilter>]
+    #
+    # @!attribute [rw] next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available. Use it in a subsequent request to
+    #   retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] limit
+    #   The maximum number of results to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sort_by
+    #   The field to sort results by: `REVENUE`, `PERCENTAGE`, or `NAME`.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order: `ASC` for ascending or `DESC` for descending.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsRequest AWS API Documentation
+    #
+    class GetRevenueStatisticsRequest < Struct.new(
+      :statistic_type,
+      :time_window,
+      :scope,
+      :currency,
+      :group_by,
+      :filters,
+      :next_marker,
+      :limit,
+      :sort_by,
+      :sort_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] source_statistics
+    #   Statistics for top revenue sources (AI bots). Populated when
+    #   `StatisticType` is `TOP_SOURCES_BY_REVENUE`.
+    #   @return [Array<Types::SourceStatistics>]
+    #
+    # @!attribute [rw] revenue_path_statistics
+    #   Statistics for top revenue paths. Populated when `StatisticType` is
+    #   `TOP_PATHS_BY_REVENUE`.
+    #   @return [Array<Types::RevenuePathStatistics>]
+    #
+    # @!attribute [rw] next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsResponse AWS API Documentation
+    #
+    class GetRevenueStatisticsResponse < Struct.new(
+      :source_statistics,
+      :revenue_path_statistics,
+      :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] time_window
+    #   The time range for the revenue summary query. Specify start and end
+    #   timestamps.
+    #   @return [Types::TimeWindow]
+    #
+    # @!attribute [rw] scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`). AI bot
+    #   monetization is only available for `CLOUDFRONT` scope.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The currency for the revenue amounts in the response. Currently only
+    #   `USDC` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Optional filters to narrow the results. You can filter by source
+    #   name, category, organization, intent, verified status, content path,
+    #   web ACL ARN, or currency mode.
+    #   @return [Array<Types::MonetizationFilter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsSummaryRequest AWS API Documentation
+    #
+    class GetRevenueStatisticsSummaryRequest < Struct.new(
+      :time_window,
+      :scope,
+      :currency,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] revenue_breakdown
+    #   The revenue breakdown summary for the specified time window and
+    #   filters.
+    #   @return [Types::RevenueBreakdown]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsSummaryResponse AWS API Documentation
+    #
+    class GetRevenueStatisticsSummaryResponse < Struct.new(
+      :revenue_breakdown)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] statistic_type
+    #   The type of time series data to retrieve: `DATE_HISTOGRAM` for
+    #   revenue over time, or `PAYMENT_TRAFFIC` for payment traffic
+    #   patterns.
+    #   @return [String]
+    #
+    # @!attribute [rw] time_window
+    #   The time range for the query. Specify start and end timestamps.
+    #   @return [Types::TimeWindow]
+    #
+    # @!attribute [rw] scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`).
+    #   @return [String]
+    #
+    # @!attribute [rw] interval
+    #   The time interval for aggregating data points: `MINUTELY`,
+    #   `FIVE_MINUTELY`, `HOURLY`, or `DAILY`.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The currency for the amounts in the response.
+    #   @return [String]
+    #
+    # @!attribute [rw] group_by
+    #   The dimension to group results by.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Optional filters to narrow the results.
+    #   @return [Array<Types::MonetizationFilter>]
+    #
+    # @!attribute [rw] limit
+    #   The maximum number of data points to return. Minimum: 1. Maximum:
+    #   10000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsTimeSeriesRequest AWS API Documentation
+    #
+    class GetRevenueStatisticsTimeSeriesRequest < Struct.new(
+      :statistic_type,
+      :time_window,
+      :scope,
+      :interval,
+      :currency,
+      :group_by,
+      :filters,
+      :limit,
+      :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_points
+    #   The list of time series data points.
+    #   @return [Array<Types::DataPointEntry>]
+    #
+    # @!attribute [rw] next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsTimeSeriesResponse AWS API Documentation
+    #
+    class GetRevenueStatisticsTimeSeriesResponse < Struct.new(
+      :data_points,
+      :next_marker)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5668,6 +5963,76 @@ module Aws::WAFV2
       include Aws::Structure
     end
 
+    # @!attribute [rw] time_window
+    #   The time range for the query. Specify start and end timestamps.
+    #   @return [Types::TimeWindow]
+    #
+    # @!attribute [rw] scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`).
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The currency for the amounts in the response.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Optional filters to narrow the results. You can filter by payer
+    #   address, status, source name, network, or other settlement fields.
+    #   @return [Array<Types::MonetizationFilter>]
+    #
+    # @!attribute [rw] sort_by
+    #   The field to sort settlement records by: `TIMESTAMP`, `AMOUNT`,
+    #   `NAME`, or `STATUS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   The sort order: `ASC` for ascending or `DESC` for descending.
+    #   @return [String]
+    #
+    # @!attribute [rw] limit
+    #   The maximum number of settlement records to return. Minimum: 1.
+    #   Maximum: 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/ListSettlementRecordsRequest AWS API Documentation
+    #
+    class ListSettlementRecordsRequest < Struct.new(
+      :time_window,
+      :scope,
+      :currency,
+      :filters,
+      :sort_by,
+      :sort_order,
+      :limit,
+      :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] settlements
+    #   The list of settlement records.
+    #   @return [Array<Types::SettlementRecord>]
+    #
+    # @!attribute [rw] next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/ListSettlementRecordsResponse AWS API Documentation
+    #
+    class ListSettlementRecordsResponse < Struct.new(
+      :settlements,
+      :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] next_marker
     #   When you request a list of objects with a `Limit` setting, if the
     #   number of objects that are still available for retrieval exceeds the
@@ -6658,6 +7023,143 @@ module Aws::WAFV2
       include Aws::Structure
     end
 
+    # The monetization configuration for a web ACL or rule group. Specifies
+    # the cryptocurrency payment networks and currency mode for AI bot
+    # monetization. You must provide this configuration when any rule in the
+    # web ACL or rule group uses the `Monetize` action.
+    #
+    # @!attribute [rw] crypto_config
+    #   The cryptocurrency payment configuration, including the blockchain
+    #   networks and wallet addresses where you receive payments.
+    #   @return [Types::CryptoConfig]
+    #
+    # @!attribute [rw] currency_mode
+    #   Specifies whether the configuration uses real or test currency. Set
+    #   to `REAL` to settle payments in USDC on production blockchain
+    #   networks (Base, Solana). Set to `TEST` to settle on testnet networks
+    #   (Base Sepolia, Solana Devnet) with tokens that have no monetary
+    #   value. If not specified, defaults to `REAL`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/MonetizationConfig AWS API Documentation
+    #
+    class MonetizationConfig < Struct.new(
+      :crypto_config,
+      :currency_mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter for narrowing monetization statistics and settlement record
+    # results. Specify a filter name and one or more values to match.
+    #
+    # Filter behavior:
+    #
+    # * Multiple values within one filter: OR (match any)
+    #
+    # * Multiple filters: AND (all must match)
+    #
+    # * No duplicate filter names allowed (rejected with error)
+    #
+    # * Duplicate values within a filter are silently deduplicated
+    #
+    # * If no `CurrencyMode` filter is specified, defaults to `REAL`
+    #
+    # @!attribute [rw] name
+    #   The filter name. Format: Key is a string, Value is a list of
+    #   strings.
+    #
+    #   Enum-restricted (invalid values rejected):
+    #
+    #   * `CurrencyMode`: `REAL`, `TEST`
+    #
+    #   * `ChainName`: `BASE`, `SOLANA`, `BASE_SEPOLIA`, `SOLANA_DEVNET`
+    #
+    #   * `SettlementStatus`: `SETTLED`, `PENDING`, `FAILED`,
+    #     `SERVICE_ERROR`, `SKIPPED_ORIGIN_ERROR`, `DUPLICATE`
+    #
+    #   * `HttpSourceName`: `CF`, `ALB`, `APIGW`, `APPRUNNER`, `COGNITO`,
+    #     `VERIFIED_ACCESS`
+    #
+    #   ARN-validated:
+    #
+    #   * `WebACLArn`: valid WAFv2 web ACL ARN
+    #
+    #   ^
+    #
+    #   Free-text (any string up to 256 chars):
+    #
+    #   * `SourceName`: The name of the bot. Populated from Bot Control
+    #     verified bot labels.
+    #
+    #   * `SourceCategory`: The category classification of the bot. From Bot
+    #     Control categorization.
+    #
+    #   * `Intent`: The declared intent of the bot request.
+    #
+    #   * `Organization`: The organization operating the bot.
+    #
+    #   * `UriPathPrefix`: The URI path of the request that was monetized.
+    #
+    #   * `RequestId`: The WAF request ID associated with the transaction.
+    #     Matches the requestId in WAF logs. Pattern:
+    #     `^[a-zA-Z0-9:._\-=+/]+$`
+    #
+    #   * `TransactionId`: The blockchain transaction identifier. Pattern:
+    #     `^[a-zA-Z0-9:._\-=+/]+$`
+    #
+    #   * `TerminatingRuleName`: The name of the WAF rule that triggered the
+    #     Monetize action.
+    #
+    #   * `PayerAddress`: The blockchain wallet address of the paying
+    #     client. Pattern: `^[a-zA-Z0-9:._\-=+/]+$`
+    #
+    #   * `HttpSourceId`: The identifier of the Amazon Web Services resource
+    #     associated with the web ACL (for example, CloudFront distribution
+    #     ID).
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to filter on. Specify as a list of strings. Results match
+    #   any of the specified values (OR logic). Duplicate values are
+    #   silently deduplicated. Maximum: 20 values per filter.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/MonetizationFilter AWS API Documentation
+    #
+    class MonetizationFilter < Struct.new(
+      :name,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the monetize action settings for a rule. When WAF applies
+    # this action, it returns an HTTP 402 Payment Required response
+    # containing pricing information that the requesting client uses to
+    # complete payment and gain access to the resource. This is a
+    # terminating action-if the client does not complete the 402 payment
+    # flow, the request is blocked. This action is available only for web
+    # ACLs associated with Amazon CloudFront distributions. You must
+    # configure a `MonetizationConfig` on the web ACL or rule group before
+    # adding rules that use this action. You cannot use the Monetize action
+    # for rate-based rules.
+    #
+    # @!attribute [rw] price_multiplier
+    #   An integer multiplier applied to the base price defined in the web
+    #   ACL's `MonetizationConfig`. The effective price for the request is
+    #   the base price multiplied by this value. Specify as a string. Valid
+    #   values: 1 to 100.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/MonetizeAction AWS API Documentation
+    #
+    class MonetizeAction < Struct.new(
+      :price_multiplier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies that WAF should do nothing. This is used for the
     # `OverrideAction` setting on a Rule when the rule uses a rule group
     # reference statement.
@@ -6851,6 +7353,44 @@ module Aws::WAFV2
       include Aws::Structure
     end
 
+    # A blockchain payment network configuration for receiving AI bot
+    # monetization payments. Specifies the blockchain chain, your wallet
+    # address on that chain, and the price per request.
+    #
+    # @!attribute [rw] chain
+    #   The blockchain network for receiving payments. Production networks:
+    #   `BASE` (Base mainnet), `SOLANA` (Solana mainnet). Test networks:
+    #   `BASE_SEPOLIA` (Base Sepolia testnet), `SOLANA_DEVNET` (Solana
+    #   Devnet).
+    #   @return [String]
+    #
+    # @!attribute [rw] wallet_address
+    #   Your wallet address on the specified blockchain where payments are
+    #   sent. For EVM chains (Base, Base Sepolia), provide a valid Ethereum
+    #   address (42 characters including 0x prefix). For Solana chains,
+    #   provide a valid Base58-encoded public key (32-44 characters).
+    #
+    #   For EVM addresses, WAF performs EIP-55 checksum validation for typo
+    #   detection when the address uses a mix of lower and upper case
+    #   letters. You can bypass this validation by providing the address in
+    #   all lowercase or all uppercase.
+    #   @return [String]
+    #
+    # @!attribute [rw] prices
+    #   The price configuration for this payment network. Currently supports
+    #   a single price entry in USDC.
+    #   @return [Array<Types::Price>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/PaymentNetwork AWS API Documentation
+    #
+    class PaymentNetwork < Struct.new(
+      :chain,
+      :wallet_address,
+      :prices)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The name of a field in the request payload that contains part or all
     # of your customer's primary phone number.
     #
@@ -6889,6 +7429,28 @@ module Aws::WAFV2
     #
     class PhoneNumberField < Struct.new(
       :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The price per request for a payment network, specifying the amount and
+    # cryptocurrency.
+    #
+    # @!attribute [rw] amount
+    #   The price per request as a decimal string in the specified currency.
+    #   Minimum: 0.001. Maximum: 999999999.999. Supports up to 3 decimal
+    #   places.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The cryptocurrency for payment. Currently only `USDC` is supported.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/Price AWS API Documentation
+    #
+    class Price < Struct.new(
+      :amount,
+      :currency)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8447,6 +9009,77 @@ module Aws::WAFV2
       include Aws::Structure
     end
 
+    # A summary of AI bot monetization revenue, including total revenue,
+    # revenue by verification tier, and request counts.
+    #
+    # @!attribute [rw] total_amount
+    #   The total revenue amount in the specified currency.
+    #   @return [String]
+    #
+    # @!attribute [rw] verified_amount
+    #   The revenue amount from verified AI bots.
+    #   @return [String]
+    #
+    # @!attribute [rw] unverified_amount
+    #   The revenue amount from unverified AI bots.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The currency of the revenue amounts.
+    #   @return [String]
+    #
+    # @!attribute [rw] total_settled
+    #   The total number of successfully settled payment transactions.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_monetize_served
+    #   The total number of HTTP 402 Payment Required responses served to AI
+    #   agents.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/RevenueBreakdown AWS API Documentation
+    #
+    class RevenueBreakdown < Struct.new(
+      :total_amount,
+      :verified_amount,
+      :unverified_amount,
+      :currency,
+      :total_settled,
+      :total_monetize_served)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Revenue statistics for a single content path, including the path,
+    # revenue amount, and request count.
+    #
+    # @!attribute [rw] path
+    #   The URI path.
+    #   @return [String]
+    #
+    # @!attribute [rw] percentage
+    #   The percentage of total revenue from this path.
+    #   @return [Float]
+    #
+    # @!attribute [rw] amount
+    #   The total revenue amount from this path in the specified currency.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_count
+    #   The number of monetized requests to this path.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/RevenuePathStatistics AWS API Documentation
+    #
+    class RevenuePathStatistics < Struct.new(
+      :path,
+      :percentage,
+      :amount,
+      :request_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A single rule, which you can use in a WebACL or RuleGroup to identify
     # web requests that you want to manage in some way. Each rule includes
     # one top-level Statement that WAF uses to identify matching web
@@ -8605,6 +9238,16 @@ module Aws::WAFV2
     #   Instructs WAF to run a `Challenge` check against the web request.
     #   @return [Types::ChallengeAction]
     #
+    # @!attribute [rw] monetize
+    #   Instructs WAF to return an HTTP 402 Payment Required response with a
+    #   price manifest. The requesting client can complete payment and
+    #   resubmit the request to gain access. This is a terminating
+    #   action-requests that do not complete payment are blocked. This
+    #   action is available only for web ACLs associated with Amazon
+    #   CloudFront distributions and requires a `MonetizationConfig` on the
+    #   web ACL.
+    #   @return [Types::MonetizeAction]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/RuleAction AWS API Documentation
     #
     class RuleAction < Struct.new(
@@ -8612,7 +9255,8 @@ module Aws::WAFV2
       :allow,
       :count,
       :captcha,
-      :challenge)
+      :challenge,
+      :monetize)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8773,6 +9417,14 @@ module Aws::WAFV2
     #   a rule.
     #   @return [Array<Types::LabelSummary>]
     #
+    # @!attribute [rw] monetization_config
+    #   The monetization configuration for the rule group. Required when any
+    #   rule in the rule group uses the `Monetize` action. When a rule group
+    #   with a `MonetizationConfig` is used in a web ACL, the rule group's
+    #   configuration applies to rules within that group unless overridden
+    #   at the web ACL level.
+    #   @return [Types::MonetizationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/RuleGroup AWS API Documentation
     #
     class RuleGroup < Struct.new(
@@ -8786,7 +9438,8 @@ module Aws::WAFV2
       :label_namespace,
       :custom_response_bodies,
       :available_labels,
-      :consumed_labels)
+      :consumed_labels,
+      :monetization_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9006,6 +9659,134 @@ module Aws::WAFV2
       include Aws::Structure
     end
 
+    # A single settlement transaction record for AI bot monetization.
+    # Contains details about the payment including timestamp, amount,
+    # status, and the parties involved.
+    #
+    # @!attribute [rw] timestamp
+    #   The timestamp when the settlement was recorded.
+    #   @return [Time]
+    #
+    # @!attribute [rw] payer_address
+    #   The blockchain wallet address of the paying AI agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] wallet_address
+    #   Your receiving wallet address.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the settlement. Possible values:
+    #
+    #   * `SETTLED` - The payment was successfully settled on the blockchain
+    #     and the transfer from the payer's wallet to the publisher's
+    #     wallet is confirmed. The `TransactionId` field contains the
+    #     on-chain transaction hash. Content is served to the client.
+    #
+    #   * `PENDING` - The blockchain transaction has been submitted but not
+    #     yet confirmed on-chain. This is a transient state that
+    #     automatically resolves to either `SETTLED` or `FAILED`. No action
+    #     is required. While pending, content is not served and the API
+    #     returns a 402 response. Clients can retry the request.
+    #
+    #   * `FAILED` - The payment settlement was attempted but failed.
+    #     Possible causes include insufficient funds, an expired payment
+    #     authorization, or a reverted blockchain transaction. The
+    #     `failureReason` field contains a machine-readable error code.
+    #     Content is not served.
+    #
+    #   * `SERVICE_ERROR` - Settlement could not be completed due to an
+    #     internal service issue or an issue with the payment network.
+    #     Content is not served. The client's payment authorization remains
+    #     valid and the request can be retried.
+    #
+    #   * `SKIPPED_ORIGIN_ERROR` - The origin returned a non-2xx response,
+    #     so settlement was intentionally skipped. The client is not
+    #     charged.
+    #
+    #   * `DUPLICATE` - A prior request with the same payment payload has
+    #     already been settled. This status typically appears when a
+    #     previous attempt timed out but the payment was ultimately
+    #     processed. The client is not charged again.
+    #   @return [String]
+    #
+    # @!attribute [rw] amount
+    #   The payment amount in the specified currency.
+    #   @return [String]
+    #
+    # @!attribute [rw] currency
+    #   The currency of the payment amount.
+    #   @return [String]
+    #
+    # @!attribute [rw] network
+    #   The blockchain network on which the settlement occurred.
+    #   @return [String]
+    #
+    # @!attribute [rw] transaction_id
+    #   The blockchain transaction identifier. You can use this to verify
+    #   the transaction on a blockchain explorer.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The WAF request ID associated with this settlement.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_name
+    #   The name of the AI bot that made the payment.
+    #   @return [String]
+    #
+    # @!attribute [rw] organization
+    #   The organization associated with the AI bot.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_category
+    #   The category of the AI bot source.
+    #   @return [String]
+    #
+    # @!attribute [rw] intent
+    #   The declared intent of the AI bot request.
+    #   @return [String]
+    #
+    # @!attribute [rw] verified
+    #   Whether the AI bot's identity was verified.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] content_path
+    #   The content path that was accessed.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_acl_arn
+    #   The ARN of the web ACL that processed the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_timestamp
+    #   The timestamp of the original web request.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/SettlementRecord AWS API Documentation
+    #
+    class SettlementRecord < Struct.new(
+      :timestamp,
+      :payer_address,
+      :wallet_address,
+      :status,
+      :amount,
+      :currency,
+      :network,
+      :transaction_id,
+      :request_id,
+      :source_name,
+      :organization,
+      :source_category,
+      :intent,
+      :verified,
+      :content_path,
+      :web_acl_arn,
+      :request_timestamp)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Inspect one of the headers in the web request, identified by name, for
     # example, `User-Agent` or `Referer`. The name isn't case sensitive.
     #
@@ -9098,6 +9879,62 @@ module Aws::WAFV2
       :comparison_operator,
       :size,
       :text_transformations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Revenue statistics for a single AI bot source, including the bot name,
+    # revenue amount, request count, and verification status.
+    #
+    # @!attribute [rw] source_name
+    #   The name of the AI bot.
+    #   @return [String]
+    #
+    # @!attribute [rw] percentage
+    #   The percentage of total revenue from this source.
+    #   @return [Float]
+    #
+    # @!attribute [rw] amount
+    #   The total revenue amount from this source in the specified currency.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_count
+    #   The number of monetized requests from this source.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] source_category
+    #   The category of this AI bot source.
+    #   @return [String]
+    #
+    # @!attribute [rw] intent
+    #   The declared intent of the AI bot (for example, summarize, index, or
+    #   train).
+    #   @return [String]
+    #
+    # @!attribute [rw] organization
+    #   The organization associated with the AI bot.
+    #   @return [String]
+    #
+    # @!attribute [rw] verified
+    #   Whether the AI bot's identity was verified.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] group_by_value
+    #   The value for the group-by dimension, when grouping is applied.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/SourceStatistics AWS API Documentation
+    #
+    class SourceStatistics < Struct.new(
+      :source_name,
+      :percentage,
+      :amount,
+      :request_count,
+      :source_category,
+      :intent,
+      :organization,
+      :verified,
+      :group_by_value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10016,6 +10853,11 @@ module Aws::WAFV2
     #   [2]: https://docs.aws.amazon.com/waf/latest/developerguide/limits.html
     #   @return [Hash<String,Types::CustomResponseBody>]
     #
+    # @!attribute [rw] monetization_config
+    #   The monetization configuration for the rule group. Provide this when
+    #   any rule in the rule group uses the `Monetize` action.
+    #   @return [Types::MonetizationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/UpdateRuleGroupRequest AWS API Documentation
     #
     class UpdateRuleGroupRequest < Struct.new(
@@ -10026,7 +10868,8 @@ module Aws::WAFV2
       :rules,
       :visibility_config,
       :lock_token,
-      :custom_response_bodies)
+      :custom_response_bodies,
+      :monetization_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10212,6 +11055,11 @@ module Aws::WAFV2
     #     will result in an error.
     #   @return [Types::ApplicationConfig]
     #
+    # @!attribute [rw] monetization_config
+    #   The monetization configuration for the web ACL. Provide this when
+    #   any rule in the web ACL uses the `Monetize` action.
+    #   @return [Types::MonetizationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/UpdateWebACLRequest AWS API Documentation
     #
     class UpdateWebACLRequest < Struct.new(
@@ -10230,7 +11078,8 @@ module Aws::WAFV2
       :token_domains,
       :association_config,
       :on_source_d_do_s_protection_config,
-      :application_config)
+      :application_config,
+      :monetization_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11036,6 +11885,13 @@ module Aws::WAFV2
     #   Returns a list of `ApplicationAttribute`s.
     #   @return [Types::ApplicationConfig]
     #
+    # @!attribute [rw] monetization_config
+    #   The monetization configuration for the web ACL. Required when any
+    #   rule in the web ACL uses the `Monetize` action. Specifies the
+    #   cryptocurrency payment networks and currency mode for AI bot
+    #   monetization.
+    #   @return [Types::MonetizationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/WebACL AWS API Documentation
     #
     class WebACL < Struct.new(
@@ -11059,7 +11915,8 @@ module Aws::WAFV2
       :association_config,
       :retrofitted_by_firewall_manager,
       :on_source_d_do_s_protection_config,
-      :application_config)
+      :application_config,
+      :monetization_config)
       SENSITIVE = []
       include Aws::Structure
     end

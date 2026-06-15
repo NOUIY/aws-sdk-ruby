@@ -147,6 +147,46 @@ module Aws::BedrockRuntime
     GuardrailAutomatedReasoningTranslationOption = Shapes::StructureShape.new(name: 'GuardrailAutomatedReasoningTranslationOption')
     GuardrailAutomatedReasoningTranslationOptionList = Shapes::ListShape.new(name: 'GuardrailAutomatedReasoningTranslationOptionList')
     GuardrailAutomatedReasoningValidFinding = Shapes::StructureShape.new(name: 'GuardrailAutomatedReasoningValidFinding')
+    GuardrailChecksConfig = Shapes::StructureShape.new(name: 'GuardrailChecksConfig')
+    GuardrailChecksContentBlock = Shapes::UnionShape.new(name: 'GuardrailChecksContentBlock')
+    GuardrailChecksContentBlockList = Shapes::ListShape.new(name: 'GuardrailChecksContentBlockList')
+    GuardrailChecksContentFilterCategory = Shapes::StringShape.new(name: 'GuardrailChecksContentFilterCategory')
+    GuardrailChecksContentFilterCategoryConfig = Shapes::StructureShape.new(name: 'GuardrailChecksContentFilterCategoryConfig')
+    GuardrailChecksContentFilterCategoryConfigList = Shapes::ListShape.new(name: 'GuardrailChecksContentFilterCategoryConfigList')
+    GuardrailChecksContentFilterConfig = Shapes::StructureShape.new(name: 'GuardrailChecksContentFilterConfig')
+    GuardrailChecksContentFilterResult = Shapes::StructureShape.new(name: 'GuardrailChecksContentFilterResult')
+    GuardrailChecksContentFilterResultEntry = Shapes::StructureShape.new(name: 'GuardrailChecksContentFilterResultEntry')
+    GuardrailChecksContentFilterResultEntrySeverityScoreDouble = Shapes::FloatShape.new(name: 'GuardrailChecksContentFilterResultEntrySeverityScoreDouble')
+    GuardrailChecksContentFilterResultList = Shapes::ListShape.new(name: 'GuardrailChecksContentFilterResultList')
+    GuardrailChecksContentFilterUsage = Shapes::StructureShape.new(name: 'GuardrailChecksContentFilterUsage')
+    GuardrailChecksMessage = Shapes::StructureShape.new(name: 'GuardrailChecksMessage')
+    GuardrailChecksMessageList = Shapes::ListShape.new(name: 'GuardrailChecksMessageList')
+    GuardrailChecksPromptAttackCategory = Shapes::StringShape.new(name: 'GuardrailChecksPromptAttackCategory')
+    GuardrailChecksPromptAttackCategoryConfig = Shapes::StructureShape.new(name: 'GuardrailChecksPromptAttackCategoryConfig')
+    GuardrailChecksPromptAttackCategoryConfigList = Shapes::ListShape.new(name: 'GuardrailChecksPromptAttackCategoryConfigList')
+    GuardrailChecksPromptAttackConfig = Shapes::StructureShape.new(name: 'GuardrailChecksPromptAttackConfig')
+    GuardrailChecksPromptAttackResult = Shapes::StructureShape.new(name: 'GuardrailChecksPromptAttackResult')
+    GuardrailChecksPromptAttackResultEntry = Shapes::StructureShape.new(name: 'GuardrailChecksPromptAttackResultEntry')
+    GuardrailChecksPromptAttackResultEntrySeverityScoreDouble = Shapes::FloatShape.new(name: 'GuardrailChecksPromptAttackResultEntrySeverityScoreDouble')
+    GuardrailChecksPromptAttackResultList = Shapes::ListShape.new(name: 'GuardrailChecksPromptAttackResultList')
+    GuardrailChecksPromptAttackUsage = Shapes::StructureShape.new(name: 'GuardrailChecksPromptAttackUsage')
+    GuardrailChecksResults = Shapes::StructureShape.new(name: 'GuardrailChecksResults')
+    GuardrailChecksRole = Shapes::StringShape.new(name: 'GuardrailChecksRole')
+    GuardrailChecksSensitiveInformationConfig = Shapes::StructureShape.new(name: 'GuardrailChecksSensitiveInformationConfig')
+    GuardrailChecksSensitiveInformationEntityConfig = Shapes::StructureShape.new(name: 'GuardrailChecksSensitiveInformationEntityConfig')
+    GuardrailChecksSensitiveInformationEntityConfigList = Shapes::ListShape.new(name: 'GuardrailChecksSensitiveInformationEntityConfigList')
+    GuardrailChecksSensitiveInformationEntityType = Shapes::StringShape.new(name: 'GuardrailChecksSensitiveInformationEntityType')
+    GuardrailChecksSensitiveInformationResult = Shapes::StructureShape.new(name: 'GuardrailChecksSensitiveInformationResult')
+    GuardrailChecksSensitiveInformationResultEntry = Shapes::StructureShape.new(name: 'GuardrailChecksSensitiveInformationResultEntry')
+    GuardrailChecksSensitiveInformationResultEntryBeginOffsetInteger = Shapes::IntegerShape.new(name: 'GuardrailChecksSensitiveInformationResultEntryBeginOffsetInteger')
+    GuardrailChecksSensitiveInformationResultEntryConfidenceScoreDouble = Shapes::FloatShape.new(name: 'GuardrailChecksSensitiveInformationResultEntryConfidenceScoreDouble')
+    GuardrailChecksSensitiveInformationResultEntryContentIndexInteger = Shapes::IntegerShape.new(name: 'GuardrailChecksSensitiveInformationResultEntryContentIndexInteger')
+    GuardrailChecksSensitiveInformationResultEntryEndOffsetInteger = Shapes::IntegerShape.new(name: 'GuardrailChecksSensitiveInformationResultEntryEndOffsetInteger')
+    GuardrailChecksSensitiveInformationResultEntryMessageIndexInteger = Shapes::IntegerShape.new(name: 'GuardrailChecksSensitiveInformationResultEntryMessageIndexInteger')
+    GuardrailChecksSensitiveInformationResultList = Shapes::ListShape.new(name: 'GuardrailChecksSensitiveInformationResultList')
+    GuardrailChecksSensitiveInformationUsage = Shapes::StructureShape.new(name: 'GuardrailChecksSensitiveInformationUsage')
+    GuardrailChecksTextContent = Shapes::StringShape.new(name: 'GuardrailChecksTextContent')
+    GuardrailChecksUsageResults = Shapes::StructureShape.new(name: 'GuardrailChecksUsageResults')
     GuardrailConfiguration = Shapes::StructureShape.new(name: 'GuardrailConfiguration')
     GuardrailContentBlock = Shapes::UnionShape.new(name: 'GuardrailContentBlock')
     GuardrailContentBlockList = Shapes::ListShape.new(name: 'GuardrailContentBlockList')
@@ -242,6 +282,8 @@ module Aws::BedrockRuntime
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     InvocationArn = Shapes::StringShape.new(name: 'InvocationArn')
+    InvokeGuardrailChecksRequest = Shapes::StructureShape.new(name: 'InvokeGuardrailChecksRequest')
+    InvokeGuardrailChecksResponse = Shapes::StructureShape.new(name: 'InvokeGuardrailChecksResponse')
     InvokeModelIdentifier = Shapes::StringShape.new(name: 'InvokeModelIdentifier')
     InvokeModelRequest = Shapes::StructureShape.new(name: 'InvokeModelRequest')
     InvokeModelResponse = Shapes::StructureShape.new(name: 'InvokeModelResponse')
@@ -848,6 +890,100 @@ module Aws::BedrockRuntime
     GuardrailAutomatedReasoningValidFinding.add_member(:logic_warning, Shapes::ShapeRef.new(shape: GuardrailAutomatedReasoningLogicWarning, location_name: "logicWarning"))
     GuardrailAutomatedReasoningValidFinding.struct_class = Types::GuardrailAutomatedReasoningValidFinding
 
+    GuardrailChecksConfig.add_member(:content_filter, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterConfig, location_name: "contentFilter"))
+    GuardrailChecksConfig.add_member(:prompt_attack, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackConfig, location_name: "promptAttack"))
+    GuardrailChecksConfig.add_member(:sensitive_information, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationConfig, location_name: "sensitiveInformation"))
+    GuardrailChecksConfig.struct_class = Types::GuardrailChecksConfig
+
+    GuardrailChecksContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: GuardrailChecksTextContent, location_name: "text"))
+    GuardrailChecksContentBlock.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    GuardrailChecksContentBlock.add_member_subclass(:text, Types::GuardrailChecksContentBlock::Text)
+    GuardrailChecksContentBlock.add_member_subclass(:unknown, Types::GuardrailChecksContentBlock::Unknown)
+    GuardrailChecksContentBlock.struct_class = Types::GuardrailChecksContentBlock
+
+    GuardrailChecksContentBlockList.member = Shapes::ShapeRef.new(shape: GuardrailChecksContentBlock)
+
+    GuardrailChecksContentFilterCategoryConfig.add_member(:category, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterCategory, required: true, location_name: "category"))
+    GuardrailChecksContentFilterCategoryConfig.struct_class = Types::GuardrailChecksContentFilterCategoryConfig
+
+    GuardrailChecksContentFilterCategoryConfigList.member = Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterCategoryConfig)
+
+    GuardrailChecksContentFilterConfig.add_member(:categories, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterCategoryConfigList, required: true, location_name: "categories"))
+    GuardrailChecksContentFilterConfig.struct_class = Types::GuardrailChecksContentFilterConfig
+
+    GuardrailChecksContentFilterResult.add_member(:results, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterResultList, required: true, location_name: "results"))
+    GuardrailChecksContentFilterResult.struct_class = Types::GuardrailChecksContentFilterResult
+
+    GuardrailChecksContentFilterResultEntry.add_member(:category, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterCategory, required: true, location_name: "category"))
+    GuardrailChecksContentFilterResultEntry.add_member(:severity_score, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterResultEntrySeverityScoreDouble, required: true, location_name: "severityScore"))
+    GuardrailChecksContentFilterResultEntry.struct_class = Types::GuardrailChecksContentFilterResultEntry
+
+    GuardrailChecksContentFilterResultList.member = Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterResultEntry)
+
+    GuardrailChecksContentFilterUsage.add_member(:text_units, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "textUnits"))
+    GuardrailChecksContentFilterUsage.struct_class = Types::GuardrailChecksContentFilterUsage
+
+    GuardrailChecksMessage.add_member(:role, Shapes::ShapeRef.new(shape: GuardrailChecksRole, required: true, location_name: "role"))
+    GuardrailChecksMessage.add_member(:content, Shapes::ShapeRef.new(shape: GuardrailChecksContentBlockList, required: true, location_name: "content"))
+    GuardrailChecksMessage.struct_class = Types::GuardrailChecksMessage
+
+    GuardrailChecksMessageList.member = Shapes::ShapeRef.new(shape: GuardrailChecksMessage)
+
+    GuardrailChecksPromptAttackCategoryConfig.add_member(:category, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackCategory, required: true, location_name: "category"))
+    GuardrailChecksPromptAttackCategoryConfig.struct_class = Types::GuardrailChecksPromptAttackCategoryConfig
+
+    GuardrailChecksPromptAttackCategoryConfigList.member = Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackCategoryConfig)
+
+    GuardrailChecksPromptAttackConfig.add_member(:categories, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackCategoryConfigList, required: true, location_name: "categories"))
+    GuardrailChecksPromptAttackConfig.struct_class = Types::GuardrailChecksPromptAttackConfig
+
+    GuardrailChecksPromptAttackResult.add_member(:results, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackResultList, required: true, location_name: "results"))
+    GuardrailChecksPromptAttackResult.struct_class = Types::GuardrailChecksPromptAttackResult
+
+    GuardrailChecksPromptAttackResultEntry.add_member(:category, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackCategory, required: true, location_name: "category"))
+    GuardrailChecksPromptAttackResultEntry.add_member(:severity_score, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackResultEntrySeverityScoreDouble, required: true, location_name: "severityScore"))
+    GuardrailChecksPromptAttackResultEntry.struct_class = Types::GuardrailChecksPromptAttackResultEntry
+
+    GuardrailChecksPromptAttackResultList.member = Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackResultEntry)
+
+    GuardrailChecksPromptAttackUsage.add_member(:text_units, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "textUnits"))
+    GuardrailChecksPromptAttackUsage.struct_class = Types::GuardrailChecksPromptAttackUsage
+
+    GuardrailChecksResults.add_member(:content_filter, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterResult, location_name: "contentFilter"))
+    GuardrailChecksResults.add_member(:prompt_attack, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackResult, location_name: "promptAttack"))
+    GuardrailChecksResults.add_member(:sensitive_information, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResult, location_name: "sensitiveInformation"))
+    GuardrailChecksResults.struct_class = Types::GuardrailChecksResults
+
+    GuardrailChecksSensitiveInformationConfig.add_member(:entities, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationEntityConfigList, required: true, location_name: "entities"))
+    GuardrailChecksSensitiveInformationConfig.struct_class = Types::GuardrailChecksSensitiveInformationConfig
+
+    GuardrailChecksSensitiveInformationEntityConfig.add_member(:type, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationEntityType, required: true, location_name: "type"))
+    GuardrailChecksSensitiveInformationEntityConfig.struct_class = Types::GuardrailChecksSensitiveInformationEntityConfig
+
+    GuardrailChecksSensitiveInformationEntityConfigList.member = Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationEntityConfig)
+
+    GuardrailChecksSensitiveInformationResult.add_member(:results, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResultList, required: true, location_name: "results"))
+    GuardrailChecksSensitiveInformationResult.add_member(:truncated, Shapes::ShapeRef.new(shape: Boolean, location_name: "truncated"))
+    GuardrailChecksSensitiveInformationResult.struct_class = Types::GuardrailChecksSensitiveInformationResult
+
+    GuardrailChecksSensitiveInformationResultEntry.add_member(:type, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationEntityType, required: true, location_name: "type"))
+    GuardrailChecksSensitiveInformationResultEntry.add_member(:confidence_score, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResultEntryConfidenceScoreDouble, required: true, location_name: "confidenceScore"))
+    GuardrailChecksSensitiveInformationResultEntry.add_member(:begin_offset, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResultEntryBeginOffsetInteger, required: true, location_name: "beginOffset"))
+    GuardrailChecksSensitiveInformationResultEntry.add_member(:end_offset, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResultEntryEndOffsetInteger, required: true, location_name: "endOffset"))
+    GuardrailChecksSensitiveInformationResultEntry.add_member(:message_index, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResultEntryMessageIndexInteger, required: true, location_name: "messageIndex"))
+    GuardrailChecksSensitiveInformationResultEntry.add_member(:content_index, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResultEntryContentIndexInteger, required: true, location_name: "contentIndex"))
+    GuardrailChecksSensitiveInformationResultEntry.struct_class = Types::GuardrailChecksSensitiveInformationResultEntry
+
+    GuardrailChecksSensitiveInformationResultList.member = Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationResultEntry)
+
+    GuardrailChecksSensitiveInformationUsage.add_member(:text_units, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "textUnits"))
+    GuardrailChecksSensitiveInformationUsage.struct_class = Types::GuardrailChecksSensitiveInformationUsage
+
+    GuardrailChecksUsageResults.add_member(:content_filter, Shapes::ShapeRef.new(shape: GuardrailChecksContentFilterUsage, location_name: "contentFilter"))
+    GuardrailChecksUsageResults.add_member(:prompt_attack, Shapes::ShapeRef.new(shape: GuardrailChecksPromptAttackUsage, location_name: "promptAttack"))
+    GuardrailChecksUsageResults.add_member(:sensitive_information, Shapes::ShapeRef.new(shape: GuardrailChecksSensitiveInformationUsage, location_name: "sensitiveInformation"))
+    GuardrailChecksUsageResults.struct_class = Types::GuardrailChecksUsageResults
+
     GuardrailConfiguration.add_member(:guardrail_identifier, Shapes::ShapeRef.new(shape: GuardrailIdentifier, location_name: "guardrailIdentifier"))
     GuardrailConfiguration.add_member(:guardrail_version, Shapes::ShapeRef.new(shape: GuardrailVersion, location_name: "guardrailVersion"))
     GuardrailConfiguration.add_member(:trace, Shapes::ShapeRef.new(shape: GuardrailTrace, location_name: "trace"))
@@ -1055,6 +1191,14 @@ module Aws::BedrockRuntime
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
+
+    InvokeGuardrailChecksRequest.add_member(:messages, Shapes::ShapeRef.new(shape: GuardrailChecksMessageList, required: true, location_name: "messages"))
+    InvokeGuardrailChecksRequest.add_member(:checks, Shapes::ShapeRef.new(shape: GuardrailChecksConfig, required: true, location_name: "checks"))
+    InvokeGuardrailChecksRequest.struct_class = Types::InvokeGuardrailChecksRequest
+
+    InvokeGuardrailChecksResponse.add_member(:results, Shapes::ShapeRef.new(shape: GuardrailChecksResults, required: true, location_name: "results"))
+    InvokeGuardrailChecksResponse.add_member(:usage, Shapes::ShapeRef.new(shape: GuardrailChecksUsageResults, required: true, location_name: "usage"))
+    InvokeGuardrailChecksResponse.struct_class = Types::InvokeGuardrailChecksResponse
 
     InvokeModelRequest.add_member(:body, Shapes::ShapeRef.new(shape: Body, location_name: "body"))
     InvokeModelRequest.add_member(:content_type, Shapes::ShapeRef.new(shape: MimeType, location: "header", location_name: "Content-Type"))
@@ -1519,6 +1663,19 @@ module Aws::BedrockRuntime
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:invoke_guardrail_checks, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "InvokeGuardrailChecks"
+        o.http_method = "POST"
+        o.http_request_uri = "/guardrail-checks/invoke"
+        o.input = Shapes::ShapeRef.new(shape: InvokeGuardrailChecksRequest)
+        o.output = Shapes::ShapeRef.new(shape: InvokeGuardrailChecksResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 

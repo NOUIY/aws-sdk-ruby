@@ -261,6 +261,7 @@ module Aws::CloudWatchLogs
       attr_accessor schedule_expression: ::String
       attr_accessor timezone: ::String
       attr_accessor start_time_offset: ::Integer
+      attr_accessor end_time_offset: ::Integer
       attr_accessor destination_configuration: Types::DestinationConfiguration
       attr_accessor schedule_start_time: ::Integer
       attr_accessor schedule_end_time: ::Integer
@@ -1073,8 +1074,10 @@ module Aws::CloudWatchLogs
       attr_accessor schedule_expression: ::String
       attr_accessor timezone: ::String
       attr_accessor start_time_offset: ::Integer
+      attr_accessor end_time_offset: ::Integer
       attr_accessor destination_configuration: Types::DestinationConfiguration
       attr_accessor state: ("ENABLED" | "DISABLED")
+      attr_accessor schedule_type: ("CUSTOMER_MANAGED" | "AWS_MANAGED")
       attr_accessor last_triggered_time: ::Integer
       attr_accessor last_execution_status: ("Running" | "InvalidQuery" | "Complete" | "Failed" | "Timeout")
       attr_accessor schedule_start_time: ::Integer
@@ -1290,6 +1293,7 @@ module Aws::CloudWatchLogs
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
       attr_accessor state: ("ENABLED" | "DISABLED")
+      attr_accessor schedule_type: ("CUSTOMER_MANAGED" | "AWS_MANAGED")
       SENSITIVE: []
     end
 
@@ -2040,6 +2044,7 @@ module Aws::CloudWatchLogs
       attr_accessor scheduled_query_arn: ::String
       attr_accessor name: ::String
       attr_accessor state: ("ENABLED" | "DISABLED")
+      attr_accessor schedule_type: ("CUSTOMER_MANAGED" | "AWS_MANAGED")
       attr_accessor last_triggered_time: ::Integer
       attr_accessor last_execution_status: ("Running" | "InvalidQuery" | "Complete" | "Failed" | "Timeout")
       attr_accessor schedule_expression: ::String
@@ -2306,6 +2311,7 @@ module Aws::CloudWatchLogs
       attr_accessor schedule_expression: ::String
       attr_accessor timezone: ::String
       attr_accessor start_time_offset: ::Integer
+      attr_accessor end_time_offset: ::Integer
       attr_accessor destination_configuration: Types::DestinationConfiguration
       attr_accessor schedule_start_time: ::Integer
       attr_accessor schedule_end_time: ::Integer
@@ -2324,8 +2330,10 @@ module Aws::CloudWatchLogs
       attr_accessor schedule_expression: ::String
       attr_accessor timezone: ::String
       attr_accessor start_time_offset: ::Integer
+      attr_accessor end_time_offset: ::Integer
       attr_accessor destination_configuration: Types::DestinationConfiguration
       attr_accessor state: ("ENABLED" | "DISABLED")
+      attr_accessor schedule_type: ("CUSTOMER_MANAGED" | "AWS_MANAGED")
       attr_accessor last_triggered_time: ::Integer
       attr_accessor last_execution_status: ("Running" | "InvalidQuery" | "Complete" | "Failed" | "Timeout")
       attr_accessor schedule_start_time: ::Integer

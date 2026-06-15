@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.155.0 (2026-06-15)
+------------------
+
+* Feature - Added endTimeOffset parameter to Scheduled Queries APIs (Create, Update, Get) enabling bounded time window configuration. Introduced scheduleType filter (CUSTOMER MANAGED, AWS MANAGED) for ListScheduledQueries and exposed it in Get and Update responses.
+
 1.154.0 (2026-06-03)
 ------------------
 

@@ -238,6 +238,7 @@ module Aws
                                     schedule_expression: ::String,
                                     ?timezone: ::String,
                                     ?start_time_offset: ::Integer,
+                                    ?end_time_offset: ::Integer,
                                     ?destination_configuration: Params::destination_configuration,
                                     ?schedule_start_time: ::Integer,
                                     ?schedule_end_time: ::Integer,
@@ -887,8 +888,10 @@ module Aws
         def schedule_expression: () -> ::String
         def timezone: () -> ::String
         def start_time_offset: () -> ::Integer
+        def end_time_offset: () -> ::Integer
         def destination_configuration: () -> Types::DestinationConfiguration
         def state: () -> ("ENABLED" | "DISABLED")
+        def schedule_type: () -> ("CUSTOMER_MANAGED" | "AWS_MANAGED")
         def last_triggered_time: () -> ::Integer
         def last_execution_status: () -> ("Running" | "InvalidQuery" | "Complete" | "Failed" | "Timeout")
         def schedule_start_time: () -> ::Integer
@@ -1047,7 +1050,8 @@ module Aws
       def list_scheduled_queries: (
                                     ?max_results: ::Integer,
                                     ?next_token: ::String,
-                                    ?state: ("ENABLED" | "DISABLED")
+                                    ?state: ("ENABLED" | "DISABLED"),
+                                    ?schedule_type: ("CUSTOMER_MANAGED" | "AWS_MANAGED")
                                   ) -> _ListScheduledQueriesResponseSuccess
                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListScheduledQueriesResponseSuccess
 
@@ -1486,8 +1490,10 @@ module Aws
         def schedule_expression: () -> ::String
         def timezone: () -> ::String
         def start_time_offset: () -> ::Integer
+        def end_time_offset: () -> ::Integer
         def destination_configuration: () -> Types::DestinationConfiguration
         def state: () -> ("ENABLED" | "DISABLED")
+        def schedule_type: () -> ("CUSTOMER_MANAGED" | "AWS_MANAGED")
         def last_triggered_time: () -> ::Integer
         def last_execution_status: () -> ("Running" | "InvalidQuery" | "Complete" | "Failed" | "Timeout")
         def schedule_start_time: () -> ::Integer
@@ -1506,6 +1512,7 @@ module Aws
                                     schedule_expression: ::String,
                                     ?timezone: ::String,
                                     ?start_time_offset: ::Integer,
+                                    ?end_time_offset: ::Integer,
                                     ?destination_configuration: Params::destination_configuration,
                                     ?schedule_start_time: ::Integer,
                                     ?schedule_end_time: ::Integer,

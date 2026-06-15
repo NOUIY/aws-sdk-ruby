@@ -661,6 +661,11 @@ module Aws::Mgn
     #   template creation.
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_configuration
+    #   Request to configure storage during Replication Settings template
+    #   creation.
+    #   @return [Types::StorageConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/CreateReplicationConfigurationTemplateRequest AWS API Documentation
     #
     class CreateReplicationConfigurationTemplateRequest < Struct.new(
@@ -679,7 +684,8 @@ module Aws::Mgn
       :use_fips_endpoint,
       :tags,
       :internet_protocol,
-      :store_snapshot_on_local_zone)
+      :store_snapshot_on_local_zone,
+      :storage_configuration)
       SENSITIVE = [:staging_area_tags, :tags]
       include Aws::Structure
     end
@@ -1635,6 +1641,25 @@ module Aws::Mgn
       include Aws::Structure
     end
 
+    # FSx for ONTAP storage configuration.
+    #
+    # @!attribute [rw] storage_virtual_machine_id
+    #   FSx ONTAP configuration storage virtual machine ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] credentials_secret_arn
+    #   FSx ONTAP configuration credentials secret ARN.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/FsxOntapConfiguration AWS API Documentation
+    #
+    class FsxOntapConfiguration < Struct.new(
+      :storage_virtual_machine_id,
+      :credentials_secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] source_server_id
     #   Request to get Launch Configuration information by Source Server ID.
     #   @return [String]
@@ -2187,6 +2212,40 @@ module Aws::Mgn
       include Aws::Structure
     end
 
+    # Last known check performed on a launched instance.
+    #
+    # @!attribute [rw] type
+    #   Last known check type.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Last known check name.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Last known check status.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   Last known check error.
+    #   @return [String]
+    #
+    # @!attribute [rw] checked_at
+    #   Last known check timestamp.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/LastKnownCheck AWS API Documentation
+    #
+    class LastKnownCheck < Struct.new(
+      :type,
+      :name,
+      :status,
+      :error,
+      :checked_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] source_server_id
     #   Launch configuration Source Server ID.
     #   @return [String]
@@ -2394,12 +2453,22 @@ module Aws::Mgn
     #   Launched instance first boot.
     #   @return [String]
     #
+    # @!attribute [rw] last_known_checks
+    #   Launched instance last known checks.
+    #   @return [Array<Types::LastKnownCheck>]
+    #
+    # @!attribute [rw] last_known_fsx_checks_status
+    #   Launched instance last known FSx checks status.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/LaunchedInstance AWS API Documentation
     #
     class LaunchedInstance < Struct.new(
       :ec2_instance_id,
       :job_id,
-      :first_boot)
+      :first_boot,
+      :last_known_checks,
+      :last_known_fsx_checks_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5262,6 +5331,10 @@ module Aws::Mgn
     #   Replication Configuration store snapshot on local zone.
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_configuration
+    #   Replication Configuration storage configuration.
+    #   @return [Types::StorageConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/ReplicationConfiguration AWS API Documentation
     #
     class ReplicationConfiguration < Struct.new(
@@ -5282,7 +5355,8 @@ module Aws::Mgn
       :staging_area_tags,
       :use_fips_endpoint,
       :internet_protocol,
-      :store_snapshot_on_local_zone)
+      :store_snapshot_on_local_zone,
+      :storage_configuration)
       SENSITIVE = [:staging_area_tags]
       include Aws::Structure
     end
@@ -5395,6 +5469,10 @@ module Aws::Mgn
     #   Replication Configuration template store snapshot on local zone.
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_configuration
+    #   Replication Configuration template storage configuration.
+    #   @return [Types::StorageConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/ReplicationConfigurationTemplate AWS API Documentation
     #
     class ReplicationConfigurationTemplate < Struct.new(
@@ -5415,7 +5493,8 @@ module Aws::Mgn
       :use_fips_endpoint,
       :tags,
       :internet_protocol,
-      :store_snapshot_on_local_zone)
+      :store_snapshot_on_local_zone,
+      :storage_configuration)
       SENSITIVE = [:staging_area_tags, :tags]
       include Aws::Structure
     end
@@ -6403,6 +6482,25 @@ module Aws::Mgn
       include Aws::Structure
     end
 
+    # Storage configuration for replication.
+    #
+    # @!attribute [rw] storage_type
+    #   Storage configuration storage type.
+    #   @return [String]
+    #
+    # @!attribute [rw] fsx_ontap_configuration
+    #   Storage configuration FSx ONTAP configuration.
+    #   @return [Types::FsxOntapConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/StorageConfiguration AWS API Documentation
+    #
+    class StorageConfiguration < Struct.new(
+      :storage_type,
+      :fsx_ontap_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   Tag resource by ARN.
     #   @return [String]
@@ -7116,6 +7214,10 @@ module Aws::Mgn
     #   Update replication configuration store snapshot on local zone.
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_configuration
+    #   Update replication configuration storage configuration.
+    #   @return [Types::StorageConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfigurationRequest AWS API Documentation
     #
     class UpdateReplicationConfigurationRequest < Struct.new(
@@ -7137,7 +7239,8 @@ module Aws::Mgn
       :use_fips_endpoint,
       :account_id,
       :internet_protocol,
-      :store_snapshot_on_local_zone)
+      :store_snapshot_on_local_zone,
+      :storage_configuration)
       SENSITIVE = [:staging_area_tags]
       include Aws::Structure
     end
@@ -7220,6 +7323,11 @@ module Aws::Mgn
     #   zone request.
     #   @return [Boolean]
     #
+    # @!attribute [rw] storage_configuration
+    #   Update replication configuration template storage configuration
+    #   request.
+    #   @return [Types::StorageConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateReplicationConfigurationTemplateRequest AWS API Documentation
     #
     class UpdateReplicationConfigurationTemplateRequest < Struct.new(
@@ -7239,7 +7347,8 @@ module Aws::Mgn
       :staging_area_tags,
       :use_fips_endpoint,
       :internet_protocol,
-      :store_snapshot_on_local_zone)
+      :store_snapshot_on_local_zone,
+      :storage_configuration)
       SENSITIVE = [:staging_area_tags]
       include Aws::Structure
     end
@@ -7278,12 +7387,27 @@ module Aws::Mgn
     #   Update Source Server request connector action.
     #   @return [Types::SourceServerConnectorAction]
     #
+    # @!attribute [rw] user_provided_id
+    #   Update Source Server request user provided ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] fqdn_for_action_framework
+    #   Update Source Server request FQDN for action framework.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform
+    #   Update Source Server request platform operating system.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mgn-2020-02-26/UpdateSourceServerRequest AWS API Documentation
     #
     class UpdateSourceServerRequest < Struct.new(
       :account_id,
       :source_server_id,
-      :connector_action)
+      :connector_action,
+      :user_provided_id,
+      :fqdn_for_action_framework,
+      :platform)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -249,6 +249,49 @@ module Aws
                             ) -> _GetAsyncInvokeResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAsyncInvokeResponseSuccess
 
+      interface _InvokeGuardrailChecksResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::InvokeGuardrailChecksResponse]
+        def results: () -> Types::GuardrailChecksResults
+        def usage: () -> Types::GuardrailChecksUsageResults
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockRuntime/Client.html#invoke_guardrail_checks-instance_method
+      def invoke_guardrail_checks: (
+                                     messages: Array[
+                                       {
+                                         role: ("user" | "assistant" | "system"),
+                                         content: Array[
+                                           {
+                                             text: ::String?
+                                           }
+                                         ]
+                                       }
+                                     ],
+                                     checks: {
+                                       content_filter: {
+                                         categories: Array[
+                                           {
+                                             category: ("VIOLENCE" | "HATE" | "SEXUAL" | "MISCONDUCT" | "INSULTS")
+                                           }
+                                         ]
+                                       }?,
+                                       prompt_attack: {
+                                         categories: Array[
+                                           {
+                                             category: ("JAILBREAK" | "PROMPT_INJECTION" | "PROMPT_LEAKAGE")
+                                           }
+                                         ]
+                                       }?,
+                                       sensitive_information: {
+                                         entities: Array[
+                                           {
+                                             type: ("ADDRESS" | "AGE" | "AWS_ACCESS_KEY" | "AWS_SECRET_KEY" | "CA_HEALTH_NUMBER" | "CA_SOCIAL_INSURANCE_NUMBER" | "CREDIT_DEBIT_CARD_CVV" | "CREDIT_DEBIT_CARD_EXPIRY" | "CREDIT_DEBIT_CARD_NUMBER" | "DRIVER_ID" | "EMAIL" | "INTERNATIONAL_BANK_ACCOUNT_NUMBER" | "IP_ADDRESS" | "LICENSE_PLATE" | "MAC_ADDRESS" | "NAME" | "PASSWORD" | "PHONE" | "PIN" | "SWIFT_CODE" | "UK_NATIONAL_HEALTH_SERVICE_NUMBER" | "UK_NATIONAL_INSURANCE_NUMBER" | "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER" | "URL" | "USERNAME" | "US_BANK_ACCOUNT_NUMBER" | "US_BANK_ROUTING_NUMBER" | "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER" | "US_PASSPORT_NUMBER" | "US_SOCIAL_SECURITY_NUMBER" | "VEHICLE_IDENTIFICATION_NUMBER")
+                                           }
+                                         ]
+                                       }?
+                                     }
+                                   ) -> _InvokeGuardrailChecksResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _InvokeGuardrailChecksResponseSuccess
+
       interface _InvokeModelResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::InvokeModelResponse]
         def body: () -> ::String

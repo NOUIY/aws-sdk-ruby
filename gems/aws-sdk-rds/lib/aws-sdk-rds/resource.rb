@@ -1533,6 +1533,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb`
@@ -1873,7 +1875,8 @@ module Aws::RDS
     #
     #   * RDS for MariaDB - `general-public-license`
     #
-    #   * RDS for Microsoft SQL Server - `license-included`
+    #   * RDS for Microsoft SQL Server - `license-included |
+    #     bring-your-own-media`
     #
     #   * RDS for MySQL - `general-public-license`
     #
@@ -2570,6 +2573,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mysql`
@@ -2844,6 +2849,8 @@ module Aws::RDS
     #   Valid Values:
     #
     #   * `db2-ae`
+    #
+    #   * `db2-ce`
     #
     #   * `db2-se`
     #
@@ -3157,6 +3164,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb`
@@ -3180,6 +3189,8 @@ module Aws::RDS
     #   * `sqlserver-ex`
     #
     #   * `sqlserver-web`
+    #
+    #   * `sqlserver-dev-ee`
     # @option options [String] :engine_version
     #   A specific database engine version to return details for.
     #
@@ -3875,6 +3886,8 @@ module Aws::RDS
     #   Valid Values:
     #
     #   * `db2-ae`
+    #
+    #   * `db2-ce`
     #
     #   * `db2-se`
     #

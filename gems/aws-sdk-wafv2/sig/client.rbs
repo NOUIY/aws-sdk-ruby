@@ -183,7 +183,8 @@ module Aws
                                ?custom_response_bodies: Hash[::String, {
                                    content_type: ("TEXT_PLAIN" | "TEXT_HTML" | "APPLICATION_JSON"),
                                    content: ::String
-                                 }]
+                                 }],
+                               ?monetization_config: Params::monetization_config
                              ) -> _CreateRuleGroupResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRuleGroupResponseSuccess
 
@@ -242,7 +243,8 @@ module Aws
                                   values: Array[::String]?
                                 }
                               ]?
-                            }
+                            },
+                            ?monetization_config: Params::monetization_config
                           ) -> _CreateWebACLResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateWebACLResponseSuccess
 
@@ -494,6 +496,83 @@ module Aws
                                  ) -> _GetRegexPatternSetResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRegexPatternSetResponseSuccess
 
+      interface _GetRevenueStatisticsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetRevenueStatisticsResponse]
+        def source_statistics: () -> ::Array[Types::SourceStatistics]
+        def revenue_path_statistics: () -> ::Array[Types::RevenuePathStatistics]
+        def next_marker: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/WAFV2/Client.html#get_revenue_statistics-instance_method
+      def get_revenue_statistics: (
+                                    statistic_type: ("TOP_SOURCES_BY_REVENUE" | "TOP_PATHS_BY_REVENUE"),
+                                    time_window: {
+                                      start_time: ::Time,
+                                      end_time: ::Time
+                                    },
+                                    scope: ("CLOUDFRONT" | "REGIONAL"),
+                                    currency: ("USDC"),
+                                    ?group_by: ("NAME" | "CATEGORY" | "INTENT" | "ORGANIZATION" | "WEBACL"),
+                                    ?filters: Array[
+                                      {
+                                        name: ::String,
+                                        values: Array[::String]
+                                      }
+                                    ],
+                                    ?next_marker: ::String,
+                                    ?limit: ::Integer,
+                                    ?sort_by: ("REVENUE" | "PERCENTAGE" | "NAME"),
+                                    ?sort_order: ("ASC" | "DESC")
+                                  ) -> _GetRevenueStatisticsResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRevenueStatisticsResponseSuccess
+
+      interface _GetRevenueStatisticsSummaryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetRevenueStatisticsSummaryResponse]
+        def revenue_breakdown: () -> Types::RevenueBreakdown
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/WAFV2/Client.html#get_revenue_statistics_summary-instance_method
+      def get_revenue_statistics_summary: (
+                                            time_window: {
+                                              start_time: ::Time,
+                                              end_time: ::Time
+                                            },
+                                            scope: ("CLOUDFRONT" | "REGIONAL"),
+                                            currency: ("USDC"),
+                                            ?filters: Array[
+                                              {
+                                                name: ::String,
+                                                values: Array[::String]
+                                              }
+                                            ]
+                                          ) -> _GetRevenueStatisticsSummaryResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRevenueStatisticsSummaryResponseSuccess
+
+      interface _GetRevenueStatisticsTimeSeriesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetRevenueStatisticsTimeSeriesResponse]
+        def data_points: () -> ::Array[Types::DataPointEntry]
+        def next_marker: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/WAFV2/Client.html#get_revenue_statistics_time_series-instance_method
+      def get_revenue_statistics_time_series: (
+                                                statistic_type: ("DATE_HISTOGRAM" | "PAYMENT_TRAFFIC"),
+                                                time_window: {
+                                                  start_time: ::Time,
+                                                  end_time: ::Time
+                                                },
+                                                scope: ("CLOUDFRONT" | "REGIONAL"),
+                                                interval: ("MINUTELY" | "FIVE_MINUTELY" | "HOURLY" | "DAILY"),
+                                                currency: ("USDC"),
+                                                ?group_by: ("NAME" | "CATEGORY" | "INTENT" | "ORGANIZATION" | "WEBACL"),
+                                                ?filters: Array[
+                                                  {
+                                                    name: ::String,
+                                                    values: Array[::String]
+                                                  }
+                                                ],
+                                                ?limit: ::Integer,
+                                                ?next_marker: ::String
+                                              ) -> _GetRevenueStatisticsTimeSeriesResponseSuccess
+                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetRevenueStatisticsTimeSeriesResponseSuccess
+
       interface _GetRuleGroupResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetRuleGroupResponse]
         def rule_group: () -> Types::RuleGroup
@@ -710,6 +789,32 @@ module Aws
                             ) -> _ListRuleGroupsResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListRuleGroupsResponseSuccess
 
+      interface _ListSettlementRecordsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSettlementRecordsResponse]
+        def settlements: () -> ::Array[Types::SettlementRecord]
+        def next_marker: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/WAFV2/Client.html#list_settlement_records-instance_method
+      def list_settlement_records: (
+                                     time_window: {
+                                       start_time: ::Time,
+                                       end_time: ::Time
+                                     },
+                                     scope: ("CLOUDFRONT" | "REGIONAL"),
+                                     currency: ("USDC"),
+                                     ?filters: Array[
+                                       {
+                                         name: ::String,
+                                         values: Array[::String]
+                                       }
+                                     ],
+                                     ?sort_by: ("TIMESTAMP" | "AMOUNT" | "NAME" | "STATUS"),
+                                     ?sort_order: ("ASC" | "DESC"),
+                                     ?limit: ::Integer,
+                                     ?next_marker: ::String
+                                   ) -> _ListSettlementRecordsResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSettlementRecordsResponseSuccess
+
       interface _ListTagsForResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceResponse]
         def next_marker: () -> ::String
@@ -757,7 +862,7 @@ module Aws
                                                conditions: Array[
                                                  {
                                                    action_condition: {
-                                                     action: ("ALLOW" | "BLOCK" | "COUNT" | "CAPTCHA" | "CHALLENGE" | "EXCLUDED_AS_COUNT")
+                                                     action: ("ALLOW" | "BLOCK" | "COUNT" | "CAPTCHA" | "CHALLENGE" | "MONETIZE" | "EXCLUDED_AS_COUNT")
                                                    }?,
                                                    label_name_condition: {
                                                      label_name: ::String
@@ -900,7 +1005,8 @@ module Aws
                                ?custom_response_bodies: Hash[::String, {
                                    content_type: ("TEXT_PLAIN" | "TEXT_HTML" | "APPLICATION_JSON"),
                                    content: ::String
-                                 }]
+                                 }],
+                               ?monetization_config: Params::monetization_config
                              ) -> _UpdateRuleGroupResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateRuleGroupResponseSuccess
 
@@ -955,7 +1061,8 @@ module Aws
                                   values: Array[::String]?
                                 }
                               ]?
-                            }
+                            },
+                            ?monetization_config: Params::monetization_config
                           ) -> _UpdateWebACLResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateWebACLResponseSuccess
     end

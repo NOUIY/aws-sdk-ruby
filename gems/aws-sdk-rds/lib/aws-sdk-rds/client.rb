@@ -2447,11 +2447,17 @@ module Aws::RDS
     #
     #   * `custom-sqlserver-se`
     #
-    #   * `ccustom-sqlserver-web`
+    #   * `custom-sqlserver-web`
     #
     #   * `custom-sqlserver-dev`
     #
-    #   RDS for SQL Server supports only `sqlserver-dev-ee`.
+    #   RDS for SQL Server supports the following values:
+    #
+    #   * `sqlserver-ee` (Bring Your Own Media)
+    #
+    #   * `sqlserver-se` (Bring Your Own Media)
+    #
+    #   * `sqlserver-dev-ee`
     #
     # @option params [required, String] :engine_version
     #   The name of your custom engine version (CEV).
@@ -2460,9 +2466,14 @@ module Aws::RDS
     #   `19.*customized_string*`. For example, a valid CEV name is
     #   `19.my_cev1`.
     #
-    #   For RDS for SQL Server and RDS Custom for SQL Server, the name format
-    #   is `major engine_version*.*minor_engine_version*.*customized_string*`.
+    #   For RDS Custom for SQL Server and RDS for SQL Server
+    #   `sqlserver-dev-ee`, the name format is
+    #   `*major_engine_version*.*minor_engine_version*.*customized_string*`.
     #   For example, a valid CEV name is `16.00.4215.2.my_cev1`.
+    #
+    #   For RDS for SQL Server Bring Your Own Media (`sqlserver-ee`,
+    #   `sqlserver-se`), specify the RDS engine version that you want to use.
+    #   For example, `16.00.4175.1.v1`.
     #
     #   The CEV name is unique per customer per Amazon Web Services Regions.
     #
@@ -2479,6 +2490,10 @@ module Aws::RDS
     # @option params [Array<String>] :database_installation_files
     #   The database installation files (ISO and EXE) uploaded to Amazon S3
     #   for your database engine version to import to Amazon RDS.
+    #
+    #   For RDS for SQL Server Bring Your Own Media (`sqlserver-ee`,
+    #   `sqlserver-se`), provide the SQL Server RTM ISO file once per major
+    #   version and edition combination. Minor versions reuse the same file.
     #
     # @option params [String] :image_id
     #   The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL
@@ -4914,6 +4929,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb`
@@ -5269,7 +5286,8 @@ module Aws::RDS
     #
     #   * RDS for MariaDB - `general-public-license`
     #
-    #   * RDS for Microsoft SQL Server - `license-included`
+    #   * RDS for Microsoft SQL Server - `license-included |
+    #     bring-your-own-media`
     #
     #   * RDS for MySQL - `general-public-license`
     #
@@ -6921,10 +6939,11 @@ module Aws::RDS
     #
     #   Db2
     #
-    #   : Standby DB replicas are included in Db2 Advanced Edition (AE) and
-    #     Db2 Standard Edition (SE). The main use case for standby replicas is
-    #     cross-Region disaster recovery. Because it doesn't accept user
-    #     connections, a standby replica can't serve a read-only workload.
+    #   : Standby DB replicas are included in Db2 Advanced Edition (AE), Db2
+    #     Community Edition (CE), and Db2 Standard Edition (SE). The main use
+    #     case for standby replicas is cross-Region disaster recovery. Because
+    #     it doesn't accept user connections, a standby replica can't serve
+    #     a read-only workload.
     #
     #     You can create a combination of standby and read-only DB replicas
     #     for the same primary DB instance. For more information, see [Working
@@ -7476,6 +7495,8 @@ module Aws::RDS
     #   * `aurora-postgresql`
     #
     #   * `db2-ae`
+    #
+    #   * `db2-ce`
     #
     #   * `db2-se`
     #
@@ -8948,6 +8969,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb`
@@ -9480,11 +9503,17 @@ module Aws::RDS
     #
     #   * `custom-sqlserver-se`
     #
-    #   * `ccustom-sqlserver-web`
+    #   * `custom-sqlserver-web`
     #
     #   * `custom-sqlserver-dev`
     #
-    #   RDS for SQL Server supports only `sqlserver-dev-ee`.
+    #   RDS for SQL Server supports the following values:
+    #
+    #   * `sqlserver-ee` (Bring Your Own Media)
+    #
+    #   * `sqlserver-se` (Bring Your Own Media)
+    #
+    #   * `sqlserver-dev-ee`
     #
     # @option params [required, String] :engine_version
     #   The custom engine version (CEV) for your DB instance. This option is
@@ -13504,6 +13533,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb`
@@ -13527,6 +13558,8 @@ module Aws::RDS
     #   * `sqlserver-ex`
     #
     #   * `sqlserver-web`
+    #
+    #   * `sqlserver-dev-ee`
     #
     # @option params [String] :engine_version
     #   A specific database engine version to return details for.
@@ -14405,6 +14438,8 @@ module Aws::RDS
     #   * `custom-sqlserver-web`
     #
     #   * `db2-ae`
+    #
+    #   * `db2-ce`
     #
     #   * `db2-se`
     #
@@ -16159,6 +16194,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb10.2`
@@ -17155,6 +17192,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb`
@@ -17353,6 +17392,8 @@ module Aws::RDS
     #
     #   * `db2-ae`
     #
+    #   * `db2-ce`
+    #
     #   * `db2-se`
     #
     #   * `mariadb`
@@ -17498,6 +17539,8 @@ module Aws::RDS
     #   * `custom-oracle-se2-cdb`
     #
     #   * `db2-ae`
+    #
+    #   * `db2-ce`
     #
     #   * `db2-se`
     #
@@ -19704,11 +19747,17 @@ module Aws::RDS
     #
     #   * `custom-sqlserver-se`
     #
-    #   * `ccustom-sqlserver-web`
+    #   * `custom-sqlserver-web`
     #
     #   * `custom-sqlserver-dev`
     #
-    #   RDS for SQL Server supports only `sqlserver-dev-ee`.
+    #   RDS for SQL Server supports the following values:
+    #
+    #   * `sqlserver-ee` (Bring Your Own Media)
+    #
+    #   * `sqlserver-se` (Bring Your Own Media)
+    #
+    #   * `sqlserver-dev-ee`
     #
     # @option params [required, String] :engine_version
     #   The custom engine version (CEV) that you want to modify. This option
@@ -21667,7 +21716,8 @@ module Aws::RDS
     #
     #   * RDS for MariaDB - `general-public-license`
     #
-    #   * RDS for Microsoft SQL Server - `license-included`
+    #   * RDS for Microsoft SQL Server - `license-included |
+    #     bring-your-own-media`
     #
     #   * RDS for MySQL - `general-public-license`
     #
@@ -22188,10 +22238,11 @@ module Aws::RDS
     #
     #   Db2
     #
-    #   : Standby DB replicas are included in Db2 Advanced Edition (AE) and
-    #     Db2 Standard Edition (SE). The main use case for standby replicas is
-    #     cross-Region disaster recovery. Because it doesn't accept user
-    #     connections, a standby replica can't serve a read-only workload.
+    #   : Standby DB replicas are included in Db2 Advanced Edition (AE), Db2
+    #     Community Edition (CE), and Db2 Standard Edition (SE). The main use
+    #     case for standby replicas is cross-Region disaster recovery. Because
+    #     it doesn't accept user connections, a standby replica can't serve
+    #     a read-only workload.
     #
     #     You can create a combination of standby and read-only DB replicas
     #     for the same primary DB instance. For more information, see [Working
@@ -29064,7 +29115,8 @@ module Aws::RDS
     #
     #   * RDS for MariaDB - `general-public-license`
     #
-    #   * RDS for Microsoft SQL Server - `license-included`
+    #   * RDS for Microsoft SQL Server - `license-included |
+    #     bring-your-own-media`
     #
     #   * RDS for MySQL - `general-public-license`
     #
@@ -29099,6 +29151,8 @@ module Aws::RDS
     #   Valid Values:
     #
     #   * `db2-ae`
+    #
+    #   * `db2-ce`
     #
     #   * `db2-se`
     #
@@ -30996,7 +31050,8 @@ module Aws::RDS
     #
     #   * RDS for MariaDB - `general-public-license`
     #
-    #   * RDS for Microsoft SQL Server - `license-included`
+    #   * RDS for Microsoft SQL Server - `license-included |
+    #     bring-your-own-media`
     #
     #   * RDS for MySQL - `general-public-license`
     #
@@ -31031,6 +31086,8 @@ module Aws::RDS
     #   Valid Values:
     #
     #   * `db2-ae`
+    #
+    #   * `db2-ce`
     #
     #   * `db2-se`
     #
@@ -34130,7 +34187,7 @@ module Aws::RDS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-rds'
-      context[:gem_version] = '1.315.0'
+      context[:gem_version] = '1.316.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

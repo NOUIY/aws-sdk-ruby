@@ -2295,6 +2295,386 @@ module Aws::BedrockRuntime
       include Aws::Structure
     end
 
+    # The configuration for inline guardrail checks. Specify one or more
+    # check types to run against the messages.
+    #
+    # @!attribute [rw] content_filter
+    #   The content filter check configuration.
+    #   @return [Types::GuardrailChecksContentFilterConfig]
+    #
+    # @!attribute [rw] prompt_attack
+    #   The prompt attack check configuration.
+    #   @return [Types::GuardrailChecksPromptAttackConfig]
+    #
+    # @!attribute [rw] sensitive_information
+    #   The sensitive information check configuration.
+    #   @return [Types::GuardrailChecksSensitiveInformationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksConfig AWS API Documentation
+    #
+    class GuardrailChecksConfig < Struct.new(
+      :content_filter,
+      :prompt_attack,
+      :sensitive_information)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A content block within a message to evaluate.
+    #
+    # @note GuardrailChecksContentBlock is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] text
+    #   The text content to evaluate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksContentBlock AWS API Documentation
+    #
+    class GuardrailChecksContentBlock < Struct.new(
+      :text,
+      :unknown)
+      SENSITIVE = [:text]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Text < GuardrailChecksContentBlock; end
+      class Unknown < GuardrailChecksContentBlock; end
+    end
+
+    # The configuration for a single content filter category to evaluate.
+    #
+    # @!attribute [rw] category
+    #   The content filter category to evaluate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksContentFilterCategoryConfig AWS API Documentation
+    #
+    class GuardrailChecksContentFilterCategoryConfig < Struct.new(
+      :category)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for the content filter check, specifying which
+    # categories to evaluate.
+    #
+    # @!attribute [rw] categories
+    #   The content filter categories to evaluate.
+    #   @return [Array<Types::GuardrailChecksContentFilterCategoryConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksContentFilterConfig AWS API Documentation
+    #
+    class GuardrailChecksContentFilterConfig < Struct.new(
+      :categories)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The content filter check results.
+    #
+    # @!attribute [rw] results
+    #   The per-category content filter results.
+    #   @return [Array<Types::GuardrailChecksContentFilterResultEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksContentFilterResult AWS API Documentation
+    #
+    class GuardrailChecksContentFilterResult < Struct.new(
+      :results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The evaluation result for a single content filter category.
+    #
+    # @!attribute [rw] category
+    #   The content filter category that was evaluated.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity_score
+    #   The severity score for the category, ranging from 0.0 to 1.0. Higher
+    #   values indicate greater severity.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksContentFilterResultEntry AWS API Documentation
+    #
+    class GuardrailChecksContentFilterResultEntry < Struct.new(
+      :category,
+      :severity_score)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The text unit usage for the content filter check.
+    #
+    # @!attribute [rw] text_units
+    #   The number of text units consumed by the content filter check.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksContentFilterUsage AWS API Documentation
+    #
+    class GuardrailChecksContentFilterUsage < Struct.new(
+      :text_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A message to evaluate against guardrail checks, containing a role and
+    # content blocks.
+    #
+    # @!attribute [rw] role
+    #   The role of the message sender.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The content blocks for the message.
+    #   @return [Array<Types::GuardrailChecksContentBlock>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksMessage AWS API Documentation
+    #
+    class GuardrailChecksMessage < Struct.new(
+      :role,
+      :content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for a single prompt attack category to evaluate.
+    #
+    # @!attribute [rw] category
+    #   The prompt attack category to evaluate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksPromptAttackCategoryConfig AWS API Documentation
+    #
+    class GuardrailChecksPromptAttackCategoryConfig < Struct.new(
+      :category)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for the prompt attack check, specifying which
+    # categories to evaluate.
+    #
+    # @!attribute [rw] categories
+    #   The prompt attack categories to evaluate.
+    #   @return [Array<Types::GuardrailChecksPromptAttackCategoryConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksPromptAttackConfig AWS API Documentation
+    #
+    class GuardrailChecksPromptAttackConfig < Struct.new(
+      :categories)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The prompt attack check results.
+    #
+    # @!attribute [rw] results
+    #   The per-category prompt attack results.
+    #   @return [Array<Types::GuardrailChecksPromptAttackResultEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksPromptAttackResult AWS API Documentation
+    #
+    class GuardrailChecksPromptAttackResult < Struct.new(
+      :results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The evaluation result for a single prompt attack category.
+    #
+    # @!attribute [rw] category
+    #   The prompt attack category that was evaluated.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity_score
+    #   The severity score for the category, ranging from 0.0 to 1.0. Higher
+    #   values indicate greater severity.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksPromptAttackResultEntry AWS API Documentation
+    #
+    class GuardrailChecksPromptAttackResultEntry < Struct.new(
+      :category,
+      :severity_score)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The text unit usage for the prompt attack check.
+    #
+    # @!attribute [rw] text_units
+    #   The number of text units consumed by the prompt attack check.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksPromptAttackUsage AWS API Documentation
+    #
+    class GuardrailChecksPromptAttackUsage < Struct.new(
+      :text_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The results from the guardrail checks evaluation, organized by check
+    # type.
+    #
+    # @!attribute [rw] content_filter
+    #   The content filter check results.
+    #   @return [Types::GuardrailChecksContentFilterResult]
+    #
+    # @!attribute [rw] prompt_attack
+    #   The prompt attack check results.
+    #   @return [Types::GuardrailChecksPromptAttackResult]
+    #
+    # @!attribute [rw] sensitive_information
+    #   The sensitive information check results.
+    #   @return [Types::GuardrailChecksSensitiveInformationResult]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksResults AWS API Documentation
+    #
+    class GuardrailChecksResults < Struct.new(
+      :content_filter,
+      :prompt_attack,
+      :sensitive_information)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for the sensitive information check, specifying
+    # which entity types to detect.
+    #
+    # @!attribute [rw] entities
+    #   The sensitive information entity types to detect.
+    #   @return [Array<Types::GuardrailChecksSensitiveInformationEntityConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksSensitiveInformationConfig AWS API Documentation
+    #
+    class GuardrailChecksSensitiveInformationConfig < Struct.new(
+      :entities)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for a single sensitive information entity type to
+    # detect.
+    #
+    # @!attribute [rw] type
+    #   The PII entity type to detect.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksSensitiveInformationEntityConfig AWS API Documentation
+    #
+    class GuardrailChecksSensitiveInformationEntityConfig < Struct.new(
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The sensitive information check results.
+    #
+    # @!attribute [rw] results
+    #   The detected sensitive information entities.
+    #   @return [Array<Types::GuardrailChecksSensitiveInformationResultEntry>]
+    #
+    # @!attribute [rw] truncated
+    #   Specifies whether the results were truncated because the number of
+    #   detected entities exceeded the maximum limit.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksSensitiveInformationResult AWS API Documentation
+    #
+    class GuardrailChecksSensitiveInformationResult < Struct.new(
+      :results,
+      :truncated)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The detection result for a single sensitive information entity found
+    # in the evaluated messages.
+    #
+    # @!attribute [rw] type
+    #   The PII entity type that was detected.
+    #   @return [String]
+    #
+    # @!attribute [rw] confidence_score
+    #   The confidence score for the detection, ranging from 0.0 to 1.0.
+    #   Higher values indicate greater confidence.
+    #   @return [Float]
+    #
+    # @!attribute [rw] begin_offset
+    #   The start character offset of the detected entity within the content
+    #   block.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] end_offset
+    #   The end character offset of the detected entity within the content
+    #   block.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] message_index
+    #   The zero-based index of the message in the input messages array
+    #   where the entity was detected.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] content_index
+    #   The zero-based index of the content block within the message where
+    #   the entity was detected.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksSensitiveInformationResultEntry AWS API Documentation
+    #
+    class GuardrailChecksSensitiveInformationResultEntry < Struct.new(
+      :type,
+      :confidence_score,
+      :begin_offset,
+      :end_offset,
+      :message_index,
+      :content_index)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The text unit usage for the sensitive information check.
+    #
+    # @!attribute [rw] text_units
+    #   The number of text units consumed by the sensitive information
+    #   check.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksSensitiveInformationUsage AWS API Documentation
+    #
+    class GuardrailChecksSensitiveInformationUsage < Struct.new(
+      :text_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The text unit usage for the guardrail checks evaluation, organized by
+    # check type.
+    #
+    # @!attribute [rw] content_filter
+    #   The text unit usage for the content filter check.
+    #   @return [Types::GuardrailChecksContentFilterUsage]
+    #
+    # @!attribute [rw] prompt_attack
+    #   The text unit usage for the prompt attack check.
+    #   @return [Types::GuardrailChecksPromptAttackUsage]
+    #
+    # @!attribute [rw] sensitive_information
+    #   The text unit usage for the sensitive information check.
+    #   @return [Types::GuardrailChecksSensitiveInformationUsage]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/GuardrailChecksUsageResults AWS API Documentation
+    #
+    class GuardrailChecksUsageResults < Struct.new(
+      :content_filter,
+      :prompt_attack,
+      :sensitive_information)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration information for a guardrail that you use with the
     # [Converse][1] operation.
     #
@@ -3238,6 +3618,43 @@ module Aws::BedrockRuntime
     class InternalServerException < Struct.new(
       :message,
       :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] messages
+    #   The messages to evaluate against the specified guardrail checks.
+    #   Each message includes a role and one or more content blocks.
+    #   @return [Array<Types::GuardrailChecksMessage>]
+    #
+    # @!attribute [rw] checks
+    #   The inline check configurations that specify which guardrail checks
+    #   to run against the messages.
+    #   @return [Types::GuardrailChecksConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/InvokeGuardrailChecksRequest AWS API Documentation
+    #
+    class InvokeGuardrailChecksRequest < Struct.new(
+      :messages,
+      :checks)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] results
+    #   The per-check results containing findings from the guardrail
+    #   evaluation.
+    #   @return [Types::GuardrailChecksResults]
+    #
+    # @!attribute [rw] usage
+    #   The per-check text unit consumption for the guardrail evaluation.
+    #   @return [Types::GuardrailChecksUsageResults]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-runtime-2023-09-30/InvokeGuardrailChecksResponse AWS API Documentation
+    #
+    class InvokeGuardrailChecksResponse < Struct.new(
+      :results,
+      :usage)
       SENSITIVE = []
       include Aws::Structure
     end

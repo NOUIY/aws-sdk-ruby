@@ -975,6 +975,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -1330,6 +1333,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -1468,6 +1474,9 @@ module Aws::WAFV2
     #                 },
     #               ],
     #             },
+    #           },
+    #           monetize: {
+    #             price_multiplier: "PriceMultiplier",
     #           },
     #         },
     #         override_action: {
@@ -1840,6 +1849,10 @@ module Aws::WAFV2
     #   [1]: https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html
     #   [2]: https://docs.aws.amazon.com/waf/latest/developerguide/limits.html
     #
+    # @option params [Types::MonetizationConfig] :monetization_config
+    #   The monetization configuration for the rule group. Provide this when
+    #   any rule in the rule group uses the `Monetize` action.
+    #
     # @return [Types::CreateRuleGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateRuleGroupResponse#summary #summary} => Types::RuleGroupSummary
@@ -2207,6 +2220,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -2562,6 +2578,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -2701,6 +2720,9 @@ module Aws::WAFV2
     #               ],
     #             },
     #           },
+    #           monetize: {
+    #             price_multiplier: "PriceMultiplier",
+    #           },
     #         },
     #         override_action: {
     #           count: {
@@ -2754,6 +2776,23 @@ module Aws::WAFV2
     #         content_type: "TEXT_PLAIN", # required, accepts TEXT_PLAIN, TEXT_HTML, APPLICATION_JSON
     #         content: "ResponseContent", # required
     #       },
+    #     },
+    #     monetization_config: {
+    #       crypto_config: {
+    #         payment_networks: [ # required
+    #           {
+    #             chain: "BASE", # required, accepts BASE, SOLANA, BASE_SEPOLIA, SOLANA_DEVNET
+    #             wallet_address: "WalletAddress", # required
+    #             prices: [ # required
+    #               {
+    #                 amount: "PriceAmount", # required
+    #                 currency: "USDC", # required, accepts USDC
+    #               },
+    #             ],
+    #           },
+    #         ],
+    #       },
+    #       currency_mode: "REAL", # accepts REAL, TEST
     #     },
     #   })
     #
@@ -2918,987 +2957,13 @@ module Aws::WAFV2
     #   Application attributes help WAF give recommendations for protection
     #   packs.
     #
+    # @option params [Types::MonetizationConfig] :monetization_config
+    #   The monetization configuration for the web ACL. Provide this when any
+    #   rule in the web ACL uses the `Monetize` action.
+    #
     # @return [Types::CreateWebACLResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateWebACLResponse#summary #summary} => Types::WebACLSummary
-    #
-    # @example Request syntax with placeholder values
-    #
-    #   resp = client.create_web_acl({
-    #     name: "EntityName", # required
-    #     scope: "CLOUDFRONT", # required, accepts CLOUDFRONT, REGIONAL
-    #     default_action: { # required
-    #       block: {
-    #         custom_response: {
-    #           response_code: 1, # required
-    #           custom_response_body_key: "EntityName",
-    #           response_headers: [
-    #             {
-    #               name: "CustomHTTPHeaderName", # required
-    #               value: "CustomHTTPHeaderValue", # required
-    #             },
-    #           ],
-    #         },
-    #       },
-    #       allow: {
-    #         custom_request_handling: {
-    #           insert_headers: [ # required
-    #             {
-    #               name: "CustomHTTPHeaderName", # required
-    #               value: "CustomHTTPHeaderValue", # required
-    #             },
-    #           ],
-    #         },
-    #       },
-    #     },
-    #     description: "EntityDescription",
-    #     rules: [
-    #       {
-    #         name: "EntityName", # required
-    #         priority: 1, # required
-    #         statement: { # required
-    #           byte_match_statement: {
-    #             search_string: "data", # required
-    #             field_to_match: { # required
-    #               single_header: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               single_query_argument: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               all_query_arguments: {
-    #               },
-    #               uri_path: {
-    #               },
-    #               query_string: {
-    #               },
-    #               body: {
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               method: {
-    #               },
-    #               json_body: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_paths: ["JsonPointerPath"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 invalid_fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH, EVALUATE_AS_STRING
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               headers: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_headers: ["FieldToMatchData"],
-    #                   excluded_headers: ["FieldToMatchData"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               cookies: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_cookies: ["SingleCookieName"],
-    #                   excluded_cookies: ["SingleCookieName"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               header_order: {
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               ja3_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               ja4_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               uri_fragment: {
-    #                 fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH
-    #               },
-    #             },
-    #             text_transformations: [ # required
-    #               {
-    #                 priority: 1, # required
-    #                 type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #               },
-    #             ],
-    #             positional_constraint: "EXACTLY", # required, accepts EXACTLY, STARTS_WITH, ENDS_WITH, CONTAINS, CONTAINS_WORD
-    #           },
-    #           sqli_match_statement: {
-    #             field_to_match: { # required
-    #               single_header: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               single_query_argument: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               all_query_arguments: {
-    #               },
-    #               uri_path: {
-    #               },
-    #               query_string: {
-    #               },
-    #               body: {
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               method: {
-    #               },
-    #               json_body: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_paths: ["JsonPointerPath"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 invalid_fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH, EVALUATE_AS_STRING
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               headers: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_headers: ["FieldToMatchData"],
-    #                   excluded_headers: ["FieldToMatchData"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               cookies: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_cookies: ["SingleCookieName"],
-    #                   excluded_cookies: ["SingleCookieName"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               header_order: {
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               ja3_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               ja4_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               uri_fragment: {
-    #                 fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH
-    #               },
-    #             },
-    #             text_transformations: [ # required
-    #               {
-    #                 priority: 1, # required
-    #                 type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #               },
-    #             ],
-    #             sensitivity_level: "LOW", # accepts LOW, HIGH
-    #           },
-    #           xss_match_statement: {
-    #             field_to_match: { # required
-    #               single_header: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               single_query_argument: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               all_query_arguments: {
-    #               },
-    #               uri_path: {
-    #               },
-    #               query_string: {
-    #               },
-    #               body: {
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               method: {
-    #               },
-    #               json_body: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_paths: ["JsonPointerPath"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 invalid_fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH, EVALUATE_AS_STRING
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               headers: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_headers: ["FieldToMatchData"],
-    #                   excluded_headers: ["FieldToMatchData"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               cookies: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_cookies: ["SingleCookieName"],
-    #                   excluded_cookies: ["SingleCookieName"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               header_order: {
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               ja3_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               ja4_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               uri_fragment: {
-    #                 fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH
-    #               },
-    #             },
-    #             text_transformations: [ # required
-    #               {
-    #                 priority: 1, # required
-    #                 type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #               },
-    #             ],
-    #           },
-    #           size_constraint_statement: {
-    #             field_to_match: { # required
-    #               single_header: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               single_query_argument: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               all_query_arguments: {
-    #               },
-    #               uri_path: {
-    #               },
-    #               query_string: {
-    #               },
-    #               body: {
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               method: {
-    #               },
-    #               json_body: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_paths: ["JsonPointerPath"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 invalid_fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH, EVALUATE_AS_STRING
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               headers: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_headers: ["FieldToMatchData"],
-    #                   excluded_headers: ["FieldToMatchData"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               cookies: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_cookies: ["SingleCookieName"],
-    #                   excluded_cookies: ["SingleCookieName"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               header_order: {
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               ja3_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               ja4_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               uri_fragment: {
-    #                 fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH
-    #               },
-    #             },
-    #             comparison_operator: "EQ", # required, accepts EQ, NE, LE, LT, GE, GT
-    #             size: 1, # required
-    #             text_transformations: [ # required
-    #               {
-    #                 priority: 1, # required
-    #                 type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #               },
-    #             ],
-    #           },
-    #           geo_match_statement: {
-    #             country_codes: ["AF"], # accepts AF, AX, AL, DZ, AS, AD, AO, AI, AQ, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BM, BT, BO, BQ, BA, BW, BV, BR, IO, BN, BG, BF, BI, KH, CM, CA, CV, KY, CF, TD, CL, CN, CX, CC, CO, KM, CG, CD, CK, CR, CI, HR, CU, CW, CY, CZ, DK, DJ, DM, DO, EC, EG, SV, GQ, ER, EE, ET, FK, FO, FJ, FI, FR, GF, PF, TF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HM, VA, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KP, KR, KW, KG, LA, LV, LB, LS, LR, LY, LI, LT, LU, MO, MK, MG, MW, MY, MV, ML, MT, MH, MQ, MR, MU, YT, MX, FM, MD, MC, MN, ME, MS, MA, MZ, MM, NA, NR, NP, NL, NC, NZ, NI, NE, NG, NU, NF, MP, NO, OM, PK, PW, PS, PA, PG, PY, PE, PH, PN, PL, PT, PR, QA, RE, RO, RU, RW, BL, SH, KN, LC, MF, PM, VC, WS, SM, ST, SA, SN, RS, SC, SL, SG, SX, SK, SI, SB, SO, ZA, GS, SS, ES, LK, SD, SR, SJ, SZ, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TK, TO, TT, TN, TR, TM, TC, TV, UG, UA, AE, GB, US, UM, UY, UZ, VU, VE, VN, VG, VI, WF, EH, YE, ZM, ZW, XK
-    #             forwarded_ip_config: {
-    #               header_name: "ForwardedIPHeaderName", # required
-    #               fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #             },
-    #           },
-    #           rule_group_reference_statement: {
-    #             arn: "ResourceArn", # required
-    #             excluded_rules: [
-    #               {
-    #                 name: "EntityName", # required
-    #               },
-    #             ],
-    #             rule_action_overrides: [
-    #               {
-    #                 name: "EntityName", # required
-    #                 action_to_use: { # required
-    #                   block: {
-    #                     custom_response: {
-    #                       response_code: 1, # required
-    #                       custom_response_body_key: "EntityName",
-    #                       response_headers: [
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   allow: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   count: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   captcha: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   challenge: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                 },
-    #               },
-    #             ],
-    #           },
-    #           ip_set_reference_statement: {
-    #             arn: "ResourceArn", # required
-    #             ip_set_forwarded_ip_config: {
-    #               header_name: "ForwardedIPHeaderName", # required
-    #               fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               position: "FIRST", # required, accepts FIRST, LAST, ANY
-    #             },
-    #           },
-    #           regex_pattern_set_reference_statement: {
-    #             arn: "ResourceArn", # required
-    #             field_to_match: { # required
-    #               single_header: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               single_query_argument: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               all_query_arguments: {
-    #               },
-    #               uri_path: {
-    #               },
-    #               query_string: {
-    #               },
-    #               body: {
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               method: {
-    #               },
-    #               json_body: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_paths: ["JsonPointerPath"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 invalid_fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH, EVALUATE_AS_STRING
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               headers: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_headers: ["FieldToMatchData"],
-    #                   excluded_headers: ["FieldToMatchData"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               cookies: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_cookies: ["SingleCookieName"],
-    #                   excluded_cookies: ["SingleCookieName"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               header_order: {
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               ja3_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               ja4_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               uri_fragment: {
-    #                 fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH
-    #               },
-    #             },
-    #             text_transformations: [ # required
-    #               {
-    #                 priority: 1, # required
-    #                 type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #               },
-    #             ],
-    #           },
-    #           rate_based_statement: {
-    #             limit: 1, # required
-    #             evaluation_window_sec: 1,
-    #             aggregate_key_type: "IP", # required, accepts IP, FORWARDED_IP, CUSTOM_KEYS, CONSTANT
-    #             scope_down_statement: {
-    #               # recursive Statement
-    #             },
-    #             forwarded_ip_config: {
-    #               header_name: "ForwardedIPHeaderName", # required
-    #               fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #             },
-    #             custom_keys: [
-    #               {
-    #                 header: {
-    #                   name: "FieldToMatchData", # required
-    #                   text_transformations: [ # required
-    #                     {
-    #                       priority: 1, # required
-    #                       type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #                     },
-    #                   ],
-    #                 },
-    #                 cookie: {
-    #                   name: "FieldToMatchData", # required
-    #                   text_transformations: [ # required
-    #                     {
-    #                       priority: 1, # required
-    #                       type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #                     },
-    #                   ],
-    #                 },
-    #                 query_argument: {
-    #                   name: "FieldToMatchData", # required
-    #                   text_transformations: [ # required
-    #                     {
-    #                       priority: 1, # required
-    #                       type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #                     },
-    #                   ],
-    #                 },
-    #                 query_string: {
-    #                   text_transformations: [ # required
-    #                     {
-    #                       priority: 1, # required
-    #                       type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #                     },
-    #                   ],
-    #                 },
-    #                 http_method: {
-    #                 },
-    #                 forwarded_ip: {
-    #                 },
-    #                 ip: {
-    #                 },
-    #                 label_namespace: {
-    #                   namespace: "LabelNamespace", # required
-    #                 },
-    #                 uri_path: {
-    #                   text_transformations: [ # required
-    #                     {
-    #                       priority: 1, # required
-    #                       type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #                     },
-    #                   ],
-    #                 },
-    #                 ja3_fingerprint: {
-    #                   fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #                 },
-    #                 ja4_fingerprint: {
-    #                   fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #                 },
-    #                 asn: {
-    #                 },
-    #               },
-    #             ],
-    #           },
-    #           and_statement: {
-    #             statements: [ # required
-    #               {
-    #                 # recursive Statement
-    #               },
-    #             ],
-    #           },
-    #           or_statement: {
-    #             statements: [ # required
-    #               {
-    #                 # recursive Statement
-    #               },
-    #             ],
-    #           },
-    #           not_statement: {
-    #             statement: { # required
-    #               # recursive Statement
-    #             },
-    #           },
-    #           managed_rule_group_statement: {
-    #             vendor_name: "VendorName", # required
-    #             name: "EntityName", # required
-    #             version: "VersionKeyString",
-    #             excluded_rules: [
-    #               {
-    #                 name: "EntityName", # required
-    #               },
-    #             ],
-    #             scope_down_statement: {
-    #               # recursive Statement
-    #             },
-    #             managed_rule_group_configs: [
-    #               {
-    #                 login_path: "LoginPathString",
-    #                 payload_type: "JSON", # accepts JSON, FORM_ENCODED
-    #                 username_field: {
-    #                   identifier: "FieldIdentifier", # required
-    #                 },
-    #                 password_field: {
-    #                   identifier: "FieldIdentifier", # required
-    #                 },
-    #                 aws_managed_rules_bot_control_rule_set: {
-    #                   inspection_level: "COMMON", # required, accepts COMMON, TARGETED
-    #                   enable_machine_learning: false,
-    #                 },
-    #                 aws_managed_rules_atp_rule_set: {
-    #                   login_path: "String", # required
-    #                   request_inspection: {
-    #                     payload_type: "JSON", # required, accepts JSON, FORM_ENCODED
-    #                     username_field: { # required
-    #                       identifier: "FieldIdentifier", # required
-    #                     },
-    #                     password_field: { # required
-    #                       identifier: "FieldIdentifier", # required
-    #                     },
-    #                   },
-    #                   response_inspection: {
-    #                     status_code: {
-    #                       success_codes: [1], # required
-    #                       failure_codes: [1], # required
-    #                     },
-    #                     header: {
-    #                       name: "ResponseInspectionHeaderName", # required
-    #                       success_values: ["SuccessValue"], # required
-    #                       failure_values: ["FailureValue"], # required
-    #                     },
-    #                     body_contains: {
-    #                       success_strings: ["SuccessValue"], # required
-    #                       failure_strings: ["FailureValue"], # required
-    #                     },
-    #                     json: {
-    #                       identifier: "FieldIdentifier", # required
-    #                       success_values: ["SuccessValue"], # required
-    #                       failure_values: ["FailureValue"], # required
-    #                     },
-    #                   },
-    #                   enable_regex_in_path: false,
-    #                 },
-    #                 aws_managed_rules_acfp_rule_set: {
-    #                   creation_path: "CreationPathString", # required
-    #                   registration_page_path: "RegistrationPagePathString", # required
-    #                   request_inspection: { # required
-    #                     payload_type: "JSON", # required, accepts JSON, FORM_ENCODED
-    #                     username_field: {
-    #                       identifier: "FieldIdentifier", # required
-    #                     },
-    #                     password_field: {
-    #                       identifier: "FieldIdentifier", # required
-    #                     },
-    #                     email_field: {
-    #                       identifier: "FieldIdentifier", # required
-    #                     },
-    #                     phone_number_fields: [
-    #                       {
-    #                         identifier: "FieldIdentifier", # required
-    #                       },
-    #                     ],
-    #                     address_fields: [
-    #                       {
-    #                         identifier: "FieldIdentifier", # required
-    #                       },
-    #                     ],
-    #                   },
-    #                   response_inspection: {
-    #                     status_code: {
-    #                       success_codes: [1], # required
-    #                       failure_codes: [1], # required
-    #                     },
-    #                     header: {
-    #                       name: "ResponseInspectionHeaderName", # required
-    #                       success_values: ["SuccessValue"], # required
-    #                       failure_values: ["FailureValue"], # required
-    #                     },
-    #                     body_contains: {
-    #                       success_strings: ["SuccessValue"], # required
-    #                       failure_strings: ["FailureValue"], # required
-    #                     },
-    #                     json: {
-    #                       identifier: "FieldIdentifier", # required
-    #                       success_values: ["SuccessValue"], # required
-    #                       failure_values: ["FailureValue"], # required
-    #                     },
-    #                   },
-    #                   enable_regex_in_path: false,
-    #                 },
-    #                 aws_managed_rules_anti_d_do_s_rule_set: {
-    #                   client_side_action_config: { # required
-    #                     challenge: { # required
-    #                       usage_of_action: "ENABLED", # required, accepts ENABLED, DISABLED
-    #                       sensitivity: "LOW", # accepts LOW, MEDIUM, HIGH
-    #                       exempt_uri_regular_expressions: [
-    #                         {
-    #                           regex_string: "RegexPatternString",
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   sensitivity_to_block: "LOW", # accepts LOW, MEDIUM, HIGH
-    #                 },
-    #               },
-    #             ],
-    #             rule_action_overrides: [
-    #               {
-    #                 name: "EntityName", # required
-    #                 action_to_use: { # required
-    #                   block: {
-    #                     custom_response: {
-    #                       response_code: 1, # required
-    #                       custom_response_body_key: "EntityName",
-    #                       response_headers: [
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   allow: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   count: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   captcha: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                   challenge: {
-    #                     custom_request_handling: {
-    #                       insert_headers: [ # required
-    #                         {
-    #                           name: "CustomHTTPHeaderName", # required
-    #                           value: "CustomHTTPHeaderValue", # required
-    #                         },
-    #                       ],
-    #                     },
-    #                   },
-    #                 },
-    #               },
-    #             ],
-    #           },
-    #           label_match_statement: {
-    #             scope: "LABEL", # required, accepts LABEL, NAMESPACE
-    #             key: "LabelMatchKey", # required
-    #           },
-    #           regex_match_statement: {
-    #             regex_string: "RegexPatternString", # required
-    #             field_to_match: { # required
-    #               single_header: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               single_query_argument: {
-    #                 name: "FieldToMatchData", # required
-    #               },
-    #               all_query_arguments: {
-    #               },
-    #               uri_path: {
-    #               },
-    #               query_string: {
-    #               },
-    #               body: {
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               method: {
-    #               },
-    #               json_body: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_paths: ["JsonPointerPath"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 invalid_fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH, EVALUATE_AS_STRING
-    #                 oversize_handling: "CONTINUE", # accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               headers: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_headers: ["FieldToMatchData"],
-    #                   excluded_headers: ["FieldToMatchData"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               cookies: {
-    #                 match_pattern: { # required
-    #                   all: {
-    #                   },
-    #                   included_cookies: ["SingleCookieName"],
-    #                   excluded_cookies: ["SingleCookieName"],
-    #                 },
-    #                 match_scope: "ALL", # required, accepts ALL, KEY, VALUE
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               header_order: {
-    #                 oversize_handling: "CONTINUE", # required, accepts CONTINUE, MATCH, NO_MATCH
-    #               },
-    #               ja3_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               ja4_fingerprint: {
-    #                 fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #               },
-    #               uri_fragment: {
-    #                 fallback_behavior: "MATCH", # accepts MATCH, NO_MATCH
-    #               },
-    #             },
-    #             text_transformations: [ # required
-    #               {
-    #                 priority: 1, # required
-    #                 type: "NONE", # required, accepts NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
-    #               },
-    #             ],
-    #           },
-    #           asn_match_statement: {
-    #             asn_list: [1], # required
-    #             forwarded_ip_config: {
-    #               header_name: "ForwardedIPHeaderName", # required
-    #               fallback_behavior: "MATCH", # required, accepts MATCH, NO_MATCH
-    #             },
-    #           },
-    #         },
-    #         action: {
-    #           block: {
-    #             custom_response: {
-    #               response_code: 1, # required
-    #               custom_response_body_key: "EntityName",
-    #               response_headers: [
-    #                 {
-    #                   name: "CustomHTTPHeaderName", # required
-    #                   value: "CustomHTTPHeaderValue", # required
-    #                 },
-    #               ],
-    #             },
-    #           },
-    #           allow: {
-    #             custom_request_handling: {
-    #               insert_headers: [ # required
-    #                 {
-    #                   name: "CustomHTTPHeaderName", # required
-    #                   value: "CustomHTTPHeaderValue", # required
-    #                 },
-    #               ],
-    #             },
-    #           },
-    #           count: {
-    #             custom_request_handling: {
-    #               insert_headers: [ # required
-    #                 {
-    #                   name: "CustomHTTPHeaderName", # required
-    #                   value: "CustomHTTPHeaderValue", # required
-    #                 },
-    #               ],
-    #             },
-    #           },
-    #           captcha: {
-    #             custom_request_handling: {
-    #               insert_headers: [ # required
-    #                 {
-    #                   name: "CustomHTTPHeaderName", # required
-    #                   value: "CustomHTTPHeaderValue", # required
-    #                 },
-    #               ],
-    #             },
-    #           },
-    #           challenge: {
-    #             custom_request_handling: {
-    #               insert_headers: [ # required
-    #                 {
-    #                   name: "CustomHTTPHeaderName", # required
-    #                   value: "CustomHTTPHeaderValue", # required
-    #                 },
-    #               ],
-    #             },
-    #           },
-    #         },
-    #         override_action: {
-    #           count: {
-    #             custom_request_handling: {
-    #               insert_headers: [ # required
-    #                 {
-    #                   name: "CustomHTTPHeaderName", # required
-    #                   value: "CustomHTTPHeaderValue", # required
-    #                 },
-    #               ],
-    #             },
-    #           },
-    #           none: {
-    #           },
-    #         },
-    #         rule_labels: [
-    #           {
-    #             name: "LabelName", # required
-    #           },
-    #         ],
-    #         visibility_config: { # required
-    #           sampled_requests_enabled: false, # required
-    #           cloud_watch_metrics_enabled: false, # required
-    #           metric_name: "MetricName", # required
-    #         },
-    #         captcha_config: {
-    #           immunity_time_property: {
-    #             immunity_time: 1, # required
-    #           },
-    #         },
-    #         challenge_config: {
-    #           immunity_time_property: {
-    #             immunity_time: 1, # required
-    #           },
-    #         },
-    #       },
-    #     ],
-    #     visibility_config: { # required
-    #       sampled_requests_enabled: false, # required
-    #       cloud_watch_metrics_enabled: false, # required
-    #       metric_name: "MetricName", # required
-    #     },
-    #     data_protection_config: {
-    #       data_protections: [ # required
-    #         {
-    #           field: { # required
-    #             field_type: "SINGLE_HEADER", # required, accepts SINGLE_HEADER, SINGLE_COOKIE, SINGLE_QUERY_ARGUMENT, QUERY_STRING, BODY
-    #             field_keys: ["FieldToProtectKeyName"],
-    #           },
-    #           action: "SUBSTITUTION", # required, accepts SUBSTITUTION, HASH
-    #           exclude_rule_match_details: false,
-    #           exclude_rate_based_details: false,
-    #         },
-    #       ],
-    #     },
-    #     tags: [
-    #       {
-    #         key: "TagKey", # required
-    #         value: "TagValue", # required
-    #       },
-    #     ],
-    #     custom_response_bodies: {
-    #       "EntityName" => {
-    #         content_type: "TEXT_PLAIN", # required, accepts TEXT_PLAIN, TEXT_HTML, APPLICATION_JSON
-    #         content: "ResponseContent", # required
-    #       },
-    #     },
-    #     captcha_config: {
-    #       immunity_time_property: {
-    #         immunity_time: 1, # required
-    #       },
-    #     },
-    #     challenge_config: {
-    #       immunity_time_property: {
-    #         immunity_time: 1, # required
-    #       },
-    #     },
-    #     token_domains: ["TokenDomain"],
-    #     association_config: {
-    #       request_body: {
-    #         "CLOUDFRONT" => {
-    #           default_size_inspection_limit: "KB_16", # required, accepts KB_16, KB_32, KB_48, KB_64
-    #         },
-    #       },
-    #     },
-    #     on_source_d_do_s_protection_config: {
-    #       alb_low_reputation_mode: "ACTIVE_UNDER_DDOS", # required, accepts ACTIVE_UNDER_DDOS, ALWAYS_ON
-    #     },
-    #     application_config: {
-    #       attributes: [
-    #         {
-    #           name: "AttributeName",
-    #           values: ["AttributeValue"],
-    #         },
-    #       ],
-    #     },
-    #   })
     #
     # @example Response structure
     #
@@ -4492,6 +3557,7 @@ module Aws::WAFV2
     #   resp.rules[0].action.challenge.custom_request_handling.insert_headers #=> Array
     #   resp.rules[0].action.challenge.custom_request_handling.insert_headers[0].name #=> String
     #   resp.rules[0].action.challenge.custom_request_handling.insert_headers[0].value #=> String
+    #   resp.rules[0].action.monetize.price_multiplier #=> String
     #   resp.label_namespace #=> String
     #   resp.available_labels #=> Array
     #   resp.available_labels[0].name #=> String
@@ -4813,7 +3879,7 @@ module Aws::WAFV2
     #   resp.logging_configuration.logging_filter.filters[0].behavior #=> String, one of "KEEP", "DROP"
     #   resp.logging_configuration.logging_filter.filters[0].requirement #=> String, one of "MEETS_ALL", "MEETS_ANY"
     #   resp.logging_configuration.logging_filter.filters[0].conditions #=> Array
-    #   resp.logging_configuration.logging_filter.filters[0].conditions[0].action_condition.action #=> String, one of "ALLOW", "BLOCK", "COUNT", "CAPTCHA", "CHALLENGE", "EXCLUDED_AS_COUNT"
+    #   resp.logging_configuration.logging_filter.filters[0].conditions[0].action_condition.action #=> String, one of "ALLOW", "BLOCK", "COUNT", "CAPTCHA", "CHALLENGE", "MONETIZE", "EXCLUDED_AS_COUNT"
     #   resp.logging_configuration.logging_filter.filters[0].conditions[0].label_name_condition.label_name #=> String
     #   resp.logging_configuration.logging_filter.default_behavior #=> String, one of "KEEP", "DROP"
     #   resp.logging_configuration.log_type #=> String, one of "WAF_LOGS"
@@ -5125,6 +4191,265 @@ module Aws::WAFV2
       req.send_request(options)
     end
 
+    # Retrieves ranked monetization statistics. Use the `StatisticType`
+    # parameter to specify the ranking: `TOP_SOURCES_BY_REVENUE` for top
+    # sources by revenue, or `TOP_PATHS_BY_REVENUE` for top content paths by
+    # revenue. This operation is only available for `CLOUDFRONT` scope. The
+    # maximum supported time window is 90 days. When no `CurrencyMode`
+    # filter is provided, results default to `REAL`. To retrieve test data,
+    # include a `CurrencyMode` filter with the value `TEST`.
+    #
+    # @option params [required, String] :statistic_type
+    #   `TOP_SOURCES_BY_REVENUE` ranks revenue from AI bot traffic, grouped by
+    #   the dimension you specify in the `GroupBy` parameter (`NAME`,
+    #   `CATEGORY`, `INTENT`, `ORGANIZATION`, or `WEBACL`); `GroupBy` is
+    #   required for this statistic type. `TOP_PATHS_BY_REVENUE` ranks revenue
+    #   by path.
+    #
+    # @option params [required, Types::TimeWindow] :time_window
+    #   The time range for the query. Specify start and end timestamps.
+    #
+    # @option params [required, String] :scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`).
+    #
+    # @option params [required, String] :currency
+    #   The currency for the revenue amounts in the response.
+    #
+    # @option params [String] :group_by
+    #   The dimension to group results by: `NAME`, `CATEGORY`, `INTENT`,
+    #   `ORGANIZATION`, or `WEBACL`. Required when `StatisticType` is
+    #   `TOP_SOURCES_BY_REVENUE`. Not required for `TOP_PATHS_BY_REVENUE`,
+    #   where results are grouped by content path. If `StatisticType` is
+    #   `TOP_SOURCES_BY_REVENUE` and `GroupBy` is omitted, the request is
+    #   rejected with a `WAFInvalidParameterException`.
+    #
+    # @option params [Array<Types::MonetizationFilter>] :filters
+    #   Optional filters to narrow the results.
+    #
+    # @option params [String] :next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available. Use it in a subsequent request to
+    #   retrieve the next page of results.
+    #
+    # @option params [Integer] :limit
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :sort_by
+    #   The field to sort results by: `REVENUE`, `PERCENTAGE`, or `NAME`.
+    #
+    # @option params [String] :sort_order
+    #   The sort order: `ASC` for ascending or `DESC` for descending.
+    #
+    # @return [Types::GetRevenueStatisticsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRevenueStatisticsResponse#source_statistics #source_statistics} => Array&lt;Types::SourceStatistics&gt;
+    #   * {Types::GetRevenueStatisticsResponse#revenue_path_statistics #revenue_path_statistics} => Array&lt;Types::RevenuePathStatistics&gt;
+    #   * {Types::GetRevenueStatisticsResponse#next_marker #next_marker} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_revenue_statistics({
+    #     statistic_type: "TOP_SOURCES_BY_REVENUE", # required, accepts TOP_SOURCES_BY_REVENUE, TOP_PATHS_BY_REVENUE
+    #     time_window: { # required
+    #       start_time: Time.now, # required
+    #       end_time: Time.now, # required
+    #     },
+    #     scope: "CLOUDFRONT", # required, accepts CLOUDFRONT, REGIONAL
+    #     currency: "USDC", # required, accepts USDC
+    #     group_by: "NAME", # accepts NAME, CATEGORY, INTENT, ORGANIZATION, WEBACL
+    #     filters: [
+    #       {
+    #         name: "MonetizationFilterName", # required
+    #         values: ["MonetizationFilterValue"], # required
+    #       },
+    #     ],
+    #     next_marker: "NextMarker",
+    #     limit: 1,
+    #     sort_by: "REVENUE", # accepts REVENUE, PERCENTAGE, NAME
+    #     sort_order: "ASC", # accepts ASC, DESC
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.source_statistics #=> Array
+    #   resp.source_statistics[0].source_name #=> String
+    #   resp.source_statistics[0].percentage #=> Float
+    #   resp.source_statistics[0].amount #=> String
+    #   resp.source_statistics[0].request_count #=> Integer
+    #   resp.source_statistics[0].source_category #=> String
+    #   resp.source_statistics[0].intent #=> String
+    #   resp.source_statistics[0].organization #=> String
+    #   resp.source_statistics[0].verified #=> Boolean
+    #   resp.source_statistics[0].group_by_value #=> String
+    #   resp.revenue_path_statistics #=> Array
+    #   resp.revenue_path_statistics[0].path #=> String
+    #   resp.revenue_path_statistics[0].percentage #=> Float
+    #   resp.revenue_path_statistics[0].amount #=> String
+    #   resp.revenue_path_statistics[0].request_count #=> Integer
+    #   resp.next_marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatistics AWS API Documentation
+    #
+    # @overload get_revenue_statistics(params = {})
+    # @param [Hash] params ({})
+    def get_revenue_statistics(params = {}, options = {})
+      req = build_request(:get_revenue_statistics, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a summary of monetization revenue for the specified time
+    # window. Returns total revenue, revenue by verification tier, total
+    # settlements, and total HTTP 402 responses served. This operation is
+    # only available for `CLOUDFRONT` scope. The maximum supported time
+    # window is 90 days. When no `CurrencyMode` filter is provided, results
+    # default to `REAL`. To retrieve test data, include a `CurrencyMode`
+    # filter with the value `TEST`.
+    #
+    # @option params [required, Types::TimeWindow] :time_window
+    #   The time range for the revenue summary query. Specify start and end
+    #   timestamps.
+    #
+    # @option params [required, String] :scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`). AI bot
+    #   monetization is only available for `CLOUDFRONT` scope.
+    #
+    # @option params [required, String] :currency
+    #   The currency for the revenue amounts in the response. Currently only
+    #   `USDC` is supported.
+    #
+    # @option params [Array<Types::MonetizationFilter>] :filters
+    #   Optional filters to narrow the results. You can filter by source name,
+    #   category, organization, intent, verified status, content path, web ACL
+    #   ARN, or currency mode.
+    #
+    # @return [Types::GetRevenueStatisticsSummaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRevenueStatisticsSummaryResponse#revenue_breakdown #revenue_breakdown} => Types::RevenueBreakdown
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_revenue_statistics_summary({
+    #     time_window: { # required
+    #       start_time: Time.now, # required
+    #       end_time: Time.now, # required
+    #     },
+    #     scope: "CLOUDFRONT", # required, accepts CLOUDFRONT, REGIONAL
+    #     currency: "USDC", # required, accepts USDC
+    #     filters: [
+    #       {
+    #         name: "MonetizationFilterName", # required
+    #         values: ["MonetizationFilterValue"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.revenue_breakdown.total_amount #=> String
+    #   resp.revenue_breakdown.verified_amount #=> String
+    #   resp.revenue_breakdown.unverified_amount #=> String
+    #   resp.revenue_breakdown.currency #=> String, one of "USDC"
+    #   resp.revenue_breakdown.total_settled #=> Integer
+    #   resp.revenue_breakdown.total_monetize_served #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsSummary AWS API Documentation
+    #
+    # @overload get_revenue_statistics_summary(params = {})
+    # @param [Hash] params ({})
+    def get_revenue_statistics_summary(params = {}, options = {})
+      req = build_request(:get_revenue_statistics_summary, params)
+      req.send_request(options)
+    end
+
+    # Retrieves time series data for monetization revenue. Returns data
+    # points aggregated at the specified interval for the given time window.
+    # This operation is only available for `CLOUDFRONT` scope. The maximum
+    # supported time window is 90 days. When no `CurrencyMode` filter is
+    # provided, results default to `REAL`. To retrieve test data, include a
+    # `CurrencyMode` filter with the value `TEST`.
+    #
+    # @option params [required, String] :statistic_type
+    #   The type of time series data to retrieve: `DATE_HISTOGRAM` for revenue
+    #   over time, or `PAYMENT_TRAFFIC` for payment traffic patterns.
+    #
+    # @option params [required, Types::TimeWindow] :time_window
+    #   The time range for the query. Specify start and end timestamps.
+    #
+    # @option params [required, String] :scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`).
+    #
+    # @option params [required, String] :interval
+    #   The time interval for aggregating data points: `MINUTELY`,
+    #   `FIVE_MINUTELY`, `HOURLY`, or `DAILY`.
+    #
+    # @option params [required, String] :currency
+    #   The currency for the amounts in the response.
+    #
+    # @option params [String] :group_by
+    #   The dimension to group results by.
+    #
+    # @option params [Array<Types::MonetizationFilter>] :filters
+    #   Optional filters to narrow the results.
+    #
+    # @option params [Integer] :limit
+    #   The maximum number of data points to return. Minimum: 1. Maximum:
+    #   10000.
+    #
+    # @option params [String] :next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available.
+    #
+    # @return [Types::GetRevenueStatisticsTimeSeriesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRevenueStatisticsTimeSeriesResponse#data_points #data_points} => Array&lt;Types::DataPointEntry&gt;
+    #   * {Types::GetRevenueStatisticsTimeSeriesResponse#next_marker #next_marker} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_revenue_statistics_time_series({
+    #     statistic_type: "DATE_HISTOGRAM", # required, accepts DATE_HISTOGRAM, PAYMENT_TRAFFIC
+    #     time_window: { # required
+    #       start_time: Time.now, # required
+    #       end_time: Time.now, # required
+    #     },
+    #     scope: "CLOUDFRONT", # required, accepts CLOUDFRONT, REGIONAL
+    #     interval: "MINUTELY", # required, accepts MINUTELY, FIVE_MINUTELY, HOURLY, DAILY
+    #     currency: "USDC", # required, accepts USDC
+    #     group_by: "NAME", # accepts NAME, CATEGORY, INTENT, ORGANIZATION, WEBACL
+    #     filters: [
+    #       {
+    #         name: "MonetizationFilterName", # required
+    #         values: ["MonetizationFilterValue"], # required
+    #       },
+    #     ],
+    #     limit: 1,
+    #     next_marker: "NextMarker",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_points #=> Array
+    #   resp.data_points[0].date #=> Time
+    #   resp.data_points[0].monetize_served_count #=> Integer
+    #   resp.data_points[0].settled_count #=> Integer
+    #   resp.data_points[0].total_amount #=> String
+    #   resp.data_points[0].category #=> String
+    #   resp.data_points[0].intent #=> String
+    #   resp.data_points[0].group_by_value #=> String
+    #   resp.next_marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRevenueStatisticsTimeSeries AWS API Documentation
+    #
+    # @overload get_revenue_statistics_time_series(params = {})
+    # @param [Hash] params ({})
+    def get_revenue_statistics_time_series(params = {}, options = {})
+      req = build_request(:get_revenue_statistics_time_series, params)
+      req.send_request(options)
+    end
+
     # Retrieves the specified RuleGroup.
     #
     # @option params [String] :name
@@ -5314,6 +4639,7 @@ module Aws::WAFV2
     #   resp.rule_group.rules[0].statement.rule_group_reference_statement.rule_action_overrides[0].action_to_use.challenge.custom_request_handling.insert_headers #=> Array
     #   resp.rule_group.rules[0].statement.rule_group_reference_statement.rule_action_overrides[0].action_to_use.challenge.custom_request_handling.insert_headers[0].name #=> String
     #   resp.rule_group.rules[0].statement.rule_group_reference_statement.rule_action_overrides[0].action_to_use.challenge.custom_request_handling.insert_headers[0].value #=> String
+    #   resp.rule_group.rules[0].statement.rule_group_reference_statement.rule_action_overrides[0].action_to_use.monetize.price_multiplier #=> String
     #   resp.rule_group.rules[0].statement.ip_set_reference_statement.arn #=> String
     #   resp.rule_group.rules[0].statement.ip_set_reference_statement.ip_set_forwarded_ip_config.header_name #=> String
     #   resp.rule_group.rules[0].statement.ip_set_reference_statement.ip_set_forwarded_ip_config.fallback_behavior #=> String, one of "MATCH", "NO_MATCH"
@@ -5468,6 +4794,7 @@ module Aws::WAFV2
     #   resp.rule_group.rules[0].statement.managed_rule_group_statement.rule_action_overrides[0].action_to_use.challenge.custom_request_handling.insert_headers #=> Array
     #   resp.rule_group.rules[0].statement.managed_rule_group_statement.rule_action_overrides[0].action_to_use.challenge.custom_request_handling.insert_headers[0].name #=> String
     #   resp.rule_group.rules[0].statement.managed_rule_group_statement.rule_action_overrides[0].action_to_use.challenge.custom_request_handling.insert_headers[0].value #=> String
+    #   resp.rule_group.rules[0].statement.managed_rule_group_statement.rule_action_overrides[0].action_to_use.monetize.price_multiplier #=> String
     #   resp.rule_group.rules[0].statement.label_match_statement.scope #=> String, one of "LABEL", "NAMESPACE"
     #   resp.rule_group.rules[0].statement.label_match_statement.key #=> String
     #   resp.rule_group.rules[0].statement.regex_match_statement.regex_string #=> String
@@ -5519,6 +4846,7 @@ module Aws::WAFV2
     #   resp.rule_group.rules[0].action.challenge.custom_request_handling.insert_headers #=> Array
     #   resp.rule_group.rules[0].action.challenge.custom_request_handling.insert_headers[0].name #=> String
     #   resp.rule_group.rules[0].action.challenge.custom_request_handling.insert_headers[0].value #=> String
+    #   resp.rule_group.rules[0].action.monetize.price_multiplier #=> String
     #   resp.rule_group.rules[0].override_action.count.custom_request_handling.insert_headers #=> Array
     #   resp.rule_group.rules[0].override_action.count.custom_request_handling.insert_headers[0].name #=> String
     #   resp.rule_group.rules[0].override_action.count.custom_request_handling.insert_headers[0].value #=> String
@@ -5540,6 +4868,13 @@ module Aws::WAFV2
     #   resp.rule_group.available_labels[0].name #=> String
     #   resp.rule_group.consumed_labels #=> Array
     #   resp.rule_group.consumed_labels[0].name #=> String
+    #   resp.rule_group.monetization_config.crypto_config.payment_networks #=> Array
+    #   resp.rule_group.monetization_config.crypto_config.payment_networks[0].chain #=> String, one of "BASE", "SOLANA", "BASE_SEPOLIA", "SOLANA_DEVNET"
+    #   resp.rule_group.monetization_config.crypto_config.payment_networks[0].wallet_address #=> String
+    #   resp.rule_group.monetization_config.crypto_config.payment_networks[0].prices #=> Array
+    #   resp.rule_group.monetization_config.crypto_config.payment_networks[0].prices[0].amount #=> String
+    #   resp.rule_group.monetization_config.crypto_config.payment_networks[0].prices[0].currency #=> String, one of "USDC"
+    #   resp.rule_group.monetization_config.currency_mode #=> String, one of "REAL", "TEST"
     #   resp.lock_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/GetRuleGroup AWS API Documentation
@@ -6273,7 +5608,7 @@ module Aws::WAFV2
     #   resp.logging_configurations[0].logging_filter.filters[0].behavior #=> String, one of "KEEP", "DROP"
     #   resp.logging_configurations[0].logging_filter.filters[0].requirement #=> String, one of "MEETS_ALL", "MEETS_ANY"
     #   resp.logging_configurations[0].logging_filter.filters[0].conditions #=> Array
-    #   resp.logging_configurations[0].logging_filter.filters[0].conditions[0].action_condition.action #=> String, one of "ALLOW", "BLOCK", "COUNT", "CAPTCHA", "CHALLENGE", "EXCLUDED_AS_COUNT"
+    #   resp.logging_configurations[0].logging_filter.filters[0].conditions[0].action_condition.action #=> String, one of "ALLOW", "BLOCK", "COUNT", "CAPTCHA", "CHALLENGE", "MONETIZE", "EXCLUDED_AS_COUNT"
     #   resp.logging_configurations[0].logging_filter.filters[0].conditions[0].label_name_condition.label_name #=> String
     #   resp.logging_configurations[0].logging_filter.default_behavior #=> String, one of "KEEP", "DROP"
     #   resp.logging_configurations[0].log_type #=> String, one of "WAF_LOGS"
@@ -6604,6 +5939,100 @@ module Aws::WAFV2
       req.send_request(options)
     end
 
+    # Retrieves individual settlement transaction records for monetization.
+    # Each record represents a single payment transaction between a client
+    # and your protected resource. This operation is only available for
+    # `CLOUDFRONT` scope. The maximum supported time window is 90 days. When
+    # no `CurrencyMode` filter is provided, results default to `REAL`. To
+    # retrieve test data, include a `CurrencyMode` filter with the value
+    # `TEST`.
+    #
+    # @option params [required, Types::TimeWindow] :time_window
+    #   The time range for the query. Specify start and end timestamps.
+    #
+    # @option params [required, String] :scope
+    #   Specifies whether this is for a Amazon CloudFront distribution
+    #   (`CLOUDFRONT`) or for a regional application (`REGIONAL`).
+    #
+    # @option params [required, String] :currency
+    #   The currency for the amounts in the response.
+    #
+    # @option params [Array<Types::MonetizationFilter>] :filters
+    #   Optional filters to narrow the results. You can filter by payer
+    #   address, status, source name, network, or other settlement fields.
+    #
+    # @option params [String] :sort_by
+    #   The field to sort settlement records by: `TIMESTAMP`, `AMOUNT`,
+    #   `NAME`, or `STATUS`.
+    #
+    # @option params [String] :sort_order
+    #   The sort order: `ASC` for ascending or `DESC` for descending.
+    #
+    # @option params [Integer] :limit
+    #   The maximum number of settlement records to return. Minimum: 1.
+    #   Maximum: 100.
+    #
+    # @option params [String] :next_marker
+    #   When you get a paginated response, this marker indicates that
+    #   additional results are available.
+    #
+    # @return [Types::ListSettlementRecordsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSettlementRecordsResponse#settlements #settlements} => Array&lt;Types::SettlementRecord&gt;
+    #   * {Types::ListSettlementRecordsResponse#next_marker #next_marker} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_settlement_records({
+    #     time_window: { # required
+    #       start_time: Time.now, # required
+    #       end_time: Time.now, # required
+    #     },
+    #     scope: "CLOUDFRONT", # required, accepts CLOUDFRONT, REGIONAL
+    #     currency: "USDC", # required, accepts USDC
+    #     filters: [
+    #       {
+    #         name: "MonetizationFilterName", # required
+    #         values: ["MonetizationFilterValue"], # required
+    #       },
+    #     ],
+    #     sort_by: "TIMESTAMP", # accepts TIMESTAMP, AMOUNT, NAME, STATUS
+    #     sort_order: "ASC", # accepts ASC, DESC
+    #     limit: 1,
+    #     next_marker: "NextMarker",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.settlements #=> Array
+    #   resp.settlements[0].timestamp #=> Time
+    #   resp.settlements[0].payer_address #=> String
+    #   resp.settlements[0].wallet_address #=> String
+    #   resp.settlements[0].status #=> String, one of "SETTLED", "PENDING", "FAILED", "SERVICE_ERROR", "SKIPPED_ORIGIN_ERROR", "DUPLICATE"
+    #   resp.settlements[0].amount #=> String
+    #   resp.settlements[0].currency #=> String, one of "USDC"
+    #   resp.settlements[0].network #=> String
+    #   resp.settlements[0].transaction_id #=> String
+    #   resp.settlements[0].request_id #=> String
+    #   resp.settlements[0].source_name #=> String
+    #   resp.settlements[0].organization #=> String
+    #   resp.settlements[0].source_category #=> String
+    #   resp.settlements[0].intent #=> String
+    #   resp.settlements[0].verified #=> Boolean
+    #   resp.settlements[0].content_path #=> String
+    #   resp.settlements[0].web_acl_arn #=> String
+    #   resp.settlements[0].request_timestamp #=> Time
+    #   resp.next_marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/ListSettlementRecords AWS API Documentation
+    #
+    # @overload list_settlement_records(params = {})
+    # @param [Hash] params ({})
+    def list_settlement_records(params = {}, options = {})
+      req = build_request(:list_settlement_records, params)
+      req.send_request(options)
+    end
+
     # Retrieves the TagInfoForResource for the specified resource. Tags are
     # key:value pairs that you can use to categorize and manage your
     # resources, for purposes like billing. For example, you might set the
@@ -6862,7 +6291,7 @@ module Aws::WAFV2
     #             conditions: [ # required
     #               {
     #                 action_condition: {
-    #                   action: "ALLOW", # required, accepts ALLOW, BLOCK, COUNT, CAPTCHA, CHALLENGE, EXCLUDED_AS_COUNT
+    #                   action: "ALLOW", # required, accepts ALLOW, BLOCK, COUNT, CAPTCHA, CHALLENGE, MONETIZE, EXCLUDED_AS_COUNT
     #                 },
     #                 label_name_condition: {
     #                   label_name: "LabelName", # required
@@ -6913,7 +6342,7 @@ module Aws::WAFV2
     #   resp.logging_configuration.logging_filter.filters[0].behavior #=> String, one of "KEEP", "DROP"
     #   resp.logging_configuration.logging_filter.filters[0].requirement #=> String, one of "MEETS_ALL", "MEETS_ANY"
     #   resp.logging_configuration.logging_filter.filters[0].conditions #=> Array
-    #   resp.logging_configuration.logging_filter.filters[0].conditions[0].action_condition.action #=> String, one of "ALLOW", "BLOCK", "COUNT", "CAPTCHA", "CHALLENGE", "EXCLUDED_AS_COUNT"
+    #   resp.logging_configuration.logging_filter.filters[0].conditions[0].action_condition.action #=> String, one of "ALLOW", "BLOCK", "COUNT", "CAPTCHA", "CHALLENGE", "MONETIZE", "EXCLUDED_AS_COUNT"
     #   resp.logging_configuration.logging_filter.filters[0].conditions[0].label_name_condition.label_name #=> String
     #   resp.logging_configuration.logging_filter.default_behavior #=> String, one of "KEEP", "DROP"
     #   resp.logging_configuration.log_type #=> String, one of "WAF_LOGS"
@@ -7626,6 +7055,10 @@ module Aws::WAFV2
     #   [1]: https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html
     #   [2]: https://docs.aws.amazon.com/waf/latest/developerguide/limits.html
     #
+    # @option params [Types::MonetizationConfig] :monetization_config
+    #   The monetization configuration for the rule group. Provide this when
+    #   any rule in the rule group uses the `Monetize` action.
+    #
     # @return [Types::UpdateRuleGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateRuleGroupResponse#next_lock_token #next_lock_token} => String
@@ -7993,6 +7426,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -8348,6 +7784,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -8487,6 +7926,9 @@ module Aws::WAFV2
     #               ],
     #             },
     #           },
+    #           monetize: {
+    #             price_multiplier: "PriceMultiplier",
+    #           },
     #         },
     #         override_action: {
     #           count: {
@@ -8535,6 +7977,23 @@ module Aws::WAFV2
     #         content_type: "TEXT_PLAIN", # required, accepts TEXT_PLAIN, TEXT_HTML, APPLICATION_JSON
     #         content: "ResponseContent", # required
     #       },
+    #     },
+    #     monetization_config: {
+    #       crypto_config: {
+    #         payment_networks: [ # required
+    #           {
+    #             chain: "BASE", # required, accepts BASE, SOLANA, BASE_SEPOLIA, SOLANA_DEVNET
+    #             wallet_address: "WalletAddress", # required
+    #             prices: [ # required
+    #               {
+    #                 amount: "PriceAmount", # required
+    #                 currency: "USDC", # required, accepts USDC
+    #               },
+    #             ],
+    #           },
+    #         ],
+    #       },
+    #       currency_mode: "REAL", # accepts REAL, TEST
     #     },
     #   })
     #
@@ -8755,6 +8214,10 @@ module Aws::WAFV2
     #   * If you include `ApplicationConfig`, entries must match the existing
     #     values exactly. Any attempt to modify existing entries will result
     #     in an error.
+    #
+    # @option params [Types::MonetizationConfig] :monetization_config
+    #   The monetization configuration for the web ACL. Provide this when any
+    #   rule in the web ACL uses the `Monetize` action.
     #
     # @return [Types::UpdateWebACLResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -9147,6 +8610,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -9502,6 +8968,9 @@ module Aws::WAFV2
     #                       ],
     #                     },
     #                   },
+    #                   monetize: {
+    #                     price_multiplier: "PriceMultiplier",
+    #                   },
     #                 },
     #               },
     #             ],
@@ -9641,6 +9110,9 @@ module Aws::WAFV2
     #               ],
     #             },
     #           },
+    #           monetize: {
+    #             price_multiplier: "PriceMultiplier",
+    #           },
     #         },
     #         override_action: {
     #           count: {
@@ -9732,6 +9204,23 @@ module Aws::WAFV2
     #         },
     #       ],
     #     },
+    #     monetization_config: {
+    #       crypto_config: {
+    #         payment_networks: [ # required
+    #           {
+    #             chain: "BASE", # required, accepts BASE, SOLANA, BASE_SEPOLIA, SOLANA_DEVNET
+    #             wallet_address: "WalletAddress", # required
+    #             prices: [ # required
+    #               {
+    #                 amount: "PriceAmount", # required
+    #                 currency: "USDC", # required, accepts USDC
+    #               },
+    #             ],
+    #           },
+    #         ],
+    #       },
+    #       currency_mode: "REAL", # accepts REAL, TEST
+    #     },
     #   })
     #
     # @example Response structure
@@ -9765,7 +9254,7 @@ module Aws::WAFV2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-wafv2'
-      context[:gem_version] = '1.131.0'
+      context[:gem_version] = '1.132.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

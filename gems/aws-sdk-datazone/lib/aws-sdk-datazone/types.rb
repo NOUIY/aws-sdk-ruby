@@ -7174,6 +7174,45 @@ module Aws::DataZone
     class DeleteGlossaryTermOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] domain_identifier
+    #   The ID of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   The ID of the lineage event.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteLineageEventInput AWS API Documentation
+    #
+    class DeleteLineageEventInput < Struct.new(
+      :domain_identifier,
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the lineage event.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   The ID of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] processing_status
+    #   The progressing status of the lineage event.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteLineageEventOutput AWS API Documentation
+    #
+    class DeleteLineageEventOutput < Struct.new(
+      :id,
+      :domain_id,
+      :processing_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_identifier
     #   The ID of the Amazon DataZone domain.
     #   @return [String]
     #

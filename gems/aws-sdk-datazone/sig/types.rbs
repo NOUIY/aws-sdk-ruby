@@ -1948,6 +1948,19 @@ module Aws::DataZone
     class DeleteGlossaryTermOutput < Aws::EmptyStructure
     end
 
+    class DeleteLineageEventInput
+      attr_accessor domain_identifier: ::String
+      attr_accessor identifier: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteLineageEventOutput
+      attr_accessor id: ::String
+      attr_accessor domain_id: ::String
+      attr_accessor processing_status: ("REQUESTED" | "PROCESSING" | "SUCCESS" | "FAILED")
+      SENSITIVE: []
+    end
+
     class DeleteListingInput
       attr_accessor domain_identifier: ::String
       attr_accessor identifier: ::String

@@ -152,6 +152,8 @@ module Aws::Mgn
     FinalizeCutoverRequest = Shapes::StructureShape.new(name: 'FinalizeCutoverRequest')
     FirstBoot = Shapes::StringShape.new(name: 'FirstBoot')
     Float = Shapes::FloatShape.new(name: 'Float')
+    FqdnForActionFramework = Shapes::StringShape.new(name: 'FqdnForActionFramework')
+    FsxOntapConfiguration = Shapes::StructureShape.new(name: 'FsxOntapConfiguration')
     GetLaunchConfigurationRequest = Shapes::StructureShape.new(name: 'GetLaunchConfigurationRequest')
     GetNetworkMigrationDefinitionRequest = Shapes::StructureShape.new(name: 'GetNetworkMigrationDefinitionRequest')
     GetNetworkMigrationMapperSegmentConstructRequest = Shapes::StructureShape.new(name: 'GetNetworkMigrationMapperSegmentConstructRequest')
@@ -200,6 +202,10 @@ module Aws::Mgn
     JobsList = Shapes::ListShape.new(name: 'JobsList')
     KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
     LargeBoundedString = Shapes::StringShape.new(name: 'LargeBoundedString')
+    LastKnownCheck = Shapes::StructureShape.new(name: 'LastKnownCheck')
+    LastKnownCheckStatus = Shapes::StringShape.new(name: 'LastKnownCheckStatus')
+    LastKnownCheckType = Shapes::StringShape.new(name: 'LastKnownCheckType')
+    LastKnownChecksList = Shapes::ListShape.new(name: 'LastKnownChecksList')
     LaunchConfiguration = Shapes::StructureShape.new(name: 'LaunchConfiguration')
     LaunchConfigurationTemplate = Shapes::StructureShape.new(name: 'LaunchConfigurationTemplate')
     LaunchConfigurationTemplateID = Shapes::StringShape.new(name: 'LaunchConfigurationTemplateID')
@@ -470,6 +476,9 @@ module Aws::Mgn
     StartTestRequestSourceServerIDs = Shapes::ListShape.new(name: 'StartTestRequestSourceServerIDs')
     StartTestResponse = Shapes::StructureShape.new(name: 'StartTestResponse')
     StopReplicationRequest = Shapes::StructureShape.new(name: 'StopReplicationRequest')
+    StorageConfiguration = Shapes::StructureShape.new(name: 'StorageConfiguration')
+    StorageType = Shapes::StringShape.new(name: 'StorageType')
+    StorageVirtualMachineId = Shapes::StringShape.new(name: 'StorageVirtualMachineId')
     StrictlyPositiveInteger = Shapes::IntegerShape.new(name: 'StrictlyPositiveInteger')
     String = Shapes::StringShape.new(name: 'String')
     SubnetID = Shapes::StringShape.new(name: 'SubnetID')
@@ -699,6 +708,7 @@ module Aws::Mgn
     CreateReplicationConfigurationTemplateRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateReplicationConfigurationTemplateRequest.add_member(:internet_protocol, Shapes::ShapeRef.new(shape: InternetProtocol, location_name: "internetProtocol"))
     CreateReplicationConfigurationTemplateRequest.add_member(:store_snapshot_on_local_zone, Shapes::ShapeRef.new(shape: Boolean, location_name: "storeSnapshotOnLocalZone"))
+    CreateReplicationConfigurationTemplateRequest.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: StorageConfiguration, location_name: "storageConfiguration"))
     CreateReplicationConfigurationTemplateRequest.struct_class = Types::CreateReplicationConfigurationTemplateRequest
 
     CreateWaveRequest.add_member(:name, Shapes::ShapeRef.new(shape: WaveName, required: true, location_name: "name"))
@@ -937,6 +947,10 @@ module Aws::Mgn
     FinalizeCutoverRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountID, location_name: "accountID"))
     FinalizeCutoverRequest.struct_class = Types::FinalizeCutoverRequest
 
+    FsxOntapConfiguration.add_member(:storage_virtual_machine_id, Shapes::ShapeRef.new(shape: StorageVirtualMachineId, required: true, location_name: "storageVirtualMachineId"))
+    FsxOntapConfiguration.add_member(:credentials_secret_arn, Shapes::ShapeRef.new(shape: SecretArn, required: true, location_name: "credentialsSecretArn"))
+    FsxOntapConfiguration.struct_class = Types::FsxOntapConfiguration
+
     GetLaunchConfigurationRequest.add_member(:source_server_id, Shapes::ShapeRef.new(shape: SourceServerID, required: true, location_name: "sourceServerID"))
     GetLaunchConfigurationRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountID, location_name: "accountID"))
     GetLaunchConfigurationRequest.struct_class = Types::GetLaunchConfigurationRequest
@@ -1070,6 +1084,15 @@ module Aws::Mgn
 
     JobsList.member = Shapes::ShapeRef.new(shape: Job)
 
+    LastKnownCheck.add_member(:type, Shapes::ShapeRef.new(shape: LastKnownCheckType, location_name: "type"))
+    LastKnownCheck.add_member(:name, Shapes::ShapeRef.new(shape: BoundedString, location_name: "name"))
+    LastKnownCheck.add_member(:status, Shapes::ShapeRef.new(shape: LastKnownCheckStatus, location_name: "status"))
+    LastKnownCheck.add_member(:error, Shapes::ShapeRef.new(shape: BoundedString, location_name: "error"))
+    LastKnownCheck.add_member(:checked_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "checkedAt"))
+    LastKnownCheck.struct_class = Types::LastKnownCheck
+
+    LastKnownChecksList.member = Shapes::ShapeRef.new(shape: LastKnownCheck)
+
     LaunchConfiguration.add_member(:source_server_id, Shapes::ShapeRef.new(shape: SourceServerID, location_name: "sourceServerID"))
     LaunchConfiguration.add_member(:name, Shapes::ShapeRef.new(shape: SmallBoundedString, location_name: "name"))
     LaunchConfiguration.add_member(:ec2_launch_template_id, Shapes::ShapeRef.new(shape: BoundedString, location_name: "ec2LaunchTemplateID"))
@@ -1117,6 +1140,8 @@ module Aws::Mgn
     LaunchedInstance.add_member(:ec2_instance_id, Shapes::ShapeRef.new(shape: EC2InstanceID, location_name: "ec2InstanceID"))
     LaunchedInstance.add_member(:job_id, Shapes::ShapeRef.new(shape: JobID, location_name: "jobID"))
     LaunchedInstance.add_member(:first_boot, Shapes::ShapeRef.new(shape: FirstBoot, location_name: "firstBoot"))
+    LaunchedInstance.add_member(:last_known_checks, Shapes::ShapeRef.new(shape: LastKnownChecksList, location_name: "lastKnownChecks"))
+    LaunchedInstance.add_member(:last_known_fsx_checks_status, Shapes::ShapeRef.new(shape: LastKnownCheckStatus, location_name: "lastKnownFsxChecksStatus"))
     LaunchedInstance.struct_class = Types::LaunchedInstance
 
     Licensing.add_member(:os_byol, Shapes::ShapeRef.new(shape: Boolean, location_name: "osByol"))
@@ -1797,6 +1822,7 @@ module Aws::Mgn
     ReplicationConfiguration.add_member(:use_fips_endpoint, Shapes::ShapeRef.new(shape: Boolean, location_name: "useFipsEndpoint"))
     ReplicationConfiguration.add_member(:internet_protocol, Shapes::ShapeRef.new(shape: InternetProtocol, location_name: "internetProtocol"))
     ReplicationConfiguration.add_member(:store_snapshot_on_local_zone, Shapes::ShapeRef.new(shape: Boolean, location_name: "storeSnapshotOnLocalZone"))
+    ReplicationConfiguration.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: StorageConfiguration, location_name: "storageConfiguration"))
     ReplicationConfiguration.struct_class = Types::ReplicationConfiguration
 
     ReplicationConfigurationReplicatedDisk.add_member(:device_name, Shapes::ShapeRef.new(shape: BoundedString, location_name: "deviceName"))
@@ -1826,6 +1852,7 @@ module Aws::Mgn
     ReplicationConfigurationTemplate.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     ReplicationConfigurationTemplate.add_member(:internet_protocol, Shapes::ShapeRef.new(shape: InternetProtocol, location_name: "internetProtocol"))
     ReplicationConfigurationTemplate.add_member(:store_snapshot_on_local_zone, Shapes::ShapeRef.new(shape: Boolean, location_name: "storeSnapshotOnLocalZone"))
+    ReplicationConfigurationTemplate.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: StorageConfiguration, location_name: "storageConfiguration"))
     ReplicationConfigurationTemplate.struct_class = Types::ReplicationConfigurationTemplate
 
     ReplicationConfigurationTemplateIDs.member = Shapes::ShapeRef.new(shape: ReplicationConfigurationTemplateID)
@@ -2078,6 +2105,10 @@ module Aws::Mgn
     StopReplicationRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountID, location_name: "accountID"))
     StopReplicationRequest.struct_class = Types::StopReplicationRequest
 
+    StorageConfiguration.add_member(:storage_type, Shapes::ShapeRef.new(shape: StorageType, required: true, location_name: "storageType"))
+    StorageConfiguration.add_member(:fsx_ontap_configuration, Shapes::ShapeRef.new(shape: FsxOntapConfiguration, location_name: "fsxOntapConfiguration"))
+    StorageConfiguration.struct_class = Types::StorageConfiguration
+
     TagKeys.member = Shapes::ShapeRef.new(shape: TagKey)
 
     TagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location: "uri", location_name: "resourceArn"))
@@ -2242,6 +2273,7 @@ module Aws::Mgn
     UpdateReplicationConfigurationRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountID, location_name: "accountID"))
     UpdateReplicationConfigurationRequest.add_member(:internet_protocol, Shapes::ShapeRef.new(shape: InternetProtocol, location_name: "internetProtocol"))
     UpdateReplicationConfigurationRequest.add_member(:store_snapshot_on_local_zone, Shapes::ShapeRef.new(shape: Boolean, location_name: "storeSnapshotOnLocalZone"))
+    UpdateReplicationConfigurationRequest.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: StorageConfiguration, location_name: "storageConfiguration"))
     UpdateReplicationConfigurationRequest.struct_class = Types::UpdateReplicationConfigurationRequest
 
     UpdateReplicationConfigurationTemplateRequest.add_member(:replication_configuration_template_id, Shapes::ShapeRef.new(shape: ReplicationConfigurationTemplateID, required: true, location_name: "replicationConfigurationTemplateID"))
@@ -2261,6 +2293,7 @@ module Aws::Mgn
     UpdateReplicationConfigurationTemplateRequest.add_member(:use_fips_endpoint, Shapes::ShapeRef.new(shape: Boolean, location_name: "useFipsEndpoint"))
     UpdateReplicationConfigurationTemplateRequest.add_member(:internet_protocol, Shapes::ShapeRef.new(shape: InternetProtocol, location_name: "internetProtocol"))
     UpdateReplicationConfigurationTemplateRequest.add_member(:store_snapshot_on_local_zone, Shapes::ShapeRef.new(shape: Boolean, location_name: "storeSnapshotOnLocalZone"))
+    UpdateReplicationConfigurationTemplateRequest.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: StorageConfiguration, location_name: "storageConfiguration"))
     UpdateReplicationConfigurationTemplateRequest.struct_class = Types::UpdateReplicationConfigurationTemplateRequest
 
     UpdateSourceServerReplicationTypeRequest.add_member(:source_server_id, Shapes::ShapeRef.new(shape: SourceServerID, required: true, location_name: "sourceServerID"))
@@ -2271,6 +2304,9 @@ module Aws::Mgn
     UpdateSourceServerRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountID, location_name: "accountID"))
     UpdateSourceServerRequest.add_member(:source_server_id, Shapes::ShapeRef.new(shape: SourceServerID, required: true, location_name: "sourceServerID"))
     UpdateSourceServerRequest.add_member(:connector_action, Shapes::ShapeRef.new(shape: SourceServerConnectorAction, location_name: "connectorAction"))
+    UpdateSourceServerRequest.add_member(:user_provided_id, Shapes::ShapeRef.new(shape: UserProvidedId, location_name: "userProvidedID"))
+    UpdateSourceServerRequest.add_member(:fqdn_for_action_framework, Shapes::ShapeRef.new(shape: FqdnForActionFramework, location_name: "fqdnForActionFramework"))
+    UpdateSourceServerRequest.add_member(:platform, Shapes::ShapeRef.new(shape: OperatingSystemString, location_name: "platform"))
     UpdateSourceServerRequest.struct_class = Types::UpdateSourceServerRequest
 
     UpdateWaveRequest.add_member(:wave_id, Shapes::ShapeRef.new(shape: WaveID, required: true, location_name: "waveID"))

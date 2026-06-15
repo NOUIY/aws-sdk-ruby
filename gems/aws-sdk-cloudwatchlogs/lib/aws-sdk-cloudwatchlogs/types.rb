@@ -1205,9 +1205,7 @@ module Aws::CloudWatchLogs
 
     # @!attribute [rw] name
     #   The name of the scheduled query. The name must be unique within your
-    #   account and region. Valid characters are alphanumeric characters,
-    #   hyphens, underscores, and periods. Length must be between 1 and 255
-    #   characters.
+    #   account and region. Length must be between 1 and 300 characters.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -1247,6 +1245,13 @@ module Aws::CloudWatchLogs
     #   The time offset in seconds that defines the lookback period for the
     #   query. This determines how far back in time the query searches from
     #   the execution time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] end_time_offset
+    #   The time offset in seconds that defines the end of the lookback
+    #   period for the query. Together with `startTimeOffset`, this
+    #   determines the time window relative to the execution time over which
+    #   the query runs.
     #   @return [Integer]
     #
     # @!attribute [rw] destination_configuration
@@ -1292,6 +1297,7 @@ module Aws::CloudWatchLogs
       :schedule_expression,
       :timezone,
       :start_time_offset,
+      :end_time_offset,
       :destination_configuration,
       :schedule_start_time,
       :schedule_end_time,
@@ -4341,7 +4347,8 @@ module Aws::CloudWatchLogs
     #   includes a `nextToken`. You can use this token in a subsequent
     #   `GetQueryResults` request to get the next set of results. You can
     #   retrieve up to 100,000 log event results from a query by paginating
-    #   with this token.
+    #   with this token. This is only supported for Logs Insights QL and is
+    #   currently not supported for PPL and SQL query languages.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResultsResponse AWS API Documentation
@@ -4474,12 +4481,22 @@ module Aws::CloudWatchLogs
     #   query.
     #   @return [Integer]
     #
+    # @!attribute [rw] end_time_offset
+    #   The time offset in seconds that defines the end of the lookback
+    #   period for the query.
+    #   @return [Integer]
+    #
     # @!attribute [rw] destination_configuration
     #   Configuration for where query results are delivered.
     #   @return [Types::DestinationConfiguration]
     #
     # @!attribute [rw] state
     #   The current state of the scheduled query.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_type
+    #   The schedule type of the scheduled query. Valid values are
+    #   `CUSTOMER_MANAGED` and `AWS_MANAGED`.
     #   @return [String]
     #
     # @!attribute [rw] last_triggered_time
@@ -4523,8 +4540,10 @@ module Aws::CloudWatchLogs
       :schedule_expression,
       :timezone,
       :start_time_offset,
+      :end_time_offset,
       :destination_configuration,
       :state,
+      :schedule_type,
       :last_triggered_time,
       :last_execution_status,
       :schedule_start_time,
@@ -5346,12 +5365,19 @@ module Aws::CloudWatchLogs
     #   `DISABLED`. If not specified, all scheduled queries are returned.
     #   @return [String]
     #
+    # @!attribute [rw] schedule_type
+    #   Filter scheduled queries by schedule type. Valid values are
+    #   `CUSTOMER_MANAGED` and `AWS_MANAGED`. If not specified, scheduled
+    #   queries of all schedule types are returned.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListScheduledQueriesRequest AWS API Documentation
     #
     class ListScheduledQueriesRequest < Struct.new(
       :max_results,
       :next_token,
-      :state)
+      :state,
+      :schedule_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9314,6 +9340,11 @@ module Aws::CloudWatchLogs
     #   The current state of the scheduled query.
     #   @return [String]
     #
+    # @!attribute [rw] schedule_type
+    #   The schedule type of the scheduled query. Valid values are
+    #   `CUSTOMER_MANAGED` and `AWS_MANAGED`.
+    #   @return [String]
+    #
     # @!attribute [rw] last_triggered_time
     #   The timestamp when the scheduled query was last executed.
     #   @return [Integer]
@@ -9348,6 +9379,7 @@ module Aws::CloudWatchLogs
       :scheduled_query_arn,
       :name,
       :state,
+      :schedule_type,
       :last_triggered_time,
       :last_execution_status,
       :schedule_expression,
@@ -9626,11 +9658,13 @@ module Aws::CloudWatchLogs
     #   @return [String]
     #
     # @!attribute [rw] limit
-    #   The maximum number of log events to return in the query. If the
-    #   query string uses the `fields` command, only the specified fields
-    #   and their values are returned. The default is 10,000.
-    #
-    #   The maximum value is 100,000.
+    #   The maximum number of log events to return from the query. The
+    #   maximum limit is 100,000. The maximum events returned in a single
+    #   GetQueryResults API call is 10,000 log events per request. You can
+    #   retrieve up to 100,000 log event results from a query by paginating
+    #   with the `nextToken`. 100,000 limit is only supported for Logs
+    #   Insights QL and is currently not supported for PPL and SQL query
+    #   languages.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartQueryRequest AWS API Documentation
@@ -10427,6 +10461,11 @@ module Aws::CloudWatchLogs
     #   for the query.
     #   @return [Integer]
     #
+    # @!attribute [rw] end_time_offset
+    #   The updated time offset in seconds that defines the end of the
+    #   lookback period for the query.
+    #   @return [Integer]
+    #
     # @!attribute [rw] destination_configuration
     #   The updated configuration for where to deliver query results.
     #   @return [Types::DestinationConfiguration]
@@ -10459,6 +10498,7 @@ module Aws::CloudWatchLogs
       :schedule_expression,
       :timezone,
       :start_time_offset,
+      :end_time_offset,
       :destination_configuration,
       :schedule_start_time,
       :schedule_end_time,
@@ -10504,12 +10544,20 @@ module Aws::CloudWatchLogs
     #   The time offset of the updated scheduled query.
     #   @return [Integer]
     #
+    # @!attribute [rw] end_time_offset
+    #   The end time offset in seconds of the updated scheduled query.
+    #   @return [Integer]
+    #
     # @!attribute [rw] destination_configuration
     #   The destination configuration of the updated scheduled query.
     #   @return [Types::DestinationConfiguration]
     #
     # @!attribute [rw] state
     #   The state of the updated scheduled query.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_type
+    #   The schedule type of the updated scheduled query.
     #   @return [String]
     #
     # @!attribute [rw] last_triggered_time
@@ -10553,8 +10601,10 @@ module Aws::CloudWatchLogs
       :schedule_expression,
       :timezone,
       :start_time_offset,
+      :end_time_offset,
       :destination_configuration,
       :state,
+      :schedule_type,
       :last_triggered_time,
       :last_execution_status,
       :schedule_start_time,
