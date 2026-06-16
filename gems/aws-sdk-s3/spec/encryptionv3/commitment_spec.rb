@@ -5,7 +5,7 @@ require 'openssl'
 module Aws
   module S3
     module EncryptionV3
-      describe 'Commitment Policy' do
+      describe 'Commitment Policy', :suppress_warning do
         # Captures the data (metadata and body) put to an s3 object
         def stub_put(s3_client)
           data = {}

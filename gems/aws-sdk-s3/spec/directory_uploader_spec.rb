@@ -37,7 +37,7 @@ module Aws
           FileUtils.rm_rf(empty_dir)
         end
 
-        it 'raises when directory does not exist' do
+        it 'raises when directory does not exist', thread_report_on_exception: false do
           expect do
             uploader.upload('/nonexistent/path', 'test-bucket')
           end.to raise_error(ArgumentError, /Invalid directory/)
@@ -55,7 +55,7 @@ module Aws
           end.to raise_error(DirectoryUploadError)
         end
 
-        it 'raises when directory traversal fails' do
+        it 'raises when directory traversal fails', thread_report_on_exception: false do
           allow(File).to receive(:lstat).and_call_original
           allow(File).to receive(:lstat).with(/small\.txt/).and_raise(Errno::EACCES, 'Permission denied')
           expect do

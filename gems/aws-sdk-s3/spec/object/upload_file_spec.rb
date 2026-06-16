@@ -9,7 +9,7 @@ module Aws
       let(:client) { S3::Client.new(stub_responses: true) }
       let(:subject) { S3::Object.new(bucket_name: 'bucket', key: 'key', client: client) }
 
-      describe '#upload_file' do
+      describe '#upload_file', :suppress_warning do
         let(:mb_size) { 1024 * 1024 }
         let(:mb_content) { '.' * mb_size }
 

@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-require 'thread'
-
 module Aws
   module S3
     # @api private
     class ObjectCopier
-
       # @param [S3::Object] object
       def initialize(object, options = {})
         @object = object
@@ -23,7 +20,7 @@ module Aws
 
       private
 
-      def copy_object(source, target, options)
+      def copy_object(source, target, options) # rubocop:disable Metrics/MethodLength
         target_bucket, target_key = copy_target(target)
         options[:bucket] = target_bucket
         options[:key] = target_key
@@ -38,7 +35,7 @@ module Aws
         end
       end
 
-      def copy_source(source)
+      def copy_source(source) # rubocop:disable Metrics/MethodLength
         case source
         when String then source
         when Hash
@@ -50,54 +47,46 @@ module Aws
         when S3::ObjectVersion
           "#{source.bucket_name}/#{escape(source.object_key)}?versionId=#{source.id}"
         else
-          msg = "expected source to be an Aws::S3::Object, Hash, or String"
-          raise ArgumentError, msg
+          raise ArgumentError, 'expected source to be an Aws::S3::Object, Hash, or String'
         end
       end
 
       def copy_target(target)
         case target
-        when String then target.match(/([^\/]+?)\/(.+)/)[1,2]
+        when String then target.match(%r{([^/]+?)/(.+)})[1, 2]
         when Hash then target.values_at(:bucket, :key)
         when S3::Object then [target.bucket_name, target.key]
         else
-          msg = "expected target to be an Aws::S3::Object, Hash, or String"
-          raise ArgumentError, msg
+          raise ArgumentError, 'expected target to be an Aws::S3::Object, Hash, or String'
         end
       end
 
       def merge_options(source_or_target, options)
-        if Hash === source_or_target
-          source_or_target.inject(options.dup) do |opts, (key, value)|
-            opts[key] = value unless [:bucket, :key, :version_id].include?(key)
-            opts
+        if source_or_target.is_a?(Hash)
+          source_or_target.each_with_object(options.dup) do |(key, value), opts|
+            opts[key] = value unless %i[bucket key version_id].include?(key)
           end
         else
           options.dup
         end
       end
 
-      def apply_source_client(source, options)
-
-        if source.respond_to?(:client)
-          options[:copy_source_client] ||= source.client
-        end
+      def apply_source_client(source, options) # rubocop:disable Metrics/AbcSize
+        options[:copy_source_client] ||= source.client if source.respond_to?(:client)
 
         if options[:copy_source_region]
           config = @object.client.config
-          config = config.each_pair.inject({}) { |h, (k,v)| h[k] = v; h }
+          config = config.each_pair.with_object({}) { |(k, v), h| h[k] = v unless v.nil? }
           config[:region] = options.delete(:copy_source_region)
           options[:copy_source_client] ||= S3::Client.new(config)
         end
 
         options[:copy_source_client] ||= @object.client
-
       end
 
       def escape(str)
         Seahorse::Util.uri_path_escape(str)
       end
-
     end
   end
 end

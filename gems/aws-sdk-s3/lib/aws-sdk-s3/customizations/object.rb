@@ -54,6 +54,27 @@ module Aws
       #   and any checksums will not change. This is especially useful if the
       #   source object has parts with varied sizes.
       #
+      # @option options [String] :tags_directive Only used when
+      #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+      #   tags are fetched and applied to the destination via PutObjectTagging.
+      #   When set to `'REPLACE'`, the provided `:tagging` value is parsed and
+      #   applied via PutObjectTagging. When not set, `:tagging` (if provided)
+      #   is passed to CreateMultipartUpload directly. Works with or without
+      #   `:content_length` — tags are fetched from source regardless of
+      #   whether HeadObject is skipped.
+      #
+      # @option options [String] :annotations_directive Only used when
+      #   `:multipart_copy` is `true`. When set to `'COPY'`, source object
+      #   annotations are fetched and applied to the destination after the
+      #   multipart upload completes. Works with or without `:content_length`.
+      #
+      # @option options [String] :metadata_directive Only used when
+      #   `:multipart_copy` is `true`. When set to `'REPLACE'`, source metadata
+      #   from HeadObject is not merged into CreateMultipartUpload — only
+      #   caller-supplied values (e.g. `:metadata`, `:content_type`) are used.
+      #   Has no effect when `:content_length` is provided since HeadObject
+      #   is already skipped.
+      #
       # @example Basic object copy
       #
       #   bucket = Aws::S3::Bucket.new('target-bucket')

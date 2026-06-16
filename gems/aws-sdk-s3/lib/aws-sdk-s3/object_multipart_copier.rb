@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
-require 'thread'
-require "cgi/escape"
-require "cgi/util" if RUBY_VERSION < "3.5"
+require 'cgi/escape'
+require 'cgi/util' if RUBY_VERSION < '3.5'
+require 'set'
 
 module Aws
   module S3
     # @api private
-    class ObjectMultipartCopier
-
-      FIVE_MB = 5 * 1024 * 1024 # 5MB
-
-      FILE_TOO_SMALL = "unable to multipart copy files smaller than 5MB"
-
+    class ObjectMultipartCopier # rubocop:disable Metrics/ClassLength
+      MIN_PART_SIZE = 5 * 1024 * 1024 # 5MB
       MAX_PARTS = 10_000
+
+      API_OPTIONS = {
+        create_multipart_upload: Set.new(Client.api.operation(:create_multipart_upload).input.shape.member_names),
+        upload_part_copy: Set.new(Client.api.operation(:upload_part_copy).input.shape.member_names),
+        complete_multipart_upload: Set.new(Client.api.operation(:complete_multipart_upload).input.shape.member_names)
+      }.freeze
 
       # @option options [Client] :client
       # @option options [Integer] :min_part_size (52428800)
@@ -29,28 +31,113 @@ module Aws
       def initialize(options = {})
         @use_source_parts = options.delete(:use_source_parts) || false
         @thread_count = options.delete(:thread_count) || 10
-        @min_part_size = options.delete(:min_part_size) || (FIVE_MB * 10)
+        @min_part_size = options.delete(:min_part_size) || (MIN_PART_SIZE * 10)
         @client = options[:client] || Client.new
+        @source_client = nil
+        @source = nil
+        @source_etag = nil
+        @source_parts_count = nil
+        @first_part_size = nil
       end
 
       # @return [Client]
       attr_reader :client
 
       # @option (see S3::Client#copy_object)
-      def copy(options = {})
-        metadata = source_metadata(options)
+      def copy(options = {}) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+        @source_client = options[:copy_source_client] || @client
+        @source = resolve_source(options[:copy_source])
+        metadata = resolve_metadata(options)
         size = metadata[:content_length]
-        options[:upload_id] = initiate_upload(metadata.merge(options))
+        @source_etag = metadata[:etag]
+        @source[:version_id] ||= metadata[:version_id]
+        resolve_source_parts
+        tag_set = resolve_tags(options)
+        annotations = resolve_annotations(options)
+
+        create_opts = resolve_create_opts(metadata, options)
+        options[:upload_id] = initiate_upload(create_opts)
+
         begin
           parts = copy_parts(size, default_part_size(size), options)
-          complete_upload(parts, options)
-        rescue => error
+          resp = complete_upload(parts, options)
+        rescue StandardError => e
           abort_upload(options)
-          raise error
+          raise e
         end
+
+        put_tags(tag_set, resp, options) if tag_set
+        put_annotations(annotations, resp, options) if annotations&.any?
       end
 
       private
+
+      def resolve_source(copy_source)
+        bucket, remaining = copy_source.split('/', 2)
+        key, version_id = remaining.split('?versionId=', 2)
+        result = { bucket: bucket, key: CGI.unescape(key) }
+        result[:version_id] = version_id if version_id
+        result
+      end
+
+      def resolve_metadata(options)
+        return options.slice(:content_length) if options[:content_length]
+
+        resp = @source_client.head_object(@source).to_h
+        resp.delete(:server_side_encryption)
+        resp.delete(:ssekms_key_id)
+        resp
+      end
+
+      def resolve_source_parts
+        return unless @use_source_parts
+
+        resp = @source_client.head_object(@source.merge(part_number: 1))
+        @source_parts_count = resp.parts_count
+        @first_part_size = resp.content_length if @source_parts_count
+      end
+
+      def resolve_create_opts(metadata, options)
+        return options if options[:metadata_directive] == 'REPLACE'
+
+        create_opts = metadata.merge(options)
+        create_opts.delete(:tagging) if options[:tags_directive]
+        create_opts
+      end
+
+      def resolve_tags(options) # rubocop:disable Metrics/MethodLength
+        return unless options[:tags_directive]
+
+        case options[:tags_directive]
+        when 'COPY'
+          resp = @source_client.get_object_tagging(@source)
+          resp.tag_set
+        when 'REPLACE'
+          tagging = options[:tagging]
+          return if tagging.nil? || tagging.empty?
+
+          tagging.split('&').map do |pair|
+            k, v = pair.split('=', 2)
+            { key: CGI.unescape(k), value: CGI.unescape(v) }
+          end
+        end
+      end
+
+      def resolve_annotations(options) # rubocop:disable Metrics/MethodLength
+        return unless options[:annotations_directive] == 'COPY'
+
+        list_resp = @source_client.list_object_annotations(@source)
+        return if list_resp.annotations.empty?
+
+        list_resp.annotations.map do |annotation|
+          {
+            name: annotation.annotation_name,
+            payload: @source_client.get_object_annotation(
+              @source.merge(annotation_name: annotation.annotation_name)
+            ).annotation_payload
+          }
+        end
+      end
 
       def initiate_upload(options)
         options = options_for(:create_multipart_upload, options)
@@ -63,28 +150,30 @@ module Aws
         @thread_count.times do
           threads << copy_part_thread(queue)
         end
-        threads.map(&:value).flatten.sort_by{ |part| part[:part_number] }
+        threads.map(&:value).flatten.sort_by { |part| part[:part_number] }
       end
 
-      def copy_part_thread(queue)
+      def copy_part_thread(queue) # rubocop:disable Metrics/MethodLength
         Thread.new do
-          begin
+          begin # rubocop:disable Style/RedundantBegin
             completed = []
-            while part = queue.shift
+            while (part = queue.shift)
               completed << copy_part(part)
             end
             completed
-          rescue => error
+          rescue StandardError => e
             queue.clear!
-            raise error
+            raise e
           end
         end
       end
 
       def copy_part(part)
-        @client.upload_part_copy(part).copy_part_result.to_h.merge({
-          part_number: part[:part_number]
-        }).tap { |result| result.delete(:last_modified) }
+        @client.upload_part_copy(part)
+               .copy_part_result
+               .to_h
+               .merge({ part_number: part[:part_number] })
+               .tap { |result| result.delete(:last_modified) }
       end
 
       def complete_upload(parts, options)
@@ -94,28 +183,42 @@ module Aws
       end
 
       def abort_upload(options)
-        @client.abort_multipart_upload({
-          bucket: options[:bucket],
-          key: options[:key],
-          upload_id: options[:upload_id],
-        })
+        @client.abort_multipart_upload(
+          {
+            bucket: options[:bucket],
+            key: options[:key],
+            upload_id: options[:upload_id]
+          }
+        )
       end
 
-      def compute_parts(size, default_part_size, options)
+      def compute_parts(size, default_part_size, options) # rubocop:disable Metrics/MethodLength
         part_number = 1
         offset = 0
         parts = []
         options = options_for(:upload_part_copy, options)
+        options[:copy_source_if_match] = @source_etag if @source_etag
         while offset < size
           part_size = calculate_part_size(part_number, default_part_size, options)
-          parts << options.merge({
-            part_number: part_number,
-            copy_source_range: byte_range(offset, part_size, size),
-          })
+          parts << options.merge({ part_number: part_number, copy_source_range: byte_range(offset, part_size, size) })
           part_number += 1
           offset += part_size
         end
         parts
+      end
+
+      def calculate_part_size(part_number, default_part_size, _options)
+        if @source_parts_count
+          resolve_part_size(part_number)
+        else
+          default_part_size
+        end
+      end
+
+      def resolve_part_size(part_number)
+        return @first_part_size if part_number == 1 && @first_part_size
+
+        @source_client.head_object(@source.merge(part_number: part_number)).content_length
       end
 
       def byte_range(offset, part_size, size)
@@ -126,68 +229,58 @@ module Aws
         end
       end
 
-      def calculate_part_size(part_number, default_part_size, options)
-        if @use_source_parts && source_has_parts(options)
-          source_metadata(options.merge({ part_number: part_number }))[:content_length]
-        else
-          default_part_size
-        end
-      end
-
-      def source_has_parts(options)
-        @source_has_parts ||= source_metadata(options.merge({ part_number: 1 }))[:parts_count]
-      end
-
-      def source_metadata(options)
-        return options.slice(:content_length) if options[:content_length]
-
-        client = options[:copy_source_client] || @client
-
-        if vid_match = options[:copy_source].match(/([^\/]+?)\/(.+)\?versionId=(.+)/)
-          bucket, key, version_id = vid_match[1,3]
-        else
-          bucket, key = options[:copy_source].match(/([^\/]+?)\/(.+)/)[1,2]
-        end
-
-        head_opts = { bucket: bucket, key: CGI.unescape(key) }.tap { |opts|
-          opts[:version_id]  = version_id if version_id
-          opts[:part_number] = options[:part_number] if options[:part_number]
-        }
-
-        client.head_object(head_opts).to_h.tap { |head|
-          head.delete(:server_side_encryption)
-          head.delete(:ssekms_key_id)
-        }
-      end
-
       def default_part_size(source_size)
-        if source_size < FIVE_MB
-          raise ArgumentError, FILE_TOO_SMALL
-        else
-          [(source_size.to_f / MAX_PARTS).ceil, @min_part_size].max.to_i
+        raise ArgumentError, 'unable to multipart copy files smaller than 5MB' if source_size < MIN_PART_SIZE
+
+        [(source_size.to_f / MAX_PARTS).ceil, @min_part_size].max.to_i
+      end
+
+      def put_tags(tags, resp, options)
+        @client.put_object_tagging(
+          bucket: options[:bucket],
+          key: options[:key],
+          tagging: { tag_set: tags },
+          version_id: resp.version_id
+        )
+      rescue StandardError => e
+        raise StandardError,
+              'Object data copied successfully. ' \
+              "Failed to copy tags: #{e.message}"
+      end
+
+      def put_annotations(annotations, response, options) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+        succeeded = []
+        failed = []
+
+        annotations.each do |annotation|
+          @client.put_object_annotation(
+            bucket: options[:bucket],
+            key: options[:key],
+            version_id: response.version_id,
+            object_if_match: response.etag,
+            annotation_name: annotation[:name],
+            annotation_payload: annotation[:payload]
+          )
+          succeeded << annotation[:name]
+        rescue StandardError => e
+          failed << { key: annotation[:name], error: e }
         end
+        return if failed.empty?
+
+        raise StandardError,
+              'Object data copied successfully. Failed to copy annotations: ' \
+              "#{failed.map { |f| "#{f[:key]} (#{f[:error].message})" }.join(', ')}. " \
+              "Succeeded: #{succeeded.join(', ')}"
       end
 
       def options_for(operation_name, options)
-        API_OPTIONS[operation_name].inject({}) do |hash, opt_name|
+        API_OPTIONS[operation_name].each_with_object({}) do |opt_name, hash|
           hash[opt_name] = options[opt_name] if options.key?(opt_name)
-          hash
         end
       end
 
-      # @api private
-      def self.options_for(shape_name)
-        Client.api.metadata['shapes'][shape_name].member_names
-      end
-
-      API_OPTIONS = {
-        create_multipart_upload: Types::CreateMultipartUploadRequest.members,
-        upload_part_copy: Types::UploadPartCopyRequest.members,
-        complete_multipart_upload: Types::CompleteMultipartUploadRequest.members,
-      }
-
+      # A thread-safe work queue of part definitions for a multipart copy.
       class PartQueue
-
         def initialize(parts = [])
           @parts = parts
           @mutex = Mutex.new
@@ -200,7 +293,6 @@ module Aws
         def clear!
           @mutex.synchronize { @parts.clear }
         end
-
       end
     end
   end

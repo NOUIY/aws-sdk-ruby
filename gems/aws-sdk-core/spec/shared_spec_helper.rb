@@ -52,6 +52,14 @@ RSpec.configure do |config|
     Thread.report_on_exception = current_value if current_value
   end
 
+  config.around(:each, :suppress_warning) do |example|
+    original = $VERBOSE
+    $VERBOSE = nil
+    example.run
+  ensure
+    $VERBOSE = original
+  end
+
   if defined?(JRUBY_VERSION)
     config.around(:each, :jruby_flaky) do |example|
       attempt = 0

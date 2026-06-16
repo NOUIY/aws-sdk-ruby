@@ -1,6 +1,10 @@
 Unreleased Changes
 ------------------
 
+* Feature - Multipart copies now support `tags_directive`, `annotations_directive`, and `metadata_directive` options for controlling which source properties are copied to the destination.
+
+* Issue - Fix error when performing cross-region multipart copies with `copy_source_region`.
+
 1.225.1 (2026-06-10)
 ------------------
 

@@ -9,7 +9,7 @@ module Aws
       let(:client) { S3::Client.new(stub_responses: true) }
       let(:subject) { S3::Object.new(bucket_name: 'bucket', key: 'key', client: client) }
 
-      describe '#download_file', :jruby_flaky do
+      describe '#download_file', :suppress_warning, :jruby_flaky do
         let(:path) { Tempfile.new('destination').path }
         let(:one_mb_size) { 1024 * 1024 }
 
@@ -23,7 +23,7 @@ module Aws
           expect(File.read(path)).to eq('hello-world')
         end
 
-        it 'raises when download errors' do
+        it 'raises when download errors', thread_report_on_exception: false do
           client.stub_responses(:head_object, 'NoSuchKey')
           expect { subject.download_file(path) }.to raise_error(Aws::S3::Errors::NoSuchKey)
         end

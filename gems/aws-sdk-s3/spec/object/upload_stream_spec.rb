@@ -9,7 +9,7 @@ module Aws
       let(:client) { S3::Client.new(stub_responses: true) }
       let(:subject) { S3::Object.new(bucket_name: 'bucket', key: 'key', client: client) }
 
-      describe '#upload_stream', :jruby_flaky do
+      describe '#upload_stream', :suppress_warning, :jruby_flaky do
         let(:params) { { bucket: 'bucket', key: 'key' } }
         let(:seventeen_mb) { '.' * 1024 * 1024 * 17 }
 
