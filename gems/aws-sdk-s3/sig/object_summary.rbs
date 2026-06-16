@@ -89,6 +89,7 @@ module Aws
                        ?metadata: Hash[::String, ::String],
                        ?metadata_directive: ("COPY" | "REPLACE"),
                        ?tagging_directive: ("COPY" | "REPLACE"),
+                       ?annotation_directive: ("COPY" | "EXCLUDE"),
                        ?server_side_encryption: ("AES256" | "aws:fsx" | "aws:kms" | "aws:kms:dsse"),
                        ?storage_class: ("STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "OUTPOSTS" | "GLACIER_IR" | "SNOW" | "EXPRESS_ONEZONE" | "FSX_OPENZFS" | "FSX_ONTAP"),
                        ?website_redirect_location: ::String,

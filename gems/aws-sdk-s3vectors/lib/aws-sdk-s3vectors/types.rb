@@ -1112,6 +1112,11 @@ module Aws::S3Vectors
     #   The default value is `false`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] next_token
+    #   Pagination token from a previous request. The value of this field is
+    #   empty for an initial request.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3vectors-2025-07-15/QueryVectorsInput AWS API Documentation
     #
     class QueryVectorsInput < Struct.new(
@@ -1122,7 +1127,8 @@ module Aws::S3Vectors
       :query_vector,
       :filter,
       :return_metadata,
-      :return_distance)
+      :return_distance,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1137,11 +1143,17 @@ module Aws::S3Vectors
     #   for the vector index when it was created.
     #   @return [String]
     #
+    # @!attribute [rw] next_token
+    #   Pagination token to be used in the subsequent page request. The
+    #   field is empty if no further pagination is required.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3vectors-2025-07-15/QueryVectorsOutput AWS API Documentation
     #
     class QueryVectorsOutput < Struct.new(
       :vectors,
-      :distance_metric)
+      :distance_metric,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -385,6 +385,173 @@ module Aws::S3
       include Aws::Structure
     end
 
+    # Describes a single annotation attached to an object, including its
+    # name, last modified time, size, ETag, checksum algorithm, and
+    # replication status. Returned in the response from
+    # `ListObjectAnnotations`.
+    #
+    # @!attribute [rw] annotation_name
+    #   The name of the annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified
+    #   The date and time the annotation was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] etag
+    #   The entity tag of the annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_algorithm
+    #   The checksum algorithm used for the annotation.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] size
+    #   The size of the annotation payload, in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] replication_status
+    #   The replication status of the annotation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnnotationEntry AWS API Documentation
+    #
+    class AnnotationEntry < Struct.new(
+      :annotation_name,
+      :last_modified,
+      :etag,
+      :checksum_algorithm,
+      :size,
+      :replication_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request would exceed the maximum number of annotations allowed per
+    # object.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnnotationLimitExceeded AWS API Documentation
+    #
+    class AnnotationLimitExceeded < Aws::EmptyStructure; end
+
+    # The annotation name exceeds 512 bytes.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnnotationNameTooLong AWS API Documentation
+    #
+    class AnnotationNameTooLong < Aws::EmptyStructure; end
+
+    # Specifies the configuration for the annotation table associated with a
+    # bucket's Amazon S3 Metadata configuration. The annotation table is an
+    # Iceberg table that records annotation events for objects in the
+    # bucket.
+    #
+    # @!attribute [rw] configuration_state
+    #   The state of the annotation table. Valid values are `ENABLED` and
+    #   `DISABLED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   The encryption settings for an S3 Metadata journal table or
+    #   inventory table configuration.
+    #   @return [Types::MetadataTableEncryptionConfiguration]
+    #
+    # @!attribute [rw] role
+    #   The ARN of the IAM role used to manage the annotation table.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnnotationTableConfiguration AWS API Documentation
+    #
+    class AnnotationTableConfiguration < Struct.new(
+      :configuration_state,
+      :encryption_configuration,
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the current state of the annotation table associated with a
+    # bucket's Amazon S3 Metadata configuration, including its provisioning
+    # status and identifiers.
+    #
+    # @!attribute [rw] configuration_state
+    #   The current configuration state of the annotation table.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_status
+    #   The provisioning status of the annotation table. Possible values:
+    #   `CREATING`, `BACKFILLING`, `ACTIVE`, `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   If an S3 Metadata V1 `CreateBucketMetadataTableConfiguration` or V2
+    #   `CreateBucketMetadataConfiguration` request succeeds, but S3
+    #   Metadata was unable to create the table, this structure contains the
+    #   error code and error message.
+    #
+    #   <note markdown="1"> If you created your S3 Metadata configuration before July 15, 2025,
+    #   we recommend that you delete and re-create your configuration by
+    #   using [CreateBucketMetadataConfiguration][1] so that you can expire
+    #   journal table records and create a live inventory table.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html
+    #   @return [Types::ErrorDetails]
+    #
+    # @!attribute [rw] table_name
+    #   The name of the annotation table.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_arn
+    #   The ARN of the annotation table.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The ARN of the IAM role associated with the annotation table.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnnotationTableConfigurationResult AWS API Documentation
+    #
+    class AnnotationTableConfigurationResult < Struct.new(
+      :configuration_state,
+      :table_status,
+      :error,
+      :table_name,
+      :table_arn,
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies updates to apply to the annotation table configuration. Used
+    # as the request body for
+    # `UpdateBucketMetadataAnnotationTableConfiguration`.
+    #
+    # @!attribute [rw] configuration_state
+    #   The new configuration state to apply.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   The encryption settings for an S3 Metadata journal table or
+    #   inventory table configuration.
+    #   @return [Types::MetadataTableEncryptionConfiguration]
+    #
+    # @!attribute [rw] role
+    #   The new IAM role ARN to apply.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnnotationTableConfigurationUpdates AWS API Documentation
+    #
+    class AnnotationTableConfigurationUpdates < Struct.new(
+      :configuration_state,
+      :encryption_configuration,
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A bucket-level setting for Amazon S3 general purpose buckets used to
     # prevent the upload of new objects encrypted with the specified
     # server-side encryption type. For example, blocking an encryption type
@@ -2357,6 +2524,45 @@ module Aws::S3
     #    </note>
     #   @return [String]
     #
+    # @!attribute [rw] annotation_directive
+    #   Specifies whether you want to copy annotations from the source
+    #   object or exclude them. If this header isn't specified, `COPY` is
+    #   the default behavior.
+    #
+    #   Valid Values: `COPY | EXCLUDE`
+    #
+    #   You can specify this directive as either an HTTP header
+    #   (`x-amz-object-annotation-directive`) or as a query string
+    #   parameter. Use the query string form when generating presigned URLs
+    #   that need to control annotation copy behavior.
+    #
+    #   When set to `COPY`, you must have `s3:GetObjectAnnotation`
+    #   permission on the source object and `s3:PutObjectAnnotation`
+    #   permission on the destination. Each annotation copied is billed as a
+    #   separate PUT request. If annotations on the source are modified
+    #   during the copy, Amazon S3 returns a retryable error.
+    #
+    #   <note markdown="1"> For directory buckets, annotations are not supported. Use `EXCLUDE`
+    #   to copy objects to directory buckets without errors. If you specify
+    #   `COPY` for a directory bucket, the request returns HTTP 501 (Not
+    #   Implemented).
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> When you copy objects using multipart upload (for example, when the
+    #   Amazon Web Services CLI or Amazon Web Services SDKs use Transfer
+    #   Manager for objects larger than approximately 8 MB), annotations are
+    #   not copied by default. To include annotations, specify `--copy-props
+    #   default` in the Amazon Web Services CLI or the equivalent SDK
+    #   configuration. With this opt-in, the SDK reads source annotations,
+    #   completes the multipart upload, and then writes each annotation to
+    #   the destination. Between the upload completion and the last
+    #   annotation write, the destination object exists without all its
+    #   annotations.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] server_side_encryption
     #   The server-side encryption algorithm used when storing this object
     #   in Amazon S3. Unrecognized or unsupported values won’t write a
@@ -2809,6 +3015,7 @@ module Aws::S3
       :metadata,
       :metadata_directive,
       :tagging_directive,
+      :annotation_directive,
       :server_side_encryption,
       :storage_class,
       :website_redirect_location,
@@ -5058,6 +5265,95 @@ module Aws::S3
     #
     class DeleteMarkerReplication < Struct.new(
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] object_version_id
+    #   The version ID of the object that the annotation was deleted from.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_charged
+    #   If present, indicates that the requester was successfully charged
+    #   for the request. For more information, see [Using Requester Pays
+    #   buckets for storage transfers and usage][1] in the *Amazon Simple
+    #   Storage Service user guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectAnnotationOutput AWS API Documentation
+    #
+    class DeleteObjectAnnotationOutput < Struct.new(
+      :object_version_id,
+      :request_charged)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bucket
+    #   The name of the bucket that contains the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] key
+    #   The object key.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_name
+    #   The name of the annotation to delete. Annotation names are UTF-8
+    #   encoded and cannot start with `aws` or `s3` (case-insensitive).
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512
+    #   bytes.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version ID of the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has
+    #   Requester Pays enabled, the requester will pay for the corresponding
+    #   charges. For information about downloading objects from Requester
+    #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
+    #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @!attribute [rw] expected_bucket_owner
+    #   The account ID of the expected bucket owner.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_if_match
+    #   If specified, the operation only succeeds if the object's ETag
+    #   matches the provided value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectAnnotationRequest AWS API Documentation
+    #
+    class DeleteObjectAnnotationRequest < Struct.new(
+      :bucket,
+      :key,
+      :annotation_name,
+      :version_id,
+      :request_payer,
+      :expected_bucket_owner,
+      :object_if_match)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8115,6 +8411,182 @@ module Aws::S3
       include Aws::Structure
     end
 
+    # @!attribute [rw] annotation_payload
+    #   The annotation payload.
+    #   @return [IO]
+    #
+    # @!attribute [rw] object_version_id
+    #   The version ID of the object that the annotation is attached to.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified
+    #   The date and time the annotation was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] content_length
+    #   The size of the annotation payload, in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] etag
+    #   The entity tag of the annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc32
+    #   The CRC32 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc32c
+    #   The CRC32C checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc64nvme
+    #   The CRC64NVME checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha1
+    #   The SHA1 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha256
+    #   The SHA256 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha512
+    #   The SHA512 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_md5
+    #   The MD5 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash64
+    #   The XXHASH64 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash3
+    #   The XXHASH3 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash128
+    #   The XXHASH128 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_type
+    #   The type of checksum used.
+    #   @return [String]
+    #
+    # @!attribute [rw] server_side_encryption
+    #   The server-side encryption algorithm used.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_charged
+    #   If present, indicates that the requester was successfully charged
+    #   for the request. For more information, see [Using Requester Pays
+    #   buckets for storage transfers and usage][1] in the *Amazon Simple
+    #   Storage Service user guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_status
+    #   The replication status of the annotation. Possible values include
+    #   `PENDING`, `COMPLETED`, `FAILED`, and `REPLICA`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAnnotationOutput AWS API Documentation
+    #
+    class GetObjectAnnotationOutput < Struct.new(
+      :annotation_payload,
+      :object_version_id,
+      :last_modified,
+      :content_length,
+      :etag,
+      :checksum_crc32,
+      :checksum_crc32c,
+      :checksum_crc64nvme,
+      :checksum_sha1,
+      :checksum_sha256,
+      :checksum_sha512,
+      :checksum_md5,
+      :checksum_xxhash64,
+      :checksum_xxhash3,
+      :checksum_xxhash128,
+      :checksum_type,
+      :server_side_encryption,
+      :request_charged,
+      :replication_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bucket
+    #   The name of the bucket that contains the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] key
+    #   The object key.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_name
+    #   The name of the annotation to retrieve.
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512
+    #   bytes.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version ID of the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has
+    #   Requester Pays enabled, the requester will pay for the corresponding
+    #   charges. For information about downloading objects from Requester
+    #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
+    #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @!attribute [rw] expected_bucket_owner
+    #   The account ID of the expected bucket owner. If the bucket is owned
+    #   by a different account, the request fails with an HTTP 403 (Access
+    #   Denied) error.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_mode
+    #   Set to `ENABLED` to validate the checksum of the annotation payload
+    #   on retrieval.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAnnotationRequest AWS API Documentation
+    #
+    class GetObjectAnnotationRequest < Struct.new(
+      :bucket,
+      :key,
+      :annotation_name,
+      :version_id,
+      :request_payer,
+      :expected_bucket_owner,
+      :checksum_mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] delete_marker
     #   Specifies whether the object retrieved was (`true`) or was not
     #   (`false`) a delete marker. If `false`, this response header does not
@@ -10838,6 +11310,12 @@ module Aws::S3
       include Aws::Structure
     end
 
+    # The annotation name you provided is invalid.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InvalidAnnotationName AWS API Documentation
+    #
+    class InvalidAnnotationName < Aws::EmptyStructure; end
+
     # Object is archived and inaccessible until restored.
     #
     # If the object you are retrieving is stored in the S3 Glacier Flexible
@@ -10868,6 +11346,12 @@ module Aws::S3
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # The annotation prefix you provided is invalid.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InvalidPrefix AWS API Documentation
+    #
+    class InvalidPrefix < Aws::EmptyStructure; end
 
     # A parameter or header in your request isn't valid. For details, see
     # the description of this API operation.
@@ -12365,6 +12849,138 @@ module Aws::S3
       include Aws::Structure
     end
 
+    # @!attribute [rw] annotations
+    #   The list of annotations attached to the object.
+    #   @return [Array<Types::AnnotationEntry>]
+    #
+    # @!attribute [rw] bucket
+    #   The bucket name.
+    #   @return [String]
+    #
+    # @!attribute [rw] key
+    #   The object key.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_version_id
+    #   The version ID of the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_prefix
+    #   The prefix used to filter the response.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_annotation_results
+    #   The maximum number of annotations returned in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] annotation_count
+    #   The number of annotations returned.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] continuation_token
+    #   The continuation token used in this request.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_continuation_token
+    #   The continuation token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_charged
+    #   If present, indicates that the requester was successfully charged
+    #   for the request. For more information, see [Using Requester Pays
+    #   buckets for storage transfers and usage][1] in the *Amazon Simple
+    #   Storage Service user guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectAnnotationsOutput AWS API Documentation
+    #
+    class ListObjectAnnotationsOutput < Struct.new(
+      :annotations,
+      :bucket,
+      :key,
+      :object_version_id,
+      :annotation_prefix,
+      :max_annotation_results,
+      :annotation_count,
+      :continuation_token,
+      :next_continuation_token,
+      :request_charged)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bucket
+    #   The name of the bucket that contains the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] key
+    #   The object key.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version ID of the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_annotation_results
+    #   The maximum number of annotations to return in the response. Maximum
+    #   is 1,000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] annotation_prefix
+    #   Filter results to annotations whose name begins with the specified
+    #   prefix.
+    #   @return [String]
+    #
+    # @!attribute [rw] continuation_token
+    #   Continuation token returned by a previous request to retrieve the
+    #   next page.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has
+    #   Requester Pays enabled, the requester will pay for the corresponding
+    #   charges. For information about downloading objects from Requester
+    #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
+    #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @!attribute [rw] expected_bucket_owner
+    #   The account ID of the expected bucket owner.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectAnnotationsRequest AWS API Documentation
+    #
+    class ListObjectAnnotationsRequest < Struct.new(
+      :bucket,
+      :key,
+      :version_id,
+      :max_annotation_results,
+      :annotation_prefix,
+      :continuation_token,
+      :request_payer,
+      :expected_bucket_owner)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] is_truncated
     #   A flag that indicates whether Amazon S3 returned all of the results
     #   that satisfied the search criteria. If your results were truncated,
@@ -13587,11 +14203,17 @@ module Aws::S3
     #   The inventory table configuration for a metadata configuration.
     #   @return [Types::InventoryTableConfiguration]
     #
+    # @!attribute [rw] annotation_table_configuration
+    #   Optional annotation table configuration to include with the metadata
+    #   configuration.
+    #   @return [Types::AnnotationTableConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetadataConfiguration AWS API Documentation
     #
     class MetadataConfiguration < Struct.new(
       :journal_table_configuration,
-      :inventory_table_configuration)
+      :inventory_table_configuration,
+      :annotation_table_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13610,12 +14232,18 @@ module Aws::S3
     #   The inventory table configuration for a metadata configuration.
     #   @return [Types::InventoryTableConfigurationResult]
     #
+    # @!attribute [rw] annotation_table_configuration_result
+    #   The annotation table configuration result, if an annotation table is
+    #   configured.
+    #   @return [Types::AnnotationTableConfigurationResult]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetadataConfigurationResult AWS API Documentation
     #
     class MetadataConfigurationResult < Struct.new(
       :destination_result,
       :journal_table_configuration_result,
-      :inventory_table_configuration_result)
+      :inventory_table_configuration_result,
+      :annotation_table_configuration_result)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13930,6 +14558,12 @@ module Aws::S3
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # The specified annotation does not exist on this object.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoSuchAnnotation AWS API Documentation
+    #
+    class NoSuchAnnotation < Aws::EmptyStructure; end
 
     # The specified bucket does not exist.
     #
@@ -16549,6 +17183,242 @@ module Aws::S3
       :key,
       :request_payer,
       :version_id,
+      :expected_bucket_owner)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] key
+    #   The object key.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_name
+    #   The name of the annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_version_id
+    #   The version ID of the object that the annotation was attached to.
+    #   @return [String]
+    #
+    # @!attribute [rw] etag
+    #   The entity tag of the annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc32
+    #   The CRC32 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc32c
+    #   The CRC32C checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc64nvme
+    #   The CRC64NVME checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha1
+    #   The SHA1 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha256
+    #   The SHA256 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha512
+    #   The SHA512 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_md5
+    #   The MD5 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash64
+    #   The XXHASH64 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash3
+    #   The XXHASH3 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash128
+    #   The XXHASH128 checksum of the stored annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_type
+    #   The type of checksum used.
+    #   @return [String]
+    #
+    # @!attribute [rw] server_side_encryption
+    #   The server-side encryption algorithm used to encrypt the annotation.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_charged
+    #   If present, indicates that the requester was successfully charged
+    #   for the request. For more information, see [Using Requester Pays
+    #   buckets for storage transfers and usage][1] in the *Amazon Simple
+    #   Storage Service user guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAnnotationOutput AWS API Documentation
+    #
+    class PutObjectAnnotationOutput < Struct.new(
+      :key,
+      :annotation_name,
+      :object_version_id,
+      :etag,
+      :checksum_crc32,
+      :checksum_crc32c,
+      :checksum_crc64nvme,
+      :checksum_sha1,
+      :checksum_sha256,
+      :checksum_sha512,
+      :checksum_md5,
+      :checksum_xxhash64,
+      :checksum_xxhash3,
+      :checksum_xxhash128,
+      :checksum_type,
+      :server_side_encryption,
+      :request_charged)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bucket
+    #   The name of the bucket that contains the object.
+    #   @return [String]
+    #
+    # @!attribute [rw] key
+    #   The object key.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_id
+    #   The version ID of the object to attach the annotation to.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_name
+    #   The name of the annotation.
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512
+    #   bytes.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_payload
+    #   The annotation payload. Must be between 1 byte and 1 MiB in size,
+    #   and must be valid UTF-8 encoded text. If the payload contains
+    #   invalid UTF-8 bytes, the request fails with HTTP 415 (Unsupported
+    #   Media Type). To store binary data, encode the payload using Base64
+    #   before uploading.
+    #   @return [IO]
+    #
+    # @!attribute [rw] object_if_match
+    #   If specified, the operation only succeeds if the object's ETag
+    #   matches the provided value.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_algorithm
+    #   The checksum algorithm to use. Supported values: `CRC32`, `CRC32C`,
+    #   `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`, `MD5`, `XXHASH64`,
+    #   `XXHASH3`, `XXHASH128`.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc32
+    #   Base64-encoded CRC32 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc32c
+    #   Base64-encoded CRC32C checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_crc64nvme
+    #   Base64-encoded CRC64NVME checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha1
+    #   Base64-encoded SHA1 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha256
+    #   Base64-encoded SHA256 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_sha512
+    #   Base64-encoded SHA512 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_md5
+    #   Base64-encoded MD5 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash64
+    #   Base64-encoded XXHASH64 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash3
+    #   Base64-encoded XXHASH3 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_xxhash128
+    #   Base64-encoded XXHASH128 checksum of the annotation payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_md5
+    #   Base64-encoded MD5 digest of the message.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has
+    #   Requester Pays enabled, the requester will pay for the corresponding
+    #   charges. For information about downloading objects from Requester
+    #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
+    #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #   @return [String]
+    #
+    # @!attribute [rw] expected_bucket_owner
+    #   The account ID of the expected bucket owner. If the bucket is owned
+    #   by a different account, the request fails with an HTTP 403 (Access
+    #   Denied) error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAnnotationRequest AWS API Documentation
+    #
+    class PutObjectAnnotationRequest < Struct.new(
+      :bucket,
+      :key,
+      :version_id,
+      :annotation_name,
+      :annotation_payload,
+      :object_if_match,
+      :checksum_algorithm,
+      :checksum_crc32,
+      :checksum_crc32c,
+      :checksum_crc64nvme,
+      :checksum_sha1,
+      :checksum_sha256,
+      :checksum_sha512,
+      :checksum_md5,
+      :checksum_xxhash64,
+      :checksum_xxhash3,
+      :checksum_xxhash128,
+      :content_md5,
+      :request_payer,
       :expected_bucket_owner)
       SENSITIVE = []
       include Aws::Structure
@@ -20330,6 +21200,45 @@ module Aws::S3
       :date,
       :days,
       :storage_class)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The annotation payload is not valid UTF-8 encoded text.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UnsupportedMediaType AWS API Documentation
+    #
+    class UnsupportedMediaType < Aws::EmptyStructure; end
+
+    # @!attribute [rw] bucket
+    #   The name of the bucket whose annotation table configuration to
+    #   update.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_md5
+    #   Base64-encoded MD5 digest of the message body.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum_algorithm
+    #   Checksum algorithm for the request payload.
+    #   @return [String]
+    #
+    # @!attribute [rw] annotation_table_configuration
+    #   The annotation table configuration updates to apply.
+    #   @return [Types::AnnotationTableConfigurationUpdates]
+    #
+    # @!attribute [rw] expected_bucket_owner
+    #   The account ID of the expected bucket owner.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UpdateBucketMetadataAnnotationTableConfigurationRequest AWS API Documentation
+    #
+    class UpdateBucketMetadataAnnotationTableConfigurationRequest < Struct.new(
+      :bucket,
+      :content_md5,
+      :checksum_algorithm,
+      :annotation_table_configuration,
+      :expected_bucket_owner)
       SENSITIVE = []
       include Aws::Structure
     end

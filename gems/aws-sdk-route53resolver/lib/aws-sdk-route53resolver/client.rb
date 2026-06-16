@@ -484,6 +484,11 @@ module Aws::Route53Resolver
     # Associates a FirewallRuleGroup with a VPC, to provide DNS filtering
     # for the VPC.
     #
+    # If the rule group contains any rule configured with the
+    # `PartnerThreatProtection` rule type, the calling account must hold an
+    # active AWS Marketplace subscription to the named partner. If the
+    # subscription is missing, the association request is rejected.
+    #
     # @option params [required, String] :creator_request_id
     #   A unique string that identifies the request and that allows failed
     #   requests to be retried without the risk of running the operation
@@ -794,6 +799,9 @@ module Aws::Route53Resolver
     #         dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
     #         confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
     #         firewall_rule_type: {
+    #           partner_threat_protection: {
+    #             partner: "PartnerValue", # required
+    #           },
     #           firewall_advanced_content_category: {
     #             category: "FirewallAdvancedContentCategoryValue", # required
     #           },
@@ -829,10 +837,13 @@ module Aws::Route53Resolver
     #   resp.created_firewall_rules[0].qtype #=> String
     #   resp.created_firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.created_firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.created_firewall_rules[0].firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.created_firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.created_firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.created_firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
     #   resp.created_firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.created_firewall_rules[0].status #=> String
+    #   resp.created_firewall_rules[0].status_message #=> String
     #   resp.create_errors #=> Array
     #   resp.create_errors[0].firewall_rule.creator_request_id #=> String
     #   resp.create_errors[0].firewall_rule.firewall_rule_group_id #=> String
@@ -848,6 +859,7 @@ module Aws::Route53Resolver
     #   resp.create_errors[0].firewall_rule.qtype #=> String
     #   resp.create_errors[0].firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.create_errors[0].firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.create_errors[0].firewall_rule.firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.create_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.create_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.create_errors[0].firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
@@ -907,10 +919,13 @@ module Aws::Route53Resolver
     #   resp.deleted_firewall_rules[0].qtype #=> String
     #   resp.deleted_firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.deleted_firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.deleted_firewall_rules[0].firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.deleted_firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.deleted_firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.deleted_firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
     #   resp.deleted_firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.deleted_firewall_rules[0].status #=> String
+    #   resp.deleted_firewall_rules[0].status_message #=> String
     #   resp.delete_errors #=> Array
     #   resp.delete_errors[0].firewall_rule.firewall_rule_group_id #=> String
     #   resp.delete_errors[0].firewall_rule.firewall_domain_list_id #=> String
@@ -958,6 +973,9 @@ module Aws::Route53Resolver
     #         dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
     #         confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
     #         firewall_rule_type: {
+    #           partner_threat_protection: {
+    #             partner: "PartnerValue", # required
+    #           },
     #           firewall_advanced_content_category: {
     #             category: "FirewallAdvancedContentCategoryValue", # required
     #           },
@@ -993,10 +1011,13 @@ module Aws::Route53Resolver
     #   resp.updated_firewall_rules[0].qtype #=> String
     #   resp.updated_firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.updated_firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.updated_firewall_rules[0].firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.updated_firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.updated_firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.updated_firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
     #   resp.updated_firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.updated_firewall_rules[0].status #=> String
+    #   resp.updated_firewall_rules[0].status_message #=> String
     #   resp.update_errors #=> Array
     #   resp.update_errors[0].firewall_rule.firewall_rule_group_id #=> String
     #   resp.update_errors[0].firewall_rule.firewall_domain_list_id #=> String
@@ -1012,6 +1033,7 @@ module Aws::Route53Resolver
     #   resp.update_errors[0].firewall_rule.qtype #=> String
     #   resp.update_errors[0].firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.update_errors[0].firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.update_errors[0].firewall_rule.firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.update_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.update_errors[0].firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.update_errors[0].firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
@@ -1090,8 +1112,31 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Creates a single DNS Firewall rule in the specified rule group, using
-    # the specified domain list.
+    # Creates a single DNS Firewall rule in the specified rule group. The
+    # rule can use any one of the following match sources, and the chosen
+    # source must be supplied through the matching request field — they are
+    # mutually exclusive:
+    #
+    # * `FirewallDomainListId` — match a customer-managed or AWS-managed
+    #   domain list.
+    #
+    # * `DnsThreatProtection` — match a built-in DNS Firewall Advanced
+    #   threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    # * `FirewallRuleType` — match one of the rule-type variants returned by
+    #   ListFirewallRuleTypes: `FirewallAdvancedContentCategory`,
+    #   `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, or
+    #   `PartnerThreatProtection`. The `PartnerThreatProtection` variant
+    #   requires an active AWS Marketplace subscription to the named partner
+    #   product.
+    #
+    # For rules that require asynchronous provisioning (today, the
+    # `PartnerThreatProtection` rule type), the rule's `Status` begins at
+    # `CREATING` and transitions to `COMPLETE` once the rule is provisioned
+    # and the marketplace entitlement is verified. If provisioning fails,
+    # `Status` becomes `CREATION_FAILED` and `StatusMessage` contains a
+    # human-readable reason; the rule is then immutable and must be removed
+    # with DeleteFirewallRule.
     #
     # @option params [required, String] :creator_request_id
     #   A unique string that identifies the request and that allows you to
@@ -1226,7 +1271,22 @@ module Aws::Route53Resolver
     #   [1]: https://en.wikipedia.org/wiki/List_of_DNS_record_types
     #
     # @option params [String] :dns_threat_protection
-    #   Use to create a DNS Firewall Advanced rule.
+    #   The type of the DNS Firewall Advanced rule. This setting is mutually
+    #   exclusive with `FirewallDomainListId` and `FirewallRuleType`. Valid
+    #   values are:
+    #
+    #   * `DGA`: Domain generation algorithms detection. DGAs are used by
+    #     attackers to generate a large number of domains to launch malware
+    #     attacks.
+    #
+    #   * `DNS_TUNNELING`: DNS tunneling detection. DNS tunneling is used by
+    #     attackers to exfiltrate data from the client by using the DNS tunnel
+    #     without making a network connection to the client.
+    #
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
+    #     detection. Dictionary DGAs use wordlists to generate domains that
+    #     appear more legitimate, making them harder to detect than
+    #     traditional DGAs.
     #
     # @option params [String] :confidence_threshold
     #   The confidence threshold for DNS Firewall Advanced. You must provide
@@ -1243,9 +1303,26 @@ module Aws::Route53Resolver
     #     rate of false positives.
     #
     # @option params [Types::FirewallRuleType] :firewall_rule_type
-    #   The rule type configuration for the firewall rule. This setting is
-    #   mutually exclusive with the top-level `FirewallDomainListId` and
-    #   `DnsThreatProtection` fields.
+    #   The rule type configuration for the firewall rule. This is a tagged
+    #   union — set exactly one of its members. This setting is mutually
+    #   exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields. Use one of:
+    #
+    #   * `FirewallAdvancedContentCategory` — match an AWS-managed content
+    #     category (for example, `VIOLENCE_AND_HATE_SPEECH`).
+    #
+    #   * `FirewallAdvancedThreatCategory` — match an AWS-managed advanced
+    #     threat category (for example, `PHISHING`).
+    #
+    #   * `DnsThreatProtection` — match a built-in DNS Firewall Advanced
+    #     threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    #   * `PartnerThreatProtection` — match a third-party threat feed
+    #     delivered through AWS Marketplace. The selected partner must be an
+    #     active subscription on the calling account.
+    #
+    #   To enumerate the values supported in your account, call
+    #   ListFirewallRuleTypes.
     #
     # @return [Types::CreateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1269,6 +1346,9 @@ module Aws::Route53Resolver
     #     dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
     #     confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
     #     firewall_rule_type: {
+    #       partner_threat_protection: {
+    #         partner: "PartnerValue", # required
+    #       },
     #       firewall_advanced_content_category: {
     #         category: "FirewallAdvancedContentCategoryValue", # required
     #       },
@@ -1301,10 +1381,13 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.qtype #=> String
     #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
     #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.status #=> String
+    #   resp.firewall_rule.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateFirewallRule AWS API Documentation
     #
@@ -1953,7 +2036,13 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Deletes the specified firewall rule.
+    # Deletes the specified firewall rule. Identify the rule using either
+    # `FirewallDomainListId` (for domain-list and DNS Firewall Advanced
+    # rules) or `FirewallThreatProtectionId` (for partner-managed and DNS
+    # Firewall Advanced rules) — together with `FirewallRuleGroupId`.
+    #
+    # `DeleteFirewallRule` is the only operation that succeeds against a
+    # rule whose `Status` is `CREATION_FAILED`.
     #
     # @option params [required, String] :firewall_rule_group_id
     #   The unique identifier of the firewall rule group that you want to
@@ -2038,10 +2127,13 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.qtype #=> String
     #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
     #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.status #=> String
+    #   resp.firewall_rule.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/DeleteFirewallRule AWS API Documentation
     #
@@ -3457,12 +3549,28 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Retrieves the available rule types that can be used in DNS Firewall
-    # rules.
+    # Retrieves the rule-type variants that can be used in the
+    # `FirewallRuleType` field of CreateFirewallRule and UpdateFirewallRule.
+    # Each returned FirewallRuleTypeDefinition identifies one variant +
+    # value combination — for example, `FirewallAdvancedContentCategory` +
+    # `VIOLENCE_AND_HATE_SPEECH`, or `PartnerThreatProtection` + a
+    # partner-managed feed.
+    #
+    # The supported `RuleType` filter values are
+    # `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`,
+    # `DnsThreatProtection`, and `PartnerThreatProtection`. When a returned
+    # definition's variant requires an external subscription (currently
+    # only `PartnerThreatProtection`), the response also includes a
+    # SubscriptionInfo identifying the AWS Marketplace product that backs
+    # it; absence of `SubscriptionInfo` means the variant is fully managed
+    # by AWS and requires no separate subscription.
     #
     # @option params [String] :rule_type
-    #   The rule type to filter by. If specified, only rule types matching
-    #   this value are returned.
+    #   An optional filter that restricts the response to a single
+    #   FirewallRuleType variant. Supported values:
+    #   `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`,
+    #   `DnsThreatProtection`, and `PartnerThreatProtection`. If omitted,
+    #   definitions across all variants are returned.
     #
     # @option params [Integer] :max_results
     #   The maximum number of objects that you want Resolver to return for
@@ -3500,6 +3608,8 @@ module Aws::Route53Resolver
     #   resp.firewall_rule_types[0].value #=> String
     #   resp.firewall_rule_types[0].display_name #=> String
     #   resp.firewall_rule_types[0].description #=> String
+    #   resp.firewall_rule_types[0].subscription_info.vendor_name #=> String
+    #   resp.firewall_rule_types[0].subscription_info.product_id #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListFirewallRuleTypes AWS API Documentation
@@ -3517,6 +3627,10 @@ module Aws::Route53Resolver
     #
     # A single call might return only a partial list of the rules. For
     # information, see `MaxResults`.
+    #
+    # For rules that require asynchronous provisioning, the response
+    # includes `Status` (see FirewallRuleStatus) and, on failure,
+    # `StatusMessage` with the reason.
     #
     # @option params [required, String] :firewall_rule_group_id
     #   The unique identifier of the firewall rule group that you want to
@@ -3602,10 +3716,13 @@ module Aws::Route53Resolver
     #   resp.firewall_rules[0].qtype #=> String
     #   resp.firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rules[0].firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.firewall_rules[0].firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.firewall_rules[0].firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.firewall_rules[0].firewall_rule_type.dns_threat_protection.value #=> String
     #   resp.firewall_rules[0].firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rules[0].status #=> String
+    #   resp.firewall_rules[0].status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListFirewallRules AWS API Documentation
     #
@@ -3830,7 +3947,7 @@ module Aws::Route53Resolver
     #   resp.ip_addresses[0].subnet_id #=> String
     #   resp.ip_addresses[0].ip #=> String
     #   resp.ip_addresses[0].ipv_6 #=> String
-    #   resp.ip_addresses[0].status #=> String, one of "CREATING", "FAILED_CREATION", "ATTACHING", "ATTACHED", "REMAP_DETACHING", "REMAP_ATTACHING", "DETACHING", "FAILED_RESOURCE_GONE", "DELETING", "DELETE_FAILED_FAS_EXPIRED", "UPDATING", "UPDATE_FAILED", "ISOLATED"
+    #   resp.ip_addresses[0].status #=> String, one of "CREATING", "FAILED_CREATION", "FAILED_CREATION_INSUFFICIENT_EC2_CAPACITY_IN_OUTPOST", "ATTACHING", "ATTACHED", "REMAP_DETACHING", "REMAP_ATTACHING", "DETACHING", "FAILED_RESOURCE_GONE", "DELETING", "DELETE_FAILED_FAS_EXPIRED", "UPDATING", "UPDATE_FAILED", "ISOLATED"
     #   resp.ip_addresses[0].status_message #=> String
     #   resp.ip_addresses[0].creation_time #=> String
     #   resp.ip_addresses[0].modification_time #=> String
@@ -4775,7 +4892,11 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Updates the specified firewall rule.
+    # Updates the specified firewall rule. The rule's `FirewallRuleType`,
+    # `FirewallDomainListId`, and top-level `DnsThreatProtection` match
+    # source cannot be changed after creation. Rules whose `Status` is
+    # `CREATING` or `CREATION_FAILED` cannot be updated; remove a failed
+    # rule with DeleteFirewallRule.
     #
     # @option params [required, String] :firewall_rule_group_id
     #   The unique identifier of the firewall rule group for the rule.
@@ -4900,15 +5021,22 @@ module Aws::Route53Resolver
     #   [1]: https://en.wikipedia.org/wiki/List_of_DNS_record_types
     #
     # @option params [String] :dns_threat_protection
-    #   The type of the DNS Firewall Advanced rule. Valid values are:
+    #   The type of the DNS Firewall Advanced rule. This setting is mutually
+    #   exclusive with `FirewallDomainListId` and `FirewallRuleType`. Valid
+    #   values are:
     #
     #   * `DGA`: Domain generation algorithms detection. DGAs are used by
-    #     attackers to generate a large number of domains to to launch malware
+    #     attackers to generate a large number of domains to launch malware
     #     attacks.
     #
     #   * `DNS_TUNNELING`: DNS tunneling detection. DNS tunneling is used by
     #     attackers to exfiltrate data from the client by using the DNS tunnel
     #     without making a network connection to the client.
+    #
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
+    #     detection. Dictionary DGAs use wordlists to generate domains that
+    #     appear more legitimate, making them harder to detect than
+    #     traditional DGAs.
     #
     # @option params [String] :confidence_threshold
     #   The confidence threshold for DNS Firewall Advanced. You must provide
@@ -4925,9 +5053,26 @@ module Aws::Route53Resolver
     #     rate of false positives.
     #
     # @option params [Types::FirewallRuleType] :firewall_rule_type
-    #   The rule type configuration for the firewall rule. This setting is
-    #   mutually exclusive with the top-level `FirewallDomainListId` and
-    #   `DnsThreatProtection` fields.
+    #   The rule type configuration for the firewall rule. This is a tagged
+    #   union — set exactly one of its members. This setting is mutually
+    #   exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields. Use one of:
+    #
+    #   * `FirewallAdvancedContentCategory` — match an AWS-managed content
+    #     category (for example, `VIOLENCE_AND_HATE_SPEECH`).
+    #
+    #   * `FirewallAdvancedThreatCategory` — match an AWS-managed advanced
+    #     threat category (for example, `PHISHING`).
+    #
+    #   * `DnsThreatProtection` — match a built-in DNS Firewall Advanced
+    #     threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    #   * `PartnerThreatProtection` — match a third-party threat feed
+    #     delivered through AWS Marketplace. The selected partner must be an
+    #     active subscription on the calling account.
+    #
+    #   To enumerate the values supported in your account, call
+    #   ListFirewallRuleTypes.
     #
     # @return [Types::UpdateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4951,6 +5096,9 @@ module Aws::Route53Resolver
     #     dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING, DICTIONARY_DGA
     #     confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
     #     firewall_rule_type: {
+    #       partner_threat_protection: {
+    #         partner: "PartnerValue", # required
+    #       },
     #       firewall_advanced_content_category: {
     #         category: "FirewallAdvancedContentCategoryValue", # required
     #       },
@@ -4983,10 +5131,13 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.qtype #=> String
     #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING", "DICTIONARY_DGA"
     #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.firewall_rule_type.partner_threat_protection.partner #=> String
     #   resp.firewall_rule.firewall_rule_type.firewall_advanced_content_category.category #=> String
     #   resp.firewall_rule.firewall_rule_type.firewall_advanced_threat_category.category #=> String
     #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.value #=> String
     #   resp.firewall_rule.firewall_rule_type.dns_threat_protection.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.firewall_rule.status #=> String
+    #   resp.firewall_rule.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateFirewallRule AWS API Documentation
     #
@@ -5467,7 +5618,7 @@ module Aws::Route53Resolver
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-route53resolver'
-      context[:gem_version] = '1.100.0'
+      context[:gem_version] = '1.101.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

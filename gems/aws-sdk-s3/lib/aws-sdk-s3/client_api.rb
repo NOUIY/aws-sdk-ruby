@@ -44,6 +44,19 @@ module Aws::S3
     AnalyticsId = Shapes::StringShape.new(name: 'AnalyticsId')
     AnalyticsS3BucketDestination = Shapes::StructureShape.new(name: 'AnalyticsS3BucketDestination')
     AnalyticsS3ExportFileFormat = Shapes::StringShape.new(name: 'AnalyticsS3ExportFileFormat')
+    AnnotationConfigurationState = Shapes::StringShape.new(name: 'AnnotationConfigurationState')
+    AnnotationCount = Shapes::IntegerShape.new(name: 'AnnotationCount')
+    AnnotationDirective = Shapes::StringShape.new(name: 'AnnotationDirective')
+    AnnotationEntry = Shapes::StructureShape.new(name: 'AnnotationEntry')
+    AnnotationLimitExceeded = Shapes::StructureShape.new(name: 'AnnotationLimitExceeded')
+    AnnotationList = Shapes::ListShape.new(name: 'AnnotationList')
+    AnnotationName = Shapes::StringShape.new(name: 'AnnotationName')
+    AnnotationNameTooLong = Shapes::StructureShape.new(name: 'AnnotationNameTooLong')
+    AnnotationPayload = Shapes::BlobShape.new(name: 'AnnotationPayload')
+    AnnotationPrefix = Shapes::StringShape.new(name: 'AnnotationPrefix')
+    AnnotationTableConfiguration = Shapes::StructureShape.new(name: 'AnnotationTableConfiguration')
+    AnnotationTableConfigurationResult = Shapes::StructureShape.new(name: 'AnnotationTableConfigurationResult')
+    AnnotationTableConfigurationUpdates = Shapes::StructureShape.new(name: 'AnnotationTableConfigurationUpdates')
     ArchiveStatus = Shapes::StringShape.new(name: 'ArchiveStatus')
     BlockedEncryptionTypes = Shapes::StructureShape.new(name: 'BlockedEncryptionTypes')
     Body = Shapes::BlobShape.new(name: 'Body')
@@ -166,6 +179,8 @@ module Aws::S3
     DeleteMarkerReplicationStatus = Shapes::StringShape.new(name: 'DeleteMarkerReplicationStatus')
     DeleteMarkerVersionId = Shapes::StringShape.new(name: 'DeleteMarkerVersionId')
     DeleteMarkers = Shapes::ListShape.new(name: 'DeleteMarkers', flattened: true)
+    DeleteObjectAnnotationOutput = Shapes::StructureShape.new(name: 'DeleteObjectAnnotationOutput')
+    DeleteObjectAnnotationRequest = Shapes::StructureShape.new(name: 'DeleteObjectAnnotationRequest')
     DeleteObjectOutput = Shapes::StructureShape.new(name: 'DeleteObjectOutput')
     DeleteObjectRequest = Shapes::StructureShape.new(name: 'DeleteObjectRequest')
     DeleteObjectTaggingOutput = Shapes::StructureShape.new(name: 'DeleteObjectTaggingOutput')
@@ -271,6 +286,8 @@ module Aws::S3
     GetBucketWebsiteRequest = Shapes::StructureShape.new(name: 'GetBucketWebsiteRequest')
     GetObjectAclOutput = Shapes::StructureShape.new(name: 'GetObjectAclOutput')
     GetObjectAclRequest = Shapes::StructureShape.new(name: 'GetObjectAclRequest')
+    GetObjectAnnotationOutput = Shapes::StructureShape.new(name: 'GetObjectAnnotationOutput')
+    GetObjectAnnotationRequest = Shapes::StructureShape.new(name: 'GetObjectAnnotationRequest')
     GetObjectAttributesOutput = Shapes::StructureShape.new(name: 'GetObjectAttributesOutput')
     GetObjectAttributesParts = Shapes::StructureShape.new(name: 'GetObjectAttributesParts')
     GetObjectAttributesRequest = Shapes::StructureShape.new(name: 'GetObjectAttributesRequest')
@@ -326,7 +343,9 @@ module Aws::S3
     IntelligentTieringFilter = Shapes::StructureShape.new(name: 'IntelligentTieringFilter')
     IntelligentTieringId = Shapes::StringShape.new(name: 'IntelligentTieringId')
     IntelligentTieringStatus = Shapes::StringShape.new(name: 'IntelligentTieringStatus')
+    InvalidAnnotationName = Shapes::StructureShape.new(name: 'InvalidAnnotationName')
     InvalidObjectState = Shapes::StructureShape.new(name: 'InvalidObjectState')
+    InvalidPrefix = Shapes::StructureShape.new(name: 'InvalidPrefix')
     InvalidRequest = Shapes::StructureShape.new(name: 'InvalidRequest')
     InvalidWriteOffset = Shapes::StructureShape.new(name: 'InvalidWriteOffset')
     InventoryConfiguration = Shapes::StructureShape.new(name: 'InventoryConfiguration')
@@ -387,6 +406,8 @@ module Aws::S3
     ListDirectoryBucketsRequest = Shapes::StructureShape.new(name: 'ListDirectoryBucketsRequest')
     ListMultipartUploadsOutput = Shapes::StructureShape.new(name: 'ListMultipartUploadsOutput')
     ListMultipartUploadsRequest = Shapes::StructureShape.new(name: 'ListMultipartUploadsRequest')
+    ListObjectAnnotationsOutput = Shapes::StructureShape.new(name: 'ListObjectAnnotationsOutput')
+    ListObjectAnnotationsRequest = Shapes::StructureShape.new(name: 'ListObjectAnnotationsRequest')
     ListObjectVersionsOutput = Shapes::StructureShape.new(name: 'ListObjectVersionsOutput')
     ListObjectVersionsRequest = Shapes::StructureShape.new(name: 'ListObjectVersionsRequest')
     ListObjectsOutput = Shapes::StructureShape.new(name: 'ListObjectsOutput')
@@ -406,6 +427,7 @@ module Aws::S3
     MFADeleteStatus = Shapes::StringShape.new(name: 'MFADeleteStatus')
     Marker = Shapes::StringShape.new(name: 'Marker')
     MaxAgeSeconds = Shapes::IntegerShape.new(name: 'MaxAgeSeconds')
+    MaxAnnotationResults = Shapes::IntegerShape.new(name: 'MaxAnnotationResults')
     MaxBuckets = Shapes::IntegerShape.new(name: 'MaxBuckets')
     MaxDirectoryBuckets = Shapes::IntegerShape.new(name: 'MaxDirectoryBuckets')
     MaxKeys = Shapes::IntegerShape.new(name: 'MaxKeys')
@@ -442,6 +464,7 @@ module Aws::S3
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NextUploadIdMarker = Shapes::StringShape.new(name: 'NextUploadIdMarker')
     NextVersionIdMarker = Shapes::StringShape.new(name: 'NextVersionIdMarker')
+    NoSuchAnnotation = Shapes::StructureShape.new(name: 'NoSuchAnnotation')
     NoSuchBucket = Shapes::StructureShape.new(name: 'NoSuchBucket')
     NoSuchKey = Shapes::StructureShape.new(name: 'NoSuchKey')
     NoSuchUpload = Shapes::StructureShape.new(name: 'NoSuchUpload')
@@ -461,6 +484,7 @@ module Aws::S3
     ObjectEncryption = Shapes::UnionShape.new(name: 'ObjectEncryption')
     ObjectIdentifier = Shapes::StructureShape.new(name: 'ObjectIdentifier')
     ObjectIdentifierList = Shapes::ListShape.new(name: 'ObjectIdentifierList', flattened: true)
+    ObjectIfMatch = Shapes::StringShape.new(name: 'ObjectIfMatch')
     ObjectKey = Shapes::StringShape.new(name: 'ObjectKey')
     ObjectList = Shapes::ListShape.new(name: 'ObjectList', flattened: true)
     ObjectLockConfiguration = Shapes::StructureShape.new(name: 'ObjectLockConfiguration')
@@ -537,6 +561,8 @@ module Aws::S3
     PutBucketWebsiteRequest = Shapes::StructureShape.new(name: 'PutBucketWebsiteRequest')
     PutObjectAclOutput = Shapes::StructureShape.new(name: 'PutObjectAclOutput')
     PutObjectAclRequest = Shapes::StructureShape.new(name: 'PutObjectAclRequest')
+    PutObjectAnnotationOutput = Shapes::StructureShape.new(name: 'PutObjectAnnotationOutput')
+    PutObjectAnnotationRequest = Shapes::StructureShape.new(name: 'PutObjectAnnotationRequest')
     PutObjectLegalHoldOutput = Shapes::StructureShape.new(name: 'PutObjectLegalHoldOutput')
     PutObjectLegalHoldRequest = Shapes::StructureShape.new(name: 'PutObjectLegalHoldRequest')
     PutObjectLockConfigurationOutput = Shapes::StructureShape.new(name: 'PutObjectLockConfigurationOutput')
@@ -686,6 +712,8 @@ module Aws::S3
     TransitionStorageClass = Shapes::StringShape.new(name: 'TransitionStorageClass')
     Type = Shapes::StringShape.new(name: 'Type')
     URI = Shapes::StringShape.new(name: 'URI')
+    UnsupportedMediaType = Shapes::StructureShape.new(name: 'UnsupportedMediaType')
+    UpdateBucketMetadataAnnotationTableConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateBucketMetadataAnnotationTableConfigurationRequest')
     UpdateBucketMetadataInventoryTableConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateBucketMetadataInventoryTableConfigurationRequest')
     UpdateBucketMetadataJournalTableConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateBucketMetadataJournalTableConfigurationRequest')
     UpdateObjectEncryptionRequest = Shapes::StructureShape.new(name: 'UpdateObjectEncryptionRequest')
@@ -765,6 +793,38 @@ module Aws::S3
     AnalyticsS3BucketDestination.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location_name: "Bucket"))
     AnalyticsS3BucketDestination.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location_name: "Prefix"))
     AnalyticsS3BucketDestination.struct_class = Types::AnalyticsS3BucketDestination
+
+    AnnotationEntry.add_member(:annotation_name, Shapes::ShapeRef.new(shape: AnnotationName, required: true, location_name: "AnnotationName"))
+    AnnotationEntry.add_member(:last_modified, Shapes::ShapeRef.new(shape: LastModified, required: true, location_name: "LastModified"))
+    AnnotationEntry.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location_name: "ETag"))
+    AnnotationEntry.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithmList, location_name: "ChecksumAlgorithm"))
+    AnnotationEntry.add_member(:size, Shapes::ShapeRef.new(shape: Size, required: true, location_name: "Size"))
+    AnnotationEntry.add_member(:replication_status, Shapes::ShapeRef.new(shape: ReplicationStatus, location_name: "ReplicationStatus"))
+    AnnotationEntry.struct_class = Types::AnnotationEntry
+
+    AnnotationLimitExceeded.struct_class = Types::AnnotationLimitExceeded
+
+    AnnotationList.member = Shapes::ShapeRef.new(shape: AnnotationEntry, location_name: "AnnotationEntry")
+
+    AnnotationNameTooLong.struct_class = Types::AnnotationNameTooLong
+
+    AnnotationTableConfiguration.add_member(:configuration_state, Shapes::ShapeRef.new(shape: AnnotationConfigurationState, required: true, location_name: "ConfigurationState"))
+    AnnotationTableConfiguration.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: MetadataTableEncryptionConfiguration, location_name: "EncryptionConfiguration"))
+    AnnotationTableConfiguration.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
+    AnnotationTableConfiguration.struct_class = Types::AnnotationTableConfiguration
+
+    AnnotationTableConfigurationResult.add_member(:configuration_state, Shapes::ShapeRef.new(shape: AnnotationConfigurationState, required: true, location_name: "ConfigurationState"))
+    AnnotationTableConfigurationResult.add_member(:table_status, Shapes::ShapeRef.new(shape: MetadataTableStatus, location_name: "TableStatus"))
+    AnnotationTableConfigurationResult.add_member(:error, Shapes::ShapeRef.new(shape: ErrorDetails, location_name: "Error"))
+    AnnotationTableConfigurationResult.add_member(:table_name, Shapes::ShapeRef.new(shape: S3TablesName, location_name: "TableName"))
+    AnnotationTableConfigurationResult.add_member(:table_arn, Shapes::ShapeRef.new(shape: S3TablesArn, location_name: "TableArn"))
+    AnnotationTableConfigurationResult.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
+    AnnotationTableConfigurationResult.struct_class = Types::AnnotationTableConfigurationResult
+
+    AnnotationTableConfigurationUpdates.add_member(:configuration_state, Shapes::ShapeRef.new(shape: AnnotationConfigurationState, required: true, location_name: "ConfigurationState"))
+    AnnotationTableConfigurationUpdates.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: MetadataTableEncryptionConfiguration, location_name: "EncryptionConfiguration"))
+    AnnotationTableConfigurationUpdates.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
+    AnnotationTableConfigurationUpdates.struct_class = Types::AnnotationTableConfigurationUpdates
 
     BlockedEncryptionTypes.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionTypeList, location_name: "EncryptionType"))
     BlockedEncryptionTypes.struct_class = Types::BlockedEncryptionTypes
@@ -961,6 +1021,7 @@ module Aws::S3
     CopyObjectRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Metadata, location: "headers", location_name: "x-amz-meta-"))
     CopyObjectRequest.add_member(:metadata_directive, Shapes::ShapeRef.new(shape: MetadataDirective, location: "header", location_name: "x-amz-metadata-directive"))
     CopyObjectRequest.add_member(:tagging_directive, Shapes::ShapeRef.new(shape: TaggingDirective, location: "header", location_name: "x-amz-tagging-directive"))
+    CopyObjectRequest.add_member(:annotation_directive, Shapes::ShapeRef.new(shape: AnnotationDirective, location: "header", location_name: "x-amz-object-annotation-directive"))
     CopyObjectRequest.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
     CopyObjectRequest.add_member(:storage_class, Shapes::ShapeRef.new(shape: StorageClass, location: "header", location_name: "x-amz-storage-class"))
     CopyObjectRequest.add_member(:website_redirect_location, Shapes::ShapeRef.new(shape: WebsiteRedirectLocation, location: "header", location_name: "x-amz-website-redirect-location"))
@@ -1202,6 +1263,19 @@ module Aws::S3
     DeleteMarkerReplication.struct_class = Types::DeleteMarkerReplication
 
     DeleteMarkers.member = Shapes::ShapeRef.new(shape: DeleteMarkerEntry)
+
+    DeleteObjectAnnotationOutput.add_member(:object_version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-object-version-id"))
+    DeleteObjectAnnotationOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
+    DeleteObjectAnnotationOutput.struct_class = Types::DeleteObjectAnnotationOutput
+
+    DeleteObjectAnnotationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam" => {"name" => "Bucket"}}))
+    DeleteObjectAnnotationRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    DeleteObjectAnnotationRequest.add_member(:annotation_name, Shapes::ShapeRef.new(shape: AnnotationName, required: true, location: "querystring", location_name: "annotationName"))
+    DeleteObjectAnnotationRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
+    DeleteObjectAnnotationRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
+    DeleteObjectAnnotationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    DeleteObjectAnnotationRequest.add_member(:object_if_match, Shapes::ShapeRef.new(shape: ObjectIfMatch, location: "header", location_name: "x-amz-object-if-match"))
+    DeleteObjectAnnotationRequest.struct_class = Types::DeleteObjectAnnotationRequest
 
     DeleteObjectOutput.add_member(:delete_marker, Shapes::ShapeRef.new(shape: DeleteMarker, location: "header", location_name: "x-amz-delete-marker"))
     DeleteObjectOutput.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-version-id"))
@@ -1536,6 +1610,38 @@ module Aws::S3
     GetObjectAclRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
     GetObjectAclRequest.struct_class = Types::GetObjectAclRequest
 
+    GetObjectAnnotationOutput.add_member(:annotation_payload, Shapes::ShapeRef.new(shape: AnnotationPayload, location_name: "AnnotationPayload", metadata: {"streaming" => true}))
+    GetObjectAnnotationOutput.add_member(:object_version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-object-version-id"))
+    GetObjectAnnotationOutput.add_member(:last_modified, Shapes::ShapeRef.new(shape: LastModified, location: "header", location_name: "Last-Modified"))
+    GetObjectAnnotationOutput.add_member(:content_length, Shapes::ShapeRef.new(shape: ContentLength, location: "header", location_name: "Content-Length"))
+    GetObjectAnnotationOutput.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location: "header", location_name: "ETag"))
+    GetObjectAnnotationOutput.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
+    GetObjectAnnotationOutput.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    GetObjectAnnotationOutput.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
+    GetObjectAnnotationOutput.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
+    GetObjectAnnotationOutput.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
+    GetObjectAnnotationOutput.add_member(:checksum_sha512, Shapes::ShapeRef.new(shape: ChecksumSHA512, location: "header", location_name: "x-amz-checksum-sha512"))
+    GetObjectAnnotationOutput.add_member(:checksum_md5, Shapes::ShapeRef.new(shape: ChecksumMD5, location: "header", location_name: "x-amz-checksum-md5"))
+    GetObjectAnnotationOutput.add_member(:checksum_xxhash64, Shapes::ShapeRef.new(shape: ChecksumXXHASH64, location: "header", location_name: "x-amz-checksum-xxhash64"))
+    GetObjectAnnotationOutput.add_member(:checksum_xxhash3, Shapes::ShapeRef.new(shape: ChecksumXXHASH3, location: "header", location_name: "x-amz-checksum-xxhash3"))
+    GetObjectAnnotationOutput.add_member(:checksum_xxhash128, Shapes::ShapeRef.new(shape: ChecksumXXHASH128, location: "header", location_name: "x-amz-checksum-xxhash128"))
+    GetObjectAnnotationOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
+    GetObjectAnnotationOutput.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
+    GetObjectAnnotationOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
+    GetObjectAnnotationOutput.add_member(:replication_status, Shapes::ShapeRef.new(shape: ReplicationStatus, location: "header", location_name: "x-amz-replication-status"))
+    GetObjectAnnotationOutput.struct_class = Types::GetObjectAnnotationOutput
+    GetObjectAnnotationOutput[:payload] = :annotation_payload
+    GetObjectAnnotationOutput[:payload_member] = GetObjectAnnotationOutput.member(:annotation_payload)
+
+    GetObjectAnnotationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam" => {"name" => "Bucket"}}))
+    GetObjectAnnotationRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam" => {"name" => "Key"}}))
+    GetObjectAnnotationRequest.add_member(:annotation_name, Shapes::ShapeRef.new(shape: AnnotationName, required: true, location: "querystring", location_name: "annotationName"))
+    GetObjectAnnotationRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
+    GetObjectAnnotationRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
+    GetObjectAnnotationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    GetObjectAnnotationRequest.add_member(:checksum_mode, Shapes::ShapeRef.new(shape: ChecksumMode, location: "header", location_name: "x-amz-checksum-mode"))
+    GetObjectAnnotationRequest.struct_class = Types::GetObjectAnnotationRequest
+
     GetObjectAttributesOutput.add_member(:delete_marker, Shapes::ShapeRef.new(shape: DeleteMarker, location: "header", location_name: "x-amz-delete-marker"))
     GetObjectAttributesOutput.add_member(:last_modified, Shapes::ShapeRef.new(shape: LastModified, location: "header", location_name: "Last-Modified"))
     GetObjectAttributesOutput.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-version-id"))
@@ -1832,9 +1938,13 @@ module Aws::S3
     IntelligentTieringFilter.add_member(:and, Shapes::ShapeRef.new(shape: IntelligentTieringAndOperator, location_name: "And"))
     IntelligentTieringFilter.struct_class = Types::IntelligentTieringFilter
 
+    InvalidAnnotationName.struct_class = Types::InvalidAnnotationName
+
     InvalidObjectState.add_member(:storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "StorageClass"))
     InvalidObjectState.add_member(:access_tier, Shapes::ShapeRef.new(shape: IntelligentTieringAccessTier, location_name: "AccessTier"))
     InvalidObjectState.struct_class = Types::InvalidObjectState
+
+    InvalidPrefix.struct_class = Types::InvalidPrefix
 
     InvalidRequest.struct_class = Types::InvalidRequest
 
@@ -2040,6 +2150,28 @@ module Aws::S3
     ListMultipartUploadsRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     ListMultipartUploadsRequest.struct_class = Types::ListMultipartUploadsRequest
 
+    ListObjectAnnotationsOutput.add_member(:annotations, Shapes::ShapeRef.new(shape: AnnotationList, location_name: "Annotations"))
+    ListObjectAnnotationsOutput.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, location_name: "Bucket"))
+    ListObjectAnnotationsOutput.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, location_name: "Key"))
+    ListObjectAnnotationsOutput.add_member(:object_version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-object-version-id"))
+    ListObjectAnnotationsOutput.add_member(:annotation_prefix, Shapes::ShapeRef.new(shape: AnnotationPrefix, location_name: "AnnotationPrefix"))
+    ListObjectAnnotationsOutput.add_member(:max_annotation_results, Shapes::ShapeRef.new(shape: MaxAnnotationResults, location_name: "MaxAnnotationResults"))
+    ListObjectAnnotationsOutput.add_member(:annotation_count, Shapes::ShapeRef.new(shape: AnnotationCount, location_name: "AnnotationCount"))
+    ListObjectAnnotationsOutput.add_member(:continuation_token, Shapes::ShapeRef.new(shape: Token, location_name: "ContinuationToken"))
+    ListObjectAnnotationsOutput.add_member(:next_continuation_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextContinuationToken"))
+    ListObjectAnnotationsOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
+    ListObjectAnnotationsOutput.struct_class = Types::ListObjectAnnotationsOutput
+
+    ListObjectAnnotationsRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam" => {"name" => "Bucket"}}))
+    ListObjectAnnotationsRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    ListObjectAnnotationsRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
+    ListObjectAnnotationsRequest.add_member(:max_annotation_results, Shapes::ShapeRef.new(shape: MaxAnnotationResults, location: "querystring", location_name: "max-annotation-results"))
+    ListObjectAnnotationsRequest.add_member(:annotation_prefix, Shapes::ShapeRef.new(shape: AnnotationPrefix, location: "querystring", location_name: "annotation-prefix"))
+    ListObjectAnnotationsRequest.add_member(:continuation_token, Shapes::ShapeRef.new(shape: Token, location: "querystring", location_name: "continuation-token"))
+    ListObjectAnnotationsRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
+    ListObjectAnnotationsRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    ListObjectAnnotationsRequest.struct_class = Types::ListObjectAnnotationsRequest
+
     ListObjectVersionsOutput.add_member(:is_truncated, Shapes::ShapeRef.new(shape: IsTruncated, location_name: "IsTruncated"))
     ListObjectVersionsOutput.add_member(:key_marker, Shapes::ShapeRef.new(shape: KeyMarker, location_name: "KeyMarker"))
     ListObjectVersionsOutput.add_member(:version_id_marker, Shapes::ShapeRef.new(shape: VersionIdMarker, location_name: "VersionIdMarker"))
@@ -2165,11 +2297,13 @@ module Aws::S3
 
     MetadataConfiguration.add_member(:journal_table_configuration, Shapes::ShapeRef.new(shape: JournalTableConfiguration, required: true, location_name: "JournalTableConfiguration"))
     MetadataConfiguration.add_member(:inventory_table_configuration, Shapes::ShapeRef.new(shape: InventoryTableConfiguration, location_name: "InventoryTableConfiguration"))
+    MetadataConfiguration.add_member(:annotation_table_configuration, Shapes::ShapeRef.new(shape: AnnotationTableConfiguration, location_name: "AnnotationTableConfiguration"))
     MetadataConfiguration.struct_class = Types::MetadataConfiguration
 
     MetadataConfigurationResult.add_member(:destination_result, Shapes::ShapeRef.new(shape: DestinationResult, required: true, location_name: "DestinationResult"))
     MetadataConfigurationResult.add_member(:journal_table_configuration_result, Shapes::ShapeRef.new(shape: JournalTableConfigurationResult, location_name: "JournalTableConfigurationResult"))
     MetadataConfigurationResult.add_member(:inventory_table_configuration_result, Shapes::ShapeRef.new(shape: InventoryTableConfigurationResult, location_name: "InventoryTableConfigurationResult"))
+    MetadataConfigurationResult.add_member(:annotation_table_configuration_result, Shapes::ShapeRef.new(shape: AnnotationTableConfigurationResult, location_name: "AnnotationTableConfigurationResult"))
     MetadataConfigurationResult.struct_class = Types::MetadataConfigurationResult
 
     MetadataEntry.add_member(:name, Shapes::ShapeRef.new(shape: MetadataKey, location_name: "Name"))
@@ -2218,6 +2352,8 @@ module Aws::S3
     MultipartUpload.struct_class = Types::MultipartUpload
 
     MultipartUploadList.member = Shapes::ShapeRef.new(shape: MultipartUpload)
+
+    NoSuchAnnotation.struct_class = Types::NoSuchAnnotation
 
     NoSuchBucket.struct_class = Types::NoSuchBucket
 
@@ -2605,6 +2741,49 @@ module Aws::S3
     PutObjectAclRequest.struct_class = Types::PutObjectAclRequest
     PutObjectAclRequest[:payload] = :access_control_policy
     PutObjectAclRequest[:payload_member] = PutObjectAclRequest.member(:access_control_policy)
+
+    PutObjectAnnotationOutput.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, location_name: "Key"))
+    PutObjectAnnotationOutput.add_member(:annotation_name, Shapes::ShapeRef.new(shape: AnnotationName, location_name: "AnnotationName"))
+    PutObjectAnnotationOutput.add_member(:object_version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-object-version-id"))
+    PutObjectAnnotationOutput.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location: "header", location_name: "ETag"))
+    PutObjectAnnotationOutput.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
+    PutObjectAnnotationOutput.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    PutObjectAnnotationOutput.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
+    PutObjectAnnotationOutput.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
+    PutObjectAnnotationOutput.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
+    PutObjectAnnotationOutput.add_member(:checksum_sha512, Shapes::ShapeRef.new(shape: ChecksumSHA512, location: "header", location_name: "x-amz-checksum-sha512"))
+    PutObjectAnnotationOutput.add_member(:checksum_md5, Shapes::ShapeRef.new(shape: ChecksumMD5, location: "header", location_name: "x-amz-checksum-md5"))
+    PutObjectAnnotationOutput.add_member(:checksum_xxhash64, Shapes::ShapeRef.new(shape: ChecksumXXHASH64, location: "header", location_name: "x-amz-checksum-xxhash64"))
+    PutObjectAnnotationOutput.add_member(:checksum_xxhash3, Shapes::ShapeRef.new(shape: ChecksumXXHASH3, location: "header", location_name: "x-amz-checksum-xxhash3"))
+    PutObjectAnnotationOutput.add_member(:checksum_xxhash128, Shapes::ShapeRef.new(shape: ChecksumXXHASH128, location: "header", location_name: "x-amz-checksum-xxhash128"))
+    PutObjectAnnotationOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
+    PutObjectAnnotationOutput.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
+    PutObjectAnnotationOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
+    PutObjectAnnotationOutput.struct_class = Types::PutObjectAnnotationOutput
+
+    PutObjectAnnotationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam" => {"name" => "Bucket"}}))
+    PutObjectAnnotationRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam" => {"name" => "Key"}}))
+    PutObjectAnnotationRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
+    PutObjectAnnotationRequest.add_member(:annotation_name, Shapes::ShapeRef.new(shape: AnnotationName, required: true, location: "querystring", location_name: "annotationName"))
+    PutObjectAnnotationRequest.add_member(:annotation_payload, Shapes::ShapeRef.new(shape: AnnotationPayload, required: true, location_name: "AnnotationPayload", metadata: {"streaming" => true}))
+    PutObjectAnnotationRequest.add_member(:object_if_match, Shapes::ShapeRef.new(shape: ObjectIfMatch, location: "header", location_name: "x-amz-object-if-match"))
+    PutObjectAnnotationRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-sdk-checksum-algorithm"))
+    PutObjectAnnotationRequest.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
+    PutObjectAnnotationRequest.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    PutObjectAnnotationRequest.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
+    PutObjectAnnotationRequest.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
+    PutObjectAnnotationRequest.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
+    PutObjectAnnotationRequest.add_member(:checksum_sha512, Shapes::ShapeRef.new(shape: ChecksumSHA512, location: "header", location_name: "x-amz-checksum-sha512"))
+    PutObjectAnnotationRequest.add_member(:checksum_md5, Shapes::ShapeRef.new(shape: ChecksumMD5, location: "header", location_name: "x-amz-checksum-md5"))
+    PutObjectAnnotationRequest.add_member(:checksum_xxhash64, Shapes::ShapeRef.new(shape: ChecksumXXHASH64, location: "header", location_name: "x-amz-checksum-xxhash64"))
+    PutObjectAnnotationRequest.add_member(:checksum_xxhash3, Shapes::ShapeRef.new(shape: ChecksumXXHASH3, location: "header", location_name: "x-amz-checksum-xxhash3"))
+    PutObjectAnnotationRequest.add_member(:checksum_xxhash128, Shapes::ShapeRef.new(shape: ChecksumXXHASH128, location: "header", location_name: "x-amz-checksum-xxhash128"))
+    PutObjectAnnotationRequest.add_member(:content_md5, Shapes::ShapeRef.new(shape: ContentMD5, location: "header", location_name: "Content-MD5"))
+    PutObjectAnnotationRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
+    PutObjectAnnotationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    PutObjectAnnotationRequest.struct_class = Types::PutObjectAnnotationRequest
+    PutObjectAnnotationRequest[:payload] = :annotation_payload
+    PutObjectAnnotationRequest[:payload_member] = PutObjectAnnotationRequest.member(:annotation_payload)
 
     PutObjectLegalHoldOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     PutObjectLegalHoldOutput.struct_class = Types::PutObjectLegalHoldOutput
@@ -3045,6 +3224,17 @@ module Aws::S3
 
     TransitionList.member = Shapes::ShapeRef.new(shape: Transition)
 
+    UnsupportedMediaType.struct_class = Types::UnsupportedMediaType
+
+    UpdateBucketMetadataAnnotationTableConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam" => {"name" => "Bucket"}}))
+    UpdateBucketMetadataAnnotationTableConfigurationRequest.add_member(:content_md5, Shapes::ShapeRef.new(shape: ContentMD5, location: "header", location_name: "Content-MD5"))
+    UpdateBucketMetadataAnnotationTableConfigurationRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-sdk-checksum-algorithm"))
+    UpdateBucketMetadataAnnotationTableConfigurationRequest.add_member(:annotation_table_configuration, Shapes::ShapeRef.new(shape: AnnotationTableConfigurationUpdates, required: true, location_name: "AnnotationTableConfiguration", metadata: {"xmlNamespace" => {"uri" => "http://s3.amazonaws.com/doc/2006-03-01/"}}))
+    UpdateBucketMetadataAnnotationTableConfigurationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    UpdateBucketMetadataAnnotationTableConfigurationRequest.struct_class = Types::UpdateBucketMetadataAnnotationTableConfigurationRequest
+    UpdateBucketMetadataAnnotationTableConfigurationRequest[:payload] = :annotation_table_configuration
+    UpdateBucketMetadataAnnotationTableConfigurationRequest[:payload_member] = UpdateBucketMetadataAnnotationTableConfigurationRequest.member(:annotation_table_configuration)
+
     UpdateBucketMetadataInventoryTableConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam" => {"name" => "Bucket"}}))
     UpdateBucketMetadataInventoryTableConfigurationRequest.add_member(:content_md5, Shapes::ShapeRef.new(shape: ContentMD5, location: "header", location_name: "Content-MD5"))
     UpdateBucketMetadataInventoryTableConfigurationRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-sdk-checksum-algorithm"))
@@ -3452,6 +3642,16 @@ module Aws::S3
         o.output = Shapes::ShapeRef.new(shape: DeleteObjectOutput)
       end)
 
+      api.add_operation(:delete_object_annotation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteObjectAnnotation"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/{Key+}?annotation"
+        o.input = Shapes::ShapeRef.new(shape: DeleteObjectAnnotationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteObjectAnnotationOutput)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchBucket)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchKey)
+      end)
+
       api.add_operation(:delete_object_tagging, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteObjectTagging"
         o.http_method = "DELETE"
@@ -3713,6 +3913,25 @@ module Aws::S3
         o.errors << Shapes::ShapeRef.new(shape: NoSuchKey)
       end)
 
+      api.add_operation(:get_object_annotation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetObjectAnnotation"
+        o.http_method = "GET"
+        o.http_request_uri = "/{Key+}?annotation"
+        o.http_checksum = {
+          "requestValidationModeMember" => "checksum_mode",
+          "responseAlgorithms" => ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"],
+        }
+        o.http_checksum = {
+          "requestValidationModeMember" => "checksum_mode",
+          "responseAlgorithms" => ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"],
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetObjectAnnotationRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetObjectAnnotationOutput)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchBucket)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchKey)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchAnnotation)
+      end)
+
       api.add_operation(:get_object_attributes, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetObjectAttributes"
         o.http_method = "GET"
@@ -3860,6 +4079,23 @@ module Aws::S3
           tokens: {
             "next_key_marker" => "key_marker",
             "next_upload_id_marker" => "upload_id_marker"
+          }
+        )
+      end)
+
+      api.add_operation(:list_object_annotations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListObjectAnnotations"
+        o.http_method = "GET"
+        o.http_request_uri = "/{Key+}?annotation"
+        o.input = Shapes::ShapeRef.new(shape: ListObjectAnnotationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListObjectAnnotationsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchBucket)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchKey)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidPrefix)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_annotation_results",
+          tokens: {
+            "next_continuation_token" => "continuation_token"
           }
         )
       end)
@@ -4262,6 +4498,29 @@ module Aws::S3
         o.errors << Shapes::ShapeRef.new(shape: NoSuchKey)
       end)
 
+      api.add_operation(:put_object_annotation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutObjectAnnotation"
+        o.http_method = "PUT"
+        o.http_request_uri = "/{Key+}?annotation"
+        o.http_checksum = {
+          "requestAlgorithmMember" => "checksum_algorithm",
+          "requestChecksumRequired" => false,
+        }
+        o.http_checksum = {
+          "requestAlgorithmMember" => "checksum_algorithm",
+          "requestChecksumRequired" => false,
+        }
+        o.input = Shapes::ShapeRef.new(shape: PutObjectAnnotationRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutObjectAnnotationOutput)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchBucket)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchKey)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequest)
+        o.errors << Shapes::ShapeRef.new(shape: AnnotationNameTooLong)
+        o.errors << Shapes::ShapeRef.new(shape: AnnotationLimitExceeded)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidAnnotationName)
+        o.errors << Shapes::ShapeRef.new(shape: UnsupportedMediaType)
+      end)
+
       api.add_operation(:put_object_legal_hold, Seahorse::Model::Operation.new.tap do |o|
         o.name = "PutObjectLegalHold"
         o.http_method = "PUT"
@@ -4379,6 +4638,22 @@ module Aws::S3
           }
         )
         o.output = Shapes::ShapeRef.new(shape: SelectObjectContentOutput)
+      end)
+
+      api.add_operation(:update_bucket_metadata_annotation_table_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateBucketMetadataAnnotationTableConfiguration"
+        o.http_method = "PUT"
+        o.http_request_uri = "/?metadataAnnotationTable"
+        o.http_checksum = {
+          "requestAlgorithmMember" => "checksum_algorithm",
+          "requestChecksumRequired" => true,
+        }
+        o.http_checksum = {
+          "requestAlgorithmMember" => "checksum_algorithm",
+          "requestChecksumRequired" => true,
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateBucketMetadataAnnotationTableConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
       end)
 
       api.add_operation(:update_bucket_metadata_inventory_table_configuration, Seahorse::Model::Operation.new.tap do |o|

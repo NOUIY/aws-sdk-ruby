@@ -511,6 +511,14 @@ module Aws::Outposts
     #   The ID or the Amazon Resource Name (ARN) of the Outpost.
     #   @return [String]
     #
+    # @!attribute [rw] quote_identifier
+    #   The ID of the quote to use for the order.
+    #   @return [String]
+    #
+    # @!attribute [rw] quote_option_identifier
+    #   The ID of the quote option to use for the order.
+    #   @return [String]
+    #
     # @!attribute [rw] line_items
     #   The line items that make up the order.
     #   @return [Array<Types::LineItemRequest>]
@@ -527,6 +535,8 @@ module Aws::Outposts
     #
     class CreateOrderInput < Struct.new(
       :outpost_identifier,
+      :quote_identifier,
+      :quote_option_identifier,
       :line_items,
       :payment_option,
       :payment_term)
@@ -813,7 +823,7 @@ module Aws::Outposts
     class DeleteOutpostOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] quote_identifier
-    #   The ID or ARN of the quote.
+    #   The ID of the quote.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/DeleteQuoteInput AWS API Documentation
@@ -1310,7 +1320,7 @@ module Aws::Outposts
     end
 
     # @!attribute [rw] quote_identifier
-    #   The ID or ARN of the quote.
+    #   The ID of the quote.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetQuoteInput AWS API Documentation
@@ -2116,6 +2126,14 @@ module Aws::Outposts
     #   The ID of the Outpost in the order.
     #   @return [String]
     #
+    # @!attribute [rw] quote_identifier
+    #   The ID of the quote associated with the order.
+    #   @return [String]
+    #
+    # @!attribute [rw] quote_option_identifier
+    #   The ID of the quote option associated with the order.
+    #   @return [String]
+    #
     # @!attribute [rw] order_id
     #   The ID of the order.
     #   @return [String]
@@ -2170,6 +2188,8 @@ module Aws::Outposts
     #
     class Order < Struct.new(
       :outpost_id,
+      :quote_identifier,
+      :quote_option_identifier,
       :order_id,
       :status,
       :line_items,
@@ -3400,7 +3420,7 @@ module Aws::Outposts
     end
 
     # @!attribute [rw] quote_identifier
-    #   The ID or ARN of the quote.
+    #   The ID of the quote.
     #   @return [String]
     #
     # @!attribute [rw] outpost_identifier

@@ -528,6 +528,12 @@ module Aws::Outposts
     # @option params [required, String] :outpost_identifier
     #   The ID or the Amazon Resource Name (ARN) of the Outpost.
     #
+    # @option params [String] :quote_identifier
+    #   The ID of the quote to use for the order.
+    #
+    # @option params [String] :quote_option_identifier
+    #   The ID of the quote option to use for the order.
+    #
     # @option params [Array<Types::LineItemRequest>] :line_items
     #   The line items that make up the order.
     #
@@ -545,6 +551,8 @@ module Aws::Outposts
     #
     #   resp = client.create_order({
     #     outpost_identifier: "OutpostIdentifier", # required
+    #     quote_identifier: "QuoteIdentifier",
+    #     quote_option_identifier: "QuoteOptionIdentifier",
     #     line_items: [
     #       {
     #         catalog_item_id: "SkuCode",
@@ -558,6 +566,8 @@ module Aws::Outposts
     # @example Response structure
     #
     #   resp.order.outpost_id #=> String
+    #   resp.order.quote_identifier #=> String
+    #   resp.order.quote_option_identifier #=> String
     #   resp.order.order_id #=> String
     #   resp.order.status #=> String, one of "RECEIVED", "PENDING", "PROCESSING", "INSTALLING", "FULFILLED", "CANCELLED", "PREPARING", "IN_PROGRESS", "DELIVERED", "COMPLETED", "ERROR"
     #   resp.order.line_items #=> Array
@@ -1014,7 +1024,7 @@ module Aws::Outposts
     # Deletes the specified quote.
     #
     # @option params [required, String] :quote_identifier
-    #   The ID or ARN of the quote.
+    #   The ID of the quote.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1228,6 +1238,8 @@ module Aws::Outposts
     # @example Response structure
     #
     #   resp.order.outpost_id #=> String
+    #   resp.order.quote_identifier #=> String
+    #   resp.order.quote_option_identifier #=> String
     #   resp.order.order_id #=> String
     #   resp.order.status #=> String, one of "RECEIVED", "PENDING", "PROCESSING", "INSTALLING", "FULFILLED", "CANCELLED", "PREPARING", "IN_PROGRESS", "DELIVERED", "COMPLETED", "ERROR"
     #   resp.order.line_items #=> Array
@@ -1458,7 +1470,7 @@ module Aws::Outposts
     # Gets information about the specified quote.
     #
     # @option params [required, String] :quote_identifier
-    #   The ID or ARN of the quote.
+    #   The ID of the quote.
     #
     # @return [Types::GetQuoteOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2715,7 +2727,7 @@ module Aws::Outposts
     # constraints, payment options, payment terms, or Outpost association.
     #
     # @option params [required, String] :quote_identifier
-    #   The ID or ARN of the quote.
+    #   The ID of the quote.
     #
     # @option params [String] :outpost_identifier
     #   The ID or ARN of the Outpost to associate with the quote. Specify an
@@ -3170,7 +3182,7 @@ module Aws::Outposts
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-outposts'
-      context[:gem_version] = '1.104.0'
+      context[:gem_version] = '1.105.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

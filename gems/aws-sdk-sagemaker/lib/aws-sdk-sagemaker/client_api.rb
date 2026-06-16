@@ -579,6 +579,7 @@ module Aws::SageMaker
     ContainerEntrypointString = Shapes::StringShape.new(name: 'ContainerEntrypointString')
     ContainerHostname = Shapes::StringShape.new(name: 'ContainerHostname')
     ContainerImage = Shapes::StringShape.new(name: 'ContainerImage')
+    ContainerMetricsConfig = Shapes::StructureShape.new(name: 'ContainerMetricsConfig')
     ContainerMode = Shapes::StringShape.new(name: 'ContainerMode')
     ContentClassifier = Shapes::StringShape.new(name: 'ContentClassifier')
     ContentClassifiers = Shapes::ListShape.new(name: 'ContentClassifiers')
@@ -1144,6 +1145,7 @@ module Aws::SageMaker
     EmrSettings = Shapes::StructureShape.new(name: 'EmrSettings')
     EnableCaching = Shapes::BooleanShape.new(name: 'EnableCaching')
     EnableCapture = Shapes::BooleanShape.new(name: 'EnableCapture')
+    EnableDetailedObservability = Shapes::BooleanShape.new(name: 'EnableDetailedObservability')
     EnableEnhancedMetrics = Shapes::BooleanShape.new(name: 'EnableEnhancedMetrics')
     EnableInfraCheck = Shapes::BooleanShape.new(name: 'EnableInfraCheck')
     EnableIotRoleAlias = Shapes::BooleanShape.new(name: 'EnableIotRoleAlias')
@@ -1870,6 +1872,9 @@ module Aws::SageMaker
     MetricSpecification = Shapes::UnionShape.new(name: 'MetricSpecification')
     MetricValue = Shapes::FloatShape.new(name: 'MetricValue')
     MetricsConfig = Shapes::StructureShape.new(name: 'MetricsConfig')
+    MetricsEndpoint = Shapes::StructureShape.new(name: 'MetricsEndpoint')
+    MetricsEndpointList = Shapes::ListShape.new(name: 'MetricsEndpointList')
+    MetricsEndpointPath = Shapes::StringShape.new(name: 'MetricsEndpointPath')
     MetricsSource = Shapes::StructureShape.new(name: 'MetricsSource')
     MinimumInstanceMetadataServiceVersion = Shapes::StringShape.new(name: 'MinimumInstanceMetadataServiceVersion')
     MlFlowResourceArn = Shapes::StringShape.new(name: 'MlFlowResourceArn')
@@ -4462,11 +4467,15 @@ module Aws::SageMaker
     ContainerDefinition.add_member(:model_package_name, Shapes::ShapeRef.new(shape: VersionedArnOrName, location_name: "ModelPackageName"))
     ContainerDefinition.add_member(:inference_specification_name, Shapes::ShapeRef.new(shape: InferenceSpecificationName, location_name: "InferenceSpecificationName"))
     ContainerDefinition.add_member(:multi_model_config, Shapes::ShapeRef.new(shape: MultiModelConfig, location_name: "MultiModelConfig"))
+    ContainerDefinition.add_member(:container_metrics_config, Shapes::ShapeRef.new(shape: ContainerMetricsConfig, location_name: "ContainerMetricsConfig"))
     ContainerDefinition.struct_class = Types::ContainerDefinition
 
     ContainerDefinitionList.member = Shapes::ShapeRef.new(shape: ContainerDefinition)
 
     ContainerEntrypoint.member = Shapes::ShapeRef.new(shape: ContainerEntrypointString)
+
+    ContainerMetricsConfig.add_member(:metrics_endpoints, Shapes::ShapeRef.new(shape: MetricsEndpointList, location_name: "MetricsEndpoints"))
+    ContainerMetricsConfig.struct_class = Types::ContainerMetricsConfig
 
     ContentClassifiers.member = Shapes::ShapeRef.new(shape: ContentClassifier)
 
@@ -8282,11 +8291,13 @@ module Aws::SageMaker
     InferenceComponentContainerSpecification.add_member(:image, Shapes::ShapeRef.new(shape: ContainerImage, location_name: "Image"))
     InferenceComponentContainerSpecification.add_member(:artifact_url, Shapes::ShapeRef.new(shape: Url, location_name: "ArtifactUrl"))
     InferenceComponentContainerSpecification.add_member(:environment, Shapes::ShapeRef.new(shape: EnvironmentMap, location_name: "Environment"))
+    InferenceComponentContainerSpecification.add_member(:container_metrics_config, Shapes::ShapeRef.new(shape: ContainerMetricsConfig, location_name: "ContainerMetricsConfig"))
     InferenceComponentContainerSpecification.struct_class = Types::InferenceComponentContainerSpecification
 
     InferenceComponentContainerSpecificationSummary.add_member(:deployed_image, Shapes::ShapeRef.new(shape: DeployedImage, location_name: "DeployedImage"))
     InferenceComponentContainerSpecificationSummary.add_member(:artifact_url, Shapes::ShapeRef.new(shape: Url, location_name: "ArtifactUrl"))
     InferenceComponentContainerSpecificationSummary.add_member(:environment, Shapes::ShapeRef.new(shape: EnvironmentMap, location_name: "Environment"))
+    InferenceComponentContainerSpecificationSummary.add_member(:container_metrics_config, Shapes::ShapeRef.new(shape: ContainerMetricsConfig, location_name: "ContainerMetricsConfig"))
     InferenceComponentContainerSpecificationSummary.struct_class = Types::InferenceComponentContainerSpecificationSummary
 
     InferenceComponentDataCacheConfig.add_member(:enable_caching, Shapes::ShapeRef.new(shape: EnableCaching, required: true, location_name: "EnableCaching", metadata: {"box" => true}))
@@ -10022,8 +10033,15 @@ module Aws::SageMaker
     MetricSpecification.struct_class = Types::MetricSpecification
 
     MetricsConfig.add_member(:enable_enhanced_metrics, Shapes::ShapeRef.new(shape: EnableEnhancedMetrics, location_name: "EnableEnhancedMetrics"))
+    MetricsConfig.add_member(:enable_detailed_observability, Shapes::ShapeRef.new(shape: EnableDetailedObservability, location_name: "EnableDetailedObservability"))
     MetricsConfig.add_member(:metric_publish_frequency_in_seconds, Shapes::ShapeRef.new(shape: MetricPublishFrequencyInSeconds, location_name: "MetricPublishFrequencyInSeconds"))
     MetricsConfig.struct_class = Types::MetricsConfig
+
+    MetricsEndpoint.add_member(:metrics_endpoint_path, Shapes::ShapeRef.new(shape: MetricsEndpointPath, required: true, location_name: "MetricsEndpointPath"))
+    MetricsEndpoint.add_member(:metric_publish_frequency_in_seconds, Shapes::ShapeRef.new(shape: MetricPublishFrequencyInSeconds, location_name: "MetricPublishFrequencyInSeconds"))
+    MetricsEndpoint.struct_class = Types::MetricsEndpoint
+
+    MetricsEndpointList.member = Shapes::ShapeRef.new(shape: MetricsEndpoint)
 
     MetricsSource.add_member(:content_type, Shapes::ShapeRef.new(shape: ContentType, required: true, location_name: "ContentType"))
     MetricsSource.add_member(:content_digest, Shapes::ShapeRef.new(shape: ContentDigest, location_name: "ContentDigest"))

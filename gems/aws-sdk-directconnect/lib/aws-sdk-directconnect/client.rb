@@ -609,6 +609,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -651,6 +652,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateConnectionOnInterconnect AWS API Documentation
@@ -722,6 +727,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -770,6 +776,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateHostedConnection AWS API Documentation
@@ -829,6 +839,7 @@ module Aws::DirectConnect
     #   * {Types::VirtualInterface#aws_logical_device_id #aws_logical_device_id} => String
     #   * {Types::VirtualInterface#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::VirtualInterface#site_link_enabled #site_link_enabled} => Boolean
+    #   * {Types::VirtualInterface#rate_limit #rate_limit} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -851,6 +862,7 @@ module Aws::DirectConnect
     #           value: "TagValue",
     #         },
     #       ],
+    #       rate_limit: "RateLimit",
     #     },
     #   })
     #
@@ -897,6 +909,7 @@ module Aws::DirectConnect
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
     #   resp.site_link_enabled #=> Boolean
+    #   resp.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocatePrivateVirtualInterface AWS API Documentation
     #
@@ -964,6 +977,7 @@ module Aws::DirectConnect
     #   * {Types::VirtualInterface#aws_logical_device_id #aws_logical_device_id} => String
     #   * {Types::VirtualInterface#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::VirtualInterface#site_link_enabled #site_link_enabled} => Boolean
+    #   * {Types::VirtualInterface#rate_limit #rate_limit} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -990,6 +1004,7 @@ module Aws::DirectConnect
     #           value: "TagValue",
     #         },
     #       ],
+    #       rate_limit: "RateLimit",
     #     },
     #   })
     #
@@ -1036,6 +1051,7 @@ module Aws::DirectConnect
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
     #   resp.site_link_enabled #=> Boolean
+    #   resp.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocatePublicVirtualInterface AWS API Documentation
     #
@@ -1094,6 +1110,7 @@ module Aws::DirectConnect
     #           value: "TagValue",
     #         },
     #       ],
+    #       rate_limit: "RateLimit",
     #     },
     #   })
     #
@@ -1140,6 +1157,7 @@ module Aws::DirectConnect
     #   resp.virtual_interface.tags[0].key #=> String
     #   resp.virtual_interface.tags[0].value #=> String
     #   resp.virtual_interface.site_link_enabled #=> Boolean
+    #   resp.virtual_interface.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateTransitVirtualInterface AWS API Documentation
     #
@@ -1200,6 +1218,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -1239,6 +1258,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateConnectionWithLag AWS API Documentation
@@ -1291,6 +1314,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -1330,6 +1354,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateHostedConnection AWS API Documentation
@@ -1477,6 +1505,7 @@ module Aws::DirectConnect
     #   * {Types::VirtualInterface#aws_logical_device_id #aws_logical_device_id} => String
     #   * {Types::VirtualInterface#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::VirtualInterface#site_link_enabled #site_link_enabled} => Boolean
+    #   * {Types::VirtualInterface#rate_limit #rate_limit} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1528,6 +1557,7 @@ module Aws::DirectConnect
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
     #   resp.site_link_enabled #=> Boolean
+    #   resp.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateVirtualInterface AWS API Documentation
     #
@@ -1808,6 +1838,7 @@ module Aws::DirectConnect
     #   resp.virtual_interface.tags[0].key #=> String
     #   resp.virtual_interface.tags[0].value #=> String
     #   resp.virtual_interface.site_link_enabled #=> Boolean
+    #   resp.virtual_interface.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateBGPPeer AWS API Documentation
     #
@@ -1888,6 +1919,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -1937,6 +1969,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateConnection AWS API Documentation
@@ -2367,6 +2403,7 @@ module Aws::DirectConnect
     #   * {Types::Lag#mac_sec_capable #mac_sec_capable} => Boolean
     #   * {Types::Lag#encryption_mode #encryption_mode} => String
     #   * {Types::Lag#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Lag#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #
     # @example Request syntax with placeholder values
     #
@@ -2435,6 +2472,10 @@ module Aws::DirectConnect
     #   resp.connections[0].mac_sec_keys[0].ckn #=> String
     #   resp.connections[0].mac_sec_keys[0].state #=> String
     #   resp.connections[0].mac_sec_keys[0].start_on #=> String
+    #   resp.connections[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.connections[0].rate_limiter_status.in_use #=> Integer
+    #   resp.connections[0].rate_limiter_status.remaining #=> Integer
+    #   resp.connections[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.connections[0].partner_interconnect_mac_sec_capable #=> Boolean
     #   resp.allows_hosted_connections #=> Boolean
     #   resp.jumbo_frame_capable #=> Boolean
@@ -2450,6 +2491,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateLag AWS API Documentation
     #
@@ -2513,6 +2558,7 @@ module Aws::DirectConnect
     #   * {Types::VirtualInterface#aws_logical_device_id #aws_logical_device_id} => String
     #   * {Types::VirtualInterface#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::VirtualInterface#site_link_enabled #site_link_enabled} => Boolean
+    #   * {Types::VirtualInterface#rate_limit #rate_limit} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2537,6 +2583,7 @@ module Aws::DirectConnect
     #         },
     #       ],
     #       enable_site_link: false,
+    #       rate_limit: "RateLimit",
     #     },
     #   })
     #
@@ -2583,6 +2630,7 @@ module Aws::DirectConnect
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
     #   resp.site_link_enabled #=> Boolean
+    #   resp.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreatePrivateVirtualInterface AWS API Documentation
     #
@@ -2637,6 +2685,7 @@ module Aws::DirectConnect
     #   * {Types::VirtualInterface#aws_logical_device_id #aws_logical_device_id} => String
     #   * {Types::VirtualInterface#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::VirtualInterface#site_link_enabled #site_link_enabled} => Boolean
+    #   * {Types::VirtualInterface#rate_limit #rate_limit} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2662,6 +2711,7 @@ module Aws::DirectConnect
     #           value: "TagValue",
     #         },
     #       ],
+    #       rate_limit: "RateLimit",
     #     },
     #   })
     #
@@ -2708,6 +2758,7 @@ module Aws::DirectConnect
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
     #   resp.site_link_enabled #=> Boolean
+    #   resp.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreatePublicVirtualInterface AWS API Documentation
     #
@@ -2772,6 +2823,7 @@ module Aws::DirectConnect
     #         },
     #       ],
     #       enable_site_link: false,
+    #       rate_limit: "RateLimit",
     #     },
     #   })
     #
@@ -2818,6 +2870,7 @@ module Aws::DirectConnect
     #   resp.virtual_interface.tags[0].key #=> String
     #   resp.virtual_interface.tags[0].value #=> String
     #   resp.virtual_interface.site_link_enabled #=> Boolean
+    #   resp.virtual_interface.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateTransitVirtualInterface AWS API Documentation
     #
@@ -2842,30 +2895,40 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     # @option params [Integer] :asn_long
     #   The long ASN for the BGP peer to be deleted from a Direct Connect
     #   virtual interface. The valid range is from 1 to 4294967294 for BGP
     #   configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte or
+    #     4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for the
+    #     legacy `asn` attribute since 4-byte ASN values exceed the maximum
+    #     supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #
     # @option params [String] :customer_address
     #   The IP address assigned to the customer interface.
@@ -2930,6 +2993,7 @@ module Aws::DirectConnect
     #   resp.virtual_interface.tags[0].key #=> String
     #   resp.virtual_interface.tags[0].value #=> String
     #   resp.virtual_interface.site_link_enabled #=> Boolean
+    #   resp.virtual_interface.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteBGPPeer AWS API Documentation
     #
@@ -2974,6 +3038,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -3012,6 +3077,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteConnection AWS API Documentation
@@ -3221,6 +3290,7 @@ module Aws::DirectConnect
     #   * {Types::Lag#mac_sec_capable #mac_sec_capable} => Boolean
     #   * {Types::Lag#encryption_mode #encryption_mode} => String
     #   * {Types::Lag#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Lag#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #
     # @example Request syntax with placeholder values
     #
@@ -3271,6 +3341,10 @@ module Aws::DirectConnect
     #   resp.connections[0].mac_sec_keys[0].ckn #=> String
     #   resp.connections[0].mac_sec_keys[0].state #=> String
     #   resp.connections[0].mac_sec_keys[0].start_on #=> String
+    #   resp.connections[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.connections[0].rate_limiter_status.in_use #=> Integer
+    #   resp.connections[0].rate_limiter_status.remaining #=> Integer
+    #   resp.connections[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.connections[0].partner_interconnect_mac_sec_capable #=> Boolean
     #   resp.allows_hosted_connections #=> Boolean
     #   resp.jumbo_frame_capable #=> Boolean
@@ -3286,6 +3360,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteLag AWS API Documentation
     #
@@ -3440,6 +3518,10 @@ module Aws::DirectConnect
     #   resp.connections[0].mac_sec_keys[0].ckn #=> String
     #   resp.connections[0].mac_sec_keys[0].state #=> String
     #   resp.connections[0].mac_sec_keys[0].start_on #=> String
+    #   resp.connections[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.connections[0].rate_limiter_status.in_use #=> Integer
+    #   resp.connections[0].rate_limiter_status.remaining #=> Integer
+    #   resp.connections[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.connections[0].partner_interconnect_mac_sec_capable #=> Boolean
     #   resp.next_token #=> String
     #
@@ -3508,6 +3590,10 @@ module Aws::DirectConnect
     #   resp.connections[0].mac_sec_keys[0].ckn #=> String
     #   resp.connections[0].mac_sec_keys[0].state #=> String
     #   resp.connections[0].mac_sec_keys[0].start_on #=> String
+    #   resp.connections[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.connections[0].rate_limiter_status.in_use #=> Integer
+    #   resp.connections[0].rate_limiter_status.remaining #=> Integer
+    #   resp.connections[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.connections[0].partner_interconnect_mac_sec_capable #=> Boolean
     #   resp.next_token #=> String
     #
@@ -3896,6 +3982,10 @@ module Aws::DirectConnect
     #   resp.connections[0].mac_sec_keys[0].ckn #=> String
     #   resp.connections[0].mac_sec_keys[0].state #=> String
     #   resp.connections[0].mac_sec_keys[0].start_on #=> String
+    #   resp.connections[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.connections[0].rate_limiter_status.in_use #=> Integer
+    #   resp.connections[0].rate_limiter_status.remaining #=> Integer
+    #   resp.connections[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.connections[0].partner_interconnect_mac_sec_capable #=> Boolean
     #   resp.next_token #=> String
     #
@@ -4105,6 +4195,10 @@ module Aws::DirectConnect
     #   resp.lags[0].connections[0].mac_sec_keys[0].ckn #=> String
     #   resp.lags[0].connections[0].mac_sec_keys[0].state #=> String
     #   resp.lags[0].connections[0].mac_sec_keys[0].start_on #=> String
+    #   resp.lags[0].connections[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.lags[0].connections[0].rate_limiter_status.in_use #=> Integer
+    #   resp.lags[0].connections[0].rate_limiter_status.remaining #=> Integer
+    #   resp.lags[0].connections[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.lags[0].connections[0].partner_interconnect_mac_sec_capable #=> Boolean
     #   resp.lags[0].allows_hosted_connections #=> Boolean
     #   resp.lags[0].jumbo_frame_capable #=> Boolean
@@ -4120,6 +4214,10 @@ module Aws::DirectConnect
     #   resp.lags[0].mac_sec_keys[0].ckn #=> String
     #   resp.lags[0].mac_sec_keys[0].state #=> String
     #   resp.lags[0].mac_sec_keys[0].start_on #=> String
+    #   resp.lags[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.lags[0].rate_limiter_status.in_use #=> Integer
+    #   resp.lags[0].rate_limiter_status.remaining #=> Integer
+    #   resp.lags[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLags AWS API Documentation
@@ -4337,8 +4435,8 @@ module Aws::DirectConnect
     # A virtual interface (VLAN) transmits the traffic between the Direct
     # Connect location and the customer network.
     #
-    # * If you're using an `asn`, the response includes ASN value in both
-    #   the `asn` and `asnLong` fields.
+    # * If you're using an `asn`, the response includes the ASN value in
+    #   both the `asn` and `asnLong` fields.
     #
     # * If you're using `asnLong`, the response returns a value of `0`
     #   (zero) for the `asn` attribute because it exceeds the highest ASN
@@ -4419,6 +4517,7 @@ module Aws::DirectConnect
     #   resp.virtual_interfaces[0].tags[0].key #=> String
     #   resp.virtual_interfaces[0].tags[0].value #=> String
     #   resp.virtual_interfaces[0].site_link_enabled #=> Boolean
+    #   resp.virtual_interfaces[0].rate_limit #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeVirtualInterfaces AWS API Documentation
@@ -4474,6 +4573,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -4513,6 +4613,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DisassociateConnectionFromLag AWS API Documentation
@@ -4846,6 +4950,7 @@ module Aws::DirectConnect
     #   * {Types::Connection#port_encryption_status #port_encryption_status} => String
     #   * {Types::Connection#encryption_mode #encryption_mode} => String
     #   * {Types::Connection#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Connection#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #   * {Types::Connection#partner_interconnect_mac_sec_capable #partner_interconnect_mac_sec_capable} => Boolean
     #
     # @example Request syntax with placeholder values
@@ -4886,6 +4991,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #   resp.partner_interconnect_mac_sec_capable #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateConnection AWS API Documentation
@@ -5062,6 +5171,7 @@ module Aws::DirectConnect
     #   * {Types::Lag#mac_sec_capable #mac_sec_capable} => Boolean
     #   * {Types::Lag#encryption_mode #encryption_mode} => String
     #   * {Types::Lag#mac_sec_keys #mac_sec_keys} => Array&lt;Types::MacSecKey&gt;
+    #   * {Types::Lag#rate_limiter_status #rate_limiter_status} => Types::RateLimiterStatus
     #
     # @example Request syntax with placeholder values
     #
@@ -5115,6 +5225,10 @@ module Aws::DirectConnect
     #   resp.connections[0].mac_sec_keys[0].ckn #=> String
     #   resp.connections[0].mac_sec_keys[0].state #=> String
     #   resp.connections[0].mac_sec_keys[0].start_on #=> String
+    #   resp.connections[0].rate_limiter_status.max_allowed #=> Integer
+    #   resp.connections[0].rate_limiter_status.in_use #=> Integer
+    #   resp.connections[0].rate_limiter_status.remaining #=> Integer
+    #   resp.connections[0].rate_limiter_status.total_bandwidth #=> String
     #   resp.connections[0].partner_interconnect_mac_sec_capable #=> Boolean
     #   resp.allows_hosted_connections #=> Boolean
     #   resp.jumbo_frame_capable #=> Boolean
@@ -5130,6 +5244,10 @@ module Aws::DirectConnect
     #   resp.mac_sec_keys[0].ckn #=> String
     #   resp.mac_sec_keys[0].state #=> String
     #   resp.mac_sec_keys[0].start_on #=> String
+    #   resp.rate_limiter_status.max_allowed #=> Integer
+    #   resp.rate_limiter_status.in_use #=> Integer
+    #   resp.rate_limiter_status.remaining #=> Integer
+    #   resp.rate_limiter_status.total_bandwidth #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateLag AWS API Documentation
     #
@@ -5165,6 +5283,11 @@ module Aws::DirectConnect
     # @option params [String] :virtual_interface_name
     #   The name of the virtual private interface.
     #
+    # @option params [String] :rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. Use this to update the bandwidth allocation on an existing
+    #   virtual interface.
+    #
     # @return [Types::VirtualInterface] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::VirtualInterface#owner_account #owner_account} => String
@@ -5194,6 +5317,7 @@ module Aws::DirectConnect
     #   * {Types::VirtualInterface#aws_logical_device_id #aws_logical_device_id} => String
     #   * {Types::VirtualInterface#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::VirtualInterface#site_link_enabled #site_link_enabled} => Boolean
+    #   * {Types::VirtualInterface#rate_limit #rate_limit} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -5202,6 +5326,7 @@ module Aws::DirectConnect
     #     mtu: 1,
     #     enable_site_link: false,
     #     virtual_interface_name: "VirtualInterfaceName",
+    #     rate_limit: "RateLimit",
     #   })
     #
     # @example Response structure
@@ -5247,6 +5372,7 @@ module Aws::DirectConnect
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
     #   resp.site_link_enabled #=> Boolean
+    #   resp.rate_limit #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateVirtualInterfaceAttributes AWS API Documentation
     #
@@ -5275,7 +5401,7 @@ module Aws::DirectConnect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-directconnect'
-      context[:gem_version] = '1.110.0'
+      context[:gem_version] = '1.111.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

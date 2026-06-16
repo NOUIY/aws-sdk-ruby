@@ -301,6 +301,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::QueryVectorsOutput]
         def vectors: () -> ::Array[Types::QueryOutputVector]
         def distance_metric: () -> ("euclidean" | "cosine")
+        def next_token: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/S3Vectors/Client.html#query_vectors-instance_method
       def query_vectors: (
@@ -314,7 +315,8 @@ module Aws
                            ?filter: {
                            },
                            ?return_metadata: bool,
-                           ?return_distance: bool
+                           ?return_distance: bool,
+                           ?next_token: ::String
                          ) -> _QueryVectorsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _QueryVectorsResponseSuccess
 

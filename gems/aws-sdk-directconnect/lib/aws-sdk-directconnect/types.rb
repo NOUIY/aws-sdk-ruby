@@ -414,30 +414,40 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #   @return [Integer]
     #
     # @!attribute [rw] asn_long
     #   The long ASN for the BGP peer. The valid range is from 1 to
     #   4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] auth_key
@@ -913,6 +923,11 @@ module Aws::DirectConnect
     #   connection.
     #   @return [Array<Types::MacSecKey>]
     #
+    # @!attribute [rw] rate_limiter_status
+    #   The rate limiter status for the connection, including how many rate
+    #   limiters are in use and the maximum allowed.
+    #   @return [Types::RateLimiterStatus]
+    #
     # @!attribute [rw] partner_interconnect_mac_sec_capable
     #   Indicates whether the interconnect hosting this connection supports
     #   MAC Security (MACsec).
@@ -943,6 +958,7 @@ module Aws::DirectConnect
       :port_encryption_status,
       :encryption_mode,
       :mac_sec_keys,
+      :rate_limiter_status,
       :partner_interconnect_mac_sec_capable)
       SENSITIVE = []
       include Aws::Structure
@@ -1383,15 +1399,17 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #   @return [Integer]
     #
     # @!attribute [rw] asn_long
@@ -1399,15 +1417,23 @@ module Aws::DirectConnect
     #   virtual interface. The valid range is from 1 to 4294967294 for BGP
     #   configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] customer_address
@@ -2834,6 +2860,11 @@ module Aws::DirectConnect
     #   The MAC Security (MACsec) security keys associated with the LAG.
     #   @return [Array<Types::MacSecKey>]
     #
+    # @!attribute [rw] rate_limiter_status
+    #   The rate limiter status for the LAG, including how many rate
+    #   limiters are in use and the maximum allowed.
+    #   @return [Types::RateLimiterStatus]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/Lag AWS API Documentation
     #
     class Lag < Struct.new(
@@ -2857,7 +2888,8 @@ module Aws::DirectConnect
       :provider_name,
       :mac_sec_capable,
       :encryption_mode,
-      :mac_sec_keys)
+      :mac_sec_keys,
+      :rate_limiter_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2879,6 +2911,14 @@ module Aws::DirectConnect
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # The rate limiter limit has been exceeded for the connection. You
+    # cannot add more rate limiters to virtual interfaces on this
+    # connection.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/LimitExceededException AWS API Documentation
+    #
+    class LimitExceededException < Aws::EmptyStructure; end
 
     # @!attribute [rw] test_id
     #   The ID of the virtual interface failover test.
@@ -3122,15 +3162,17 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   The valid values are 1-2147483646.
     #   @return [Integer]
@@ -3139,15 +3181,23 @@ module Aws::DirectConnect
     #   The long ASN for a new private virtual interface. The valid range is
     #   from 1 to 4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] mtu
@@ -3189,6 +3239,12 @@ module Aws::DirectConnect
     #   Indicates whether to enable or disable SiteLink.
     #   @return [Boolean]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. The rate limit restricts the maximum bandwidth that the
+    #   virtual interface can use on the parent connection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/NewPrivateVirtualInterface AWS API Documentation
     #
     class NewPrivateVirtualInterface < Struct.new(
@@ -3204,7 +3260,8 @@ module Aws::DirectConnect
       :virtual_gateway_id,
       :direct_connect_gateway_id,
       :tags,
-      :enable_site_link)
+      :enable_site_link,
+      :rate_limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3228,15 +3285,17 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   The valid values are 1-2147483646.
     #   @return [Integer]
@@ -3245,15 +3304,23 @@ module Aws::DirectConnect
     #   The ASN when allocating a new private virtual interface. The valid
     #   range is from 1 to 4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] mtu
@@ -3283,6 +3350,12 @@ module Aws::DirectConnect
     #   The tags associated with the private virtual interface.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. The rate limit restricts the maximum bandwidth that the
+    #   virtual interface can use on the parent connection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/NewPrivateVirtualInterfaceAllocation AWS API Documentation
     #
     class NewPrivateVirtualInterfaceAllocation < Struct.new(
@@ -3295,7 +3368,8 @@ module Aws::DirectConnect
       :amazon_address,
       :address_family,
       :customer_address,
-      :tags)
+      :tags,
+      :rate_limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3318,30 +3392,40 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #   @return [Integer]
     #
     # @!attribute [rw] asn_long
     #   The long ASN for a new public virtual interface. The valid range is
     #   from 1 to 4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] auth_key
@@ -3371,6 +3455,12 @@ module Aws::DirectConnect
     #   The tags associated with the public virtual interface.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. The rate limit restricts the maximum bandwidth that the
+    #   virtual interface can use on the parent connection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/NewPublicVirtualInterface AWS API Documentation
     #
     class NewPublicVirtualInterface < Struct.new(
@@ -3383,7 +3473,8 @@ module Aws::DirectConnect
       :customer_address,
       :address_family,
       :route_filter_prefixes,
-      :tags)
+      :tags,
+      :rate_limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3407,15 +3498,17 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   The valid values are 1-2147483646.
     #   @return [Integer]
@@ -3424,15 +3517,23 @@ module Aws::DirectConnect
     #   The ASN when allocating a new public virtual interface. The valid
     #   range is from 1 to 4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] auth_key
@@ -3462,6 +3563,12 @@ module Aws::DirectConnect
     #   The tags associated with the public virtual interface.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. The rate limit restricts the maximum bandwidth that the
+    #   virtual interface can use on the parent connection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/NewPublicVirtualInterfaceAllocation AWS API Documentation
     #
     class NewPublicVirtualInterfaceAllocation < Struct.new(
@@ -3474,7 +3581,8 @@ module Aws::DirectConnect
       :customer_address,
       :address_family,
       :route_filter_prefixes,
-      :tags)
+      :tags,
+      :rate_limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3497,30 +3605,40 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #   @return [Integer]
     #
     # @!attribute [rw] asn_long
     #   The long ASN for a new transit virtual interface.The valid range is
     #   from 1 to 4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] mtu
@@ -3558,6 +3676,12 @@ module Aws::DirectConnect
     #   Indicates whether to enable or disable SiteLink.
     #   @return [Boolean]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. The rate limit restricts the maximum bandwidth that the
+    #   virtual interface can use on the parent connection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/NewTransitVirtualInterface AWS API Documentation
     #
     class NewTransitVirtualInterface < Struct.new(
@@ -3572,7 +3696,8 @@ module Aws::DirectConnect
       :address_family,
       :direct_connect_gateway_id,
       :tags,
-      :enable_site_link)
+      :enable_site_link,
+      :rate_limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3596,15 +3721,17 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   The valid values are 1-2147483646.
     #   @return [Integer]
@@ -3613,15 +3740,23 @@ module Aws::DirectConnect
     #   The ASN when allocating a new transit virtual interface. The valid
     #   range is from 1 to 4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] mtu
@@ -3651,6 +3786,12 @@ module Aws::DirectConnect
     #   The tags associated with the transitive virtual interface.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. The rate limit restricts the maximum bandwidth that the
+    #   virtual interface can use on the parent connection.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/NewTransitVirtualInterfaceAllocation AWS API Documentation
     #
     class NewTransitVirtualInterfaceAllocation < Struct.new(
@@ -3663,7 +3804,40 @@ module Aws::DirectConnect
       :amazon_address,
       :customer_address,
       :address_family,
-      :tags)
+      :tags,
+      :rate_limit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about the rate limiter status for a connection,
+    # including the maximum number of rate limiters allowed, the number
+    # currently in use, and the remaining capacity.
+    #
+    # @!attribute [rw] max_allowed
+    #   The maximum number of rate limiters allowed on the connection.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] in_use
+    #   The number of rate limiters currently in use on the connection.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] remaining
+    #   The number of rate limiters remaining (available) on the connection.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] total_bandwidth
+    #   The total bandwidth allocated across all rate limiters on the
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/RateLimiterStatus AWS API Documentation
+    #
+    class RateLimiterStatus < Struct.new(
+      :max_allowed,
+      :in_use,
+      :remaining,
+      :total_bandwidth)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4017,13 +4191,20 @@ module Aws::DirectConnect
     #   The name of the virtual private interface.
     #   @return [String]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) to apply to the virtual
+    #   interface. Use this to update the bandwidth allocation on an
+    #   existing virtual interface.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateVirtualInterfaceAttributesRequest AWS API Documentation
     #
     class UpdateVirtualInterfaceAttributesRequest < Struct.new(
       :virtual_interface_id,
       :mtu,
       :enable_site_link,
-      :virtual_interface_name)
+      :virtual_interface_name,
+      :rate_limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4112,30 +4293,40 @@ module Aws::DirectConnect
     #   provide a number greater than the maximum, an error is returned. Use
     #   `asnLong` instead.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
-    #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
     #
-    #    </note>
+    #   * If you enter a 4-byte ASN for the `asn` parameter, the API returns
+    #     an error.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #   @return [Integer]
     #
     # @!attribute [rw] asn_long
     #   The long ASN for the virtual interface. The valid range is from 1 to
     #   4294967294 for BGP configuration.
     #
-    #   <note markdown="1"> You can use `asnLong` or `asn`, but not both. We recommend using
-    #   `asnLong` as it supports a greater pool of numbers.
+    #   Note the following limitations when using `asnLong`:
     #
-    #    * The `asnLong` attribute accepts both ASN and long ASN ranges.
+    #   * You can use `asnLong` or `asn`, but not both. We recommend using
+    #     `asnLong` as it supports a greater pool of numbers.
+    #
+    #   * `asnLong` accepts any valid ASN value, regardless if it's 2-byte
+    #     or 4-byte.
+    #
+    #   * When using a 4-byte `asnLong`, the API response returns `0` for
+    #     the legacy `asn` attribute since 4-byte ASN values exceed the
+    #     maximum supported value of 2,147,483,647.
+    #
+    #   * If you are using a 2-byte ASN, the API response will include the
+    #     2-byte value for both the `asn` and `asnLong` fields.
     #
     #   * If you provide a value in the same API call for both `asn` and
     #     `asnLong`, the API will only accept the value for `asnLong`.
-    #
-    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] amazon_side_asn
@@ -4255,6 +4446,13 @@ module Aws::DirectConnect
     #   Indicates whether SiteLink is enabled.
     #   @return [Boolean]
     #
+    # @!attribute [rw] rate_limit
+    #   The rate limit (bandwidth allocation) applied to the virtual
+    #   interface. The possible values are `50 Mbps`, `100 Mbps`, `200
+    #   Mbps`, `300 Mbps`, `400 Mbps`, `500 Mbps`, `1 Gbps`, `2 Gbps`, `5
+    #   Gbps`, or `10 Gbps`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/VirtualInterface AWS API Documentation
     #
     class VirtualInterface < Struct.new(
@@ -4284,7 +4482,8 @@ module Aws::DirectConnect
       :aws_device_v2,
       :aws_logical_device_id,
       :tags,
-      :site_link_enabled)
+      :site_link_enabled,
+      :rate_limit)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -120,6 +120,7 @@ module Aws::PartnerCentralSelling
     DisassociateOpportunityRequest = Shapes::StructureShape.new(name: 'DisassociateOpportunityRequest')
     DisassociateOpportunityRequestRelatedEntityIdentifierString = Shapes::StringShape.new(name: 'DisassociateOpportunityRequestRelatedEntityIdentifierString')
     DunsNumber = Shapes::StringShape.new(name: 'DunsNumber')
+    EligibleProgramsList = Shapes::ListShape.new(name: 'EligibleProgramsList')
     Email = Shapes::StringShape.new(name: 'Email')
     EngagementArn = Shapes::StringShape.new(name: 'EngagementArn')
     EngagementArnOrIdentifier = Shapes::StringShape.new(name: 'EngagementArnOrIdentifier')
@@ -136,6 +137,7 @@ module Aws::PartnerCentralSelling
     EngagementCustomerProjectTitle = Shapes::StringShape.new(name: 'EngagementCustomerProjectTitle')
     EngagementDescription = Shapes::StringShape.new(name: 'EngagementDescription')
     EngagementIdentifier = Shapes::StringShape.new(name: 'EngagementIdentifier')
+    EngagementIdentifierList = Shapes::ListShape.new(name: 'EngagementIdentifierList')
     EngagementIdentifiers = Shapes::ListShape.new(name: 'EngagementIdentifiers')
     EngagementInvitationArn = Shapes::StringShape.new(name: 'EngagementInvitationArn')
     EngagementInvitationArnOrIdentifier = Shapes::StringShape.new(name: 'EngagementInvitationArnOrIdentifier')
@@ -151,9 +153,13 @@ module Aws::PartnerCentralSelling
     EngagementMemberSummary = Shapes::StructureShape.new(name: 'EngagementMemberSummary')
     EngagementMembers = Shapes::ListShape.new(name: 'EngagementMembers')
     EngagementPageSize = Shapes::IntegerShape.new(name: 'EngagementPageSize')
+    EngagementProspectingResult = Shapes::StructureShape.new(name: 'EngagementProspectingResult')
+    EngagementProspectingResultEngagementContextIdString = Shapes::StringShape.new(name: 'EngagementProspectingResultEngagementContextIdString')
+    EngagementProspectingResultList = Shapes::ListShape.new(name: 'EngagementProspectingResultList')
     EngagementResourceAssociationSummary = Shapes::StructureShape.new(name: 'EngagementResourceAssociationSummary')
     EngagementResourceAssociationSummaryList = Shapes::ListShape.new(name: 'EngagementResourceAssociationSummaryList')
     EngagementScore = Shapes::StringShape.new(name: 'EngagementScore')
+    EngagementScoreLevel = Shapes::StringShape.new(name: 'EngagementScoreLevel')
     EngagementSort = Shapes::StructureShape.new(name: 'EngagementSort')
     EngagementSortName = Shapes::StringShape.new(name: 'EngagementSortName')
     EngagementSummary = Shapes::StructureShape.new(name: 'EngagementSummary')
@@ -176,6 +182,8 @@ module Aws::PartnerCentralSelling
     GetOpportunityRequest = Shapes::StructureShape.new(name: 'GetOpportunityRequest')
     GetOpportunityResponse = Shapes::StructureShape.new(name: 'GetOpportunityResponse')
     GetOpportunityResponsePartnerOpportunityIdentifierString = Shapes::StringShape.new(name: 'GetOpportunityResponsePartnerOpportunityIdentifierString')
+    GetProspectingFromEngagementTaskRequest = Shapes::StructureShape.new(name: 'GetProspectingFromEngagementTaskRequest')
+    GetProspectingFromEngagementTaskResponse = Shapes::StructureShape.new(name: 'GetProspectingFromEngagementTaskResponse')
     GetResourceSnapshotJobRequest = Shapes::StructureShape.new(name: 'GetResourceSnapshotJobRequest')
     GetResourceSnapshotJobResponse = Shapes::StructureShape.new(name: 'GetResourceSnapshotJobResponse')
     GetResourceSnapshotRequest = Shapes::StructureShape.new(name: 'GetResourceSnapshotRequest')
@@ -195,6 +203,7 @@ module Aws::PartnerCentralSelling
     LeadContact = Shapes::StructureShape.new(name: 'LeadContact')
     LeadContext = Shapes::StructureShape.new(name: 'LeadContext')
     LeadCustomer = Shapes::StructureShape.new(name: 'LeadCustomer')
+    LeadInsights = Shapes::StructureShape.new(name: 'LeadInsights')
     LeadInteraction = Shapes::StructureShape.new(name: 'LeadInteraction')
     LeadInteractionList = Shapes::ListShape.new(name: 'LeadInteractionList')
     LeadInvitationCustomer = Shapes::StructureShape.new(name: 'LeadInvitationCustomer')
@@ -244,6 +253,9 @@ module Aws::PartnerCentralSelling
     ListOpportunityFromEngagementTasksRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListOpportunityFromEngagementTasksRequestMaxResultsInteger')
     ListOpportunityFromEngagementTasksRequestNextTokenString = Shapes::StringShape.new(name: 'ListOpportunityFromEngagementTasksRequestNextTokenString')
     ListOpportunityFromEngagementTasksResponse = Shapes::StructureShape.new(name: 'ListOpportunityFromEngagementTasksResponse')
+    ListProspectingFromEngagementTasksRequest = Shapes::StructureShape.new(name: 'ListProspectingFromEngagementTasksRequest')
+    ListProspectingFromEngagementTasksResponse = Shapes::StructureShape.new(name: 'ListProspectingFromEngagementTasksResponse')
+    ListProspectingFromEngagementTasksResponseNextTokenString = Shapes::StringShape.new(name: 'ListProspectingFromEngagementTasksResponseNextTokenString')
     ListResourceSnapshotJobsRequest = Shapes::StructureShape.new(name: 'ListResourceSnapshotJobsRequest')
     ListResourceSnapshotJobsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListResourceSnapshotJobsRequestMaxResultsInteger')
     ListResourceSnapshotJobsResponse = Shapes::StructureShape.new(name: 'ListResourceSnapshotJobsResponse')
@@ -277,6 +289,8 @@ module Aws::PartnerCentralSelling
     OpportunityIdentifiers = Shapes::ListShape.new(name: 'OpportunityIdentifiers')
     OpportunityInvitationPayload = Shapes::StructureShape.new(name: 'OpportunityInvitationPayload')
     OpportunityOrigin = Shapes::StringShape.new(name: 'OpportunityOrigin')
+    OpportunityQuality = Shapes::StructureShape.new(name: 'OpportunityQuality')
+    OpportunityQualityScoreInteger = Shapes::IntegerShape.new(name: 'OpportunityQualityScoreInteger')
     OpportunitySort = Shapes::StructureShape.new(name: 'OpportunitySort')
     OpportunitySortName = Shapes::StringShape.new(name: 'OpportunitySortName')
     OpportunitySummaries = Shapes::ListShape.new(name: 'OpportunitySummaries')
@@ -303,12 +317,34 @@ module Aws::PartnerCentralSelling
     ProjectTitleString = Shapes::StringShape.new(name: 'ProjectTitleString')
     ProjectView = Shapes::StructureShape.new(name: 'ProjectView')
     ProjectViewOtherSolutionDescriptionString = Shapes::StringShape.new(name: 'ProjectViewOtherSolutionDescriptionString')
+    ProspectingAccountName = Shapes::StringShape.new(name: 'ProspectingAccountName')
+    ProspectingCompanySize = Shapes::StringShape.new(name: 'ProspectingCompanySize')
+    ProspectingFromEngagementTaskSort = Shapes::StructureShape.new(name: 'ProspectingFromEngagementTaskSort')
+    ProspectingFromEngagementTaskSortName = Shapes::StringShape.new(name: 'ProspectingFromEngagementTaskSortName')
+    ProspectingGeo = Shapes::StringShape.new(name: 'ProspectingGeo')
+    ProspectingInsights = Shapes::StructureShape.new(name: 'ProspectingInsights')
+    ProspectingPublicProfileSummary = Shapes::StringShape.new(name: 'ProspectingPublicProfileSummary')
+    ProspectingRegion = Shapes::StringShape.new(name: 'ProspectingRegion')
+    ProspectingResult = Shapes::StructureShape.new(name: 'ProspectingResult')
+    ProspectingResultAws = Shapes::StructureShape.new(name: 'ProspectingResultAws')
+    ProspectingResultCustomer = Shapes::StructureShape.new(name: 'ProspectingResultCustomer')
+    ProspectingSegment = Shapes::StringShape.new(name: 'ProspectingSegment')
+    ProspectingSubIndustry = Shapes::StringShape.new(name: 'ProspectingSubIndustry')
+    ProspectingSubRegion = Shapes::StringShape.new(name: 'ProspectingSubRegion')
+    ProspectingTaskArn = Shapes::StringShape.new(name: 'ProspectingTaskArn')
+    ProspectingTaskIdentifier = Shapes::StringShape.new(name: 'ProspectingTaskIdentifier')
+    ProspectingTaskStatus = Shapes::StringShape.new(name: 'ProspectingTaskStatus')
+    ProspectingTaskSummary = Shapes::StructureShape.new(name: 'ProspectingTaskSummary')
+    ProspectingTaskSummaryList = Shapes::ListShape.new(name: 'ProspectingTaskSummaryList')
     PutSellingSystemSettingsRequest = Shapes::StructureShape.new(name: 'PutSellingSystemSettingsRequest')
     PutSellingSystemSettingsResponse = Shapes::StructureShape.new(name: 'PutSellingSystemSettingsResponse')
     ReasonCode = Shapes::StringShape.new(name: 'ReasonCode')
     Receiver = Shapes::UnionShape.new(name: 'Receiver')
     ReceiverResponsibility = Shapes::StringShape.new(name: 'ReceiverResponsibility')
     ReceiverResponsibilityList = Shapes::ListShape.new(name: 'ReceiverResponsibilityList')
+    Recommendation = Shapes::StructureShape.new(name: 'Recommendation')
+    RecommendationAttributeMap = Shapes::MapShape.new(name: 'RecommendationAttributeMap')
+    RecommendationList = Shapes::ListShape.new(name: 'RecommendationList')
     RejectEngagementInvitationRequest = Shapes::StructureShape.new(name: 'RejectEngagementInvitationRequest')
     RejectionReasonString = Shapes::StringShape.new(name: 'RejectionReasonString')
     RelatedEntityIdentifiers = Shapes::StructureShape.new(name: 'RelatedEntityIdentifiers')
@@ -358,6 +394,8 @@ module Aws::PartnerCentralSelling
     StartEngagementFromOpportunityTaskResponse = Shapes::StructureShape.new(name: 'StartEngagementFromOpportunityTaskResponse')
     StartOpportunityFromEngagementTaskRequest = Shapes::StructureShape.new(name: 'StartOpportunityFromEngagementTaskRequest')
     StartOpportunityFromEngagementTaskResponse = Shapes::StructureShape.new(name: 'StartOpportunityFromEngagementTaskResponse')
+    StartProspectingFromEngagementTaskRequest = Shapes::StructureShape.new(name: 'StartProspectingFromEngagementTaskRequest')
+    StartProspectingFromEngagementTaskResponse = Shapes::StructureShape.new(name: 'StartProspectingFromEngagementTaskResponse')
     StartResourceSnapshotJobRequest = Shapes::StructureShape.new(name: 'StartResourceSnapshotJobRequest')
     StopResourceSnapshotJobRequest = Shapes::StructureShape.new(name: 'StopResourceSnapshotJobRequest')
     String = Shapes::StringShape.new(name: 'String')
@@ -374,7 +412,10 @@ module Aws::PartnerCentralSelling
     TaskArn = Shapes::StringShape.new(name: 'TaskArn')
     TaskArnOrIdentifier = Shapes::StringShape.new(name: 'TaskArnOrIdentifier')
     TaskIdentifier = Shapes::StringShape.new(name: 'TaskIdentifier')
+    TaskIdentifierList = Shapes::ListShape.new(name: 'TaskIdentifierList')
     TaskIdentifiers = Shapes::ListShape.new(name: 'TaskIdentifiers')
+    TaskName = Shapes::StringShape.new(name: 'TaskName')
+    TaskNameList = Shapes::ListShape.new(name: 'TaskNameList')
     TaskStatus = Shapes::StringShape.new(name: 'TaskStatus')
     TaskStatuses = Shapes::ListShape.new(name: 'TaskStatuses')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
@@ -474,6 +515,8 @@ module Aws::PartnerCentralSelling
     AwsOpportunityInsights.add_member(:next_best_actions, Shapes::ShapeRef.new(shape: String, location_name: "NextBestActions"))
     AwsOpportunityInsights.add_member(:engagement_score, Shapes::ShapeRef.new(shape: EngagementScore, location_name: "EngagementScore"))
     AwsOpportunityInsights.add_member(:aws_products_spend_insights_by_source, Shapes::ShapeRef.new(shape: AwsProductsSpendInsightsBySource, location_name: "AwsProductsSpendInsightsBySource"))
+    AwsOpportunityInsights.add_member(:opportunity_quality, Shapes::ShapeRef.new(shape: OpportunityQuality, location_name: "OpportunityQuality"))
+    AwsOpportunityInsights.add_member(:recommendations, Shapes::ShapeRef.new(shape: RecommendationList, location_name: "Recommendations"))
     AwsOpportunityInsights.struct_class = Types::AwsOpportunityInsights
 
     AwsOpportunityLifeCycle.add_member(:target_close_date, Shapes::ShapeRef.new(shape: Date, location_name: "TargetCloseDate"))
@@ -504,6 +547,7 @@ module Aws::PartnerCentralSelling
     AwsOpportunitySummaryFullView.add_member(:related_entity_ids, Shapes::ShapeRef.new(shape: AwsOpportunityRelatedEntities, location_name: "RelatedEntityIds"))
     AwsOpportunitySummaryFullView.add_member(:customer, Shapes::ShapeRef.new(shape: AwsOpportunityCustomer, location_name: "Customer"))
     AwsOpportunitySummaryFullView.add_member(:project, Shapes::ShapeRef.new(shape: AwsOpportunityProject, location_name: "Project"))
+    AwsOpportunitySummaryFullView.add_member(:cosell_motion, Shapes::ShapeRef.new(shape: String, location_name: "CosellMotion"))
     AwsOpportunitySummaryFullView.struct_class = Types::AwsOpportunitySummaryFullView
 
     AwsOpportunityTeamMembersList.member = Shapes::ShapeRef.new(shape: AwsTeamMember)
@@ -676,6 +720,8 @@ module Aws::PartnerCentralSelling
     DisassociateOpportunityRequest.add_member(:related_entity_identifier, Shapes::ShapeRef.new(shape: DisassociateOpportunityRequestRelatedEntityIdentifierString, required: true, location_name: "RelatedEntityIdentifier"))
     DisassociateOpportunityRequest.struct_class = Types::DisassociateOpportunityRequest
 
+    EligibleProgramsList.member = Shapes::ShapeRef.new(shape: String)
+
     EngagementContextDetails.add_member(:id, Shapes::ShapeRef.new(shape: EngagementContextIdentifier, location_name: "Id"))
     EngagementContextDetails.add_member(:type, Shapes::ShapeRef.new(shape: EngagementContextType, required: true, location_name: "Type"))
     EngagementContextDetails.add_member(:payload, Shapes::ShapeRef.new(shape: EngagementContextPayload, location_name: "Payload"))
@@ -683,9 +729,11 @@ module Aws::PartnerCentralSelling
 
     EngagementContextPayload.add_member(:customer_project, Shapes::ShapeRef.new(shape: CustomerProjectsContext, location_name: "CustomerProject"))
     EngagementContextPayload.add_member(:lead, Shapes::ShapeRef.new(shape: LeadContext, location_name: "Lead"))
+    EngagementContextPayload.add_member(:prospecting_result, Shapes::ShapeRef.new(shape: ProspectingResult, location_name: "ProspectingResult"))
     EngagementContextPayload.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     EngagementContextPayload.add_member_subclass(:customer_project, Types::EngagementContextPayload::CustomerProject)
     EngagementContextPayload.add_member_subclass(:lead, Types::EngagementContextPayload::Lead)
+    EngagementContextPayload.add_member_subclass(:prospecting_result, Types::EngagementContextPayload::ProspectingResult)
     EngagementContextPayload.add_member_subclass(:unknown, Types::EngagementContextPayload::Unknown)
     EngagementContextPayload.struct_class = Types::EngagementContextPayload
 
@@ -703,6 +751,8 @@ module Aws::PartnerCentralSelling
     EngagementCustomerProjectDetails.add_member(:business_problem, Shapes::ShapeRef.new(shape: EngagementCustomerBusinessProblem, required: true, location_name: "BusinessProblem"))
     EngagementCustomerProjectDetails.add_member(:target_completion_date, Shapes::ShapeRef.new(shape: EngagementCustomerProjectDetailsTargetCompletionDateString, required: true, location_name: "TargetCompletionDate"))
     EngagementCustomerProjectDetails.struct_class = Types::EngagementCustomerProjectDetails
+
+    EngagementIdentifierList.member = Shapes::ShapeRef.new(shape: EngagementIdentifier)
 
     EngagementIdentifiers.member = Shapes::ShapeRef.new(shape: EngagementArnOrIdentifier)
 
@@ -739,6 +789,15 @@ module Aws::PartnerCentralSelling
     EngagementMemberSummary.struct_class = Types::EngagementMemberSummary
 
     EngagementMembers.member = Shapes::ShapeRef.new(shape: EngagementMember)
+
+    EngagementProspectingResult.add_member(:engagement_identifier, Shapes::ShapeRef.new(shape: EngagementIdentifier, required: true, location_name: "EngagementIdentifier"))
+    EngagementProspectingResult.add_member(:engagement_context_id, Shapes::ShapeRef.new(shape: EngagementProspectingResultEngagementContextIdString, location_name: "EngagementContextId"))
+    EngagementProspectingResult.add_member(:status, Shapes::ShapeRef.new(shape: ProspectingTaskStatus, required: true, location_name: "Status"))
+    EngagementProspectingResult.add_member(:reason_code, Shapes::ShapeRef.new(shape: String, location_name: "ReasonCode"))
+    EngagementProspectingResult.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
+    EngagementProspectingResult.struct_class = Types::EngagementProspectingResult
+
+    EngagementProspectingResultList.member = Shapes::ShapeRef.new(shape: EngagementProspectingResult)
 
     EngagementResourceAssociationSummary.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
     EngagementResourceAssociationSummary.add_member(:engagement_id, Shapes::ShapeRef.new(shape: EngagementIdentifier, location_name: "EngagementId"))
@@ -794,6 +853,7 @@ module Aws::PartnerCentralSelling
     GetAwsOpportunitySummaryResponse.add_member(:related_entity_ids, Shapes::ShapeRef.new(shape: AwsOpportunityRelatedEntities, location_name: "RelatedEntityIds"))
     GetAwsOpportunitySummaryResponse.add_member(:customer, Shapes::ShapeRef.new(shape: AwsOpportunityCustomer, location_name: "Customer"))
     GetAwsOpportunitySummaryResponse.add_member(:project, Shapes::ShapeRef.new(shape: AwsOpportunityProject, location_name: "Project"))
+    GetAwsOpportunitySummaryResponse.add_member(:cosell_motion, Shapes::ShapeRef.new(shape: String, location_name: "CosellMotion"))
     GetAwsOpportunitySummaryResponse.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
     GetAwsOpportunitySummaryResponse.struct_class = Types::GetAwsOpportunitySummaryResponse
 
@@ -857,6 +917,18 @@ module Aws::PartnerCentralSelling
     GetOpportunityResponse.add_member(:life_cycle, Shapes::ShapeRef.new(shape: LifeCycle, location_name: "LifeCycle"))
     GetOpportunityResponse.add_member(:opportunity_team, Shapes::ShapeRef.new(shape: PartnerOpportunityTeamMembersList, location_name: "OpportunityTeam"))
     GetOpportunityResponse.struct_class = Types::GetOpportunityResponse
+
+    GetProspectingFromEngagementTaskRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
+    GetProspectingFromEngagementTaskRequest.add_member(:task_identifier, Shapes::ShapeRef.new(shape: ProspectingTaskIdentifier, required: true, location_name: "TaskIdentifier"))
+    GetProspectingFromEngagementTaskRequest.struct_class = Types::GetProspectingFromEngagementTaskRequest
+
+    GetProspectingFromEngagementTaskResponse.add_member(:task_id, Shapes::ShapeRef.new(shape: ProspectingTaskIdentifier, required: true, location_name: "TaskId"))
+    GetProspectingFromEngagementTaskResponse.add_member(:task_arn, Shapes::ShapeRef.new(shape: ProspectingTaskArn, required: true, location_name: "TaskArn"))
+    GetProspectingFromEngagementTaskResponse.add_member(:task_name, Shapes::ShapeRef.new(shape: TaskName, required: true, location_name: "TaskName"))
+    GetProspectingFromEngagementTaskResponse.add_member(:start_time, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "StartTime"))
+    GetProspectingFromEngagementTaskResponse.add_member(:end_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "EndTime"))
+    GetProspectingFromEngagementTaskResponse.add_member(:engagements, Shapes::ShapeRef.new(shape: EngagementProspectingResultList, required: true, location_name: "Engagements"))
+    GetProspectingFromEngagementTaskResponse.struct_class = Types::GetProspectingFromEngagementTaskResponse
 
     GetResourceSnapshotJobRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
     GetResourceSnapshotJobRequest.add_member(:resource_snapshot_job_identifier, Shapes::ShapeRef.new(shape: ResourceSnapshotJobIdentifier, required: true, location_name: "ResourceSnapshotJobIdentifier"))
@@ -925,6 +997,7 @@ module Aws::PartnerCentralSelling
     LeadContact.add_member(:phone, Shapes::ShapeRef.new(shape: PhoneNumber, location_name: "Phone"))
     LeadContact.struct_class = Types::LeadContact
 
+    LeadContext.add_member(:insights, Shapes::ShapeRef.new(shape: LeadInsights, location_name: "Insights"))
     LeadContext.add_member(:qualification_status, Shapes::ShapeRef.new(shape: LeadQualificationStatus, location_name: "QualificationStatus"))
     LeadContext.add_member(:customer, Shapes::ShapeRef.new(shape: LeadCustomer, required: true, location_name: "Customer"))
     LeadContext.add_member(:interactions, Shapes::ShapeRef.new(shape: LeadInteractionList, required: true, location_name: "Interactions"))
@@ -937,6 +1010,9 @@ module Aws::PartnerCentralSelling
     LeadCustomer.add_member(:aws_maturity, Shapes::ShapeRef.new(shape: AwsMaturity, location_name: "AwsMaturity"))
     LeadCustomer.add_member(:market_segment, Shapes::ShapeRef.new(shape: MarketSegment, location_name: "MarketSegment"))
     LeadCustomer.struct_class = Types::LeadCustomer
+
+    LeadInsights.add_member(:lead_readiness_score, Shapes::ShapeRef.new(shape: String, location_name: "LeadReadinessScore"))
+    LeadInsights.struct_class = Types::LeadInsights
 
     LeadInteraction.add_member(:source_type, Shapes::ShapeRef.new(shape: LeadSourceType, required: true, location_name: "SourceType"))
     LeadInteraction.add_member(:source_id, Shapes::ShapeRef.new(shape: LeadSourceId, required: true, location_name: "SourceId"))
@@ -1158,6 +1234,20 @@ module Aws::PartnerCentralSelling
     ListOpportunityFromEngagementTasksResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     ListOpportunityFromEngagementTasksResponse.struct_class = Types::ListOpportunityFromEngagementTasksResponse
 
+    ListProspectingFromEngagementTasksRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
+    ListProspectingFromEngagementTasksRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PageSize, location_name: "MaxResults"))
+    ListProspectingFromEngagementTasksRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListProspectingFromEngagementTasksRequest.add_member(:task_identifier, Shapes::ShapeRef.new(shape: TaskIdentifierList, location_name: "TaskIdentifier"))
+    ListProspectingFromEngagementTasksRequest.add_member(:task_name, Shapes::ShapeRef.new(shape: TaskNameList, location_name: "TaskName"))
+    ListProspectingFromEngagementTasksRequest.add_member(:start_after, Shapes::ShapeRef.new(shape: DateTime, location_name: "StartAfter"))
+    ListProspectingFromEngagementTasksRequest.add_member(:start_before, Shapes::ShapeRef.new(shape: DateTime, location_name: "StartBefore"))
+    ListProspectingFromEngagementTasksRequest.add_member(:sort, Shapes::ShapeRef.new(shape: ProspectingFromEngagementTaskSort, location_name: "Sort"))
+    ListProspectingFromEngagementTasksRequest.struct_class = Types::ListProspectingFromEngagementTasksRequest
+
+    ListProspectingFromEngagementTasksResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: ListProspectingFromEngagementTasksResponseNextTokenString, location_name: "NextToken"))
+    ListProspectingFromEngagementTasksResponse.add_member(:task_summaries, Shapes::ShapeRef.new(shape: ProspectingTaskSummaryList, required: true, location_name: "TaskSummaries"))
+    ListProspectingFromEngagementTasksResponse.struct_class = Types::ListProspectingFromEngagementTasksResponse
+
     ListResourceSnapshotJobsRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
     ListResourceSnapshotJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListResourceSnapshotJobsRequestMaxResultsInteger, location_name: "MaxResults"))
     ListResourceSnapshotJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
@@ -1240,6 +1330,10 @@ module Aws::PartnerCentralSelling
     OpportunityInvitationPayload.add_member(:project, Shapes::ShapeRef.new(shape: ProjectDetails, required: true, location_name: "Project"))
     OpportunityInvitationPayload.struct_class = Types::OpportunityInvitationPayload
 
+    OpportunityQuality.add_member(:score, Shapes::ShapeRef.new(shape: OpportunityQualityScoreInteger, location_name: "Score"))
+    OpportunityQuality.add_member(:trend, Shapes::ShapeRef.new(shape: String, location_name: "Trend"))
+    OpportunityQuality.struct_class = Types::OpportunityQuality
+
     OpportunitySort.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, required: true, location_name: "SortOrder"))
     OpportunitySort.add_member(:sort_by, Shapes::ShapeRef.new(shape: OpportunitySortName, required: true, location_name: "SortBy"))
     OpportunitySort.struct_class = Types::OpportunitySort
@@ -1318,6 +1412,53 @@ module Aws::PartnerCentralSelling
     ProjectView.add_member(:other_solution_description, Shapes::ShapeRef.new(shape: ProjectViewOtherSolutionDescriptionString, location_name: "OtherSolutionDescription"))
     ProjectView.struct_class = Types::ProjectView
 
+    ProspectingFromEngagementTaskSort.add_member(:sort_order, Shapes::ShapeRef.new(shape: SortOrder, required: true, location_name: "SortOrder"))
+    ProspectingFromEngagementTaskSort.add_member(:sort_by, Shapes::ShapeRef.new(shape: ProspectingFromEngagementTaskSortName, required: true, location_name: "SortBy"))
+    ProspectingFromEngagementTaskSort.struct_class = Types::ProspectingFromEngagementTaskSort
+
+    ProspectingInsights.add_member(:marketplace_engagement_score, Shapes::ShapeRef.new(shape: EngagementScoreLevel, location_name: "MarketplaceEngagementScore"))
+    ProspectingInsights.add_member(:solution_score, Shapes::ShapeRef.new(shape: String, location_name: "SolutionScore"))
+    ProspectingInsights.add_member(:solution_category, Shapes::ShapeRef.new(shape: String, location_name: "SolutionCategory"))
+    ProspectingInsights.add_member(:solution_sub_category, Shapes::ShapeRef.new(shape: String, location_name: "SolutionSubCategory"))
+    ProspectingInsights.struct_class = Types::ProspectingInsights
+
+    ProspectingResult.add_member(:aws, Shapes::ShapeRef.new(shape: ProspectingResultAws, location_name: "Aws"))
+    ProspectingResult.struct_class = Types::ProspectingResult
+
+    ProspectingResultAws.add_member(:start_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "StartTime"))
+    ProspectingResultAws.add_member(:end_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "EndTime"))
+    ProspectingResultAws.add_member(:task_id, Shapes::ShapeRef.new(shape: ProspectingTaskIdentifier, location_name: "TaskId"))
+    ProspectingResultAws.add_member(:task_arn, Shapes::ShapeRef.new(shape: TaskArn, location_name: "TaskArn"))
+    ProspectingResultAws.add_member(:task_name, Shapes::ShapeRef.new(shape: TaskName, location_name: "TaskName"))
+    ProspectingResultAws.add_member(:customer, Shapes::ShapeRef.new(shape: ProspectingResultCustomer, location_name: "Customer"))
+    ProspectingResultAws.add_member(:insights, Shapes::ShapeRef.new(shape: ProspectingInsights, location_name: "Insights"))
+    ProspectingResultAws.struct_class = Types::ProspectingResultAws
+
+    ProspectingResultCustomer.add_member(:account_name, Shapes::ShapeRef.new(shape: ProspectingAccountName, location_name: "AccountName"))
+    ProspectingResultCustomer.add_member(:geo, Shapes::ShapeRef.new(shape: ProspectingGeo, location_name: "Geo"))
+    ProspectingResultCustomer.add_member(:region, Shapes::ShapeRef.new(shape: ProspectingRegion, location_name: "Region"))
+    ProspectingResultCustomer.add_member(:sub_region, Shapes::ShapeRef.new(shape: ProspectingSubRegion, location_name: "SubRegion"))
+    ProspectingResultCustomer.add_member(:country, Shapes::ShapeRef.new(shape: CountryCode, location_name: "Country"))
+    ProspectingResultCustomer.add_member(:industry, Shapes::ShapeRef.new(shape: Industry, location_name: "Industry"))
+    ProspectingResultCustomer.add_member(:sub_industry, Shapes::ShapeRef.new(shape: ProspectingSubIndustry, location_name: "SubIndustry"))
+    ProspectingResultCustomer.add_member(:segment, Shapes::ShapeRef.new(shape: ProspectingSegment, location_name: "Segment"))
+    ProspectingResultCustomer.add_member(:company_size, Shapes::ShapeRef.new(shape: ProspectingCompanySize, location_name: "CompanySize"))
+    ProspectingResultCustomer.add_member(:eligible_programs, Shapes::ShapeRef.new(shape: EligibleProgramsList, location_name: "EligiblePrograms"))
+    ProspectingResultCustomer.add_member(:public_profile_summary, Shapes::ShapeRef.new(shape: ProspectingPublicProfileSummary, location_name: "PublicProfileSummary"))
+    ProspectingResultCustomer.struct_class = Types::ProspectingResultCustomer
+
+    ProspectingTaskSummary.add_member(:task_id, Shapes::ShapeRef.new(shape: ProspectingTaskIdentifier, required: true, location_name: "TaskId"))
+    ProspectingTaskSummary.add_member(:task_arn, Shapes::ShapeRef.new(shape: ProspectingTaskArn, required: true, location_name: "TaskArn"))
+    ProspectingTaskSummary.add_member(:task_name, Shapes::ShapeRef.new(shape: TaskName, required: true, location_name: "TaskName"))
+    ProspectingTaskSummary.add_member(:start_time, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "StartTime"))
+    ProspectingTaskSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "EndTime"))
+    ProspectingTaskSummary.add_member(:total_engagement_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "TotalEngagementCount"))
+    ProspectingTaskSummary.add_member(:completed_engagement_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "CompletedEngagementCount"))
+    ProspectingTaskSummary.add_member(:failed_engagement_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "FailedEngagementCount"))
+    ProspectingTaskSummary.struct_class = Types::ProspectingTaskSummary
+
+    ProspectingTaskSummaryList.member = Shapes::ShapeRef.new(shape: ProspectingTaskSummary)
+
     PutSellingSystemSettingsRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
     PutSellingSystemSettingsRequest.add_member(:resource_snapshot_job_role_identifier, Shapes::ShapeRef.new(shape: ResourceSnapshotJobRoleIdentifier, location_name: "ResourceSnapshotJobRoleIdentifier"))
     PutSellingSystemSettingsRequest.struct_class = Types::PutSellingSystemSettingsRequest
@@ -1333,6 +1474,16 @@ module Aws::PartnerCentralSelling
     Receiver.struct_class = Types::Receiver
 
     ReceiverResponsibilityList.member = Shapes::ShapeRef.new(shape: ReceiverResponsibility)
+
+    Recommendation.add_member(:type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Type"))
+    Recommendation.add_member(:details, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Details"))
+    Recommendation.add_member(:attributes, Shapes::ShapeRef.new(shape: RecommendationAttributeMap, location_name: "Attributes"))
+    Recommendation.struct_class = Types::Recommendation
+
+    RecommendationAttributeMap.key = Shapes::ShapeRef.new(shape: String)
+    RecommendationAttributeMap.value = Shapes::ShapeRef.new(shape: String)
+
+    RecommendationList.member = Shapes::ShapeRef.new(shape: Recommendation)
 
     RejectEngagementInvitationRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
     RejectEngagementInvitationRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: EngagementInvitationArnOrIdentifier, required: true, location_name: "Identifier"))
@@ -1470,6 +1621,22 @@ module Aws::PartnerCentralSelling
     StartOpportunityFromEngagementTaskResponse.add_member(:context_id, Shapes::ShapeRef.new(shape: ContextIdentifier, location_name: "ContextId"))
     StartOpportunityFromEngagementTaskResponse.struct_class = Types::StartOpportunityFromEngagementTaskResponse
 
+    StartProspectingFromEngagementTaskRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
+    StartProspectingFromEngagementTaskRequest.add_member(:identifiers, Shapes::ShapeRef.new(shape: EngagementIdentifierList, required: true, location_name: "Identifiers"))
+    StartProspectingFromEngagementTaskRequest.add_member(:task_name, Shapes::ShapeRef.new(shape: TaskName, required: true, location_name: "TaskName"))
+    StartProspectingFromEngagementTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, required: true, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    StartProspectingFromEngagementTaskRequest.struct_class = Types::StartProspectingFromEngagementTaskRequest
+
+    StartProspectingFromEngagementTaskResponse.add_member(:identifiers, Shapes::ShapeRef.new(shape: EngagementIdentifierList, required: true, location_name: "Identifiers"))
+    StartProspectingFromEngagementTaskResponse.add_member(:task_name, Shapes::ShapeRef.new(shape: TaskName, required: true, location_name: "TaskName"))
+    StartProspectingFromEngagementTaskResponse.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
+    StartProspectingFromEngagementTaskResponse.add_member(:reason_code, Shapes::ShapeRef.new(shape: String, location_name: "ReasonCode"))
+    StartProspectingFromEngagementTaskResponse.add_member(:start_time, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "StartTime"))
+    StartProspectingFromEngagementTaskResponse.add_member(:task_id, Shapes::ShapeRef.new(shape: ProspectingTaskIdentifier, location_name: "TaskId"))
+    StartProspectingFromEngagementTaskResponse.add_member(:task_arn, Shapes::ShapeRef.new(shape: ProspectingTaskArn, location_name: "TaskArn"))
+    StartProspectingFromEngagementTaskResponse.add_member(:task_status, Shapes::ShapeRef.new(shape: ProspectingTaskStatus, required: true, location_name: "TaskStatus"))
+    StartProspectingFromEngagementTaskResponse.struct_class = Types::StartProspectingFromEngagementTaskResponse
+
     StartResourceSnapshotJobRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
     StartResourceSnapshotJobRequest.add_member(:resource_snapshot_job_identifier, Shapes::ShapeRef.new(shape: ResourceSnapshotJobIdentifier, required: true, location_name: "ResourceSnapshotJobIdentifier"))
     StartResourceSnapshotJobRequest.struct_class = Types::StartResourceSnapshotJobRequest
@@ -1502,7 +1669,11 @@ module Aws::PartnerCentralSelling
     TargetCloseDateFilter.add_member(:before_target_close_date, Shapes::ShapeRef.new(shape: Date, location_name: "BeforeTargetCloseDate"))
     TargetCloseDateFilter.struct_class = Types::TargetCloseDateFilter
 
+    TaskIdentifierList.member = Shapes::ShapeRef.new(shape: ProspectingTaskIdentifier)
+
     TaskIdentifiers.member = Shapes::ShapeRef.new(shape: TaskArnOrIdentifier)
+
+    TaskNameList.member = Shapes::ShapeRef.new(shape: TaskName)
 
     TaskStatuses.member = Shapes::ShapeRef.new(shape: TaskStatus)
 
@@ -1517,9 +1688,11 @@ module Aws::PartnerCentralSelling
 
     UpdateEngagementContextPayload.add_member(:lead, Shapes::ShapeRef.new(shape: UpdateLeadContext, location_name: "Lead"))
     UpdateEngagementContextPayload.add_member(:customer_project, Shapes::ShapeRef.new(shape: CustomerProjectsContext, location_name: "CustomerProject"))
+    UpdateEngagementContextPayload.add_member(:prospecting_result, Shapes::ShapeRef.new(shape: ProspectingResult, location_name: "ProspectingResult"))
     UpdateEngagementContextPayload.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     UpdateEngagementContextPayload.add_member_subclass(:lead, Types::UpdateEngagementContextPayload::Lead)
     UpdateEngagementContextPayload.add_member_subclass(:customer_project, Types::UpdateEngagementContextPayload::CustomerProject)
+    UpdateEngagementContextPayload.add_member_subclass(:prospecting_result, Types::UpdateEngagementContextPayload::ProspectingResult)
     UpdateEngagementContextPayload.add_member_subclass(:unknown, Types::UpdateEngagementContextPayload::Unknown)
     UpdateEngagementContextPayload.struct_class = Types::UpdateEngagementContextPayload
 
@@ -1540,6 +1713,7 @@ module Aws::PartnerCentralSelling
     UpdateLeadContext.add_member(:qualification_status, Shapes::ShapeRef.new(shape: LeadQualificationStatus, location_name: "QualificationStatus"))
     UpdateLeadContext.add_member(:customer, Shapes::ShapeRef.new(shape: LeadCustomer, required: true, location_name: "Customer"))
     UpdateLeadContext.add_member(:interaction, Shapes::ShapeRef.new(shape: LeadInteraction, location_name: "Interaction"))
+    UpdateLeadContext.add_member(:insights, Shapes::ShapeRef.new(shape: LeadInsights, location_name: "Insights"))
     UpdateLeadContext.struct_class = Types::UpdateLeadContext
 
     UpdateOpportunityRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: CatalogIdentifier, required: true, location_name: "Catalog"))
@@ -1803,6 +1977,19 @@ module Aws::PartnerCentralSelling
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
+      api.add_operation(:get_prospecting_from_engagement_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetProspectingFromEngagementTask"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetProspectingFromEngagementTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetProspectingFromEngagementTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:get_resource_snapshot, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetResourceSnapshot"
         o.http_method = "POST"
@@ -1994,6 +2181,24 @@ module Aws::PartnerCentralSelling
         )
       end)
 
+      api.add_operation(:list_prospecting_from_engagement_tasks, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListProspectingFromEngagementTasks"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListProspectingFromEngagementTasksRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListProspectingFromEngagementTasksResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_resource_snapshot_jobs, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListResourceSnapshotJobs"
         o.http_method = "POST"
@@ -2133,6 +2338,20 @@ module Aws::PartnerCentralSelling
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:start_prospecting_from_engagement_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartProspectingFromEngagementTask"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartProspectingFromEngagementTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartProspectingFromEngagementTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 

@@ -444,12 +444,22 @@ module Aws::PartnerCentralSelling
     #   for AWS recommendations and partner estimates.
     #   @return [Types::AwsProductsSpendInsightsBySource]
     #
+    # @!attribute [rw] opportunity_quality
+    #   Opportunity quality assessment. Null if not yet scored.
+    #   @return [Types::OpportunityQuality]
+    #
+    # @!attribute [rw] recommendations
+    #   List of recommendations from various agent-driven sources.
+    #   @return [Array<Types::Recommendation>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/AwsOpportunityInsights AWS API Documentation
     #
     class AwsOpportunityInsights < Struct.new(
       :next_best_actions,
       :engagement_score,
-      :aws_products_spend_insights_by_source)
+      :aws_products_spend_insights_by_source,
+      :opportunity_quality,
+      :recommendations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -614,6 +624,12 @@ module Aws::PartnerCentralSelling
     #   including objectives, scope, and customer requirements.
     #   @return [Types::AwsOpportunityProject]
     #
+    # @!attribute [rw] cosell_motion
+    #   Engagement classification for this opportunity. Read-only. Null
+    #   before scoring. Known values: `AWS Field-engaged`, `Agent-engaged`,
+    #   `Partner-led`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/AwsOpportunitySummaryFullView AWS API Documentation
     #
     class AwsOpportunitySummaryFullView < Struct.new(
@@ -627,7 +643,8 @@ module Aws::PartnerCentralSelling
       :involvement_type_change_reason,
       :related_entity_ids,
       :customer,
-      :project)
+      :project,
+      :cosell_motion)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1666,11 +1683,19 @@ module Aws::PartnerCentralSelling
     #   EngagementContextDetails is set to "Lead".
     #   @return [Types::LeadContext]
     #
+    # @!attribute [rw] prospecting_result
+    #   Contains prospecting result data with enriched insights. The system
+    #   generates these insights when a partner runs an autonomous
+    #   prospecting job on leads. This field appears only when the context
+    #   type is "ProspectingResult".
+    #   @return [Types::ProspectingResult]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/EngagementContextPayload AWS API Documentation
     #
     class EngagementContextPayload < Struct.new(
       :customer_project,
       :lead,
+      :prospecting_result,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -1678,6 +1703,7 @@ module Aws::PartnerCentralSelling
 
       class CustomerProject < EngagementContextPayload; end
       class Lead < EngagementContextPayload; end
+      class ProspectingResult < EngagementContextPayload; end
       class Unknown < EngagementContextPayload; end
     end
 
@@ -1906,6 +1932,50 @@ module Aws::PartnerCentralSelling
       include Aws::Structure
     end
 
+    # Contains the result of processing a single engagement within a
+    # prospecting task. Each engagement is processed independently, so
+    # individual engagements can succeed or fail regardless of other
+    # engagements in the same task.
+    #
+    # @!attribute [rw] engagement_identifier
+    #   The unique identifier of the engagement that was processed.
+    #   @return [String]
+    #
+    # @!attribute [rw] engagement_context_id
+    #   The identifier of the prospecting context created for this
+    #   engagement. This field is only populated when the engagement was
+    #   processed successfully (status is `COMPLETED`). Use this identifier
+    #   to reference the prospecting context in subsequent operations.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The processing status of this specific engagement. Possible values
+    #   are `PENDING`, `IN_PROGRESS`, `COMPLETED`, and `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason_code
+    #   An enumerated code indicating the reason this engagement failed to
+    #   process. This field is only populated when `Status` is `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A human-readable description of the failure for this engagement,
+    #   including suggested recovery steps. This field is only populated
+    #   when `Status` is `FAILED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/EngagementProspectingResult AWS API Documentation
+    #
+    class EngagementProspectingResult < Struct.new(
+      :engagement_identifier,
+      :engagement_context_id,
+      :status,
+      :reason_code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This provide a streamlined view of the relationships between
     # engagements and resources. These summaries offer a crucial link
     # between collaborative engagements and the specific resources involved,
@@ -2073,16 +2143,21 @@ module Aws::PartnerCentralSelling
     #
     # @!attribute [rw] frequency
     #   Indicates how frequently the customer is expected to spend the
-    #   projected amount. Only the value `Monthly` is allowed for the
-    #   `Frequency` field, representing recurring monthly spend.
+    #   projected amount. Use `Monthly` for recurring monthly spend
+    #   (required for `TargetCompany: "AWS"` entries). Use `None` for
+    #   one-time deal value entries (required for `TargetCompany: "Self"`
+    #   entries when providing Total Contract Value).
     #   @return [String]
     #
     # @!attribute [rw] target_company
-    #   Specifies the name of the partner company that is expected to
-    #   generate revenue from the opportunity. This field helps track the
-    #   partner’s involvement in the opportunity. This field only accepts
-    #   the value `AWS`. If any other value is provided, the system will
-    #   automatically set it to `AWS`.
+    #   Specifies the entity associated with this spend entry. Use `AWS` for
+    #   the system’s AWS Monthly Recurring Revenue (MRR) estimate. Use
+    #   `Self` for the partner’s own deal value entry when providing Total
+    #   Contract Value (TCV) for automatic MRR conversion. When
+    #   `ExpectedContractDuration` is present on the Project, only `AWS` and
+    #   `Self` are accepted. When `ExpectedContractDuration` is not present,
+    #   only `AWS` is accepted and any other value will be automatically set
+    #   to `AWS`.
     #   @return [String]
     #
     # @!attribute [rw] estimation_url
@@ -2193,6 +2268,12 @@ module Aws::PartnerCentralSelling
     #   understanding the broader context of the opportunity.
     #   @return [Types::AwsOpportunityProject]
     #
+    # @!attribute [rw] cosell_motion
+    #   Engagement classification for this opportunity. Read-only. Null
+    #   before scoring. Known values: `AWS Field-engaged`, `Agent-engaged`,
+    #   `Partner-led`.
+    #   @return [String]
+    #
     # @!attribute [rw] catalog
     #   Specifies the catalog in which the AWS Opportunity exists. This is
     #   the environment (e.g., `AWS` or `Sandbox`) where the opportunity is
@@ -2213,6 +2294,7 @@ module Aws::PartnerCentralSelling
       :related_entity_ids,
       :customer,
       :project,
+      :cosell_motion,
       :catalog)
       SENSITIVE = []
       include Aws::Structure
@@ -2618,6 +2700,81 @@ module Aws::PartnerCentralSelling
       include Aws::Structure
     end
 
+    # Represents the request structure for retrieving the status and results
+    # of a prospecting task.
+    #
+    # @!attribute [rw] catalog
+    #   Specifies the catalog associated with the task. Specify `AWS` for
+    #   production environments and `Sandbox` for testing and development
+    #   purposes. The value must match the catalog used when the task was
+    #   created.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_identifier
+    #   The unique identifier of the prospecting task to retrieve. This
+    #   value is returned in the `TaskId` field of the
+    #   `StartProspectingFromEngagementTask` response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/GetProspectingFromEngagementTaskRequest AWS API Documentation
+    #
+    class GetProspectingFromEngagementTaskRequest < Struct.new(
+      :catalog,
+      :task_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents the response structure containing the full details of a
+    # prospecting task, including per-engagement processing results.
+    # Includes the `Status` field of each `EngagementProspectingResult`
+    # entry to determine individual outcomes.
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_arn
+    #   The Amazon Resource Name (ARN) of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_name
+    #   The descriptive name of the task that you provided when you created
+    #   it.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp indicating when the task was initiated. The format
+    #   follows ISO 8601 date-time notation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp indicating when the task finished processing. This
+    #   field is absent if the task is still in progress. The format follows
+    #   ISO 8601 date-time notation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] engagements
+    #   An array of `EngagementProspectingResult` entries for each
+    #   engagement in the task. Each entry contains the processing status.
+    #   For successfully completed engagements, includes the prospecting
+    #   context identifier. For failed engagements, includes an error code
+    #   and message.
+    #   @return [Array<Types::EngagementProspectingResult>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/GetProspectingFromEngagementTaskResponse AWS API Documentation
+    #
+    class GetProspectingFromEngagementTaskResponse < Struct.new(
+      :task_id,
+      :task_arn,
+      :task_name,
+      :start_time,
+      :end_time,
+      :engagements)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] catalog
     #   Specifies the catalog related to the request. Valid values are:
     #
@@ -3007,6 +3164,12 @@ module Aws::PartnerCentralSelling
     # qualification status, customer details, and interaction history to
     # facilitate lead management and tracking within the engagement.
     #
+    # @!attribute [rw] insights
+    #   Insights that AI generates and associates with the lead. These
+    #   insights provide automated analysis such as lead readiness scoring
+    #   to help partners assess the lead quality.
+    #   @return [Types::LeadInsights]
+    #
     # @!attribute [rw] qualification_status
     #   Indicates the current qualification status of the lead, such as
     #   whether it has been qualified, disqualified, or is still under
@@ -3029,6 +3192,7 @@ module Aws::PartnerCentralSelling
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/LeadContext AWS API Documentation
     #
     class LeadContext < Struct.new(
+      :insights,
       :qualification_status,
       :customer,
       :interactions)
@@ -3085,6 +3249,24 @@ module Aws::PartnerCentralSelling
       :aws_maturity,
       :market_segment)
       SENSITIVE = [:company_name, :website_url]
+      include Aws::Structure
+    end
+
+    # Contains insights that AI generates for a lead. These insights provide
+    # automated analysis to help partners evaluate the lead quality and
+    # prioritize engagement efforts.
+    #
+    # @!attribute [rw] lead_readiness_score
+    #   A score that indicates the lead's readiness for engagement. Valid
+    #   values are `Low`, `Medium`, and `High`. Use this score to prioritize
+    #   leads based on their likelihood of conversion.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/LeadInsights AWS API Documentation
+    #
+    class LeadInsights < Struct.new(
+      :lead_readiness_score)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -4548,6 +4730,100 @@ module Aws::PartnerCentralSelling
       include Aws::Structure
     end
 
+    # Represents the request structure for listing prospecting tasks. All
+    # filter parameters are optional. Results are paginated — uses
+    # `NextToken` from the response to retrieve subsequent pages.
+    #
+    # @!attribute [rw] catalog
+    #   Specifies the catalog to list tasks from. Specify `AWS` for
+    #   production environments and `Sandbox` for testing and development
+    #   purposes.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single page. If
+    #   additional results exist, the response includes a `NextToken` value
+    #   for retrieving the next page. If omitted, the API uses a
+    #   service-defined default page size.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from a previous call to this API. Include this
+    #   value to retrieve the next page of results. If omitted, the first
+    #   page is returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_identifier
+    #   Filters the results to include only the tasks with the specified
+    #   identifiers. Provide up to 10 task IDs to narrow the list to
+    #   specific tasks. If omitted, tasks are not filtered by identifier.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] task_name
+    #   Filters the results to include only tasks with the specified names.
+    #   Provide up to 10 task names to narrow the list. If omitted, tasks
+    #   are not filtered by name.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] start_after
+    #   Filters tasks to include only those that started after the specified
+    #   timestamp. Use this with `StartBefore` to define a start-time range
+    #   for your query. The format follows ISO 8601 date-time notation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] start_before
+    #   Filters tasks to include only those that started before the
+    #   specified timestamp. Use this with `StartAfter` to define a
+    #   start-time range for your query. The format follows ISO 8601
+    #   date-time notation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sort
+    #   Specifies the field and order used to sort the returned tasks. If
+    #   omitted, tasks are returned in the default sort order.
+    #   @return [Types::ProspectingFromEngagementTaskSort]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ListProspectingFromEngagementTasksRequest AWS API Documentation
+    #
+    class ListProspectingFromEngagementTasksRequest < Struct.new(
+      :catalog,
+      :max_results,
+      :next_token,
+      :task_identifier,
+      :task_name,
+      :start_after,
+      :start_before,
+      :sort)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents the response structure containing a paginated list of
+    # prospecting task summaries matching the request filters. Indicates
+    # through `NextToken` when additional results are available.
+    #
+    # @!attribute [rw] next_token
+    #   A pagination token used to retrieve the next page of results. If
+    #   this field is present, pass its value as `NextToken` in the next
+    #   call. If absent or empty, there are no further pages.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_summaries
+    #   Prospecting task summaries matching the specified filters. Each
+    #   summary includes the task identifier, name, status counters, and
+    #   timing information. If no tasks match the filter criteria, the list
+    #   is empty.
+    #   @return [Array<Types::ProspectingTaskSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ListProspectingFromEngagementTasksResponse AWS API Documentation
+    #
+    class ListProspectingFromEngagementTasksResponse < Struct.new(
+      :next_token,
+      :task_summaries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] catalog
     #   Specifies the catalog related to the request.
     #   @return [String]
@@ -4958,6 +5234,27 @@ module Aws::PartnerCentralSelling
       :receiver_responsibilities,
       :customer,
       :project)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Opportunity quality score and trend.
+    #
+    # @!attribute [rw] score
+    #   Deal quality score based on opportunity content completeness and
+    #   sales methodology criteria. Values range from 0 to 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] trend
+    #   Direction of score change since last scoring iteration. Known
+    #   values: `Improving`, `Declining`, `No Change`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/OpportunityQuality AWS API Documentation
+    #
+    class OpportunityQuality < Struct.new(
+      :score,
+      :trend)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5505,6 +5802,275 @@ module Aws::PartnerCentralSelling
       include Aws::Structure
     end
 
+    # Specifies the sort configuration for
+    # `ListProspectingFromEngagementTasks`. Contains the field to sort by
+    # and the sort direction.
+    #
+    # @!attribute [rw] sort_order
+    #   The direction in which to sort the results. Use `ASCENDING` to
+    #   return the smallest or earliest values first, or `DESCENDING` to
+    #   return the largest or most recent values first.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_by
+    #   The field by which to sort the returned tasks. Valid values:
+    #   `StartTime` (task creation timestamp), `TaskName` (alphabetically by
+    #   task name), and `FailedEngagementCount` (number of failed
+    #   engagements).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ProspectingFromEngagementTaskSort AWS API Documentation
+    #
+    class ProspectingFromEngagementTaskSort < Struct.new(
+      :sort_order,
+      :sort_by)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains insights that AI generates from the prospecting analysis.
+    # These insights include marketplace engagement scoring, solution fit
+    # assessments, and solution categorization for the prospected customer.
+    #
+    # @!attribute [rw] marketplace_engagement_score
+    #   A score that indicates the prospected customer's level of
+    #   engagement with AWS Marketplace. Valid values are `High`, `Medium`,
+    #   and `Low`.
+    #   @return [String]
+    #
+    # @!attribute [rw] solution_score
+    #   A score that indicates how well the partner's solution fits the
+    #   prospected customer's needs.
+    #   @return [String]
+    #
+    # @!attribute [rw] solution_category
+    #   The primary solution category classification for the prospected
+    #   customer. This indicates the type of solution that best addresses
+    #   their needs.
+    #   @return [String]
+    #
+    # @!attribute [rw] solution_sub_category
+    #   The solution sub-category classification for the prospected
+    #   customer. This provides more granular categorization of the
+    #   recommended solution type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ProspectingInsights AWS API Documentation
+    #
+    class ProspectingInsights < Struct.new(
+      :marketplace_engagement_score,
+      :solution_score,
+      :solution_category,
+      :solution_sub_category)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the results of an autonomous prospecting job. This includes
+    # data and insights that AWS provides about a prospected customer
+    # account.
+    #
+    # @!attribute [rw] aws
+    #   Prospecting data and insights that AWS provides during the
+    #   prospecting job. This includes customer details, task information,
+    #   and scoring that AI generates.
+    #   @return [Types::ProspectingResultAws]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ProspectingResult AWS API Documentation
+    #
+    class ProspectingResult < Struct.new(
+      :aws)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the prospecting data that AWS sources. This includes task
+    # execution details, customer account information, and insights that AI
+    # generates from the prospecting analysis.
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp when the prospecting result context was created. The
+    #   format is ISO 8601 (UTC).
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp when the prospecting task completed processing. The
+    #   format is ISO 8601 (UTC).
+    #   @return [Time]
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the prospecting task that generates this
+    #   result.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_arn
+    #   The Amazon Resource Name (ARN) of the prospecting task. Use this ARN
+    #   to track and manage the task within AWS.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_name
+    #   The name that the user provides for the prospecting task that
+    #   generates this result.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer
+    #   Contains details about the prospected customer account, including
+    #   geographic, industry, and segment classifications.
+    #   @return [Types::ProspectingResultCustomer]
+    #
+    # @!attribute [rw] insights
+    #   Insights that AI generates from the prospecting analysis. These
+    #   insights include engagement scores and solution fit assessments for
+    #   the prospected customer.
+    #   @return [Types::ProspectingInsights]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ProspectingResultAws AWS API Documentation
+    #
+    class ProspectingResultAws < Struct.new(
+      :start_time,
+      :end_time,
+      :task_id,
+      :task_arn,
+      :task_name,
+      :customer,
+      :insights)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains detailed information about the prospected customer account,
+    # including company identifiers, geographic classification, industry
+    # segmentation, and program eligibility.
+    #
+    # @!attribute [rw] account_name
+    #   The name of the prospected customer account.
+    #   @return [String]
+    #
+    # @!attribute [rw] geo
+    #   The geographic region classification of the prospected customer
+    #   account.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The specific region of the prospected customer account.
+    #   @return [String]
+    #
+    # @!attribute [rw] sub_region
+    #   The subregion classification of the prospected customer account.
+    #   @return [String]
+    #
+    # @!attribute [rw] country
+    #   The country code of the prospected customer account.
+    #   @return [String]
+    #
+    # @!attribute [rw] industry
+    #   The industry classification of the prospected customer account.
+    #   @return [String]
+    #
+    # @!attribute [rw] sub_industry
+    #   The sub-industry classification of the prospected customer account.
+    #   This provides more granular categorization within the primary
+    #   industry.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment
+    #   The market segment classification of the prospected customer
+    #   account.
+    #   @return [String]
+    #
+    # @!attribute [rw] company_size
+    #   The company size classification of the prospected customer account.
+    #   @return [String]
+    #
+    # @!attribute [rw] eligible_programs
+    #   A list of AWS Greenfield programs that the prospected customer is
+    #   eligible for. Use this list to identify relevant go-to-market
+    #   opportunities.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] public_profile_summary
+    #   A summary of publicly available information about the prospected
+    #   customer. The system uses this summary to generate customer insights
+    #   and inform engagement strategies.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ProspectingResultCustomer AWS API Documentation
+    #
+    class ProspectingResultCustomer < Struct.new(
+      :account_name,
+      :geo,
+      :region,
+      :sub_region,
+      :country,
+      :industry,
+      :sub_industry,
+      :segment,
+      :company_size,
+      :eligible_programs,
+      :public_profile_summary)
+      SENSITIVE = [:country]
+      include Aws::Structure
+    end
+
+    # A summary of a single prospecting task, returned by
+    # `ListProspectingFromEngagementTasks`. Contains key metrics and status
+    # information without the full per-engagement detail available from
+    # `GetProspectingFromEngagementTask`.
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the task. Use this value with
+    #   `GetProspectingFromEngagementTask` to retrieve full task details.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_arn
+    #   The Amazon Resource Name (ARN) of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_name
+    #   The descriptive name of the task provided when it was created.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp indicating when the task was initiated. The format
+    #   follows ISO 8601 date-time notation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp indicating when the task finished processing. This
+    #   field is absent if the task is still in progress. The format follows
+    #   ISO 8601 date-time notation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] total_engagement_count
+    #   The total number of engagements included in the task.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] completed_engagement_count
+    #   The number of engagements that have been successfully converted into
+    #   prospecting leads.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] failed_engagement_count
+    #   The number of engagements that failed to be converted. Retrieve the
+    #   full task details using `GetProspectingFromEngagementTask` for
+    #   per-engagement error information.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ProspectingTaskSummary AWS API Documentation
+    #
+    class ProspectingTaskSummary < Struct.new(
+      :task_id,
+      :task_arn,
+      :task_name,
+      :start_time,
+      :end_time,
+      :total_engagement_count,
+      :completed_engagement_count,
+      :failed_engagement_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] catalog
     #   Specifies the catalog in which the settings will be updated.
     #   Acceptable values include `AWS` for production and `Sandbox` for
@@ -5570,6 +6136,31 @@ module Aws::PartnerCentralSelling
 
       class Account < Receiver; end
       class Unknown < Receiver; end
+    end
+
+    # A recommendation from an agent-driven source.
+    #
+    # @!attribute [rw] type
+    #   The recommendation source type. Known values: `OpportunityQuality`,
+    #   `SolutionRecommendation`, `SpecialistRecommendation`.
+    #   @return [String]
+    #
+    # @!attribute [rw] details
+    #   Human-readable recommendation text from this source.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   Source-specific metadata as key-value pairs.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/Recommendation AWS API Documentation
+    #
+    class Recommendation < Struct.new(
+      :type,
+      :details,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # @!attribute [rw] catalog
@@ -6332,6 +6923,115 @@ module Aws::PartnerCentralSelling
       include Aws::Structure
     end
 
+    # Represents the request structure for starting a prospecting task.
+    # Includes up to 100 engagement identifiers and a task name. Uses
+    # `ClientToken` to ensure idempotency.
+    #
+    # @!attribute [rw] catalog
+    #   Specifies the catalog in which the task is initiated. Specify `AWS`
+    #   for production environments and `Sandbox` for testing and
+    #   development purposes.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifiers
+    #   The list of engagement identifiers to include in this prospecting
+    #   task. Each identifier must correspond to an existing engagement in
+    #   the specified catalog. Maximum of 100 identifiers per task.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] task_name
+    #   A descriptive name for the task. This name helps identify the task
+    #   in list and get operations. The name must contain 1 to 128
+    #   characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier provided by the client to ensure
+    #   idempotency. Making the same request with the same `ClientToken`
+    #   returns the same response without creating a duplicate task.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/StartProspectingFromEngagementTaskRequest AWS API Documentation
+    #
+    class StartProspectingFromEngagementTaskRequest < Struct.new(
+      :catalog,
+      :identifiers,
+      :task_name,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents the response structure returned when a prospecting task is
+    # successfully submitted. Contains the task identifier, ARN, and initial
+    # status. Uses `TaskId` with `GetProspectingFromEngagementTask` to poll
+    # for completion.
+    #
+    # @!attribute [rw] identifiers
+    #   The list of engagement identifiers that were accepted into the task
+    #   queue for processing. This list matches the identifiers provided in
+    #   the request.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] task_name
+    #   The task name from the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A message providing additional context about the task's current
+    #   state. When the task fails, this field contains a detailed
+    #   description of the failure and suggested recovery steps. This field
+    #   is only populated for tasks in a failed state.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason_code
+    #   An enumerated code identifying the reason for task failure. This
+    #   field is only populated when the task has failed. Use the
+    #   corresponding `Message` field for a human-readable description of
+    #   the failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp indicating when the task was initiated. The format
+    #   follows ISO 8601 date-time notation.
+    #   @return [Time]
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier assigned to this task. Use this identifier
+    #   with `GetProspectingFromEngagementTask` to retrieve task details and
+    #   check status.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_arn
+    #   The Amazon Resource Name (ARN) of the task. The ARN uniquely
+    #   identifies the task across AWS and can be used for resource-level
+    #   IAM policies.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_status
+    #   The current status of the task. Possible values: `PENDING` (waiting
+    #   to run), `IN_PROGRESS` (actively processing), `COMPLETED`
+    #   (successfully processed), and `FAILED` (unrecoverable error).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/StartProspectingFromEngagementTaskResponse AWS API Documentation
+    #
+    class StartProspectingFromEngagementTaskResponse < Struct.new(
+      :identifiers,
+      :task_name,
+      :message,
+      :reason_code,
+      :start_time,
+      :task_id,
+      :task_arn,
+      :task_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] catalog
     #   Specifies the catalog related to the request. Valid values are:
     #
@@ -6554,11 +7254,19 @@ module Aws::PartnerCentralSelling
     #   Engagement invitations.
     #   @return [Types::CustomerProjectsContext]
     #
+    # @!attribute [rw] prospecting_result
+    #   Contains updated prospecting result data when the context type is
+    #   "ProspectingResult". This field includes enriched data and
+    #   insights that the system generates when a partner runs an autonomous
+    #   prospecting job on leads.
+    #   @return [Types::ProspectingResult]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/UpdateEngagementContextPayload AWS API Documentation
     #
     class UpdateEngagementContextPayload < Struct.new(
       :lead,
       :customer_project,
+      :prospecting_result,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -6566,6 +7274,7 @@ module Aws::PartnerCentralSelling
 
       class Lead < UpdateEngagementContextPayload; end
       class CustomerProject < UpdateEngagementContextPayload; end
+      class ProspectingResult < UpdateEngagementContextPayload; end
       class Unknown < UpdateEngagementContextPayload; end
     end
 
@@ -6661,12 +7370,19 @@ module Aws::PartnerCentralSelling
     #   Updated interaction details for the lead context.
     #   @return [Types::LeadInteraction]
     #
+    # @!attribute [rw] insights
+    #   Insights that AI generates and associates with the lead. These
+    #   insights provide automated analysis to help partners assess the lead
+    #   quality and readiness.
+    #   @return [Types::LeadInsights]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/UpdateLeadContext AWS API Documentation
     #
     class UpdateLeadContext < Struct.new(
       :qualification_status,
       :customer,
-      :interaction)
+      :interaction,
+      :insights)
       SENSITIVE = []
       include Aws::Structure
     end

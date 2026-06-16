@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.374.0 (2026-06-16)
+------------------
+
+* Feature - Add EnableDetailedObservability to Endpoint MetricsConfig. Publishes GPU, host, and framework-native inference metrics to CloudWatch with per-inference-component, availability-zone, and instance dimensions. Adds Inference Component provisioning lifecycle and multi-AZ placement metrics.
+
 1.373.0 (2026-06-10)
 ------------------
 

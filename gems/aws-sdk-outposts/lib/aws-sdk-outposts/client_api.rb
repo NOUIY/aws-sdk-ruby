@@ -466,6 +466,8 @@ module Aws::Outposts
     CountryCodeList.member = Shapes::ShapeRef.new(shape: CountryCode)
 
     CreateOrderInput.add_member(:outpost_identifier, Shapes::ShapeRef.new(shape: OutpostIdentifier, required: true, location_name: "OutpostIdentifier"))
+    CreateOrderInput.add_member(:quote_identifier, Shapes::ShapeRef.new(shape: QuoteIdentifier, location_name: "QuoteIdentifier"))
+    CreateOrderInput.add_member(:quote_option_identifier, Shapes::ShapeRef.new(shape: QuoteOptionIdentifier, location_name: "QuoteOptionIdentifier"))
     CreateOrderInput.add_member(:line_items, Shapes::ShapeRef.new(shape: LineItemRequestListDefinition, location_name: "LineItems"))
     CreateOrderInput.add_member(:payment_option, Shapes::ShapeRef.new(shape: PaymentOption, required: true, location_name: "PaymentOption"))
     CreateOrderInput.add_member(:payment_term, Shapes::ShapeRef.new(shape: PaymentTerm, location_name: "PaymentTerm"))
@@ -838,6 +840,8 @@ module Aws::Outposts
     NotFoundException.struct_class = Types::NotFoundException
 
     Order.add_member(:outpost_id, Shapes::ShapeRef.new(shape: OutpostIdOnly, location_name: "OutpostId"))
+    Order.add_member(:quote_identifier, Shapes::ShapeRef.new(shape: QuoteIdentifier, location_name: "QuoteIdentifier"))
+    Order.add_member(:quote_option_identifier, Shapes::ShapeRef.new(shape: QuoteOptionIdentifier, location_name: "QuoteOptionIdentifier"))
     Order.add_member(:order_id, Shapes::ShapeRef.new(shape: OrderId, location_name: "OrderId"))
     Order.add_member(:status, Shapes::ShapeRef.new(shape: OrderStatus, location_name: "Status"))
     Order.add_member(:line_items, Shapes::ShapeRef.new(shape: LineItemListDefinition, location_name: "LineItems"))

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.19.0 (2026-06-16)
+------------------
+
+* Feature - Amazon S3 Vectors now supports paginated QueryVectors requests, returning up to 10,000 results per query.
+
 1.18.0 (2026-05-22)
 ------------------
 

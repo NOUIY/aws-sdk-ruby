@@ -85,6 +85,46 @@ module Aws::S3
       SENSITIVE: []
     end
 
+    class AnnotationEntry
+      attr_accessor annotation_name: ::String
+      attr_accessor last_modified: ::Time
+      attr_accessor etag: ::String
+      attr_accessor checksum_algorithm: ::Array[("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128")]
+      attr_accessor size: ::Integer
+      attr_accessor replication_status: ("COMPLETE" | "PENDING" | "FAILED" | "REPLICA" | "COMPLETED")
+      SENSITIVE: []
+    end
+
+    class AnnotationLimitExceeded < Aws::EmptyStructure
+    end
+
+    class AnnotationNameTooLong < Aws::EmptyStructure
+    end
+
+    class AnnotationTableConfiguration
+      attr_accessor configuration_state: ("ENABLED" | "DISABLED")
+      attr_accessor encryption_configuration: Types::MetadataTableEncryptionConfiguration
+      attr_accessor role: ::String
+      SENSITIVE: []
+    end
+
+    class AnnotationTableConfigurationResult
+      attr_accessor configuration_state: ("ENABLED" | "DISABLED")
+      attr_accessor table_status: ::String
+      attr_accessor error: Types::ErrorDetails
+      attr_accessor table_name: ::String
+      attr_accessor table_arn: ::String
+      attr_accessor role: ::String
+      SENSITIVE: []
+    end
+
+    class AnnotationTableConfigurationUpdates
+      attr_accessor configuration_state: ("ENABLED" | "DISABLED")
+      attr_accessor encryption_configuration: Types::MetadataTableEncryptionConfiguration
+      attr_accessor role: ::String
+      SENSITIVE: []
+    end
+
     class BlockedEncryptionTypes
       attr_accessor encryption_type: ::Array[("NONE" | "SSE-C")]
       SENSITIVE: []
@@ -172,8 +212,8 @@ module Aws::S3
 
     class CloudFunctionConfiguration
       attr_accessor id: ::String
-      attr_accessor event: ("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")
-      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")]
+      attr_accessor event: ("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")
+      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")]
       attr_accessor cloud_function: ::String
       attr_accessor invocation_role: ::String
       SENSITIVE: []
@@ -308,6 +348,7 @@ module Aws::S3
       attr_accessor metadata: ::Hash[::String, ::String]
       attr_accessor metadata_directive: ("COPY" | "REPLACE")
       attr_accessor tagging_directive: ("COPY" | "REPLACE")
+      attr_accessor annotation_directive: ("COPY" | "EXCLUDE")
       attr_accessor server_side_encryption: ("AES256" | "aws:fsx" | "aws:kms" | "aws:kms:dsse")
       attr_accessor storage_class: ("STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "OUTPOSTS" | "GLACIER_IR" | "SNOW" | "EXPRESS_ONEZONE" | "FSX_OPENZFS" | "FSX_ONTAP")
       attr_accessor website_redirect_location: ::String
@@ -600,6 +641,23 @@ module Aws::S3
 
     class DeleteMarkerReplication
       attr_accessor status: ("Enabled" | "Disabled")
+      SENSITIVE: []
+    end
+
+    class DeleteObjectAnnotationOutput
+      attr_accessor object_version_id: ::String
+      attr_accessor request_charged: ("requester")
+      SENSITIVE: []
+    end
+
+    class DeleteObjectAnnotationRequest
+      attr_accessor bucket: ::String
+      attr_accessor key: ::String
+      attr_accessor annotation_name: ::String
+      attr_accessor version_id: ::String
+      attr_accessor request_payer: ("requester")
+      attr_accessor expected_bucket_owner: ::String
+      attr_accessor object_if_match: ::String
       SENSITIVE: []
     end
 
@@ -1039,6 +1097,40 @@ module Aws::S3
       SENSITIVE: []
     end
 
+    class GetObjectAnnotationOutput
+      attr_accessor annotation_payload: ::IO
+      attr_accessor object_version_id: ::String
+      attr_accessor last_modified: ::Time
+      attr_accessor content_length: ::Integer
+      attr_accessor etag: ::String
+      attr_accessor checksum_crc32: ::String
+      attr_accessor checksum_crc32c: ::String
+      attr_accessor checksum_crc64nvme: ::String
+      attr_accessor checksum_sha1: ::String
+      attr_accessor checksum_sha256: ::String
+      attr_accessor checksum_sha512: ::String
+      attr_accessor checksum_md5: ::String
+      attr_accessor checksum_xxhash64: ::String
+      attr_accessor checksum_xxhash3: ::String
+      attr_accessor checksum_xxhash128: ::String
+      attr_accessor checksum_type: ("COMPOSITE" | "FULL_OBJECT")
+      attr_accessor server_side_encryption: ("AES256" | "aws:fsx" | "aws:kms" | "aws:kms:dsse")
+      attr_accessor request_charged: ("requester")
+      attr_accessor replication_status: ("COMPLETE" | "PENDING" | "FAILED" | "REPLICA" | "COMPLETED")
+      SENSITIVE: []
+    end
+
+    class GetObjectAnnotationRequest
+      attr_accessor bucket: ::String
+      attr_accessor key: ::String
+      attr_accessor annotation_name: ::String
+      attr_accessor version_id: ::String
+      attr_accessor request_payer: ("requester")
+      attr_accessor expected_bucket_owner: ::String
+      attr_accessor checksum_mode: ("ENABLED")
+      SENSITIVE: []
+    end
+
     class GetObjectAttributesOutput
       attr_accessor delete_marker: bool
       attr_accessor last_modified: ::Time
@@ -1380,10 +1472,16 @@ module Aws::S3
       SENSITIVE: []
     end
 
+    class InvalidAnnotationName < Aws::EmptyStructure
+    end
+
     class InvalidObjectState
       attr_accessor storage_class: ("STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "GLACIER" | "DEEP_ARCHIVE" | "OUTPOSTS" | "GLACIER_IR" | "SNOW" | "EXPRESS_ONEZONE" | "FSX_OPENZFS" | "FSX_ONTAP")
       attr_accessor access_tier: ("ARCHIVE_ACCESS" | "DEEP_ARCHIVE_ACCESS")
       SENSITIVE: []
+    end
+
+    class InvalidPrefix < Aws::EmptyStructure
     end
 
     class InvalidRequest < Aws::EmptyStructure
@@ -1487,7 +1585,7 @@ module Aws::S3
     class LambdaFunctionConfiguration
       attr_accessor id: ::String
       attr_accessor lambda_function_arn: ::String
-      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")]
+      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")]
       attr_accessor filter: Types::NotificationConfigurationFilter
       SENSITIVE: []
     end
@@ -1652,6 +1750,32 @@ module Aws::S3
       SENSITIVE: []
     end
 
+    class ListObjectAnnotationsOutput
+      attr_accessor annotations: ::Array[Types::AnnotationEntry]
+      attr_accessor bucket: ::String
+      attr_accessor key: ::String
+      attr_accessor object_version_id: ::String
+      attr_accessor annotation_prefix: ::String
+      attr_accessor max_annotation_results: ::Integer
+      attr_accessor annotation_count: ::Integer
+      attr_accessor continuation_token: ::String
+      attr_accessor next_continuation_token: ::String
+      attr_accessor request_charged: ("requester")
+      SENSITIVE: []
+    end
+
+    class ListObjectAnnotationsRequest
+      attr_accessor bucket: ::String
+      attr_accessor key: ::String
+      attr_accessor version_id: ::String
+      attr_accessor max_annotation_results: ::Integer
+      attr_accessor annotation_prefix: ::String
+      attr_accessor continuation_token: ::String
+      attr_accessor request_payer: ("requester")
+      attr_accessor expected_bucket_owner: ::String
+      SENSITIVE: []
+    end
+
     class ListObjectVersionsOutput
       attr_accessor is_truncated: bool
       attr_accessor key_marker: ::String
@@ -1795,6 +1919,7 @@ module Aws::S3
     class MetadataConfiguration
       attr_accessor journal_table_configuration: Types::JournalTableConfiguration
       attr_accessor inventory_table_configuration: Types::InventoryTableConfiguration
+      attr_accessor annotation_table_configuration: Types::AnnotationTableConfiguration
       SENSITIVE: []
     end
 
@@ -1802,6 +1927,7 @@ module Aws::S3
       attr_accessor destination_result: Types::DestinationResult
       attr_accessor journal_table_configuration_result: Types::JournalTableConfigurationResult
       attr_accessor inventory_table_configuration_result: Types::InventoryTableConfigurationResult
+      attr_accessor annotation_table_configuration_result: Types::AnnotationTableConfigurationResult
       SENSITIVE: []
     end
 
@@ -1864,6 +1990,9 @@ module Aws::S3
       attr_accessor checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128")
       attr_accessor checksum_type: ("COMPOSITE" | "FULL_OBJECT")
       SENSITIVE: []
+    end
+
+    class NoSuchAnnotation < Aws::EmptyStructure
     end
 
     class NoSuchBucket < Aws::EmptyStructure
@@ -2299,6 +2428,51 @@ module Aws::S3
       SENSITIVE: []
     end
 
+    class PutObjectAnnotationOutput
+      attr_accessor key: ::String
+      attr_accessor annotation_name: ::String
+      attr_accessor object_version_id: ::String
+      attr_accessor etag: ::String
+      attr_accessor checksum_crc32: ::String
+      attr_accessor checksum_crc32c: ::String
+      attr_accessor checksum_crc64nvme: ::String
+      attr_accessor checksum_sha1: ::String
+      attr_accessor checksum_sha256: ::String
+      attr_accessor checksum_sha512: ::String
+      attr_accessor checksum_md5: ::String
+      attr_accessor checksum_xxhash64: ::String
+      attr_accessor checksum_xxhash3: ::String
+      attr_accessor checksum_xxhash128: ::String
+      attr_accessor checksum_type: ("COMPOSITE" | "FULL_OBJECT")
+      attr_accessor server_side_encryption: ("AES256" | "aws:fsx" | "aws:kms" | "aws:kms:dsse")
+      attr_accessor request_charged: ("requester")
+      SENSITIVE: []
+    end
+
+    class PutObjectAnnotationRequest
+      attr_accessor bucket: ::String
+      attr_accessor key: ::String
+      attr_accessor version_id: ::String
+      attr_accessor annotation_name: ::String
+      attr_accessor annotation_payload: ::IO
+      attr_accessor object_if_match: ::String
+      attr_accessor checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128")
+      attr_accessor checksum_crc32: ::String
+      attr_accessor checksum_crc32c: ::String
+      attr_accessor checksum_crc64nvme: ::String
+      attr_accessor checksum_sha1: ::String
+      attr_accessor checksum_sha256: ::String
+      attr_accessor checksum_sha512: ::String
+      attr_accessor checksum_md5: ::String
+      attr_accessor checksum_xxhash64: ::String
+      attr_accessor checksum_xxhash3: ::String
+      attr_accessor checksum_xxhash128: ::String
+      attr_accessor content_md5: ::String
+      attr_accessor request_payer: ("requester")
+      attr_accessor expected_bucket_owner: ::String
+      SENSITIVE: []
+    end
+
     class PutObjectLegalHoldOutput
       attr_accessor request_charged: ("requester")
       SENSITIVE: []
@@ -2455,15 +2629,15 @@ module Aws::S3
     class QueueConfiguration
       attr_accessor id: ::String
       attr_accessor queue_arn: ::String
-      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")]
+      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")]
       attr_accessor filter: Types::NotificationConfigurationFilter
       SENSITIVE: []
     end
 
     class QueueConfigurationDeprecated
       attr_accessor id: ::String
-      attr_accessor event: ("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")
-      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")]
+      attr_accessor event: ("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")
+      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")]
       attr_accessor queue: ::String
       SENSITIVE: []
     end
@@ -2803,15 +2977,15 @@ module Aws::S3
     class TopicConfiguration
       attr_accessor id: ::String
       attr_accessor topic_arn: ::String
-      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")]
+      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")]
       attr_accessor filter: Types::NotificationConfigurationFilter
       SENSITIVE: []
     end
 
     class TopicConfigurationDeprecated
       attr_accessor id: ::String
-      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")]
-      attr_accessor event: ("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete")
+      attr_accessor events: ::Array[("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")]
+      attr_accessor event: ("s3:ReducedRedundancyLostObject" | "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:*" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:Replication:*" | "s3:Replication:OperationFailedReplication" | "s3:Replication:OperationNotTracked" | "s3:Replication:OperationMissedThreshold" | "s3:Replication:OperationReplicatedAfterThreshold" | "s3:ObjectRestore:Delete" | "s3:LifecycleTransition" | "s3:IntelligentTiering" | "s3:ObjectAcl:Put" | "s3:LifecycleExpiration:*" | "s3:LifecycleExpiration:Delete" | "s3:LifecycleExpiration:DeleteMarkerCreated" | "s3:ObjectTagging:*" | "s3:ObjectTagging:Put" | "s3:ObjectTagging:Delete" | "s3:ObjectAnnotation:*" | "s3:ObjectAnnotation:Put" | "s3:ObjectAnnotation:Delete")
       attr_accessor topic: ::String
       SENSITIVE: []
     end
@@ -2820,6 +2994,18 @@ module Aws::S3
       attr_accessor date: ::Time
       attr_accessor days: ::Integer
       attr_accessor storage_class: ("GLACIER" | "STANDARD_IA" | "ONEZONE_IA" | "INTELLIGENT_TIERING" | "DEEP_ARCHIVE" | "GLACIER_IR")
+      SENSITIVE: []
+    end
+
+    class UnsupportedMediaType < Aws::EmptyStructure
+    end
+
+    class UpdateBucketMetadataAnnotationTableConfigurationRequest
+      attr_accessor bucket: ::String
+      attr_accessor content_md5: ::String
+      attr_accessor checksum_algorithm: ("CRC32" | "CRC32C" | "SHA1" | "SHA256" | "CRC64NVME" | "SHA512" | "MD5" | "XXHASH64" | "XXHASH3" | "XXHASH128")
+      attr_accessor annotation_table_configuration: Types::AnnotationTableConfigurationUpdates
+      attr_accessor expected_bucket_owner: ::String
       SENSITIVE: []
     end
 

@@ -145,6 +145,8 @@ module Aws::Outposts
 
     class CreateOrderInput
       attr_accessor outpost_identifier: ::String
+      attr_accessor quote_identifier: ::String
+      attr_accessor quote_option_identifier: ::String
       attr_accessor line_items: ::Array[Types::LineItemRequest]
       attr_accessor payment_option: ("ALL_UPFRONT" | "NO_UPFRONT" | "PARTIAL_UPFRONT")
       attr_accessor payment_term: ("THREE_YEARS" | "ONE_YEAR" | "FIVE_YEARS")
@@ -631,6 +633,8 @@ module Aws::Outposts
 
     class Order
       attr_accessor outpost_id: ::String
+      attr_accessor quote_identifier: ::String
+      attr_accessor quote_option_identifier: ::String
       attr_accessor order_id: ::String
       attr_accessor status: ("RECEIVED" | "PENDING" | "PROCESSING" | "INSTALLING" | "FULFILLED" | "CANCELLED" | "PREPARING" | "IN_PROGRESS" | "DELIVERED" | "COMPLETED" | "ERROR")
       attr_accessor line_items: ::Array[Types::LineItem]

@@ -1202,6 +1202,7 @@ module Aws
                                     ?enable_network_isolation: bool,
                                     ?metrics_config: {
                                       enable_enhanced_metrics: bool?,
+                                      enable_detailed_observability: bool?,
                                       metric_publish_frequency_in_seconds: ::Integer?
                                     }
                                   ) -> _CreateEndpointConfigResponseSuccess

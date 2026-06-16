@@ -30,6 +30,7 @@ module Aws::DirectConnect
   # * {DirectConnectClientException}
   # * {DirectConnectServerException}
   # * {DuplicateTagKeysException}
+  # * {LimitExceededException}
   # * {TooManyTagsException}
   #
   # Additionally, error classes are dynamically generated for service errors based on the error code
@@ -73,6 +74,16 @@ module Aws::DirectConnect
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::DirectConnect::Types::DuplicateTagKeysException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+    end
+
+    class LimitExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::DirectConnect::Types::LimitExceededException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

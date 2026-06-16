@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.101.0 (2026-06-16)
+------------------
+
+* Feature - Adds supports for PartnerManagedRules
+
 1.100.0 (2026-05-29)
 ------------------
 

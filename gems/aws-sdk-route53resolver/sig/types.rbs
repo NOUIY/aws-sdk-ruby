@@ -457,6 +457,8 @@ module Aws::Route53Resolver
       attr_accessor dns_threat_protection: ("DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA")
       attr_accessor confidence_threshold: ("LOW" | "MEDIUM" | "HIGH")
       attr_accessor firewall_rule_type: Types::FirewallRuleType
+      attr_accessor status: ::String
+      attr_accessor status_message: ::String
       SENSITIVE: []
     end
 
@@ -503,6 +505,7 @@ module Aws::Route53Resolver
     end
 
     class FirewallRuleType
+      attr_accessor partner_threat_protection: Types::PartnerThreatProtectionConfig
       attr_accessor firewall_advanced_content_category: Types::FirewallAdvancedContentCategoryConfig
       attr_accessor firewall_advanced_threat_category: Types::FirewallAdvancedThreatCategoryConfig
       attr_accessor dns_threat_protection: Types::DnsThreatProtectionRuleTypeConfig
@@ -514,6 +517,7 @@ module Aws::Route53Resolver
       attr_accessor value: ::String
       attr_accessor display_name: ::String
       attr_accessor description: ::String
+      attr_accessor subscription_info: Types::SubscriptionInfo
       SENSITIVE: []
     end
 
@@ -725,7 +729,7 @@ module Aws::Route53Resolver
       attr_accessor subnet_id: ::String
       attr_accessor ip: ::String
       attr_accessor ipv_6: ::String
-      attr_accessor status: ("CREATING" | "FAILED_CREATION" | "ATTACHING" | "ATTACHED" | "REMAP_DETACHING" | "REMAP_ATTACHING" | "DETACHING" | "FAILED_RESOURCE_GONE" | "DELETING" | "DELETE_FAILED_FAS_EXPIRED" | "UPDATING" | "UPDATE_FAILED" | "ISOLATED")
+      attr_accessor status: ("CREATING" | "FAILED_CREATION" | "FAILED_CREATION_INSUFFICIENT_EC2_CAPACITY_IN_OUTPOST" | "ATTACHING" | "ATTACHED" | "REMAP_DETACHING" | "REMAP_ATTACHING" | "DETACHING" | "FAILED_RESOURCE_GONE" | "DELETING" | "DELETE_FAILED_FAS_EXPIRED" | "UPDATING" | "UPDATE_FAILED" | "ISOLATED")
       attr_accessor status_message: ::String
       attr_accessor creation_time: ::String
       attr_accessor modification_time: ::String
@@ -995,6 +999,11 @@ module Aws::Route53Resolver
       SENSITIVE: []
     end
 
+    class PartnerThreatProtectionConfig
+      attr_accessor partner: ::String
+      SENSITIVE: []
+    end
+
     class PutFirewallRuleGroupPolicyRequest
       attr_accessor arn: ::String
       attr_accessor firewall_rule_group_policy: ::String
@@ -1155,6 +1164,12 @@ module Aws::Route53Resolver
 
     class ServiceQuotaExceededException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class SubscriptionInfo
+      attr_accessor vendor_name: ::String
+      attr_accessor product_id: ::String
       SENSITIVE: []
     end
 

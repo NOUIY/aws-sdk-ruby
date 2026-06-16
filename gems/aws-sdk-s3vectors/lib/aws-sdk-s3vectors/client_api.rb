@@ -93,6 +93,7 @@ module Aws::S3Vectors
     PutVectorsOutput = Shapes::StructureShape.new(name: 'PutVectorsOutput')
     QueryOutputVector = Shapes::StructureShape.new(name: 'QueryOutputVector')
     QueryVectorsInput = Shapes::StructureShape.new(name: 'QueryVectorsInput')
+    QueryVectorsNextToken = Shapes::StringShape.new(name: 'QueryVectorsNextToken')
     QueryVectorsOutput = Shapes::StructureShape.new(name: 'QueryVectorsOutput')
     QueryVectorsOutputList = Shapes::ListShape.new(name: 'QueryVectorsOutputList')
     RequestTimeoutException = Shapes::StructureShape.new(name: 'RequestTimeoutException')
@@ -356,10 +357,12 @@ module Aws::S3Vectors
     QueryVectorsInput.add_member(:filter, Shapes::ShapeRef.new(shape: Document, location_name: "filter"))
     QueryVectorsInput.add_member(:return_metadata, Shapes::ShapeRef.new(shape: Boolean, location_name: "returnMetadata"))
     QueryVectorsInput.add_member(:return_distance, Shapes::ShapeRef.new(shape: Boolean, location_name: "returnDistance"))
+    QueryVectorsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: QueryVectorsNextToken, location_name: "nextToken"))
     QueryVectorsInput.struct_class = Types::QueryVectorsInput
 
     QueryVectorsOutput.add_member(:vectors, Shapes::ShapeRef.new(shape: QueryVectorsOutputList, required: true, location_name: "vectors"))
     QueryVectorsOutput.add_member(:distance_metric, Shapes::ShapeRef.new(shape: DistanceMetric, required: true, location_name: "distanceMetric"))
+    QueryVectorsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: QueryVectorsNextToken, location_name: "nextToken"))
     QueryVectorsOutput.struct_class = Types::QueryVectorsOutput
 
     QueryVectorsOutputList.member = Shapes::ShapeRef.new(shape: QueryOutputVector)
@@ -730,6 +733,11 @@ module Aws::S3Vectors
         o.errors << Shapes::ShapeRef.new(shape: RequestTimeoutException)
         o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: KmsDisabledException)
+        o[:pager] = Aws::Pager.new(
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|

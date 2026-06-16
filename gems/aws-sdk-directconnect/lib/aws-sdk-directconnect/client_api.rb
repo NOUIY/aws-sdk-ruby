@@ -171,6 +171,7 @@ module Aws::DirectConnect
     LagName = Shapes::StringShape.new(name: 'LagName')
     LagState = Shapes::StringShape.new(name: 'LagState')
     Lags = Shapes::StructureShape.new(name: 'Lags')
+    LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException')
     ListVirtualInterfaceTestHistoryRequest = Shapes::StructureShape.new(name: 'ListVirtualInterfaceTestHistoryRequest')
     ListVirtualInterfaceTestHistoryResponse = Shapes::StructureShape.new(name: 'ListVirtualInterfaceTestHistoryResponse')
     Loa = Shapes::StructureShape.new(name: 'Loa')
@@ -205,6 +206,8 @@ module Aws::DirectConnect
     PortSpeed = Shapes::StringShape.new(name: 'PortSpeed')
     ProviderList = Shapes::ListShape.new(name: 'ProviderList')
     ProviderName = Shapes::StringShape.new(name: 'ProviderName')
+    RateLimit = Shapes::StringShape.new(name: 'RateLimit')
+    RateLimiterStatus = Shapes::StructureShape.new(name: 'RateLimiterStatus')
     Region = Shapes::StringShape.new(name: 'Region')
     RequestMACSec = Shapes::BooleanShape.new(name: 'RequestMACSec')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
@@ -421,6 +424,7 @@ module Aws::DirectConnect
     Connection.add_member(:port_encryption_status, Shapes::ShapeRef.new(shape: PortEncryptionStatus, location_name: "portEncryptionStatus"))
     Connection.add_member(:encryption_mode, Shapes::ShapeRef.new(shape: EncryptionMode, location_name: "encryptionMode"))
     Connection.add_member(:mac_sec_keys, Shapes::ShapeRef.new(shape: MacSecKeyList, location_name: "macSecKeys"))
+    Connection.add_member(:rate_limiter_status, Shapes::ShapeRef.new(shape: RateLimiterStatus, location_name: "rateLimiterStatus"))
     Connection.add_member(:partner_interconnect_mac_sec_capable, Shapes::ShapeRef.new(shape: PartnerInterconnectMacSecCapable, location_name: "partnerInterconnectMacSecCapable"))
     Connection.struct_class = Types::Connection
 
@@ -788,6 +792,7 @@ module Aws::DirectConnect
     Lag.add_member(:mac_sec_capable, Shapes::ShapeRef.new(shape: MacSecCapable, location_name: "macSecCapable"))
     Lag.add_member(:encryption_mode, Shapes::ShapeRef.new(shape: EncryptionMode, location_name: "encryptionMode"))
     Lag.add_member(:mac_sec_keys, Shapes::ShapeRef.new(shape: MacSecKeyList, location_name: "macSecKeys"))
+    Lag.add_member(:rate_limiter_status, Shapes::ShapeRef.new(shape: RateLimiterStatus, location_name: "rateLimiterStatus"))
     Lag.struct_class = Types::Lag
 
     LagList.member = Shapes::ShapeRef.new(shape: Lag)
@@ -795,6 +800,8 @@ module Aws::DirectConnect
     Lags.add_member(:lags, Shapes::ShapeRef.new(shape: LagList, location_name: "lags"))
     Lags.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "nextToken"))
     Lags.struct_class = Types::Lags
+
+    LimitExceededException.struct_class = Types::LimitExceededException
 
     ListVirtualInterfaceTestHistoryRequest.add_member(:test_id, Shapes::ShapeRef.new(shape: TestId, location_name: "testId"))
     ListVirtualInterfaceTestHistoryRequest.add_member(:virtual_interface_id, Shapes::ShapeRef.new(shape: VirtualInterfaceId, location_name: "virtualInterfaceId"))
@@ -854,6 +861,7 @@ module Aws::DirectConnect
     NewPrivateVirtualInterface.add_member(:direct_connect_gateway_id, Shapes::ShapeRef.new(shape: DirectConnectGatewayId, location_name: "directConnectGatewayId"))
     NewPrivateVirtualInterface.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     NewPrivateVirtualInterface.add_member(:enable_site_link, Shapes::ShapeRef.new(shape: EnableSiteLink, location_name: "enableSiteLink"))
+    NewPrivateVirtualInterface.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewPrivateVirtualInterface.struct_class = Types::NewPrivateVirtualInterface
 
     NewPrivateVirtualInterfaceAllocation.add_member(:virtual_interface_name, Shapes::ShapeRef.new(shape: VirtualInterfaceName, required: true, location_name: "virtualInterfaceName"))
@@ -866,6 +874,7 @@ module Aws::DirectConnect
     NewPrivateVirtualInterfaceAllocation.add_member(:address_family, Shapes::ShapeRef.new(shape: AddressFamily, location_name: "addressFamily"))
     NewPrivateVirtualInterfaceAllocation.add_member(:customer_address, Shapes::ShapeRef.new(shape: CustomerAddress, location_name: "customerAddress"))
     NewPrivateVirtualInterfaceAllocation.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
+    NewPrivateVirtualInterfaceAllocation.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewPrivateVirtualInterfaceAllocation.struct_class = Types::NewPrivateVirtualInterfaceAllocation
 
     NewPublicVirtualInterface.add_member(:virtual_interface_name, Shapes::ShapeRef.new(shape: VirtualInterfaceName, required: true, location_name: "virtualInterfaceName"))
@@ -878,6 +887,7 @@ module Aws::DirectConnect
     NewPublicVirtualInterface.add_member(:address_family, Shapes::ShapeRef.new(shape: AddressFamily, location_name: "addressFamily"))
     NewPublicVirtualInterface.add_member(:route_filter_prefixes, Shapes::ShapeRef.new(shape: RouteFilterPrefixList, location_name: "routeFilterPrefixes"))
     NewPublicVirtualInterface.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
+    NewPublicVirtualInterface.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewPublicVirtualInterface.struct_class = Types::NewPublicVirtualInterface
 
     NewPublicVirtualInterfaceAllocation.add_member(:virtual_interface_name, Shapes::ShapeRef.new(shape: VirtualInterfaceName, required: true, location_name: "virtualInterfaceName"))
@@ -890,6 +900,7 @@ module Aws::DirectConnect
     NewPublicVirtualInterfaceAllocation.add_member(:address_family, Shapes::ShapeRef.new(shape: AddressFamily, location_name: "addressFamily"))
     NewPublicVirtualInterfaceAllocation.add_member(:route_filter_prefixes, Shapes::ShapeRef.new(shape: RouteFilterPrefixList, location_name: "routeFilterPrefixes"))
     NewPublicVirtualInterfaceAllocation.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
+    NewPublicVirtualInterfaceAllocation.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewPublicVirtualInterfaceAllocation.struct_class = Types::NewPublicVirtualInterfaceAllocation
 
     NewTransitVirtualInterface.add_member(:virtual_interface_name, Shapes::ShapeRef.new(shape: VirtualInterfaceName, location_name: "virtualInterfaceName"))
@@ -904,6 +915,7 @@ module Aws::DirectConnect
     NewTransitVirtualInterface.add_member(:direct_connect_gateway_id, Shapes::ShapeRef.new(shape: DirectConnectGatewayId, location_name: "directConnectGatewayId"))
     NewTransitVirtualInterface.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     NewTransitVirtualInterface.add_member(:enable_site_link, Shapes::ShapeRef.new(shape: EnableSiteLink, location_name: "enableSiteLink"))
+    NewTransitVirtualInterface.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewTransitVirtualInterface.struct_class = Types::NewTransitVirtualInterface
 
     NewTransitVirtualInterfaceAllocation.add_member(:virtual_interface_name, Shapes::ShapeRef.new(shape: VirtualInterfaceName, location_name: "virtualInterfaceName"))
@@ -916,9 +928,16 @@ module Aws::DirectConnect
     NewTransitVirtualInterfaceAllocation.add_member(:customer_address, Shapes::ShapeRef.new(shape: CustomerAddress, location_name: "customerAddress"))
     NewTransitVirtualInterfaceAllocation.add_member(:address_family, Shapes::ShapeRef.new(shape: AddressFamily, location_name: "addressFamily"))
     NewTransitVirtualInterfaceAllocation.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
+    NewTransitVirtualInterfaceAllocation.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewTransitVirtualInterfaceAllocation.struct_class = Types::NewTransitVirtualInterfaceAllocation
 
     ProviderList.member = Shapes::ShapeRef.new(shape: ProviderName)
+
+    RateLimiterStatus.add_member(:max_allowed, Shapes::ShapeRef.new(shape: Count, location_name: "maxAllowed"))
+    RateLimiterStatus.add_member(:in_use, Shapes::ShapeRef.new(shape: Count, location_name: "inUse"))
+    RateLimiterStatus.add_member(:remaining, Shapes::ShapeRef.new(shape: Count, location_name: "remaining"))
+    RateLimiterStatus.add_member(:total_bandwidth, Shapes::ShapeRef.new(shape: Bandwidth, location_name: "totalBandwidth"))
+    RateLimiterStatus.struct_class = Types::RateLimiterStatus
 
     ResourceArnList.member = Shapes::ShapeRef.new(shape: ResourceArn)
 
@@ -1007,6 +1026,7 @@ module Aws::DirectConnect
     UpdateVirtualInterfaceAttributesRequest.add_member(:mtu, Shapes::ShapeRef.new(shape: MTU, location_name: "mtu"))
     UpdateVirtualInterfaceAttributesRequest.add_member(:enable_site_link, Shapes::ShapeRef.new(shape: EnableSiteLink, location_name: "enableSiteLink"))
     UpdateVirtualInterfaceAttributesRequest.add_member(:virtual_interface_name, Shapes::ShapeRef.new(shape: VirtualInterfaceName, location_name: "virtualInterfaceName"))
+    UpdateVirtualInterfaceAttributesRequest.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     UpdateVirtualInterfaceAttributesRequest.struct_class = Types::UpdateVirtualInterfaceAttributesRequest
 
     VirtualGateway.add_member(:virtual_gateway_id, Shapes::ShapeRef.new(shape: VirtualGatewayId, location_name: "virtualGatewayId"))
@@ -1045,6 +1065,7 @@ module Aws::DirectConnect
     VirtualInterface.add_member(:aws_logical_device_id, Shapes::ShapeRef.new(shape: AwsLogicalDeviceId, location_name: "awsLogicalDeviceId"))
     VirtualInterface.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     VirtualInterface.add_member(:site_link_enabled, Shapes::ShapeRef.new(shape: SiteLinkEnabled, location_name: "siteLinkEnabled"))
+    VirtualInterface.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     VirtualInterface.struct_class = Types::VirtualInterface
 
     VirtualInterfaceList.member = Shapes::ShapeRef.new(shape: VirtualInterface)
@@ -1126,6 +1147,7 @@ module Aws::DirectConnect
         o.output = Shapes::ShapeRef.new(shape: VirtualInterface)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateTagKeysException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectServerException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectClientException)
       end)
@@ -1138,6 +1160,7 @@ module Aws::DirectConnect
         o.output = Shapes::ShapeRef.new(shape: VirtualInterface)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateTagKeysException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectServerException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectClientException)
       end)
@@ -1150,6 +1173,7 @@ module Aws::DirectConnect
         o.output = Shapes::ShapeRef.new(shape: AllocateTransitVirtualInterfaceResult)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateTagKeysException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectServerException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectClientException)
       end)
@@ -1162,6 +1186,7 @@ module Aws::DirectConnect
         o.output = Shapes::ShapeRef.new(shape: Connection)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectServerException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectClientException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
       end)
 
       api.add_operation(:associate_hosted_connection, Seahorse::Model::Operation.new.tap do |o|
@@ -1328,6 +1353,7 @@ module Aws::DirectConnect
         o.output = Shapes::ShapeRef.new(shape: VirtualInterface)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateTagKeysException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectServerException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectClientException)
       end)
@@ -1340,6 +1366,7 @@ module Aws::DirectConnect
         o.output = Shapes::ShapeRef.new(shape: VirtualInterface)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateTagKeysException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectServerException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectClientException)
       end)
@@ -1352,6 +1379,7 @@ module Aws::DirectConnect
         o.output = Shapes::ShapeRef.new(shape: CreateTransitVirtualInterfaceResult)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateTagKeysException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectServerException)
         o.errors << Shapes::ShapeRef.new(shape: DirectConnectClientException)
       end)

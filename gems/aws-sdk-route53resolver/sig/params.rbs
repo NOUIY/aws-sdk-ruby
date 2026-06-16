@@ -9,6 +9,9 @@ module Aws
   module Route53Resolver
     module Params
       type firewall_rule_type = {
+      partner_threat_protection: {
+        partner: ::String
+      }?,
       firewall_advanced_content_category: {
         category: ::String
       }?,

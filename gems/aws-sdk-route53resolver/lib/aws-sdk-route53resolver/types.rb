@@ -587,7 +587,7 @@ module Aws::Route53Resolver
     #     attackers to exfiltrate data from the client by using the DNS
     #     tunnel without making a network connection to the client.
     #
-    #   * `DICT_DGA`: Dictionary-based domain generation algorithms
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
     #     detection. Dictionary DGAs use wordlists to generate domains that
     #     appear more legitimate, making them harder to detect than
     #     traditional DGAs.
@@ -609,9 +609,26 @@ module Aws::Route53Resolver
     #   @return [String]
     #
     # @!attribute [rw] firewall_rule_type
-    #   The rule type configuration for the firewall rule. This setting is
-    #   mutually exclusive with the top-level `FirewallDomainListId` and
-    #   `DnsThreatProtection` fields.
+    #   The rule type configuration for the firewall rule. This is a tagged
+    #   union — set exactly one of its members. This setting is mutually
+    #   exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields. Use one of:
+    #
+    #   * `FirewallAdvancedContentCategory` — match an AWS-managed content
+    #     category (for example, `VIOLENCE_AND_HATE_SPEECH`).
+    #
+    #   * `FirewallAdvancedThreatCategory` — match an AWS-managed advanced
+    #     threat category (for example, `PHISHING`).
+    #
+    #   * `DnsThreatProtection` — match a built-in DNS Firewall Advanced
+    #     threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    #   * `PartnerThreatProtection` — match a third-party threat feed
+    #     delivered through AWS Marketplace. The selected partner must be an
+    #     active subscription on the calling account.
+    #
+    #   To enumerate the values supported in your account, call
+    #   ListFirewallRuleTypes.
     #   @return [Types::FirewallRuleType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateFirewallRuleEntry AWS API Documentation
@@ -827,7 +844,22 @@ module Aws::Route53Resolver
     #   @return [String]
     #
     # @!attribute [rw] dns_threat_protection
-    #   Use to create a DNS Firewall Advanced rule.
+    #   The type of the DNS Firewall Advanced rule. This setting is mutually
+    #   exclusive with `FirewallDomainListId` and `FirewallRuleType`. Valid
+    #   values are:
+    #
+    #   * `DGA`: Domain generation algorithms detection. DGAs are used by
+    #     attackers to generate a large number of domains to launch malware
+    #     attacks.
+    #
+    #   * `DNS_TUNNELING`: DNS tunneling detection. DNS tunneling is used by
+    #     attackers to exfiltrate data from the client by using the DNS
+    #     tunnel without making a network connection to the client.
+    #
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
+    #     detection. Dictionary DGAs use wordlists to generate domains that
+    #     appear more legitimate, making them harder to detect than
+    #     traditional DGAs.
     #   @return [String]
     #
     # @!attribute [rw] confidence_threshold
@@ -846,9 +878,26 @@ module Aws::Route53Resolver
     #   @return [String]
     #
     # @!attribute [rw] firewall_rule_type
-    #   The rule type configuration for the firewall rule. This setting is
-    #   mutually exclusive with the top-level `FirewallDomainListId` and
-    #   `DnsThreatProtection` fields.
+    #   The rule type configuration for the firewall rule. This is a tagged
+    #   union — set exactly one of its members. This setting is mutually
+    #   exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields. Use one of:
+    #
+    #   * `FirewallAdvancedContentCategory` — match an AWS-managed content
+    #     category (for example, `VIOLENCE_AND_HATE_SPEECH`).
+    #
+    #   * `FirewallAdvancedThreatCategory` — match an AWS-managed advanced
+    #     threat category (for example, `PHISHING`).
+    #
+    #   * `DnsThreatProtection` — match a built-in DNS Firewall Advanced
+    #     threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    #   * `PartnerThreatProtection` — match a third-party threat feed
+    #     delivered through AWS Marketplace. The selected partner must be an
+    #     active subscription on the calling account.
+    #
+    #   To enumerate the values supported in your account, call
+    #   ListFirewallRuleTypes.
     #   @return [Types::FirewallRuleType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateFirewallRuleRequest AWS API Documentation
@@ -1713,7 +1762,7 @@ module Aws::Route53Resolver
     #     attackers to exfiltrate data from the client by using the DNS
     #     tunnel without making a network connection to the client.
     #
-    #   * `DICT_DGA`: Dictionary-based domain generation algorithms
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
     #     detection. Dictionary DGAs use wordlists to generate domains that
     #     appear more legitimate, making them harder to detect than
     #     traditional DGAs.
@@ -2327,12 +2376,17 @@ module Aws::Route53Resolver
     #   The type of the DNS Firewall Advanced rule. Valid values are:
     #
     #   * `DGA`: Domain generation algorithms detection. DGAs are used by
-    #     attackers to generate a large number of domains to to launch
-    #     malware attacks.
+    #     attackers to generate a large number of domains to launch malware
+    #     attacks.
     #
     #   * `DNS_TUNNELING`: DNS tunneling detection. DNS tunneling is used by
     #     attackers to exfiltrate data from the client by using the DNS
     #     tunnel without making a network connection to the client.
+    #
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
+    #     detection. Dictionary DGAs use wordlists to generate domains that
+    #     appear more legitimate, making them harder to detect than
+    #     traditional DGAs.
     #   @return [String]
     #
     # @!attribute [rw] confidence_threshold
@@ -2351,9 +2405,50 @@ module Aws::Route53Resolver
     #   @return [String]
     #
     # @!attribute [rw] firewall_rule_type
-    #   The rule type configuration for the firewall rule. Exactly one
-    #   member of this union should be set.
+    #   The rule type configuration for the firewall rule. This is a tagged
+    #   union — exactly one of its members will be populated. Possible
+    #   members are:
+    #
+    #   * `FirewallAdvancedContentCategory` — an AWS-managed content
+    #     category (for example, `VIOLENCE_AND_HATE_SPEECH`).
+    #
+    #   * `FirewallAdvancedThreatCategory` — an AWS-managed advanced threat
+    #     category (for example, `PHISHING`).
+    #
+    #   * `DnsThreatProtection` — a built-in DNS Firewall Advanced threat
+    #     detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    #   * `PartnerThreatProtection` — a third-party threat feed delivered
+    #     through AWS Marketplace.
+    #
+    #   To enumerate the values supported in your account, call
+    #   ListFirewallRuleTypes.
     #   @return [Types::FirewallRuleType]
+    #
+    # @!attribute [rw] status
+    #   The lifecycle state of the firewall rule. Possible values:
+    #
+    #   * `CREATING` — DNS Firewall is provisioning the rule. Rules created
+    #     with the `PartnerThreatProtection` rule type begin in this state
+    #     while DNS Firewall verifies the calling account's AWS Marketplace
+    #     entitlement.
+    #
+    #   * `COMPLETE` — The rule is provisioned and enforcing matches.
+    #
+    #   * `CREATION_FAILED` — Provisioning failed. `StatusMessage` contains
+    #     a human-readable reason. A rule in this state is immutable:
+    #     UpdateFirewallRule rejects the request, and the rule must be
+    #     removed with DeleteFirewallRule.
+    #
+    #   For rules that do not require asynchronous provisioning, this field
+    #   may be absent.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   An additional message about the rule's lifecycle state. Populated
+    #   when `Status` is `CREATION_FAILED` to describe why provisioning
+    #   failed.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/FirewallRule AWS API Documentation
     #
@@ -2375,7 +2470,9 @@ module Aws::Route53Resolver
       :qtype,
       :dns_threat_protection,
       :confidence_threshold,
-      :firewall_rule_type)
+      :firewall_rule_type,
+      :status,
+      :status_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2599,25 +2696,47 @@ module Aws::Route53Resolver
       include Aws::Structure
     end
 
-    # The configuration for a rule type in a DNS Firewall rule. This is a
-    # union type — exactly one member should be set.
+    # The rule-type configuration for a DNS Firewall rule.
+    # `FirewallRuleType` is a tagged union — exactly one member must be set
+    # per rule, and the member determines what the rule matches against.
+    # This shape is mutually exclusive with the top-level
+    # `FirewallDomainListId` and `DnsThreatProtection` fields on
+    # CreateFirewallRule and UpdateFirewallRule.
+    #
+    # Call ListFirewallRuleTypes to discover which rule-type variants and
+    # which values within each variant are available in your account and
+    # Region.
+    #
+    # @!attribute [rw] partner_threat_protection
+    #   Configures the rule to match a third-party threat feed delivered
+    #   through AWS Marketplace. The calling account must hold an active
+    #   subscription to the partner product named in `Partner`; if the
+    #   subscription is missing or revoked, the rule is created with
+    #   `Status` `CREATION_FAILED` and cannot be modified — only deleted.
+    #   See PartnerThreatProtectionConfig.
+    #   @return [Types::PartnerThreatProtectionConfig]
     #
     # @!attribute [rw] firewall_advanced_content_category
-    #   The configuration for a content category-based filtering rule.
+    #   Configures the rule to match an AWS-managed content category (for
+    #   example, `VIOLENCE_AND_HATE_SPEECH`). See
+    #   FirewallAdvancedContentCategoryConfig.
     #   @return [Types::FirewallAdvancedContentCategoryConfig]
     #
     # @!attribute [rw] firewall_advanced_threat_category
-    #   The configuration for a threat category-based filtering rule.
+    #   Configures the rule to match an AWS-managed advanced threat category
+    #   (for example, `PHISHING`). See FirewallAdvancedThreatCategoryConfig.
     #   @return [Types::FirewallAdvancedThreatCategoryConfig]
     #
     # @!attribute [rw] dns_threat_protection
-    #   The configuration for a DNS threat protection rule type, such as DGA
-    #   or DNS tunneling detection.
+    #   Configures the rule to match a built-in DNS Firewall Advanced threat
+    #   detector — `DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`. See
+    #   DnsThreatProtectionRuleTypeConfig.
     #   @return [Types::DnsThreatProtectionRuleTypeConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/FirewallRuleType AWS API Documentation
     #
     class FirewallRuleType < Struct.new(
+      :partner_threat_protection,
       :firewall_advanced_content_category,
       :firewall_advanced_threat_category,
       :dns_threat_protection)
@@ -2647,13 +2766,22 @@ module Aws::Route53Resolver
     #   A description of the rule type.
     #   @return [String]
     #
+    # @!attribute [rw] subscription_info
+    #   For rule types that require an external subscription (today, only
+    #   the `PartnerThreatProtection` variant), describes the AWS
+    #   Marketplace product that backs the rule type. Absent for rule types
+    #   that are managed by AWS and do not require a separate subscription.
+    #   See SubscriptionInfo.
+    #   @return [Types::SubscriptionInfo]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/FirewallRuleTypeDefinition AWS API Documentation
     #
     class FirewallRuleTypeDefinition < Struct.new(
       :rule_type,
       :value,
       :display_name,
-      :description)
+      :description,
+      :subscription_info)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3625,8 +3753,11 @@ module Aws::Route53Resolver
     end
 
     # @!attribute [rw] rule_type
-    #   The rule type to filter by. If specified, only rule types matching
-    #   this value are returned.
+    #   An optional filter that restricts the response to a single
+    #   FirewallRuleType variant. Supported values:
+    #   `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`,
+    #   `DnsThreatProtection`, and `PartnerThreatProtection`. If omitted,
+    #   definitions across all variants are returned.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -4601,6 +4732,27 @@ module Aws::Route53Resolver
       include Aws::Structure
     end
 
+    # The configuration for a partner threat-protection rule. To enumerate
+    # the partners available in your account, call ListFirewallRuleTypes
+    # with `RuleType` set to `PartnerThreatProtection` — each returned
+    # FirewallRuleTypeDefinition includes a SubscriptionInfo identifying the
+    # AWS Marketplace product that backs it.
+    #
+    # @!attribute [rw] partner
+    #   The identifier of the partner threat-protection product, exactly as
+    #   returned in the `Value` field of a FirewallRuleTypeDefinition with
+    #   `RuleType` set to `PartnerThreatProtection`. The calling account
+    #   must hold an active AWS Marketplace subscription to this product.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/PartnerThreatProtectionConfig AWS API Documentation
+    #
+    class PartnerThreatProtectionConfig < Struct.new(
+      :partner)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] arn
     #   The ARN (Amazon Resource Name) for the rule group that you want to
     #   share.
@@ -5544,6 +5696,32 @@ module Aws::Route53Resolver
       include Aws::Structure
     end
 
+    # Identifies the AWS Marketplace product that backs a partner-managed
+    # rule type. Returned as part of FirewallRuleTypeDefinition when the
+    # rule type variant requires an active customer subscription to the
+    # named product.
+    #
+    # @!attribute [rw] vendor_name
+    #   The name of the AWS Marketplace seller (vendor) that publishes the
+    #   partner threat-protection product (for example, `Palo Alto
+    #   Networks`).
+    #   @return [String]
+    #
+    # @!attribute [rw] product_id
+    #   The AWS Marketplace product identifier of the partner
+    #   threat-protection product. Use this value to verify or manage the
+    #   calling account's subscription in AWS Marketplace.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/SubscriptionInfo AWS API Documentation
+    #
+    class SubscriptionInfo < Struct.new(
+      :vendor_name,
+      :product_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # One tag that you want to add to the specified resource. A tag consists
     # of a `Key` (a name for the tag) and a `Value`.
     #
@@ -5984,7 +6162,7 @@ module Aws::Route53Resolver
     #     attackers to exfiltrate data from the client by using the DNS
     #     tunnel without making a network connection to the client.
     #
-    #   * `DICT_DGA`: Dictionary-based domain generation algorithms
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
     #     detection. Dictionary DGAs use wordlists to generate domains that
     #     appear more legitimate, making them harder to detect than
     #     traditional DGAs.
@@ -6006,9 +6184,26 @@ module Aws::Route53Resolver
     #   @return [String]
     #
     # @!attribute [rw] firewall_rule_type
-    #   The rule type configuration for the firewall rule. This setting is
-    #   mutually exclusive with the top-level `FirewallDomainListId` and
-    #   `DnsThreatProtection` fields.
+    #   The rule type configuration for the firewall rule. This is a tagged
+    #   union — set exactly one of its members. This setting is mutually
+    #   exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields. Use one of:
+    #
+    #   * `FirewallAdvancedContentCategory` — match an AWS-managed content
+    #     category (for example, `VIOLENCE_AND_HATE_SPEECH`).
+    #
+    #   * `FirewallAdvancedThreatCategory` — match an AWS-managed advanced
+    #     threat category (for example, `PHISHING`).
+    #
+    #   * `DnsThreatProtection` — match a built-in DNS Firewall Advanced
+    #     threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    #   * `PartnerThreatProtection` — match a third-party threat feed
+    #     delivered through AWS Marketplace. The selected partner must be an
+    #     active subscription on the calling account.
+    #
+    #   To enumerate the values supported in your account, call
+    #   ListFirewallRuleTypes.
     #   @return [Types::FirewallRuleType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateFirewallRuleEntry AWS API Documentation
@@ -6220,15 +6415,22 @@ module Aws::Route53Resolver
     #   @return [String]
     #
     # @!attribute [rw] dns_threat_protection
-    #   The type of the DNS Firewall Advanced rule. Valid values are:
+    #   The type of the DNS Firewall Advanced rule. This setting is mutually
+    #   exclusive with `FirewallDomainListId` and `FirewallRuleType`. Valid
+    #   values are:
     #
     #   * `DGA`: Domain generation algorithms detection. DGAs are used by
-    #     attackers to generate a large number of domains to to launch
-    #     malware attacks.
+    #     attackers to generate a large number of domains to launch malware
+    #     attacks.
     #
     #   * `DNS_TUNNELING`: DNS tunneling detection. DNS tunneling is used by
     #     attackers to exfiltrate data from the client by using the DNS
     #     tunnel without making a network connection to the client.
+    #
+    #   * `DICTIONARY_DGA`: Dictionary-based domain generation algorithms
+    #     detection. Dictionary DGAs use wordlists to generate domains that
+    #     appear more legitimate, making them harder to detect than
+    #     traditional DGAs.
     #   @return [String]
     #
     # @!attribute [rw] confidence_threshold
@@ -6247,9 +6449,26 @@ module Aws::Route53Resolver
     #   @return [String]
     #
     # @!attribute [rw] firewall_rule_type
-    #   The rule type configuration for the firewall rule. This setting is
-    #   mutually exclusive with the top-level `FirewallDomainListId` and
-    #   `DnsThreatProtection` fields.
+    #   The rule type configuration for the firewall rule. This is a tagged
+    #   union — set exactly one of its members. This setting is mutually
+    #   exclusive with the top-level `FirewallDomainListId` and
+    #   `DnsThreatProtection` fields. Use one of:
+    #
+    #   * `FirewallAdvancedContentCategory` — match an AWS-managed content
+    #     category (for example, `VIOLENCE_AND_HATE_SPEECH`).
+    #
+    #   * `FirewallAdvancedThreatCategory` — match an AWS-managed advanced
+    #     threat category (for example, `PHISHING`).
+    #
+    #   * `DnsThreatProtection` — match a built-in DNS Firewall Advanced
+    #     threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+    #
+    #   * `PartnerThreatProtection` — match a third-party threat feed
+    #     delivered through AWS Marketplace. The selected partner must be an
+    #     active subscription on the calling account.
+    #
+    #   To enumerate the values supported in your account, call
+    #   ListFirewallRuleTypes.
     #   @return [Types::FirewallRuleType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateFirewallRuleRequest AWS API Documentation

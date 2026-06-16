@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.105.0 (2026-06-16)
+------------------
+
+* Feature - Adds support for creating an order from quotes.
+
 1.104.0 (2026-06-09)
 ------------------
 

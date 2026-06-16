@@ -824,6 +824,7 @@ module Aws::S3
     #     },
     #     metadata_directive: "COPY", # accepts COPY, REPLACE
     #     tagging_directive: "COPY", # accepts COPY, REPLACE
+    #     annotation_directive: "COPY", # accepts COPY, EXCLUDE
     #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
     #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
     #     website_redirect_location: "WebsiteRedirectLocation",
@@ -1172,6 +1173,42 @@ module Aws::S3
     #     source object and don't set the `x-amz-tagging` value of the
     #     directory bucket destination object. This is because the default
     #     value of `x-amz-tagging` is the empty value.
+    #
+    #    </note>
+    # @option options [String] :annotation_directive
+    #   Specifies whether you want to copy annotations from the source object
+    #   or exclude them. If this header isn't specified, `COPY` is the
+    #   default behavior.
+    #
+    #   Valid Values: `COPY | EXCLUDE`
+    #
+    #   You can specify this directive as either an HTTP header
+    #   (`x-amz-object-annotation-directive`) or as a query string parameter.
+    #   Use the query string form when generating presigned URLs that need to
+    #   control annotation copy behavior.
+    #
+    #   When set to `COPY`, you must have `s3:GetObjectAnnotation` permission
+    #   on the source object and `s3:PutObjectAnnotation` permission on the
+    #   destination. Each annotation copied is billed as a separate PUT
+    #   request. If annotations on the source are modified during the copy,
+    #   Amazon S3 returns a retryable error.
+    #
+    #   <note markdown="1"> For directory buckets, annotations are not supported. Use `EXCLUDE` to
+    #   copy objects to directory buckets without errors. If you specify
+    #   `COPY` for a directory bucket, the request returns HTTP 501 (Not
+    #   Implemented).
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> When you copy objects using multipart upload (for example, when the
+    #   Amazon Web Services CLI or Amazon Web Services SDKs use Transfer
+    #   Manager for objects larger than approximately 8 MB), annotations are
+    #   not copied by default. To include annotations, specify `--copy-props
+    #   default` in the Amazon Web Services CLI or the equivalent SDK
+    #   configuration. With this opt-in, the SDK reads source annotations,
+    #   completes the multipart upload, and then writes each annotation to the
+    #   destination. Between the upload completion and the last annotation
+    #   write, the destination object exists without all its annotations.
     #
     #    </note>
     # @option options [String] :server_side_encryption

@@ -104,6 +104,8 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Outposts/Client.html#create_order-instance_method
       def create_order: (
                           outpost_identifier: ::String,
+                          ?quote_identifier: ::String,
+                          ?quote_option_identifier: ::String,
                           ?line_items: Array[
                             {
                               catalog_item_id: ::String?,

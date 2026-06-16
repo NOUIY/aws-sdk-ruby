@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.226.0 (2026-06-16)
+------------------
+
+* Feature - Added support for annotations. You can now attach up to 1000 annotations (up to 1 MB each) directly to objects and create, retrieve, list, and delete them using new annotation APIs. Also added support for configuring an annotation table in S3 Metadata.
+
 * Feature - Multipart copies now support `tags_directive`, `annotations_directive`, and `metadata_directive` options for controlling which source properties are copied to the destination.
 
 * Issue - Fix error when performing cross-region multipart copies with `copy_source_region`.

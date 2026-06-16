@@ -313,12 +313,14 @@ module Aws::S3Vectors
       attr_accessor filter: untyped
       attr_accessor return_metadata: bool
       attr_accessor return_distance: bool
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
     class QueryVectorsOutput
       attr_accessor vectors: ::Array[Types::QueryOutputVector]
       attr_accessor distance_metric: ("euclidean" | "cosine")
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 

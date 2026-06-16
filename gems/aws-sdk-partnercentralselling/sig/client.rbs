@@ -124,7 +124,7 @@ module Aws
                                ?contexts: Array[
                                  {
                                    id: ::String?,
-                                   type: ("CustomerProject" | "Lead"),
+                                   type: ("CustomerProject" | "Lead" | "ProspectingResult"),
                                    payload: Params::engagement_context_payload?
                                  }
                                ]
@@ -143,7 +143,7 @@ module Aws
                                        catalog: ::String,
                                        engagement_identifier: ::String,
                                        client_token: ::String,
-                                       type: ("CustomerProject" | "Lead"),
+                                       type: ("CustomerProject" | "Lead" | "ProspectingResult"),
                                        payload: Params::engagement_context_payload
                                      ) -> _CreateEngagementContextResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEngagementContextResponseSuccess
@@ -332,6 +332,7 @@ module Aws
         def related_entity_ids: () -> Types::AwsOpportunityRelatedEntities
         def customer: () -> Types::AwsOpportunityCustomer
         def project: () -> Types::AwsOpportunityProject
+        def cosell_motion: () -> ::String
         def catalog: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/PartnerCentralSelling/Client.html#get_aws_opportunity_summary-instance_method
@@ -413,6 +414,22 @@ module Aws
                              identifier: ::String
                            ) -> _GetOpportunityResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetOpportunityResponseSuccess
+
+      interface _GetProspectingFromEngagementTaskResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetProspectingFromEngagementTaskResponse]
+        def task_id: () -> ::String
+        def task_arn: () -> ::String
+        def task_name: () -> ::String
+        def start_time: () -> ::Time
+        def end_time: () -> ::Time
+        def engagements: () -> ::Array[Types::EngagementProspectingResult]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/PartnerCentralSelling/Client.html#get_prospecting_from_engagement_task-instance_method
+      def get_prospecting_from_engagement_task: (
+                                                  catalog: ::String,
+                                                  task_identifier: ::String
+                                                ) -> _GetProspectingFromEngagementTaskResponseSuccess
+                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetProspectingFromEngagementTaskResponseSuccess
 
       interface _GetResourceSnapshotResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetResourceSnapshotResponse]
@@ -577,8 +594,8 @@ module Aws
                               catalog: ::String,
                               ?created_by: Array[::String],
                               ?exclude_created_by: Array[::String],
-                              ?context_types: Array[("CustomerProject" | "Lead")],
-                              ?exclude_context_types: Array[("CustomerProject" | "Lead")],
+                              ?context_types: Array[("CustomerProject" | "Lead" | "ProspectingResult")],
+                              ?exclude_context_types: Array[("CustomerProject" | "Lead" | "ProspectingResult")],
                               ?sort: {
                                 sort_order: ("ASCENDING" | "DESCENDING"),
                                 sort_by: ("CreatedDate")
@@ -643,6 +660,27 @@ module Aws
                                                     ?context_identifier: Array[::String]
                                                   ) -> _ListOpportunityFromEngagementTasksResponseSuccess
                                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListOpportunityFromEngagementTasksResponseSuccess
+
+      interface _ListProspectingFromEngagementTasksResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListProspectingFromEngagementTasksResponse]
+        def next_token: () -> ::String
+        def task_summaries: () -> ::Array[Types::ProspectingTaskSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/PartnerCentralSelling/Client.html#list_prospecting_from_engagement_tasks-instance_method
+      def list_prospecting_from_engagement_tasks: (
+                                                    catalog: ::String,
+                                                    ?max_results: ::Integer,
+                                                    ?next_token: ::String,
+                                                    ?task_identifier: Array[::String],
+                                                    ?task_name: Array[::String],
+                                                    ?start_after: ::Time,
+                                                    ?start_before: ::Time,
+                                                    ?sort: {
+                                                      sort_order: ("ASCENDING" | "DESCENDING"),
+                                                      sort_by: ("StartTime" | "TaskName" | "FailedEngagementCount")
+                                                    }
+                                                  ) -> _ListProspectingFromEngagementTasksResponseSuccess
+                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListProspectingFromEngagementTasksResponseSuccess
 
       interface _ListResourceSnapshotJobsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListResourceSnapshotJobsResponse]
@@ -816,6 +854,26 @@ module Aws
                                                   ) -> _StartOpportunityFromEngagementTaskResponseSuccess
                                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartOpportunityFromEngagementTaskResponseSuccess
 
+      interface _StartProspectingFromEngagementTaskResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartProspectingFromEngagementTaskResponse]
+        def identifiers: () -> ::Array[::String]
+        def task_name: () -> ::String
+        def message: () -> ::String
+        def reason_code: () -> ::String
+        def start_time: () -> ::Time
+        def task_id: () -> ::String
+        def task_arn: () -> ::String
+        def task_status: () -> ("PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/PartnerCentralSelling/Client.html#start_prospecting_from_engagement_task-instance_method
+      def start_prospecting_from_engagement_task: (
+                                                    catalog: ::String,
+                                                    identifiers: Array[::String],
+                                                    task_name: ::String,
+                                                    client_token: ::String
+                                                  ) -> _StartProspectingFromEngagementTaskResponseSuccess
+                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartProspectingFromEngagementTaskResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/PartnerCentralSelling/Client.html#start_resource_snapshot_job-instance_method
       def start_resource_snapshot_job: (
                                          catalog: ::String,
@@ -877,14 +935,18 @@ module Aws
                                        engagement_identifier: ::String,
                                        context_identifier: ::String,
                                        engagement_last_modified_at: ::Time,
-                                       type: ("CustomerProject" | "Lead"),
+                                       type: ("CustomerProject" | "Lead" | "ProspectingResult"),
                                        payload: {
                                          lead: {
                                            qualification_status: ::String?,
                                            customer: Params::lead_customer,
-                                           interaction: Params::lead_interaction?
+                                           interaction: Params::lead_interaction?,
+                                           insights: {
+                                             lead_readiness_score: ::String?
+                                           }?
                                          }?,
-                                         customer_project: Params::customer_projects_context?
+                                         customer_project: Params::customer_projects_context?,
+                                         prospecting_result: Params::prospecting_result?
                                        }
                                      ) -> _UpdateEngagementContextResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateEngagementContextResponseSuccess

@@ -130,6 +130,8 @@ module Aws::Route53Resolver
     FirewallRuleGroupMetadataList = Shapes::ListShape.new(name: 'FirewallRuleGroupMetadataList')
     FirewallRuleGroupPolicy = Shapes::StringShape.new(name: 'FirewallRuleGroupPolicy')
     FirewallRuleGroupStatus = Shapes::StringShape.new(name: 'FirewallRuleGroupStatus')
+    FirewallRuleStatus = Shapes::StringShape.new(name: 'FirewallRuleStatus')
+    FirewallRuleStatusMessage = Shapes::StringShape.new(name: 'FirewallRuleStatusMessage')
     FirewallRuleType = Shapes::StructureShape.new(name: 'FirewallRuleType')
     FirewallRuleTypeDefinition = Shapes::StructureShape.new(name: 'FirewallRuleTypeDefinition')
     FirewallRuleTypeDefinitions = Shapes::ListShape.new(name: 'FirewallRuleTypeDefinitions')
@@ -232,8 +234,11 @@ module Aws::Route53Resolver
     OutpostResolverName = Shapes::StringShape.new(name: 'OutpostResolverName')
     OutpostResolverStatus = Shapes::StringShape.new(name: 'OutpostResolverStatus')
     OutpostResolverStatusMessage = Shapes::StringShape.new(name: 'OutpostResolverStatusMessage')
+    PartnerThreatProtectionConfig = Shapes::StructureShape.new(name: 'PartnerThreatProtectionConfig')
+    PartnerValue = Shapes::StringShape.new(name: 'PartnerValue')
     Port = Shapes::IntegerShape.new(name: 'Port')
     Priority = Shapes::IntegerShape.new(name: 'Priority')
+    ProductId = Shapes::StringShape.new(name: 'ProductId')
     Protocol = Shapes::StringShape.new(name: 'Protocol')
     ProtocolList = Shapes::ListShape.new(name: 'ProtocolList')
     PutFirewallRuleGroupPolicyRequest = Shapes::StructureShape.new(name: 'PutFirewallRuleGroupPolicyRequest')
@@ -293,6 +298,7 @@ module Aws::Route53Resolver
     StatusMessage = Shapes::StringShape.new(name: 'StatusMessage')
     String = Shapes::StringShape.new(name: 'String')
     SubnetId = Shapes::StringShape.new(name: 'SubnetId')
+    SubscriptionInfo = Shapes::StructureShape.new(name: 'SubscriptionInfo')
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
@@ -332,6 +338,7 @@ module Aws::Route53Resolver
     UpdateResolverRuleResponse = Shapes::StructureShape.new(name: 'UpdateResolverRuleResponse')
     Validation = Shapes::StringShape.new(name: 'Validation')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
+    VendorName = Shapes::StringShape.new(name: 'VendorName')
 
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "Message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
@@ -673,6 +680,8 @@ module Aws::Route53Resolver
     FirewallRule.add_member(:dns_threat_protection, Shapes::ShapeRef.new(shape: DnsThreatProtection, location_name: "DnsThreatProtection"))
     FirewallRule.add_member(:confidence_threshold, Shapes::ShapeRef.new(shape: ConfidenceThreshold, location_name: "ConfidenceThreshold"))
     FirewallRule.add_member(:firewall_rule_type, Shapes::ShapeRef.new(shape: FirewallRuleType, location_name: "FirewallRuleType"))
+    FirewallRule.add_member(:status, Shapes::ShapeRef.new(shape: FirewallRuleStatus, location_name: "Status"))
+    FirewallRule.add_member(:status_message, Shapes::ShapeRef.new(shape: FirewallRuleStatusMessage, location_name: "StatusMessage"))
     FirewallRule.struct_class = Types::FirewallRule
 
     FirewallRuleGroup.add_member(:id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "Id"))
@@ -715,6 +724,7 @@ module Aws::Route53Resolver
 
     FirewallRuleGroupMetadataList.member = Shapes::ShapeRef.new(shape: FirewallRuleGroupMetadata)
 
+    FirewallRuleType.add_member(:partner_threat_protection, Shapes::ShapeRef.new(shape: PartnerThreatProtectionConfig, location_name: "PartnerThreatProtection", metadata: {"box" => true}))
     FirewallRuleType.add_member(:firewall_advanced_content_category, Shapes::ShapeRef.new(shape: FirewallAdvancedContentCategoryConfig, location_name: "FirewallAdvancedContentCategory", metadata: {"box" => true}))
     FirewallRuleType.add_member(:firewall_advanced_threat_category, Shapes::ShapeRef.new(shape: FirewallAdvancedThreatCategoryConfig, location_name: "FirewallAdvancedThreatCategory", metadata: {"box" => true}))
     FirewallRuleType.add_member(:dns_threat_protection, Shapes::ShapeRef.new(shape: DnsThreatProtectionRuleTypeConfig, location_name: "DnsThreatProtection", metadata: {"box" => true}))
@@ -724,6 +734,7 @@ module Aws::Route53Resolver
     FirewallRuleTypeDefinition.add_member(:value, Shapes::ShapeRef.new(shape: RuleTypeValue, location_name: "Value"))
     FirewallRuleTypeDefinition.add_member(:display_name, Shapes::ShapeRef.new(shape: DisplayName, location_name: "DisplayName"))
     FirewallRuleTypeDefinition.add_member(:description, Shapes::ShapeRef.new(shape: RuleTypeDescription, location_name: "Description"))
+    FirewallRuleTypeDefinition.add_member(:subscription_info, Shapes::ShapeRef.new(shape: SubscriptionInfo, location_name: "SubscriptionInfo", metadata: {"box" => true}))
     FirewallRuleTypeDefinition.struct_class = Types::FirewallRuleTypeDefinition
 
     FirewallRuleTypeDefinitions.member = Shapes::ShapeRef.new(shape: FirewallRuleTypeDefinition)
@@ -1060,6 +1071,9 @@ module Aws::Route53Resolver
 
     OutpostResolverList.member = Shapes::ShapeRef.new(shape: OutpostResolver)
 
+    PartnerThreatProtectionConfig.add_member(:partner, Shapes::ShapeRef.new(shape: PartnerValue, required: true, location_name: "Partner"))
+    PartnerThreatProtectionConfig.struct_class = Types::PartnerThreatProtectionConfig
+
     ProtocolList.member = Shapes::ShapeRef.new(shape: Protocol)
 
     PutFirewallRuleGroupPolicyRequest.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
@@ -1202,6 +1216,10 @@ module Aws::Route53Resolver
 
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "Message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
+
+    SubscriptionInfo.add_member(:vendor_name, Shapes::ShapeRef.new(shape: VendorName, location_name: "VendorName"))
+    SubscriptionInfo.add_member(:product_id, Shapes::ShapeRef.new(shape: ProductId, location_name: "ProductId"))
+    SubscriptionInfo.struct_class = Types::SubscriptionInfo
 
     Tag.add_member(:key, Shapes::ShapeRef.new(shape: TagKey, required: true, location_name: "Key"))
     Tag.add_member(:value, Shapes::ShapeRef.new(shape: TagValue, required: true, location_name: "Value"))

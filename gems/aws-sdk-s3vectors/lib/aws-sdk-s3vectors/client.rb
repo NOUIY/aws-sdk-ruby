@@ -1378,8 +1378,8 @@ module Aws::S3Vectors
     # Performs an approximate nearest neighbor search query in a vector
     # index using a query vector. By default, it returns the keys of
     # approximate nearest neighbors. You can optionally include the computed
-    # distance (between the query vector and each vector in the response),
-    # the vector data, and metadata of each vector in the response.
+    # distance (between the query vector and each vector in the response)
+    # and metadata of each vector in the response.
     #
     # To specify the vector index, you can either use both the vector bucket
     # name and the vector index name, or use the vector index Amazon
@@ -1395,14 +1395,14 @@ module Aws::S3Vectors
     #     vector keys of approximate nearest neighbors and computed
     #     distances between these vectors. This permission is sufficient
     #     only when you don't set any metadata filters and don't request
-    #     vector data or metadata (by keeping the `returnMetadata` parameter
-    #     set to `false` or not specified).
+    #     metadata (by keeping the `returnMetadata` parameter set to `false`
+    #     or not specified).
     #
     #   * If you specify a metadata filter or set `returnMetadata` to true,
     #     you must have both `s3vectors:QueryVectors` and
     #     `s3vectors:GetVectors` permissions. The request fails with a `403
-    #     Forbidden error` if you request metadata filtering, vector data,
-    #     or metadata without the `s3vectors:GetVectors` permission.
+    #     Forbidden error` if you request metadata filtering or metadata
+    #     without the `s3vectors:GetVectors` permission.
     #
     # @option params [String] :vector_bucket_name
     #   The name of the vector bucket that contains the vector index.
@@ -1444,10 +1444,17 @@ module Aws::S3Vectors
     #   Indicates whether to include the computed distance in the response.
     #   The default value is `false`.
     #
+    # @option params [String] :next_token
+    #   Pagination token from a previous request. The value of this field is
+    #   empty for an initial request.
+    #
     # @return [Types::QueryVectorsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::QueryVectorsOutput#vectors #vectors} => Array&lt;Types::QueryOutputVector&gt;
     #   * {Types::QueryVectorsOutput#distance_metric #distance_metric} => String
+    #   * {Types::QueryVectorsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -1463,6 +1470,7 @@ module Aws::S3Vectors
     #     },
     #     return_metadata: false,
     #     return_distance: false,
+    #     next_token: "QueryVectorsNextToken",
     #   })
     #
     # @example Response structure
@@ -1471,6 +1479,7 @@ module Aws::S3Vectors
     #   resp.vectors[0].distance #=> Float
     #   resp.vectors[0].key #=> String
     #   resp.distance_metric #=> String, one of "euclidean", "cosine"
+    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3vectors-2025-07-15/QueryVectors AWS API Documentation
     #
@@ -1601,7 +1610,7 @@ module Aws::S3Vectors
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-s3vectors'
-      context[:gem_version] = '1.18.0'
+      context[:gem_version] = '1.19.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

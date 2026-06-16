@@ -1982,6 +1982,43 @@ module Aws::S3
     #
     #    </note>
     #
+    # @option params [String] :annotation_directive
+    #   Specifies whether you want to copy annotations from the source object
+    #   or exclude them. If this header isn't specified, `COPY` is the
+    #   default behavior.
+    #
+    #   Valid Values: `COPY | EXCLUDE`
+    #
+    #   You can specify this directive as either an HTTP header
+    #   (`x-amz-object-annotation-directive`) or as a query string parameter.
+    #   Use the query string form when generating presigned URLs that need to
+    #   control annotation copy behavior.
+    #
+    #   When set to `COPY`, you must have `s3:GetObjectAnnotation` permission
+    #   on the source object and `s3:PutObjectAnnotation` permission on the
+    #   destination. Each annotation copied is billed as a separate PUT
+    #   request. If annotations on the source are modified during the copy,
+    #   Amazon S3 returns a retryable error.
+    #
+    #   <note markdown="1"> For directory buckets, annotations are not supported. Use `EXCLUDE` to
+    #   copy objects to directory buckets without errors. If you specify
+    #   `COPY` for a directory bucket, the request returns HTTP 501 (Not
+    #   Implemented).
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> When you copy objects using multipart upload (for example, when the
+    #   Amazon Web Services CLI or Amazon Web Services SDKs use Transfer
+    #   Manager for objects larger than approximately 8 MB), annotations are
+    #   not copied by default. To include annotations, specify `--copy-props
+    #   default` in the Amazon Web Services CLI or the equivalent SDK
+    #   configuration. With this opt-in, the SDK reads source annotations,
+    #   completes the multipart upload, and then writes each annotation to the
+    #   destination. Between the upload completion and the last annotation
+    #   write, the destination object exists without all its annotations.
+    #
+    #    </note>
+    #
     # @option params [String] :server_side_encryption
     #   The server-side encryption algorithm used when storing this object in
     #   Amazon S3. Unrecognized or unsupported values won’t write a
@@ -2445,6 +2482,7 @@ module Aws::S3
     #     },
     #     metadata_directive: "COPY", # accepts COPY, REPLACE
     #     tagging_directive: "COPY", # accepts COPY, REPLACE
+    #     annotation_directive: "COPY", # accepts COPY, EXCLUDE
     #     server_side_encryption: "AES256", # accepts AES256, aws:fsx, aws:kms, aws:kms:dsse
     #     storage_class: "STANDARD", # accepts STANDARD, REDUCED_REDUNDANCY, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_IR, SNOW, EXPRESS_ONEZONE, FSX_OPENZFS, FSX_ONTAP
     #     website_redirect_location: "WebsiteRedirectLocation",
@@ -2924,9 +2962,14 @@ module Aws::S3
     #
     #   * `s3tables:PutTablePolicy`
     #
+    #   * `s3tables:PutTableBucketPolicy`
+    #
     #   * `s3tables:PutTableEncryption`
     #
     #   * `kms:DescribeKey`
+    #
+    #   * `iam:PassRole` - required if you include an
+    #     `AnnotationTableConfiguration` with an IAM role.
     #
     # The following operations are related to
     # `CreateBucketMetadataConfiguration`:
@@ -2938,6 +2981,15 @@ module Aws::S3
     # * [UpdateBucketMetadataInventoryTableConfiguration][7]
     #
     # * [UpdateBucketMetadataJournalTableConfiguration][8]
+    #
+    # * [UpdateBucketMetadataAnnotationTableConfiguration][9]
+    #
+    # If you include an `AnnotationTableConfiguration` with an IAM role, the
+    # role must have a trust policy that allows the Amazon S3 metadata
+    # service to assume it, and a permissions policy that grants the actions
+    # needed to read annotations from your bucket. The following examples
+    # show a trust policy and a permissions policy that you can adapt for
+    # your bucket and account.
     #
     # You must URL encode any signed header values that contain spaces. For
     # example, if your header value is `my file.txt`, containing two spaces
@@ -2953,6 +3005,7 @@ module Aws::S3
     # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataConfiguration.html
     # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataInventoryTableConfiguration.html
     # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html
+    # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataAnnotationTableConfiguration.html
     #
     # @option params [required, String] :bucket
     #   The general purpose bucket that you want to create the metadata
@@ -2996,6 +3049,14 @@ module Aws::S3
     #           sse_algorithm: "aws:kms", # required, accepts aws:kms, AES256
     #           kms_key_arn: "KmsKeyArn",
     #         },
+    #       },
+    #       annotation_table_configuration: {
+    #         configuration_state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #         encryption_configuration: {
+    #           sse_algorithm: "aws:kms", # required, accepts aws:kms, AES256
+    #           kms_key_arn: "KmsKeyArn",
+    #         },
+    #         role: "Role",
     #       },
     #     },
     #     expected_bucket_owner: "AccountId",
@@ -6105,6 +6166,110 @@ module Aws::S3
       req.send_request(options)
     end
 
+    # Deletes a specific annotation from an Amazon S3 object. Use the
+    # `x-amz-object-if-match` header to perform a conditional delete that
+    # only succeeds if the object's ETag matches the provided value,
+    # preventing race conditions during concurrent updates.
+    #
+    # Deleting an annotation is permanent. Annotations are not independently
+    # versioned, so there is no delete marker or way to recover a deleted
+    # annotation.
+    #
+    # To use this operation, you must have the `s3:DeleteObjectAnnotation`
+    # permission. If the object is protected by Object Lock in governance
+    # mode, you must also include the `x-amz-bypass-governance-retention`
+    # header.
+    #
+    # <note markdown="1"> Annotations are not supported by the following features: S3 Inventory
+    # Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon
+    # FSx, S3 on Outposts, and S3 Express One Zone (directory buckets).
+    #
+    #  </note>
+    #
+    # The following operations are related to `DeleteObjectAnnotation`:
+    #
+    # * [PutObjectAnnotation][1]
+    #
+    # * [GetObjectAnnotation][2]
+    #
+    # * [ListObjectAnnotations][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html
+    #
+    # @option params [required, String] :bucket
+    #   The name of the bucket that contains the object.
+    #
+    # @option params [required, String] :key
+    #   The object key.
+    #
+    # @option params [required, String] :annotation_name
+    #   The name of the annotation to delete. Annotation names are UTF-8
+    #   encoded and cannot start with `aws` or `s3` (case-insensitive).
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    #
+    # @option params [String] :version_id
+    #   The version ID of the object.
+    #
+    # @option params [String] :request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for the corresponding charges.
+    #   For information about downloading objects from Requester Pays buckets,
+    #   see [Downloading Objects in Requester Pays Buckets][1] in the *Amazon
+    #   S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #
+    # @option params [String] :expected_bucket_owner
+    #   The account ID of the expected bucket owner.
+    #
+    # @option params [String] :object_if_match
+    #   If specified, the operation only succeeds if the object's ETag
+    #   matches the provided value.
+    #
+    # @return [Types::DeleteObjectAnnotationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteObjectAnnotationOutput#object_version_id #object_version_id} => String
+    #   * {Types::DeleteObjectAnnotationOutput#request_charged #request_charged} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_object_annotation({
+    #     bucket: "BucketName", # required
+    #     key: "ObjectKey", # required
+    #     annotation_name: "AnnotationName", # required
+    #     version_id: "ObjectVersionId",
+    #     request_payer: "requester", # accepts requester
+    #     expected_bucket_owner: "AccountId",
+    #     object_if_match: "ObjectIfMatch",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.object_version_id #=> String
+    #   resp.request_charged #=> String, one of "requester"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectAnnotation AWS API Documentation
+    #
+    # @overload delete_object_annotation(params = {})
+    # @param [Hash] params ({})
+    def delete_object_annotation(params = {}, options = {})
+      req = build_request(:delete_object_annotation, params)
+      req.send_request(options)
+    end
+
     # <note markdown="1"> This operation is not supported for directory buckets.
     #
     #  </note>
@@ -8087,6 +8252,13 @@ module Aws::S3
     #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.inventory_table_configuration_result.error.error_message #=> String
     #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.inventory_table_configuration_result.table_name #=> String
     #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.inventory_table_configuration_result.table_arn #=> String
+    #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.annotation_table_configuration_result.configuration_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.annotation_table_configuration_result.table_status #=> String
+    #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.annotation_table_configuration_result.error.error_code #=> String
+    #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.annotation_table_configuration_result.error.error_message #=> String
+    #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.annotation_table_configuration_result.table_name #=> String
+    #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.annotation_table_configuration_result.table_arn #=> String
+    #   resp.get_bucket_metadata_configuration_result.metadata_configuration_result.annotation_table_configuration_result.role #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetadataConfiguration AWS API Documentation
     #
@@ -8444,18 +8616,18 @@ module Aws::S3
     #
     #   resp.topic_configuration.id #=> String
     #   resp.topic_configuration.events #=> Array
-    #   resp.topic_configuration.events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
-    #   resp.topic_configuration.event #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.topic_configuration.events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
+    #   resp.topic_configuration.event #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.topic_configuration.topic #=> String
     #   resp.queue_configuration.id #=> String
-    #   resp.queue_configuration.event #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.queue_configuration.event #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.queue_configuration.events #=> Array
-    #   resp.queue_configuration.events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.queue_configuration.events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.queue_configuration.queue #=> String
     #   resp.cloud_function_configuration.id #=> String
-    #   resp.cloud_function_configuration.event #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.cloud_function_configuration.event #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.cloud_function_configuration.events #=> Array
-    #   resp.cloud_function_configuration.events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.cloud_function_configuration.events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.cloud_function_configuration.cloud_function #=> String
     #   resp.cloud_function_configuration.invocation_role #=> String
     #
@@ -8557,7 +8729,7 @@ module Aws::S3
     #   resp.topic_configurations[0].id #=> String
     #   resp.topic_configurations[0].topic_arn #=> String
     #   resp.topic_configurations[0].events #=> Array
-    #   resp.topic_configurations[0].events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.topic_configurations[0].events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.topic_configurations[0].filter.key.filter_rules #=> Array
     #   resp.topic_configurations[0].filter.key.filter_rules[0].name #=> String, one of "prefix", "suffix"
     #   resp.topic_configurations[0].filter.key.filter_rules[0].value #=> String
@@ -8565,7 +8737,7 @@ module Aws::S3
     #   resp.queue_configurations[0].id #=> String
     #   resp.queue_configurations[0].queue_arn #=> String
     #   resp.queue_configurations[0].events #=> Array
-    #   resp.queue_configurations[0].events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.queue_configurations[0].events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.queue_configurations[0].filter.key.filter_rules #=> Array
     #   resp.queue_configurations[0].filter.key.filter_rules[0].name #=> String, one of "prefix", "suffix"
     #   resp.queue_configurations[0].filter.key.filter_rules[0].value #=> String
@@ -8573,7 +8745,7 @@ module Aws::S3
     #   resp.lambda_function_configurations[0].id #=> String
     #   resp.lambda_function_configurations[0].lambda_function_arn #=> String
     #   resp.lambda_function_configurations[0].events #=> Array
-    #   resp.lambda_function_configurations[0].events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete"
+    #   resp.lambda_function_configurations[0].events[0] #=> String, one of "s3:ReducedRedundancyLostObject", "s3:ObjectCreated:*", "s3:ObjectCreated:Put", "s3:ObjectCreated:Post", "s3:ObjectCreated:Copy", "s3:ObjectCreated:CompleteMultipartUpload", "s3:ObjectRemoved:*", "s3:ObjectRemoved:Delete", "s3:ObjectRemoved:DeleteMarkerCreated", "s3:ObjectRestore:*", "s3:ObjectRestore:Post", "s3:ObjectRestore:Completed", "s3:Replication:*", "s3:Replication:OperationFailedReplication", "s3:Replication:OperationNotTracked", "s3:Replication:OperationMissedThreshold", "s3:Replication:OperationReplicatedAfterThreshold", "s3:ObjectRestore:Delete", "s3:LifecycleTransition", "s3:IntelligentTiering", "s3:ObjectAcl:Put", "s3:LifecycleExpiration:*", "s3:LifecycleExpiration:Delete", "s3:LifecycleExpiration:DeleteMarkerCreated", "s3:ObjectTagging:*", "s3:ObjectTagging:Put", "s3:ObjectTagging:Delete", "s3:ObjectAnnotation:*", "s3:ObjectAnnotation:Put", "s3:ObjectAnnotation:Delete"
     #   resp.lambda_function_configurations[0].filter.key.filter_rules #=> Array
     #   resp.lambda_function_configurations[0].filter.key.filter_rules[0].name #=> String, one of "prefix", "suffix"
     #   resp.lambda_function_configurations[0].filter.key.filter_rules[0].value #=> String
@@ -10235,6 +10407,141 @@ module Aws::S3
     def get_object_acl(params = {}, options = {})
       req = build_request(:get_object_acl, params)
       req.send_request(options)
+    end
+
+    # Retrieves an annotation from an Amazon S3 object. To use this
+    # operation, you must have the `s3:GetObjectAnnotation` permission.
+    #
+    # If checksum mode is enabled via the `x-amz-checksum-mode` header,
+    # Amazon S3 returns the stored checksum in the response headers for
+    # client-side validation.
+    #
+    # <note markdown="1"> Annotations are not supported by the following features: S3 Inventory
+    # Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon
+    # FSx, S3 on Outposts, and S3 Express One Zone (directory buckets).
+    #
+    #  </note>
+    #
+    # The following operations are related to `GetObjectAnnotation`:
+    #
+    # * [PutObjectAnnotation][1]
+    #
+    # * [ListObjectAnnotations][2]
+    #
+    # * [DeleteObjectAnnotation][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html
+    #
+    # @option params [String, IO] :response_target
+    #   Where to write response data, file path, or IO object.
+    #
+    # @option params [required, String] :bucket
+    #   The name of the bucket that contains the object.
+    #
+    # @option params [required, String] :key
+    #   The object key.
+    #
+    # @option params [required, String] :annotation_name
+    #   The name of the annotation to retrieve.
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    #
+    # @option params [String] :version_id
+    #   The version ID of the object.
+    #
+    # @option params [String] :request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for the corresponding charges.
+    #   For information about downloading objects from Requester Pays buckets,
+    #   see [Downloading Objects in Requester Pays Buckets][1] in the *Amazon
+    #   S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #
+    # @option params [String] :expected_bucket_owner
+    #   The account ID of the expected bucket owner. If the bucket is owned by
+    #   a different account, the request fails with an HTTP 403 (Access
+    #   Denied) error.
+    #
+    # @option params [String] :checksum_mode
+    #   Set to `ENABLED` to validate the checksum of the annotation payload on
+    #   retrieval.
+    #
+    # @return [Types::GetObjectAnnotationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetObjectAnnotationOutput#annotation_payload #annotation_payload} => IO
+    #   * {Types::GetObjectAnnotationOutput#object_version_id #object_version_id} => String
+    #   * {Types::GetObjectAnnotationOutput#last_modified #last_modified} => Time
+    #   * {Types::GetObjectAnnotationOutput#content_length #content_length} => Integer
+    #   * {Types::GetObjectAnnotationOutput#etag #etag} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_crc32 #checksum_crc32} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_crc32c #checksum_crc32c} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_crc64nvme #checksum_crc64nvme} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_sha1 #checksum_sha1} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_sha256 #checksum_sha256} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_sha512 #checksum_sha512} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_md5 #checksum_md5} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_xxhash64 #checksum_xxhash64} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_xxhash3 #checksum_xxhash3} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_xxhash128 #checksum_xxhash128} => String
+    #   * {Types::GetObjectAnnotationOutput#checksum_type #checksum_type} => String
+    #   * {Types::GetObjectAnnotationOutput#server_side_encryption #server_side_encryption} => String
+    #   * {Types::GetObjectAnnotationOutput#request_charged #request_charged} => String
+    #   * {Types::GetObjectAnnotationOutput#replication_status #replication_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_object_annotation({
+    #     bucket: "BucketName", # required
+    #     key: "ObjectKey", # required
+    #     annotation_name: "AnnotationName", # required
+    #     version_id: "ObjectVersionId",
+    #     request_payer: "requester", # accepts requester
+    #     expected_bucket_owner: "AccountId",
+    #     checksum_mode: "ENABLED", # accepts ENABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.annotation_payload #=> IO
+    #   resp.object_version_id #=> String
+    #   resp.last_modified #=> Time
+    #   resp.content_length #=> Integer
+    #   resp.etag #=> String
+    #   resp.checksum_crc32 #=> String
+    #   resp.checksum_crc32c #=> String
+    #   resp.checksum_crc64nvme #=> String
+    #   resp.checksum_sha1 #=> String
+    #   resp.checksum_sha256 #=> String
+    #   resp.checksum_sha512 #=> String
+    #   resp.checksum_md5 #=> String
+    #   resp.checksum_xxhash64 #=> String
+    #   resp.checksum_xxhash3 #=> String
+    #   resp.checksum_xxhash128 #=> String
+    #   resp.checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
+    #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+    #   resp.request_charged #=> String, one of "requester"
+    #   resp.replication_status #=> String, one of "COMPLETE", "PENDING", "FAILED", "REPLICA", "COMPLETED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAnnotation AWS API Documentation
+    #
+    # @overload get_object_annotation(params = {})
+    # @param [Hash] params ({})
+    def get_object_annotation(params = {}, options = {}, &block)
+      req = build_request(:get_object_annotation, params)
+      req.send_request(options, &block)
     end
 
     # Retrieves all of the metadata from an object without returning the
@@ -13245,6 +13552,131 @@ module Aws::S3
     # @param [Hash] params ({})
     def list_multipart_uploads(params = {}, options = {})
       req = build_request(:list_multipart_uploads, params)
+      req.send_request(options)
+    end
+
+    # Lists the annotations attached to an Amazon S3 object. Results are
+    # paginated, with a maximum of 1,000 annotations per object. Use the
+    # `AnnotationPrefix` parameter to filter the results by name prefix.
+    #
+    # To use this operation, you must have the `s3:ListObjectAnnotations`
+    # permission.
+    #
+    # <note markdown="1"> Annotations are not supported by the following features: S3 Inventory
+    # Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon
+    # FSx, S3 on Outposts, and S3 Express One Zone (directory buckets).
+    #
+    #  </note>
+    #
+    # The following operations are related to `ListObjectAnnotations`:
+    #
+    # * [PutObjectAnnotation][1]
+    #
+    # * [GetObjectAnnotation][2]
+    #
+    # * [DeleteObjectAnnotation][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html
+    #
+    # @option params [required, String] :bucket
+    #   The name of the bucket that contains the object.
+    #
+    # @option params [required, String] :key
+    #   The object key.
+    #
+    # @option params [String] :version_id
+    #   The version ID of the object.
+    #
+    # @option params [Integer] :max_annotation_results
+    #   The maximum number of annotations to return in the response. Maximum
+    #   is 1,000.
+    #
+    # @option params [String] :annotation_prefix
+    #   Filter results to annotations whose name begins with the specified
+    #   prefix.
+    #
+    # @option params [String] :continuation_token
+    #   Continuation token returned by a previous request to retrieve the next
+    #   page.
+    #
+    # @option params [String] :request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for the corresponding charges.
+    #   For information about downloading objects from Requester Pays buckets,
+    #   see [Downloading Objects in Requester Pays Buckets][1] in the *Amazon
+    #   S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #
+    # @option params [String] :expected_bucket_owner
+    #   The account ID of the expected bucket owner.
+    #
+    # @return [Types::ListObjectAnnotationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListObjectAnnotationsOutput#annotations #annotations} => Array&lt;Types::AnnotationEntry&gt;
+    #   * {Types::ListObjectAnnotationsOutput#bucket #bucket} => String
+    #   * {Types::ListObjectAnnotationsOutput#key #key} => String
+    #   * {Types::ListObjectAnnotationsOutput#object_version_id #object_version_id} => String
+    #   * {Types::ListObjectAnnotationsOutput#annotation_prefix #annotation_prefix} => String
+    #   * {Types::ListObjectAnnotationsOutput#max_annotation_results #max_annotation_results} => Integer
+    #   * {Types::ListObjectAnnotationsOutput#annotation_count #annotation_count} => Integer
+    #   * {Types::ListObjectAnnotationsOutput#continuation_token #continuation_token} => String
+    #   * {Types::ListObjectAnnotationsOutput#next_continuation_token #next_continuation_token} => String
+    #   * {Types::ListObjectAnnotationsOutput#request_charged #request_charged} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_object_annotations({
+    #     bucket: "BucketName", # required
+    #     key: "ObjectKey", # required
+    #     version_id: "ObjectVersionId",
+    #     max_annotation_results: 1,
+    #     annotation_prefix: "AnnotationPrefix",
+    #     continuation_token: "Token",
+    #     request_payer: "requester", # accepts requester
+    #     expected_bucket_owner: "AccountId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.annotations #=> Array
+    #   resp.annotations[0].annotation_name #=> String
+    #   resp.annotations[0].last_modified #=> Time
+    #   resp.annotations[0].etag #=> String
+    #   resp.annotations[0].checksum_algorithm #=> Array
+    #   resp.annotations[0].checksum_algorithm[0] #=> String, one of "CRC32", "CRC32C", "SHA1", "SHA256", "CRC64NVME", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"
+    #   resp.annotations[0].size #=> Integer
+    #   resp.annotations[0].replication_status #=> String, one of "COMPLETE", "PENDING", "FAILED", "REPLICA", "COMPLETED"
+    #   resp.bucket #=> String
+    #   resp.key #=> String
+    #   resp.object_version_id #=> String
+    #   resp.annotation_prefix #=> String
+    #   resp.max_annotation_results #=> Integer
+    #   resp.annotation_count #=> Integer
+    #   resp.continuation_token #=> String
+    #   resp.next_continuation_token #=> String
+    #   resp.request_charged #=> String, one of "requester"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectAnnotations AWS API Documentation
+    #
+    # @overload list_object_annotations(params = {})
+    # @param [Hash] params ({})
+    def list_object_annotations(params = {}, options = {})
+      req = build_request(:list_object_annotations, params)
       req.send_request(options)
     end
 
@@ -16716,20 +17148,20 @@ module Aws::S3
     #     notification_configuration: { # required
     #       topic_configuration: {
     #         id: "NotificationId",
-    #         events: ["s3:ReducedRedundancyLostObject"], # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
-    #         event: "s3:ReducedRedundancyLostObject", # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
+    #         events: ["s3:ReducedRedundancyLostObject"], # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
+    #         event: "s3:ReducedRedundancyLostObject", # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
     #         topic: "TopicArn",
     #       },
     #       queue_configuration: {
     #         id: "NotificationId",
-    #         event: "s3:ReducedRedundancyLostObject", # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
-    #         events: ["s3:ReducedRedundancyLostObject"], # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
+    #         event: "s3:ReducedRedundancyLostObject", # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
+    #         events: ["s3:ReducedRedundancyLostObject"], # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
     #         queue: "QueueArn",
     #       },
     #       cloud_function_configuration: {
     #         id: "NotificationId",
-    #         event: "s3:ReducedRedundancyLostObject", # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
-    #         events: ["s3:ReducedRedundancyLostObject"], # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
+    #         event: "s3:ReducedRedundancyLostObject", # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
+    #         events: ["s3:ReducedRedundancyLostObject"], # accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
     #         cloud_function: "CloudFunction",
     #         invocation_role: "CloudFunctionInvocationRole",
     #       },
@@ -16871,7 +17303,7 @@ module Aws::S3
     #         {
     #           id: "NotificationId",
     #           topic_arn: "TopicArn", # required
-    #           events: ["s3:ReducedRedundancyLostObject"], # required, accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
+    #           events: ["s3:ReducedRedundancyLostObject"], # required, accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
     #           filter: {
     #             key: {
     #               filter_rules: [
@@ -16888,7 +17320,7 @@ module Aws::S3
     #         {
     #           id: "NotificationId",
     #           queue_arn: "QueueArn", # required
-    #           events: ["s3:ReducedRedundancyLostObject"], # required, accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
+    #           events: ["s3:ReducedRedundancyLostObject"], # required, accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
     #           filter: {
     #             key: {
     #               filter_rules: [
@@ -16905,7 +17337,7 @@ module Aws::S3
     #         {
     #           id: "NotificationId",
     #           lambda_function_arn: "LambdaFunctionArn", # required
-    #           events: ["s3:ReducedRedundancyLostObject"], # required, accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete
+    #           events: ["s3:ReducedRedundancyLostObject"], # required, accepts s3:ReducedRedundancyLostObject, s3:ObjectCreated:*, s3:ObjectCreated:Put, s3:ObjectCreated:Post, s3:ObjectCreated:Copy, s3:ObjectCreated:CompleteMultipartUpload, s3:ObjectRemoved:*, s3:ObjectRemoved:Delete, s3:ObjectRemoved:DeleteMarkerCreated, s3:ObjectRestore:*, s3:ObjectRestore:Post, s3:ObjectRestore:Completed, s3:Replication:*, s3:Replication:OperationFailedReplication, s3:Replication:OperationNotTracked, s3:Replication:OperationMissedThreshold, s3:Replication:OperationReplicatedAfterThreshold, s3:ObjectRestore:Delete, s3:LifecycleTransition, s3:IntelligentTiering, s3:ObjectAcl:Put, s3:LifecycleExpiration:*, s3:LifecycleExpiration:Delete, s3:LifecycleExpiration:DeleteMarkerCreated, s3:ObjectTagging:*, s3:ObjectTagging:Put, s3:ObjectTagging:Delete, s3:ObjectAnnotation:*, s3:ObjectAnnotation:Put, s3:ObjectAnnotation:Delete
     #           filter: {
     #             key: {
     #               filter_rules: [
@@ -19624,6 +20056,203 @@ module Aws::S3
       req.send_request(options)
     end
 
+    # Attaches an annotation to an Amazon S3 object. An annotation is a
+    # named payload of 1 byte to 1 MiB that you can associate with a
+    # specific object or object version. Each object can have up to 1,000
+    # annotations.
+    #
+    # For annotation naming rules and restrictions, see [Annotation naming
+    # guidelines][1] in the *Amazon S3 User Guide*.
+    #
+    # Annotations inherit the encryption of their parent object. For objects
+    # without server-side encryption, annotations are encrypted with SSE-S3
+    # (the default for new objects). Objects encrypted with SSE-C cannot
+    # have annotations.
+    #
+    # To use this operation, you must have the `s3:PutObjectAnnotation`
+    # permission. If the bucket has Requester Pays enabled, you must include
+    # the `x-amz-request-payer` header.
+    #
+    # <note markdown="1"> Annotations are not supported by the following features: S3 Inventory
+    # Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon
+    # FSx, S3 on Outposts, and S3 Express One Zone (directory buckets).
+    #
+    #  </note>
+    #
+    # The following operations are related to `PutObjectAnnotation`:
+    #
+    # * [GetObjectAnnotation][2]
+    #
+    # * [ListObjectAnnotations][3]
+    #
+    # * [DeleteObjectAnnotation][4]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/annotations-overview.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html
+    # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html
+    # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html
+    #
+    # @option params [required, String] :bucket
+    #   The name of the bucket that contains the object.
+    #
+    # @option params [required, String] :key
+    #   The object key.
+    #
+    # @option params [String] :version_id
+    #   The version ID of the object to attach the annotation to.
+    #
+    # @option params [required, String] :annotation_name
+    #   The name of the annotation.
+    #
+    #   Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    #
+    # @option params [required, String, StringIO, File] :annotation_payload
+    #   The annotation payload. Must be between 1 byte and 1 MiB in size, and
+    #   must be valid UTF-8 encoded text. If the payload contains invalid
+    #   UTF-8 bytes, the request fails with HTTP 415 (Unsupported Media Type).
+    #   To store binary data, encode the payload using Base64 before
+    #   uploading.
+    #
+    # @option params [String] :object_if_match
+    #   If specified, the operation only succeeds if the object's ETag
+    #   matches the provided value.
+    #
+    # @option params [String] :checksum_algorithm
+    #   The checksum algorithm to use. Supported values: `CRC32`, `CRC32C`,
+    #   `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`, `MD5`, `XXHASH64`, `XXHASH3`,
+    #   `XXHASH128`.
+    #
+    # @option params [String] :checksum_crc32
+    #   Base64-encoded CRC32 checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_crc32c
+    #   Base64-encoded CRC32C checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_crc64nvme
+    #   Base64-encoded CRC64NVME checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_sha1
+    #   Base64-encoded SHA1 checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_sha256
+    #   Base64-encoded SHA256 checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_sha512
+    #   Base64-encoded SHA512 checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_md5
+    #   Base64-encoded MD5 checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_xxhash64
+    #   Base64-encoded XXHASH64 checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_xxhash3
+    #   Base64-encoded XXHASH3 checksum of the annotation payload.
+    #
+    # @option params [String] :checksum_xxhash128
+    #   Base64-encoded XXHASH128 checksum of the annotation payload.
+    #
+    # @option params [String] :content_md5
+    #   Base64-encoded MD5 digest of the message.
+    #
+    # @option params [String] :request_payer
+    #   Confirms that the requester knows that they will be charged for the
+    #   request. Bucket owners need not specify this parameter in their
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for the corresponding charges.
+    #   For information about downloading objects from Requester Pays buckets,
+    #   see [Downloading Objects in Requester Pays Buckets][1] in the *Amazon
+    #   S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+    #
+    # @option params [String] :expected_bucket_owner
+    #   The account ID of the expected bucket owner. If the bucket is owned by
+    #   a different account, the request fails with an HTTP 403 (Access
+    #   Denied) error.
+    #
+    # @return [Types::PutObjectAnnotationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutObjectAnnotationOutput#key #key} => String
+    #   * {Types::PutObjectAnnotationOutput#annotation_name #annotation_name} => String
+    #   * {Types::PutObjectAnnotationOutput#object_version_id #object_version_id} => String
+    #   * {Types::PutObjectAnnotationOutput#etag #etag} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_crc32 #checksum_crc32} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_crc32c #checksum_crc32c} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_crc64nvme #checksum_crc64nvme} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_sha1 #checksum_sha1} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_sha256 #checksum_sha256} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_sha512 #checksum_sha512} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_md5 #checksum_md5} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_xxhash64 #checksum_xxhash64} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_xxhash3 #checksum_xxhash3} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_xxhash128 #checksum_xxhash128} => String
+    #   * {Types::PutObjectAnnotationOutput#checksum_type #checksum_type} => String
+    #   * {Types::PutObjectAnnotationOutput#server_side_encryption #server_side_encryption} => String
+    #   * {Types::PutObjectAnnotationOutput#request_charged #request_charged} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_object_annotation({
+    #     bucket: "BucketName", # required
+    #     key: "ObjectKey", # required
+    #     version_id: "ObjectVersionId",
+    #     annotation_name: "AnnotationName", # required
+    #     annotation_payload: source_file, # required
+    #     object_if_match: "ObjectIfMatch",
+    #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME, SHA512, MD5, XXHASH64, XXHASH3, XXHASH128
+    #     checksum_crc32: "ChecksumCRC32",
+    #     checksum_crc32c: "ChecksumCRC32C",
+    #     checksum_crc64nvme: "ChecksumCRC64NVME",
+    #     checksum_sha1: "ChecksumSHA1",
+    #     checksum_sha256: "ChecksumSHA256",
+    #     checksum_sha512: "ChecksumSHA512",
+    #     checksum_md5: "ChecksumMD5",
+    #     checksum_xxhash64: "ChecksumXXHASH64",
+    #     checksum_xxhash3: "ChecksumXXHASH3",
+    #     checksum_xxhash128: "ChecksumXXHASH128",
+    #     content_md5: "ContentMD5",
+    #     request_payer: "requester", # accepts requester
+    #     expected_bucket_owner: "AccountId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.key #=> String
+    #   resp.annotation_name #=> String
+    #   resp.object_version_id #=> String
+    #   resp.etag #=> String
+    #   resp.checksum_crc32 #=> String
+    #   resp.checksum_crc32c #=> String
+    #   resp.checksum_crc64nvme #=> String
+    #   resp.checksum_sha1 #=> String
+    #   resp.checksum_sha256 #=> String
+    #   resp.checksum_sha512 #=> String
+    #   resp.checksum_md5 #=> String
+    #   resp.checksum_xxhash64 #=> String
+    #   resp.checksum_xxhash3 #=> String
+    #   resp.checksum_xxhash128 #=> String
+    #   resp.checksum_type #=> String, one of "COMPOSITE", "FULL_OBJECT"
+    #   resp.server_side_encryption #=> String, one of "AES256", "aws:fsx", "aws:kms", "aws:kms:dsse"
+    #   resp.request_charged #=> String, one of "requester"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAnnotation AWS API Documentation
+    #
+    # @overload put_object_annotation(params = {})
+    # @param [Hash] params ({})
+    def put_object_annotation(params = {}, options = {})
+      req = build_request(:put_object_annotation, params)
+      req.send_request(options)
+    end
+
     # <note markdown="1"> This operation is not supported for directory buckets.
     #
     #  </note>
@@ -21301,6 +21930,81 @@ module Aws::S3
       req.handlers.add(Aws::Binary::DecodeHandler, priority: 95)
 
       req.send_request(options, &block)
+    end
+
+    # Updates the annotation table configuration for an Amazon S3 bucket's
+    # metadata configuration. Use this operation to enable or disable the
+    # annotation table, or to update its associated IAM role.
+    #
+    # An annotation table is a queryable Iceberg table that contains records
+    # of all annotations attached to objects in the bucket. To use this
+    # operation, the bucket must have an existing Amazon S3 Metadata
+    # configuration.
+    #
+    # To use this operation, you must have the
+    # `s3:UpdateBucketMetadataAnnotationTableConfiguration` permission. If
+    # you are specifying or changing the IAM role, you must also have
+    # `iam:PassRole` permission for the role.
+    #
+    # The IAM role must have a trust policy that allows the Amazon S3
+    # metadata service to assume it, and a permissions policy that grants
+    # the actions needed to read annotations from your bucket. The following
+    # examples show a trust policy and a permissions policy that you can
+    # adapt for your bucket and account.
+    #
+    # The following operations are related to
+    # `UpdateBucketMetadataAnnotationTableConfiguration`:
+    #
+    # * [CreateBucketMetadataConfiguration][1]
+    #
+    # * [GetBucketMetadataConfiguration][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html
+    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataConfiguration.html
+    #
+    # @option params [required, String] :bucket
+    #   The name of the bucket whose annotation table configuration to update.
+    #
+    # @option params [String] :content_md5
+    #   Base64-encoded MD5 digest of the message body.
+    #
+    # @option params [String] :checksum_algorithm
+    #   Checksum algorithm for the request payload.
+    #
+    # @option params [required, Types::AnnotationTableConfigurationUpdates] :annotation_table_configuration
+    #   The annotation table configuration updates to apply.
+    #
+    # @option params [String] :expected_bucket_owner
+    #   The account ID of the expected bucket owner.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_bucket_metadata_annotation_table_configuration({
+    #     bucket: "BucketName", # required
+    #     content_md5: "ContentMD5",
+    #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME, SHA512, MD5, XXHASH64, XXHASH3, XXHASH128
+    #     annotation_table_configuration: { # required
+    #       configuration_state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       encryption_configuration: {
+    #         sse_algorithm: "aws:kms", # required, accepts aws:kms, AES256
+    #         kms_key_arn: "KmsKeyArn",
+    #       },
+    #       role: "Role",
+    #     },
+    #     expected_bucket_owner: "AccountId",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UpdateBucketMetadataAnnotationTableConfiguration AWS API Documentation
+    #
+    # @overload update_bucket_metadata_annotation_table_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_bucket_metadata_annotation_table_configuration(params = {}, options = {})
+      req = build_request(:update_bucket_metadata_annotation_table_configuration, params)
+      req.send_request(options)
     end
 
     # Enables or disables a live inventory table for an S3 Metadata
@@ -23400,7 +24104,7 @@ module Aws::S3
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-s3'
-      context[:gem_version] = '1.225.1'
+      context[:gem_version] = '1.226.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

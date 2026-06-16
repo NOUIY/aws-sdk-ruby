@@ -19,6 +19,8 @@ module Aws
       end
       class DuplicateTagKeysException < ::Aws::Errors::ServiceError
       end
+      class LimitExceededException < ::Aws::Errors::ServiceError
+      end
       class TooManyTagsException < ::Aws::Errors::ServiceError
       end
     end

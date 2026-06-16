@@ -720,7 +720,7 @@ module Aws::PartnerCentralSelling
     #     contexts: [
     #       {
     #         id: "EngagementContextIdentifier",
-    #         type: "CustomerProject", # required, accepts CustomerProject, Lead
+    #         type: "CustomerProject", # required, accepts CustomerProject, Lead, ProspectingResult
     #         payload: {
     #           customer_project: {
     #             customer: {
@@ -736,6 +736,9 @@ module Aws::PartnerCentralSelling
     #             },
     #           },
     #           lead: {
+    #             insights: {
+    #               lead_readiness_score: "String",
+    #             },
     #             qualification_status: "LeadQualificationStatus",
     #             customer: { # required
     #               industry: "Aerospace", # accepts Aerospace, Agriculture, Automotive, Computers and Electronics, Consumer Goods, Education, Energy - Oil and Gas, Energy - Power and Utilities, Financial Services, Gaming, Government, Healthcare, Hospitality, Life Sciences, Manufacturing, Marketing and Advertising, Media and Entertainment, Mining, Non-Profit Organization, Professional Services, Real Estate and Construction, Retail, Software and Internet, Telecommunications, Transportation and Logistics, Travel, Wholesale and Distribution, Other
@@ -768,6 +771,34 @@ module Aws::PartnerCentralSelling
     #                 },
     #               },
     #             ],
+    #           },
+    #           prospecting_result: {
+    #             aws: {
+    #               start_time: Time.now,
+    #               end_time: Time.now,
+    #               task_id: "ProspectingTaskIdentifier",
+    #               task_arn: "TaskArn",
+    #               task_name: "TaskName",
+    #               customer: {
+    #                 account_name: "ProspectingAccountName",
+    #                 geo: "ProspectingGeo",
+    #                 region: "ProspectingRegion",
+    #                 sub_region: "ProspectingSubRegion",
+    #                 country: "US", # accepts US, AF, AX, AL, DZ, AS, AD, AO, AI, AQ, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BM, BT, BO, BQ, BA, BW, BV, BR, IO, BN, BG, BF, BI, KH, CM, CA, CV, KY, CF, TD, CL, CN, CX, CC, CO, KM, CG, CK, CR, CI, HR, CU, CW, CY, CZ, CD, DK, DJ, DM, DO, EC, EG, SV, GQ, ER, EE, ET, FK, FO, FJ, FI, FR, GF, PF, TF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HM, VA, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KR, KW, KG, LA, LV, LB, LS, LR, LY, LI, LT, LU, MO, MK, MG, MW, MY, MV, ML, MT, MH, MQ, MR, MU, YT, MX, FM, MD, MC, MN, ME, MS, MA, MZ, MM, NA, NR, NP, NL, AN, NC, NZ, NI, NE, NG, NU, NF, MP, NO, OM, PK, PW, PS, PA, PG, PY, PE, PH, PN, PL, PT, PR, QA, RE, RO, RU, RW, BL, SH, KN, LC, MF, PM, VC, WS, SM, ST, SA, SN, RS, SC, SL, SG, SX, SK, SI, SB, SO, ZA, GS, SS, ES, LK, SD, SR, SJ, SZ, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TK, TO, TT, TN, TR, TM, TC, TV, UG, UA, AE, GB, UM, UY, UZ, VU, VE, VN, VG, VI, WF, EH, YE, ZM, ZW
+    #                 industry: "Aerospace", # accepts Aerospace, Agriculture, Automotive, Computers and Electronics, Consumer Goods, Education, Energy - Oil and Gas, Energy - Power and Utilities, Financial Services, Gaming, Government, Healthcare, Hospitality, Life Sciences, Manufacturing, Marketing and Advertising, Media and Entertainment, Mining, Non-Profit Organization, Professional Services, Real Estate and Construction, Retail, Software and Internet, Telecommunications, Transportation and Logistics, Travel, Wholesale and Distribution, Other
+    #                 sub_industry: "ProspectingSubIndustry",
+    #                 segment: "ProspectingSegment",
+    #                 company_size: "ProspectingCompanySize",
+    #                 eligible_programs: ["String"],
+    #                 public_profile_summary: "ProspectingPublicProfileSummary",
+    #               },
+    #               insights: {
+    #                 marketplace_engagement_score: "EngagementScoreLevel",
+    #                 solution_score: "String",
+    #                 solution_category: "String",
+    #                 solution_sub_category: "String",
+    #               },
+    #             },
     #           },
     #         },
     #       },
@@ -843,7 +874,7 @@ module Aws::PartnerCentralSelling
     #     catalog: "CatalogIdentifier", # required
     #     engagement_identifier: "EngagementArnOrIdentifier", # required
     #     client_token: "ClientToken", # required
-    #     type: "CustomerProject", # required, accepts CustomerProject, Lead
+    #     type: "CustomerProject", # required, accepts CustomerProject, Lead, ProspectingResult
     #     payload: { # required
     #       customer_project: {
     #         customer: {
@@ -859,6 +890,9 @@ module Aws::PartnerCentralSelling
     #         },
     #       },
     #       lead: {
+    #         insights: {
+    #           lead_readiness_score: "String",
+    #         },
     #         qualification_status: "LeadQualificationStatus",
     #         customer: { # required
     #           industry: "Aerospace", # accepts Aerospace, Agriculture, Automotive, Computers and Electronics, Consumer Goods, Education, Energy - Oil and Gas, Energy - Power and Utilities, Financial Services, Gaming, Government, Healthcare, Hospitality, Life Sciences, Manufacturing, Marketing and Advertising, Media and Entertainment, Mining, Non-Profit Organization, Professional Services, Real Estate and Construction, Retail, Software and Internet, Telecommunications, Transportation and Logistics, Travel, Wholesale and Distribution, Other
@@ -891,6 +925,34 @@ module Aws::PartnerCentralSelling
     #             },
     #           },
     #         ],
+    #       },
+    #       prospecting_result: {
+    #         aws: {
+    #           start_time: Time.now,
+    #           end_time: Time.now,
+    #           task_id: "ProspectingTaskIdentifier",
+    #           task_arn: "TaskArn",
+    #           task_name: "TaskName",
+    #           customer: {
+    #             account_name: "ProspectingAccountName",
+    #             geo: "ProspectingGeo",
+    #             region: "ProspectingRegion",
+    #             sub_region: "ProspectingSubRegion",
+    #             country: "US", # accepts US, AF, AX, AL, DZ, AS, AD, AO, AI, AQ, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BM, BT, BO, BQ, BA, BW, BV, BR, IO, BN, BG, BF, BI, KH, CM, CA, CV, KY, CF, TD, CL, CN, CX, CC, CO, KM, CG, CK, CR, CI, HR, CU, CW, CY, CZ, CD, DK, DJ, DM, DO, EC, EG, SV, GQ, ER, EE, ET, FK, FO, FJ, FI, FR, GF, PF, TF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HM, VA, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KR, KW, KG, LA, LV, LB, LS, LR, LY, LI, LT, LU, MO, MK, MG, MW, MY, MV, ML, MT, MH, MQ, MR, MU, YT, MX, FM, MD, MC, MN, ME, MS, MA, MZ, MM, NA, NR, NP, NL, AN, NC, NZ, NI, NE, NG, NU, NF, MP, NO, OM, PK, PW, PS, PA, PG, PY, PE, PH, PN, PL, PT, PR, QA, RE, RO, RU, RW, BL, SH, KN, LC, MF, PM, VC, WS, SM, ST, SA, SN, RS, SC, SL, SG, SX, SK, SI, SB, SO, ZA, GS, SS, ES, LK, SD, SR, SJ, SZ, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TK, TO, TT, TN, TR, TM, TC, TV, UG, UA, AE, GB, UM, UY, UZ, VU, VE, VN, VG, VI, WF, EH, YE, ZM, ZW
+    #             industry: "Aerospace", # accepts Aerospace, Agriculture, Automotive, Computers and Electronics, Consumer Goods, Education, Energy - Oil and Gas, Energy - Power and Utilities, Financial Services, Gaming, Government, Healthcare, Hospitality, Life Sciences, Manufacturing, Marketing and Advertising, Media and Entertainment, Mining, Non-Profit Organization, Professional Services, Real Estate and Construction, Retail, Software and Internet, Telecommunications, Transportation and Logistics, Travel, Wholesale and Distribution, Other
+    #             sub_industry: "ProspectingSubIndustry",
+    #             segment: "ProspectingSegment",
+    #             company_size: "ProspectingCompanySize",
+    #             eligible_programs: ["String"],
+    #             public_profile_summary: "ProspectingPublicProfileSummary",
+    #           },
+    #           insights: {
+    #             marketplace_engagement_score: "EngagementScoreLevel",
+    #             solution_score: "String",
+    #             solution_category: "String",
+    #             solution_sub_category: "String",
+    #           },
+    #         },
     #       },
     #     },
     #   })
@@ -1593,6 +1655,7 @@ module Aws::PartnerCentralSelling
     #   * {Types::GetAwsOpportunitySummaryResponse#related_entity_ids #related_entity_ids} => Types::AwsOpportunityRelatedEntities
     #   * {Types::GetAwsOpportunitySummaryResponse#customer #customer} => Types::AwsOpportunityCustomer
     #   * {Types::GetAwsOpportunitySummaryResponse#project #project} => Types::AwsOpportunityProject
+    #   * {Types::GetAwsOpportunitySummaryResponse#cosell_motion #cosell_motion} => String
     #   * {Types::GetAwsOpportunitySummaryResponse#catalog #catalog} => String
     #
     # @example Request syntax with placeholder values
@@ -1658,6 +1721,13 @@ module Aws::PartnerCentralSelling
     #   resp.insights.aws_products_spend_insights_by_source.aws.aws_products[0].optimizations #=> Array
     #   resp.insights.aws_products_spend_insights_by_source.aws.aws_products[0].optimizations[0].description #=> String
     #   resp.insights.aws_products_spend_insights_by_source.aws.aws_products[0].optimizations[0].savings_amount #=> String
+    #   resp.insights.opportunity_quality.score #=> Integer
+    #   resp.insights.opportunity_quality.trend #=> String
+    #   resp.insights.recommendations #=> Array
+    #   resp.insights.recommendations[0].type #=> String
+    #   resp.insights.recommendations[0].details #=> String
+    #   resp.insights.recommendations[0].attributes #=> Hash
+    #   resp.insights.recommendations[0].attributes["String"] #=> String
     #   resp.involvement_type_change_reason #=> String, one of "Expansion Opportunity", "Change in Deal Information", "Customer Requested", "Technical Complexity", "Risk Mitigation"
     #   resp.related_entity_ids.aws_products #=> Array
     #   resp.related_entity_ids.aws_products[0] #=> String
@@ -1676,6 +1746,7 @@ module Aws::PartnerCentralSelling
     #   resp.project.expected_customer_spend[0].target_company #=> String
     #   resp.project.expected_customer_spend[0].estimation_url #=> String
     #   resp.project.aws_partition #=> String, one of "aws-eusc"
+    #   resp.cosell_motion #=> String
     #   resp.catalog #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/GetAwsOpportunitySummary AWS API Documentation
@@ -1730,7 +1801,7 @@ module Aws::PartnerCentralSelling
     #   resp.modified_by #=> String
     #   resp.contexts #=> Array
     #   resp.contexts[0].id #=> String
-    #   resp.contexts[0].type #=> String, one of "CustomerProject", "Lead"
+    #   resp.contexts[0].type #=> String, one of "CustomerProject", "Lead", "ProspectingResult"
     #   resp.contexts[0].payload.customer_project.customer.industry #=> String, one of "Aerospace", "Agriculture", "Automotive", "Computers and Electronics", "Consumer Goods", "Education", "Energy - Oil and Gas", "Energy - Power and Utilities", "Financial Services", "Gaming", "Government", "Healthcare", "Hospitality", "Life Sciences", "Manufacturing", "Marketing and Advertising", "Media and Entertainment", "Mining", "Non-Profit Organization", "Professional Services", "Real Estate and Construction", "Retail", "Software and Internet", "Telecommunications", "Transportation and Logistics", "Travel", "Wholesale and Distribution", "Other"
     #   resp.contexts[0].payload.customer_project.customer.company_name #=> String
     #   resp.contexts[0].payload.customer_project.customer.website_url #=> String
@@ -1738,6 +1809,7 @@ module Aws::PartnerCentralSelling
     #   resp.contexts[0].payload.customer_project.project.title #=> String
     #   resp.contexts[0].payload.customer_project.project.business_problem #=> String
     #   resp.contexts[0].payload.customer_project.project.target_completion_date #=> String
+    #   resp.contexts[0].payload.lead.insights.lead_readiness_score #=> String
     #   resp.contexts[0].payload.lead.qualification_status #=> String
     #   resp.contexts[0].payload.lead.customer.industry #=> String, one of "Aerospace", "Agriculture", "Automotive", "Computers and Electronics", "Consumer Goods", "Education", "Energy - Oil and Gas", "Energy - Power and Utilities", "Financial Services", "Gaming", "Government", "Healthcare", "Hospitality", "Life Sciences", "Manufacturing", "Marketing and Advertising", "Media and Entertainment", "Mining", "Non-Profit Organization", "Professional Services", "Real Estate and Construction", "Retail", "Software and Internet", "Telecommunications", "Transportation and Logistics", "Travel", "Wholesale and Distribution", "Other"
     #   resp.contexts[0].payload.lead.customer.company_name #=> String
@@ -1761,6 +1833,27 @@ module Aws::PartnerCentralSelling
     #   resp.contexts[0].payload.lead.interactions[0].contact.first_name #=> String
     #   resp.contexts[0].payload.lead.interactions[0].contact.last_name #=> String
     #   resp.contexts[0].payload.lead.interactions[0].contact.phone #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.start_time #=> Time
+    #   resp.contexts[0].payload.prospecting_result.aws.end_time #=> Time
+    #   resp.contexts[0].payload.prospecting_result.aws.task_id #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.task_arn #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.task_name #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.account_name #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.geo #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.region #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.sub_region #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.country #=> String, one of "US", "AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "CD", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MK", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "AN", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ", "SZ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "UM", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.industry #=> String, one of "Aerospace", "Agriculture", "Automotive", "Computers and Electronics", "Consumer Goods", "Education", "Energy - Oil and Gas", "Energy - Power and Utilities", "Financial Services", "Gaming", "Government", "Healthcare", "Hospitality", "Life Sciences", "Manufacturing", "Marketing and Advertising", "Media and Entertainment", "Mining", "Non-Profit Organization", "Professional Services", "Real Estate and Construction", "Retail", "Software and Internet", "Telecommunications", "Transportation and Logistics", "Travel", "Wholesale and Distribution", "Other"
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.sub_industry #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.segment #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.company_size #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.eligible_programs #=> Array
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.eligible_programs[0] #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.customer.public_profile_summary #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.insights.marketplace_engagement_score #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.insights.solution_score #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.insights.solution_category #=> String
+    #   resp.contexts[0].payload.prospecting_result.aws.insights.solution_sub_category #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/GetEngagement AWS API Documentation
     #
@@ -2017,6 +2110,61 @@ module Aws::PartnerCentralSelling
       req.send_request(options)
     end
 
+    # Retrieves the details and current status of a prospecting task
+    # previously started with `StartProspectingFromEngagementTask` to enable
+    # polling for completion and access to per-engagement processing
+    # results.
+    #
+    # @option params [required, String] :catalog
+    #   Specifies the catalog associated with the task. Specify `AWS` for
+    #   production environments and `Sandbox` for testing and development
+    #   purposes. The value must match the catalog used when the task was
+    #   created.
+    #
+    # @option params [required, String] :task_identifier
+    #   The unique identifier of the prospecting task to retrieve. This value
+    #   is returned in the `TaskId` field of the
+    #   `StartProspectingFromEngagementTask` response.
+    #
+    # @return [Types::GetProspectingFromEngagementTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetProspectingFromEngagementTaskResponse#task_id #task_id} => String
+    #   * {Types::GetProspectingFromEngagementTaskResponse#task_arn #task_arn} => String
+    #   * {Types::GetProspectingFromEngagementTaskResponse#task_name #task_name} => String
+    #   * {Types::GetProspectingFromEngagementTaskResponse#start_time #start_time} => Time
+    #   * {Types::GetProspectingFromEngagementTaskResponse#end_time #end_time} => Time
+    #   * {Types::GetProspectingFromEngagementTaskResponse#engagements #engagements} => Array&lt;Types::EngagementProspectingResult&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_prospecting_from_engagement_task({
+    #     catalog: "CatalogIdentifier", # required
+    #     task_identifier: "ProspectingTaskIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.task_id #=> String
+    #   resp.task_arn #=> String
+    #   resp.task_name #=> String
+    #   resp.start_time #=> Time
+    #   resp.end_time #=> Time
+    #   resp.engagements #=> Array
+    #   resp.engagements[0].engagement_identifier #=> String
+    #   resp.engagements[0].engagement_context_id #=> String
+    #   resp.engagements[0].status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"
+    #   resp.engagements[0].reason_code #=> String
+    #   resp.engagements[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/GetProspectingFromEngagementTask AWS API Documentation
+    #
+    # @overload get_prospecting_from_engagement_task(params = {})
+    # @param [Hash] params ({})
+    def get_prospecting_from_engagement_task(params = {}, options = {})
+      req = build_request(:get_prospecting_from_engagement_task, params)
+      req.send_request(options)
+    end
+
     # Use this action to retrieve a specific snapshot record.
     #
     # @option params [required, String] :catalog
@@ -2194,6 +2342,13 @@ module Aws::PartnerCentralSelling
     #   resp.payload.aws_opportunity_summary_full_view.insights.aws_products_spend_insights_by_source.aws.aws_products[0].optimizations #=> Array
     #   resp.payload.aws_opportunity_summary_full_view.insights.aws_products_spend_insights_by_source.aws.aws_products[0].optimizations[0].description #=> String
     #   resp.payload.aws_opportunity_summary_full_view.insights.aws_products_spend_insights_by_source.aws.aws_products[0].optimizations[0].savings_amount #=> String
+    #   resp.payload.aws_opportunity_summary_full_view.insights.opportunity_quality.score #=> Integer
+    #   resp.payload.aws_opportunity_summary_full_view.insights.opportunity_quality.trend #=> String
+    #   resp.payload.aws_opportunity_summary_full_view.insights.recommendations #=> Array
+    #   resp.payload.aws_opportunity_summary_full_view.insights.recommendations[0].type #=> String
+    #   resp.payload.aws_opportunity_summary_full_view.insights.recommendations[0].details #=> String
+    #   resp.payload.aws_opportunity_summary_full_view.insights.recommendations[0].attributes #=> Hash
+    #   resp.payload.aws_opportunity_summary_full_view.insights.recommendations[0].attributes["String"] #=> String
     #   resp.payload.aws_opportunity_summary_full_view.involvement_type_change_reason #=> String, one of "Expansion Opportunity", "Change in Deal Information", "Customer Requested", "Technical Complexity", "Risk Mitigation"
     #   resp.payload.aws_opportunity_summary_full_view.related_entity_ids.aws_products #=> Array
     #   resp.payload.aws_opportunity_summary_full_view.related_entity_ids.aws_products[0] #=> String
@@ -2212,6 +2367,7 @@ module Aws::PartnerCentralSelling
     #   resp.payload.aws_opportunity_summary_full_view.project.expected_customer_spend[0].target_company #=> String
     #   resp.payload.aws_opportunity_summary_full_view.project.expected_customer_spend[0].estimation_url #=> String
     #   resp.payload.aws_opportunity_summary_full_view.project.aws_partition #=> String, one of "aws-eusc"
+    #   resp.payload.aws_opportunity_summary_full_view.cosell_motion #=> String
     #   resp.target_member_accounts #=> Array
     #   resp.target_member_accounts[0] #=> String
     #
@@ -2778,8 +2934,8 @@ module Aws::PartnerCentralSelling
     #     catalog: "CatalogIdentifier", # required
     #     created_by: ["AwsAccount"],
     #     exclude_created_by: ["AwsAccount"],
-    #     context_types: ["CustomerProject"], # accepts CustomerProject, Lead
-    #     exclude_context_types: ["CustomerProject"], # accepts CustomerProject, Lead
+    #     context_types: ["CustomerProject"], # accepts CustomerProject, Lead, ProspectingResult
+    #     exclude_context_types: ["CustomerProject"], # accepts CustomerProject, Lead, ProspectingResult
     #     sort: {
     #       sort_order: "ASCENDING", # required, accepts ASCENDING, DESCENDING
     #       sort_by: "CreatedDate", # required, accepts CreatedDate
@@ -2801,7 +2957,7 @@ module Aws::PartnerCentralSelling
     #   resp.engagement_summary_list[0].modified_at #=> Time
     #   resp.engagement_summary_list[0].modified_by #=> String
     #   resp.engagement_summary_list[0].context_types #=> Array
-    #   resp.engagement_summary_list[0].context_types[0] #=> String, one of "CustomerProject", "Lead"
+    #   resp.engagement_summary_list[0].context_types[0] #=> String, one of "CustomerProject", "Lead", "ProspectingResult"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ListEngagements AWS API Documentation
@@ -3077,6 +3233,96 @@ module Aws::PartnerCentralSelling
     # @param [Hash] params ({})
     def list_opportunity_from_engagement_tasks(params = {}, options = {})
       req = build_request(:list_opportunity_from_engagement_tasks, params)
+      req.send_request(options)
+    end
+
+    # Lists all prospecting tasks initiated by the caller's account.
+    # Supports optional filters by task identifier, task name, or start time
+    # range. Results can be sorted using configurable options. The response
+    # is paginated. Use the `NextToken` value from each response to retrieve
+    # subsequent pages.
+    #
+    # @option params [required, String] :catalog
+    #   Specifies the catalog to list tasks from. Specify `AWS` for production
+    #   environments and `Sandbox` for testing and development purposes.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single page. If
+    #   additional results exist, the response includes a `NextToken` value
+    #   for retrieving the next page. If omitted, the API uses a
+    #   service-defined default page size.
+    #
+    # @option params [String] :next_token
+    #   The pagination token from a previous call to this API. Include this
+    #   value to retrieve the next page of results. If omitted, the first page
+    #   is returned.
+    #
+    # @option params [Array<String>] :task_identifier
+    #   Filters the results to include only the tasks with the specified
+    #   identifiers. Provide up to 10 task IDs to narrow the list to specific
+    #   tasks. If omitted, tasks are not filtered by identifier.
+    #
+    # @option params [Array<String>] :task_name
+    #   Filters the results to include only tasks with the specified names.
+    #   Provide up to 10 task names to narrow the list. If omitted, tasks are
+    #   not filtered by name.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :start_after
+    #   Filters tasks to include only those that started after the specified
+    #   timestamp. Use this with `StartBefore` to define a start-time range
+    #   for your query. The format follows ISO 8601 date-time notation.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :start_before
+    #   Filters tasks to include only those that started before the specified
+    #   timestamp. Use this with `StartAfter` to define a start-time range for
+    #   your query. The format follows ISO 8601 date-time notation.
+    #
+    # @option params [Types::ProspectingFromEngagementTaskSort] :sort
+    #   Specifies the field and order used to sort the returned tasks. If
+    #   omitted, tasks are returned in the default sort order.
+    #
+    # @return [Types::ListProspectingFromEngagementTasksResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListProspectingFromEngagementTasksResponse#next_token #next_token} => String
+    #   * {Types::ListProspectingFromEngagementTasksResponse#task_summaries #task_summaries} => Array&lt;Types::ProspectingTaskSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_prospecting_from_engagement_tasks({
+    #     catalog: "CatalogIdentifier", # required
+    #     max_results: 1,
+    #     next_token: "String",
+    #     task_identifier: ["ProspectingTaskIdentifier"],
+    #     task_name: ["TaskName"],
+    #     start_after: Time.now,
+    #     start_before: Time.now,
+    #     sort: {
+    #       sort_order: "ASCENDING", # required, accepts ASCENDING, DESCENDING
+    #       sort_by: "StartTime", # required, accepts StartTime, TaskName, FailedEngagementCount
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.task_summaries #=> Array
+    #   resp.task_summaries[0].task_id #=> String
+    #   resp.task_summaries[0].task_arn #=> String
+    #   resp.task_summaries[0].task_name #=> String
+    #   resp.task_summaries[0].start_time #=> Time
+    #   resp.task_summaries[0].end_time #=> Time
+    #   resp.task_summaries[0].total_engagement_count #=> Integer
+    #   resp.task_summaries[0].completed_engagement_count #=> Integer
+    #   resp.task_summaries[0].failed_engagement_count #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/ListProspectingFromEngagementTasks AWS API Documentation
+    #
+    # @overload list_prospecting_from_engagement_tasks(params = {})
+    # @param [Hash] params ({})
+    def list_prospecting_from_engagement_tasks(params = {}, options = {})
+      req = build_request(:list_prospecting_from_engagement_tasks, params)
       req.send_request(options)
     end
 
@@ -3677,6 +3923,74 @@ module Aws::PartnerCentralSelling
       req.send_request(options)
     end
 
+    # Starts a task to convert one or more engagement contexts into new
+    # prospecting leads. The task runs asynchronously. To poll for status,
+    # use `GetProspectingFromEngagementTask`, or use
+    # `ListProspectingFromEngagementTasks` to monitor multiple tasks.
+    #
+    # @option params [required, String] :catalog
+    #   Specifies the catalog in which the task is initiated. Specify `AWS`
+    #   for production environments and `Sandbox` for testing and development
+    #   purposes.
+    #
+    # @option params [required, Array<String>] :identifiers
+    #   The list of engagement identifiers to include in this prospecting
+    #   task. Each identifier must correspond to an existing engagement in the
+    #   specified catalog. Maximum of 100 identifiers per task.
+    #
+    # @option params [required, String] :task_name
+    #   A descriptive name for the task. This name helps identify the task in
+    #   list and get operations. The name must contain 1 to 128 characters.
+    #
+    # @option params [required, String] :client_token
+    #   A unique, case-sensitive identifier provided by the client to ensure
+    #   idempotency. Making the same request with the same `ClientToken`
+    #   returns the same response without creating a duplicate task.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::StartProspectingFromEngagementTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartProspectingFromEngagementTaskResponse#identifiers #identifiers} => Array&lt;String&gt;
+    #   * {Types::StartProspectingFromEngagementTaskResponse#task_name #task_name} => String
+    #   * {Types::StartProspectingFromEngagementTaskResponse#message #message} => String
+    #   * {Types::StartProspectingFromEngagementTaskResponse#reason_code #reason_code} => String
+    #   * {Types::StartProspectingFromEngagementTaskResponse#start_time #start_time} => Time
+    #   * {Types::StartProspectingFromEngagementTaskResponse#task_id #task_id} => String
+    #   * {Types::StartProspectingFromEngagementTaskResponse#task_arn #task_arn} => String
+    #   * {Types::StartProspectingFromEngagementTaskResponse#task_status #task_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_prospecting_from_engagement_task({
+    #     catalog: "CatalogIdentifier", # required
+    #     identifiers: ["EngagementIdentifier"], # required
+    #     task_name: "TaskName", # required
+    #     client_token: "ClientToken", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.identifiers #=> Array
+    #   resp.identifiers[0] #=> String
+    #   resp.task_name #=> String
+    #   resp.message #=> String
+    #   resp.reason_code #=> String
+    #   resp.start_time #=> Time
+    #   resp.task_id #=> String
+    #   resp.task_arn #=> String
+    #   resp.task_status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-selling-2022-07-26/StartProspectingFromEngagementTask AWS API Documentation
+    #
+    # @overload start_prospecting_from_engagement_task(params = {})
+    # @param [Hash] params ({})
+    def start_prospecting_from_engagement_task(params = {}, options = {})
+      req = build_request(:start_prospecting_from_engagement_task, params)
+      req.send_request(options)
+    end
+
     # Starts a resource snapshot job that has been previously created.
     #
     # @option params [required, String] :catalog
@@ -3903,7 +4217,7 @@ module Aws::PartnerCentralSelling
     #     engagement_identifier: "EngagementArnOrIdentifier", # required
     #     context_identifier: "EngagementContextIdentifier", # required
     #     engagement_last_modified_at: Time.now, # required
-    #     type: "CustomerProject", # required, accepts CustomerProject, Lead
+    #     type: "CustomerProject", # required, accepts CustomerProject, Lead, ProspectingResult
     #     payload: { # required
     #       lead: {
     #         qualification_status: "LeadQualificationStatus",
@@ -3936,6 +4250,9 @@ module Aws::PartnerCentralSelling
     #             phone: "PhoneNumber",
     #           },
     #         },
+    #         insights: {
+    #           lead_readiness_score: "String",
+    #         },
     #       },
     #       customer_project: {
     #         customer: {
@@ -3948,6 +4265,34 @@ module Aws::PartnerCentralSelling
     #           title: "EngagementCustomerProjectTitle", # required
     #           business_problem: "EngagementCustomerBusinessProblem", # required
     #           target_completion_date: "EngagementCustomerProjectDetailsTargetCompletionDateString", # required
+    #         },
+    #       },
+    #       prospecting_result: {
+    #         aws: {
+    #           start_time: Time.now,
+    #           end_time: Time.now,
+    #           task_id: "ProspectingTaskIdentifier",
+    #           task_arn: "TaskArn",
+    #           task_name: "TaskName",
+    #           customer: {
+    #             account_name: "ProspectingAccountName",
+    #             geo: "ProspectingGeo",
+    #             region: "ProspectingRegion",
+    #             sub_region: "ProspectingSubRegion",
+    #             country: "US", # accepts US, AF, AX, AL, DZ, AS, AD, AO, AI, AQ, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BM, BT, BO, BQ, BA, BW, BV, BR, IO, BN, BG, BF, BI, KH, CM, CA, CV, KY, CF, TD, CL, CN, CX, CC, CO, KM, CG, CK, CR, CI, HR, CU, CW, CY, CZ, CD, DK, DJ, DM, DO, EC, EG, SV, GQ, ER, EE, ET, FK, FO, FJ, FI, FR, GF, PF, TF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HM, VA, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KR, KW, KG, LA, LV, LB, LS, LR, LY, LI, LT, LU, MO, MK, MG, MW, MY, MV, ML, MT, MH, MQ, MR, MU, YT, MX, FM, MD, MC, MN, ME, MS, MA, MZ, MM, NA, NR, NP, NL, AN, NC, NZ, NI, NE, NG, NU, NF, MP, NO, OM, PK, PW, PS, PA, PG, PY, PE, PH, PN, PL, PT, PR, QA, RE, RO, RU, RW, BL, SH, KN, LC, MF, PM, VC, WS, SM, ST, SA, SN, RS, SC, SL, SG, SX, SK, SI, SB, SO, ZA, GS, SS, ES, LK, SD, SR, SJ, SZ, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TK, TO, TT, TN, TR, TM, TC, TV, UG, UA, AE, GB, UM, UY, UZ, VU, VE, VN, VG, VI, WF, EH, YE, ZM, ZW
+    #             industry: "Aerospace", # accepts Aerospace, Agriculture, Automotive, Computers and Electronics, Consumer Goods, Education, Energy - Oil and Gas, Energy - Power and Utilities, Financial Services, Gaming, Government, Healthcare, Hospitality, Life Sciences, Manufacturing, Marketing and Advertising, Media and Entertainment, Mining, Non-Profit Organization, Professional Services, Real Estate and Construction, Retail, Software and Internet, Telecommunications, Transportation and Logistics, Travel, Wholesale and Distribution, Other
+    #             sub_industry: "ProspectingSubIndustry",
+    #             segment: "ProspectingSegment",
+    #             company_size: "ProspectingCompanySize",
+    #             eligible_programs: ["String"],
+    #             public_profile_summary: "ProspectingPublicProfileSummary",
+    #           },
+    #           insights: {
+    #             marketplace_engagement_score: "EngagementScoreLevel",
+    #             solution_score: "String",
+    #             solution_category: "String",
+    #             solution_sub_category: "String",
+    #           },
     #         },
     #       },
     #     },
@@ -4213,7 +4558,7 @@ module Aws::PartnerCentralSelling
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-partnercentralselling'
-      context[:gem_version] = '1.34.0'
+      context[:gem_version] = '1.35.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
