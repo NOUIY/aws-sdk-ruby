@@ -1002,18 +1002,19 @@ module Aws::ECS
     CreateDaemonResponse.add_member(:deployment_arn, Shapes::ShapeRef.new(shape: String, location_name: "deploymentArn"))
     CreateDaemonResponse.struct_class = Types::CreateDaemonResponse
 
-    CreateExpressGatewayServiceRequest.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "executionRoleArn"))
+    CreateExpressGatewayServiceRequest.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: String, location_name: "executionRoleArn"))
     CreateExpressGatewayServiceRequest.add_member(:infrastructure_role_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "infrastructureRoleArn"))
     CreateExpressGatewayServiceRequest.add_member(:service_name, Shapes::ShapeRef.new(shape: String, location_name: "serviceName"))
     CreateExpressGatewayServiceRequest.add_member(:cluster, Shapes::ShapeRef.new(shape: String, location_name: "cluster"))
     CreateExpressGatewayServiceRequest.add_member(:health_check_path, Shapes::ShapeRef.new(shape: String, location_name: "healthCheckPath"))
-    CreateExpressGatewayServiceRequest.add_member(:primary_container, Shapes::ShapeRef.new(shape: ExpressGatewayContainer, required: true, location_name: "primaryContainer"))
+    CreateExpressGatewayServiceRequest.add_member(:primary_container, Shapes::ShapeRef.new(shape: ExpressGatewayContainer, location_name: "primaryContainer"))
     CreateExpressGatewayServiceRequest.add_member(:task_role_arn, Shapes::ShapeRef.new(shape: String, location_name: "taskRoleArn"))
     CreateExpressGatewayServiceRequest.add_member(:network_configuration, Shapes::ShapeRef.new(shape: ExpressGatewayServiceNetworkConfiguration, location_name: "networkConfiguration"))
     CreateExpressGatewayServiceRequest.add_member(:cpu, Shapes::ShapeRef.new(shape: String, location_name: "cpu"))
     CreateExpressGatewayServiceRequest.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
     CreateExpressGatewayServiceRequest.add_member(:scaling_target, Shapes::ShapeRef.new(shape: ExpressGatewayScalingTarget, location_name: "scalingTarget"))
     CreateExpressGatewayServiceRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
+    CreateExpressGatewayServiceRequest.add_member(:task_definition_arn, Shapes::ShapeRef.new(shape: String, location_name: "taskDefinitionArn"))
     CreateExpressGatewayServiceRequest.struct_class = Types::CreateExpressGatewayServiceRequest
 
     CreateExpressGatewayServiceResponse.add_member(:service, Shapes::ShapeRef.new(shape: ECSExpressGatewayService, location_name: "service"))
@@ -1686,6 +1687,7 @@ module Aws::ECS
     ExpressGatewayServiceConfiguration.add_member(:service_revision_arn, Shapes::ShapeRef.new(shape: String, location_name: "serviceRevisionArn"))
     ExpressGatewayServiceConfiguration.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: String, location_name: "executionRoleArn"))
     ExpressGatewayServiceConfiguration.add_member(:task_role_arn, Shapes::ShapeRef.new(shape: String, location_name: "taskRoleArn"))
+    ExpressGatewayServiceConfiguration.add_member(:task_definition_arn, Shapes::ShapeRef.new(shape: String, location_name: "taskDefinitionArn"))
     ExpressGatewayServiceConfiguration.add_member(:cpu, Shapes::ShapeRef.new(shape: String, location_name: "cpu"))
     ExpressGatewayServiceConfiguration.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
     ExpressGatewayServiceConfiguration.add_member(:network_configuration, Shapes::ShapeRef.new(shape: ExpressGatewayServiceNetworkConfiguration, location_name: "networkConfiguration"))
@@ -3045,6 +3047,7 @@ module Aws::ECS
     UpdateExpressGatewayServiceRequest.add_member(:cpu, Shapes::ShapeRef.new(shape: String, location_name: "cpu"))
     UpdateExpressGatewayServiceRequest.add_member(:memory, Shapes::ShapeRef.new(shape: String, location_name: "memory"))
     UpdateExpressGatewayServiceRequest.add_member(:scaling_target, Shapes::ShapeRef.new(shape: ExpressGatewayScalingTarget, location_name: "scalingTarget"))
+    UpdateExpressGatewayServiceRequest.add_member(:task_definition_arn, Shapes::ShapeRef.new(shape: String, location_name: "taskDefinitionArn"))
     UpdateExpressGatewayServiceRequest.struct_class = Types::UpdateExpressGatewayServiceRequest
 
     UpdateExpressGatewayServiceResponse.add_member(:service, Shapes::ShapeRef.new(shape: UpdatedExpressGatewayService, location_name: "service"))

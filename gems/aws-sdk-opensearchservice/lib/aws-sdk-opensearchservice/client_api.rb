@@ -2257,6 +2257,7 @@ module Aws::OpenSearchService
     UpdateApplicationRequest.add_member(:id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "id"))
     UpdateApplicationRequest.add_member(:data_sources, Shapes::ShapeRef.new(shape: DataSources, location_name: "dataSources"))
     UpdateApplicationRequest.add_member(:app_configs, Shapes::ShapeRef.new(shape: AppConfigs, location_name: "appConfigs"))
+    UpdateApplicationRequest.add_member(:iam_identity_center_options, Shapes::ShapeRef.new(shape: IamIdentityCenterOptionsInput, location_name: "iamIdentityCenterOptions"))
     UpdateApplicationRequest.struct_class = Types::UpdateApplicationRequest
 
     UpdateApplicationResponse.add_member(:id, Shapes::ShapeRef.new(shape: Id, location_name: "id"))

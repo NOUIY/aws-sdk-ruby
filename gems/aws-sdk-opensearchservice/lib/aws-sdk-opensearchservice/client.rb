@@ -5472,6 +5472,10 @@ module Aws::OpenSearchService
     # @option params [Array<Types::AppConfig>] :app_configs
     #   The configuration settings to modify for the OpenSearch application.
     #
+    # @option params [Types::IamIdentityCenterOptionsInput] :iam_identity_center_options
+    #   Configuration settings for integrating IAM Identity Center with the
+    #   OpenSearch application.
+    #
     # @return [Types::UpdateApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateApplicationResponse#id #id} => String
@@ -5500,6 +5504,11 @@ module Aws::OpenSearchService
     #         value: "AppConfigValue",
     #       },
     #     ],
+    #     iam_identity_center_options: {
+    #       enabled: false,
+    #       iam_identity_center_instance_arn: "ARN",
+    #       iam_role_for_identity_center_application_arn: "RoleArn",
+    #     },
     #   })
     #
     # @example Response structure
@@ -6591,7 +6600,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.102.0'
+      context[:gem_version] = '1.103.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

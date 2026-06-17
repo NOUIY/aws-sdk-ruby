@@ -621,50 +621,50 @@ module Aws::ComputeOptimizerAutomation
     #     criteria: {
     #       region: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       resource_arn: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_type: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_size_in_gib: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       estimated_monthly_savings: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1.0],
     #         },
     #       ],
     #       resource_tag: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           key: "StringCriteriaValue",
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       look_back_period_in_days: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       restart_needed: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
@@ -699,36 +699,36 @@ module Aws::ComputeOptimizerAutomation
     #   resp.recommended_action_types #=> Array
     #   resp.recommended_action_types[0] #=> String, one of "SnapshotAndDeleteUnattachedEbsVolume", "UpgradeEbsVolumeType"
     #   resp.criteria.region #=> Array
-    #   resp.criteria.region[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.region[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.region[0].values #=> Array
     #   resp.criteria.region[0].values[0] #=> String
     #   resp.criteria.resource_arn #=> Array
-    #   resp.criteria.resource_arn[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.resource_arn[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.resource_arn[0].values #=> Array
     #   resp.criteria.resource_arn[0].values[0] #=> String
     #   resp.criteria.ebs_volume_type #=> Array
-    #   resp.criteria.ebs_volume_type[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.ebs_volume_type[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.ebs_volume_type[0].values #=> Array
     #   resp.criteria.ebs_volume_type[0].values[0] #=> String
     #   resp.criteria.ebs_volume_size_in_gib #=> Array
-    #   resp.criteria.ebs_volume_size_in_gib[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.ebs_volume_size_in_gib[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.ebs_volume_size_in_gib[0].values #=> Array
     #   resp.criteria.ebs_volume_size_in_gib[0].values[0] #=> Integer
     #   resp.criteria.estimated_monthly_savings #=> Array
-    #   resp.criteria.estimated_monthly_savings[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.estimated_monthly_savings[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.estimated_monthly_savings[0].values #=> Array
     #   resp.criteria.estimated_monthly_savings[0].values[0] #=> Float
     #   resp.criteria.resource_tag #=> Array
-    #   resp.criteria.resource_tag[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.resource_tag[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.resource_tag[0].key #=> String
     #   resp.criteria.resource_tag[0].values #=> Array
     #   resp.criteria.resource_tag[0].values[0] #=> String
     #   resp.criteria.look_back_period_in_days #=> Array
-    #   resp.criteria.look_back_period_in_days[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.look_back_period_in_days[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.look_back_period_in_days[0].values #=> Array
     #   resp.criteria.look_back_period_in_days[0].values[0] #=> Integer
     #   resp.criteria.restart_needed #=> Array
-    #   resp.criteria.restart_needed[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.restart_needed[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.restart_needed[0].values #=> Array
     #   resp.criteria.restart_needed[0].values[0] #=> String
     #   resp.schedule.schedule_expression #=> String
@@ -935,36 +935,36 @@ module Aws::ComputeOptimizerAutomation
     #   resp.recommended_action_types #=> Array
     #   resp.recommended_action_types[0] #=> String, one of "SnapshotAndDeleteUnattachedEbsVolume", "UpgradeEbsVolumeType"
     #   resp.criteria.region #=> Array
-    #   resp.criteria.region[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.region[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.region[0].values #=> Array
     #   resp.criteria.region[0].values[0] #=> String
     #   resp.criteria.resource_arn #=> Array
-    #   resp.criteria.resource_arn[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.resource_arn[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.resource_arn[0].values #=> Array
     #   resp.criteria.resource_arn[0].values[0] #=> String
     #   resp.criteria.ebs_volume_type #=> Array
-    #   resp.criteria.ebs_volume_type[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.ebs_volume_type[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.ebs_volume_type[0].values #=> Array
     #   resp.criteria.ebs_volume_type[0].values[0] #=> String
     #   resp.criteria.ebs_volume_size_in_gib #=> Array
-    #   resp.criteria.ebs_volume_size_in_gib[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.ebs_volume_size_in_gib[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.ebs_volume_size_in_gib[0].values #=> Array
     #   resp.criteria.ebs_volume_size_in_gib[0].values[0] #=> Integer
     #   resp.criteria.estimated_monthly_savings #=> Array
-    #   resp.criteria.estimated_monthly_savings[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.estimated_monthly_savings[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.estimated_monthly_savings[0].values #=> Array
     #   resp.criteria.estimated_monthly_savings[0].values[0] #=> Float
     #   resp.criteria.resource_tag #=> Array
-    #   resp.criteria.resource_tag[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.resource_tag[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.resource_tag[0].key #=> String
     #   resp.criteria.resource_tag[0].values #=> Array
     #   resp.criteria.resource_tag[0].values[0] #=> String
     #   resp.criteria.look_back_period_in_days #=> Array
-    #   resp.criteria.look_back_period_in_days[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.look_back_period_in_days[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.look_back_period_in_days[0].values #=> Array
     #   resp.criteria.look_back_period_in_days[0].values[0] #=> Integer
     #   resp.criteria.restart_needed #=> Array
-    #   resp.criteria.restart_needed[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.restart_needed[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.restart_needed[0].values #=> Array
     #   resp.criteria.restart_needed[0].values[0] #=> String
     #   resp.schedule.schedule_expression #=> String
@@ -1304,50 +1304,50 @@ module Aws::ComputeOptimizerAutomation
     #     criteria: {
     #       region: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       resource_arn: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_type: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_size_in_gib: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       estimated_monthly_savings: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1.0],
     #         },
     #       ],
     #       resource_tag: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           key: "StringCriteriaValue",
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       look_back_period_in_days: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       restart_needed: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
@@ -1441,50 +1441,50 @@ module Aws::ComputeOptimizerAutomation
     #     criteria: {
     #       region: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       resource_arn: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_type: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_size_in_gib: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       estimated_monthly_savings: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1.0],
     #         },
     #       ],
     #       resource_tag: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           key: "StringCriteriaValue",
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       look_back_period_in_days: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       restart_needed: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
@@ -2015,50 +2015,50 @@ module Aws::ComputeOptimizerAutomation
     #     criteria: {
     #       region: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       resource_arn: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_type: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       ebs_volume_size_in_gib: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       estimated_monthly_savings: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1.0],
     #         },
     #       ],
     #       resource_tag: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           key: "StringCriteriaValue",
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
     #       look_back_period_in_days: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: [1],
     #         },
     #       ],
     #       restart_needed: [
     #         {
-    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals
+    #           comparison: "StringEquals", # accepts StringEquals, StringNotEquals, StringEqualsIgnoreCase, StringNotEqualsIgnoreCase, StringLike, StringNotLike, NumericEquals, NumericNotEquals, NumericLessThan, NumericLessThanEquals, NumericGreaterThan, NumericGreaterThanEquals, StringEqualsIfExists, StringNotEqualsIfExists, StringEqualsIgnoreCaseIfExists, StringNotEqualsIgnoreCaseIfExists, StringLikeIfExists, StringNotLikeIfExists, NumericEqualsIfExists, NumericNotEqualsIfExists, NumericLessThanIfExists, NumericLessThanEqualsIfExists, NumericGreaterThanIfExists, NumericGreaterThanEqualsIfExists
     #           values: ["StringCriteriaValue"],
     #         },
     #       ],
@@ -2086,36 +2086,36 @@ module Aws::ComputeOptimizerAutomation
     #   resp.recommended_action_types #=> Array
     #   resp.recommended_action_types[0] #=> String, one of "SnapshotAndDeleteUnattachedEbsVolume", "UpgradeEbsVolumeType"
     #   resp.criteria.region #=> Array
-    #   resp.criteria.region[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.region[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.region[0].values #=> Array
     #   resp.criteria.region[0].values[0] #=> String
     #   resp.criteria.resource_arn #=> Array
-    #   resp.criteria.resource_arn[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.resource_arn[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.resource_arn[0].values #=> Array
     #   resp.criteria.resource_arn[0].values[0] #=> String
     #   resp.criteria.ebs_volume_type #=> Array
-    #   resp.criteria.ebs_volume_type[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.ebs_volume_type[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.ebs_volume_type[0].values #=> Array
     #   resp.criteria.ebs_volume_type[0].values[0] #=> String
     #   resp.criteria.ebs_volume_size_in_gib #=> Array
-    #   resp.criteria.ebs_volume_size_in_gib[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.ebs_volume_size_in_gib[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.ebs_volume_size_in_gib[0].values #=> Array
     #   resp.criteria.ebs_volume_size_in_gib[0].values[0] #=> Integer
     #   resp.criteria.estimated_monthly_savings #=> Array
-    #   resp.criteria.estimated_monthly_savings[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.estimated_monthly_savings[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.estimated_monthly_savings[0].values #=> Array
     #   resp.criteria.estimated_monthly_savings[0].values[0] #=> Float
     #   resp.criteria.resource_tag #=> Array
-    #   resp.criteria.resource_tag[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.resource_tag[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.resource_tag[0].key #=> String
     #   resp.criteria.resource_tag[0].values #=> Array
     #   resp.criteria.resource_tag[0].values[0] #=> String
     #   resp.criteria.look_back_period_in_days #=> Array
-    #   resp.criteria.look_back_period_in_days[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.look_back_period_in_days[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.look_back_period_in_days[0].values #=> Array
     #   resp.criteria.look_back_period_in_days[0].values[0] #=> Integer
     #   resp.criteria.restart_needed #=> Array
-    #   resp.criteria.restart_needed[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals"
+    #   resp.criteria.restart_needed[0].comparison #=> String, one of "StringEquals", "StringNotEquals", "StringEqualsIgnoreCase", "StringNotEqualsIgnoreCase", "StringLike", "StringNotLike", "NumericEquals", "NumericNotEquals", "NumericLessThan", "NumericLessThanEquals", "NumericGreaterThan", "NumericGreaterThanEquals", "StringEqualsIfExists", "StringNotEqualsIfExists", "StringEqualsIgnoreCaseIfExists", "StringNotEqualsIgnoreCaseIfExists", "StringLikeIfExists", "StringNotLikeIfExists", "NumericEqualsIfExists", "NumericNotEqualsIfExists", "NumericLessThanIfExists", "NumericLessThanEqualsIfExists", "NumericGreaterThanIfExists", "NumericGreaterThanEqualsIfExists"
     #   resp.criteria.restart_needed[0].values #=> Array
     #   resp.criteria.restart_needed[0].values[0] #=> String
     #   resp.schedule.schedule_expression #=> String
@@ -2212,7 +2212,7 @@ module Aws::ComputeOptimizerAutomation
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-computeoptimizerautomation'
-      context[:gem_version] = '1.9.0'
+      context[:gem_version] = '1.10.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

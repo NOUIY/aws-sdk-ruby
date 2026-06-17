@@ -493,9 +493,14 @@ module Aws::ECS
     # [DescribeServiceDeployments][1] and inspect the `lifecycleHookDetails`
     # field.
     #
+    # For more information, see [Continuing Amazon ECS service
+    # deployments][2] in the *Amazon Elastic Container Service Developer
+    # Guide*.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceDeployments.html
+    # [2]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/continue-service-deployment.html
     #
     # @option params [required, String] :service_deployment_arn
     #   The ARN of the service deployment to continue or roll back.
@@ -531,7 +536,7 @@ module Aws::ECS
     #
     #   resp = client.continue_service_deployment({
     #     action: "CONTINUE", 
-    #     hook_id: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", 
+    #     hook_id: "ecs-pause-Xk7rT2mP9sLwQn4vB8fYd3hJ6gA1cE5iO0uR_ZpWq", 
     #     service_deployment_arn: "arn:aws:ecs:us-east-1:123456789012:service-deployment/MyCluster/MyService/r9i43YFjvgF_xlg7m2eJ1r", 
     #   })
     #
@@ -547,7 +552,7 @@ module Aws::ECS
     #
     #   resp = client.continue_service_deployment({
     #     action: "ROLLBACK", 
-    #     hook_id: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", 
+    #     hook_id: "ecs-pause-Xk7rT2mP9sLwQn4vB8fYd3hJ6gA1cE5iO0uR_ZpWq", 
     #     service_deployment_arn: "arn:aws:ecs:us-east-1:123456789012:service-deployment/MyCluster/MyService/r9i43YFjvgF_xlg7m2eJ1r", 
     #   })
     #
@@ -1326,7 +1331,7 @@ module Aws::ECS
     # Provide an execution role for task operations and an infrastructure
     # role for managing Amazon Web Services resources on your behalf.
     #
-    # @option params [required, String] :execution_role_arn
+    # @option params [String] :execution_role_arn
     #   The Amazon Resource Name (ARN) of the task execution role that grants
     #   the Amazon ECS container agent permission to make Amazon Web Services
     #   API calls on your behalf. This role is required for Amazon ECS to pull
@@ -1378,7 +1383,7 @@ module Aws::ECS
     #   check path must start with a forward slash and can include query
     #   parameters. Examples: `/health`, `/api/status`, `/ping?format=json`.
     #
-    # @option params [required, Types::ExpressGatewayContainer] :primary_container
+    # @option params [Types::ExpressGatewayContainer] :primary_container
     #   The primary container configuration for the Express service. This
     #   defines the main application container that will receive traffic from
     #   the Application Load Balancer.
@@ -1436,6 +1441,20 @@ module Aws::ECS
     #   and organize it. Each tag consists of a key and an optional value. You
     #   can apply up to 50 tags to a service.
     #
+    # @option params [String] :task_definition_arn
+    #   The Amazon Resource Name (ARN) of a task definition to use to create
+    #   the Express Gateway service. This allows you to manage your own task
+    #   definition, giving you more control over the service configuration
+    #   such as adding sidecar containers.
+    #
+    #   The task definition must have a container named `Main` with a single
+    #   TCP port mapping that includes a container port and port name. The
+    #   task definition must also have `FARGATE` compatibility.
+    #
+    #   If you provide a task definition ARN, you cannot also specify
+    #   `primaryContainer`, `executionRoleArn`, `taskRoleArn`, `cpu`, or
+    #   `memory`.
+    #
     # @return [Types::CreateExpressGatewayServiceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateExpressGatewayServiceResponse#service #service} => Types::ECSExpressGatewayService
@@ -1443,12 +1462,12 @@ module Aws::ECS
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_express_gateway_service({
-    #     execution_role_arn: "String", # required
+    #     execution_role_arn: "String",
     #     infrastructure_role_arn: "String", # required
     #     service_name: "String",
     #     cluster: "String",
     #     health_check_path: "String",
-    #     primary_container: { # required
+    #     primary_container: {
     #       image: "String", # required
     #       container_port: 1,
     #       aws_logs_configuration: {
@@ -1491,6 +1510,7 @@ module Aws::ECS
     #         value: "TagValue",
     #       },
     #     ],
+    #     task_definition_arn: "String",
     #   })
     #
     # @example Response structure
@@ -1506,6 +1526,7 @@ module Aws::ECS
     #   resp.service.active_configurations[0].service_revision_arn #=> String
     #   resp.service.active_configurations[0].execution_role_arn #=> String
     #   resp.service.active_configurations[0].task_role_arn #=> String
+    #   resp.service.active_configurations[0].task_definition_arn #=> String
     #   resp.service.active_configurations[0].cpu #=> String
     #   resp.service.active_configurations[0].memory #=> String
     #   resp.service.active_configurations[0].network_configuration.security_groups #=> Array
@@ -3674,6 +3695,7 @@ module Aws::ECS
     #   resp.service.active_configurations[0].service_revision_arn #=> String
     #   resp.service.active_configurations[0].execution_role_arn #=> String
     #   resp.service.active_configurations[0].task_role_arn #=> String
+    #   resp.service.active_configurations[0].task_definition_arn #=> String
     #   resp.service.active_configurations[0].cpu #=> String
     #   resp.service.active_configurations[0].memory #=> String
     #   resp.service.active_configurations[0].network_configuration.security_groups #=> Array
@@ -5951,6 +5973,7 @@ module Aws::ECS
     #   resp.service.active_configurations[0].service_revision_arn #=> String
     #   resp.service.active_configurations[0].execution_role_arn #=> String
     #   resp.service.active_configurations[0].task_role_arn #=> String
+    #   resp.service.active_configurations[0].task_definition_arn #=> String
     #   resp.service.active_configurations[0].cpu #=> String
     #   resp.service.active_configurations[0].memory #=> String
     #   resp.service.active_configurations[0].network_configuration.security_groups #=> Array
@@ -6097,7 +6120,7 @@ module Aws::ECS
     #         lifecycle_hook_details: [
     #           {
     #             expires_at: Time.parse("2026-05-06T17:00:00.000Z"), 
-    #             hook_id: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", 
+    #             hook_id: "ecs-pause-Xk7rT2mP9sLwQn4vB8fYd3hJ6gA1cE5iO0uR_ZpWq", 
     #             status: "AWAITING_ACTION", 
     #             target_type: "PAUSE", 
     #             timeout_action: "ROLLBACK", 
@@ -8372,7 +8395,7 @@ module Aws::ECS
     #
     # @option params [String] :cluster_arn
     #   The Amazon Resource Name (ARN) of the cluster to filter daemons by. If
-    #   not specified, daemons from all clusters are returned.
+    #   you do not specify a cluster, the default cluster is assumed.
     #
     # @option params [Array<String>] :capacity_provider_arns
     #   The Amazon Resource Names (ARNs) of the capacity providers to filter
@@ -10393,18 +10416,24 @@ module Aws::ECS
     #     your tags per resource limit.
     #
     # @option params [String] :pid_mode
-    #   The process namespace mode for the daemon. When set to `shared`, the
-    #   daemon shares the PID namespace with co-located tasks on the same
-    #   container instance, giving the daemon visibility into application
-    #   processes. When set to `none`, the daemon gets its own isolated PID
-    #   namespace. The default is `none`.
+    #   The PID namespace mode for the daemon. The valid values are `none` and
+    #   `shared`. The default is `none`.
+    #
+    #   If `none` is specified or no value is provided, the daemon runs with
+    #   its own PID namespace, isolated from other tasks. If `shared` is
+    #   specified, the daemon joins the host PID namespace, making it
+    #   accessible to non-daemon tasks that use `pidMode: "host"` or other
+    #   daemons that use `pidMode: "shared"`.
     #
     # @option params [String] :ipc_mode
-    #   The IPC namespace mode for the daemon. When set to `shared`, the
-    #   daemon shares the IPC namespace with co-located tasks on the same
-    #   container instance, allowing communication through POSIX shared
-    #   memory, semaphores, and message queues. When set to `none`, the daemon
-    #   gets its own isolated IPC namespace. The default is `none`.
+    #   The IPC namespace mode for the daemon. The valid values are `none` and
+    #   `shared`. The default is `none`.
+    #
+    #   If `none` is specified or no value is provided, the daemon runs with
+    #   its own IPC namespace, isolated from other tasks. If `shared` is
+    #   specified, the daemon joins the host IPC namespace, making it
+    #   accessible to non-daemon tasks that use `ipcMode: "host"` or other
+    #   daemons that use `ipcMode: "shared"`.
     #
     # @return [Types::RegisterDaemonTaskDefinitionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -14509,6 +14538,19 @@ module Aws::ECS
     # @option params [Types::ExpressGatewayScalingTarget] :scaling_target
     #   The auto-scaling configuration for the Express service.
     #
+    # @option params [String] :task_definition_arn
+    #   The Amazon Resource Name (ARN) of a task definition to use to update
+    #   the Express Gateway service. This allows you to manage your own task
+    #   definition, giving you more control over the service configuration
+    #   such as adding sidecar containers.
+    #
+    #   The task definition must have a container named `Main` with a single
+    #   TCP port mapping that includes a container port and port name. The
+    #   task definition must also have `FARGATE` compatibility.
+    #
+    #   If you provide a task definition ARN, you cannot also specify
+    #   `primaryContainer`, `taskRoleArn`, `cpu`, or `memory`.
+    #
     # @return [Types::UpdateExpressGatewayServiceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateExpressGatewayServiceResponse#service #service} => Types::UpdatedExpressGatewayService
@@ -14556,6 +14598,7 @@ module Aws::ECS
     #       auto_scaling_metric: "AVERAGE_CPU", # accepts AVERAGE_CPU, AVERAGE_MEMORY, REQUEST_COUNT_PER_TARGET
     #       auto_scaling_target_value: 1,
     #     },
+    #     task_definition_arn: "String",
     #   })
     #
     # @example Response structure
@@ -14568,6 +14611,7 @@ module Aws::ECS
     #   resp.service.target_configuration.service_revision_arn #=> String
     #   resp.service.target_configuration.execution_role_arn #=> String
     #   resp.service.target_configuration.task_role_arn #=> String
+    #   resp.service.target_configuration.task_definition_arn #=> String
     #   resp.service.target_configuration.cpu #=> String
     #   resp.service.target_configuration.memory #=> String
     #   resp.service.target_configuration.network_configuration.security_groups #=> Array
@@ -16028,7 +16072,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.236.0'
+      context[:gem_version] = '1.237.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

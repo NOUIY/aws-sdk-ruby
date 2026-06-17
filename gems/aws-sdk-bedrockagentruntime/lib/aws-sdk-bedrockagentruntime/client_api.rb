@@ -43,6 +43,56 @@ module Aws::BedrockAgentRuntime
     AgentId = Shapes::StringShape.new(name: 'AgentId')
     AgentTraces = Shapes::ListShape.new(name: 'AgentTraces')
     AgentVersion = Shapes::StringShape.new(name: 'AgentVersion')
+    AgenticRetrieveAction = Shapes::StructureShape.new(name: 'AgenticRetrieveAction')
+    AgenticRetrieveActionDetails = Shapes::StructureShape.new(name: 'AgenticRetrieveActionDetails')
+    AgenticRetrieveActions = Shapes::ListShape.new(name: 'AgenticRetrieveActions')
+    AgenticRetrieveBedrockGuardrailConfiguration = Shapes::StructureShape.new(name: 'AgenticRetrieveBedrockGuardrailConfiguration')
+    AgenticRetrieveBedrockGuardrailConfigurationGuardrailIdString = Shapes::StringShape.new(name: 'AgenticRetrieveBedrockGuardrailConfigurationGuardrailIdString')
+    AgenticRetrieveBedrockGuardrailConfigurationGuardrailVersionString = Shapes::StringShape.new(name: 'AgenticRetrieveBedrockGuardrailConfigurationGuardrailVersionString')
+    AgenticRetrieveBedrockRerankingConfiguration = Shapes::StructureShape.new(name: 'AgenticRetrieveBedrockRerankingConfiguration')
+    AgenticRetrieveBedrockRerankingModelConfiguration = Shapes::StructureShape.new(name: 'AgenticRetrieveBedrockRerankingModelConfiguration')
+    AgenticRetrieveCitation = Shapes::StructureShape.new(name: 'AgenticRetrieveCitation')
+    AgenticRetrieveCitationList = Shapes::ListShape.new(name: 'AgenticRetrieveCitationList')
+    AgenticRetrieveCitationReference = Shapes::StructureShape.new(name: 'AgenticRetrieveCitationReference')
+    AgenticRetrieveCitationReferenceList = Shapes::ListShape.new(name: 'AgenticRetrieveCitationReferenceList')
+    AgenticRetrieveConfiguration = Shapes::StructureShape.new(name: 'AgenticRetrieveConfiguration')
+    AgenticRetrieveConfigurationMaxAgentIterationInteger = Shapes::IntegerShape.new(name: 'AgenticRetrieveConfigurationMaxAgentIterationInteger')
+    AgenticRetrieveFailure = Shapes::StructureShape.new(name: 'AgenticRetrieveFailure')
+    AgenticRetrieveFailures = Shapes::ListShape.new(name: 'AgenticRetrieveFailures')
+    AgenticRetrieveFullDocExpansionDetails = Shapes::StructureShape.new(name: 'AgenticRetrieveFullDocExpansionDetails')
+    AgenticRetrieveGeneratedResponse = Shapes::StructureShape.new(name: 'AgenticRetrieveGeneratedResponse')
+    AgenticRetrieveGuardrailWarning = Shapes::StructureShape.new(name: 'AgenticRetrieveGuardrailWarning')
+    AgenticRetrieveMessage = Shapes::StructureShape.new(name: 'AgenticRetrieveMessage')
+    AgenticRetrieveMessageContent = Shapes::StructureShape.new(name: 'AgenticRetrieveMessageContent')
+    AgenticRetrieveMetadata = Shapes::MapShape.new(name: 'AgenticRetrieveMetadata')
+    AgenticRetrievePolicyConfiguration = Shapes::StructureShape.new(name: 'AgenticRetrievePolicyConfiguration')
+    AgenticRetrieveRerankingConfiguration = Shapes::StructureShape.new(name: 'AgenticRetrieveRerankingConfiguration')
+    AgenticRetrieveRerankingConfigurationType = Shapes::StringShape.new(name: 'AgenticRetrieveRerankingConfigurationType')
+    AgenticRetrieveRerankingModelType = Shapes::StringShape.new(name: 'AgenticRetrieveRerankingModelType')
+    AgenticRetrieveResponseEvent = Shapes::StructureShape.new(name: 'AgenticRetrieveResponseEvent')
+    AgenticRetrieveResultEvent = Shapes::StructureShape.new(name: 'AgenticRetrieveResultEvent')
+    AgenticRetrieveResultItem = Shapes::StructureShape.new(name: 'AgenticRetrieveResultItem')
+    AgenticRetrieveResults = Shapes::ListShape.new(name: 'AgenticRetrieveResults')
+    AgenticRetrieveSourceMetadata = Shapes::StructureShape.new(name: 'AgenticRetrieveSourceMetadata')
+    AgenticRetrieveSourceMetadataList = Shapes::ListShape.new(name: 'AgenticRetrieveSourceMetadataList')
+    AgenticRetrieveSourceRetriever = Shapes::StructureShape.new(name: 'AgenticRetrieveSourceRetriever')
+    AgenticRetrieveSourceRetrieverList = Shapes::ListShape.new(name: 'AgenticRetrieveSourceRetrieverList')
+    AgenticRetrieveStatus = Shapes::StringShape.new(name: 'AgenticRetrieveStatus')
+    AgenticRetrieveStep = Shapes::StringShape.new(name: 'AgenticRetrieveStep')
+    AgenticRetrieveStreamRequest = Shapes::StructureShape.new(name: 'AgenticRetrieveStreamRequest')
+    AgenticRetrieveStreamRequestMessagesList = Shapes::ListShape.new(name: 'AgenticRetrieveStreamRequestMessagesList')
+    AgenticRetrieveStreamRequestRetrieversList = Shapes::ListShape.new(name: 'AgenticRetrieveStreamRequestRetrieversList')
+    AgenticRetrieveStreamResponse = Shapes::StructureShape.new(name: 'AgenticRetrieveStreamResponse')
+    AgenticRetrieveStreamResponseOutput = Shapes::StructureShape.new(name: 'AgenticRetrieveStreamResponseOutput')
+    AgenticRetrieveTraceEvent = Shapes::StructureShape.new(name: 'AgenticRetrieveTraceEvent')
+    AgenticRetrieveTraceEventAttributes = Shapes::StructureShape.new(name: 'AgenticRetrieveTraceEventAttributes')
+    AgenticRetrieveTraceResultItem = Shapes::StructureShape.new(name: 'AgenticRetrieveTraceResultItem')
+    AgenticRetrieveTraceResults = Shapes::ListShape.new(name: 'AgenticRetrieveTraceResults')
+    AgenticRetrieveType = Shapes::StringShape.new(name: 'AgenticRetrieveType')
+    AgenticRetrieveWarning = Shapes::UnionShape.new(name: 'AgenticRetrieveWarning')
+    AgenticRetrieveWarningMessage = Shapes::StructureShape.new(name: 'AgenticRetrieveWarningMessage')
+    AgenticRetrieveWarnings = Shapes::ListShape.new(name: 'AgenticRetrieveWarnings')
+    AgenticRetriever = Shapes::StructureShape.new(name: 'AgenticRetriever')
     AnalyzePromptEvent = Shapes::StructureShape.new(name: 'AnalyzePromptEvent')
     ApiContentMap = Shapes::MapShape.new(name: 'ApiContentMap')
     ApiInvocationInput = Shapes::StructureShape.new(name: 'ApiInvocationInput')
@@ -57,6 +107,8 @@ module Aws::BedrockAgentRuntime
     AudioSegmentS3UriString = Shapes::StringShape.new(name: 'AudioSegmentS3UriString')
     BadGatewayException = Shapes::StructureShape.new(name: 'BadGatewayException')
     BasePromptTemplate = Shapes::StringShape.new(name: 'BasePromptTemplate')
+    BedrockFoundationModelConfiguration = Shapes::StructureShape.new(name: 'BedrockFoundationModelConfiguration')
+    BedrockFoundationModelModelConfiguration = Shapes::StructureShape.new(name: 'BedrockFoundationModelModelConfiguration')
     BedrockModelArn = Shapes::StringShape.new(name: 'BedrockModelArn')
     BedrockModelConfigurations = Shapes::StructureShape.new(name: 'BedrockModelConfigurations')
     BedrockRerankingConfiguration = Shapes::StructureShape.new(name: 'BedrockRerankingConfiguration')
@@ -102,6 +154,7 @@ module Aws::BedrockAgentRuntime
     CustomOrchestration = Shapes::StructureShape.new(name: 'CustomOrchestration')
     CustomOrchestrationTrace = Shapes::StructureShape.new(name: 'CustomOrchestrationTrace')
     CustomOrchestrationTraceEvent = Shapes::StructureShape.new(name: 'CustomOrchestrationTraceEvent')
+    DataSourceId = Shapes::StringShape.new(name: 'DataSourceId')
     DateTimestamp = Shapes::TimestampShape.new(name: 'DateTimestamp', timestampFormat: "iso8601")
     DeleteAgentMemoryRequest = Shapes::StructureShape.new(name: 'DeleteAgentMemoryRequest')
     DeleteAgentMemoryResponse = Shapes::StructureShape.new(name: 'DeleteAgentMemoryResponse')
@@ -109,6 +162,8 @@ module Aws::BedrockAgentRuntime
     DeleteSessionResponse = Shapes::StructureShape.new(name: 'DeleteSessionResponse')
     DependencyFailedException = Shapes::StructureShape.new(name: 'DependencyFailedException')
     Document = Shapes::DocumentShape.new(name: 'Document', document: true)
+    DocumentId = Shapes::StringShape.new(name: 'DocumentId')
+    DocumentOutputFormat = Shapes::StringShape.new(name: 'DocumentOutputFormat')
     Double = Shapes::FloatShape.new(name: 'Double')
     EndSessionRequest = Shapes::StructureShape.new(name: 'EndSessionRequest')
     EndSessionResponse = Shapes::StructureShape.new(name: 'EndSessionResponse')
@@ -195,6 +250,9 @@ module Aws::BedrockAgentRuntime
     FlowTraceNodeOutputFields = Shapes::ListShape.new(name: 'FlowTraceNodeOutputFields')
     FlowTraceNodeOutputNext = Shapes::StructureShape.new(name: 'FlowTraceNodeOutputNext')
     FlowTraceNodeOutputNextList = Shapes::ListShape.new(name: 'FlowTraceNodeOutputNextList')
+    FoundationModelConfiguration = Shapes::StructureShape.new(name: 'FoundationModelConfiguration')
+    FoundationModelConfigurationType = Shapes::StringShape.new(name: 'FoundationModelConfigurationType')
+    FoundationModelType = Shapes::StringShape.new(name: 'FoundationModelType')
     Function = Shapes::StringShape.new(name: 'Function')
     FunctionDefinition = Shapes::StructureShape.new(name: 'FunctionDefinition')
     FunctionDescription = Shapes::StringShape.new(name: 'FunctionDescription')
@@ -213,6 +271,8 @@ module Aws::BedrockAgentRuntime
     GenerationConfiguration = Shapes::StructureShape.new(name: 'GenerationConfiguration')
     GetAgentMemoryRequest = Shapes::StructureShape.new(name: 'GetAgentMemoryRequest')
     GetAgentMemoryResponse = Shapes::StructureShape.new(name: 'GetAgentMemoryResponse')
+    GetDocumentContentRequest = Shapes::StructureShape.new(name: 'GetDocumentContentRequest')
+    GetDocumentContentResponse = Shapes::StructureShape.new(name: 'GetDocumentContentResponse')
     GetExecutionFlowSnapshotRequest = Shapes::StructureShape.new(name: 'GetExecutionFlowSnapshotRequest')
     GetExecutionFlowSnapshotResponse = Shapes::StructureShape.new(name: 'GetExecutionFlowSnapshotResponse')
     GetFlowExecutionRequest = Shapes::StructureShape.new(name: 'GetFlowExecutionRequest')
@@ -314,6 +374,7 @@ module Aws::BedrockAgentRuntime
     KnowledgeBaseConfiguration = Shapes::StructureShape.new(name: 'KnowledgeBaseConfiguration')
     KnowledgeBaseConfigurations = Shapes::ListShape.new(name: 'KnowledgeBaseConfigurations')
     KnowledgeBaseId = Shapes::StringShape.new(name: 'KnowledgeBaseId')
+    KnowledgeBaseIdentifier = Shapes::StringShape.new(name: 'KnowledgeBaseIdentifier')
     KnowledgeBaseLookupInput = Shapes::StructureShape.new(name: 'KnowledgeBaseLookupInput')
     KnowledgeBaseLookupInputString = Shapes::StringShape.new(name: 'KnowledgeBaseLookupInputString')
     KnowledgeBaseLookupOutput = Shapes::StructureShape.new(name: 'KnowledgeBaseLookupOutput')
@@ -324,6 +385,7 @@ module Aws::BedrockAgentRuntime
     KnowledgeBaseRetrievalResult = Shapes::StructureShape.new(name: 'KnowledgeBaseRetrievalResult')
     KnowledgeBaseRetrievalResults = Shapes::ListShape.new(name: 'KnowledgeBaseRetrievalResults')
     KnowledgeBaseRetrieveAndGenerateConfiguration = Shapes::StructureShape.new(name: 'KnowledgeBaseRetrieveAndGenerateConfiguration')
+    KnowledgeBaseRetrieverConfiguration = Shapes::StructureShape.new(name: 'KnowledgeBaseRetrieverConfiguration')
     KnowledgeBaseVectorSearchConfiguration = Shapes::StructureShape.new(name: 'KnowledgeBaseVectorSearchConfiguration')
     KnowledgeBaseVectorSearchConfigurationNumberOfResultsInteger = Shapes::IntegerShape.new(name: 'KnowledgeBaseVectorSearchConfigurationNumberOfResultsInteger')
     KnowledgeBases = Shapes::ListShape.new(name: 'KnowledgeBases')
@@ -342,6 +404,13 @@ module Aws::BedrockAgentRuntime
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     Long = Shapes::IntegerShape.new(name: 'Long')
+    ManagedSearchBedrockRerankingConfiguration = Shapes::StructureShape.new(name: 'ManagedSearchBedrockRerankingConfiguration')
+    ManagedSearchBedrockRerankingConfigurationNumberOfRerankedResultsInteger = Shapes::IntegerShape.new(name: 'ManagedSearchBedrockRerankingConfigurationNumberOfRerankedResultsInteger')
+    ManagedSearchBedrockRerankingModelConfiguration = Shapes::StructureShape.new(name: 'ManagedSearchBedrockRerankingModelConfiguration')
+    ManagedSearchConfiguration = Shapes::StructureShape.new(name: 'ManagedSearchConfiguration')
+    ManagedSearchConfigurationNumberOfResultsInteger = Shapes::IntegerShape.new(name: 'ManagedSearchConfigurationNumberOfResultsInteger')
+    ManagedSearchRerankingConfiguration = Shapes::StructureShape.new(name: 'ManagedSearchRerankingConfiguration')
+    ManagedSearchRerankingConfigurationType = Shapes::StringShape.new(name: 'ManagedSearchRerankingConfigurationType')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MaxTokens = Shapes::IntegerShape.new(name: 'MaxTokens')
     MaximumLength = Shapes::IntegerShape.new(name: 'MaximumLength')
@@ -422,6 +491,7 @@ module Aws::BedrockAgentRuntime
     PreProcessingModelInvocationOutput = Shapes::StructureShape.new(name: 'PreProcessingModelInvocationOutput')
     PreProcessingParsedResponse = Shapes::StructureShape.new(name: 'PreProcessingParsedResponse')
     PreProcessingTrace = Shapes::UnionShape.new(name: 'PreProcessingTrace')
+    PresignedUrl = Shapes::StringShape.new(name: 'PresignedUrl')
     PromptConfiguration = Shapes::StructureShape.new(name: 'PromptConfiguration')
     PromptConfigurations = Shapes::ListShape.new(name: 'PromptConfigurations')
     PromptCreationConfigurations = Shapes::StructureShape.new(name: 'PromptCreationConfigurations')
@@ -470,14 +540,18 @@ module Aws::BedrockAgentRuntime
     RerankingConfigurationType = Shapes::StringShape.new(name: 'RerankingConfigurationType')
     RerankingMetadataSelectionMode = Shapes::StringShape.new(name: 'RerankingMetadataSelectionMode')
     RerankingMetadataSelectiveModeConfiguration = Shapes::UnionShape.new(name: 'RerankingMetadataSelectiveModeConfiguration')
+    RerankingModelType = Shapes::StringShape.new(name: 'RerankingModelType')
     ResourceDescription = Shapes::StringShape.new(name: 'ResourceDescription')
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResponseBody = Shapes::MapShape.new(name: 'ResponseBody')
     ResponseState = Shapes::StringShape.new(name: 'ResponseState')
     ResponseStream = Shapes::StructureShape.new(name: 'ResponseStream')
+    RetrievalContent = Shapes::StructureShape.new(name: 'RetrievalContent')
     RetrievalFilter = Shapes::UnionShape.new(name: 'RetrievalFilter')
     RetrievalFilterList = Shapes::ListShape.new(name: 'RetrievalFilterList')
+    RetrievalOverrides = Shapes::StructureShape.new(name: 'RetrievalOverrides')
+    RetrievalOverridesMaxNumberOfResultsInteger = Shapes::IntegerShape.new(name: 'RetrievalOverridesMaxNumberOfResultsInteger')
     RetrievalResultConfluenceLocation = Shapes::StructureShape.new(name: 'RetrievalResultConfluenceLocation')
     RetrievalResultContent = Shapes::StructureShape.new(name: 'RetrievalResultContent')
     RetrievalResultContentColumn = Shapes::StructureShape.new(name: 'RetrievalResultContentColumn')
@@ -485,12 +559,14 @@ module Aws::BedrockAgentRuntime
     RetrievalResultContentRow = Shapes::ListShape.new(name: 'RetrievalResultContentRow')
     RetrievalResultContentType = Shapes::StringShape.new(name: 'RetrievalResultContentType')
     RetrievalResultCustomDocumentLocation = Shapes::StructureShape.new(name: 'RetrievalResultCustomDocumentLocation')
+    RetrievalResultGoogleDriveLocation = Shapes::StructureShape.new(name: 'RetrievalResultGoogleDriveLocation')
     RetrievalResultKendraDocumentLocation = Shapes::StructureShape.new(name: 'RetrievalResultKendraDocumentLocation')
     RetrievalResultLocation = Shapes::StructureShape.new(name: 'RetrievalResultLocation')
     RetrievalResultLocationType = Shapes::StringShape.new(name: 'RetrievalResultLocationType')
     RetrievalResultMetadata = Shapes::MapShape.new(name: 'RetrievalResultMetadata')
     RetrievalResultMetadataKey = Shapes::StringShape.new(name: 'RetrievalResultMetadataKey')
     RetrievalResultMetadataValue = Shapes::DocumentShape.new(name: 'RetrievalResultMetadataValue', document: true)
+    RetrievalResultOneDriveLocation = Shapes::StructureShape.new(name: 'RetrievalResultOneDriveLocation')
     RetrievalResultS3Location = Shapes::StructureShape.new(name: 'RetrievalResultS3Location')
     RetrievalResultSalesforceLocation = Shapes::StructureShape.new(name: 'RetrievalResultSalesforceLocation')
     RetrievalResultSharePointLocation = Shapes::StructureShape.new(name: 'RetrievalResultSharePointLocation')
@@ -512,6 +588,7 @@ module Aws::BedrockAgentRuntime
     RetrieveResponse = Shapes::StructureShape.new(name: 'RetrieveResponse')
     RetrievedReference = Shapes::StructureShape.new(name: 'RetrievedReference')
     RetrievedReferences = Shapes::ListShape.new(name: 'RetrievedReferences')
+    RetrieverConfiguration = Shapes::UnionShape.new(name: 'RetrieverConfiguration')
     ReturnControlInvocationResults = Shapes::ListShape.new(name: 'ReturnControlInvocationResults')
     ReturnControlPayload = Shapes::StructureShape.new(name: 'ReturnControlPayload')
     ReturnControlResults = Shapes::StructureShape.new(name: 'ReturnControlResults')
@@ -585,6 +662,7 @@ module Aws::BedrockAgentRuntime
     UpdateSessionRequest = Shapes::StructureShape.new(name: 'UpdateSessionRequest')
     UpdateSessionResponse = Shapes::StructureShape.new(name: 'UpdateSessionResponse')
     Usage = Shapes::StructureShape.new(name: 'Usage')
+    UserContext = Shapes::StructureShape.new(name: 'UserContext')
     Uuid = Shapes::StringShape.new(name: 'Uuid')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     VectorSearchBedrockRerankingConfiguration = Shapes::StructureShape.new(name: 'VectorSearchBedrockRerankingConfiguration')
@@ -670,6 +748,178 @@ module Aws::BedrockAgentRuntime
 
     AgentTraces.member = Shapes::ShapeRef.new(shape: TracePart, event: true)
 
+    AgenticRetrieveAction.add_member(:full_document_expansion, Shapes::ShapeRef.new(shape: AgenticRetrieveFullDocExpansionDetails, location_name: "fullDocumentExpansion"))
+    AgenticRetrieveAction.add_member(:retrieve, Shapes::ShapeRef.new(shape: AgenticRetrieveActionDetails, location_name: "retrieve"))
+    AgenticRetrieveAction.struct_class = Types::AgenticRetrieveAction
+
+    AgenticRetrieveActionDetails.add_member(:input_query, Shapes::ShapeRef.new(shape: AgenticRetrieveMessageContent, required: true, location_name: "inputQuery"))
+    AgenticRetrieveActionDetails.add_member(:source_retrievers, Shapes::ShapeRef.new(shape: AgenticRetrieveSourceRetrieverList, required: true, location_name: "sourceRetrievers"))
+    AgenticRetrieveActionDetails.struct_class = Types::AgenticRetrieveActionDetails
+
+    AgenticRetrieveActions.member = Shapes::ShapeRef.new(shape: AgenticRetrieveAction)
+
+    AgenticRetrieveBedrockGuardrailConfiguration.add_member(:guardrail_id, Shapes::ShapeRef.new(shape: AgenticRetrieveBedrockGuardrailConfigurationGuardrailIdString, required: true, location_name: "guardrailId"))
+    AgenticRetrieveBedrockGuardrailConfiguration.add_member(:guardrail_version, Shapes::ShapeRef.new(shape: AgenticRetrieveBedrockGuardrailConfigurationGuardrailVersionString, required: true, location_name: "guardrailVersion"))
+    AgenticRetrieveBedrockGuardrailConfiguration.struct_class = Types::AgenticRetrieveBedrockGuardrailConfiguration
+
+    AgenticRetrieveBedrockRerankingConfiguration.add_member(:model_configuration, Shapes::ShapeRef.new(shape: AgenticRetrieveBedrockRerankingModelConfiguration, required: true, location_name: "modelConfiguration"))
+    AgenticRetrieveBedrockRerankingConfiguration.struct_class = Types::AgenticRetrieveBedrockRerankingConfiguration
+
+    AgenticRetrieveBedrockRerankingModelConfiguration.add_member(:model_arn, Shapes::ShapeRef.new(shape: BedrockModelArn, required: true, location_name: "modelArn"))
+    AgenticRetrieveBedrockRerankingModelConfiguration.struct_class = Types::AgenticRetrieveBedrockRerankingModelConfiguration
+
+    AgenticRetrieveCitation.add_member(:end_index, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "endIndex"))
+    AgenticRetrieveCitation.add_member(:references, Shapes::ShapeRef.new(shape: AgenticRetrieveCitationReferenceList, required: true, location_name: "references"))
+    AgenticRetrieveCitation.add_member(:start_index, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "startIndex"))
+    AgenticRetrieveCitation.struct_class = Types::AgenticRetrieveCitation
+
+    AgenticRetrieveCitationList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveCitation)
+
+    AgenticRetrieveCitationReference.add_member(:result_index, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "resultIndex"))
+    AgenticRetrieveCitationReference.struct_class = Types::AgenticRetrieveCitationReference
+
+    AgenticRetrieveCitationReferenceList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveCitationReference)
+
+    AgenticRetrieveConfiguration.add_member(:foundation_model_configuration, Shapes::ShapeRef.new(shape: FoundationModelConfiguration, location_name: "foundationModelConfiguration"))
+    AgenticRetrieveConfiguration.add_member(:foundation_model_type, Shapes::ShapeRef.new(shape: FoundationModelType, location_name: "foundationModelType"))
+    AgenticRetrieveConfiguration.add_member(:max_agent_iteration, Shapes::ShapeRef.new(shape: AgenticRetrieveConfigurationMaxAgentIterationInteger, location_name: "maxAgentIteration"))
+    AgenticRetrieveConfiguration.add_member(:reranking_configuration, Shapes::ShapeRef.new(shape: AgenticRetrieveRerankingConfiguration, location_name: "rerankingConfiguration"))
+    AgenticRetrieveConfiguration.add_member(:reranking_model_type, Shapes::ShapeRef.new(shape: AgenticRetrieveRerankingModelType, location_name: "rerankingModelType"))
+    AgenticRetrieveConfiguration.struct_class = Types::AgenticRetrieveConfiguration
+
+    AgenticRetrieveFailure.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    AgenticRetrieveFailure.struct_class = Types::AgenticRetrieveFailure
+
+    AgenticRetrieveFailures.member = Shapes::ShapeRef.new(shape: AgenticRetrieveFailure)
+
+    AgenticRetrieveFullDocExpansionDetails.add_member(:document_id, Shapes::ShapeRef.new(shape: String, location_name: "documentId"))
+    AgenticRetrieveFullDocExpansionDetails.add_member(:source_retriever, Shapes::ShapeRef.new(shape: AgenticRetrieveSourceRetriever, location_name: "sourceRetriever"))
+    AgenticRetrieveFullDocExpansionDetails.struct_class = Types::AgenticRetrieveFullDocExpansionDetails
+
+    AgenticRetrieveGeneratedResponse.add_member(:answer, Shapes::ShapeRef.new(shape: String, required: true, location_name: "answer"))
+    AgenticRetrieveGeneratedResponse.add_member(:citations, Shapes::ShapeRef.new(shape: AgenticRetrieveCitationList, location_name: "citations"))
+    AgenticRetrieveGeneratedResponse.struct_class = Types::AgenticRetrieveGeneratedResponse
+
+    AgenticRetrieveGuardrailWarning.add_member(:action, Shapes::ShapeRef.new(shape: GuardrailAction, required: true, location_name: "action"))
+    AgenticRetrieveGuardrailWarning.add_member(:id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "id"))
+    AgenticRetrieveGuardrailWarning.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
+    AgenticRetrieveGuardrailWarning.add_member(:version, Shapes::ShapeRef.new(shape: String, required: true, location_name: "version"))
+    AgenticRetrieveGuardrailWarning.struct_class = Types::AgenticRetrieveGuardrailWarning
+
+    AgenticRetrieveMessage.add_member(:content, Shapes::ShapeRef.new(shape: AgenticRetrieveMessageContent, required: true, location_name: "content"))
+    AgenticRetrieveMessage.add_member(:role, Shapes::ShapeRef.new(shape: ConversationRole, required: true, location_name: "role"))
+    AgenticRetrieveMessage.struct_class = Types::AgenticRetrieveMessage
+
+    AgenticRetrieveMessageContent.add_member(:text, Shapes::ShapeRef.new(shape: String, location_name: "text"))
+    AgenticRetrieveMessageContent.struct_class = Types::AgenticRetrieveMessageContent
+
+    AgenticRetrieveMetadata.key = Shapes::ShapeRef.new(shape: String)
+    AgenticRetrieveMetadata.value = Shapes::ShapeRef.new(shape: Document)
+
+    AgenticRetrievePolicyConfiguration.add_member(:bedrock_guardrail_configuration, Shapes::ShapeRef.new(shape: AgenticRetrieveBedrockGuardrailConfiguration, location_name: "bedrockGuardrailConfiguration"))
+    AgenticRetrievePolicyConfiguration.struct_class = Types::AgenticRetrievePolicyConfiguration
+
+    AgenticRetrieveRerankingConfiguration.add_member(:bedrock_reranking_configuration, Shapes::ShapeRef.new(shape: AgenticRetrieveBedrockRerankingConfiguration, location_name: "bedrockRerankingConfiguration"))
+    AgenticRetrieveRerankingConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: AgenticRetrieveRerankingConfigurationType, required: true, location_name: "type"))
+    AgenticRetrieveRerankingConfiguration.struct_class = Types::AgenticRetrieveRerankingConfiguration
+
+    AgenticRetrieveResponseEvent.add_member(:text, Shapes::ShapeRef.new(shape: String, required: true, location_name: "text"))
+    AgenticRetrieveResponseEvent.struct_class = Types::AgenticRetrieveResponseEvent
+
+    AgenticRetrieveResultEvent.add_member(:generated_response, Shapes::ShapeRef.new(shape: AgenticRetrieveGeneratedResponse, location_name: "generatedResponse"))
+    AgenticRetrieveResultEvent.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    AgenticRetrieveResultEvent.add_member(:results, Shapes::ShapeRef.new(shape: AgenticRetrieveResults, required: true, location_name: "results"))
+    AgenticRetrieveResultEvent.struct_class = Types::AgenticRetrieveResultEvent
+
+    AgenticRetrieveResultItem.add_member(:content, Shapes::ShapeRef.new(shape: RetrievalContent, required: true, location_name: "content"))
+    AgenticRetrieveResultItem.add_member(:metadata, Shapes::ShapeRef.new(shape: AgenticRetrieveMetadata, location_name: "metadata"))
+    AgenticRetrieveResultItem.add_member(:source_retriever, Shapes::ShapeRef.new(shape: AgenticRetrieveSourceRetriever, required: true, location_name: "sourceRetriever"))
+    AgenticRetrieveResultItem.struct_class = Types::AgenticRetrieveResultItem
+
+    AgenticRetrieveResults.member = Shapes::ShapeRef.new(shape: AgenticRetrieveResultItem)
+
+    AgenticRetrieveSourceMetadata.add_member(:identifier, Shapes::ShapeRef.new(shape: String, location_name: "identifier"))
+    AgenticRetrieveSourceMetadata.add_member(:retrieval_type, Shapes::ShapeRef.new(shape: AgenticRetrieveType, location_name: "retrievalType"))
+    AgenticRetrieveSourceMetadata.struct_class = Types::AgenticRetrieveSourceMetadata
+
+    AgenticRetrieveSourceMetadataList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveSourceMetadata)
+
+    AgenticRetrieveSourceRetriever.add_member(:identifier, Shapes::ShapeRef.new(shape: String, required: true, location_name: "identifier"))
+    AgenticRetrieveSourceRetriever.struct_class = Types::AgenticRetrieveSourceRetriever
+
+    AgenticRetrieveSourceRetrieverList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveSourceRetriever)
+
+    AgenticRetrieveStreamRequest.add_member(:agentic_retrieve_configuration, Shapes::ShapeRef.new(shape: AgenticRetrieveConfiguration, required: true, location_name: "agenticRetrieveConfiguration"))
+    AgenticRetrieveStreamRequest.add_member(:generate_response, Shapes::ShapeRef.new(shape: Boolean, location_name: "generateResponse"))
+    AgenticRetrieveStreamRequest.add_member(:messages, Shapes::ShapeRef.new(shape: AgenticRetrieveStreamRequestMessagesList, required: true, location_name: "messages"))
+    AgenticRetrieveStreamRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    AgenticRetrieveStreamRequest.add_member(:policy_configuration, Shapes::ShapeRef.new(shape: AgenticRetrievePolicyConfiguration, location_name: "policyConfiguration"))
+    AgenticRetrieveStreamRequest.add_member(:retrievers, Shapes::ShapeRef.new(shape: AgenticRetrieveStreamRequestRetrieversList, required: true, location_name: "retrievers"))
+    AgenticRetrieveStreamRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "userContext"))
+    AgenticRetrieveStreamRequest.struct_class = Types::AgenticRetrieveStreamRequest
+
+    AgenticRetrieveStreamRequestMessagesList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveMessage)
+
+    AgenticRetrieveStreamRequestRetrieversList.member = Shapes::ShapeRef.new(shape: AgenticRetriever)
+
+    AgenticRetrieveStreamResponse.add_member(:stream, Shapes::ShapeRef.new(shape: AgenticRetrieveStreamResponseOutput, required: true, eventstream: true, location_name: "stream"))
+    AgenticRetrieveStreamResponse.struct_class = Types::AgenticRetrieveStreamResponse
+    AgenticRetrieveStreamResponse[:payload] = :stream
+    AgenticRetrieveStreamResponse[:payload_member] = AgenticRetrieveStreamResponse.member(:stream)
+
+    AgenticRetrieveStreamResponseOutput.add_member(:access_denied_exception, Shapes::ShapeRef.new(shape: AccessDeniedException, location_name: "accessDeniedException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:bad_gateway_exception, Shapes::ShapeRef.new(shape: BadGatewayException, location_name: "badGatewayException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:conflict_exception, Shapes::ShapeRef.new(shape: ConflictException, location_name: "conflictException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:dependency_failed_exception, Shapes::ShapeRef.new(shape: DependencyFailedException, location_name: "dependencyFailedException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:internal_server_exception, Shapes::ShapeRef.new(shape: InternalServerException, location_name: "internalServerException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:resource_not_found_exception, Shapes::ShapeRef.new(shape: ResourceNotFoundException, location_name: "resourceNotFoundException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:response_event, Shapes::ShapeRef.new(shape: AgenticRetrieveResponseEvent, event: true, location_name: "responseEvent"))
+    AgenticRetrieveStreamResponseOutput.add_member(:result, Shapes::ShapeRef.new(shape: AgenticRetrieveResultEvent, event: true, location_name: "result"))
+    AgenticRetrieveStreamResponseOutput.add_member(:service_quota_exceeded_exception, Shapes::ShapeRef.new(shape: ServiceQuotaExceededException, location_name: "serviceQuotaExceededException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:throttling_exception, Shapes::ShapeRef.new(shape: ThrottlingException, location_name: "throttlingException"))
+    AgenticRetrieveStreamResponseOutput.add_member(:trace_event, Shapes::ShapeRef.new(shape: AgenticRetrieveTraceEvent, event: true, location_name: "traceEvent"))
+    AgenticRetrieveStreamResponseOutput.add_member(:validation_exception, Shapes::ShapeRef.new(shape: ValidationException, location_name: "validationException"))
+    AgenticRetrieveStreamResponseOutput.struct_class = Types::AgenticRetrieveStreamResponseOutput
+
+    AgenticRetrieveTraceEvent.add_member(:attributes, Shapes::ShapeRef.new(shape: AgenticRetrieveTraceEventAttributes, required: true, location_name: "attributes"))
+    AgenticRetrieveTraceEvent.add_member(:id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "id"))
+    AgenticRetrieveTraceEvent.add_member(:timestamp, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "timestamp"))
+    AgenticRetrieveTraceEvent.struct_class = Types::AgenticRetrieveTraceEvent
+
+    AgenticRetrieveTraceEventAttributes.add_member(:actions, Shapes::ShapeRef.new(shape: AgenticRetrieveActions, location_name: "actions"))
+    AgenticRetrieveTraceEventAttributes.add_member(:failures, Shapes::ShapeRef.new(shape: AgenticRetrieveFailures, location_name: "failures"))
+    AgenticRetrieveTraceEventAttributes.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    AgenticRetrieveTraceEventAttributes.add_member(:retrieval_metadata, Shapes::ShapeRef.new(shape: AgenticRetrieveSourceMetadataList, location_name: "retrievalMetadata"))
+    AgenticRetrieveTraceEventAttributes.add_member(:retrieval_response, Shapes::ShapeRef.new(shape: AgenticRetrieveTraceResults, location_name: "retrievalResponse"))
+    AgenticRetrieveTraceEventAttributes.add_member(:status, Shapes::ShapeRef.new(shape: AgenticRetrieveStatus, required: true, location_name: "status"))
+    AgenticRetrieveTraceEventAttributes.add_member(:step, Shapes::ShapeRef.new(shape: AgenticRetrieveStep, required: true, location_name: "step"))
+    AgenticRetrieveTraceEventAttributes.add_member(:warnings, Shapes::ShapeRef.new(shape: AgenticRetrieveWarnings, location_name: "warnings"))
+    AgenticRetrieveTraceEventAttributes.struct_class = Types::AgenticRetrieveTraceEventAttributes
+
+    AgenticRetrieveTraceResultItem.add_member(:content, Shapes::ShapeRef.new(shape: RetrievalContent, location_name: "content"))
+    AgenticRetrieveTraceResultItem.add_member(:metadata, Shapes::ShapeRef.new(shape: AgenticRetrieveMetadata, location_name: "metadata"))
+    AgenticRetrieveTraceResultItem.add_member(:source_retriever, Shapes::ShapeRef.new(shape: AgenticRetrieveSourceRetriever, location_name: "sourceRetriever"))
+    AgenticRetrieveTraceResultItem.struct_class = Types::AgenticRetrieveTraceResultItem
+
+    AgenticRetrieveTraceResults.member = Shapes::ShapeRef.new(shape: AgenticRetrieveTraceResultItem)
+
+    AgenticRetrieveWarning.add_member(:guardrail, Shapes::ShapeRef.new(shape: AgenticRetrieveGuardrailWarning, location_name: "guardrail"))
+    AgenticRetrieveWarning.add_member(:message, Shapes::ShapeRef.new(shape: AgenticRetrieveWarningMessage, location_name: "message"))
+    AgenticRetrieveWarning.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AgenticRetrieveWarning.add_member_subclass(:guardrail, Types::AgenticRetrieveWarning::Guardrail)
+    AgenticRetrieveWarning.add_member_subclass(:message, Types::AgenticRetrieveWarning::Message)
+    AgenticRetrieveWarning.add_member_subclass(:unknown, Types::AgenticRetrieveWarning::Unknown)
+    AgenticRetrieveWarning.struct_class = Types::AgenticRetrieveWarning
+
+    AgenticRetrieveWarningMessage.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    AgenticRetrieveWarningMessage.struct_class = Types::AgenticRetrieveWarningMessage
+
+    AgenticRetrieveWarnings.member = Shapes::ShapeRef.new(shape: AgenticRetrieveWarning)
+
+    AgenticRetriever.add_member(:configuration, Shapes::ShapeRef.new(shape: RetrieverConfiguration, required: true, location_name: "configuration"))
+    AgenticRetriever.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    AgenticRetriever.struct_class = Types::AgenticRetriever
+
     AnalyzePromptEvent.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     AnalyzePromptEvent.struct_class = Types::AnalyzePromptEvent
 
@@ -716,6 +966,12 @@ module Aws::BedrockAgentRuntime
     BadGatewayException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     BadGatewayException.add_member(:resource_name, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "resourceName"))
     BadGatewayException.struct_class = Types::BadGatewayException
+
+    BedrockFoundationModelConfiguration.add_member(:model_configuration, Shapes::ShapeRef.new(shape: BedrockFoundationModelModelConfiguration, required: true, location_name: "modelConfiguration"))
+    BedrockFoundationModelConfiguration.struct_class = Types::BedrockFoundationModelConfiguration
+
+    BedrockFoundationModelModelConfiguration.add_member(:model_arn, Shapes::ShapeRef.new(shape: BedrockModelArn, required: true, location_name: "modelArn"))
+    BedrockFoundationModelModelConfiguration.struct_class = Types::BedrockFoundationModelModelConfiguration
 
     BedrockModelConfigurations.add_member(:performance_config, Shapes::ShapeRef.new(shape: PerformanceConfiguration, location_name: "performanceConfig"))
     BedrockModelConfigurations.struct_class = Types::BedrockModelConfigurations
@@ -1158,6 +1414,10 @@ module Aws::BedrockAgentRuntime
 
     FlowTraceNodeOutputNextList.member = Shapes::ShapeRef.new(shape: FlowTraceNodeOutputNext)
 
+    FoundationModelConfiguration.add_member(:bedrock_foundation_model_configuration, Shapes::ShapeRef.new(shape: BedrockFoundationModelConfiguration, location_name: "bedrockFoundationModelConfiguration"))
+    FoundationModelConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: FoundationModelConfigurationType, required: true, location_name: "type"))
+    FoundationModelConfiguration.struct_class = Types::FoundationModelConfiguration
+
     FunctionDefinition.add_member(:description, Shapes::ShapeRef.new(shape: FunctionDescription, location_name: "description"))
     FunctionDefinition.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
     FunctionDefinition.add_member(:parameters, Shapes::ShapeRef.new(shape: ParameterMap, location_name: "parameters"))
@@ -1229,6 +1489,18 @@ module Aws::BedrockAgentRuntime
     GetAgentMemoryResponse.add_member(:memory_contents, Shapes::ShapeRef.new(shape: Memories, location_name: "memoryContents"))
     GetAgentMemoryResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     GetAgentMemoryResponse.struct_class = Types::GetAgentMemoryResponse
+
+    GetDocumentContentRequest.add_member(:data_source_id, Shapes::ShapeRef.new(shape: DataSourceId, required: true, location: "uri", location_name: "dataSourceId"))
+    GetDocumentContentRequest.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, required: true, location: "uri", location_name: "documentId"))
+    GetDocumentContentRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseIdentifier, required: true, location: "uri", location_name: "knowledgeBaseId"))
+    GetDocumentContentRequest.add_member(:output_format, Shapes::ShapeRef.new(shape: DocumentOutputFormat, location_name: "outputFormat"))
+    GetDocumentContentRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "userContext"))
+    GetDocumentContentRequest.struct_class = Types::GetDocumentContentRequest
+
+    GetDocumentContentResponse.add_member(:document_content_length, Shapes::ShapeRef.new(shape: Long, location_name: "documentContentLength"))
+    GetDocumentContentResponse.add_member(:mime_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "mimeType"))
+    GetDocumentContentResponse.add_member(:presigned_url, Shapes::ShapeRef.new(shape: PresignedUrl, required: true, location_name: "presignedUrl"))
+    GetDocumentContentResponse.struct_class = Types::GetDocumentContentResponse
 
     GetExecutionFlowSnapshotRequest.add_member(:execution_identifier, Shapes::ShapeRef.new(shape: FlowExecutionIdentifier, required: true, location: "uri", location_name: "executionIdentifier"))
     GetExecutionFlowSnapshotRequest.add_member(:flow_alias_identifier, Shapes::ShapeRef.new(shape: FlowAliasIdentifier, required: true, location: "uri", location_name: "flowAliasIdentifier"))
@@ -1608,10 +1880,12 @@ module Aws::BedrockAgentRuntime
     KnowledgeBaseQuery.add_member(:type, Shapes::ShapeRef.new(shape: KnowledgeBaseQueryType, location_name: "type"))
     KnowledgeBaseQuery.struct_class = Types::KnowledgeBaseQuery
 
-    KnowledgeBaseRetrievalConfiguration.add_member(:vector_search_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseVectorSearchConfiguration, required: true, location_name: "vectorSearchConfiguration"))
+    KnowledgeBaseRetrievalConfiguration.add_member(:managed_search_configuration, Shapes::ShapeRef.new(shape: ManagedSearchConfiguration, location_name: "managedSearchConfiguration"))
+    KnowledgeBaseRetrievalConfiguration.add_member(:vector_search_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseVectorSearchConfiguration, location_name: "vectorSearchConfiguration"))
     KnowledgeBaseRetrievalConfiguration.struct_class = Types::KnowledgeBaseRetrievalConfiguration
 
     KnowledgeBaseRetrievalResult.add_member(:content, Shapes::ShapeRef.new(shape: RetrievalResultContent, required: true, location_name: "content"))
+    KnowledgeBaseRetrievalResult.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, location_name: "documentId"))
     KnowledgeBaseRetrievalResult.add_member(:location, Shapes::ShapeRef.new(shape: RetrievalResultLocation, location_name: "location"))
     KnowledgeBaseRetrievalResult.add_member(:metadata, Shapes::ShapeRef.new(shape: RetrievalResultMetadata, location_name: "metadata"))
     KnowledgeBaseRetrievalResult.add_member(:score, Shapes::ShapeRef.new(shape: Double, location_name: "score"))
@@ -1625,6 +1899,10 @@ module Aws::BedrockAgentRuntime
     KnowledgeBaseRetrieveAndGenerateConfiguration.add_member(:orchestration_configuration, Shapes::ShapeRef.new(shape: OrchestrationConfiguration, location_name: "orchestrationConfiguration"))
     KnowledgeBaseRetrieveAndGenerateConfiguration.add_member(:retrieval_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseRetrievalConfiguration, location_name: "retrievalConfiguration"))
     KnowledgeBaseRetrieveAndGenerateConfiguration.struct_class = Types::KnowledgeBaseRetrieveAndGenerateConfiguration
+
+    KnowledgeBaseRetrieverConfiguration.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "knowledgeBaseId"))
+    KnowledgeBaseRetrieverConfiguration.add_member(:retrieval_overrides, Shapes::ShapeRef.new(shape: RetrievalOverrides, location_name: "retrievalOverrides"))
+    KnowledgeBaseRetrieverConfiguration.struct_class = Types::KnowledgeBaseRetrieverConfiguration
 
     KnowledgeBaseVectorSearchConfiguration.add_member(:filter, Shapes::ShapeRef.new(shape: RetrievalFilter, location_name: "filter"))
     KnowledgeBaseVectorSearchConfiguration.add_member(:implicit_filter_configuration, Shapes::ShapeRef.new(shape: ImplicitFilterConfiguration, location_name: "implicitFilterConfiguration"))
@@ -1689,6 +1967,25 @@ module Aws::BedrockAgentRuntime
 
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
+
+    ManagedSearchBedrockRerankingConfiguration.add_member(:metadata_configuration, Shapes::ShapeRef.new(shape: MetadataConfigurationForReranking, location_name: "metadataConfiguration"))
+    ManagedSearchBedrockRerankingConfiguration.add_member(:model_configuration, Shapes::ShapeRef.new(shape: ManagedSearchBedrockRerankingModelConfiguration, required: true, location_name: "modelConfiguration"))
+    ManagedSearchBedrockRerankingConfiguration.add_member(:number_of_reranked_results, Shapes::ShapeRef.new(shape: ManagedSearchBedrockRerankingConfigurationNumberOfRerankedResultsInteger, location_name: "numberOfRerankedResults"))
+    ManagedSearchBedrockRerankingConfiguration.struct_class = Types::ManagedSearchBedrockRerankingConfiguration
+
+    ManagedSearchBedrockRerankingModelConfiguration.add_member(:additional_model_request_fields, Shapes::ShapeRef.new(shape: AdditionalModelRequestFields, location_name: "additionalModelRequestFields"))
+    ManagedSearchBedrockRerankingModelConfiguration.add_member(:model_arn, Shapes::ShapeRef.new(shape: BedrockRerankingModelArn, required: true, location_name: "modelArn"))
+    ManagedSearchBedrockRerankingModelConfiguration.struct_class = Types::ManagedSearchBedrockRerankingModelConfiguration
+
+    ManagedSearchConfiguration.add_member(:filter, Shapes::ShapeRef.new(shape: RetrievalFilter, location_name: "filter"))
+    ManagedSearchConfiguration.add_member(:number_of_results, Shapes::ShapeRef.new(shape: ManagedSearchConfigurationNumberOfResultsInteger, location_name: "numberOfResults"))
+    ManagedSearchConfiguration.add_member(:reranking_configuration, Shapes::ShapeRef.new(shape: ManagedSearchRerankingConfiguration, location_name: "rerankingConfiguration"))
+    ManagedSearchConfiguration.add_member(:reranking_model_type, Shapes::ShapeRef.new(shape: RerankingModelType, location_name: "rerankingModelType"))
+    ManagedSearchConfiguration.struct_class = Types::ManagedSearchConfiguration
+
+    ManagedSearchRerankingConfiguration.add_member(:bedrock_reranking_configuration, Shapes::ShapeRef.new(shape: ManagedSearchBedrockRerankingConfiguration, location_name: "bedrockRerankingConfiguration"))
+    ManagedSearchRerankingConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: ManagedSearchRerankingConfigurationType, required: true, location_name: "type"))
+    ManagedSearchRerankingConfiguration.struct_class = Types::ManagedSearchRerankingConfiguration
 
     Memories.member = Shapes::ShapeRef.new(shape: Memory)
 
@@ -2108,6 +2405,11 @@ module Aws::BedrockAgentRuntime
     ResponseStream.add_member(:validation_exception, Shapes::ShapeRef.new(shape: ValidationException, location_name: "validationException"))
     ResponseStream.struct_class = Types::ResponseStream
 
+    RetrievalContent.add_member(:byte_content, Shapes::ShapeRef.new(shape: Blob, location_name: "byteContent"))
+    RetrievalContent.add_member(:mime_type, Shapes::ShapeRef.new(shape: MimeType, required: true, location_name: "mimeType"))
+    RetrievalContent.add_member(:text, Shapes::ShapeRef.new(shape: String, location_name: "text"))
+    RetrievalContent.struct_class = Types::RetrievalContent
+
     RetrievalFilter.add_member(:and_all, Shapes::ShapeRef.new(shape: RetrievalFilterList, location_name: "andAll"))
     RetrievalFilter.add_member(:equals, Shapes::ShapeRef.new(shape: FilterAttribute, location_name: "equals"))
     RetrievalFilter.add_member(:greater_than, Shapes::ShapeRef.new(shape: FilterAttribute, location_name: "greaterThan"))
@@ -2140,6 +2442,10 @@ module Aws::BedrockAgentRuntime
 
     RetrievalFilterList.member = Shapes::ShapeRef.new(shape: RetrievalFilter)
 
+    RetrievalOverrides.add_member(:filter, Shapes::ShapeRef.new(shape: RetrievalFilter, location_name: "filter"))
+    RetrievalOverrides.add_member(:max_number_of_results, Shapes::ShapeRef.new(shape: RetrievalOverridesMaxNumberOfResultsInteger, location_name: "maxNumberOfResults"))
+    RetrievalOverrides.struct_class = Types::RetrievalOverrides
+
     RetrievalResultConfluenceLocation.add_member(:url, Shapes::ShapeRef.new(shape: String, location_name: "url"))
     RetrievalResultConfluenceLocation.struct_class = Types::RetrievalResultConfluenceLocation
 
@@ -2161,12 +2467,17 @@ module Aws::BedrockAgentRuntime
     RetrievalResultCustomDocumentLocation.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "id"))
     RetrievalResultCustomDocumentLocation.struct_class = Types::RetrievalResultCustomDocumentLocation
 
+    RetrievalResultGoogleDriveLocation.add_member(:url, Shapes::ShapeRef.new(shape: String, location_name: "url"))
+    RetrievalResultGoogleDriveLocation.struct_class = Types::RetrievalResultGoogleDriveLocation
+
     RetrievalResultKendraDocumentLocation.add_member(:uri, Shapes::ShapeRef.new(shape: String, location_name: "uri"))
     RetrievalResultKendraDocumentLocation.struct_class = Types::RetrievalResultKendraDocumentLocation
 
     RetrievalResultLocation.add_member(:confluence_location, Shapes::ShapeRef.new(shape: RetrievalResultConfluenceLocation, location_name: "confluenceLocation"))
     RetrievalResultLocation.add_member(:custom_document_location, Shapes::ShapeRef.new(shape: RetrievalResultCustomDocumentLocation, location_name: "customDocumentLocation"))
+    RetrievalResultLocation.add_member(:google_drive_location, Shapes::ShapeRef.new(shape: RetrievalResultGoogleDriveLocation, location_name: "googleDriveLocation"))
     RetrievalResultLocation.add_member(:kendra_document_location, Shapes::ShapeRef.new(shape: RetrievalResultKendraDocumentLocation, location_name: "kendraDocumentLocation"))
+    RetrievalResultLocation.add_member(:one_drive_location, Shapes::ShapeRef.new(shape: RetrievalResultOneDriveLocation, location_name: "oneDriveLocation"))
     RetrievalResultLocation.add_member(:s3_location, Shapes::ShapeRef.new(shape: RetrievalResultS3Location, location_name: "s3Location"))
     RetrievalResultLocation.add_member(:salesforce_location, Shapes::ShapeRef.new(shape: RetrievalResultSalesforceLocation, location_name: "salesforceLocation"))
     RetrievalResultLocation.add_member(:share_point_location, Shapes::ShapeRef.new(shape: RetrievalResultSharePointLocation, location_name: "sharePointLocation"))
@@ -2177,6 +2488,9 @@ module Aws::BedrockAgentRuntime
 
     RetrievalResultMetadata.key = Shapes::ShapeRef.new(shape: RetrievalResultMetadataKey)
     RetrievalResultMetadata.value = Shapes::ShapeRef.new(shape: RetrievalResultMetadataValue)
+
+    RetrievalResultOneDriveLocation.add_member(:url, Shapes::ShapeRef.new(shape: String, location_name: "url"))
+    RetrievalResultOneDriveLocation.struct_class = Types::RetrievalResultOneDriveLocation
 
     RetrievalResultS3Location.add_member(:uri, Shapes::ShapeRef.new(shape: String, location_name: "uri"))
     RetrievalResultS3Location.struct_class = Types::RetrievalResultS3Location
@@ -2211,6 +2525,7 @@ module Aws::BedrockAgentRuntime
     RetrieveAndGenerateRequest.add_member(:retrieve_and_generate_configuration, Shapes::ShapeRef.new(shape: RetrieveAndGenerateConfiguration, location_name: "retrieveAndGenerateConfiguration"))
     RetrieveAndGenerateRequest.add_member(:session_configuration, Shapes::ShapeRef.new(shape: RetrieveAndGenerateSessionConfiguration, location_name: "sessionConfiguration"))
     RetrieveAndGenerateRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, location_name: "sessionId"))
+    RetrieveAndGenerateRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "userContext"))
     RetrieveAndGenerateRequest.struct_class = Types::RetrieveAndGenerateRequest
 
     RetrieveAndGenerateResponse.add_member(:citations, Shapes::ShapeRef.new(shape: Citations, location_name: "citations"))
@@ -2226,6 +2541,7 @@ module Aws::BedrockAgentRuntime
     RetrieveAndGenerateStreamRequest.add_member(:retrieve_and_generate_configuration, Shapes::ShapeRef.new(shape: RetrieveAndGenerateConfiguration, location_name: "retrieveAndGenerateConfiguration"))
     RetrieveAndGenerateStreamRequest.add_member(:session_configuration, Shapes::ShapeRef.new(shape: RetrieveAndGenerateSessionConfiguration, location_name: "sessionConfiguration"))
     RetrieveAndGenerateStreamRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, location_name: "sessionId"))
+    RetrieveAndGenerateStreamRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "userContext"))
     RetrieveAndGenerateStreamRequest.struct_class = Types::RetrieveAndGenerateStreamRequest
 
     RetrieveAndGenerateStreamResponse.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "header", location_name: "x-amzn-bedrock-knowledge-base-session-id"))
@@ -2249,10 +2565,11 @@ module Aws::BedrockAgentRuntime
     RetrieveAndGenerateStreamResponseOutput.struct_class = Types::RetrieveAndGenerateStreamResponseOutput
 
     RetrieveRequest.add_member(:guardrail_configuration, Shapes::ShapeRef.new(shape: GuardrailConfiguration, location_name: "guardrailConfiguration"))
-    RetrieveRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location: "uri", location_name: "knowledgeBaseId"))
+    RetrieveRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseIdentifier, required: true, location: "uri", location_name: "knowledgeBaseId"))
     RetrieveRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     RetrieveRequest.add_member(:retrieval_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseRetrievalConfiguration, location_name: "retrievalConfiguration"))
     RetrieveRequest.add_member(:retrieval_query, Shapes::ShapeRef.new(shape: KnowledgeBaseQuery, required: true, location_name: "retrievalQuery"))
+    RetrieveRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, location_name: "userContext"))
     RetrieveRequest.struct_class = Types::RetrieveRequest
 
     RetrieveResponse.add_member(:guardrail_action, Shapes::ShapeRef.new(shape: GuadrailAction, location_name: "guardrailAction"))
@@ -2266,6 +2583,12 @@ module Aws::BedrockAgentRuntime
     RetrievedReference.struct_class = Types::RetrievedReference
 
     RetrievedReferences.member = Shapes::ShapeRef.new(shape: RetrievedReference)
+
+    RetrieverConfiguration.add_member(:knowledge_base, Shapes::ShapeRef.new(shape: KnowledgeBaseRetrieverConfiguration, location_name: "knowledgeBase"))
+    RetrieverConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    RetrieverConfiguration.add_member_subclass(:knowledge_base, Types::RetrieverConfiguration::KnowledgeBase)
+    RetrieverConfiguration.add_member_subclass(:unknown, Types::RetrieverConfiguration::Unknown)
+    RetrieverConfiguration.struct_class = Types::RetrieverConfiguration
 
     ReturnControlInvocationResults.member = Shapes::ShapeRef.new(shape: InvocationResultMember)
 
@@ -2461,6 +2784,9 @@ module Aws::BedrockAgentRuntime
     Usage.add_member(:output_tokens, Shapes::ShapeRef.new(shape: Integer, location_name: "outputTokens"))
     Usage.struct_class = Types::Usage
 
+    UserContext.add_member(:user_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "userId"))
+    UserContext.struct_class = Types::UserContext
+
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     ValidationException.struct_class = Types::ValidationException
 
@@ -2500,6 +2826,23 @@ module Aws::BedrockAgentRuntime
         "signingName" => "bedrock",
         "uid" => "bedrock-agent-runtime-2023-07-26",
       }
+
+      api.add_operation(:agentic_retrieve_stream, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AgenticRetrieveStream"
+        o.http_method = "POST"
+        o.http_request_uri = "/agenticRetrieveStream"
+        o.input = Shapes::ShapeRef.new(shape: AgenticRetrieveStreamRequest)
+        o.output = Shapes::ShapeRef.new(shape: AgenticRetrieveStreamResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: DependencyFailedException)
+        o.errors << Shapes::ShapeRef.new(shape: BadGatewayException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
 
       api.add_operation(:create_invocation, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateInvocation"
@@ -2613,6 +2956,19 @@ module Aws::BedrockAgentRuntime
             "next_token" => "next_token"
           }
         )
+      end)
+
+      api.add_operation(:get_document_content, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetDocumentContent"
+        o.http_method = "POST"
+        o.http_request_uri = "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/{documentId}/content"
+        o.input = Shapes::ShapeRef.new(shape: GetDocumentContentRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetDocumentContentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:get_execution_flow_snapshot, Seahorse::Model::Operation.new.tap do |o|

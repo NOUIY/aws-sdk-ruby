@@ -58,6 +58,11 @@ module Aws::MQ
       def message
         @message || @data[:message]
       end
+
+      # @return [String]
+      def resource_share_errors
+        @data[:resource_share_errors]
+      end
     end
 
     class ConflictException < ServiceError
@@ -77,6 +82,11 @@ module Aws::MQ
       # @return [String]
       def message
         @message || @data[:message]
+      end
+
+      # @return [String]
+      def resource_share_errors
+        @data[:resource_share_errors]
       end
     end
 
@@ -98,6 +108,11 @@ module Aws::MQ
       def message
         @message || @data[:message]
       end
+
+      # @return [String]
+      def resource_share_errors
+        @data[:resource_share_errors]
+      end
     end
 
     class InternalServerErrorException < ServiceError
@@ -117,6 +132,11 @@ module Aws::MQ
       # @return [String]
       def message
         @message || @data[:message]
+      end
+
+      # @return [String]
+      def resource_share_errors
+        @data[:resource_share_errors]
       end
     end
 
@@ -138,6 +158,11 @@ module Aws::MQ
       def message
         @message || @data[:message]
       end
+
+      # @return [String]
+      def resource_share_errors
+        @data[:resource_share_errors]
+      end
     end
 
     class UnauthorizedException < ServiceError
@@ -157,6 +182,11 @@ module Aws::MQ
       # @return [String]
       def message
         @message || @data[:message]
+      end
+
+      # @return [String]
+      def resource_share_errors
+        @data[:resource_share_errors]
       end
     end
 

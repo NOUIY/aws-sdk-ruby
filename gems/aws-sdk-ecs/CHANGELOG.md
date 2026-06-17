@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.237.0 (2026-06-17)
+------------------
+
+* Feature - Releasing the ability to bring-your-own task-definition for CreateExpressGatewayService and UpdateGatewayExpressService
+
 1.236.0 (2026-06-10)
 ------------------
 

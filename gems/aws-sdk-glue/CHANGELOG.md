@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.262.0 (2026-06-17)
+------------------
+
+* Feature - This release adds support for Search and Discovery in AWS Glue, letting you and your applications search Data Catalog assets such as table and enrich them with business context and glossary terms.
+
 1.261.0 (2026-06-12)
 ------------------
 

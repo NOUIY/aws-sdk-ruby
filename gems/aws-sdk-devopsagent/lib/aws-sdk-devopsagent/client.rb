@@ -499,6 +499,9 @@ module Aws::DevOpsAgent
     #   The configuration that directs how AgentSpace interacts with the given
     #   service.
     #
+    # @option params [Hash<String,Types::CapabilityConfiguration>] :capabilities
+    #   Enabled capabilities for this association.
+    #
     # @return [Types::AssociateServiceOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::AssociateServiceOutput#association #association} => Types::Association
@@ -527,6 +530,7 @@ module Aws::DevOpsAgent
     #         owner: "String", # required
     #         owner_type: "organization", # required, accepts organization, user
     #         instance_identifier: "String",
+    #         runtime_role_arn: "RoleArn",
     #       },
     #       slack: {
     #         workspace_id: "SlackConfigurationWorkspaceIdString", # required
@@ -563,6 +567,7 @@ module Aws::DevOpsAgent
     #         project_id: "String", # required
     #         project_path: "String", # required
     #         instance_identifier: "String",
+    #         runtime_role_arn: "RoleArn",
     #       },
     #       mcpserversplunk: {
     #       },
@@ -588,6 +593,15 @@ module Aws::DevOpsAgent
     #       mcpserversigv4: {
     #         tools: ["MCPToolsListMemberString"], # required
     #       },
+    #       remoteagent: {
+    #       },
+    #       remoteagentsigv4: {
+    #       },
+    #     },
+    #     capabilities: {
+    #       "RELEASE_READINESS_REVIEW" => {
+    #         enabled: false,
+    #       },
     #     },
     #   })
     #
@@ -611,6 +625,7 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.github.owner #=> String
     #   resp.association.configuration.github.owner_type #=> String, one of "organization", "user"
     #   resp.association.configuration.github.instance_identifier #=> String
+    #   resp.association.configuration.github.runtime_role_arn #=> String
     #   resp.association.configuration.slack.workspace_id #=> String
     #   resp.association.configuration.slack.workspace_name #=> String
     #   resp.association.configuration.slack.transmission_target.ops_oncall_target.channel_name #=> String
@@ -630,6 +645,7 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.gitlab.project_id #=> String
     #   resp.association.configuration.gitlab.project_path #=> String
     #   resp.association.configuration.gitlab.instance_identifier #=> String
+    #   resp.association.configuration.gitlab.runtime_role_arn #=> String
     #   resp.association.configuration.azure.subscription_id #=> String
     #   resp.association.configuration.azuredevops.organization_name #=> String
     #   resp.association.configuration.azuredevops.project_id #=> String
@@ -643,6 +659,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.pagerduty.customer_email #=> String
     #   resp.association.configuration.mcpserversigv4.tools #=> Array
     #   resp.association.configuration.mcpserversigv4.tools[0] #=> String
+    #   resp.association.capabilities #=> Hash
+    #   resp.association.capabilities["CapabilityType"].enabled #=> Boolean
     #   resp.webhook.webhook_url #=> String
     #   resp.webhook.webhook_id #=> String
     #   resp.webhook.webhook_type #=> String, one of "hmac", "apikey", "gitlab", "pagerduty"
@@ -743,7 +761,8 @@ module Aws::DevOpsAgent
     #   additional encoding or escaping.
     #
     # @option params [required, Types::AssetContent] :content
-    #   The content for the asset. Provide a single file or a zip bundle.
+    #   The content for the asset. Provide a single file, a zip bundle, or a
+    #   sourceUrl to import from an external source.
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier used for idempotent asset creation
@@ -774,6 +793,9 @@ module Aws::DevOpsAgent
     #       },
     #       zip: {
     #         zip_file: "data", # required
+    #       },
+    #       source_url: {
+    #         url: "AssetContentUrl", # required
     #       },
     #     },
     #     client_token: "CreateAssetRequestClientTokenString",
@@ -904,7 +926,7 @@ module Aws::DevOpsAgent
     #       reference_url: "ReferenceInputReferenceUrlString", # required
     #       association_id: "ResourceId", # required
     #     },
-    #     task_type: "INVESTIGATION", # required, accepts INVESTIGATION, EVALUATION
+    #     task_type: "INVESTIGATION", # required, accepts INVESTIGATION, EVALUATION, RELEASE_READINESS_REVIEW, RELEASE_TESTING
     #     title: "BacklogTaskTitle", # required
     #     description: "BacklogTaskDescription",
     #     priority: "CRITICAL", # required, accepts CRITICAL, HIGH, MEDIUM, LOW, MINIMAL
@@ -923,7 +945,7 @@ module Aws::DevOpsAgent
     #   resp.task.reference.reference_id #=> String
     #   resp.task.reference.reference_url #=> String
     #   resp.task.reference.association_id #=> String
-    #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION"
+    #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION", "RELEASE_READINESS_REVIEW", "RELEASE_TESTING"
     #   resp.task.priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
     #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.task.created_at #=> Time
@@ -1061,8 +1083,8 @@ module Aws::DevOpsAgent
     # Creates a new Trigger in the specified agent space
     #
     # @option params [required, String] :agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space where the Trigger will be
+    #   created
     #
     # @option params [required, String] :type
     #   How the new Trigger fires
@@ -1240,12 +1262,10 @@ module Aws::DevOpsAgent
     # Deletes a Trigger from the specified agent space
     #
     # @option params [required, String] :agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space containing the Trigger
     #
     # @option params [required, String] :trigger_id
-    #   Generic resource identifier (allows alphanumeric characters, hyphens,
-    #   and underscores; 1-128 characters)
+    #   The unique identifier of the Trigger to delete
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1703,6 +1723,7 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.github.owner #=> String
     #   resp.association.configuration.github.owner_type #=> String, one of "organization", "user"
     #   resp.association.configuration.github.instance_identifier #=> String
+    #   resp.association.configuration.github.runtime_role_arn #=> String
     #   resp.association.configuration.slack.workspace_id #=> String
     #   resp.association.configuration.slack.workspace_name #=> String
     #   resp.association.configuration.slack.transmission_target.ops_oncall_target.channel_name #=> String
@@ -1722,6 +1743,7 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.gitlab.project_id #=> String
     #   resp.association.configuration.gitlab.project_path #=> String
     #   resp.association.configuration.gitlab.instance_identifier #=> String
+    #   resp.association.configuration.gitlab.runtime_role_arn #=> String
     #   resp.association.configuration.azure.subscription_id #=> String
     #   resp.association.configuration.azuredevops.organization_name #=> String
     #   resp.association.configuration.azuredevops.project_id #=> String
@@ -1735,6 +1757,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.pagerduty.customer_email #=> String
     #   resp.association.configuration.mcpserversigv4.tools #=> Array
     #   resp.association.configuration.mcpserversigv4.tools[0] #=> String
+    #   resp.association.capabilities #=> Hash
+    #   resp.association.capabilities["CapabilityType"].enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssociation AWS API Documentation
     #
@@ -1776,7 +1800,7 @@ module Aws::DevOpsAgent
     #   resp.task.reference.reference_id #=> String
     #   resp.task.reference.reference_url #=> String
     #   resp.task.reference.association_id #=> String
-    #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION"
+    #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION", "RELEASE_READINESS_REVIEW", "RELEASE_TESTING"
     #   resp.task.priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
     #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.task.created_at #=> Time
@@ -1913,7 +1937,7 @@ module Aws::DevOpsAgent
     # @example Response structure
     #
     #   resp.service.service_id #=> String
-    #   resp.service.service_type #=> String, one of "github", "slack", "azure", "azuredevops", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity", "mcpserversigv4"
+    #   resp.service.service_type #=> String, one of "github", "slack", "azure", "azuredevops", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity", "mcpserversigv4", "remoteagent", "remoteagentsigv4"
     #   resp.service.name #=> String
     #   resp.service.accessible_resources #=> Array
     #   resp.service.additional_service_details.github.owner #=> String
@@ -1962,6 +1986,17 @@ module Aws::DevOpsAgent
     #   resp.service.additional_service_details.mcpserversigv4.mcp_role_arn #=> String
     #   resp.service.additional_service_details.mcpserversigv4.custom_headers #=> Hash
     #   resp.service.additional_service_details.mcpserversigv4.custom_headers["CustomHeaderName"] #=> String
+    #   resp.service.additional_service_details.remoteagent.name #=> String
+    #   resp.service.additional_service_details.remoteagent.endpoint #=> String
+    #   resp.service.additional_service_details.remoteagent.description #=> String
+    #   resp.service.additional_service_details.remoteagent.authorization_method #=> String, one of "oauth-client-credentials", "api-key", "bearer-token"
+    #   resp.service.additional_service_details.remoteagent.api_key_header #=> String
+    #   resp.service.additional_service_details.remoteagentsigv4.name #=> String
+    #   resp.service.additional_service_details.remoteagentsigv4.endpoint #=> String
+    #   resp.service.additional_service_details.remoteagentsigv4.description #=> String
+    #   resp.service.additional_service_details.remoteagentsigv4.region #=> String
+    #   resp.service.additional_service_details.remoteagentsigv4.service #=> String
+    #   resp.service.additional_service_details.remoteagentsigv4.role_arn #=> String
     #   resp.service.kms_key_arn #=> String
     #   resp.service.private_connection_name #=> String
     #   resp.tags #=> Hash
@@ -1979,12 +2014,10 @@ module Aws::DevOpsAgent
     # Gets a Trigger from the specified agent space
     #
     # @option params [required, String] :agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space containing the Trigger
     #
     # @option params [required, String] :trigger_id
-    #   Generic resource identifier (allows alphanumeric characters, hyphens,
-    #   and underscores; 1-128 characters)
+    #   The unique identifier of the Trigger to retrieve
     #
     # @return [Types::GetTriggerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2311,6 +2344,7 @@ module Aws::DevOpsAgent
     #   resp.associations[0].configuration.github.owner #=> String
     #   resp.associations[0].configuration.github.owner_type #=> String, one of "organization", "user"
     #   resp.associations[0].configuration.github.instance_identifier #=> String
+    #   resp.associations[0].configuration.github.runtime_role_arn #=> String
     #   resp.associations[0].configuration.slack.workspace_id #=> String
     #   resp.associations[0].configuration.slack.workspace_name #=> String
     #   resp.associations[0].configuration.slack.transmission_target.ops_oncall_target.channel_name #=> String
@@ -2330,6 +2364,7 @@ module Aws::DevOpsAgent
     #   resp.associations[0].configuration.gitlab.project_id #=> String
     #   resp.associations[0].configuration.gitlab.project_path #=> String
     #   resp.associations[0].configuration.gitlab.instance_identifier #=> String
+    #   resp.associations[0].configuration.gitlab.runtime_role_arn #=> String
     #   resp.associations[0].configuration.azure.subscription_id #=> String
     #   resp.associations[0].configuration.azuredevops.organization_name #=> String
     #   resp.associations[0].configuration.azuredevops.project_id #=> String
@@ -2343,6 +2378,8 @@ module Aws::DevOpsAgent
     #   resp.associations[0].configuration.pagerduty.customer_email #=> String
     #   resp.associations[0].configuration.mcpserversigv4.tools #=> Array
     #   resp.associations[0].configuration.mcpserversigv4.tools[0] #=> String
+    #   resp.associations[0].capabilities #=> Hash
+    #   resp.associations[0].capabilities["CapabilityType"].enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssociations AWS API Documentation
     #
@@ -2398,7 +2435,7 @@ module Aws::DevOpsAgent
     #       created_before: Time.now,
     #       priority: ["CRITICAL"], # accepts CRITICAL, HIGH, MEDIUM, LOW, MINIMAL
     #       status: ["PENDING_TRIAGE"], # accepts PENDING_TRIAGE, LINKED, PENDING_START, IN_PROGRESS, PENDING_CUSTOMER_APPROVAL, COMPLETED, FAILED, TIMED_OUT, CANCELED, SKIPPED
-    #       task_type: ["INVESTIGATION"], # accepts INVESTIGATION, EVALUATION
+    #       task_type: ["INVESTIGATION"], # accepts INVESTIGATION, EVALUATION, RELEASE_READINESS_REVIEW, RELEASE_TESTING
     #       primary_task_id: "ResourceId",
     #     },
     #     limit: 1,
@@ -2420,7 +2457,7 @@ module Aws::DevOpsAgent
     #   resp.tasks[0].reference.reference_id #=> String
     #   resp.tasks[0].reference.reference_url #=> String
     #   resp.tasks[0].reference.association_id #=> String
-    #   resp.tasks[0].task_type #=> String, one of "INVESTIGATION", "EVALUATION"
+    #   resp.tasks[0].task_type #=> String, one of "INVESTIGATION", "EVALUATION", "RELEASE_READINESS_REVIEW", "RELEASE_TESTING"
     #   resp.tasks[0].priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
     #   resp.tasks[0].status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.tasks[0].created_at #=> Time
@@ -2834,7 +2871,7 @@ module Aws::DevOpsAgent
     #   resp = client.list_services({
     #     max_results: 1,
     #     next_token: "NextToken",
-    #     filter_service_type: "github", # accepts github, slack, azure, azuredevops, dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity, mcpserversigv4
+    #     filter_service_type: "github", # accepts github, slack, azure, azuredevops, dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity, mcpserversigv4, remoteagent, remoteagentsigv4
     #   })
     #
     # @example Response structure
@@ -2842,7 +2879,7 @@ module Aws::DevOpsAgent
     #   resp.next_token #=> String
     #   resp.services #=> Array
     #   resp.services[0].service_id #=> String
-    #   resp.services[0].service_type #=> String, one of "github", "slack", "azure", "azuredevops", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity", "mcpserversigv4"
+    #   resp.services[0].service_type #=> String, one of "github", "slack", "azure", "azuredevops", "dynatrace", "servicenow", "pagerduty", "gitlab", "eventChannel", "mcpservernewrelic", "mcpservergrafana", "mcpserverdatadog", "mcpserver", "mcpserversplunk", "azureidentity", "mcpserversigv4", "remoteagent", "remoteagentsigv4"
     #   resp.services[0].name #=> String
     #   resp.services[0].accessible_resources #=> Array
     #   resp.services[0].additional_service_details.github.owner #=> String
@@ -2891,6 +2928,17 @@ module Aws::DevOpsAgent
     #   resp.services[0].additional_service_details.mcpserversigv4.mcp_role_arn #=> String
     #   resp.services[0].additional_service_details.mcpserversigv4.custom_headers #=> Hash
     #   resp.services[0].additional_service_details.mcpserversigv4.custom_headers["CustomHeaderName"] #=> String
+    #   resp.services[0].additional_service_details.remoteagent.name #=> String
+    #   resp.services[0].additional_service_details.remoteagent.endpoint #=> String
+    #   resp.services[0].additional_service_details.remoteagent.description #=> String
+    #   resp.services[0].additional_service_details.remoteagent.authorization_method #=> String, one of "oauth-client-credentials", "api-key", "bearer-token"
+    #   resp.services[0].additional_service_details.remoteagent.api_key_header #=> String
+    #   resp.services[0].additional_service_details.remoteagentsigv4.name #=> String
+    #   resp.services[0].additional_service_details.remoteagentsigv4.endpoint #=> String
+    #   resp.services[0].additional_service_details.remoteagentsigv4.description #=> String
+    #   resp.services[0].additional_service_details.remoteagentsigv4.region #=> String
+    #   resp.services[0].additional_service_details.remoteagentsigv4.service #=> String
+    #   resp.services[0].additional_service_details.remoteagentsigv4.role_arn #=> String
     #   resp.services[0].kms_key_arn #=> String
     #   resp.services[0].private_connection_name #=> String
     #
@@ -2935,8 +2983,8 @@ module Aws::DevOpsAgent
     # Lists Triggers in the specified agent space
     #
     # @option params [required, String] :agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space whose Triggers should be
+    #   listed
     #
     # @option params [String] :status
     #   Filter results to Triggers in this status
@@ -3061,7 +3109,7 @@ module Aws::DevOpsAgent
     # @example Request syntax with placeholder values
     #
     #   resp = client.register_service({
-    #     service: "dynatrace", # required, accepts dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity, mcpserversigv4
+    #     service: "dynatrace", # required, accepts dynatrace, servicenow, pagerduty, gitlab, eventChannel, mcpservernewrelic, mcpservergrafana, mcpserverdatadog, mcpserver, mcpserversplunk, azureidentity, mcpserversigv4, remoteagent, remoteagentsigv4
     #     service_details: { # required
     #       dynatrace: {
     #         account_urn: "DynatraceServiceDetailsAccountUrnString", # required
@@ -3123,7 +3171,7 @@ module Aws::DevOpsAgent
     #             return_to_endpoint: "MCPServerOAuth3LOConfigReturnToEndpointString", # required
     #             authorization_url: "MCPServerOAuth3LOConfigAuthorizationUrlString", # required
     #             exchange_url: "MCPServerOAuth3LOConfigExchangeUrlString", # required
-    #             client_secret: "ClientSecret",
+    #             client_secret: "MCPServerOAuth3LOConfigClientSecretString",
     #             support_code_challenge: false,
     #             scopes: ["OAuthScope"],
     #           },
@@ -3172,7 +3220,7 @@ module Aws::DevOpsAgent
     #             return_to_endpoint: "MCPServerOAuth3LOConfigReturnToEndpointString", # required
     #             authorization_url: "MCPServerOAuth3LOConfigAuthorizationUrlString", # required
     #             exchange_url: "MCPServerOAuth3LOConfigExchangeUrlString", # required
-    #             client_secret: "ClientSecret",
+    #             client_secret: "MCPServerOAuth3LOConfigClientSecretString",
     #             support_code_challenge: false,
     #             scopes: ["OAuthScope"],
     #           },
@@ -3230,7 +3278,7 @@ module Aws::DevOpsAgent
     #             return_to_endpoint: "MCPServerOAuth3LOConfigReturnToEndpointString", # required
     #             authorization_url: "MCPServerOAuth3LOConfigAuthorizationUrlString", # required
     #             exchange_url: "MCPServerOAuth3LOConfigExchangeUrlString", # required
-    #             client_secret: "ClientSecret",
+    #             client_secret: "MCPServerOAuth3LOConfigClientSecretString",
     #             support_code_challenge: false,
     #             scopes: ["OAuthScope"],
     #           },
@@ -3280,6 +3328,43 @@ module Aws::DevOpsAgent
     #           custom_headers: {
     #             "CustomHeaderName" => "CustomHeaderValue",
     #           },
+    #         },
+    #       },
+    #       remoteagent: {
+    #         name: "RemoteAgentName", # required
+    #         endpoint: "RemoteAgentEndpoint", # required
+    #         description: "RemoteAgentServiceDetailsDescriptionString",
+    #         authorization_config: { # required
+    #           api_key: {
+    #             api_key_name: "RemoteAgentAPIKeyConfigApiKeyNameString", # required
+    #             api_key_value: "RemoteAgentAPIKeyConfigApiKeyValueString", # required
+    #             api_key_header: "RemoteAgentAPIKeyConfigApiKeyHeaderString", # required
+    #           },
+    #           o_auth_client_credentials: {
+    #             client_name: "RemoteAgentOAuthClientCredentialsConfigClientNameString",
+    #             client_id: "ClientId", # required
+    #             exchange_parameters: {
+    #               "String" => "ExchangeParameterValue",
+    #             },
+    #             client_secret: "ClientSecret", # required
+    #             exchange_url: "RemoteAgentOAuthClientCredentialsConfigExchangeUrlString", # required
+    #             scopes: ["OAuthScope"],
+    #           },
+    #           bearer_token: {
+    #             token_name: "RemoteAgentBearerTokenConfigTokenNameString", # required
+    #             token_value: "RemoteAgentBearerTokenConfigTokenValueString", # required
+    #             authorization_header: "RemoteAgentBearerTokenConfigAuthorizationHeaderString",
+    #           },
+    #         },
+    #       },
+    #       remoteagentsigv4: {
+    #         name: "RemoteAgentName", # required
+    #         endpoint: "RemoteAgentEndpoint", # required
+    #         description: "RemoteAgentSigV4ServiceDetailsDescriptionString",
+    #         authorization_config: { # required
+    #           region: "SigV4Region", # required
+    #           service: "RemoteAgentSigV4AuthorizationConfigServiceString", # required
+    #           role_arn: "RoleArn",
     #         },
     #       },
     #     },
@@ -3711,8 +3796,8 @@ module Aws::DevOpsAgent
     #   additional encoding or escaping.
     #
     # @option params [Types::AssetContent] :content
-    #   Optional content to set or replace. A single file adds or replaces one
-    #   file; a zip replaces all files.
+    #   Optional content update. A single file adds or replaces one file; a
+    #   zip replaces all files; a sourceUrl re-syncs from the original source.
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier used for idempotent asset update
@@ -3743,6 +3828,9 @@ module Aws::DevOpsAgent
     #       },
     #       zip: {
     #         zip_file: "data", # required
+    #       },
+    #       source_url: {
+    #         url: "AssetContentUrl", # required
     #       },
     #     },
     #     client_token: "UpdateAssetRequestClientTokenString",
@@ -3846,6 +3934,9 @@ module Aws::DevOpsAgent
     #   The configuration that directs how AgentSpace interacts with the given
     #   service. The entire configuration is replaced on update.
     #
+    # @option params [Hash<String,Types::CapabilityConfiguration>] :capabilities
+    #   Enabled capabilities for this association.
+    #
     # @return [Types::UpdateAssociationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateAssociationOutput#association #association} => Types::Association
@@ -3874,6 +3965,7 @@ module Aws::DevOpsAgent
     #         owner: "String", # required
     #         owner_type: "organization", # required, accepts organization, user
     #         instance_identifier: "String",
+    #         runtime_role_arn: "RoleArn",
     #       },
     #       slack: {
     #         workspace_id: "SlackConfigurationWorkspaceIdString", # required
@@ -3910,6 +4002,7 @@ module Aws::DevOpsAgent
     #         project_id: "String", # required
     #         project_path: "String", # required
     #         instance_identifier: "String",
+    #         runtime_role_arn: "RoleArn",
     #       },
     #       mcpserversplunk: {
     #       },
@@ -3935,6 +4028,15 @@ module Aws::DevOpsAgent
     #       mcpserversigv4: {
     #         tools: ["MCPToolsListMemberString"], # required
     #       },
+    #       remoteagent: {
+    #       },
+    #       remoteagentsigv4: {
+    #       },
+    #     },
+    #     capabilities: {
+    #       "RELEASE_READINESS_REVIEW" => {
+    #         enabled: false,
+    #       },
     #     },
     #   })
     #
@@ -3958,6 +4060,7 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.github.owner #=> String
     #   resp.association.configuration.github.owner_type #=> String, one of "organization", "user"
     #   resp.association.configuration.github.instance_identifier #=> String
+    #   resp.association.configuration.github.runtime_role_arn #=> String
     #   resp.association.configuration.slack.workspace_id #=> String
     #   resp.association.configuration.slack.workspace_name #=> String
     #   resp.association.configuration.slack.transmission_target.ops_oncall_target.channel_name #=> String
@@ -3977,6 +4080,7 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.gitlab.project_id #=> String
     #   resp.association.configuration.gitlab.project_path #=> String
     #   resp.association.configuration.gitlab.instance_identifier #=> String
+    #   resp.association.configuration.gitlab.runtime_role_arn #=> String
     #   resp.association.configuration.azure.subscription_id #=> String
     #   resp.association.configuration.azuredevops.organization_name #=> String
     #   resp.association.configuration.azuredevops.project_id #=> String
@@ -3990,6 +4094,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.pagerduty.customer_email #=> String
     #   resp.association.configuration.mcpserversigv4.tools #=> Array
     #   resp.association.configuration.mcpserversigv4.tools[0] #=> String
+    #   resp.association.capabilities #=> Hash
+    #   resp.association.capabilities["CapabilityType"].enabled #=> Boolean
     #   resp.webhook.webhook_url #=> String
     #   resp.webhook.webhook_id #=> String
     #   resp.webhook.webhook_type #=> String, one of "hmac", "apikey", "gitlab", "pagerduty"
@@ -4047,7 +4153,7 @@ module Aws::DevOpsAgent
     #   resp.task.reference.reference_id #=> String
     #   resp.task.reference.reference_url #=> String
     #   resp.task.reference.association_id #=> String
-    #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION"
+    #   resp.task.task_type #=> String, one of "INVESTIGATION", "EVALUATION", "RELEASE_READINESS_REVIEW", "RELEASE_TESTING"
     #   resp.task.priority #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "MINIMAL"
     #   resp.task.status #=> String, one of "PENDING_TRIAGE", "LINKED", "PENDING_START", "IN_PROGRESS", "PENDING_CUSTOMER_APPROVAL", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELED", "SKIPPED"
     #   resp.task.created_at #=> Time
@@ -4282,12 +4388,10 @@ module Aws::DevOpsAgent
     # Updates the status of an existing Trigger
     #
     # @option params [required, String] :agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space containing the Trigger
     #
     # @option params [required, String] :trigger_id
-    #   Generic resource identifier (allows alphanumeric characters, hyphens,
-    #   and underscores; 1-128 characters)
+    #   The unique identifier of the Trigger to update
     #
     # @option params [String] :status
     #   The new status for the Trigger
@@ -4371,7 +4475,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.9.0'
+      context[:gem_version] = '1.10.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

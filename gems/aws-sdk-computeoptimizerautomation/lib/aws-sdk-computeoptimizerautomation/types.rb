@@ -674,8 +674,8 @@ module Aws::ComputeOptimizerAutomation
     # numeric values with comparison operators.
     #
     # @!attribute [rw] comparison
-    #   The comparison operator to use, such as equals, greater than, less
-    #   than, etc.
+    #   The comparison operator used to evaluate the attribute against the
+    #   specified values.
     #   @return [String]
     #
     # @!attribute [rw] values
@@ -1070,8 +1070,8 @@ module Aws::ComputeOptimizerAutomation
     # comparison operators.
     #
     # @!attribute [rw] comparison
-    #   The comparison operator to use, such as equals, greater than, less
-    #   than, etc.
+    #   The comparison operator used to evaluate the attribute against the
+    #   specified values.
     #   @return [String]
     #
     # @!attribute [rw] values
@@ -1942,8 +1942,8 @@ module Aws::ComputeOptimizerAutomation
     # including comparison operators and values.
     #
     # @!attribute [rw] comparison
-    #   The comparison operator used to evaluate the tag criteria, such as
-    #   equals, not equals, or contains.
+    #   The comparison operator used to evaluate the attribute against the
+    #   specified values.
     #   @return [String]
     #
     # @!attribute [rw] key
@@ -2134,8 +2134,8 @@ module Aws::ComputeOptimizerAutomation
     # comparison operators and target values.
     #
     # @!attribute [rw] comparison
-    #   The comparison operator used to evaluate the string criteria, such
-    #   as equals, not equals, or contains.
+    #   The comparison operator used to evaluate the attribute against the
+    #   specified values.
     #   @return [String]
     #
     # @!attribute [rw] values

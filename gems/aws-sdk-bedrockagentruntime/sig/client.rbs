@@ -81,6 +81,69 @@ module Aws
                   | (?Hash[Symbol, untyped]) -> instance
 
 
+      interface _AgenticRetrieveStreamResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::AgenticRetrieveStreamResponse]
+        def stream: () -> Types::AgenticRetrieveStreamResponseOutput
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentRuntime/Client.html#agentic_retrieve_stream-instance_method
+      def agentic_retrieve_stream: (
+                                     agentic_retrieve_configuration: {
+                                       foundation_model_configuration: {
+                                         bedrock_foundation_model_configuration: {
+                                           model_configuration: {
+                                             model_arn: ::String
+                                           }
+                                         }?,
+                                         type: ("BEDROCK_FOUNDATION_MODEL")
+                                       }?,
+                                       foundation_model_type: ("CUSTOM" | "MANAGED")?,
+                                       max_agent_iteration: ::Integer?,
+                                       reranking_configuration: {
+                                         bedrock_reranking_configuration: {
+                                           model_configuration: {
+                                             model_arn: ::String
+                                           }
+                                         }?,
+                                         type: ("BEDROCK_RERANKING_MODEL")
+                                       }?,
+                                       reranking_model_type: ("CUSTOM" | "MANAGED" | "NONE")?
+                                     },
+                                     ?generate_response: bool,
+                                     messages: Array[
+                                       {
+                                         content: {
+                                           text: ::String?
+                                         },
+                                         role: ("user" | "assistant")
+                                       }
+                                     ],
+                                     ?next_token: ::String,
+                                     ?policy_configuration: {
+                                       bedrock_guardrail_configuration: {
+                                         guardrail_id: ::String,
+                                         guardrail_version: ::String
+                                       }?
+                                     },
+                                     retrievers: Array[
+                                       {
+                                         configuration: {
+                                           knowledge_base: {
+                                             knowledge_base_id: ::String,
+                                             retrieval_overrides: {
+                                               filter: Params::retrieval_filter?,
+                                               max_number_of_results: ::Integer?
+                                             }?
+                                           }?
+                                         },
+                                         description: ::String?
+                                       }
+                                     ],
+                                     ?user_context: {
+                                       user_id: ::String
+                                     }
+                                   ) ?{ (*untyped) -> void } -> _AgenticRetrieveStreamResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _AgenticRetrieveStreamResponseSuccess
+
       interface _CreateInvocationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateInvocationResponse]
         def created_at: () -> ::Time
@@ -180,6 +243,24 @@ module Aws
                               ?next_token: ::String
                             ) -> _GetAgentMemoryResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAgentMemoryResponseSuccess
+
+      interface _GetDocumentContentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetDocumentContentResponse]
+        def document_content_length: () -> ::Integer
+        def mime_type: () -> ::String
+        def presigned_url: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentRuntime/Client.html#get_document_content-instance_method
+      def get_document_content: (
+                                  data_source_id: ::String,
+                                  document_id: ::String,
+                                  knowledge_base_id: ::String,
+                                  ?output_format: ("RAW" | "EXTRACTED"),
+                                  ?user_context: {
+                                    user_id: ::String
+                                  }
+                                ) -> _GetDocumentContentResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetDocumentContentResponseSuccess
 
       interface _GetExecutionFlowSnapshotResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetExecutionFlowSnapshotResponse]
@@ -606,6 +687,9 @@ module Aws
                         }?,
                         text: ::String?,
                         type: ("TEXT" | "IMAGE")?
+                      },
+                      ?user_context: {
+                        user_id: ::String
                       }
                     ) -> _RetrieveResponseSuccess
                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RetrieveResponseSuccess
@@ -626,7 +710,10 @@ module Aws
                                    ?session_configuration: {
                                      kms_key_arn: ::String
                                    },
-                                   ?session_id: ::String
+                                   ?session_id: ::String,
+                                   ?user_context: {
+                                     user_id: ::String
+                                   }
                                  ) -> _RetrieveAndGenerateResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RetrieveAndGenerateResponseSuccess
 
@@ -644,7 +731,10 @@ module Aws
                                           ?session_configuration: {
                                             kms_key_arn: ::String
                                           },
-                                          ?session_id: ::String
+                                          ?session_id: ::String,
+                                          ?user_context: {
+                                            user_id: ::String
+                                          }
                                         ) ?{ (*untyped) -> void } -> _RetrieveAndGenerateStreamResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _RetrieveAndGenerateStreamResponseSuccess
 

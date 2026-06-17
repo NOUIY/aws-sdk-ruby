@@ -485,6 +485,469 @@ module Aws::BedrockAgentRuntime
 
     # @!group API Operations
 
+    # Retrieves information from one or more knowledge bases using an
+    # agentic approach. Agentic retrieval uses a foundation model to
+    # intelligently decompose complex queries into sub-queries and
+    # iteratively retrieve relevant information from your knowledge bases.
+    # This approach improves retrieval accuracy for complex, multi-step
+    # questions that a single retrieval pass might not fully address.
+    #
+    # The operation returns results through a stream that includes retrieval
+    # results, trace events for visibility into the process, and a generated
+    # response synthesized from the results by default, which can be turned
+    # off.
+    #
+    # @option params [required, Types::AgenticRetrieveConfiguration] :agentic_retrieve_configuration
+    #   Configuration settings for the agentic retrieval operation.
+    #
+    # @option params [Boolean] :generate_response
+    #   Whether to generate a response based on the retrieved results.
+    #
+    # @option params [required, Array<Types::AgenticRetrieveMessage>] :messages
+    #   The list of messages for the agentic retrieval conversation.
+    #
+    # @option params [String] :next_token
+    #   Opaque continuation token for paginated results.
+    #
+    # @option params [Types::AgenticRetrievePolicyConfiguration] :policy_configuration
+    #   Policy configuration for guardrails and content filtering.
+    #
+    # @option params [required, Array<Types::AgenticRetriever>] :retrievers
+    #   The list of retrievers to use for agentic retrieval.
+    #
+    # @option params [Types::UserContext] :user_context
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that retrieval results only
+    #   include documents the user is authorized to access.
+    #
+    # @return [Types::AgenticRetrieveStreamResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AgenticRetrieveStreamResponse#stream #stream} => Types::AgenticRetrieveStreamResponseOutput
+    #
+    # @example EventStream Operation Example
+    #
+    #   # You can process the event once it arrives immediately, or wait until the
+    #   # full response is complete and iterate through the eventstream enumerator.
+    #
+    #   # To interact with event immediately, you need to register agentic_retrieve_stream
+    #   # with callbacks. Callbacks can be registered for specific events or for all
+    #   # events, including error events.
+    #
+    #   # Callbacks can be passed into the `:event_stream_handler` option or within a
+    #   # block statement attached to the #agentic_retrieve_stream call directly. Hybrid
+    #   # pattern of both is also supported.
+    #
+    #   # `:event_stream_handler` option takes in either a Proc object or
+    #   # Aws::BedrockAgentRuntime::EventStreams::AgenticRetrieveStreamResponseOutput object.
+    #
+    #   # Usage pattern a): Callbacks with a block attached to #agentic_retrieve_stream
+    #   # Example for registering callbacks for all event types and an error event
+    #   client.agentic_retrieve_stream(
+    #     # params input
+    #   ) do |stream|
+    #     stream.on_error_event do |event|
+    #       # catch unmodeled error event in the stream
+    #       raise event
+    #       # => Aws::Errors::EventError
+    #       # event.event_type => :error
+    #       # event.error_code => String
+    #       # event.error_message => String
+    #     end
+    #
+    #     stream.on_event do |event|
+    #       # process all events arrive
+    #       puts event.event_type
+    #       # ...
+    #     end
+    #   end
+    #
+    #   # Usage pattern b): Pass in `:event_stream_handler` for #agentic_retrieve_stream
+    #   #  1) Create a Aws::BedrockAgentRuntime::EventStreams::AgenticRetrieveStreamResponseOutput object
+    #   #  Example for registering callbacks with specific events
+    #
+    #   handler = Aws::BedrockAgentRuntime::EventStreams::AgenticRetrieveStreamResponseOutput.new
+    #   handler.on_access_denied_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::accessDeniedException
+    #   end
+    #   handler.on_bad_gateway_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::badGatewayException
+    #   end
+    #   handler.on_conflict_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::conflictException
+    #   end
+    #   handler.on_dependency_failed_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::dependencyFailedException
+    #   end
+    #   handler.on_internal_server_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::internalServerException
+    #   end
+    #   handler.on_resource_not_found_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::resourceNotFoundException
+    #   end
+    #   handler.on_response_event_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::responseEvent
+    #   end
+    #   handler.on_result_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::result
+    #   end
+    #   handler.on_service_quota_exceeded_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::serviceQuotaExceededException
+    #   end
+    #   handler.on_throttling_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::throttlingException
+    #   end
+    #   handler.on_trace_event_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::traceEvent
+    #   end
+    #   handler.on_validation_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::validationException
+    #   end
+    #
+    #   client.agentic_retrieve_stream(
+    #     # params inputs
+    #     event_stream_handler: handler
+    #   )
+    #
+    #   #  2) Use a Ruby Proc object
+    #   #  Example for registering callbacks with specific events
+    #   handler = Proc.new do |stream|
+    #     stream.on_access_denied_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::accessDeniedException
+    #     end
+    #     stream.on_bad_gateway_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::badGatewayException
+    #     end
+    #     stream.on_conflict_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::conflictException
+    #     end
+    #     stream.on_dependency_failed_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::dependencyFailedException
+    #     end
+    #     stream.on_internal_server_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::internalServerException
+    #     end
+    #     stream.on_resource_not_found_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::resourceNotFoundException
+    #     end
+    #     stream.on_response_event_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::responseEvent
+    #     end
+    #     stream.on_result_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::result
+    #     end
+    #     stream.on_service_quota_exceeded_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::serviceQuotaExceededException
+    #     end
+    #     stream.on_throttling_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::throttlingException
+    #     end
+    #     stream.on_trace_event_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::traceEvent
+    #     end
+    #     stream.on_validation_exception_event do |event|
+    #       event # => Aws::BedrockAgentRuntime::Types::validationException
+    #     end
+    #   end
+    #
+    #   client.agentic_retrieve_stream(
+    #     # params inputs
+    #     event_stream_handler: handler
+    #   )
+    #
+    #   #  Usage pattern c): Hybrid pattern of a) and b)
+    #   handler = Aws::BedrockAgentRuntime::EventStreams::AgenticRetrieveStreamResponseOutput.new
+    #   handler.on_access_denied_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::accessDeniedException
+    #   end
+    #   handler.on_bad_gateway_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::badGatewayException
+    #   end
+    #   handler.on_conflict_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::conflictException
+    #   end
+    #   handler.on_dependency_failed_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::dependencyFailedException
+    #   end
+    #   handler.on_internal_server_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::internalServerException
+    #   end
+    #   handler.on_resource_not_found_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::resourceNotFoundException
+    #   end
+    #   handler.on_response_event_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::responseEvent
+    #   end
+    #   handler.on_result_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::result
+    #   end
+    #   handler.on_service_quota_exceeded_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::serviceQuotaExceededException
+    #   end
+    #   handler.on_throttling_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::throttlingException
+    #   end
+    #   handler.on_trace_event_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::traceEvent
+    #   end
+    #   handler.on_validation_exception_event do |event|
+    #     event # => Aws::BedrockAgentRuntime::Types::validationException
+    #   end
+    #
+    #   client.agentic_retrieve_stream(
+    #     # params input
+    #     event_stream_handler: handler
+    #   ) do |stream|
+    #     stream.on_error_event do |event|
+    #       # catch unmodeled error event in the stream
+    #       raise event
+    #       # => Aws::Errors::EventError
+    #       # event.event_type => :error
+    #       # event.error_code => String
+    #       # event.error_message => String
+    #     end
+    #   end
+    #
+    #   # You can also iterate through events after the response complete.
+    #   # Events are available at
+    #   resp.stream # => Enumerator
+    #   # For parameter input example, please refer to following request syntax.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.agentic_retrieve_stream({
+    #     agentic_retrieve_configuration: { # required
+    #       foundation_model_configuration: {
+    #         bedrock_foundation_model_configuration: {
+    #           model_configuration: { # required
+    #             model_arn: "BedrockModelArn", # required
+    #           },
+    #         },
+    #         type: "BEDROCK_FOUNDATION_MODEL", # required, accepts BEDROCK_FOUNDATION_MODEL
+    #       },
+    #       foundation_model_type: "CUSTOM", # accepts CUSTOM, MANAGED
+    #       max_agent_iteration: 1,
+    #       reranking_configuration: {
+    #         bedrock_reranking_configuration: {
+    #           model_configuration: { # required
+    #             model_arn: "BedrockModelArn", # required
+    #           },
+    #         },
+    #         type: "BEDROCK_RERANKING_MODEL", # required, accepts BEDROCK_RERANKING_MODEL
+    #       },
+    #       reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
+    #     },
+    #     generate_response: false,
+    #     messages: [ # required
+    #       {
+    #         content: { # required
+    #           text: "String",
+    #         },
+    #         role: "user", # required, accepts user, assistant
+    #       },
+    #     ],
+    #     next_token: "NextToken",
+    #     policy_configuration: {
+    #       bedrock_guardrail_configuration: {
+    #         guardrail_id: "AgenticRetrieveBedrockGuardrailConfigurationGuardrailIdString", # required
+    #         guardrail_version: "AgenticRetrieveBedrockGuardrailConfigurationGuardrailVersionString", # required
+    #       },
+    #     },
+    #     retrievers: [ # required
+    #       {
+    #         configuration: { # required
+    #           knowledge_base: {
+    #             knowledge_base_id: "KnowledgeBaseId", # required
+    #             retrieval_overrides: {
+    #               filter: {
+    #                 and_all: [
+    #                   {
+    #                     # recursive RetrievalFilter
+    #                   },
+    #                 ],
+    #                 equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 greater_than: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 greater_than_or_equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 in: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 less_than: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 less_than_or_equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 list_contains: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 not_equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 not_in: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 or_all: [
+    #                   {
+    #                     # recursive RetrievalFilter
+    #                   },
+    #                 ],
+    #                 starts_with: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 string_contains: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #               },
+    #               max_number_of_results: 1,
+    #             },
+    #           },
+    #         },
+    #         description: "String",
+    #       },
+    #     ],
+    #     user_context: {
+    #       user_id: "String", # required
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   # All events are available at resp.stream:
+    #   resp.stream #=> Enumerator
+    #   resp.stream.event_types #=> [:access_denied_exception, :bad_gateway_exception, :conflict_exception, :dependency_failed_exception, :internal_server_exception, :resource_not_found_exception, :response_event, :result, :service_quota_exceeded_exception, :throttling_exception, :trace_event, :validation_exception]
+    #
+    #   # For :access_denied_exception event available at #on_access_denied_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :bad_gateway_exception event available at #on_bad_gateway_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #   event.resource_name #=> String
+    #
+    #   # For :conflict_exception event available at #on_conflict_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :dependency_failed_exception event available at #on_dependency_failed_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #   event.resource_name #=> String
+    #
+    #   # For :internal_server_exception event available at #on_internal_server_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #   event.reason #=> String
+    #
+    #   # For :resource_not_found_exception event available at #on_resource_not_found_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :response_event event available at #on_response_event_event callback and response eventstream enumerator:
+    #   event.text #=> String
+    #
+    #   # For :result event available at #on_result_event callback and response eventstream enumerator:
+    #   event.generated_response.answer #=> String
+    #   event.generated_response.citations #=> Array
+    #   event.generated_response.citations[0].end_index #=> Integer
+    #   event.generated_response.citations[0].references #=> Array
+    #   event.generated_response.citations[0].references[0].result_index #=> Integer
+    #   event.generated_response.citations[0].start_index #=> Integer
+    #   event.next_token #=> String
+    #   event.results #=> Array
+    #   event.results[0].content.byte_content #=> String
+    #   event.results[0].content.mime_type #=> String
+    #   event.results[0].content.text #=> String
+    #   event.results[0].metadata #=> Hash
+    #   event.results[0].source_retriever.identifier #=> String
+    #
+    #   # For :service_quota_exceeded_exception event available at #on_service_quota_exceeded_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :throttling_exception event available at #on_throttling_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   # For :trace_event event available at #on_trace_event_event callback and response eventstream enumerator:
+    #   event.attributes.actions #=> Array
+    #   event.attributes.actions[0].full_document_expansion.document_id #=> String
+    #   event.attributes.actions[0].full_document_expansion.source_retriever.identifier #=> String
+    #   event.attributes.actions[0].retrieve.input_query.text #=> String
+    #   event.attributes.actions[0].retrieve.source_retrievers #=> Array
+    #   event.attributes.actions[0].retrieve.source_retrievers[0].identifier #=> String
+    #   event.attributes.failures #=> Array
+    #   event.attributes.failures[0].message #=> String
+    #   event.attributes.message #=> String
+    #   event.attributes.retrieval_metadata #=> Array
+    #   event.attributes.retrieval_metadata[0].identifier #=> String
+    #   event.attributes.retrieval_metadata[0].retrieval_type #=> String, one of "BedrockKnowledgeBase"
+    #   event.attributes.retrieval_response #=> Array
+    #   event.attributes.retrieval_response[0].content.byte_content #=> String
+    #   event.attributes.retrieval_response[0].content.mime_type #=> String
+    #   event.attributes.retrieval_response[0].content.text #=> String
+    #   event.attributes.retrieval_response[0].metadata #=> Hash
+    #   event.attributes.retrieval_response[0].source_retriever.identifier #=> String
+    #   event.attributes.status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   event.attributes.step #=> String, one of "Planning", "Retrieval", "SpeculativeRetrieval", "FullDocumentExpansion"
+    #   event.attributes.warnings #=> Array
+    #   event.attributes.warnings[0].guardrail.action #=> String, one of "INTERVENED", "NONE"
+    #   event.attributes.warnings[0].guardrail.id #=> String
+    #   event.attributes.warnings[0].guardrail.message #=> String
+    #   event.attributes.warnings[0].guardrail.version #=> String
+    #   event.attributes.warnings[0].message.message #=> String
+    #   event.id #=> String
+    #   event.timestamp #=> Integer
+    #
+    #   # For :validation_exception event available at #on_validation_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/AgenticRetrieveStream AWS API Documentation
+    #
+    # @overload agentic_retrieve_stream(params = {})
+    # @param [Hash] params ({})
+    def agentic_retrieve_stream(params = {}, options = {}, &block)
+      params = params.dup
+      event_stream_handler = case handler = params.delete(:event_stream_handler)
+        when EventStreams::AgenticRetrieveStreamResponseOutput then handler
+        when Proc then EventStreams::AgenticRetrieveStreamResponseOutput.new.tap(&handler)
+        when nil then EventStreams::AgenticRetrieveStreamResponseOutput.new
+        else
+          msg = "expected :event_stream_handler to be a block or "\
+                "instance of Aws::BedrockAgentRuntime::EventStreams::AgenticRetrieveStreamResponseOutput"\
+                ", got `#{handler.inspect}` instead"
+          raise ArgumentError, msg
+        end
+
+      yield(event_stream_handler) if block_given?
+
+      req = build_request(:agentic_retrieve_stream, params)
+
+      req.context[:event_stream_handler] = event_stream_handler
+      req.handlers.add(Aws::Binary::DecodeHandler, priority: 95)
+
+      req.send_request(options, &block)
+    end
+
     # Creates a new invocation within a session. An invocation groups the
     # related invocation steps that store the content from a conversation.
     # For more information about sessions, see [Store and retrieve
@@ -861,6 +1324,62 @@ module Aws::BedrockAgentRuntime
     # @param [Hash] params ({})
     def get_agent_memory(params = {}, options = {})
       req = build_request(:get_agent_memory, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the content of an ingested document from a knowledge base.
+    # Returns a pre-signed URL for secure document access.
+    #
+    # @option params [required, String] :data_source_id
+    #   The unique identifier of the data source that contains the document.
+    #
+    # @option params [required, String] :document_id
+    #   The unique identifier of the document to retrieve content for.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier of the knowledge base that contains the
+    #   document.
+    #
+    # @option params [String] :output_format
+    #   The output format for the document content. `RAW` returns the original
+    #   file. `EXTRACTED` returns parsed text as JSON. Defaults to `RAW`.
+    #
+    # @option params [Types::UserContext] :user_context
+    #   Contains information about the user making the request. Use this to
+    #   pass user identity information for access control filtering, so that
+    #   retrieval results only include documents the user is authorized to
+    #   access.
+    #
+    # @return [Types::GetDocumentContentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDocumentContentResponse#document_content_length #document_content_length} => Integer
+    #   * {Types::GetDocumentContentResponse#mime_type #mime_type} => String
+    #   * {Types::GetDocumentContentResponse#presigned_url #presigned_url} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_document_content({
+    #     data_source_id: "DataSourceId", # required
+    #     document_id: "DocumentId", # required
+    #     knowledge_base_id: "KnowledgeBaseIdentifier", # required
+    #     output_format: "RAW", # accepts RAW, EXTRACTED
+    #     user_context: {
+    #       user_id: "String", # required
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.document_content_length #=> Integer
+    #   resp.mime_type #=> String
+    #   resp.presigned_url #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/GetDocumentContent AWS API Documentation
+    #
+    # @overload get_document_content(params = {})
+    # @param [Hash] params ({})
+    def get_document_content(params = {}, options = {})
+      req = build_request(:get_document_content, params)
       req.send_request(options)
     end
 
@@ -1450,7 +1969,106 @@ module Aws::BedrockAgentRuntime
     #         {
     #           knowledge_base_id: "KnowledgeBaseId", # required
     #           retrieval_configuration: { # required
-    #             vector_search_configuration: { # required
+    #             managed_search_configuration: {
+    #               filter: {
+    #                 and_all: [
+    #                   {
+    #                     # recursive RetrievalFilter
+    #                   },
+    #                 ],
+    #                 equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 greater_than: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 greater_than_or_equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 in: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 less_than: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 less_than_or_equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 list_contains: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 not_equals: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 not_in: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 or_all: [
+    #                   {
+    #                     # recursive RetrievalFilter
+    #                   },
+    #                 ],
+    #                 starts_with: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #                 string_contains: {
+    #                   key: "FilterKey", # required
+    #                   value: { # required
+    #                   },
+    #                 },
+    #               },
+    #               number_of_results: 1,
+    #               reranking_configuration: {
+    #                 bedrock_reranking_configuration: {
+    #                   metadata_configuration: {
+    #                     selection_mode: "SELECTIVE", # required, accepts SELECTIVE, ALL
+    #                     selective_mode_configuration: {
+    #                       fields_to_exclude: [
+    #                         {
+    #                           field_name: "FieldForRerankingFieldNameString", # required
+    #                         },
+    #                       ],
+    #                       fields_to_include: [
+    #                         {
+    #                           field_name: "FieldForRerankingFieldNameString", # required
+    #                         },
+    #                       ],
+    #                     },
+    #                   },
+    #                   model_configuration: { # required
+    #                     additional_model_request_fields: {
+    #                       "AdditionalModelRequestFieldsKey" => {
+    #                       },
+    #                     },
+    #                     model_arn: "BedrockRerankingModelArn", # required
+    #                   },
+    #                   number_of_reranked_results: 1,
+    #                 },
+    #                 type: "BEDROCK_RERANKING_MODEL", # required, accepts BEDROCK_RERANKING_MODEL
+    #               },
+    #               reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
+    #             },
+    #             vector_search_configuration: {
     #               filter: {
     #                 and_all: [
     #                   {
@@ -1654,12 +2272,14 @@ module Aws::BedrockAgentRuntime
     #   event.attribution.citations[0].retrieved_references[0].content.video.summary #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.confluence_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.attribution.citations[0].retrieved_references[0].location.google_drive_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.attribution.citations[0].retrieved_references[0].location.one_drive_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.s3_location.uri #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.salesforce_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.share_point_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.sql_location.query #=> String
-    #   event.attribution.citations[0].retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.attribution.citations[0].retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.attribution.citations[0].retrieved_references[0].location.web_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].metadata #=> Hash
     #   event.bytes #=> String
@@ -1962,12 +2582,14 @@ module Aws::BedrockAgentRuntime
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   event.trace.orchestration_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -2187,12 +2809,14 @@ module Aws::BedrockAgentRuntime
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   event.trace.routing_classifier_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -2788,12 +3412,14 @@ module Aws::BedrockAgentRuntime
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.orchestration_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -3013,12 +3639,14 @@ module Aws::BedrockAgentRuntime
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   event.trace.node_dependency_trace.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -3562,7 +4190,106 @@ module Aws::BedrockAgentRuntime
     #             description: "ResourceDescription", # required
     #             knowledge_base_id: "KnowledgeBaseId", # required
     #             retrieval_configuration: {
-    #               vector_search_configuration: { # required
+    #               managed_search_configuration: {
+    #                 filter: {
+    #                   and_all: [
+    #                     {
+    #                       # recursive RetrievalFilter
+    #                     },
+    #                   ],
+    #                   equals: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   greater_than: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   greater_than_or_equals: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   in: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   less_than: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   less_than_or_equals: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   list_contains: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   not_equals: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   not_in: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   or_all: [
+    #                     {
+    #                       # recursive RetrievalFilter
+    #                     },
+    #                   ],
+    #                   starts_with: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                   string_contains: {
+    #                     key: "FilterKey", # required
+    #                     value: { # required
+    #                     },
+    #                   },
+    #                 },
+    #                 number_of_results: 1,
+    #                 reranking_configuration: {
+    #                   bedrock_reranking_configuration: {
+    #                     metadata_configuration: {
+    #                       selection_mode: "SELECTIVE", # required, accepts SELECTIVE, ALL
+    #                       selective_mode_configuration: {
+    #                         fields_to_exclude: [
+    #                           {
+    #                             field_name: "FieldForRerankingFieldNameString", # required
+    #                           },
+    #                         ],
+    #                         fields_to_include: [
+    #                           {
+    #                             field_name: "FieldForRerankingFieldNameString", # required
+    #                           },
+    #                         ],
+    #                       },
+    #                     },
+    #                     model_configuration: { # required
+    #                       additional_model_request_fields: {
+    #                         "AdditionalModelRequestFieldsKey" => {
+    #                         },
+    #                       },
+    #                       model_arn: "BedrockRerankingModelArn", # required
+    #                     },
+    #                     number_of_reranked_results: 1,
+    #                   },
+    #                   type: "BEDROCK_RERANKING_MODEL", # required, accepts BEDROCK_RERANKING_MODEL
+    #                 },
+    #                 reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
+    #               },
+    #               vector_search_configuration: {
     #                 filter: {
     #                   and_all: [
     #                     {
@@ -3802,7 +4529,106 @@ module Aws::BedrockAgentRuntime
     #         description: "ResourceDescription", # required
     #         knowledge_base_id: "KnowledgeBaseId", # required
     #         retrieval_configuration: {
-    #           vector_search_configuration: { # required
+    #           managed_search_configuration: {
+    #             filter: {
+    #               and_all: [
+    #                 {
+    #                   # recursive RetrievalFilter
+    #                 },
+    #               ],
+    #               equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               greater_than: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               greater_than_or_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               in: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               less_than: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               less_than_or_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               list_contains: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               not_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               not_in: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               or_all: [
+    #                 {
+    #                   # recursive RetrievalFilter
+    #                 },
+    #               ],
+    #               starts_with: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               string_contains: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #             },
+    #             number_of_results: 1,
+    #             reranking_configuration: {
+    #               bedrock_reranking_configuration: {
+    #                 metadata_configuration: {
+    #                   selection_mode: "SELECTIVE", # required, accepts SELECTIVE, ALL
+    #                   selective_mode_configuration: {
+    #                     fields_to_exclude: [
+    #                       {
+    #                         field_name: "FieldForRerankingFieldNameString", # required
+    #                       },
+    #                     ],
+    #                     fields_to_include: [
+    #                       {
+    #                         field_name: "FieldForRerankingFieldNameString", # required
+    #                       },
+    #                     ],
+    #                   },
+    #                 },
+    #                 model_configuration: { # required
+    #                   additional_model_request_fields: {
+    #                     "AdditionalModelRequestFieldsKey" => {
+    #                     },
+    #                   },
+    #                   model_arn: "BedrockRerankingModelArn", # required
+    #                 },
+    #                 number_of_reranked_results: 1,
+    #               },
+    #               type: "BEDROCK_RERANKING_MODEL", # required, accepts BEDROCK_RERANKING_MODEL
+    #             },
+    #             reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
+    #           },
+    #           vector_search_configuration: {
     #             filter: {
     #               and_all: [
     #                 {
@@ -3980,12 +4806,14 @@ module Aws::BedrockAgentRuntime
     #   event.attribution.citations[0].retrieved_references[0].content.video.summary #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.confluence_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.attribution.citations[0].retrieved_references[0].location.google_drive_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.attribution.citations[0].retrieved_references[0].location.one_drive_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.s3_location.uri #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.salesforce_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.share_point_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].location.sql_location.query #=> String
-    #   event.attribution.citations[0].retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.attribution.citations[0].retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.attribution.citations[0].retrieved_references[0].location.web_location.url #=> String
     #   event.attribution.citations[0].retrieved_references[0].metadata #=> Hash
     #   event.bytes #=> String
@@ -4282,12 +5110,14 @@ module Aws::BedrockAgentRuntime
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   event.trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   event.trace.orchestration_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -4507,12 +5337,14 @@ module Aws::BedrockAgentRuntime
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   event.trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   event.trace.routing_classifier_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -4869,12 +5701,14 @@ module Aws::BedrockAgentRuntime
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.orchestration_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -5094,12 +5928,14 @@ module Aws::BedrockAgentRuntime
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].content.video.summary #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.confluence_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.custom_document_location.id #=> String
+    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.google_drive_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.one_drive_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.s3_location.uri #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.salesforce_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.share_point_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.sql_location.query #=> String
-    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].location.web_location.url #=> String
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.knowledge_base_lookup_output.retrieved_references[0].metadata #=> Hash
     #   resp.flow_execution_events[0].node_dependency_event.trace_elements.agent_traces[0].trace.routing_classifier_trace.observation.reprompt_response.source #=> String, one of "ACTION_GROUP", "KNOWLEDGE_BASE", "PARSER"
@@ -5847,6 +6683,12 @@ module Aws::BedrockAgentRuntime
     # @option params [required, Types::KnowledgeBaseQuery] :retrieval_query
     #   Contains the query to send the knowledge base.
     #
+    # @option params [Types::UserContext] :user_context
+    #   Contains information about the user making the request. Use this to
+    #   pass user identity information for access control filtering, so that
+    #   retrieval results only include documents the user is authorized to
+    #   access.
+    #
     # @return [Types::RetrieveResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RetrieveResponse#guardrail_action #guardrail_action} => String
@@ -5862,10 +6704,109 @@ module Aws::BedrockAgentRuntime
     #       guardrail_id: "GuardrailConfigurationGuardrailIdString", # required
     #       guardrail_version: "GuardrailConfigurationGuardrailVersionString", # required
     #     },
-    #     knowledge_base_id: "KnowledgeBaseId", # required
+    #     knowledge_base_id: "KnowledgeBaseIdentifier", # required
     #     next_token: "NextToken",
     #     retrieval_configuration: {
-    #       vector_search_configuration: { # required
+    #       managed_search_configuration: {
+    #         filter: {
+    #           and_all: [
+    #             {
+    #               # recursive RetrievalFilter
+    #             },
+    #           ],
+    #           equals: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           greater_than: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           greater_than_or_equals: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           in: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           less_than: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           less_than_or_equals: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           list_contains: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           not_equals: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           not_in: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           or_all: [
+    #             {
+    #               # recursive RetrievalFilter
+    #             },
+    #           ],
+    #           starts_with: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #           string_contains: {
+    #             key: "FilterKey", # required
+    #             value: { # required
+    #             },
+    #           },
+    #         },
+    #         number_of_results: 1,
+    #         reranking_configuration: {
+    #           bedrock_reranking_configuration: {
+    #             metadata_configuration: {
+    #               selection_mode: "SELECTIVE", # required, accepts SELECTIVE, ALL
+    #               selective_mode_configuration: {
+    #                 fields_to_exclude: [
+    #                   {
+    #                     field_name: "FieldForRerankingFieldNameString", # required
+    #                   },
+    #                 ],
+    #                 fields_to_include: [
+    #                   {
+    #                     field_name: "FieldForRerankingFieldNameString", # required
+    #                   },
+    #                 ],
+    #               },
+    #             },
+    #             model_configuration: { # required
+    #               additional_model_request_fields: {
+    #                 "AdditionalModelRequestFieldsKey" => {
+    #                 },
+    #               },
+    #               model_arn: "BedrockRerankingModelArn", # required
+    #             },
+    #             number_of_reranked_results: 1,
+    #           },
+    #           type: "BEDROCK_RERANKING_MODEL", # required, accepts BEDROCK_RERANKING_MODEL
+    #         },
+    #         reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
+    #       },
+    #       vector_search_configuration: {
     #         filter: {
     #           and_all: [
     #             {
@@ -5983,6 +6924,9 @@ module Aws::BedrockAgentRuntime
     #       text: "KnowledgeBaseQueryTextString",
     #       type: "TEXT", # accepts TEXT, IMAGE
     #     },
+    #     user_context: {
+    #       user_id: "String", # required
+    #     },
     #   })
     #
     # @example Response structure
@@ -6001,14 +6945,17 @@ module Aws::BedrockAgentRuntime
     #   resp.retrieval_results[0].content.type #=> String, one of "TEXT", "IMAGE", "ROW", "AUDIO", "VIDEO"
     #   resp.retrieval_results[0].content.video.s3_uri #=> String
     #   resp.retrieval_results[0].content.video.summary #=> String
+    #   resp.retrieval_results[0].document_id #=> String
     #   resp.retrieval_results[0].location.confluence_location.url #=> String
     #   resp.retrieval_results[0].location.custom_document_location.id #=> String
+    #   resp.retrieval_results[0].location.google_drive_location.url #=> String
     #   resp.retrieval_results[0].location.kendra_document_location.uri #=> String
+    #   resp.retrieval_results[0].location.one_drive_location.url #=> String
     #   resp.retrieval_results[0].location.s3_location.uri #=> String
     #   resp.retrieval_results[0].location.salesforce_location.url #=> String
     #   resp.retrieval_results[0].location.share_point_location.url #=> String
     #   resp.retrieval_results[0].location.sql_location.query #=> String
-    #   resp.retrieval_results[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   resp.retrieval_results[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   resp.retrieval_results[0].location.web_location.url #=> String
     #   resp.retrieval_results[0].metadata #=> Hash
     #   resp.retrieval_results[0].score #=> Float
@@ -6027,9 +6974,17 @@ module Aws::BedrockAgentRuntime
     # [inference profile][1]. The response only cites sources that are
     # relevant to the query.
     #
+    # <note markdown="1"> This API cannot be used with managed knowledge bases. Use
+    # [AgenticRetrieveStream][2] or [Retrieve][3] with managed knowledge
+    # bases.
+    #
+    #  </note>
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html
+    # [2]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_AgenticRetrieveStream.html
+    # [3]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html
     #
     # @option params [required, Types::RetrieveAndGenerateInput] :input
     #   Contains the query to be made to the knowledge base.
@@ -6052,6 +7007,12 @@ module Aws::BedrockAgentRuntime
     #   the same conversational session. This value allows Amazon Bedrock to
     #   maintain context and knowledge from previous interactions. You can't
     #   explicitly set the `sessionId` yourself.
+    #
+    # @option params [Types::UserContext] :user_context
+    #   Contains information about the user making the request. Use this to
+    #   pass user identity information for access control filtering, so that
+    #   retrieval results only include documents the user is authorized to
+    #   access.
     #
     # @return [Types::RetrieveAndGenerateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -6158,7 +7119,106 @@ module Aws::BedrockAgentRuntime
     #           },
     #         },
     #         retrieval_configuration: {
-    #           vector_search_configuration: { # required
+    #           managed_search_configuration: {
+    #             filter: {
+    #               and_all: [
+    #                 {
+    #                   # recursive RetrievalFilter
+    #                 },
+    #               ],
+    #               equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               greater_than: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               greater_than_or_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               in: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               less_than: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               less_than_or_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               list_contains: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               not_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               not_in: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               or_all: [
+    #                 {
+    #                   # recursive RetrievalFilter
+    #                 },
+    #               ],
+    #               starts_with: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               string_contains: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #             },
+    #             number_of_results: 1,
+    #             reranking_configuration: {
+    #               bedrock_reranking_configuration: {
+    #                 metadata_configuration: {
+    #                   selection_mode: "SELECTIVE", # required, accepts SELECTIVE, ALL
+    #                   selective_mode_configuration: {
+    #                     fields_to_exclude: [
+    #                       {
+    #                         field_name: "FieldForRerankingFieldNameString", # required
+    #                       },
+    #                     ],
+    #                     fields_to_include: [
+    #                       {
+    #                         field_name: "FieldForRerankingFieldNameString", # required
+    #                       },
+    #                     ],
+    #                   },
+    #                 },
+    #                 model_configuration: { # required
+    #                   additional_model_request_fields: {
+    #                     "AdditionalModelRequestFieldsKey" => {
+    #                     },
+    #                   },
+    #                   model_arn: "BedrockRerankingModelArn", # required
+    #                 },
+    #                 number_of_reranked_results: 1,
+    #               },
+    #               type: "BEDROCK_RERANKING_MODEL", # required, accepts BEDROCK_RERANKING_MODEL
+    #             },
+    #             reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
+    #           },
+    #           vector_search_configuration: {
     #             filter: {
     #               and_all: [
     #                 {
@@ -6275,6 +7335,9 @@ module Aws::BedrockAgentRuntime
     #       kms_key_arn: "KmsKeyArn", # required
     #     },
     #     session_id: "SessionId",
+    #     user_context: {
+    #       user_id: "String", # required
+    #     },
     #   })
     #
     # @example Response structure
@@ -6297,12 +7360,14 @@ module Aws::BedrockAgentRuntime
     #   resp.citations[0].retrieved_references[0].content.video.summary #=> String
     #   resp.citations[0].retrieved_references[0].location.confluence_location.url #=> String
     #   resp.citations[0].retrieved_references[0].location.custom_document_location.id #=> String
+    #   resp.citations[0].retrieved_references[0].location.google_drive_location.url #=> String
     #   resp.citations[0].retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   resp.citations[0].retrieved_references[0].location.one_drive_location.url #=> String
     #   resp.citations[0].retrieved_references[0].location.s3_location.uri #=> String
     #   resp.citations[0].retrieved_references[0].location.salesforce_location.url #=> String
     #   resp.citations[0].retrieved_references[0].location.share_point_location.url #=> String
     #   resp.citations[0].retrieved_references[0].location.sql_location.query #=> String
-    #   resp.citations[0].retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   resp.citations[0].retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   resp.citations[0].retrieved_references[0].location.web_location.url #=> String
     #   resp.citations[0].retrieved_references[0].metadata #=> Hash
     #   resp.guardrail_action #=> String, one of "INTERVENED", "NONE"
@@ -6321,6 +7386,12 @@ module Aws::BedrockAgentRuntime
     # Queries a knowledge base and generates responses based on the
     # retrieved results, with output in streaming format.
     #
+    # <note markdown="1"> This API cannot be used with managed knowledge bases. Use
+    # [AgenticRetrieveStream][1] or [Retrieve][2] with managed knowledge
+    # bases.
+    #
+    #  </note>
+    #
     # <note markdown="1"> The CLI doesn't support streaming operations in Amazon Bedrock,
     # including `InvokeModelWithResponseStream`.
     #
@@ -6328,6 +7399,11 @@ module Aws::BedrockAgentRuntime
     #
     # This operation requires permission for the `
     # bedrock:RetrieveAndGenerate` action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_AgenticRetrieveStream.html
+    # [2]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html
     #
     # @option params [required, Types::RetrieveAndGenerateInput] :input
     #   Contains the query to be made to the knowledge base.
@@ -6350,6 +7426,12 @@ module Aws::BedrockAgentRuntime
     #   the same conversational session. This value allows Amazon Bedrock to
     #   maintain context and knowledge from previous interactions. You can't
     #   explicitly set the `sessionId` yourself.
+    #
+    # @option params [Types::UserContext] :user_context
+    #   Contains information about the user making the request. Use this to
+    #   pass user identity information for access control filtering, so that
+    #   retrieval results only include documents the user is authorized to
+    #   access.
     #
     # @return [Types::RetrieveAndGenerateStreamResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -6642,7 +7724,106 @@ module Aws::BedrockAgentRuntime
     #           },
     #         },
     #         retrieval_configuration: {
-    #           vector_search_configuration: { # required
+    #           managed_search_configuration: {
+    #             filter: {
+    #               and_all: [
+    #                 {
+    #                   # recursive RetrievalFilter
+    #                 },
+    #               ],
+    #               equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               greater_than: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               greater_than_or_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               in: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               less_than: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               less_than_or_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               list_contains: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               not_equals: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               not_in: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               or_all: [
+    #                 {
+    #                   # recursive RetrievalFilter
+    #                 },
+    #               ],
+    #               starts_with: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #               string_contains: {
+    #                 key: "FilterKey", # required
+    #                 value: { # required
+    #                 },
+    #               },
+    #             },
+    #             number_of_results: 1,
+    #             reranking_configuration: {
+    #               bedrock_reranking_configuration: {
+    #                 metadata_configuration: {
+    #                   selection_mode: "SELECTIVE", # required, accepts SELECTIVE, ALL
+    #                   selective_mode_configuration: {
+    #                     fields_to_exclude: [
+    #                       {
+    #                         field_name: "FieldForRerankingFieldNameString", # required
+    #                       },
+    #                     ],
+    #                     fields_to_include: [
+    #                       {
+    #                         field_name: "FieldForRerankingFieldNameString", # required
+    #                       },
+    #                     ],
+    #                   },
+    #                 },
+    #                 model_configuration: { # required
+    #                   additional_model_request_fields: {
+    #                     "AdditionalModelRequestFieldsKey" => {
+    #                     },
+    #                   },
+    #                   model_arn: "BedrockRerankingModelArn", # required
+    #                 },
+    #                 number_of_reranked_results: 1,
+    #               },
+    #               type: "BEDROCK_RERANKING_MODEL", # required, accepts BEDROCK_RERANKING_MODEL
+    #             },
+    #             reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
+    #           },
+    #           vector_search_configuration: {
     #             filter: {
     #               and_all: [
     #                 {
@@ -6759,6 +7940,9 @@ module Aws::BedrockAgentRuntime
     #       kms_key_arn: "KmsKeyArn", # required
     #     },
     #     session_id: "SessionId",
+    #     user_context: {
+    #       user_id: "String", # required
+    #     },
     #   })
     #
     # @example Response structure
@@ -6793,12 +7977,14 @@ module Aws::BedrockAgentRuntime
     #   event.citation.retrieved_references[0].content.video.summary #=> String
     #   event.citation.retrieved_references[0].location.confluence_location.url #=> String
     #   event.citation.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.citation.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.citation.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.citation.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.citation.retrieved_references[0].location.s3_location.uri #=> String
     #   event.citation.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.citation.retrieved_references[0].location.share_point_location.url #=> String
     #   event.citation.retrieved_references[0].location.sql_location.query #=> String
-    #   event.citation.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.citation.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.citation.retrieved_references[0].location.web_location.url #=> String
     #   event.citation.retrieved_references[0].metadata #=> Hash
     #   event.generated_response_part.text_response_part.span.end #=> Integer
@@ -6818,12 +8004,14 @@ module Aws::BedrockAgentRuntime
     #   event.retrieved_references[0].content.video.summary #=> String
     #   event.retrieved_references[0].location.confluence_location.url #=> String
     #   event.retrieved_references[0].location.custom_document_location.id #=> String
+    #   event.retrieved_references[0].location.google_drive_location.url #=> String
     #   event.retrieved_references[0].location.kendra_document_location.uri #=> String
+    #   event.retrieved_references[0].location.one_drive_location.url #=> String
     #   event.retrieved_references[0].location.s3_location.uri #=> String
     #   event.retrieved_references[0].location.salesforce_location.url #=> String
     #   event.retrieved_references[0].location.share_point_location.url #=> String
     #   event.retrieved_references[0].location.sql_location.query #=> String
-    #   event.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL"
+    #   event.retrieved_references[0].location.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "KENDRA", "SQL", "ONEDRIVE", "GOOGLEDRIVE"
     #   event.retrieved_references[0].location.web_location.url #=> String
     #   event.retrieved_references[0].metadata #=> Hash
     #
@@ -7125,7 +8313,7 @@ module Aws::BedrockAgentRuntime
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentruntime'
-      context[:gem_version] = '1.76.0'
+      context[:gem_version] = '1.77.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

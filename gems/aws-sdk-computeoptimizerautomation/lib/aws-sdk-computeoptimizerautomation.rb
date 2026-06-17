@@ -55,7 +55,7 @@ module Aws::ComputeOptimizerAutomation
   autoload :EndpointProvider, 'aws-sdk-computeoptimizerautomation/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-computeoptimizerautomation/endpoints'
 
-  GEM_VERSION = '1.9.0'
+  GEM_VERSION = '1.10.0'
 
 end
 

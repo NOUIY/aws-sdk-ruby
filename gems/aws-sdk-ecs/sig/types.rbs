@@ -425,6 +425,7 @@ module Aws::ECS
       attr_accessor memory: ::String
       attr_accessor scaling_target: Types::ExpressGatewayScalingTarget
       attr_accessor tags: ::Array[Types::Tag]
+      attr_accessor task_definition_arn: ::String
       SENSITIVE: []
     end
 
@@ -1268,6 +1269,7 @@ module Aws::ECS
       attr_accessor service_revision_arn: ::String
       attr_accessor execution_role_arn: ::String
       attr_accessor task_role_arn: ::String
+      attr_accessor task_definition_arn: ::String
       attr_accessor cpu: ::String
       attr_accessor memory: ::String
       attr_accessor network_configuration: Types::ExpressGatewayServiceNetworkConfiguration
@@ -2878,6 +2880,7 @@ module Aws::ECS
       attr_accessor cpu: ::String
       attr_accessor memory: ::String
       attr_accessor scaling_target: Types::ExpressGatewayScalingTarget
+      attr_accessor task_definition_arn: ::String
       SENSITIVE: []
     end
 

@@ -1683,8 +1683,8 @@ module Aws::BedrockAgentCore
     #   resp.data_source_config.cloud_watch_logs.filter_config.time_range.start_time #=> Time
     #   resp.data_source_config.cloud_watch_logs.filter_config.time_range.end_time #=> Time
     #   resp.data_source_config.online_evaluation_config_source.online_evaluation_config_arn #=> String
-    #   resp.data_source_config.online_evaluation_config_source.session_filter_config.start_time #=> Time
-    #   resp.data_source_config.online_evaluation_config_source.session_filter_config.end_time #=> Time
+    #   resp.data_source_config.online_evaluation_config_source.time_range.start_time #=> Time
+    #   resp.data_source_config.online_evaluation_config_source.time_range.end_time #=> Time
     #   resp.output_config.cloud_watch_config.log_group_name #=> String
     #   resp.output_config.cloud_watch_config.log_stream_name #=> String
     #   resp.evaluation_results.number_of_sessions_completed #=> Integer
@@ -1722,7 +1722,7 @@ module Aws::BedrockAgentCore
     #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].span_id #=> String
     #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].trace_id #=> String
     #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals #=> Array
-    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals[0].category #=> String, one of "execution-error-category-authentication", "execution-error-category-resource-not-found", "execution-error-category-service-errors", "execution-error-category-rate-limiting", "execution-error-category-formatting", "execution-error-category-timeout", "execution-error-category-resource-exhaustion", "execution-error-category-environment", "execution-error-category-tool-schema", "task-instruction-category-non-compliance", "task-instruction-category-problem-id", "incorrect-actions-category-tool-selection", "incorrect-actions-category-poor-information-retrieval", "incorrect-actions-category-clarification", "incorrect-actions-category-inappropriate-info-request", "context-handling-error-category-context-handling-failures", "hallucination-category-hall-capabilities", "hallucination-category-hall-misunderstand", "hallucination-category-hall-usage", "hallucination-category-hall-history", "hallucination-category-hall-params", "hallucination-category-fabricate-tool-outputs", "repetitive-behavior-category-repetition-tool", "repetitive-behavior-category-repetition-info", "repetitive-behavior-category-step-repetition", "orchestration-related-errors-category-reasoning-mismatch", "orchestration-related-errors-category-goal-deviation", "orchestration-related-errors-category-premature-termination", "orchestration-related-errors-category-unaware-termination", "llm-output-category-nonsensical", "configuration-mismatch-category-tool-definition", "coding-use-case-specific-failure-types-category-edge-case-oversights", "coding-use-case-specific-failure-types-category-dependency-issues"
+    #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals[0].category #=> String, one of "execution-error-category-authentication", "execution-error-category-resource-not-found", "execution-error-category-service-errors", "execution-error-category-rate-limiting", "execution-error-category-formatting", "execution-error-category-timeout", "execution-error-category-resource-exhaustion", "execution-error-category-environment", "execution-error-category-tool-schema", "task-instruction-category-non-compliance", "task-instruction-category-problem-id", "incorrect-actions-category-tool-selection", "incorrect-actions-category-poor-information-retrieval", "incorrect-actions-category-clarification", "incorrect-actions-category-inappropriate-info-request", "context-handling-error-category-context-handling-failures", "hallucination-category-hall-capabilities", "hallucination-category-hall-misunderstand", "hallucination-category-hall-usage", "hallucination-category-hall-history", "hallucination-category-hall-params", "hallucination-category-fabricate-tool-outputs", "repetitive-behavior-category-repetition-tool", "repetitive-behavior-category-repetition-info", "repetitive-behavior-category-step-repetition", "orchestration-related-errors-category-reasoning-mismatch", "orchestration-related-errors-category-goal-deviation", "orchestration-related-errors-category-premature-termination", "orchestration-related-errors-category-unaware-termination", "llm-output-category-nonsensical", "configuration-mismatch-category-tool-definition", "coding-use-case-specific-failure-types-category-edge-case-oversights", "coding-use-case-specific-failure-types-category-dependency-issues", "other"
     #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals[0].evidence #=> String
     #   resp.failure_analysis_result.failures[0].sub_categories[0].root_causes[0].affected_sessions[0].failure_spans[0].signals[0].confidence #=> Float
     #   resp.user_intent_result.user_intents #=> Array
@@ -3497,6 +3497,9 @@ module Aws::BedrockAgentCore
     # @option params [required, String] :harness_arn
     #   The ARN of the harness to invoke.
     #
+    # @option params [String] :qualifier
+    #   The endpoint name to invoke. If omitted, the DEFAULT endpoint is used.
+    #
     # @option params [required, String] :runtime_session_id
     #   The session ID for the invocation. Use the same session ID across
     #   requests to continue a conversation.
@@ -3713,6 +3716,7 @@ module Aws::BedrockAgentCore
     #
     #   resp = client.invoke_harness({
     #     harness_arn: "HarnessArn", # required
+    #     qualifier: "HarnessEndpointName",
     #     runtime_session_id: "InvokeHarnessRequestRuntimeSessionIdString", # required
     #     runtime_user_id: "String",
     #     messages: [ # required
@@ -3852,6 +3856,9 @@ module Aws::BedrockAgentCore
     #             credential_arn: "ApiKeyArn", # required
     #             username: "String",
     #           },
+    #         },
+    #         aws_skills: {
+    #           paths: ["HarnessAwsSkillPath"],
     #         },
     #       },
     #     ],
@@ -5202,7 +5209,7 @@ module Aws::BedrockAgentCore
     #       },
     #       online_evaluation_config_source: {
     #         online_evaluation_config_arn: "OnlineEvaluationConfigArn", # required
-    #         session_filter_config: {
+    #         time_range: {
     #           start_time: Time.now,
     #           end_time: Time.now,
     #         },
@@ -6233,7 +6240,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.40.0'
+      context[:gem_version] = '1.41.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

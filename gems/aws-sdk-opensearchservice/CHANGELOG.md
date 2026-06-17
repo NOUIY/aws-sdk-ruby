@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.103.0 (2026-06-17)
+------------------
+
+* Feature - Adds support for configuring IAM Identity Center options on existing OpenSearch applications via the UpdateApplication API.
+
 1.102.0 (2026-05-27)
 ------------------
 

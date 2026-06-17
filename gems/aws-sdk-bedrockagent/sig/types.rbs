@@ -276,6 +276,11 @@ module Aws::BedrockAgent
       SENSITIVE: []
     end
 
+    class AudioExtractionConfiguration
+      attr_accessor audio_extraction_status: ("ENABLED" | "DISABLED")
+      SENSITIVE: []
+    end
+
     class AudioSegmentationConfiguration
       attr_accessor fixed_length_duration: ::Integer
       SENSITIVE: []
@@ -650,7 +655,7 @@ module Aws::BedrockAgent
       attr_accessor knowledge_base_id: ::String
       attr_accessor data_source_id: ::String
       attr_accessor name: ::String
-      attr_accessor status: ("AVAILABLE" | "DELETING" | "DELETE_UNSUCCESSFUL")
+      attr_accessor status: ("AVAILABLE" | "DELETING" | "DELETE_UNSUCCESSFUL" | "CREATING" | "UPDATING" | "FAILED")
       attr_accessor description: ::String
       attr_accessor data_source_configuration: Types::DataSourceConfiguration
       attr_accessor server_side_encryption_configuration: Types::ServerSideEncryptionConfiguration
@@ -663,7 +668,8 @@ module Aws::BedrockAgent
     end
 
     class DataSourceConfiguration
-      attr_accessor type: ("S3" | "WEB" | "CONFLUENCE" | "SALESFORCE" | "SHAREPOINT" | "CUSTOM" | "REDSHIFT_METADATA")
+      attr_accessor type: ("S3" | "WEB" | "CONFLUENCE" | "SALESFORCE" | "SHAREPOINT" | "CUSTOM" | "REDSHIFT_METADATA" | "MANAGED_KNOWLEDGE_BASE_CONNECTOR")
+      attr_accessor managed_knowledge_base_connector_configuration: Types::ManagedKnowledgeBaseConnectorConfiguration
       attr_accessor s3_configuration: Types::S3DataSourceConfiguration
       attr_accessor web_configuration: Types::WebDataSourceConfiguration
       attr_accessor confluence_configuration: Types::ConfluenceDataSourceConfiguration
@@ -676,7 +682,7 @@ module Aws::BedrockAgent
       attr_accessor knowledge_base_id: ::String
       attr_accessor data_source_id: ::String
       attr_accessor name: ::String
-      attr_accessor status: ("AVAILABLE" | "DELETING" | "DELETE_UNSUCCESSFUL")
+      attr_accessor status: ("AVAILABLE" | "DELETING" | "DELETE_UNSUCCESSFUL" | "CREATING" | "UPDATING" | "FAILED")
       attr_accessor description: ::String
       attr_accessor updated_at: ::Time
       SENSITIVE: []
@@ -741,7 +747,7 @@ module Aws::BedrockAgent
     class DeleteDataSourceResponse
       attr_accessor knowledge_base_id: ::String
       attr_accessor data_source_id: ::String
-      attr_accessor status: ("AVAILABLE" | "DELETING" | "DELETE_UNSUCCESSFUL")
+      attr_accessor status: ("AVAILABLE" | "DELETING" | "DELETE_UNSUCCESSFUL" | "CREATING" | "UPDATING" | "FAILED")
       SENSITIVE: []
     end
 
@@ -801,7 +807,7 @@ module Aws::BedrockAgent
 
     class DeleteKnowledgeBaseResponse
       attr_accessor knowledge_base_id: ::String
-      attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "UPDATING" | "FAILED" | "DELETE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "UPDATING" | "FAILED" | "DELETE_UNSUCCESSFUL" | "UPDATE_UNSUCCESSFUL")
       SENSITIVE: []
     end
 
@@ -814,6 +820,24 @@ module Aws::BedrockAgent
     class DeletePromptResponse
       attr_accessor id: ::String
       attr_accessor version: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      attr_accessor expected_revision_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteResourcePolicyResponse
+      attr_accessor resource_arn: ::String
+      attr_accessor revision_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeletionProtectionConfiguration
+      attr_accessor deletion_protection_status: ("ENABLED" | "DISABLED")
+      attr_accessor deletion_protection_threshold: ::Integer
       SENSITIVE: []
     end
 
@@ -837,6 +861,13 @@ module Aws::BedrockAgent
     class DisassociateAgentKnowledgeBaseResponse < Aws::EmptyStructure
     end
 
+    class DocumentAccessControlEntry
+      attr_accessor name: ::String
+      attr_accessor type: ("USER")
+      attr_accessor access: ("ALLOW" | "DENY")
+      SENSITIVE: []
+    end
+
     class DocumentContent
       attr_accessor data_source_type: ("CUSTOM" | "S3")
       attr_accessor custom: Types::CustomContent
@@ -855,6 +886,7 @@ module Aws::BedrockAgent
       attr_accessor type: ("IN_LINE_ATTRIBUTE" | "S3_LOCATION")
       attr_accessor inline_attributes: ::Array[Types::MetadataAttribute]
       attr_accessor s3_location: Types::CustomS3Location
+      attr_accessor access_control_list: ::Array[Types::DocumentAccessControlEntry]
       SENSITIVE: []
     end
 
@@ -1388,6 +1420,18 @@ module Aws::BedrockAgent
       SENSITIVE: [:variants]
     end
 
+    class GetResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class GetResourcePolicyResponse
+      attr_accessor resource_arn: ::String
+      attr_accessor policy: ::String
+      attr_accessor revision_id: ::String
+      SENSITIVE: []
+    end
+
     class GuardrailConfiguration
       attr_accessor guardrail_identifier: ::String
       attr_accessor guardrail_version: ::String
@@ -1402,6 +1446,11 @@ module Aws::BedrockAgent
 
     class HierarchicalChunkingLevelConfiguration
       attr_accessor max_tokens: ::Integer
+      SENSITIVE: []
+    end
+
+    class ImageExtractionConfiguration
+      attr_accessor image_extraction_status: ("ENABLED" | "DISABLED")
       SENSITIVE: []
     end
 
@@ -1466,6 +1515,7 @@ module Aws::BedrockAgent
       attr_accessor number_of_metadata_documents_modified: ::Integer
       attr_accessor number_of_documents_deleted: ::Integer
       attr_accessor number_of_documents_failed: ::Integer
+      attr_accessor number_of_documents_skipped: ::Integer
       SENSITIVE: []
     end
 
@@ -1530,7 +1580,7 @@ module Aws::BedrockAgent
       attr_accessor role_arn: ::String
       attr_accessor knowledge_base_configuration: Types::KnowledgeBaseConfiguration
       attr_accessor storage_configuration: Types::StorageConfiguration
-      attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "UPDATING" | "FAILED" | "DELETE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "UPDATING" | "FAILED" | "DELETE_UNSUCCESSFUL" | "UPDATE_UNSUCCESSFUL")
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor failure_reasons: ::Array[::String]
@@ -1538,8 +1588,9 @@ module Aws::BedrockAgent
     end
 
     class KnowledgeBaseConfiguration
-      attr_accessor type: ("VECTOR" | "KENDRA" | "SQL")
+      attr_accessor type: ("VECTOR" | "KENDRA" | "SQL" | "MANAGED")
       attr_accessor vector_knowledge_base_configuration: Types::VectorKnowledgeBaseConfiguration
+      attr_accessor managed_knowledge_base_configuration: Types::ManagedKnowledgeBaseConfiguration
       attr_accessor kendra_knowledge_base_configuration: Types::KendraKnowledgeBaseConfiguration
       attr_accessor sql_knowledge_base_configuration: Types::SqlKnowledgeBaseConfiguration
       SENSITIVE: []
@@ -1590,7 +1641,7 @@ module Aws::BedrockAgent
       attr_accessor knowledge_base_id: ::String
       attr_accessor name: ::String
       attr_accessor description: ::String
-      attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "UPDATING" | "FAILED" | "DELETE_UNSUCCESSFUL")
+      attr_accessor status: ("CREATING" | "ACTIVE" | "DELETING" | "UPDATING" | "FAILED" | "DELETE_UNSUCCESSFUL" | "UPDATE_UNSUCCESSFUL")
       attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
@@ -1837,6 +1888,28 @@ module Aws::BedrockAgent
       SENSITIVE: []
     end
 
+    class ManagedKnowledgeBaseConfiguration
+      attr_accessor embedding_model_type: ("CUSTOM" | "MANAGED")
+      attr_accessor embedding_model_arn: ::String
+      attr_accessor embedding_model_configuration: Types::EmbeddingModelConfiguration
+      attr_accessor server_side_encryption_configuration: Types::ServerSideEncryptionConfiguration
+      SENSITIVE: []
+    end
+
+    class ManagedKnowledgeBaseConnectorConfiguration
+      attr_accessor deletion_protection_configuration: Types::DeletionProtectionConfiguration
+      attr_accessor media_extraction_configuration: Types::MediaExtractionConfiguration
+      attr_accessor connector_parameters: untyped
+      SENSITIVE: []
+    end
+
+    class MediaExtractionConfiguration
+      attr_accessor image_extraction_configuration: Types::ImageExtractionConfiguration
+      attr_accessor audio_extraction_configuration: Types::AudioExtractionConfiguration
+      attr_accessor video_extraction_configuration: Types::VideoExtractionConfiguration
+      SENSITIVE: []
+    end
+
     class MemoryConfiguration
       attr_accessor enabled_memory_types: ::Array[("SESSION_SUMMARY")]
       attr_accessor storage_days: ::Integer
@@ -2026,7 +2099,7 @@ module Aws::BedrockAgent
     end
 
     class ParsingConfiguration
-      attr_accessor parsing_strategy: ("BEDROCK_FOUNDATION_MODEL" | "BEDROCK_DATA_AUTOMATION")
+      attr_accessor parsing_strategy: ("BEDROCK_FOUNDATION_MODEL" | "BEDROCK_DATA_AUTOMATION" | "SMART_PARSING")
       attr_accessor bedrock_foundation_model_configuration: Types::BedrockFoundationModelConfiguration
       attr_accessor bedrock_data_automation_configuration: Types::BedrockDataAutomationConfiguration
       SENSITIVE: []
@@ -2225,6 +2298,19 @@ module Aws::BedrockAgent
       attr_accessor additional_model_request_fields: untyped
       attr_accessor gen_ai_resource: Types::PromptGenAiResource
       SENSITIVE: [:metadata, :gen_ai_resource]
+    end
+
+    class PutResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      attr_accessor policy: ::String
+      attr_accessor expected_revision_id: ::String
+      SENSITIVE: []
+    end
+
+    class PutResourcePolicyResponse
+      attr_accessor resource_arn: ::String
+      attr_accessor revision_id: ::String
+      SENSITIVE: []
     end
 
     class QueryGenerationColumn
@@ -2992,6 +3078,11 @@ module Aws::BedrockAgent
 
     class VideoConfiguration
       attr_accessor segmentation_configuration: Types::VideoSegmentationConfiguration
+      SENSITIVE: []
+    end
+
+    class VideoExtractionConfiguration
+      attr_accessor video_extraction_status: ("ENABLED" | "DISABLED")
       SENSITIVE: []
     end
 

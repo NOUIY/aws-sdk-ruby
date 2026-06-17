@@ -454,6 +454,103 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # A form on an asset, consisting of the form type identifier and its
+    # JSON content.
+    #
+    # @!attribute [rw] form_type_id
+    #   The identifier of the form type that defines this form's schema.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The JSON content of the form, conforming to the schema of the
+    #   specified form type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssetFormEntry AWS API Documentation
+    #
+    class AssetFormEntry < Struct.new(
+      :form_type_id,
+      :content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A reference to a form type that is included in an asset type.
+    #
+    # @!attribute [rw] form_type_identifier
+    #   The identifier of the referenced form type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssetTypeFormReference AWS API Documentation
+    #
+    class AssetTypeFormReference < Struct.new(
+      :form_type_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an asset type.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the asset type.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the asset type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssetTypeItem AWS API Documentation
+    #
+    class AssetTypeItem < Struct.new(
+      :id,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset to associate glossary terms with.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_term_identifiers
+    #   The list of glossary term identifiers to associate with the asset.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssociateGlossaryTermsRequest AWS API Documentation
+    #
+    class AssociateGlossaryTermsRequest < Struct.new(
+      :identifier,
+      :glossary_term_identifiers,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_terms
+    #   The glossary terms now associated with the asset.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssociateGlossaryTermsResponse AWS API Documentation
+    #
+    class AssociateGlossaryTermsResponse < Struct.new(
+      :identifier,
+      :glossary_terms)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies a connector to an Amazon Athena data source.
     #
     # @!attribute [rw] name
@@ -1176,6 +1273,46 @@ module Aws::Glue
     class BatchGetDevEndpointsResponse < Struct.new(
       :dev_endpoints,
       :dev_endpoints_not_found)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] asset_identifier
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form to retrieve items from.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifiers
+    #   The list of item identifiers to retrieve. Each identifier can be an
+    #   item ID or item name.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetIterableFormsRequest AWS API Documentation
+    #
+    class BatchGetIterableFormsRequest < Struct.new(
+      :asset_identifier,
+      :iterable_form_name,
+      :item_identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of retrieved iterable form items.
+    #   @return [Array<Types::IterableFormItem>]
+    #
+    # @!attribute [rw] errors
+    #   The list of errors for items that could not be retrieved.
+    #   @return [Array<Types::ItemError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetIterableFormsResponse AWS API Documentation
+    #
+    class BatchGetIterableFormsResponse < Struct.new(
+      :items,
+      :errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6064,6 +6201,122 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   The name of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateGlossaryRequest AWS API Documentation
+    #
+    class CreateGlossaryRequest < Struct.new(
+      :name,
+      :description,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the glossary.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateGlossaryResponse AWS API Documentation
+    #
+    class CreateGlossaryResponse < Struct.new(
+      :id,
+      :name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] glossary_identifier
+    #   The unique identifier of the glossary in which to create the term.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_description
+    #   A short description of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] long_description
+    #   A long description of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateGlossaryTermRequest AWS API Documentation
+    #
+    class CreateGlossaryTermRequest < Struct.new(
+      :glossary_identifier,
+      :name,
+      :short_description,
+      :long_description,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_id
+    #   The unique identifier of the glossary containing this term.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_description
+    #   The short description of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] long_description
+    #   The long description of the glossary term.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateGlossaryTermResponse AWS API Documentation
+    #
+    class CreateGlossaryTermResponse < Struct.new(
+      :id,
+      :glossary_id,
+      :name,
+      :short_description,
+      :long_description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Request to create a new Glue Identity Center configuration.
     #
     # @!attribute [rw] instance_arn
@@ -9217,6 +9470,68 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAssetRequest AWS API Documentation
+    #
+    class DeleteAssetRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAssetResponse AWS API Documentation
+    #
+    class DeleteAssetResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] identifier
+    #   The identifier of the asset type to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAssetTypeRequest AWS API Documentation
+    #
+    class DeleteAssetTypeRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAssetTypeResponse AWS API Documentation
+    #
+    class DeleteAssetTypeResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset from which to delete the
+    #   attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_name
+    #   The name of the attachment to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachmentRequest AWS API Documentation
+    #
+    class DeleteAttachmentRequest < Struct.new(
+      :identifier,
+      :attachment_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachmentResponse AWS API Documentation
+    #
+    class DeleteAttachmentResponse < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the blueprint to delete.
     #   @return [String]
@@ -9498,6 +9813,54 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteDevEndpointResponse AWS API Documentation
     #
     class DeleteDevEndpointResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] identifier
+    #   The identifier of the form type to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteFormTypeRequest AWS API Documentation
+    #
+    class DeleteFormTypeRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteFormTypeResponse AWS API Documentation
+    #
+    class DeleteFormTypeResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the glossary to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteGlossaryRequest AWS API Documentation
+    #
+    class DeleteGlossaryRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteGlossaryResponse AWS API Documentation
+    #
+    class DeleteGlossaryResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the glossary term to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteGlossaryTermRequest AWS API Documentation
+    #
+    class DeleteGlossaryTermRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteGlossaryTermResponse AWS API Documentation
+    #
+    class DeleteGlossaryTermResponse < Aws::EmptyStructure; end
 
     # Request to delete the existing Glue Identity Center configuration.
     #
@@ -10804,6 +11167,51 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset to disassociate glossary terms
+    #   from.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_term_identifiers
+    #   The list of glossary term identifiers to disassociate from the
+    #   asset.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DisassociateGlossaryTermsRequest AWS API Documentation
+    #
+    class DisassociateGlossaryTermsRequest < Struct.new(
+      :identifier,
+      :glossary_term_identifiers,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_terms
+    #   The remaining glossary terms associated with the asset.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DisassociateGlossaryTermsResponse AWS API Documentation
+    #
+    class DisassociateGlossaryTermsResponse < Struct.new(
+      :identifier,
+      :glossary_terms)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Defines column statistics supported for floating-point number data
     # columns.
     #
@@ -12039,6 +12447,131 @@ module Aws::Glue
       :job_id,
       :job_name,
       :job_run_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of a form type.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the form type.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the form type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/FormTypeItem AWS API Documentation
+    #
+    class FormTypeItem < Struct.new(
+      :id,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetAssetInput AWS API Documentation
+    #
+    class GetAssetInput < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp at which the asset was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp at which the asset was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] asset_type_id
+    #   The identifier of the asset type for this asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_terms
+    #   The identifiers of the glossary terms associated with the asset.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] forms
+    #   The forms on the asset, keyed by form name.
+    #   @return [Hash<String,Types::AssetFormEntry>]
+    #
+    # @!attribute [rw] attachments
+    #   Additional attachments on the asset for more context, keyed by
+    #   attachment name.
+    #   @return [Hash<String,Types::AssetFormEntry>]
+    #
+    # @!attribute [rw] iterable_forms
+    #   The iterable forms available on the asset, keyed by form name (for
+    #   example, `columns`). Use the form name with `ListIterableForms` or
+    #   `BatchGetIterableForms` to retrieve the form's items.
+    #   @return [Hash<String,Types::IterableFormEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetAssetOutput AWS API Documentation
+    #
+    class GetAssetOutput < Struct.new(
+      :id,
+      :name,
+      :description,
+      :created_at,
+      :updated_at,
+      :asset_type_id,
+      :glossary_terms,
+      :forms,
+      :attachments,
+      :iterable_forms)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The identifier of the asset type to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetAssetTypeRequest AWS API Documentation
+    #
+    class GetAssetTypeRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the asset type.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the asset type.
+    #   @return [String]
+    #
+    # @!attribute [rw] forms
+    #   The forms that make up the asset type, keyed by form name.
+    #   @return [Hash<String,Types::AssetTypeFormReference>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetAssetTypeResponse AWS API Documentation
+    #
+    class GetAssetTypeResponse < Struct.new(
+      :id,
+      :name,
+      :forms)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13558,6 +14091,118 @@ module Aws::Glue
       :records,
       :next_token)
       SENSITIVE = [:records]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The identifier of the form type to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetFormTypeRequest AWS API Documentation
+    #
+    class GetFormTypeRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the form type.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the form type.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema
+    #   The Smithy IDL schema of the form type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetFormTypeResponse AWS API Documentation
+    #
+    class GetFormTypeResponse < Struct.new(
+      :id,
+      :name,
+      :schema)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the glossary to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetGlossaryRequest AWS API Documentation
+    #
+    class GetGlossaryRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the glossary.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetGlossaryResponse AWS API Documentation
+    #
+    class GetGlossaryResponse < Struct.new(
+      :id,
+      :name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the glossary term to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetGlossaryTermRequest AWS API Documentation
+    #
+    class GetGlossaryTermRequest < Struct.new(
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_id
+    #   The unique identifier of the glossary containing this term.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_description
+    #   The short description of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] long_description
+    #   The long description of the glossary term.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetGlossaryTermResponse AWS API Documentation
+    #
+    class GetGlossaryTermResponse < Struct.new(
+      :id,
+      :glossary_id,
+      :name,
+      :short_description,
+      :long_description)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -16279,6 +16924,54 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # A summary of a business glossary.
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the glossary.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GlossaryItem AWS API Documentation
+    #
+    class GlossaryItem < Struct.new(
+      :id,
+      :name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of a glossary term.
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_description
+    #   The short description of the glossary term.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GlossaryTermItem AWS API Documentation
+    #
+    class GlossaryTermItem < Struct.new(
+      :id,
+      :name,
+      :short_description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An encryption operation failed.
     #
     # @!attribute [rw] message
@@ -17929,6 +18622,110 @@ module Aws::Glue
     #
     class InvalidStateException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An error that occurred when retrieving an iterable form item.
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item that caused the error.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ItemError AWS API Documentation
+    #
+    class ItemError < Struct.new(
+      :item_identifier,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An iterable form available on an asset, identified by its form type.
+    #
+    # @!attribute [rw] form_type_id
+    #   The form type identifier of the iterable form (for example,
+    #   `columns`), used to retrieve its items via `ListIterableForms` or
+    #   `BatchGetIterableForms`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/IterableFormEntry AWS API Documentation
+    #
+    class IterableFormEntry < Struct.new(
+      :form_type_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A full iterable form item with its forms.
+    #
+    # @!attribute [rw] item_id
+    #   The unique identifier of the item.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_name
+    #   The name of the item.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_terms
+    #   The identifiers of the glossary terms associated with the item.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] forms
+    #   The forms on the item, keyed by form name.
+    #   @return [Hash<String,Types::AssetFormEntry>]
+    #
+    # @!attribute [rw] attachments
+    #   Additional attachments on the item for more context, keyed by
+    #   attachment name.
+    #   @return [Hash<String,Types::AssetFormEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/IterableFormItem AWS API Documentation
+    #
+    class IterableFormItem < Struct.new(
+      :item_id,
+      :item_name,
+      :glossary_terms,
+      :forms,
+      :attachments)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an item in an iterable form.
+    #
+    # @!attribute [rw] item_id
+    #   The unique identifier of the item.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_name
+    #   The name of the item.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the item.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_terms
+    #   The identifiers of the glossary terms associated with the item.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/IterableFormListItem AWS API Documentation
+    #
+    class IterableFormListItem < Struct.new(
+      :item_id,
+      :item_name,
+      :description,
+      :glossary_terms)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19843,6 +20640,41 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, if this is a continuation call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListAssetTypesRequest AWS API Documentation
+    #
+    class ListAssetTypesRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of asset type items.
+    #   @return [Array<Types::AssetTypeItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, present if the current segment is not the
+    #   last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListAssetTypesResponse AWS API Documentation
+    #
+    class ListAssetTypesResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] next_token
     #   A continuation token, if this is a continuation request.
     #   @return [String]
@@ -20436,6 +21268,116 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, if this is a continuation call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListFormTypesRequest AWS API Documentation
+    #
+    class ListFormTypesRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of form type items.
+    #   @return [Array<Types::FormTypeItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, present if the current segment is not the
+    #   last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListFormTypesResponse AWS API Documentation
+    #
+    class ListFormTypesResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, if this is a continuation call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListGlossariesRequest AWS API Documentation
+    #
+    class ListGlossariesRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of glossary items.
+    #   @return [Array<Types::GlossaryItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, present if the current segment is not the
+    #   last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListGlossariesResponse AWS API Documentation
+    #
+    class ListGlossariesResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] glossary_identifier
+    #   The unique identifier of the glossary whose terms to list.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, if this is a continuation call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListGlossaryTermsRequest AWS API Documentation
+    #
+    class ListGlossaryTermsRequest < Struct.new(
+      :glossary_identifier,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of glossary term items.
+    #   @return [Array<Types::GlossaryTermItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, present if the current segment is not the
+    #   last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListGlossaryTermsResponse AWS API Documentation
+    #
+    class ListGlossaryTermsResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] marker
     #   This is the pagination token for next page, initial value is `null`.
     #   @return [String]
@@ -20472,6 +21414,51 @@ module Aws::Glue
     class ListIntegrationResourcePropertiesResponse < Struct.new(
       :integration_resource_property_list,
       :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] asset_identifier
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form to list items from.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, if this is a continuation call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListIterableFormsRequest AWS API Documentation
+    #
+    class ListIterableFormsRequest < Struct.new(
+      :asset_identifier,
+      :iterable_form_name,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of iterable form items.
+    #   @return [Array<Types::IterableFormListItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, present if the current segment is not the
+    #   last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListIterableFormsResponse AWS API Documentation
+    #
+    class ListIterableFormsResponse < Struct.new(
+      :items,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22941,6 +23928,212 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] asset_type_id
+    #   The identifier of the asset type for the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset. If an asset with this identifier
+    #   already exists, it is updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] forms
+    #   The forms to set on the asset, keyed by form name. Each entry
+    #   specifies the form type and its JSON content.
+    #   @return [Hash<String,Types::AssetFormEntry>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAssetRequest AWS API Documentation
+    #
+    class PutAssetRequest < Struct.new(
+      :asset_type_id,
+      :identifier,
+      :name,
+      :description,
+      :forms,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp at which the asset was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] forms
+    #   The forms attached to the asset, keyed by form name.
+    #   @return [Hash<String,Types::AssetFormEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAssetResponse AWS API Documentation
+    #
+    class PutAssetResponse < Struct.new(
+      :id,
+      :name,
+      :description,
+      :created_at,
+      :forms)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the asset type.
+    #   @return [String]
+    #
+    # @!attribute [rw] forms
+    #   The forms that make up the asset type, keyed by form name. Each
+    #   entry references the form type that defines the form's schema.
+    #   @return [Hash<String,Types::AssetTypeFormReference>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAssetTypeRequest AWS API Documentation
+    #
+    class PutAssetTypeRequest < Struct.new(
+      :name,
+      :forms,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the asset type.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the asset type.
+    #   @return [String]
+    #
+    # @!attribute [rw] forms
+    #   The forms that make up the asset type, keyed by form name.
+    #   @return [Hash<String,Types::AssetTypeFormReference>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAssetTypeResponse AWS API Documentation
+    #
+    class PutAssetTypeResponse < Struct.new(
+      :id,
+      :name,
+      :forms)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] asset_identifier
+    #   The unique identifier of the asset to attach the form to.
+    #   @return [String]
+    #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the attachment targets an item within the iterable
+    #   form rather than the asset itself.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_name
+    #   The name of the attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The JSON content of the form, conforming to the schema of the
+    #   specified form type.
+    #   @return [String]
+    #
+    # @!attribute [rw] form_type_id
+    #   The identifier of the form type for this attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAttachmentRequest AWS API Documentation
+    #
+    class PutAttachmentRequest < Struct.new(
+      :asset_identifier,
+      :iterable_form_name,
+      :item_identifier,
+      :attachment_name,
+      :content,
+      :form_type_id,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] asset_id
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form, if the attachment targets an item.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] attachment_name
+    #   The name of the attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] form_type_id
+    #   The identifier of the form type for this attachment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAttachmentResponse AWS API Documentation
+    #
+    class PutAttachmentResponse < Struct.new(
+      :asset_id,
+      :iterable_form_name,
+      :item_identifier,
+      :attachment_name,
+      :form_type_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] catalog_id
     #   The ID of the Data Catalog to set the security configuration for. If
     #   none is provided, the Amazon Web Services account ID is used by
@@ -22986,6 +24179,54 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataQualityProfileAnnotationResponse AWS API Documentation
     #
     class PutDataQualityProfileAnnotationResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] name
+    #   The name of the form type. Must start with an uppercase letter.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema
+    #   The Smithy IDL schema definition for the form type.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutFormTypeRequest AWS API Documentation
+    #
+    class PutFormTypeRequest < Struct.new(
+      :name,
+      :schema,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the form type.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the form type.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema
+    #   The Smithy IDL schema of the form type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutFormTypeResponse AWS API Documentation
+    #
+    class PutFormTypeResponse < Struct.new(
+      :id,
+      :name,
+      :schema)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] policy_in_json
     #   Contains the policy document to set, in JSON format.
@@ -25693,6 +26934,251 @@ module Aws::Glue
     class SchemaVersionNumber < Struct.new(
       :latest_version,
       :version_number)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter that compares an attribute value using an operator.
+    #
+    # @!attribute [rw] attribute
+    #   The attribute name to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The comparison operator. Valid values are `equals`, `greaterThan`,
+    #   `greaterThanOrEquals`, `lessThan`, `lessThanOrEquals`, and
+    #   `notExists`.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value to compare against.
+    #   @return [Types::SearchFilterValue]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchAttributeFilter AWS API Documentation
+    #
+    class SearchAttributeFilter < Struct.new(
+      :attribute,
+      :operator,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter clause that supports nested boolean logic. Exactly one of
+    # `andAllFilters`, `orAnyFilters`, `attributeFilter`, or `mapFilter`
+    # must be specified.
+    #
+    # @note SearchFilterClause is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] and_all_filters
+    #   A list of filter clauses that must all match (logical AND).
+    #   @return [Array<Types::SearchFilterClause>]
+    #
+    # @!attribute [rw] or_any_filters
+    #   A list of filter clauses where at least one must match (logical OR).
+    #   @return [Array<Types::SearchFilterClause>]
+    #
+    # @!attribute [rw] attribute_filter
+    #   A filter on a single attribute value.
+    #   @return [Types::SearchAttributeFilter]
+    #
+    # @!attribute [rw] map_filter
+    #   A filter on a map attribute's key-value pair.
+    #   @return [Types::SearchMapFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchFilterClause AWS API Documentation
+    #
+    class SearchFilterClause < Struct.new(
+      :and_all_filters,
+      :or_any_filters,
+      :attribute_filter,
+      :map_filter,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AndAllFilters < SearchFilterClause; end
+      class OrAnyFilters < SearchFilterClause; end
+      class AttributeFilter < SearchFilterClause; end
+      class MapFilter < SearchFilterClause; end
+      class Unknown < SearchFilterClause; end
+    end
+
+    # A filter value. Exactly one of `stringValue` or `longValue` must be
+    # specified.
+    #
+    # @note SearchFilterValue is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] string_value
+    #   A string filter value.
+    #   @return [String]
+    #
+    # @!attribute [rw] long_value
+    #   A long integer filter value.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchFilterValue AWS API Documentation
+    #
+    class SearchFilterValue < Struct.new(
+      :string_value,
+      :long_value,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class StringValue < SearchFilterValue; end
+      class LongValue < SearchFilterValue; end
+      class Unknown < SearchFilterValue; end
+    end
+
+    # @!attribute [rw] search_text
+    #   The text to search for. At least one of `searchText` or
+    #   `filterClause` must be provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, if this is a continuation call.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort
+    #   The sort criteria for the search results.
+    #   @return [Types::SearchSort]
+    #
+    # @!attribute [rw] filter_clause
+    #   The filter clause to apply to the search. Supports nested AND/OR
+    #   logic with attribute-level and map-level filters.
+    #   @return [Types::SearchFilterClause]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchInput AWS API Documentation
+    #
+    class SearchInput < Struct.new(
+      :search_text,
+      :max_results,
+      :next_token,
+      :sort,
+      :filter_clause)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter on a map attribute's key-value pair.
+    #
+    # @!attribute [rw] attribute
+    #   The map attribute name to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] key
+    #   The key within the map attribute to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value to compare against.
+    #   @return [Types::SearchMapFilterValue]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchMapFilter AWS API Documentation
+    #
+    class SearchMapFilter < Struct.new(
+      :attribute,
+      :key,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A map filter value. Currently supports string comparison only.
+    #
+    # @note SearchMapFilterValue is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] string_value
+    #   A string filter value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchMapFilterValue AWS API Documentation
+    #
+    class SearchMapFilterValue < Struct.new(
+      :string_value,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class StringValue < SearchMapFilterValue; end
+      class Unknown < SearchMapFilterValue; end
+    end
+
+    # @!attribute [rw] items
+    #   The list of assets matching the search criteria.
+    #   @return [Array<Types::SearchResultItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, present if the current segment is not the
+    #   last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchOutput AWS API Documentation
+    #
+    class SearchOutput < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A single search result item representing a matched asset.
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the matched asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_name
+    #   The name of the matched asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_description
+    #   The description of the matched asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp at which the matched asset was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] asset_type_id
+    #   The identifier of the asset type for the matched asset.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchResultItem AWS API Documentation
+    #
+    class SearchResultItem < Struct.new(
+      :id,
+      :asset_name,
+      :asset_description,
+      :updated_at,
+      :asset_type_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The sort criteria for search results.
+    #
+    # @!attribute [rw] attribute
+    #   The attribute to sort by.
+    #   @return [String]
+    #
+    # @!attribute [rw] order
+    #   The sort order. Valid values are `ASCENDING` and `DESCENDING`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchSort AWS API Documentation
+    #
+    class SearchSort < Struct.new(
+      :attribute,
+      :order)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -30053,6 +31539,127 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateDevEndpointResponse AWS API Documentation
     #
     class UpdateDevEndpointResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the glossary to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The updated name of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateGlossaryRequest AWS API Documentation
+    #
+    class UpdateGlossaryRequest < Struct.new(
+      :identifier,
+      :name,
+      :description,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the glossary.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateGlossaryResponse AWS API Documentation
+    #
+    class UpdateGlossaryResponse < Struct.new(
+      :id,
+      :name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identifier
+    #   The unique identifier of the glossary term to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The updated name of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_description
+    #   The updated short description of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] long_description
+    #   The updated long description of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateGlossaryTermRequest AWS API Documentation
+    #
+    class UpdateGlossaryTermRequest < Struct.new(
+      :identifier,
+      :name,
+      :short_description,
+      :long_description,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] glossary_id
+    #   The unique identifier of the glossary containing this term.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] short_description
+    #   The short description of the glossary term.
+    #   @return [String]
+    #
+    # @!attribute [rw] long_description
+    #   The long description of the glossary term.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateGlossaryTermResponse AWS API Documentation
+    #
+    class UpdateGlossaryTermResponse < Struct.new(
+      :id,
+      :glossary_id,
+      :name,
+      :short_description,
+      :long_description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Request to update an existing Glue Identity Center configuration.
     #

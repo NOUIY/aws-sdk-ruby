@@ -1206,6 +1206,52 @@ module Aws::MQ
       req.send_request(options)
     end
 
+    # Returns the resources shared to a broker.
+    #
+    # @option params [required, String] :broker_id
+    #
+    # @option params [Integer] :max_results
+    #
+    # @option params [String] :next_token
+    #
+    # @return [Types::DescribeSharedResourcesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeSharedResourcesResponse#next_token #next_token} => String
+    #   * {Types::DescribeSharedResourcesResponse#shared_resources #shared_resources} => Array&lt;Types::SharedResource&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_shared_resources({
+    #     broker_id: "__string", # required
+    #     max_results: 1,
+    #     next_token: "__string",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.shared_resources #=> Array
+    #   resp.shared_resources[0].dns_names #=> Array
+    #   resp.shared_resources[0].dns_names[0] #=> String
+    #   resp.shared_resources[0].error.code #=> String, one of "QUOTA_EXCEEDED", "SHARE_NOT_FOUND", "INVITE_FAILED", "SETUP_INCOMPLETE", "INTERNAL_ERROR", "AZ_MISMATCH", "RESOURCE_CONFIGURATION_NOT_FOUND"
+    #   resp.shared_resources[0].error.message #=> String
+    #   resp.shared_resources[0].resource_arn #=> String
+    #   resp.shared_resources[0].resource_share_arns #=> Array
+    #   resp.shared_resources[0].resource_share_arns[0] #=> String
+    #   resp.shared_resources[0].status #=> String, one of "AVAILABLE", "SETUP_IN_PROGRESS", "DELETION_IN_PROGRESS", "PENDING_CREATE", "PENDING_DELETE", "ERROR"
+    #   resp.shared_resources[0].type #=> String, one of "RESOURCE_SHARE", "RESOURCE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/DescribeSharedResources AWS API Documentation
+    #
+    # @overload describe_shared_resources(params = {})
+    # @param [Hash] params ({})
+    def describe_shared_resources(params = {}, options = {})
+      req = build_request(:describe_shared_resources, params)
+      req.send_request(options)
+    end
+
     # Returns information about an ActiveMQ user.
     #
     # @option params [required, String] :broker_id
@@ -1533,6 +1579,8 @@ module Aws::MQ
     #   The scheduled time period relative to UTC during which Amazon MQ
     #   begins to apply pending updates or patches to the broker.
     #
+    # @option params [Array<String>] :resource_share_arns
+    #
     # @option params [Array<String>] :security_groups
     #
     # @option params [String] :data_replication_mode
@@ -1549,6 +1597,7 @@ module Aws::MQ
     #   * {Types::UpdateBrokerResponse#ldap_server_metadata #ldap_server_metadata} => Types::LdapServerMetadataOutput
     #   * {Types::UpdateBrokerResponse#logs #logs} => Types::Logs
     #   * {Types::UpdateBrokerResponse#maintenance_window_start_time #maintenance_window_start_time} => Types::WeeklyStartTime
+    #   * {Types::UpdateBrokerResponse#resource_share_arns #resource_share_arns} => Array&lt;String&gt;
     #   * {Types::UpdateBrokerResponse#security_groups #security_groups} => Array&lt;String&gt;
     #   * {Types::UpdateBrokerResponse#data_replication_metadata #data_replication_metadata} => Types::DataReplicationMetadataOutput
     #   * {Types::UpdateBrokerResponse#data_replication_mode #data_replication_mode} => String
@@ -1589,6 +1638,7 @@ module Aws::MQ
     #       time_of_day: "__string", # required
     #       time_zone: "__string",
     #     },
+    #     resource_share_arns: ["__string"],
     #     security_groups: ["__string"],
     #     data_replication_mode: "NONE", # accepts NONE, CRDR
     #   })
@@ -1618,6 +1668,8 @@ module Aws::MQ
     #   resp.maintenance_window_start_time.day_of_week #=> String, one of "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"
     #   resp.maintenance_window_start_time.time_of_day #=> String
     #   resp.maintenance_window_start_time.time_zone #=> String
+    #   resp.resource_share_arns #=> Array
+    #   resp.resource_share_arns[0] #=> String
     #   resp.security_groups #=> Array
     #   resp.security_groups[0] #=> String
     #   resp.data_replication_metadata.data_replication_counterpart.broker_id #=> String
@@ -1740,7 +1792,7 @@ module Aws::MQ
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mq'
-      context[:gem_version] = '1.97.0'
+      context[:gem_version] = '1.98.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -481,6 +481,50 @@ module Aws::Glue
 
     # @!group API Operations
 
+    # Associates one or more glossary terms with an asset in Glue Data
+    # Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the asset to associate glossary terms with.
+    #
+    # @option params [required, Array<String>] :glossary_term_identifiers
+    #   The list of glossary term identifiers to associate with the asset.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::AssociateGlossaryTermsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AssociateGlossaryTermsResponse#identifier #identifier} => String
+    #   * {Types::AssociateGlossaryTermsResponse#glossary_terms #glossary_terms} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_glossary_terms({
+    #     identifier: "AssetId", # required
+    #     glossary_term_identifiers: ["GlossaryTermId"], # required
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.identifier #=> String
+    #   resp.glossary_terms #=> Array
+    #   resp.glossary_terms[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssociateGlossaryTerms AWS API Documentation
+    #
+    # @overload associate_glossary_terms(params = {})
+    # @param [Hash] params ({})
+    def associate_glossary_terms(params = {}, options = {})
+      req = build_request(:associate_glossary_terms, params)
+      req.send_request(options)
+    end
+
     # Creates one or more partitions in a batch operation.
     #
     # @option params [String] :catalog_id
@@ -1139,6 +1183,59 @@ module Aws::Glue
     # @param [Hash] params ({})
     def batch_get_dev_endpoints(params = {}, options = {})
       req = build_request(:batch_get_dev_endpoints, params)
+      req.send_request(options)
+    end
+
+    # Retrieves multiple items from an iterable form on an asset in Glue
+    # Data Catalog in a single request.
+    #
+    # @option params [required, String] :asset_identifier
+    #   The unique identifier of the asset.
+    #
+    # @option params [required, String] :iterable_form_name
+    #   The name of the iterable form to retrieve items from.
+    #
+    # @option params [required, Array<String>] :item_identifiers
+    #   The list of item identifiers to retrieve. Each identifier can be an
+    #   item ID or item name.
+    #
+    # @return [Types::BatchGetIterableFormsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetIterableFormsResponse#items #items} => Array&lt;Types::IterableFormItem&gt;
+    #   * {Types::BatchGetIterableFormsResponse#errors #errors} => Array&lt;Types::ItemError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_iterable_forms({
+    #     asset_identifier: "AssetId", # required
+    #     iterable_form_name: "IterableFormName", # required
+    #     item_identifiers: ["ItemIdentifier"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].item_id #=> String
+    #   resp.items[0].item_name #=> String
+    #   resp.items[0].glossary_terms #=> Array
+    #   resp.items[0].glossary_terms[0] #=> String
+    #   resp.items[0].forms #=> Hash
+    #   resp.items[0].forms["AssetFormKey"].form_type_id #=> String
+    #   resp.items[0].forms["AssetFormKey"].content #=> String
+    #   resp.items[0].attachments #=> Hash
+    #   resp.items[0].attachments["AssetFormKey"].form_type_id #=> String
+    #   resp.items[0].attachments["AssetFormKey"].content #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].item_identifier #=> String
+    #   resp.errors[0].code #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetIterableForms AWS API Documentation
+    #
+    # @overload batch_get_iterable_forms(params = {})
+    # @param [Hash] params ({})
+    def batch_get_iterable_forms(params = {}, options = {})
+      req = build_request(:batch_get_iterable_forms, params)
       req.send_request(options)
     end
 
@@ -2909,6 +3006,108 @@ module Aws::Glue
     # @param [Hash] params ({})
     def create_dev_endpoint(params = {}, options = {})
       req = build_request(:create_dev_endpoint, params)
+      req.send_request(options)
+    end
+
+    # Creates a business glossary in Glue Data Catalog. A glossary is a
+    # container for glossary terms that define business concepts.
+    #
+    # @option params [required, String] :name
+    #   The name of the glossary.
+    #
+    # @option params [String] :description
+    #   The description of the glossary.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateGlossaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateGlossaryResponse#id #id} => String
+    #   * {Types::CreateGlossaryResponse#name #name} => String
+    #   * {Types::CreateGlossaryResponse#description #description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_glossary({
+    #     name: "GlossaryName", # required
+    #     description: "MetadataDescription",
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateGlossary AWS API Documentation
+    #
+    # @overload create_glossary(params = {})
+    # @param [Hash] params ({})
+    def create_glossary(params = {}, options = {})
+      req = build_request(:create_glossary, params)
+      req.send_request(options)
+    end
+
+    # Creates a glossary term within a business glossary in Glue Data
+    # Catalog.
+    #
+    # @option params [required, String] :glossary_identifier
+    #   The unique identifier of the glossary in which to create the term.
+    #
+    # @option params [required, String] :name
+    #   The name of the glossary term.
+    #
+    # @option params [String] :short_description
+    #   A short description of the glossary term.
+    #
+    # @option params [String] :long_description
+    #   A long description of the glossary term.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateGlossaryTermResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateGlossaryTermResponse#id #id} => String
+    #   * {Types::CreateGlossaryTermResponse#glossary_id #glossary_id} => String
+    #   * {Types::CreateGlossaryTermResponse#name #name} => String
+    #   * {Types::CreateGlossaryTermResponse#short_description #short_description} => String
+    #   * {Types::CreateGlossaryTermResponse#long_description #long_description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_glossary_term({
+    #     glossary_identifier: "GlossaryId", # required
+    #     name: "GlossaryTermName", # required
+    #     short_description: "GlossaryShortDescription",
+    #     long_description: "GlossaryLongDescription",
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.glossary_id #=> String
+    #   resp.name #=> String
+    #   resp.short_description #=> String
+    #   resp.long_description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateGlossaryTerm AWS API Documentation
+    #
+    # @overload create_glossary_term(params = {})
+    # @param [Hash] params ({})
+    def create_glossary_term(params = {}, options = {})
+      req = build_request(:create_glossary_term, params)
       req.send_request(options)
     end
 
@@ -4864,6 +5063,83 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Deletes an asset from Glue Data Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the asset to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_asset({
+    #     identifier: "AssetId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAsset AWS API Documentation
+    #
+    # @overload delete_asset(params = {})
+    # @param [Hash] params ({})
+    def delete_asset(params = {}, options = {})
+      req = build_request(:delete_asset, params)
+      req.send_request(options)
+    end
+
+    # Deletes an asset type from Glue Data Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The identifier of the asset type to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_asset_type({
+    #     identifier: "AssetTypeId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAssetType AWS API Documentation
+    #
+    # @overload delete_asset_type(params = {})
+    # @param [Hash] params ({})
+    def delete_asset_type(params = {}, options = {})
+      req = build_request(:delete_asset_type, params)
+      req.send_request(options)
+    end
+
+    # Deletes a form attachment from an asset in Glue Data Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the asset from which to delete the
+    #   attachment.
+    #
+    # @option params [required, String] :attachment_name
+    #   The name of the attachment to delete.
+    #
+    # @return [Types::DeleteAttachmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteAttachmentResponse#identifier #identifier} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_attachment({
+    #     identifier: "AssetId", # required
+    #     attachment_name: "AttachmentName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.identifier #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachment AWS API Documentation
+    #
+    # @overload delete_attachment(params = {})
+    # @param [Hash] params ({})
+    def delete_attachment(params = {}, options = {})
+      req = build_request(:delete_attachment, params)
+      req.send_request(options)
+    end
+
     # Deletes an existing blueprint.
     #
     # @option params [required, String] :name
@@ -5247,6 +5523,74 @@ module Aws::Glue
     # @param [Hash] params ({})
     def delete_dev_endpoint(params = {}, options = {})
       req = build_request(:delete_dev_endpoint, params)
+      req.send_request(options)
+    end
+
+    # Deletes a form type from Glue Data Catalog. A form type cannot be
+    # deleted if it is still referenced by an asset type.
+    #
+    # @option params [required, String] :identifier
+    #   The identifier of the form type to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_form_type({
+    #     identifier: "FormTypeId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteFormType AWS API Documentation
+    #
+    # @overload delete_form_type(params = {})
+    # @param [Hash] params ({})
+    def delete_form_type(params = {}, options = {})
+      req = build_request(:delete_form_type, params)
+      req.send_request(options)
+    end
+
+    # Deletes a business glossary from Glue Data Catalog. A glossary cannot
+    # be deleted if it still contains glossary terms.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the glossary to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_glossary({
+    #     identifier: "GlossaryId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteGlossary AWS API Documentation
+    #
+    # @overload delete_glossary(params = {})
+    # @param [Hash] params ({})
+    def delete_glossary(params = {}, options = {})
+      req = build_request(:delete_glossary, params)
+      req.send_request(options)
+    end
+
+    # Deletes a glossary term from Glue Data Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the glossary term to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_glossary_term({
+    #     identifier: "GlossaryTermId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteGlossaryTerm AWS API Documentation
+    #
+    # @overload delete_glossary_term(params = {})
+    # @param [Hash] params ({})
+    def delete_glossary_term(params = {}, options = {})
+      req = build_request(:delete_glossary_term, params)
       req.send_request(options)
     end
 
@@ -6499,6 +6843,137 @@ module Aws::Glue
     # @param [Hash] params ({})
     def describe_integrations(params = {}, options = {})
       req = build_request(:describe_integrations, params)
+      req.send_request(options)
+    end
+
+    # Removes the association of one or more glossary terms from an asset in
+    # Glue Data Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the asset to disassociate glossary terms
+    #   from.
+    #
+    # @option params [required, Array<String>] :glossary_term_identifiers
+    #   The list of glossary term identifiers to disassociate from the asset.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::DisassociateGlossaryTermsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DisassociateGlossaryTermsResponse#identifier #identifier} => String
+    #   * {Types::DisassociateGlossaryTermsResponse#glossary_terms #glossary_terms} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disassociate_glossary_terms({
+    #     identifier: "AssetId", # required
+    #     glossary_term_identifiers: ["GlossaryTermId"], # required
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.identifier #=> String
+    #   resp.glossary_terms #=> Array
+    #   resp.glossary_terms[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DisassociateGlossaryTerms AWS API Documentation
+    #
+    # @overload disassociate_glossary_terms(params = {})
+    # @param [Hash] params ({})
+    def disassociate_glossary_terms(params = {}, options = {})
+      req = build_request(:disassociate_glossary_terms, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the metadata for an asset in Glue Data Catalog, including
+    # its forms, additional attachments, and associated glossary terms.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the asset to retrieve.
+    #
+    # @return [Types::GetAssetOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAssetOutput#id #id} => String
+    #   * {Types::GetAssetOutput#name #name} => String
+    #   * {Types::GetAssetOutput#description #description} => String
+    #   * {Types::GetAssetOutput#created_at #created_at} => Time
+    #   * {Types::GetAssetOutput#updated_at #updated_at} => Time
+    #   * {Types::GetAssetOutput#asset_type_id #asset_type_id} => String
+    #   * {Types::GetAssetOutput#glossary_terms #glossary_terms} => Array&lt;String&gt;
+    #   * {Types::GetAssetOutput#forms #forms} => Hash&lt;String,Types::AssetFormEntry&gt;
+    #   * {Types::GetAssetOutput#attachments #attachments} => Hash&lt;String,Types::AssetFormEntry&gt;
+    #   * {Types::GetAssetOutput#iterable_forms #iterable_forms} => Hash&lt;String,Types::IterableFormEntry&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_asset({
+    #     identifier: "AssetId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.asset_type_id #=> String
+    #   resp.glossary_terms #=> Array
+    #   resp.glossary_terms[0] #=> String
+    #   resp.forms #=> Hash
+    #   resp.forms["AssetFormKey"].form_type_id #=> String
+    #   resp.forms["AssetFormKey"].content #=> String
+    #   resp.attachments #=> Hash
+    #   resp.attachments["AssetFormKey"].form_type_id #=> String
+    #   resp.attachments["AssetFormKey"].content #=> String
+    #   resp.iterable_forms #=> Hash
+    #   resp.iterable_forms["IterableFormKey"].form_type_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetAsset AWS API Documentation
+    #
+    # @overload get_asset(params = {})
+    # @param [Hash] params ({})
+    def get_asset(params = {}, options = {})
+      req = build_request(:get_asset, params)
+      req.send_request(options)
+    end
+
+    # Retrieves an asset type in Glue Data Catalog by its identifier.
+    #
+    # @option params [required, String] :identifier
+    #   The identifier of the asset type to retrieve.
+    #
+    # @return [Types::GetAssetTypeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAssetTypeResponse#id #id} => String
+    #   * {Types::GetAssetTypeResponse#name #name} => String
+    #   * {Types::GetAssetTypeResponse#forms #forms} => Hash&lt;String,Types::AssetTypeFormReference&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_asset_type({
+    #     identifier: "AssetTypeId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.forms #=> Hash
+    #   resp.forms["AssetTypeFormKey"].form_type_identifier #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetAssetType AWS API Documentation
+    #
+    # @overload get_asset_type(params = {})
+    # @param [Hash] params ({})
+    def get_asset_type(params = {}, options = {})
+      req = build_request(:get_asset_type, params)
       req.send_request(options)
     end
 
@@ -8604,6 +9079,106 @@ module Aws::Glue
     # @param [Hash] params ({})
     def get_entity_records(params = {}, options = {})
       req = build_request(:get_entity_records, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a form type in Glue Data Catalog by its identifier.
+    #
+    # @option params [required, String] :identifier
+    #   The identifier of the form type to retrieve.
+    #
+    # @return [Types::GetFormTypeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetFormTypeResponse#id #id} => String
+    #   * {Types::GetFormTypeResponse#name #name} => String
+    #   * {Types::GetFormTypeResponse#schema #schema} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_form_type({
+    #     identifier: "FormTypeId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.schema #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetFormType AWS API Documentation
+    #
+    # @overload get_form_type(params = {})
+    # @param [Hash] params ({})
+    def get_form_type(params = {}, options = {})
+      req = build_request(:get_form_type, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a business glossary in Glue Data Catalog by its identifier.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the glossary to retrieve.
+    #
+    # @return [Types::GetGlossaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetGlossaryResponse#id #id} => String
+    #   * {Types::GetGlossaryResponse#name #name} => String
+    #   * {Types::GetGlossaryResponse#description #description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_glossary({
+    #     identifier: "GlossaryId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetGlossary AWS API Documentation
+    #
+    # @overload get_glossary(params = {})
+    # @param [Hash] params ({})
+    def get_glossary(params = {}, options = {})
+      req = build_request(:get_glossary, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a glossary term in Glue Data Catalog by its identifier.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the glossary term to retrieve.
+    #
+    # @return [Types::GetGlossaryTermResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetGlossaryTermResponse#id #id} => String
+    #   * {Types::GetGlossaryTermResponse#glossary_id #glossary_id} => String
+    #   * {Types::GetGlossaryTermResponse#name #name} => String
+    #   * {Types::GetGlossaryTermResponse#short_description #short_description} => String
+    #   * {Types::GetGlossaryTermResponse#long_description #long_description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_glossary_term({
+    #     identifier: "GlossaryTermId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.glossary_id #=> String
+    #   resp.name #=> String
+    #   resp.short_description #=> String
+    #   resp.long_description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetGlossaryTerm AWS API Documentation
+    #
+    # @overload get_glossary_term(params = {})
+    # @param [Hash] params ({})
+    def get_glossary_term(params = {}, options = {})
+      req = build_request(:get_glossary_term, params)
       req.send_request(options)
     end
 
@@ -12924,6 +13499,44 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Lists the asset types defined in Glue Data Catalog.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is a continuation call.
+    #
+    # @return [Types::ListAssetTypesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAssetTypesResponse#items #items} => Array&lt;Types::AssetTypeItem&gt;
+    #   * {Types::ListAssetTypesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_asset_types({
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].id #=> String
+    #   resp.items[0].name #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListAssetTypes AWS API Documentation
+    #
+    # @overload list_asset_types(params = {})
+    # @param [Hash] params ({})
+    def list_asset_types(params = {}, options = {})
+      req = build_request(:list_asset_types, params)
+      req.send_request(options)
+    end
+
     # Lists all the blueprint names in an account.
     #
     # @option params [String] :next_token
@@ -13783,6 +14396,126 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Lists the form types defined in Glue Data Catalog.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is a continuation call.
+    #
+    # @return [Types::ListFormTypesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListFormTypesResponse#items #items} => Array&lt;Types::FormTypeItem&gt;
+    #   * {Types::ListFormTypesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_form_types({
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].id #=> String
+    #   resp.items[0].name #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListFormTypes AWS API Documentation
+    #
+    # @overload list_form_types(params = {})
+    # @param [Hash] params ({})
+    def list_form_types(params = {}, options = {})
+      req = build_request(:list_form_types, params)
+      req.send_request(options)
+    end
+
+    # Lists business glossaries in Glue Data Catalog.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is a continuation call.
+    #
+    # @return [Types::ListGlossariesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListGlossariesResponse#items #items} => Array&lt;Types::GlossaryItem&gt;
+    #   * {Types::ListGlossariesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_glossaries({
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].id #=> String
+    #   resp.items[0].name #=> String
+    #   resp.items[0].description #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListGlossaries AWS API Documentation
+    #
+    # @overload list_glossaries(params = {})
+    # @param [Hash] params ({})
+    def list_glossaries(params = {}, options = {})
+      req = build_request(:list_glossaries, params)
+      req.send_request(options)
+    end
+
+    # Lists glossary terms within a business glossary in Glue Data Catalog.
+    #
+    # @option params [required, String] :glossary_identifier
+    #   The unique identifier of the glossary whose terms to list.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is a continuation call.
+    #
+    # @return [Types::ListGlossaryTermsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListGlossaryTermsResponse#items #items} => Array&lt;Types::GlossaryTermItem&gt;
+    #   * {Types::ListGlossaryTermsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_glossary_terms({
+    #     glossary_identifier: "GlossaryId", # required
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].id #=> String
+    #   resp.items[0].name #=> String
+    #   resp.items[0].short_description #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListGlossaryTerms AWS API Documentation
+    #
+    # @overload list_glossary_terms(params = {})
+    # @param [Hash] params ({})
+    def list_glossary_terms(params = {}, options = {})
+      req = build_request(:list_glossary_terms, params)
+      req.send_request(options)
+    end
+
     # List integration resource properties for a single customer. It
     # supports the filters, maxRecords and markers.
     #
@@ -13832,6 +14565,56 @@ module Aws::Glue
     # @param [Hash] params ({})
     def list_integration_resource_properties(params = {}, options = {})
       req = build_request(:list_integration_resource_properties, params)
+      req.send_request(options)
+    end
+
+    # Lists the items in an iterable form on an asset in Glue Data Catalog.
+    # For example, lists the columns of a table asset.
+    #
+    # @option params [required, String] :asset_identifier
+    #   The unique identifier of the asset.
+    #
+    # @option params [required, String] :iterable_form_name
+    #   The name of the iterable form to list items from.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is a continuation call.
+    #
+    # @return [Types::ListIterableFormsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListIterableFormsResponse#items #items} => Array&lt;Types::IterableFormListItem&gt;
+    #   * {Types::ListIterableFormsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_iterable_forms({
+    #     asset_identifier: "AssetId", # required
+    #     iterable_form_name: "IterableFormName", # required
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].item_id #=> String
+    #   resp.items[0].item_name #=> String
+    #   resp.items[0].description #=> String
+    #   resp.items[0].glossary_terms #=> Array
+    #   resp.items[0].glossary_terms[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListIterableForms AWS API Documentation
+    #
+    # @overload list_iterable_forms(params = {})
+    # @param [Hash] params ({})
+    def list_iterable_forms(params = {}, options = {})
+      req = build_request(:list_iterable_forms, params)
       req.send_request(options)
     end
 
@@ -14614,6 +15397,199 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Creates or updates an asset in Glue Data Catalog. If the asset already
+    # exists, this operation updates it; otherwise, a new asset is created.
+    #
+    # @option params [required, String] :asset_type_id
+    #   The identifier of the asset type for the asset.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the asset. If an asset with this identifier
+    #   already exists, it is updated.
+    #
+    # @option params [required, String] :name
+    #   The name of the asset.
+    #
+    # @option params [String] :description
+    #   The description of the asset.
+    #
+    # @option params [required, Hash<String,Types::AssetFormEntry>] :forms
+    #   The forms to set on the asset, keyed by form name. Each entry
+    #   specifies the form type and its JSON content.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutAssetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutAssetResponse#id #id} => String
+    #   * {Types::PutAssetResponse#name #name} => String
+    #   * {Types::PutAssetResponse#description #description} => String
+    #   * {Types::PutAssetResponse#created_at #created_at} => Time
+    #   * {Types::PutAssetResponse#forms #forms} => Hash&lt;String,Types::AssetFormEntry&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_asset({
+    #     asset_type_id: "AssetTypeId", # required
+    #     identifier: "AssetId", # required
+    #     name: "AssetName", # required
+    #     description: "AssetDescription",
+    #     forms: { # required
+    #       "AssetFormKey" => {
+    #         form_type_id: "FormTypeId",
+    #         content: "FormContent",
+    #       },
+    #     },
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.created_at #=> Time
+    #   resp.forms #=> Hash
+    #   resp.forms["AssetFormKey"].form_type_id #=> String
+    #   resp.forms["AssetFormKey"].content #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAsset AWS API Documentation
+    #
+    # @overload put_asset(params = {})
+    # @param [Hash] params ({})
+    def put_asset(params = {}, options = {})
+      req = build_request(:put_asset, params)
+      req.send_request(options)
+    end
+
+    # Creates or updates an asset type in Glue Data Catalog. An asset type
+    # defines the structure of assets by specifying which forms they
+    # include. If an asset type with the given name already exists, it is
+    # updated.
+    #
+    # @option params [required, String] :name
+    #   The name of the asset type.
+    #
+    # @option params [required, Hash<String,Types::AssetTypeFormReference>] :forms
+    #   The forms that make up the asset type, keyed by form name. Each entry
+    #   references the form type that defines the form's schema.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutAssetTypeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutAssetTypeResponse#id #id} => String
+    #   * {Types::PutAssetTypeResponse#name #name} => String
+    #   * {Types::PutAssetTypeResponse#forms #forms} => Hash&lt;String,Types::AssetTypeFormReference&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_asset_type({
+    #     name: "AssetTypeName", # required
+    #     forms: { # required
+    #       "AssetTypeFormKey" => {
+    #         form_type_identifier: "FormTypeId", # required
+    #       },
+    #     },
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.forms #=> Hash
+    #   resp.forms["AssetTypeFormKey"].form_type_identifier #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAssetType AWS API Documentation
+    #
+    # @overload put_asset_type(params = {})
+    # @param [Hash] params ({})
+    def put_asset_type(params = {}, options = {})
+      req = build_request(:put_asset_type, params)
+      req.send_request(options)
+    end
+
+    # Attaches a form to an asset or an iterable form item in Glue Data
+    # Catalog. If an attachment with the same name already exists, it is
+    # overwritten.
+    #
+    # @option params [required, String] :asset_identifier
+    #   The unique identifier of the asset to attach the form to.
+    #
+    # @option params [String] :iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the attachment targets an item within the iterable
+    #   form rather than the asset itself.
+    #
+    # @option params [String] :item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
+    #
+    # @option params [required, String] :attachment_name
+    #   The name of the attachment.
+    #
+    # @option params [required, String] :content
+    #   The JSON content of the form, conforming to the schema of the
+    #   specified form type.
+    #
+    # @option params [required, String] :form_type_id
+    #   The identifier of the form type for this attachment.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutAttachmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutAttachmentResponse#asset_id #asset_id} => String
+    #   * {Types::PutAttachmentResponse#iterable_form_name #iterable_form_name} => String
+    #   * {Types::PutAttachmentResponse#item_identifier #item_identifier} => String
+    #   * {Types::PutAttachmentResponse#attachment_name #attachment_name} => String
+    #   * {Types::PutAttachmentResponse#form_type_id #form_type_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_attachment({
+    #     asset_identifier: "AssetId", # required
+    #     iterable_form_name: "IterableFormName",
+    #     item_identifier: "ItemIdentifier",
+    #     attachment_name: "AttachmentName", # required
+    #     content: "MetadataFormContent", # required
+    #     form_type_id: "MetadataFormTypeIdentifier", # required
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.asset_id #=> String
+    #   resp.iterable_form_name #=> String
+    #   resp.item_identifier #=> String
+    #   resp.attachment_name #=> String
+    #   resp.form_type_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAttachment AWS API Documentation
+    #
+    # @overload put_attachment(params = {})
+    # @param [Hash] params ({})
+    def put_attachment(params = {}, options = {})
+      req = build_request(:put_attachment, params)
+      req.send_request(options)
+    end
+
     # Sets the security configuration for a specified catalog. After the
     # configuration has been set, the specified encryption is applied to
     # every catalog write thereafter.
@@ -14677,6 +15653,52 @@ module Aws::Glue
     # @param [Hash] params ({})
     def put_data_quality_profile_annotation(params = {}, options = {})
       req = build_request(:put_data_quality_profile_annotation, params)
+      req.send_request(options)
+    end
+
+    # Creates or updates a form type in Glue Data Catalog. A form type
+    # defines the schema for structured metadata that can be attached to
+    # assets.
+    #
+    # @option params [required, String] :name
+    #   The name of the form type. Must start with an uppercase letter.
+    #
+    # @option params [required, String] :schema
+    #   The Smithy IDL schema definition for the form type.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutFormTypeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutFormTypeResponse#id #id} => String
+    #   * {Types::PutFormTypeResponse#name #name} => String
+    #   * {Types::PutFormTypeResponse#schema #schema} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_form_type({
+    #     name: "FormTypeName", # required
+    #     schema: "FormTypeSchema", # required
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.schema #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutFormType AWS API Documentation
+    #
+    # @overload put_form_type(params = {})
+    # @param [Hash] params ({})
+    def put_form_type(params = {}, options = {})
+      req = build_request(:put_form_type, params)
       req.send_request(options)
     end
 
@@ -15676,6 +16698,92 @@ module Aws::Glue
     # @param [Hash] params ({})
     def run_statement(params = {}, options = {})
       req = build_request(:run_statement, params)
+      req.send_request(options)
+    end
+
+    # Searches for assets in Glue Data Catalog using full-text search,
+    # filters, sorting, and aggregations. Returns matching assets with
+    # relevance-ranked results.
+    #
+    # @option params [String] :search_text
+    #   The text to search for. At least one of `searchText` or `filterClause`
+    #   must be provided.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is a continuation call.
+    #
+    # @option params [Types::SearchSort] :sort
+    #   The sort criteria for the search results.
+    #
+    # @option params [Types::SearchFilterClause] :filter_clause
+    #   The filter clause to apply to the search. Supports nested AND/OR logic
+    #   with attribute-level and map-level filters.
+    #
+    # @return [Types::SearchOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchOutput#items #items} => Array&lt;Types::SearchResultItem&gt;
+    #   * {Types::SearchOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search({
+    #     search_text: "SearchText",
+    #     max_results: 1,
+    #     next_token: "SearchNextToken",
+    #     sort: {
+    #       attribute: "SearchAttribute", # required
+    #       order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #     },
+    #     filter_clause: {
+    #       and_all_filters: [
+    #         {
+    #           # recursive SearchFilterClause
+    #         },
+    #       ],
+    #       or_any_filters: [
+    #         {
+    #           # recursive SearchFilterClause
+    #         },
+    #       ],
+    #       attribute_filter: {
+    #         attribute: "SearchAttribute", # required
+    #         operator: "equals", # required, accepts equals, greaterThan, greaterThanOrEquals, lessThan, lessThanOrEquals, notExists
+    #         value: {
+    #           string_value: "SearchFilterStringValue",
+    #           long_value: 1,
+    #         },
+    #       },
+    #       map_filter: {
+    #         attribute: "SearchAttribute", # required
+    #         key: "SearchMapKey", # required
+    #         value: { # required
+    #           string_value: "SearchFilterStringValue",
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].id #=> String
+    #   resp.items[0].asset_name #=> String
+    #   resp.items[0].asset_description #=> String
+    #   resp.items[0].updated_at #=> Time
+    #   resp.items[0].asset_type_id #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/Search AWS API Documentation
+    #
+    # @overload search(params = {})
+    # @param [Hash] params ({})
+    def search(params = {}, options = {})
+      req = build_request(:search, params)
       req.send_request(options)
     end
 
@@ -18142,6 +19250,110 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Updates a business glossary in Glue Data Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the glossary to update.
+    #
+    # @option params [String] :name
+    #   The updated name of the glossary.
+    #
+    # @option params [String] :description
+    #   The updated description of the glossary.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateGlossaryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateGlossaryResponse#id #id} => String
+    #   * {Types::UpdateGlossaryResponse#name #name} => String
+    #   * {Types::UpdateGlossaryResponse#description #description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_glossary({
+    #     identifier: "GlossaryId", # required
+    #     name: "GlossaryName",
+    #     description: "MetadataDescription",
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateGlossary AWS API Documentation
+    #
+    # @overload update_glossary(params = {})
+    # @param [Hash] params ({})
+    def update_glossary(params = {}, options = {})
+      req = build_request(:update_glossary, params)
+      req.send_request(options)
+    end
+
+    # Updates a glossary term in Glue Data Catalog.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the glossary term to update.
+    #
+    # @option params [String] :name
+    #   The updated name of the glossary term.
+    #
+    # @option params [String] :short_description
+    #   The updated short description of the glossary term.
+    #
+    # @option params [String] :long_description
+    #   The updated long description of the glossary term.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateGlossaryTermResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateGlossaryTermResponse#id #id} => String
+    #   * {Types::UpdateGlossaryTermResponse#glossary_id #glossary_id} => String
+    #   * {Types::UpdateGlossaryTermResponse#name #name} => String
+    #   * {Types::UpdateGlossaryTermResponse#short_description #short_description} => String
+    #   * {Types::UpdateGlossaryTermResponse#long_description #long_description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_glossary_term({
+    #     identifier: "GlossaryTermId", # required
+    #     name: "GlossaryTermName",
+    #     short_description: "GlossaryShortDescription",
+    #     long_description: "GlossaryLongDescription",
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.glossary_id #=> String
+    #   resp.name #=> String
+    #   resp.short_description #=> String
+    #   resp.long_description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateGlossaryTerm AWS API Documentation
+    #
+    # @overload update_glossary_term(params = {})
+    # @param [Hash] params ({})
+    def update_glossary_term(params = {}, options = {})
+      req = build_request(:update_glossary_term, params)
+      req.send_request(options)
+    end
+
     # Updates the existing Glue Identity Center configuration, allowing
     # modification of scopes and permissions for the integration.
     #
@@ -19356,7 +20568,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.261.0'
+      context[:gem_version] = '1.262.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

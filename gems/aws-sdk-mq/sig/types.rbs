@@ -22,6 +22,7 @@ module Aws::MQ
     class BadRequestException
       attr_accessor error_attribute: ::String
       attr_accessor message: ::String
+      attr_accessor resource_share_errors: ::Array[Types::ResourceShareError]
       SENSITIVE: []
     end
 
@@ -111,6 +112,7 @@ module Aws::MQ
     class ConflictException
       attr_accessor error_attribute: ::String
       attr_accessor message: ::String
+      attr_accessor resource_share_errors: ::Array[Types::ResourceShareError]
       SENSITIVE: []
     end
 
@@ -448,6 +450,25 @@ module Aws::MQ
       SENSITIVE: []
     end
 
+    class DescribeSharedResourcesOutput
+      attr_accessor next_token: ::String
+      attr_accessor shared_resources: ::Array[Types::SharedResource]
+      SENSITIVE: []
+    end
+
+    class DescribeSharedResourcesRequest
+      attr_accessor broker_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeSharedResourcesResponse
+      attr_accessor next_token: ::String
+      attr_accessor shared_resources: ::Array[Types::SharedResource]
+      SENSITIVE: []
+    end
+
     class DescribeUserOutput
       attr_accessor broker_id: ::String
       attr_accessor console_access: bool
@@ -488,18 +509,21 @@ module Aws::MQ
     class Error
       attr_accessor error_attribute: ::String
       attr_accessor message: ::String
+      attr_accessor resource_share_errors: ::Array[Types::ResourceShareError]
       SENSITIVE: []
     end
 
     class ForbiddenException
       attr_accessor error_attribute: ::String
       attr_accessor message: ::String
+      attr_accessor resource_share_errors: ::Array[Types::ResourceShareError]
       SENSITIVE: []
     end
 
     class InternalServerErrorException
       attr_accessor error_attribute: ::String
       attr_accessor message: ::String
+      attr_accessor resource_share_errors: ::Array[Types::ResourceShareError]
       SENSITIVE: []
     end
 
@@ -644,6 +668,7 @@ module Aws::MQ
     class NotFoundException
       attr_accessor error_attribute: ::String
       attr_accessor message: ::String
+      attr_accessor resource_share_errors: ::Array[Types::ResourceShareError]
       SENSITIVE: []
     end
 
@@ -682,10 +707,33 @@ module Aws::MQ
     class RebootBrokerResponse < Aws::EmptyStructure
     end
 
+    class ResourceShareError
+      attr_accessor error_code: ::String
+      attr_accessor resource_share_arn: ::String
+      attr_accessor status: ::String
+      SENSITIVE: []
+    end
+
     class SanitizationWarning
       attr_accessor attribute_name: ::String
       attr_accessor element_name: ::String
       attr_accessor reason: ("DISALLOWED_ELEMENT_REMOVED" | "DISALLOWED_ATTRIBUTE_REMOVED" | "INVALID_ATTRIBUTE_VALUE_REMOVED")
+      SENSITIVE: []
+    end
+
+    class SharedResource
+      attr_accessor dns_names: ::Array[::String]
+      attr_accessor error: Types::SharedResourceError
+      attr_accessor resource_arn: ::String
+      attr_accessor resource_share_arns: ::Array[::String]
+      attr_accessor status: ("AVAILABLE" | "SETUP_IN_PROGRESS" | "DELETION_IN_PROGRESS" | "PENDING_CREATE" | "PENDING_DELETE" | "ERROR")
+      attr_accessor type: ("RESOURCE_SHARE" | "RESOURCE")
+      SENSITIVE: []
+    end
+
+    class SharedResourceError
+      attr_accessor code: ("QUOTA_EXCEEDED" | "SHARE_NOT_FOUND" | "INVITE_FAILED" | "SETUP_INCOMPLETE" | "INTERNAL_ERROR" | "AZ_MISMATCH" | "RESOURCE_CONFIGURATION_NOT_FOUND")
+      attr_accessor message: ::String
       SENSITIVE: []
     end
 
@@ -697,6 +745,7 @@ module Aws::MQ
     class UnauthorizedException
       attr_accessor error_attribute: ::String
       attr_accessor message: ::String
+      attr_accessor resource_share_errors: ::Array[Types::ResourceShareError]
       SENSITIVE: []
     end
 
@@ -710,6 +759,7 @@ module Aws::MQ
       attr_accessor ldap_server_metadata: Types::LdapServerMetadataInput
       attr_accessor logs: Types::Logs
       attr_accessor maintenance_window_start_time: Types::WeeklyStartTime
+      attr_accessor resource_share_arns: ::Array[::String]
       attr_accessor security_groups: ::Array[::String]
       SENSITIVE: []
     end
@@ -728,6 +778,7 @@ module Aws::MQ
       attr_accessor maintenance_window_start_time: Types::WeeklyStartTime
       attr_accessor pending_data_replication_metadata: Types::DataReplicationMetadataOutput
       attr_accessor pending_data_replication_mode: ("NONE" | "CRDR")
+      attr_accessor resource_share_arns: ::Array[::String]
       attr_accessor security_groups: ::Array[::String]
       SENSITIVE: []
     end
@@ -742,6 +793,7 @@ module Aws::MQ
       attr_accessor ldap_server_metadata: Types::LdapServerMetadataInput
       attr_accessor logs: Types::Logs
       attr_accessor maintenance_window_start_time: Types::WeeklyStartTime
+      attr_accessor resource_share_arns: ::Array[::String]
       attr_accessor security_groups: ::Array[::String]
       attr_accessor data_replication_mode: ("NONE" | "CRDR")
       SENSITIVE: []
@@ -757,6 +809,7 @@ module Aws::MQ
       attr_accessor ldap_server_metadata: Types::LdapServerMetadataOutput
       attr_accessor logs: Types::Logs
       attr_accessor maintenance_window_start_time: Types::WeeklyStartTime
+      attr_accessor resource_share_arns: ::Array[::String]
       attr_accessor security_groups: ::Array[::String]
       attr_accessor data_replication_metadata: Types::DataReplicationMetadataOutput
       attr_accessor data_replication_mode: ("NONE" | "CRDR")

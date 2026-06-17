@@ -11,50 +11,50 @@ module Aws
       type criteria = {
       region: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           values: Array[::String]?
         }
       ]?,
       resource_arn: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           values: Array[::String]?
         }
       ]?,
       ebs_volume_type: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           values: Array[::String]?
         }
       ]?,
       ebs_volume_size_in_gib: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           values: Array[::Integer]?
         }
       ]?,
       estimated_monthly_savings: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           values: Array[::Float]?
         }
       ]?,
       resource_tag: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           key: ::String?,
           values: Array[::String]?
         }
       ]?,
       look_back_period_in_days: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           values: Array[::Integer]?
         }
       ]?,
       restart_needed: Array[
         {
-          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")?,
+          comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")?,
           values: Array[::String]?
         }
       ]?

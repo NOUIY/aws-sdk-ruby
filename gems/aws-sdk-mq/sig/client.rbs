@@ -311,6 +311,19 @@ module Aws
                                            ) -> _DescribeConfigurationRevisionResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeConfigurationRevisionResponseSuccess
 
+      interface _DescribeSharedResourcesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeSharedResourcesResponse]
+        def next_token: () -> ::String
+        def shared_resources: () -> ::Array[Types::SharedResource]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/MQ/Client.html#describe_shared_resources-instance_method
+      def describe_shared_resources: (
+                                       broker_id: ::String,
+                                       ?max_results: ::Integer,
+                                       ?next_token: ::String
+                                     ) -> _DescribeSharedResourcesResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeSharedResourcesResponseSuccess
+
       interface _DescribeUserResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeUserResponse]
         def broker_id: () -> ::String
@@ -423,6 +436,7 @@ module Aws
         def ldap_server_metadata: () -> Types::LdapServerMetadataOutput
         def logs: () -> Types::Logs
         def maintenance_window_start_time: () -> Types::WeeklyStartTime
+        def resource_share_arns: () -> ::Array[::String]
         def security_groups: () -> ::Array[::String]
         def data_replication_metadata: () -> Types::DataReplicationMetadataOutput
         def data_replication_mode: () -> ("NONE" | "CRDR")
@@ -450,6 +464,7 @@ module Aws
                              time_of_day: ::String,
                              time_zone: ::String?
                            },
+                           ?resource_share_arns: Array[::String],
                            ?security_groups: Array[::String],
                            ?data_replication_mode: ("NONE" | "CRDR")
                          ) -> _UpdateBrokerResponseSuccess

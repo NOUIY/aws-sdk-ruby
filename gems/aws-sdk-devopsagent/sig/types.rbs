@@ -34,6 +34,8 @@ module Aws::DevOpsAgent
       attr_accessor mcpservergrafana: Types::RegisteredGrafanaServerDetails
       attr_accessor pagerduty: Types::RegisteredPagerDutyDetails
       attr_accessor mcpserversigv4: Types::RegisteredMCPServerSigV4Details
+      attr_accessor remoteagent: Types::RegisteredRemoteAgentDetails
+      attr_accessor remoteagentsigv4: Types::RegisteredRemoteAgentSigV4Details
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -62,6 +64,10 @@ module Aws::DevOpsAgent
       class Pagerduty < AdditionalServiceDetails
       end
       class Mcpserversigv4 < AdditionalServiceDetails
+      end
+      class Remoteagent < AdditionalServiceDetails
+      end
+      class Remoteagentsigv4 < AdditionalServiceDetails
       end
       class Unknown < AdditionalServiceDetails
       end
@@ -102,12 +108,15 @@ module Aws::DevOpsAgent
     class AssetContent
       attr_accessor file: Types::AssetFileContent
       attr_accessor zip: Types::AssetZipContent
+      attr_accessor source_url: Types::AssetSourceUrlContent
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class File < AssetContent
       end
       class Zip < AssetContent
+      end
+      class SourceUrl < AssetContent
       end
       class Unknown < AssetContent
       end
@@ -153,6 +162,11 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class AssetSourceUrlContent
+      attr_accessor url: ::String
+      SENSITIVE: []
+    end
+
     class AssetTypeSummary
       attr_accessor asset_type: ::String
       attr_accessor description: ::String
@@ -189,6 +203,7 @@ module Aws::DevOpsAgent
       attr_accessor agent_space_id: ::String
       attr_accessor service_id: ::String
       attr_accessor configuration: Types::ServiceConfiguration
+      attr_accessor capabilities: ::Hash[("RELEASE_READINESS_REVIEW" | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"), Types::CapabilityConfiguration]
       SENSITIVE: []
     end
 
@@ -206,6 +221,7 @@ module Aws::DevOpsAgent
       attr_accessor association_id: ::String
       attr_accessor service_id: ::String
       attr_accessor configuration: Types::ServiceConfiguration
+      attr_accessor capabilities: ::Hash[("RELEASE_READINESS_REVIEW" | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"), Types::CapabilityConfiguration]
       SENSITIVE: []
     end
 
@@ -218,6 +234,11 @@ module Aws::DevOpsAgent
       attr_accessor organization_name: ::String
       attr_accessor project_id: ::String
       attr_accessor project_name: ::String
+      SENSITIVE: []
+    end
+
+    class CapabilityConfiguration
+      attr_accessor enabled: bool
       SENSITIVE: []
     end
 
@@ -287,7 +308,7 @@ module Aws::DevOpsAgent
     class CreateBacklogTaskRequest
       attr_accessor agent_space_id: ::String
       attr_accessor reference: Types::ReferenceInput
-      attr_accessor task_type: ("INVESTIGATION" | "EVALUATION")
+      attr_accessor task_type: ("INVESTIGATION" | "EVALUATION" | "RELEASE_READINESS_REVIEW" | "RELEASE_TESTING")
       attr_accessor title: ::String
       attr_accessor description: ::String
       attr_accessor priority: ("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL")
@@ -678,6 +699,7 @@ module Aws::DevOpsAgent
       attr_accessor owner: ::String
       attr_accessor owner_type: ("organization" | "user")
       attr_accessor instance_identifier: ::String
+      attr_accessor runtime_role_arn: ::String
       SENSITIVE: []
     end
 
@@ -685,6 +707,7 @@ module Aws::DevOpsAgent
       attr_accessor project_id: ::String
       attr_accessor project_path: ::String
       attr_accessor instance_identifier: ::String
+      attr_accessor runtime_role_arn: ::String
       SENSITIVE: []
     end
 
@@ -991,7 +1014,7 @@ module Aws::DevOpsAgent
     class ListServicesInput
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
-      attr_accessor filter_service_type: ("github" | "slack" | "azure" | "azuredevops" | "dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4")
+      attr_accessor filter_service_type: ("github" | "slack" | "azure" | "azuredevops" | "dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4" | "remoteagent" | "remoteagentsigv4")
       SENSITIVE: []
     end
 
@@ -1309,7 +1332,7 @@ module Aws::DevOpsAgent
     end
 
     class RegisterServiceInput
-      attr_accessor service: ("dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4")
+      attr_accessor service: ("dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4" | "remoteagent" | "remoteagentsigv4")
       attr_accessor service_details: Types::ServiceDetails
       attr_accessor kms_key_arn: ::String
       attr_accessor private_connection_name: ::String
@@ -1394,9 +1417,28 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class RegisteredRemoteAgentDetails
+      attr_accessor name: ::String
+      attr_accessor endpoint: ::String
+      attr_accessor description: ::String
+      attr_accessor authorization_method: ("oauth-client-credentials" | "api-key" | "bearer-token")
+      attr_accessor api_key_header: ::String
+      SENSITIVE: [:description]
+    end
+
+    class RegisteredRemoteAgentSigV4Details
+      attr_accessor name: ::String
+      attr_accessor endpoint: ::String
+      attr_accessor description: ::String
+      attr_accessor region: ::String
+      attr_accessor service: ::String
+      attr_accessor role_arn: ::String
+      SENSITIVE: [:description]
+    end
+
     class RegisteredService
       attr_accessor service_id: ::String
-      attr_accessor service_type: ("github" | "slack" | "azure" | "azuredevops" | "dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4")
+      attr_accessor service_type: ("github" | "slack" | "azure" | "azuredevops" | "dynatrace" | "servicenow" | "pagerduty" | "gitlab" | "eventChannel" | "mcpservernewrelic" | "mcpservergrafana" | "mcpserverdatadog" | "mcpserver" | "mcpserversplunk" | "azureidentity" | "mcpserversigv4" | "remoteagent" | "remoteagentsigv4")
       attr_accessor name: ::String
       attr_accessor accessible_resources: ::Array[untyped]
       attr_accessor additional_service_details: Types::AdditionalServiceDetails
@@ -1414,6 +1456,76 @@ module Aws::DevOpsAgent
       attr_accessor team_id: ::String
       attr_accessor team_name: ::String
       SENSITIVE: []
+    end
+
+    class RemoteAgentAPIKeyConfig
+      attr_accessor api_key_name: ::String
+      attr_accessor api_key_value: ::String
+      attr_accessor api_key_header: ::String
+      SENSITIVE: [:api_key_value]
+    end
+
+    class RemoteAgentAuthorizationConfig
+      attr_accessor api_key: Types::RemoteAgentAPIKeyConfig
+      attr_accessor o_auth_client_credentials: Types::RemoteAgentOAuthClientCredentialsConfig
+      attr_accessor bearer_token: Types::RemoteAgentBearerTokenConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ApiKey < RemoteAgentAuthorizationConfig
+      end
+      class OAuthClientCredentials < RemoteAgentAuthorizationConfig
+      end
+      class BearerToken < RemoteAgentAuthorizationConfig
+      end
+      class Unknown < RemoteAgentAuthorizationConfig
+      end
+    end
+
+    class RemoteAgentBearerTokenConfig
+      attr_accessor token_name: ::String
+      attr_accessor token_value: ::String
+      attr_accessor authorization_header: ::String
+      SENSITIVE: [:token_value]
+    end
+
+    class RemoteAgentConfiguration < Aws::EmptyStructure
+    end
+
+    class RemoteAgentOAuthClientCredentialsConfig
+      attr_accessor client_name: ::String
+      attr_accessor client_id: ::String
+      attr_accessor exchange_parameters: ::Hash[::String, ::String]
+      attr_accessor client_secret: ::String
+      attr_accessor exchange_url: ::String
+      attr_accessor scopes: ::Array[::String]
+      SENSITIVE: [:client_id, :client_secret]
+    end
+
+    class RemoteAgentServiceDetails
+      attr_accessor name: ::String
+      attr_accessor endpoint: ::String
+      attr_accessor description: ::String
+      attr_accessor authorization_config: Types::RemoteAgentAuthorizationConfig
+      SENSITIVE: [:description]
+    end
+
+    class RemoteAgentSigV4AuthorizationConfig
+      attr_accessor region: ::String
+      attr_accessor service: ::String
+      attr_accessor role_arn: ::String
+      SENSITIVE: []
+    end
+
+    class RemoteAgentSigV4Configuration < Aws::EmptyStructure
+    end
+
+    class RemoteAgentSigV4ServiceDetails
+      attr_accessor name: ::String
+      attr_accessor endpoint: ::String
+      attr_accessor description: ::String
+      attr_accessor authorization_config: Types::RemoteAgentSigV4AuthorizationConfig
+      SENSITIVE: [:description]
     end
 
     class ResourceNotFoundException
@@ -1574,6 +1686,8 @@ module Aws::DevOpsAgent
       attr_accessor mcpservergrafana: Types::MCPServerGrafanaConfiguration
       attr_accessor pagerduty: Types::PagerDutyConfiguration
       attr_accessor mcpserversigv4: Types::MCPServerSigV4Configuration
+      attr_accessor remoteagent: Types::RemoteAgentConfiguration
+      attr_accessor remoteagentsigv4: Types::RemoteAgentSigV4Configuration
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -1611,6 +1725,10 @@ module Aws::DevOpsAgent
       end
       class Mcpserversigv4 < ServiceConfiguration
       end
+      class Remoteagent < ServiceConfiguration
+      end
+      class Remoteagentsigv4 < ServiceConfiguration
+      end
       class Unknown < ServiceConfiguration
       end
     end
@@ -1628,6 +1746,8 @@ module Aws::DevOpsAgent
       attr_accessor pagerduty: Types::PagerDutyDetails
       attr_accessor azureidentity: Types::RegisteredAzureIdentityDetails
       attr_accessor mcpserversigv4: Types::MCPServerSigV4ServiceDetails
+      attr_accessor remoteagent: Types::RemoteAgentServiceDetails
+      attr_accessor remoteagentsigv4: Types::RemoteAgentSigV4ServiceDetails
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -1654,6 +1774,10 @@ module Aws::DevOpsAgent
       class Azureidentity < ServiceDetails
       end
       class Mcpserversigv4 < ServiceDetails
+      end
+      class Remoteagent < ServiceDetails
+      end
+      class Remoteagentsigv4 < ServiceDetails
       end
       class Unknown < ServiceDetails
       end
@@ -1751,7 +1875,7 @@ module Aws::DevOpsAgent
       attr_accessor title: ::String
       attr_accessor description: ::String
       attr_accessor reference: Types::ReferenceOutput
-      attr_accessor task_type: ("INVESTIGATION" | "EVALUATION")
+      attr_accessor task_type: ("INVESTIGATION" | "EVALUATION" | "RELEASE_READINESS_REVIEW" | "RELEASE_TESTING")
       attr_accessor priority: ("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL")
       attr_accessor status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED")
       attr_accessor created_at: ::Time
@@ -1770,7 +1894,7 @@ module Aws::DevOpsAgent
       attr_accessor created_before: ::Time
       attr_accessor priority: ::Array[("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL")]
       attr_accessor status: ::Array[("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED")]
-      attr_accessor task_type: ::Array[("INVESTIGATION" | "EVALUATION")]
+      attr_accessor task_type: ::Array[("INVESTIGATION" | "EVALUATION" | "RELEASE_READINESS_REVIEW" | "RELEASE_TESTING")]
       attr_accessor primary_task_id: ::String
       SENSITIVE: []
     end
@@ -1858,6 +1982,7 @@ module Aws::DevOpsAgent
       attr_accessor agent_space_id: ::String
       attr_accessor association_id: ::String
       attr_accessor configuration: Types::ServiceConfiguration
+      attr_accessor capabilities: ::Hash[("RELEASE_READINESS_REVIEW" | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"), Types::CapabilityConfiguration]
       SENSITIVE: []
     end
 

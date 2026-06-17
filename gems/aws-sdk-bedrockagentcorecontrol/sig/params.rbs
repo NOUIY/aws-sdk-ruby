@@ -75,7 +75,15 @@ module Aws
       private_endpoint: Params::private_endpoint?,
       private_endpoint_overrides: Array[
         Params::private_endpoint_override
-      ]?
+      ]?,
+      allowed_workload_configuration: {
+        hosting_environments: Array[
+          {
+            arn: ::String
+          }
+        ]?,
+        workload_identities: Array[::String]?
+      }?
     }
 
       type authorizer_configuration = {
@@ -177,6 +185,17 @@ module Aws
       mcp: Params::mcp_gateway_configuration?
     }
 
+      type interceptor_input_configuration = {
+      pass_request_headers: bool,
+      payload_filter: {
+        exclude: Array[
+          {
+            field: ("RESPONSE_BODY")?
+          }
+        ]
+      }?
+    }
+
       type gateway_interceptor_configuration = {
       interceptor: {
         lambda: {
@@ -184,9 +203,7 @@ module Aws
         }?
       },
       interception_points: Array[("REQUEST" | "RESPONSE")],
-      input_configuration: {
-        pass_request_headers: bool
-      }?
+      input_configuration: Params::interceptor_input_configuration?
     }
 
       type match_principals = {
@@ -307,6 +324,16 @@ module Aws
       api_gateway_tool_configuration: Params::api_gateway_tool_configuration
     }
 
+      type connector_target_configuration = {
+      source: {
+        connector_id: ::String
+      },
+      enabled: Array[::String]?,
+      configurations: Array[
+        Params::connector_configuration
+      ]?
+    }
+
       type mcp_target_configuration = {
       open_api_schema: {
         s3: {
@@ -324,17 +351,75 @@ module Aws
       }?,
       lambda: Params::mcp_lambda_target_configuration?,
       mcp_server: Params::mcp_server_target_configuration?,
-      api_gateway: Params::api_gateway_target_configuration?
+      api_gateway: Params::api_gateway_target_configuration?,
+      connector: Params::connector_target_configuration?
+    }
+
+      type http_api_schema_configuration = {
+      source: {
+        s3: {
+          uri: ::String?,
+          bucket_owner_account_id: ::String?
+        }?,
+        inline_payload: ::String?
+      }
+    }
+
+      type runtime_target_configuration = {
+      arn: ::String,
+      qualifier: ::String?,
+      schema: Params::http_api_schema_configuration?
+    }
+
+      type passthrough_target_configuration = {
+      endpoint: ::String,
+      protocol_type: ("MCP" | "A2A" | "INFERENCE" | "CUSTOM"),
+      schema: Params::http_api_schema_configuration?,
+      stickiness_configuration: {
+        identifier: ::String,
+        timeout: ::Integer?
+      }?
+    }
+
+      type http_target_configuration = {
+      agentcore_runtime: Params::runtime_target_configuration?,
+      passthrough: Params::passthrough_target_configuration?
+    }
+
+      type inference_provider_target_configuration = {
+      endpoint: ::String,
+      model_mapping: {
+        provider_prefix: {
+          strip: bool?,
+          separator: ::String?
+        }?
+      }?,
+      operations: Array[
+        {
+          path: ::String,
+          provider_path: ::String?,
+          models: Array[
+            {
+              model: ::String
+            }
+          ]?
+        }
+      ]?
+    }
+
+      type inference_target_configuration = {
+      connector: {
+        source: {
+          connector_id: ::String
+        }
+      }?,
+      provider: Params::inference_provider_target_configuration?
     }
 
       type target_configuration = {
       mcp: Params::mcp_target_configuration?,
-      http: {
-        agentcore_runtime: {
-          arn: ::String,
-          qualifier: ::String?
-        }?
-      }?
+      http: Params::http_target_configuration?,
+      inference: Params::inference_target_configuration?
     }
 
       type schema_definition = {
@@ -362,6 +447,20 @@ module Aws
       description: ::String,
       input_schema: Params::schema_definition,
       output_schema: Params::schema_definition?
+    }
+
+      type connector_configuration = {
+      name: ::String,
+      description: ::String?,
+      parameter_values: {
+      }?,
+      parameter_overrides: Array[
+        {
+          path: ::String,
+          description: ::String?,
+          visible: bool?
+        }
+      ]?
     }
 
       type credential_provider = {
@@ -510,7 +609,10 @@ module Aws
       s3: {
         uri: ::String
       }?,
-      git: Params::harness_skill_git_source?
+      git: Params::harness_skill_git_source?,
+      aws_skills: {
+        paths: Array[::String]?
+      }?
     }
 
       type harness_agent_core_memory_configuration = {
@@ -525,7 +627,15 @@ module Aws
     }
 
       type harness_memory_configuration = {
-      agent_core_memory_configuration: Params::harness_agent_core_memory_configuration?
+      agent_core_memory_configuration: Params::harness_agent_core_memory_configuration?,
+      managed_memory_configuration: {
+        arn: ::String?,
+        strategies: Array[("SEMANTIC" | "SUMMARIZATION" | "USER_PREFERENCE" | "EPISODIC")]?,
+        event_expiry_duration: ::Integer?,
+        encryption_key_arn: ::String?
+      }?,
+      disabled: {
+      }?
     }
 
       type harness_truncation_strategy_configuration = {
@@ -939,6 +1049,9 @@ module Aws
       policy_generation: {
         policy_generation_id: ::String,
         policy_generation_asset_id: ::String
+      }?,
+      policy: {
+        statement: ::String
       }?
     }
 

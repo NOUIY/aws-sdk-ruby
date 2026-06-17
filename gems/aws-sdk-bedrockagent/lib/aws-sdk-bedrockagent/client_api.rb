@@ -15,6 +15,8 @@ module Aws::BedrockAgent
     include Seahorse::Model
 
     APISchema = Shapes::UnionShape.new(name: 'APISchema')
+    AccessControlAccess = Shapes::StringShape.new(name: 'AccessControlAccess')
+    AccessControlPrincipalType = Shapes::StringShape.new(name: 'AccessControlPrincipalType')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
     ActionGroupExecutor = Shapes::UnionShape.new(name: 'ActionGroupExecutor')
     ActionGroupSignature = Shapes::StringShape.new(name: 'ActionGroupSignature')
@@ -64,6 +66,7 @@ module Aws::BedrockAgent
     AssociateAgentKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'AssociateAgentKnowledgeBaseResponse')
     AudioConfiguration = Shapes::StructureShape.new(name: 'AudioConfiguration')
     AudioConfigurations = Shapes::ListShape.new(name: 'AudioConfigurations')
+    AudioExtractionConfiguration = Shapes::StructureShape.new(name: 'AudioExtractionConfiguration')
     AudioSegmentationConfiguration = Shapes::StructureShape.new(name: 'AudioSegmentationConfiguration')
     AudioSegmentationConfigurationFixedLengthDurationInteger = Shapes::IntegerShape.new(name: 'AudioSegmentationConfigurationFixedLengthDurationInteger')
     AutoToolChoice = Shapes::StructureShape.new(name: 'AutoToolChoice')
@@ -170,6 +173,10 @@ module Aws::BedrockAgent
     DeleteKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'DeleteKnowledgeBaseResponse')
     DeletePromptRequest = Shapes::StructureShape.new(name: 'DeletePromptRequest')
     DeletePromptResponse = Shapes::StructureShape.new(name: 'DeletePromptResponse')
+    DeleteResourcePolicyRequest = Shapes::StructureShape.new(name: 'DeleteResourcePolicyRequest')
+    DeleteResourcePolicyResponse = Shapes::StructureShape.new(name: 'DeleteResourcePolicyResponse')
+    DeletionProtectionConfiguration = Shapes::StructureShape.new(name: 'DeletionProtectionConfiguration')
+    DeletionProtectionConfigurationDeletionProtectionThresholdInteger = Shapes::IntegerShape.new(name: 'DeletionProtectionConfigurationDeletionProtectionThresholdInteger')
     Description = Shapes::StringShape.new(name: 'Description')
     DescriptionString = Shapes::StringShape.new(name: 'DescriptionString')
     Dimensions = Shapes::IntegerShape.new(name: 'Dimensions')
@@ -178,6 +185,9 @@ module Aws::BedrockAgent
     DisassociateAgentKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'DisassociateAgentKnowledgeBaseRequest')
     DisassociateAgentKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'DisassociateAgentKnowledgeBaseResponse')
     Document = Shapes::DocumentShape.new(name: 'Document', document: true)
+    DocumentAccessControlEntry = Shapes::StructureShape.new(name: 'DocumentAccessControlEntry')
+    DocumentAccessControlEntryNameString = Shapes::StringShape.new(name: 'DocumentAccessControlEntryNameString')
+    DocumentAccessControlList = Shapes::ListShape.new(name: 'DocumentAccessControlList')
     DocumentContent = Shapes::StructureShape.new(name: 'DocumentContent')
     DocumentIdentifier = Shapes::StructureShape.new(name: 'DocumentIdentifier')
     DocumentIdentifiers = Shapes::ListShape.new(name: 'DocumentIdentifiers')
@@ -189,7 +199,9 @@ module Aws::BedrockAgent
     DuplicateConnectionsFlowValidationDetails = Shapes::StructureShape.new(name: 'DuplicateConnectionsFlowValidationDetails')
     EmbeddingDataType = Shapes::StringShape.new(name: 'EmbeddingDataType')
     EmbeddingModelConfiguration = Shapes::StructureShape.new(name: 'EmbeddingModelConfiguration')
+    EmbeddingModelType = Shapes::StringShape.new(name: 'EmbeddingModelType')
     EnabledMemoryTypes = Shapes::ListShape.new(name: 'EnabledMemoryTypes')
+    EnabledOrDisabledState = Shapes::StringShape.new(name: 'EnabledOrDisabledState')
     EnrichmentStrategyConfiguration = Shapes::StructureShape.new(name: 'EnrichmentStrategyConfiguration')
     EnrichmentStrategyMethod = Shapes::StringShape.new(name: 'EnrichmentStrategyMethod')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
@@ -296,6 +308,8 @@ module Aws::BedrockAgent
     GetKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'GetKnowledgeBaseResponse')
     GetPromptRequest = Shapes::StructureShape.new(name: 'GetPromptRequest')
     GetPromptResponse = Shapes::StructureShape.new(name: 'GetPromptResponse')
+    GetResourcePolicyRequest = Shapes::StructureShape.new(name: 'GetResourcePolicyRequest')
+    GetResourcePolicyResponse = Shapes::StructureShape.new(name: 'GetResourcePolicyResponse')
     GraphArn = Shapes::StringShape.new(name: 'GraphArn')
     GuardrailConfiguration = Shapes::StructureShape.new(name: 'GuardrailConfiguration')
     GuardrailIdentifier = Shapes::StringShape.new(name: 'GuardrailIdentifier')
@@ -307,6 +321,7 @@ module Aws::BedrockAgent
     HierarchicalChunkingLevelConfigurations = Shapes::ListShape.new(name: 'HierarchicalChunkingLevelConfigurations')
     HttpsUrl = Shapes::StringShape.new(name: 'HttpsUrl')
     Id = Shapes::StringShape.new(name: 'Id')
+    ImageExtractionConfiguration = Shapes::StructureShape.new(name: 'ImageExtractionConfiguration')
     IncludeExclude = Shapes::StringShape.new(name: 'IncludeExclude')
     IncompatibleConnectionDataTypeFlowValidationDetails = Shapes::StructureShape.new(name: 'IncompatibleConnectionDataTypeFlowValidationDetails')
     IncompatibleLoopNodeType = Shapes::StringShape.new(name: 'IncompatibleLoopNodeType')
@@ -402,9 +417,12 @@ module Aws::BedrockAgent
     LoopInputFlowNodeConfiguration = Shapes::StructureShape.new(name: 'LoopInputFlowNodeConfiguration')
     MalformedConditionExpressionFlowValidationDetails = Shapes::StructureShape.new(name: 'MalformedConditionExpressionFlowValidationDetails')
     MalformedNodeInputExpressionFlowValidationDetails = Shapes::StructureShape.new(name: 'MalformedNodeInputExpressionFlowValidationDetails')
+    ManagedKnowledgeBaseConfiguration = Shapes::StructureShape.new(name: 'ManagedKnowledgeBaseConfiguration')
+    ManagedKnowledgeBaseConnectorConfiguration = Shapes::StructureShape.new(name: 'ManagedKnowledgeBaseConnectorConfiguration')
     MaxRecentSessions = Shapes::IntegerShape.new(name: 'MaxRecentSessions')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MaximumLength = Shapes::IntegerShape.new(name: 'MaximumLength')
+    MediaExtractionConfiguration = Shapes::StructureShape.new(name: 'MediaExtractionConfiguration')
     MemoryConfiguration = Shapes::StructureShape.new(name: 'MemoryConfiguration')
     MemoryType = Shapes::StringShape.new(name: 'MemoryType')
     Message = Shapes::StructureShape.new(name: 'Message')
@@ -516,6 +534,8 @@ module Aws::BedrockAgent
     PromptVariantList = Shapes::ListShape.new(name: 'PromptVariantList')
     PromptVariantName = Shapes::StringShape.new(name: 'PromptVariantName')
     ProvisionedModelIdentifier = Shapes::StringShape.new(name: 'ProvisionedModelIdentifier')
+    PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
+    PutResourcePolicyResponse = Shapes::StructureShape.new(name: 'PutResourcePolicyResponse')
     QueryEngineType = Shapes::StringShape.new(name: 'QueryEngineType')
     QueryExecutionTimeoutSeconds = Shapes::IntegerShape.new(name: 'QueryExecutionTimeoutSeconds')
     QueryGenerationColumn = Shapes::StructureShape.new(name: 'QueryGenerationColumn')
@@ -557,10 +577,13 @@ module Aws::BedrockAgent
     RequireConfirmation = Shapes::StringShape.new(name: 'RequireConfirmation')
     RerankingMetadataSelectionMode = Shapes::StringShape.new(name: 'RerankingMetadataSelectionMode')
     RerankingMetadataSelectiveModeConfiguration = Shapes::UnionShape.new(name: 'RerankingMetadataSelectiveModeConfiguration')
+    ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    ResourcePolicy = Shapes::StringShape.new(name: 'ResourcePolicy')
     RetrievalFlowNodeConfiguration = Shapes::StructureShape.new(name: 'RetrievalFlowNodeConfiguration')
     RetrievalFlowNodeS3Configuration = Shapes::StructureShape.new(name: 'RetrievalFlowNodeS3Configuration')
     RetrievalFlowNodeServiceConfiguration = Shapes::UnionShape.new(name: 'RetrievalFlowNodeServiceConfiguration')
+    RevisionId = Shapes::StringShape.new(name: 'RevisionId')
     S3BucketArn = Shapes::StringShape.new(name: 'S3BucketArn')
     S3BucketName = Shapes::StringShape.new(name: 'S3BucketName')
     S3BucketUri = Shapes::StringShape.new(name: 'S3BucketUri')
@@ -698,6 +721,7 @@ module Aws::BedrockAgent
     Version = Shapes::StringShape.new(name: 'Version')
     VideoConfiguration = Shapes::StructureShape.new(name: 'VideoConfiguration')
     VideoConfigurations = Shapes::ListShape.new(name: 'VideoConfigurations')
+    VideoExtractionConfiguration = Shapes::StructureShape.new(name: 'VideoExtractionConfiguration')
     VideoSegmentationConfiguration = Shapes::StructureShape.new(name: 'VideoSegmentationConfiguration')
     VideoSegmentationConfigurationFixedLengthDurationInteger = Shapes::IntegerShape.new(name: 'VideoSegmentationConfigurationFixedLengthDurationInteger')
     WebCrawlerConfiguration = Shapes::StructureShape.new(name: 'WebCrawlerConfiguration')
@@ -943,6 +967,9 @@ module Aws::BedrockAgent
     AudioConfiguration.struct_class = Types::AudioConfiguration
 
     AudioConfigurations.member = Shapes::ShapeRef.new(shape: AudioConfiguration)
+
+    AudioExtractionConfiguration.add_member(:audio_extraction_status, Shapes::ShapeRef.new(shape: EnabledOrDisabledState, required: true, location_name: "audioExtractionStatus"))
+    AudioExtractionConfiguration.struct_class = Types::AudioExtractionConfiguration
 
     AudioSegmentationConfiguration.add_member(:fixed_length_duration, Shapes::ShapeRef.new(shape: AudioSegmentationConfigurationFixedLengthDurationInteger, required: true, location_name: "fixedLengthDuration"))
     AudioSegmentationConfiguration.struct_class = Types::AudioSegmentationConfiguration
@@ -1241,6 +1268,7 @@ module Aws::BedrockAgent
     DataSource.struct_class = Types::DataSource
 
     DataSourceConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: DataSourceType, required: true, location_name: "type"))
+    DataSourceConfiguration.add_member(:managed_knowledge_base_connector_configuration, Shapes::ShapeRef.new(shape: ManagedKnowledgeBaseConnectorConfiguration, location_name: "managedKnowledgeBaseConnectorConfiguration"))
     DataSourceConfiguration.add_member(:s3_configuration, Shapes::ShapeRef.new(shape: S3DataSourceConfiguration, location_name: "s3Configuration"))
     DataSourceConfiguration.add_member(:web_configuration, Shapes::ShapeRef.new(shape: WebDataSourceConfiguration, location_name: "webConfiguration"))
     DataSourceConfiguration.add_member(:confluence_configuration, Shapes::ShapeRef.new(shape: ConfluenceDataSourceConfiguration, location_name: "confluenceConfiguration"))
@@ -1350,6 +1378,18 @@ module Aws::BedrockAgent
     DeletePromptResponse.add_member(:version, Shapes::ShapeRef.new(shape: NumericalVersion, location_name: "version"))
     DeletePromptResponse.struct_class = Types::DeletePromptResponse
 
+    DeleteResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location: "uri", location_name: "resourceArn"))
+    DeleteResourcePolicyRequest.add_member(:expected_revision_id, Shapes::ShapeRef.new(shape: RevisionId, location: "querystring", location_name: "expectedRevisionId"))
+    DeleteResourcePolicyRequest.struct_class = Types::DeleteResourcePolicyRequest
+
+    DeleteResourcePolicyResponse.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "resourceArn"))
+    DeleteResourcePolicyResponse.add_member(:revision_id, Shapes::ShapeRef.new(shape: RevisionId, location_name: "revisionId"))
+    DeleteResourcePolicyResponse.struct_class = Types::DeleteResourcePolicyResponse
+
+    DeletionProtectionConfiguration.add_member(:deletion_protection_status, Shapes::ShapeRef.new(shape: EnabledOrDisabledState, required: true, location_name: "deletionProtectionStatus"))
+    DeletionProtectionConfiguration.add_member(:deletion_protection_threshold, Shapes::ShapeRef.new(shape: DeletionProtectionConfigurationDeletionProtectionThresholdInteger, location_name: "deletionProtectionThreshold"))
+    DeletionProtectionConfiguration.struct_class = Types::DeletionProtectionConfiguration
+
     DisassociateAgentCollaboratorRequest.add_member(:agent_id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "agentId"))
     DisassociateAgentCollaboratorRequest.add_member(:agent_version, Shapes::ShapeRef.new(shape: DraftVersion, required: true, location: "uri", location_name: "agentVersion"))
     DisassociateAgentCollaboratorRequest.add_member(:collaborator_id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "collaboratorId"))
@@ -1363,6 +1403,13 @@ module Aws::BedrockAgent
     DisassociateAgentKnowledgeBaseRequest.struct_class = Types::DisassociateAgentKnowledgeBaseRequest
 
     DisassociateAgentKnowledgeBaseResponse.struct_class = Types::DisassociateAgentKnowledgeBaseResponse
+
+    DocumentAccessControlEntry.add_member(:name, Shapes::ShapeRef.new(shape: DocumentAccessControlEntryNameString, required: true, location_name: "name"))
+    DocumentAccessControlEntry.add_member(:type, Shapes::ShapeRef.new(shape: AccessControlPrincipalType, required: true, location_name: "type"))
+    DocumentAccessControlEntry.add_member(:access, Shapes::ShapeRef.new(shape: AccessControlAccess, required: true, location_name: "access"))
+    DocumentAccessControlEntry.struct_class = Types::DocumentAccessControlEntry
+
+    DocumentAccessControlList.member = Shapes::ShapeRef.new(shape: DocumentAccessControlEntry)
 
     DocumentContent.add_member(:data_source_type, Shapes::ShapeRef.new(shape: ContentDataSourceType, required: true, location_name: "dataSourceType"))
     DocumentContent.add_member(:custom, Shapes::ShapeRef.new(shape: CustomContent, location_name: "custom"))
@@ -1379,6 +1426,7 @@ module Aws::BedrockAgent
     DocumentMetadata.add_member(:type, Shapes::ShapeRef.new(shape: MetadataSourceType, required: true, location_name: "type"))
     DocumentMetadata.add_member(:inline_attributes, Shapes::ShapeRef.new(shape: DocumentMetadataInlineAttributesList, location_name: "inlineAttributes"))
     DocumentMetadata.add_member(:s3_location, Shapes::ShapeRef.new(shape: CustomS3Location, location_name: "s3Location"))
+    DocumentMetadata.add_member(:access_control_list, Shapes::ShapeRef.new(shape: DocumentAccessControlList, location_name: "accessControlList"))
     DocumentMetadata.struct_class = Types::DocumentMetadata
 
     DocumentMetadataInlineAttributesList.member = Shapes::ShapeRef.new(shape: MetadataAttribute)
@@ -1777,6 +1825,14 @@ module Aws::BedrockAgent
     GetPromptResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
     GetPromptResponse.struct_class = Types::GetPromptResponse
 
+    GetResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location: "uri", location_name: "resourceArn"))
+    GetResourcePolicyRequest.struct_class = Types::GetResourcePolicyRequest
+
+    GetResourcePolicyResponse.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "resourceArn"))
+    GetResourcePolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, required: true, location_name: "policy", metadata: {"jsonvalue" => true}))
+    GetResourcePolicyResponse.add_member(:revision_id, Shapes::ShapeRef.new(shape: RevisionId, required: true, location_name: "revisionId"))
+    GetResourcePolicyResponse.struct_class = Types::GetResourcePolicyResponse
+
     GuardrailConfiguration.add_member(:guardrail_identifier, Shapes::ShapeRef.new(shape: GuardrailIdentifier, location_name: "guardrailIdentifier"))
     GuardrailConfiguration.add_member(:guardrail_version, Shapes::ShapeRef.new(shape: GuardrailVersion, location_name: "guardrailVersion"))
     GuardrailConfiguration.struct_class = Types::GuardrailConfiguration
@@ -1789,6 +1845,9 @@ module Aws::BedrockAgent
     HierarchicalChunkingLevelConfiguration.struct_class = Types::HierarchicalChunkingLevelConfiguration
 
     HierarchicalChunkingLevelConfigurations.member = Shapes::ShapeRef.new(shape: HierarchicalChunkingLevelConfiguration)
+
+    ImageExtractionConfiguration.add_member(:image_extraction_status, Shapes::ShapeRef.new(shape: EnabledOrDisabledState, required: true, location_name: "imageExtractionStatus"))
+    ImageExtractionConfiguration.struct_class = Types::ImageExtractionConfiguration
 
     IncompatibleConnectionDataTypeFlowValidationDetails.add_member(:connection, Shapes::ShapeRef.new(shape: FlowConnectionName, required: true, location_name: "connection"))
     IncompatibleConnectionDataTypeFlowValidationDetails.struct_class = Types::IncompatibleConnectionDataTypeFlowValidationDetails
@@ -1840,6 +1899,7 @@ module Aws::BedrockAgent
     IngestionJobStatistics.add_member(:number_of_metadata_documents_modified, Shapes::ShapeRef.new(shape: PrimitiveLong, location_name: "numberOfMetadataDocumentsModified"))
     IngestionJobStatistics.add_member(:number_of_documents_deleted, Shapes::ShapeRef.new(shape: PrimitiveLong, location_name: "numberOfDocumentsDeleted"))
     IngestionJobStatistics.add_member(:number_of_documents_failed, Shapes::ShapeRef.new(shape: PrimitiveLong, location_name: "numberOfDocumentsFailed"))
+    IngestionJobStatistics.add_member(:number_of_documents_skipped, Shapes::ShapeRef.new(shape: PrimitiveLong, location_name: "numberOfDocumentsSkipped"))
     IngestionJobStatistics.struct_class = Types::IngestionJobStatistics
 
     IngestionJobSummaries.member = Shapes::ShapeRef.new(shape: IngestionJobSummary)
@@ -1896,6 +1956,7 @@ module Aws::BedrockAgent
 
     KnowledgeBaseConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: KnowledgeBaseType, required: true, location_name: "type"))
     KnowledgeBaseConfiguration.add_member(:vector_knowledge_base_configuration, Shapes::ShapeRef.new(shape: VectorKnowledgeBaseConfiguration, location_name: "vectorKnowledgeBaseConfiguration"))
+    KnowledgeBaseConfiguration.add_member(:managed_knowledge_base_configuration, Shapes::ShapeRef.new(shape: ManagedKnowledgeBaseConfiguration, location_name: "managedKnowledgeBaseConfiguration"))
     KnowledgeBaseConfiguration.add_member(:kendra_knowledge_base_configuration, Shapes::ShapeRef.new(shape: KendraKnowledgeBaseConfiguration, location_name: "kendraKnowledgeBaseConfiguration"))
     KnowledgeBaseConfiguration.add_member(:sql_knowledge_base_configuration, Shapes::ShapeRef.new(shape: SqlKnowledgeBaseConfiguration, location_name: "sqlKnowledgeBaseConfiguration"))
     KnowledgeBaseConfiguration.struct_class = Types::KnowledgeBaseConfiguration
@@ -2110,6 +2171,22 @@ module Aws::BedrockAgent
     MalformedNodeInputExpressionFlowValidationDetails.add_member(:input, Shapes::ShapeRef.new(shape: FlowNodeInputName, required: true, location_name: "input"))
     MalformedNodeInputExpressionFlowValidationDetails.add_member(:cause, Shapes::ShapeRef.new(shape: ErrorMessage, required: true, location_name: "cause"))
     MalformedNodeInputExpressionFlowValidationDetails.struct_class = Types::MalformedNodeInputExpressionFlowValidationDetails
+
+    ManagedKnowledgeBaseConfiguration.add_member(:embedding_model_type, Shapes::ShapeRef.new(shape: EmbeddingModelType, location_name: "embeddingModelType"))
+    ManagedKnowledgeBaseConfiguration.add_member(:embedding_model_arn, Shapes::ShapeRef.new(shape: BedrockEmbeddingModelArn, location_name: "embeddingModelArn"))
+    ManagedKnowledgeBaseConfiguration.add_member(:embedding_model_configuration, Shapes::ShapeRef.new(shape: EmbeddingModelConfiguration, location_name: "embeddingModelConfiguration"))
+    ManagedKnowledgeBaseConfiguration.add_member(:server_side_encryption_configuration, Shapes::ShapeRef.new(shape: ServerSideEncryptionConfiguration, location_name: "serverSideEncryptionConfiguration"))
+    ManagedKnowledgeBaseConfiguration.struct_class = Types::ManagedKnowledgeBaseConfiguration
+
+    ManagedKnowledgeBaseConnectorConfiguration.add_member(:deletion_protection_configuration, Shapes::ShapeRef.new(shape: DeletionProtectionConfiguration, location_name: "deletionProtectionConfiguration"))
+    ManagedKnowledgeBaseConnectorConfiguration.add_member(:media_extraction_configuration, Shapes::ShapeRef.new(shape: MediaExtractionConfiguration, location_name: "mediaExtractionConfiguration"))
+    ManagedKnowledgeBaseConnectorConfiguration.add_member(:connector_parameters, Shapes::ShapeRef.new(shape: Document, location_name: "connectorParameters"))
+    ManagedKnowledgeBaseConnectorConfiguration.struct_class = Types::ManagedKnowledgeBaseConnectorConfiguration
+
+    MediaExtractionConfiguration.add_member(:image_extraction_configuration, Shapes::ShapeRef.new(shape: ImageExtractionConfiguration, location_name: "imageExtractionConfiguration"))
+    MediaExtractionConfiguration.add_member(:audio_extraction_configuration, Shapes::ShapeRef.new(shape: AudioExtractionConfiguration, location_name: "audioExtractionConfiguration"))
+    MediaExtractionConfiguration.add_member(:video_extraction_configuration, Shapes::ShapeRef.new(shape: VideoExtractionConfiguration, location_name: "videoExtractionConfiguration"))
+    MediaExtractionConfiguration.struct_class = Types::MediaExtractionConfiguration
 
     MemoryConfiguration.add_member(:enabled_memory_types, Shapes::ShapeRef.new(shape: EnabledMemoryTypes, required: true, location_name: "enabledMemoryTypes"))
     MemoryConfiguration.add_member(:storage_days, Shapes::ShapeRef.new(shape: StorageDays, location_name: "storageDays"))
@@ -2393,6 +2470,15 @@ module Aws::BedrockAgent
     PromptVariant.struct_class = Types::PromptVariant
 
     PromptVariantList.member = Shapes::ShapeRef.new(shape: PromptVariant)
+
+    PutResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location: "uri", location_name: "resourceArn"))
+    PutResourcePolicyRequest.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, required: true, location_name: "policy", metadata: {"jsonvalue" => true}))
+    PutResourcePolicyRequest.add_member(:expected_revision_id, Shapes::ShapeRef.new(shape: RevisionId, location_name: "expectedRevisionId"))
+    PutResourcePolicyRequest.struct_class = Types::PutResourcePolicyRequest
+
+    PutResourcePolicyResponse.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "resourceArn"))
+    PutResourcePolicyResponse.add_member(:revision_id, Shapes::ShapeRef.new(shape: RevisionId, required: true, location_name: "revisionId"))
+    PutResourcePolicyResponse.struct_class = Types::PutResourcePolicyResponse
 
     QueryGenerationColumn.add_member(:name, Shapes::ShapeRef.new(shape: QueryGenerationColumnName, location_name: "name"))
     QueryGenerationColumn.add_member(:description, Shapes::ShapeRef.new(shape: DescriptionString, location_name: "description"))
@@ -2956,6 +3042,9 @@ module Aws::BedrockAgent
 
     VideoConfigurations.member = Shapes::ShapeRef.new(shape: VideoConfiguration)
 
+    VideoExtractionConfiguration.add_member(:video_extraction_status, Shapes::ShapeRef.new(shape: EnabledOrDisabledState, required: true, location_name: "videoExtractionStatus"))
+    VideoExtractionConfiguration.struct_class = Types::VideoExtractionConfiguration
+
     VideoSegmentationConfiguration.add_member(:fixed_length_duration, Shapes::ShapeRef.new(shape: VideoSegmentationConfigurationFixedLengthDurationInteger, required: true, location_name: "fixedLengthDuration"))
     VideoSegmentationConfiguration.struct_class = Types::VideoSegmentationConfiguration
 
@@ -3326,6 +3415,20 @@ module Aws::BedrockAgent
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
+      api.add_operation(:delete_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteResourcePolicy"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/resourcepolicy/{resourceArn}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
       api.add_operation(:disassociate_agent_collaborator, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DisassociateAgentCollaborator"
         o.http_method = "DELETE"
@@ -3530,6 +3633,19 @@ module Aws::BedrockAgent
         o.http_request_uri = "/prompts/{promptIdentifier}/"
         o.input = Shapes::ShapeRef.new(shape: GetPromptRequest)
         o.output = Shapes::ShapeRef.new(shape: GetPromptResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetResourcePolicy"
+        o.http_method = "GET"
+        o.http_request_uri = "/resourcepolicy/{resourceArn}"
+        o.input = Shapes::ShapeRef.new(shape: GetResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetResourcePolicyResponse)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
@@ -3856,6 +3972,20 @@ module Aws::BedrockAgent
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
+      api.add_operation(:put_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutResourcePolicy"
+        o.http_method = "PUT"
+        o.http_request_uri = "/resourcepolicy/{resourceArn}"
+        o.input = Shapes::ShapeRef.new(shape: PutResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
       api.add_operation(:start_ingestion_job, Seahorse::Model::Operation.new.tap do |o|

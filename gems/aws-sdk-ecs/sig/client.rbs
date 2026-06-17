@@ -219,12 +219,12 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ECS/Client.html#create_express_gateway_service-instance_method
       def create_express_gateway_service: (
-                                            execution_role_arn: ::String,
+                                            ?execution_role_arn: ::String,
                                             infrastructure_role_arn: ::String,
                                             ?service_name: ::String,
                                             ?cluster: ::String,
                                             ?health_check_path: ::String,
-                                            primary_container: Params::express_gateway_container,
+                                            ?primary_container: Params::express_gateway_container,
                                             ?task_role_arn: ::String,
                                             ?network_configuration: {
                                               security_groups: Array[::String]?,
@@ -243,7 +243,8 @@ module Aws
                                                 key: ::String?,
                                                 value: ::String?
                                               }
-                                            ]
+                                            ],
+                                            ?task_definition_arn: ::String
                                           ) -> _CreateExpressGatewayServiceResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateExpressGatewayServiceResponseSuccess
 
@@ -1804,7 +1805,8 @@ module Aws
                                               max_task_count: ::Integer?,
                                               auto_scaling_metric: ("AVERAGE_CPU" | "AVERAGE_MEMORY" | "REQUEST_COUNT_PER_TARGET")?,
                                               auto_scaling_target_value: ::Integer?
-                                            }
+                                            },
+                                            ?task_definition_arn: ::String
                                           ) -> _UpdateExpressGatewayServiceResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateExpressGatewayServiceResponseSuccess
 

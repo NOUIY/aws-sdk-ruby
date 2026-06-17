@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.7.0 (2026-06-17)
+------------------
+
+* Feature - Updated AWS Security Agent SDK model with new APIs for threat modeling, code review, security requirements, and additional integration providers.
+
 1.6.0 (2026-05-28)
 ------------------
 

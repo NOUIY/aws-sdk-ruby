@@ -2076,6 +2076,66 @@ module Aws
       pagination_configuration: Params::pagination_configuration?
     }
 
+      type search_filter_clause = {
+      and_all_filters: Array[
+        {
+          and_all_filters: untyped?,
+          or_any_filters: untyped?,
+          attribute_filter: {
+            attribute: ::String,
+            operator: ("equals" | "greaterThan" | "greaterThanOrEquals" | "lessThan" | "lessThanOrEquals" | "notExists"),
+            value: {
+              string_value: ::String?,
+              long_value: ::Integer?
+            }?
+          }?,
+          map_filter: {
+            attribute: ::String,
+            key: ::String,
+            value: {
+              string_value: ::String?
+            }
+          }?
+        }
+      ]?,
+      or_any_filters: Array[
+        {
+          and_all_filters: untyped?,
+          or_any_filters: untyped?,
+          attribute_filter: {
+            attribute: ::String,
+            operator: ("equals" | "greaterThan" | "greaterThanOrEquals" | "lessThan" | "lessThanOrEquals" | "notExists"),
+            value: {
+              string_value: ::String?,
+              long_value: ::Integer?
+            }?
+          }?,
+          map_filter: {
+            attribute: ::String,
+            key: ::String,
+            value: {
+              string_value: ::String?
+            }
+          }?
+        }
+      ]?,
+      attribute_filter: {
+        attribute: ::String,
+        operator: ("equals" | "greaterThan" | "greaterThanOrEquals" | "lessThan" | "lessThanOrEquals" | "notExists"),
+        value: {
+          string_value: ::String?,
+          long_value: ::Integer?
+        }?
+      }?,
+      map_filter: {
+        attribute: ::String,
+        key: ::String,
+        value: {
+          string_value: ::String?
+        }
+      }?
+    }
+
       type decimal_column_statistics_data = {
       minimum_value: {
         unscaled_value: ::String,

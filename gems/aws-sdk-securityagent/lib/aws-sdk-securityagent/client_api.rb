@@ -16,6 +16,7 @@ module Aws::SecurityAgent
 
     AWSResources = Shapes::StructureShape.new(name: 'AWSResources')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
+    AccessToken = Shapes::StringShape.new(name: 'AccessToken')
     AccessType = Shapes::StringShape.new(name: 'AccessType')
     Actor = Shapes::StructureShape.new(name: 'Actor')
     ActorList = Shapes::ListShape.new(name: 'ActorList')
@@ -44,10 +45,18 @@ module Aws::SecurityAgent
     AuthCode = Shapes::StringShape.new(name: 'AuthCode')
     Authentication = Shapes::StructureShape.new(name: 'Authentication')
     AuthenticationProviderType = Shapes::StringShape.new(name: 'AuthenticationProviderType')
+    BatchCreateSecurityRequirementResult = Shapes::StructureShape.new(name: 'BatchCreateSecurityRequirementResult')
+    BatchCreateSecurityRequirementResultList = Shapes::ListShape.new(name: 'BatchCreateSecurityRequirementResultList')
+    BatchCreateSecurityRequirementsInput = Shapes::StructureShape.new(name: 'BatchCreateSecurityRequirementsInput')
+    BatchCreateSecurityRequirementsOutput = Shapes::StructureShape.new(name: 'BatchCreateSecurityRequirementsOutput')
     BatchDeleteCodeReviewsInput = Shapes::StructureShape.new(name: 'BatchDeleteCodeReviewsInput')
     BatchDeleteCodeReviewsOutput = Shapes::StructureShape.new(name: 'BatchDeleteCodeReviewsOutput')
     BatchDeletePentestsInput = Shapes::StructureShape.new(name: 'BatchDeletePentestsInput')
     BatchDeletePentestsOutput = Shapes::StructureShape.new(name: 'BatchDeletePentestsOutput')
+    BatchDeleteSecurityRequirementsInput = Shapes::StructureShape.new(name: 'BatchDeleteSecurityRequirementsInput')
+    BatchDeleteSecurityRequirementsOutput = Shapes::StructureShape.new(name: 'BatchDeleteSecurityRequirementsOutput')
+    BatchDeleteThreatModelsInput = Shapes::StructureShape.new(name: 'BatchDeleteThreatModelsInput')
+    BatchDeleteThreatModelsOutput = Shapes::StructureShape.new(name: 'BatchDeleteThreatModelsOutput')
     BatchGetAgentSpacesInput = Shapes::StructureShape.new(name: 'BatchGetAgentSpacesInput')
     BatchGetAgentSpacesOutput = Shapes::StructureShape.new(name: 'BatchGetAgentSpacesOutput')
     BatchGetArtifactMetadataInput = Shapes::StructureShape.new(name: 'BatchGetArtifactMetadataInput')
@@ -66,12 +75,36 @@ module Aws::SecurityAgent
     BatchGetPentestJobsOutput = Shapes::StructureShape.new(name: 'BatchGetPentestJobsOutput')
     BatchGetPentestsInput = Shapes::StructureShape.new(name: 'BatchGetPentestsInput')
     BatchGetPentestsOutput = Shapes::StructureShape.new(name: 'BatchGetPentestsOutput')
+    BatchGetSecurityRequirementResult = Shapes::StructureShape.new(name: 'BatchGetSecurityRequirementResult')
+    BatchGetSecurityRequirementResultList = Shapes::ListShape.new(name: 'BatchGetSecurityRequirementResultList')
+    BatchGetSecurityRequirementsInput = Shapes::StructureShape.new(name: 'BatchGetSecurityRequirementsInput')
+    BatchGetSecurityRequirementsOutput = Shapes::StructureShape.new(name: 'BatchGetSecurityRequirementsOutput')
     BatchGetTargetDomainsInput = Shapes::StructureShape.new(name: 'BatchGetTargetDomainsInput')
     BatchGetTargetDomainsOutput = Shapes::StructureShape.new(name: 'BatchGetTargetDomainsOutput')
+    BatchGetThreatModelJobTasksInput = Shapes::StructureShape.new(name: 'BatchGetThreatModelJobTasksInput')
+    BatchGetThreatModelJobTasksOutput = Shapes::StructureShape.new(name: 'BatchGetThreatModelJobTasksOutput')
+    BatchGetThreatModelJobsInput = Shapes::StructureShape.new(name: 'BatchGetThreatModelJobsInput')
+    BatchGetThreatModelJobsOutput = Shapes::StructureShape.new(name: 'BatchGetThreatModelJobsOutput')
+    BatchGetThreatModelsInput = Shapes::StructureShape.new(name: 'BatchGetThreatModelsInput')
+    BatchGetThreatModelsOutput = Shapes::StructureShape.new(name: 'BatchGetThreatModelsOutput')
+    BatchGetThreatsInput = Shapes::StructureShape.new(name: 'BatchGetThreatsInput')
+    BatchGetThreatsOutput = Shapes::StructureShape.new(name: 'BatchGetThreatsOutput')
+    BatchSecurityRequirementError = Shapes::StructureShape.new(name: 'BatchSecurityRequirementError')
+    BatchSecurityRequirementErrors = Shapes::ListShape.new(name: 'BatchSecurityRequirementErrors')
+    BatchUpdateSecurityRequirementsInput = Shapes::StructureShape.new(name: 'BatchUpdateSecurityRequirementsInput')
+    BatchUpdateSecurityRequirementsOutput = Shapes::StructureShape.new(name: 'BatchUpdateSecurityRequirementsOutput')
+    BitbucketInstallationId = Shapes::StringShape.new(name: 'BitbucketInstallationId')
+    BitbucketIntegrationInput = Shapes::StructureShape.new(name: 'BitbucketIntegrationInput')
+    BitbucketRepositoryMetadata = Shapes::StructureShape.new(name: 'BitbucketRepositoryMetadata')
+    BitbucketRepositoryResource = Shapes::StructureShape.new(name: 'BitbucketRepositoryResource')
+    BitbucketResourceCapabilities = Shapes::StructureShape.new(name: 'BitbucketResourceCapabilities')
+    BitbucketWorkspace = Shapes::StringShape.new(name: 'BitbucketWorkspace')
     Blob = Shapes::BlobShape.new(name: 'Blob')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     Category = Shapes::StructureShape.new(name: 'Category')
     CategoryList = Shapes::ListShape.new(name: 'CategoryList')
+    CertificateChain = Shapes::StringShape.new(name: 'CertificateChain')
+    CleanUpStrategy = Shapes::StringShape.new(name: 'CleanUpStrategy')
     CloudWatchLog = Shapes::StructureShape.new(name: 'CloudWatchLog')
     CodeLocation = Shapes::StructureShape.new(name: 'CodeLocation')
     CodeLocationList = Shapes::ListShape.new(name: 'CodeLocationList')
@@ -97,6 +130,12 @@ module Aws::SecurityAgent
     CodeReviewSummaryList = Shapes::ListShape.new(name: 'CodeReviewSummaryList')
     ConfidenceLevel = Shapes::StringShape.new(name: 'ConfidenceLevel')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
+    ConfluenceDocumentMetadata = Shapes::StructureShape.new(name: 'ConfluenceDocumentMetadata')
+    ConfluenceDocumentResource = Shapes::StructureShape.new(name: 'ConfluenceDocumentResource')
+    ConfluenceInstallationId = Shapes::StringShape.new(name: 'ConfluenceInstallationId')
+    ConfluenceIntegrationInput = Shapes::StructureShape.new(name: 'ConfluenceIntegrationInput')
+    ConfluenceResourceCapabilities = Shapes::StructureShape.new(name: 'ConfluenceResourceCapabilities')
+    ConfluenceSiteUrl = Shapes::StringShape.new(name: 'ConfluenceSiteUrl')
     ContextType = Shapes::StringShape.new(name: 'ContextType')
     CreateAgentSpaceInput = Shapes::StructureShape.new(name: 'CreateAgentSpaceInput')
     CreateAgentSpaceOutput = Shapes::StructureShape.new(name: 'CreateAgentSpaceOutput')
@@ -110,8 +149,18 @@ module Aws::SecurityAgent
     CreateMembershipResponse = Shapes::StructureShape.new(name: 'CreateMembershipResponse')
     CreatePentestInput = Shapes::StructureShape.new(name: 'CreatePentestInput')
     CreatePentestOutput = Shapes::StructureShape.new(name: 'CreatePentestOutput')
+    CreatePrivateConnectionInput = Shapes::StructureShape.new(name: 'CreatePrivateConnectionInput')
+    CreatePrivateConnectionOutput = Shapes::StructureShape.new(name: 'CreatePrivateConnectionOutput')
+    CreateSecurityRequirementEntry = Shapes::StructureShape.new(name: 'CreateSecurityRequirementEntry')
+    CreateSecurityRequirementEntryList = Shapes::ListShape.new(name: 'CreateSecurityRequirementEntryList')
+    CreateSecurityRequirementPackInput = Shapes::StructureShape.new(name: 'CreateSecurityRequirementPackInput')
+    CreateSecurityRequirementPackOutput = Shapes::StructureShape.new(name: 'CreateSecurityRequirementPackOutput')
     CreateTargetDomainInput = Shapes::StructureShape.new(name: 'CreateTargetDomainInput')
     CreateTargetDomainOutput = Shapes::StructureShape.new(name: 'CreateTargetDomainOutput')
+    CreateThreatInput = Shapes::StructureShape.new(name: 'CreateThreatInput')
+    CreateThreatModelInput = Shapes::StructureShape.new(name: 'CreateThreatModelInput')
+    CreateThreatModelOutput = Shapes::StructureShape.new(name: 'CreateThreatModelOutput')
+    CreateThreatOutput = Shapes::StructureShape.new(name: 'CreateThreatOutput')
     CsrfState = Shapes::StringShape.new(name: 'CsrfState')
     CustomHeader = Shapes::StructureShape.new(name: 'CustomHeader')
     CustomHeaderList = Shapes::ListShape.new(name: 'CustomHeaderList')
@@ -130,8 +179,17 @@ module Aws::SecurityAgent
     DeleteMembershipResponse = Shapes::StructureShape.new(name: 'DeleteMembershipResponse')
     DeletePentestFailure = Shapes::StructureShape.new(name: 'DeletePentestFailure')
     DeletePentestFailureList = Shapes::ListShape.new(name: 'DeletePentestFailureList')
+    DeletePrivateConnectionInput = Shapes::StructureShape.new(name: 'DeletePrivateConnectionInput')
+    DeletePrivateConnectionOutput = Shapes::StructureShape.new(name: 'DeletePrivateConnectionOutput')
+    DeleteSecurityRequirementPackInput = Shapes::StructureShape.new(name: 'DeleteSecurityRequirementPackInput')
+    DeleteSecurityRequirementPackOutput = Shapes::StructureShape.new(name: 'DeleteSecurityRequirementPackOutput')
     DeleteTargetDomainInput = Shapes::StructureShape.new(name: 'DeleteTargetDomainInput')
     DeleteTargetDomainOutput = Shapes::StructureShape.new(name: 'DeleteTargetDomainOutput')
+    DeleteThreatModelFailure = Shapes::StructureShape.new(name: 'DeleteThreatModelFailure')
+    DeleteThreatModelFailureList = Shapes::ListShape.new(name: 'DeleteThreatModelFailureList')
+    DescribePrivateConnectionInput = Shapes::StructureShape.new(name: 'DescribePrivateConnectionInput')
+    DescribePrivateConnectionOutput = Shapes::StructureShape.new(name: 'DescribePrivateConnectionOutput')
+    DiffSource = Shapes::UnionShape.new(name: 'DiffSource')
     DiscoveredEndpoint = Shapes::StructureShape.new(name: 'DiscoveredEndpoint')
     DiscoveredEndpointList = Shapes::ListShape.new(name: 'DiscoveredEndpointList')
     DnsVerification = Shapes::StructureShape.new(name: 'DnsVerification')
@@ -156,19 +214,32 @@ module Aws::SecurityAgent
     GetArtifactOutput = Shapes::StructureShape.new(name: 'GetArtifactOutput')
     GetIntegrationInput = Shapes::StructureShape.new(name: 'GetIntegrationInput')
     GetIntegrationOutput = Shapes::StructureShape.new(name: 'GetIntegrationOutput')
+    GetSecurityRequirementPackInput = Shapes::StructureShape.new(name: 'GetSecurityRequirementPackInput')
+    GetSecurityRequirementPackOutput = Shapes::StructureShape.new(name: 'GetSecurityRequirementPackOutput')
     GitHubIntegrationInput = Shapes::StructureShape.new(name: 'GitHubIntegrationInput')
     GitHubOwner = Shapes::StringShape.new(name: 'GitHubOwner')
     GitHubRepositoryMetadata = Shapes::StructureShape.new(name: 'GitHubRepositoryMetadata')
     GitHubRepositoryResource = Shapes::StructureShape.new(name: 'GitHubRepositoryResource')
     GitHubResourceCapabilities = Shapes::StructureShape.new(name: 'GitHubResourceCapabilities')
+    GitLabIntegrationInput = Shapes::StructureShape.new(name: 'GitLabIntegrationInput')
+    GitLabNamespace = Shapes::StringShape.new(name: 'GitLabNamespace')
+    GitLabRepositoryMetadata = Shapes::StructureShape.new(name: 'GitLabRepositoryMetadata')
+    GitLabRepositoryResource = Shapes::StructureShape.new(name: 'GitLabRepositoryResource')
+    GitLabResourceCapabilities = Shapes::StructureShape.new(name: 'GitLabResourceCapabilities')
+    GitLabTokenType = Shapes::StringShape.new(name: 'GitLabTokenType')
+    HostAddress = Shapes::StringShape.new(name: 'HostAddress')
     HttpVerification = Shapes::StructureShape.new(name: 'HttpVerification')
     IamRoles = Shapes::ListShape.new(name: 'IamRoles')
     IdCApplicationArn = Shapes::StringShape.new(name: 'IdCApplicationArn')
     IdCConfiguration = Shapes::StructureShape.new(name: 'IdCConfiguration')
     IdCInstanceArn = Shapes::StringShape.new(name: 'IdCInstanceArn')
+    ImportSecurityRequirementsInput = Shapes::StructureShape.new(name: 'ImportSecurityRequirementsInput')
+    ImportSecurityRequirementsOutput = Shapes::StructureShape.new(name: 'ImportSecurityRequirementsOutput')
+    ImportSource = Shapes::UnionShape.new(name: 'ImportSource')
     InitiateProviderRegistrationInput = Shapes::StructureShape.new(name: 'InitiateProviderRegistrationInput')
     InitiateProviderRegistrationOutput = Shapes::StructureShape.new(name: 'InitiateProviderRegistrationOutput')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
+    IntegratedDocument = Shapes::StructureShape.new(name: 'IntegratedDocument')
     IntegratedRepository = Shapes::StructureShape.new(name: 'IntegratedRepository')
     IntegratedRepositoryList = Shapes::ListShape.new(name: 'IntegratedRepositoryList')
     IntegratedResource = Shapes::UnionShape.new(name: 'IntegratedResource')
@@ -182,6 +253,7 @@ module Aws::SecurityAgent
     IntegrationSummary = Shapes::StructureShape.new(name: 'IntegrationSummary')
     IntegrationSummaryList = Shapes::ListShape.new(name: 'IntegrationSummaryList')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
+    IpAddressType = Shapes::StringShape.new(name: 'IpAddressType')
     JobStatus = Shapes::StringShape.new(name: 'JobStatus')
     KmsKeyId = Shapes::StringShape.new(name: 'KmsKeyId')
     LambdaFunctionArn = Shapes::StringShape.new(name: 'LambdaFunctionArn')
@@ -214,15 +286,32 @@ module Aws::SecurityAgent
     ListPentestJobsForPentestOutput = Shapes::StructureShape.new(name: 'ListPentestJobsForPentestOutput')
     ListPentestsInput = Shapes::StructureShape.new(name: 'ListPentestsInput')
     ListPentestsOutput = Shapes::StructureShape.new(name: 'ListPentestsOutput')
+    ListPrivateConnectionsInput = Shapes::StructureShape.new(name: 'ListPrivateConnectionsInput')
+    ListPrivateConnectionsOutput = Shapes::StructureShape.new(name: 'ListPrivateConnectionsOutput')
+    ListSecurityRequirementPackFilter = Shapes::StructureShape.new(name: 'ListSecurityRequirementPackFilter')
+    ListSecurityRequirementPacksInput = Shapes::StructureShape.new(name: 'ListSecurityRequirementPacksInput')
+    ListSecurityRequirementPacksOutput = Shapes::StructureShape.new(name: 'ListSecurityRequirementPacksOutput')
+    ListSecurityRequirementsInput = Shapes::StructureShape.new(name: 'ListSecurityRequirementsInput')
+    ListSecurityRequirementsOutput = Shapes::StructureShape.new(name: 'ListSecurityRequirementsOutput')
     ListTagsForResourceInput = Shapes::StructureShape.new(name: 'ListTagsForResourceInput')
     ListTagsForResourceOutput = Shapes::StructureShape.new(name: 'ListTagsForResourceOutput')
     ListTargetDomainsInput = Shapes::StructureShape.new(name: 'ListTargetDomainsInput')
     ListTargetDomainsOutput = Shapes::StructureShape.new(name: 'ListTargetDomainsOutput')
+    ListThreatModelJobTasksInput = Shapes::StructureShape.new(name: 'ListThreatModelJobTasksInput')
+    ListThreatModelJobTasksOutput = Shapes::StructureShape.new(name: 'ListThreatModelJobTasksOutput')
+    ListThreatModelJobsInput = Shapes::StructureShape.new(name: 'ListThreatModelJobsInput')
+    ListThreatModelJobsOutput = Shapes::StructureShape.new(name: 'ListThreatModelJobsOutput')
+    ListThreatModelsInput = Shapes::StructureShape.new(name: 'ListThreatModelsInput')
+    ListThreatModelsOutput = Shapes::StructureShape.new(name: 'ListThreatModelsOutput')
+    ListThreatsInput = Shapes::StructureShape.new(name: 'ListThreatsInput')
+    ListThreatsOutput = Shapes::StructureShape.new(name: 'ListThreatsOutput')
     Location = Shapes::StringShape.new(name: 'Location')
     LogGroupArn = Shapes::StringShape.new(name: 'LogGroupArn')
     LogGroupArns = Shapes::ListShape.new(name: 'LogGroupArns')
     LogLocation = Shapes::StructureShape.new(name: 'LogLocation')
     LogType = Shapes::StringShape.new(name: 'LogType')
+    ManagementType = Shapes::StringShape.new(name: 'ManagementType')
+    MaxIpv4AddressesPerEni = Shapes::IntegerShape.new(name: 'MaxIpv4AddressesPerEni')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MemberMetadata = Shapes::UnionShape.new(name: 'MemberMetadata')
     MembershipConfig = Shapes::UnionShape.new(name: 'MembershipConfig')
@@ -247,13 +336,30 @@ module Aws::SecurityAgent
     PentestList = Shapes::ListShape.new(name: 'PentestList')
     PentestSummary = Shapes::StructureShape.new(name: 'PentestSummary')
     PentestSummaryList = Shapes::ListShape.new(name: 'PentestSummaryList')
+    PortRange = Shapes::StringShape.new(name: 'PortRange')
+    PortRanges = Shapes::ListShape.new(name: 'PortRanges')
+    PrivateConnectionList = Shapes::ListShape.new(name: 'PrivateConnectionList')
+    PrivateConnectionMode = Shapes::UnionShape.new(name: 'PrivateConnectionMode')
+    PrivateConnectionName = Shapes::StringShape.new(name: 'PrivateConnectionName')
+    PrivateConnectionSecurityGroupId = Shapes::StringShape.new(name: 'PrivateConnectionSecurityGroupId')
+    PrivateConnectionSecurityGroupIds = Shapes::ListShape.new(name: 'PrivateConnectionSecurityGroupIds')
+    PrivateConnectionStatus = Shapes::StringShape.new(name: 'PrivateConnectionStatus')
+    PrivateConnectionSubnetId = Shapes::StringShape.new(name: 'PrivateConnectionSubnetId')
+    PrivateConnectionSubnetIds = Shapes::ListShape.new(name: 'PrivateConnectionSubnetIds')
+    PrivateConnectionSummary = Shapes::StructureShape.new(name: 'PrivateConnectionSummary')
+    PrivateConnectionType = Shapes::StringShape.new(name: 'PrivateConnectionType')
+    PrivateConnectionVpcId = Shapes::StringShape.new(name: 'PrivateConnectionVpcId')
     Provider = Shapes::StringShape.new(name: 'Provider')
     ProviderInput = Shapes::UnionShape.new(name: 'ProviderInput')
     ProviderResourceCapabilities = Shapes::UnionShape.new(name: 'ProviderResourceCapabilities')
     ProviderResourceId = Shapes::StringShape.new(name: 'ProviderResourceId')
     ProviderResourceName = Shapes::StringShape.new(name: 'ProviderResourceName')
     ProviderType = Shapes::StringShape.new(name: 'ProviderType')
+    ReportDestination = Shapes::StructureShape.new(name: 'ReportDestination')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
+    ResourceConfigDnsResolution = Shapes::StringShape.new(name: 'ResourceConfigDnsResolution')
+    ResourceConfigurationId = Shapes::StringShape.new(name: 'ResourceConfigurationId')
+    ResourceGatewayId = Shapes::StringShape.new(name: 'ResourceGatewayId')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceType = Shapes::StringShape.new(name: 'ResourceType')
     RiskLevel = Shapes::StringShape.new(name: 'RiskLevel')
@@ -266,8 +372,28 @@ module Aws::SecurityAgent
     SecretArns = Shapes::ListShape.new(name: 'SecretArns')
     SecurityGroupArn = Shapes::StringShape.new(name: 'SecurityGroupArn')
     SecurityGroupArns = Shapes::ListShape.new(name: 'SecurityGroupArns')
+    SecurityRequirementArtifact = Shapes::StructureShape.new(name: 'SecurityRequirementArtifact')
+    SecurityRequirementArtifactFormat = Shapes::StringShape.new(name: 'SecurityRequirementArtifactFormat')
+    SecurityRequirementArtifactList = Shapes::ListShape.new(name: 'SecurityRequirementArtifactList')
+    SecurityRequirementArtifactName = Shapes::StringShape.new(name: 'SecurityRequirementArtifactName')
+    SecurityRequirementDocumentContent = Shapes::BlobShape.new(name: 'SecurityRequirementDocumentContent')
+    SecurityRequirementName = Shapes::StringShape.new(name: 'SecurityRequirementName')
+    SecurityRequirementNameList = Shapes::ListShape.new(name: 'SecurityRequirementNameList')
+    SecurityRequirementPackId = Shapes::StringShape.new(name: 'SecurityRequirementPackId')
+    SecurityRequirementPackImportStatus = Shapes::StringShape.new(name: 'SecurityRequirementPackImportStatus')
+    SecurityRequirementPackName = Shapes::StringShape.new(name: 'SecurityRequirementPackName')
+    SecurityRequirementPackStatus = Shapes::StringShape.new(name: 'SecurityRequirementPackStatus')
+    SecurityRequirementPackSummary = Shapes::StructureShape.new(name: 'SecurityRequirementPackSummary')
+    SecurityRequirementPackSummaryList = Shapes::ListShape.new(name: 'SecurityRequirementPackSummaryList')
+    SecurityRequirementSummary = Shapes::StructureShape.new(name: 'SecurityRequirementSummary')
+    SecurityRequirementSummaryList = Shapes::ListShape.new(name: 'SecurityRequirementSummaryList')
+    SelfManagedInput = Shapes::StructureShape.new(name: 'SelfManagedInput')
     SensitiveEmail = Shapes::StringShape.new(name: 'SensitiveEmail')
+    ServiceManagedInput = Shapes::StructureShape.new(name: 'ServiceManagedInput')
+    ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceRole = Shapes::StringShape.new(name: 'ServiceRole')
+    SkillType = Shapes::StringShape.new(name: 'SkillType')
+    SkillTypeList = Shapes::ListShape.new(name: 'SkillTypeList')
     SourceCodeRepository = Shapes::StructureShape.new(name: 'SourceCodeRepository')
     SourceCodeRepositoryList = Shapes::ListShape.new(name: 'SourceCodeRepositoryList')
     StartCodeRemediationInput = Shapes::StructureShape.new(name: 'StartCodeRemediationInput')
@@ -276,6 +402,8 @@ module Aws::SecurityAgent
     StartCodeReviewJobOutput = Shapes::StructureShape.new(name: 'StartCodeReviewJobOutput')
     StartPentestJobInput = Shapes::StructureShape.new(name: 'StartPentestJobInput')
     StartPentestJobOutput = Shapes::StructureShape.new(name: 'StartPentestJobOutput')
+    StartThreatModelJobInput = Shapes::StructureShape.new(name: 'StartThreatModelJobInput')
+    StartThreatModelJobOutput = Shapes::StructureShape.new(name: 'StartThreatModelJobOutput')
     Step = Shapes::StructureShape.new(name: 'Step')
     StepList = Shapes::ListShape.new(name: 'StepList')
     StepName = Shapes::StringShape.new(name: 'StepName')
@@ -284,7 +412,12 @@ module Aws::SecurityAgent
     StopCodeReviewJobOutput = Shapes::StructureShape.new(name: 'StopCodeReviewJobOutput')
     StopPentestJobInput = Shapes::StructureShape.new(name: 'StopPentestJobInput')
     StopPentestJobOutput = Shapes::StructureShape.new(name: 'StopPentestJobOutput')
+    StopThreatModelJobInput = Shapes::StructureShape.new(name: 'StopThreatModelJobInput')
+    StopThreatModelJobOutput = Shapes::StructureShape.new(name: 'StopThreatModelJobOutput')
+    StrideCategory = Shapes::StringShape.new(name: 'StrideCategory')
+    StrideCategoryList = Shapes::ListShape.new(name: 'StrideCategoryList')
     String = Shapes::StringShape.new(name: 'String')
+    StringList = Shapes::ListShape.new(name: 'StringList')
     SubnetArn = Shapes::StringShape.new(name: 'SubnetArn')
     SubnetArns = Shapes::ListShape.new(name: 'SubnetArns')
     SyntheticTimestamp_date_time = Shapes::TimestampShape.new(name: 'SyntheticTimestamp_date_time', timestampFormat: "iso8601")
@@ -301,12 +434,38 @@ module Aws::SecurityAgent
     TargetDomainStatus = Shapes::StringShape.new(name: 'TargetDomainStatus')
     TargetDomainSummary = Shapes::StructureShape.new(name: 'TargetDomainSummary')
     TargetDomainSummaryList = Shapes::ListShape.new(name: 'TargetDomainSummaryList')
+    TargetUrl = Shapes::StringShape.new(name: 'TargetUrl')
     Task = Shapes::StructureShape.new(name: 'Task')
     TaskExecutionStatus = Shapes::StringShape.new(name: 'TaskExecutionStatus')
     TaskIdList = Shapes::ListShape.new(name: 'TaskIdList')
     TaskList = Shapes::ListShape.new(name: 'TaskList')
     TaskSummary = Shapes::StructureShape.new(name: 'TaskSummary')
     TaskSummaryList = Shapes::ListShape.new(name: 'TaskSummaryList')
+    Threat = Shapes::StructureShape.new(name: 'Threat')
+    ThreatActor = Shapes::StringShape.new(name: 'ThreatActor')
+    ThreatAnchorShape = Shapes::StructureShape.new(name: 'ThreatAnchorShape')
+    ThreatEvidenceList = Shapes::ListShape.new(name: 'ThreatEvidenceList')
+    ThreatEvidenceShape = Shapes::StructureShape.new(name: 'ThreatEvidenceShape')
+    ThreatIdList = Shapes::ListShape.new(name: 'ThreatIdList')
+    ThreatList = Shapes::ListShape.new(name: 'ThreatList')
+    ThreatModel = Shapes::StructureShape.new(name: 'ThreatModel')
+    ThreatModelIdList = Shapes::ListShape.new(name: 'ThreatModelIdList')
+    ThreatModelJob = Shapes::StructureShape.new(name: 'ThreatModelJob')
+    ThreatModelJobIdList = Shapes::ListShape.new(name: 'ThreatModelJobIdList')
+    ThreatModelJobList = Shapes::ListShape.new(name: 'ThreatModelJobList')
+    ThreatModelJobSummary = Shapes::StructureShape.new(name: 'ThreatModelJobSummary')
+    ThreatModelJobSummaryList = Shapes::ListShape.new(name: 'ThreatModelJobSummaryList')
+    ThreatModelJobTask = Shapes::StructureShape.new(name: 'ThreatModelJobTask')
+    ThreatModelJobTaskList = Shapes::ListShape.new(name: 'ThreatModelJobTaskList')
+    ThreatModelJobTaskSummary = Shapes::StructureShape.new(name: 'ThreatModelJobTaskSummary')
+    ThreatModelJobTaskSummaryList = Shapes::ListShape.new(name: 'ThreatModelJobTaskSummaryList')
+    ThreatModelList = Shapes::ListShape.new(name: 'ThreatModelList')
+    ThreatModelSummary = Shapes::StructureShape.new(name: 'ThreatModelSummary')
+    ThreatModelSummaryList = Shapes::ListShape.new(name: 'ThreatModelSummaryList')
+    ThreatSeverity = Shapes::StringShape.new(name: 'ThreatSeverity')
+    ThreatStatus = Shapes::StringShape.new(name: 'ThreatStatus')
+    ThreatSummary = Shapes::StructureShape.new(name: 'ThreatSummary')
+    ThreatSummaryList = Shapes::ListShape.new(name: 'ThreatSummaryList')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
     UntagResourceInput = Shapes::StructureShape.new(name: 'UntagResourceInput')
     UntagResourceOutput = Shapes::StructureShape.new(name: 'UntagResourceOutput')
@@ -322,8 +481,18 @@ module Aws::SecurityAgent
     UpdateIntegratedResourcesOutput = Shapes::StructureShape.new(name: 'UpdateIntegratedResourcesOutput')
     UpdatePentestInput = Shapes::StructureShape.new(name: 'UpdatePentestInput')
     UpdatePentestOutput = Shapes::StructureShape.new(name: 'UpdatePentestOutput')
+    UpdatePrivateConnectionCertificateInput = Shapes::StructureShape.new(name: 'UpdatePrivateConnectionCertificateInput')
+    UpdatePrivateConnectionCertificateOutput = Shapes::StructureShape.new(name: 'UpdatePrivateConnectionCertificateOutput')
+    UpdateSecurityRequirementEntry = Shapes::StructureShape.new(name: 'UpdateSecurityRequirementEntry')
+    UpdateSecurityRequirementEntryList = Shapes::ListShape.new(name: 'UpdateSecurityRequirementEntryList')
+    UpdateSecurityRequirementPackInput = Shapes::StructureShape.new(name: 'UpdateSecurityRequirementPackInput')
+    UpdateSecurityRequirementPackOutput = Shapes::StructureShape.new(name: 'UpdateSecurityRequirementPackOutput')
     UpdateTargetDomainInput = Shapes::StructureShape.new(name: 'UpdateTargetDomainInput')
     UpdateTargetDomainOutput = Shapes::StructureShape.new(name: 'UpdateTargetDomainOutput')
+    UpdateThreatInput = Shapes::StructureShape.new(name: 'UpdateThreatInput')
+    UpdateThreatModelInput = Shapes::StructureShape.new(name: 'UpdateThreatModelInput')
+    UpdateThreatModelOutput = Shapes::StructureShape.new(name: 'UpdateThreatModelOutput')
+    UpdateThreatOutput = Shapes::StructureShape.new(name: 'UpdateThreatOutput')
     UriList = Shapes::ListShape.new(name: 'UriList')
     UserConfig = Shapes::StructureShape.new(name: 'UserConfig')
     UserMetadata = Shapes::StructureShape.new(name: 'UserMetadata')
@@ -331,6 +500,8 @@ module Aws::SecurityAgent
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
+    ValidationMode = Shapes::StringShape.new(name: 'ValidationMode')
+    ValidationStatus = Shapes::StringShape.new(name: 'ValidationStatus')
     VerificationDetails = Shapes::StructureShape.new(name: 'VerificationDetails')
     VerificationScript = Shapes::StructureShape.new(name: 'VerificationScript')
     VerificationScriptEnvVar = Shapes::StructureShape.new(name: 'VerificationScriptEnvVar')
@@ -432,6 +603,26 @@ module Aws::SecurityAgent
     Authentication.add_member(:value, Shapes::ShapeRef.new(shape: String, location_name: "value"))
     Authentication.struct_class = Types::Authentication
 
+    BatchCreateSecurityRequirementResult.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    BatchCreateSecurityRequirementResult.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementName, required: true, location_name: "name"))
+    BatchCreateSecurityRequirementResult.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    BatchCreateSecurityRequirementResult.add_member(:domain, Shapes::ShapeRef.new(shape: String, required: true, location_name: "domain"))
+    BatchCreateSecurityRequirementResult.add_member(:evaluation, Shapes::ShapeRef.new(shape: String, required: true, location_name: "evaluation"))
+    BatchCreateSecurityRequirementResult.add_member(:remediation, Shapes::ShapeRef.new(shape: String, location_name: "remediation"))
+    BatchCreateSecurityRequirementResult.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    BatchCreateSecurityRequirementResult.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    BatchCreateSecurityRequirementResult.struct_class = Types::BatchCreateSecurityRequirementResult
+
+    BatchCreateSecurityRequirementResultList.member = Shapes::ShapeRef.new(shape: BatchCreateSecurityRequirementResult)
+
+    BatchCreateSecurityRequirementsInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    BatchCreateSecurityRequirementsInput.add_member(:security_requirements, Shapes::ShapeRef.new(shape: CreateSecurityRequirementEntryList, required: true, location_name: "securityRequirements"))
+    BatchCreateSecurityRequirementsInput.struct_class = Types::BatchCreateSecurityRequirementsInput
+
+    BatchCreateSecurityRequirementsOutput.add_member(:security_requirements, Shapes::ShapeRef.new(shape: BatchCreateSecurityRequirementResultList, required: true, location_name: "securityRequirements"))
+    BatchCreateSecurityRequirementsOutput.add_member(:errors, Shapes::ShapeRef.new(shape: BatchSecurityRequirementErrors, required: true, location_name: "errors"))
+    BatchCreateSecurityRequirementsOutput.struct_class = Types::BatchCreateSecurityRequirementsOutput
+
     BatchDeleteCodeReviewsInput.add_member(:code_review_ids, Shapes::ShapeRef.new(shape: CodeReviewIdList, required: true, location_name: "codeReviewIds"))
     BatchDeleteCodeReviewsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
     BatchDeleteCodeReviewsInput.struct_class = Types::BatchDeleteCodeReviewsInput
@@ -447,6 +638,22 @@ module Aws::SecurityAgent
     BatchDeletePentestsOutput.add_member(:deleted, Shapes::ShapeRef.new(shape: PentestList, location_name: "deleted"))
     BatchDeletePentestsOutput.add_member(:failed, Shapes::ShapeRef.new(shape: DeletePentestFailureList, location_name: "failed"))
     BatchDeletePentestsOutput.struct_class = Types::BatchDeletePentestsOutput
+
+    BatchDeleteSecurityRequirementsInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    BatchDeleteSecurityRequirementsInput.add_member(:security_requirement_names, Shapes::ShapeRef.new(shape: SecurityRequirementNameList, required: true, location_name: "securityRequirementNames"))
+    BatchDeleteSecurityRequirementsInput.struct_class = Types::BatchDeleteSecurityRequirementsInput
+
+    BatchDeleteSecurityRequirementsOutput.add_member(:deleted_security_requirement_names, Shapes::ShapeRef.new(shape: SecurityRequirementNameList, required: true, location_name: "deletedSecurityRequirementNames"))
+    BatchDeleteSecurityRequirementsOutput.add_member(:errors, Shapes::ShapeRef.new(shape: BatchSecurityRequirementErrors, required: true, location_name: "errors"))
+    BatchDeleteSecurityRequirementsOutput.struct_class = Types::BatchDeleteSecurityRequirementsOutput
+
+    BatchDeleteThreatModelsInput.add_member(:threat_model_ids, Shapes::ShapeRef.new(shape: ThreatModelIdList, required: true, location_name: "threatModelIds"))
+    BatchDeleteThreatModelsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    BatchDeleteThreatModelsInput.struct_class = Types::BatchDeleteThreatModelsInput
+
+    BatchDeleteThreatModelsOutput.add_member(:deleted, Shapes::ShapeRef.new(shape: ThreatModelIdList, location_name: "deleted"))
+    BatchDeleteThreatModelsOutput.add_member(:failed, Shapes::ShapeRef.new(shape: DeleteThreatModelFailureList, location_name: "failed"))
+    BatchDeleteThreatModelsOutput.struct_class = Types::BatchDeleteThreatModelsOutput
 
     BatchGetAgentSpacesInput.add_member(:agent_space_ids, Shapes::ShapeRef.new(shape: AgentSpaceIdList, required: true, location_name: "agentSpaceIds"))
     BatchGetAgentSpacesInput.struct_class = Types::BatchGetAgentSpacesInput
@@ -518,12 +725,99 @@ module Aws::SecurityAgent
     BatchGetPentestsOutput.add_member(:not_found, Shapes::ShapeRef.new(shape: PentestIdList, location_name: "notFound"))
     BatchGetPentestsOutput.struct_class = Types::BatchGetPentestsOutput
 
+    BatchGetSecurityRequirementResult.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    BatchGetSecurityRequirementResult.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementName, required: true, location_name: "name"))
+    BatchGetSecurityRequirementResult.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    BatchGetSecurityRequirementResult.add_member(:domain, Shapes::ShapeRef.new(shape: String, required: true, location_name: "domain"))
+    BatchGetSecurityRequirementResult.add_member(:evaluation, Shapes::ShapeRef.new(shape: String, required: true, location_name: "evaluation"))
+    BatchGetSecurityRequirementResult.add_member(:remediation, Shapes::ShapeRef.new(shape: String, location_name: "remediation"))
+    BatchGetSecurityRequirementResult.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    BatchGetSecurityRequirementResult.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    BatchGetSecurityRequirementResult.struct_class = Types::BatchGetSecurityRequirementResult
+
+    BatchGetSecurityRequirementResultList.member = Shapes::ShapeRef.new(shape: BatchGetSecurityRequirementResult)
+
+    BatchGetSecurityRequirementsInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    BatchGetSecurityRequirementsInput.add_member(:security_requirement_names, Shapes::ShapeRef.new(shape: SecurityRequirementNameList, required: true, location_name: "securityRequirementNames"))
+    BatchGetSecurityRequirementsInput.struct_class = Types::BatchGetSecurityRequirementsInput
+
+    BatchGetSecurityRequirementsOutput.add_member(:security_requirements, Shapes::ShapeRef.new(shape: BatchGetSecurityRequirementResultList, required: true, location_name: "securityRequirements"))
+    BatchGetSecurityRequirementsOutput.add_member(:errors, Shapes::ShapeRef.new(shape: BatchSecurityRequirementErrors, required: true, location_name: "errors"))
+    BatchGetSecurityRequirementsOutput.struct_class = Types::BatchGetSecurityRequirementsOutput
+
     BatchGetTargetDomainsInput.add_member(:target_domain_ids, Shapes::ShapeRef.new(shape: TargetDomainIdList, required: true, location_name: "targetDomainIds"))
     BatchGetTargetDomainsInput.struct_class = Types::BatchGetTargetDomainsInput
 
     BatchGetTargetDomainsOutput.add_member(:target_domains, Shapes::ShapeRef.new(shape: TargetDomainList, location_name: "targetDomains"))
     BatchGetTargetDomainsOutput.add_member(:not_found, Shapes::ShapeRef.new(shape: TargetDomainIdList, location_name: "notFound"))
     BatchGetTargetDomainsOutput.struct_class = Types::BatchGetTargetDomainsOutput
+
+    BatchGetThreatModelJobTasksInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    BatchGetThreatModelJobTasksInput.add_member(:threat_model_job_task_ids, Shapes::ShapeRef.new(shape: TaskIdList, required: true, location_name: "threatModelJobTaskIds"))
+    BatchGetThreatModelJobTasksInput.struct_class = Types::BatchGetThreatModelJobTasksInput
+
+    BatchGetThreatModelJobTasksOutput.add_member(:threat_model_job_tasks, Shapes::ShapeRef.new(shape: ThreatModelJobTaskList, location_name: "threatModelJobTasks"))
+    BatchGetThreatModelJobTasksOutput.add_member(:not_found, Shapes::ShapeRef.new(shape: TaskIdList, location_name: "notFound"))
+    BatchGetThreatModelJobTasksOutput.struct_class = Types::BatchGetThreatModelJobTasksOutput
+
+    BatchGetThreatModelJobsInput.add_member(:threat_model_job_ids, Shapes::ShapeRef.new(shape: ThreatModelJobIdList, required: true, location_name: "threatModelJobIds"))
+    BatchGetThreatModelJobsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    BatchGetThreatModelJobsInput.struct_class = Types::BatchGetThreatModelJobsInput
+
+    BatchGetThreatModelJobsOutput.add_member(:threat_model_jobs, Shapes::ShapeRef.new(shape: ThreatModelJobList, location_name: "threatModelJobs"))
+    BatchGetThreatModelJobsOutput.add_member(:not_found, Shapes::ShapeRef.new(shape: ThreatModelJobIdList, location_name: "notFound"))
+    BatchGetThreatModelJobsOutput.struct_class = Types::BatchGetThreatModelJobsOutput
+
+    BatchGetThreatModelsInput.add_member(:threat_model_ids, Shapes::ShapeRef.new(shape: ThreatModelIdList, required: true, location_name: "threatModelIds"))
+    BatchGetThreatModelsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    BatchGetThreatModelsInput.struct_class = Types::BatchGetThreatModelsInput
+
+    BatchGetThreatModelsOutput.add_member(:threat_models, Shapes::ShapeRef.new(shape: ThreatModelList, location_name: "threatModels"))
+    BatchGetThreatModelsOutput.add_member(:not_found, Shapes::ShapeRef.new(shape: ThreatModelIdList, location_name: "notFound"))
+    BatchGetThreatModelsOutput.struct_class = Types::BatchGetThreatModelsOutput
+
+    BatchGetThreatsInput.add_member(:threat_ids, Shapes::ShapeRef.new(shape: ThreatIdList, required: true, location_name: "threatIds"))
+    BatchGetThreatsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    BatchGetThreatsInput.struct_class = Types::BatchGetThreatsInput
+
+    BatchGetThreatsOutput.add_member(:threats, Shapes::ShapeRef.new(shape: ThreatList, location_name: "threats"))
+    BatchGetThreatsOutput.add_member(:not_found, Shapes::ShapeRef.new(shape: ThreatIdList, location_name: "notFound"))
+    BatchGetThreatsOutput.struct_class = Types::BatchGetThreatsOutput
+
+    BatchSecurityRequirementError.add_member(:security_requirement_name, Shapes::ShapeRef.new(shape: SecurityRequirementName, required: true, location_name: "securityRequirementName"))
+    BatchSecurityRequirementError.add_member(:code, Shapes::ShapeRef.new(shape: String, required: true, location_name: "code"))
+    BatchSecurityRequirementError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchSecurityRequirementError.struct_class = Types::BatchSecurityRequirementError
+
+    BatchSecurityRequirementErrors.member = Shapes::ShapeRef.new(shape: BatchSecurityRequirementError)
+
+    BatchUpdateSecurityRequirementsInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    BatchUpdateSecurityRequirementsInput.add_member(:security_requirements, Shapes::ShapeRef.new(shape: UpdateSecurityRequirementEntryList, required: true, location_name: "securityRequirements"))
+    BatchUpdateSecurityRequirementsInput.struct_class = Types::BatchUpdateSecurityRequirementsInput
+
+    BatchUpdateSecurityRequirementsOutput.add_member(:updated_security_requirement_names, Shapes::ShapeRef.new(shape: SecurityRequirementNameList, required: true, location_name: "updatedSecurityRequirementNames"))
+    BatchUpdateSecurityRequirementsOutput.add_member(:errors, Shapes::ShapeRef.new(shape: BatchSecurityRequirementErrors, required: true, location_name: "errors"))
+    BatchUpdateSecurityRequirementsOutput.struct_class = Types::BatchUpdateSecurityRequirementsOutput
+
+    BitbucketIntegrationInput.add_member(:installation_id, Shapes::ShapeRef.new(shape: BitbucketInstallationId, required: true, location_name: "installationId"))
+    BitbucketIntegrationInput.add_member(:workspace, Shapes::ShapeRef.new(shape: BitbucketWorkspace, required: true, location_name: "workspace"))
+    BitbucketIntegrationInput.add_member(:code, Shapes::ShapeRef.new(shape: AuthCode, required: true, location_name: "code"))
+    BitbucketIntegrationInput.add_member(:state, Shapes::ShapeRef.new(shape: CsrfState, required: true, location_name: "state"))
+    BitbucketIntegrationInput.struct_class = Types::BitbucketIntegrationInput
+
+    BitbucketRepositoryMetadata.add_member(:name, Shapes::ShapeRef.new(shape: ProviderResourceName, required: true, location_name: "name"))
+    BitbucketRepositoryMetadata.add_member(:provider_resource_id, Shapes::ShapeRef.new(shape: ProviderResourceId, required: true, location_name: "providerResourceId"))
+    BitbucketRepositoryMetadata.add_member(:workspace, Shapes::ShapeRef.new(shape: BitbucketWorkspace, required: true, location_name: "workspace"))
+    BitbucketRepositoryMetadata.add_member(:access_type, Shapes::ShapeRef.new(shape: AccessType, location_name: "accessType"))
+    BitbucketRepositoryMetadata.struct_class = Types::BitbucketRepositoryMetadata
+
+    BitbucketRepositoryResource.add_member(:name, Shapes::ShapeRef.new(shape: ProviderResourceName, required: true, location_name: "name"))
+    BitbucketRepositoryResource.add_member(:workspace, Shapes::ShapeRef.new(shape: BitbucketWorkspace, required: true, location_name: "workspace"))
+    BitbucketRepositoryResource.struct_class = Types::BitbucketRepositoryResource
+
+    BitbucketResourceCapabilities.add_member(:leave_comments, Shapes::ShapeRef.new(shape: Boolean, location_name: "leaveComments"))
+    BitbucketResourceCapabilities.add_member(:remediate_code, Shapes::ShapeRef.new(shape: Boolean, location_name: "remediateCode"))
+    BitbucketResourceCapabilities.struct_class = Types::BitbucketResourceCapabilities
 
     Category.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
     Category.add_member(:is_primary, Shapes::ShapeRef.new(shape: Boolean, location_name: "isPrimary"))
@@ -562,6 +856,7 @@ module Aws::SecurityAgent
     CodeReview.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, location_name: "serviceRole"))
     CodeReview.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
     CodeReview.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    CodeReview.add_member(:validation_mode, Shapes::ShapeRef.new(shape: ValidationMode, location_name: "validationMode"))
     CodeReview.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     CodeReview.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     CodeReview.struct_class = Types::CodeReview
@@ -647,6 +942,32 @@ module Aws::SecurityAgent
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
 
+    ConfluenceDocumentMetadata.add_member(:name, Shapes::ShapeRef.new(shape: ProviderResourceName, required: true, location_name: "name"))
+    ConfluenceDocumentMetadata.add_member(:provider_resource_id, Shapes::ShapeRef.new(shape: ProviderResourceId, required: true, location_name: "providerResourceId"))
+    ConfluenceDocumentMetadata.add_member(:space_key, Shapes::ShapeRef.new(shape: String, required: true, location_name: "spaceKey"))
+    ConfluenceDocumentMetadata.add_member(:page_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "pageId"))
+    ConfluenceDocumentMetadata.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    ConfluenceDocumentMetadata.add_member(:space_title, Shapes::ShapeRef.new(shape: String, location_name: "spaceTitle"))
+    ConfluenceDocumentMetadata.struct_class = Types::ConfluenceDocumentMetadata
+
+    ConfluenceDocumentResource.add_member(:name, Shapes::ShapeRef.new(shape: ProviderResourceName, required: true, location_name: "name"))
+    ConfluenceDocumentResource.add_member(:space_key, Shapes::ShapeRef.new(shape: String, required: true, location_name: "spaceKey"))
+    ConfluenceDocumentResource.add_member(:page_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "pageId"))
+    ConfluenceDocumentResource.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    ConfluenceDocumentResource.add_member(:space_title, Shapes::ShapeRef.new(shape: String, location_name: "spaceTitle"))
+    ConfluenceDocumentResource.struct_class = Types::ConfluenceDocumentResource
+
+    ConfluenceIntegrationInput.add_member(:installation_id, Shapes::ShapeRef.new(shape: ConfluenceInstallationId, required: true, location_name: "installationId"))
+    ConfluenceIntegrationInput.add_member(:code, Shapes::ShapeRef.new(shape: AuthCode, required: true, location_name: "code"))
+    ConfluenceIntegrationInput.add_member(:state, Shapes::ShapeRef.new(shape: CsrfState, required: true, location_name: "state"))
+    ConfluenceIntegrationInput.add_member(:site_url, Shapes::ShapeRef.new(shape: ConfluenceSiteUrl, required: true, location_name: "siteUrl"))
+    ConfluenceIntegrationInput.struct_class = Types::ConfluenceIntegrationInput
+
+    ConfluenceResourceCapabilities.add_member(:fetch_document, Shapes::ShapeRef.new(shape: Boolean, location_name: "fetchDocument"))
+    ConfluenceResourceCapabilities.add_member(:create_document, Shapes::ShapeRef.new(shape: Boolean, location_name: "createDocument"))
+    ConfluenceResourceCapabilities.add_member(:update_document, Shapes::ShapeRef.new(shape: Boolean, location_name: "updateDocument"))
+    ConfluenceResourceCapabilities.struct_class = Types::ConfluenceResourceCapabilities
+
     CreateAgentSpaceInput.add_member(:name, Shapes::ShapeRef.new(shape: AgentName, required: true, location_name: "name"))
     CreateAgentSpaceInput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
     CreateAgentSpaceInput.add_member(:aws_resources, Shapes::ShapeRef.new(shape: AWSResources, location_name: "awsResources"))
@@ -682,6 +1003,7 @@ module Aws::SecurityAgent
     CreateCodeReviewInput.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, location_name: "serviceRole"))
     CreateCodeReviewInput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
     CreateCodeReviewInput.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    CreateCodeReviewInput.add_member(:validation_mode, Shapes::ShapeRef.new(shape: ValidationMode, location_name: "validationMode"))
     CreateCodeReviewInput.struct_class = Types::CreateCodeReviewInput
 
     CreateCodeReviewOutput.add_member(:code_review_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "codeReviewId"))
@@ -693,6 +1015,7 @@ module Aws::SecurityAgent
     CreateCodeReviewOutput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
     CreateCodeReviewOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
     CreateCodeReviewOutput.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    CreateCodeReviewOutput.add_member(:validation_mode, Shapes::ShapeRef.new(shape: ValidationMode, location_name: "validationMode"))
     CreateCodeReviewOutput.struct_class = Types::CreateCodeReviewOutput
 
     CreateIntegrationInput.add_member(:provider, Shapes::ShapeRef.new(shape: Provider, required: true, location_name: "provider"))
@@ -700,6 +1023,7 @@ module Aws::SecurityAgent
     CreateIntegrationInput.add_member(:integration_display_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "integrationDisplayName"))
     CreateIntegrationInput.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
     CreateIntegrationInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreateIntegrationInput.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, location_name: "privateConnectionName"))
     CreateIntegrationInput.struct_class = Types::CreateIntegrationInput
 
     CreateIntegrationOutput.add_member(:integration_id, Shapes::ShapeRef.new(shape: IntegrationId, required: true, location_name: "integrationId"))
@@ -723,6 +1047,7 @@ module Aws::SecurityAgent
     CreatePentestInput.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "vpcConfig"))
     CreatePentestInput.add_member(:network_traffic_config, Shapes::ShapeRef.new(shape: NetworkTrafficConfig, location_name: "networkTrafficConfig"))
     CreatePentestInput.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    CreatePentestInput.add_member(:disable_managed_skills, Shapes::ShapeRef.new(shape: SkillTypeList, location_name: "disableManagedSkills"))
     CreatePentestInput.struct_class = Types::CreatePentestInput
 
     CreatePentestOutput.add_member(:pentest_id, Shapes::ShapeRef.new(shape: String, location_name: "pentestId"))
@@ -735,6 +1060,45 @@ module Aws::SecurityAgent
     CreatePentestOutput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
     CreatePentestOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
     CreatePentestOutput.struct_class = Types::CreatePentestOutput
+
+    CreatePrivateConnectionInput.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "privateConnectionName"))
+    CreatePrivateConnectionInput.add_member(:mode, Shapes::ShapeRef.new(shape: PrivateConnectionMode, required: true, location_name: "mode"))
+    CreatePrivateConnectionInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreatePrivateConnectionInput.struct_class = Types::CreatePrivateConnectionInput
+
+    CreatePrivateConnectionOutput.add_member(:name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "name"))
+    CreatePrivateConnectionOutput.add_member(:type, Shapes::ShapeRef.new(shape: PrivateConnectionType, required: true, location_name: "type"))
+    CreatePrivateConnectionOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
+    CreatePrivateConnectionOutput.add_member(:resource_gateway_id, Shapes::ShapeRef.new(shape: ResourceGatewayId, location_name: "resourceGatewayId"))
+    CreatePrivateConnectionOutput.add_member(:host_address, Shapes::ShapeRef.new(shape: HostAddress, location_name: "hostAddress"))
+    CreatePrivateConnectionOutput.add_member(:vpc_id, Shapes::ShapeRef.new(shape: PrivateConnectionVpcId, location_name: "vpcId"))
+    CreatePrivateConnectionOutput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationId, location_name: "resourceConfigurationId"))
+    CreatePrivateConnectionOutput.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    CreatePrivateConnectionOutput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    CreatePrivateConnectionOutput.add_member(:failure_message, Shapes::ShapeRef.new(shape: String, location_name: "failureMessage"))
+    CreatePrivateConnectionOutput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreatePrivateConnectionOutput.struct_class = Types::CreatePrivateConnectionOutput
+
+    CreateSecurityRequirementEntry.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementName, required: true, location_name: "name"))
+    CreateSecurityRequirementEntry.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    CreateSecurityRequirementEntry.add_member(:domain, Shapes::ShapeRef.new(shape: String, required: true, location_name: "domain"))
+    CreateSecurityRequirementEntry.add_member(:evaluation, Shapes::ShapeRef.new(shape: String, required: true, location_name: "evaluation"))
+    CreateSecurityRequirementEntry.add_member(:remediation, Shapes::ShapeRef.new(shape: String, location_name: "remediation"))
+    CreateSecurityRequirementEntry.struct_class = Types::CreateSecurityRequirementEntry
+
+    CreateSecurityRequirementEntryList.member = Shapes::ShapeRef.new(shape: CreateSecurityRequirementEntry)
+
+    CreateSecurityRequirementPackInput.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementPackName, required: true, location_name: "name"))
+    CreateSecurityRequirementPackInput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    CreateSecurityRequirementPackInput.add_member(:status, Shapes::ShapeRef.new(shape: SecurityRequirementPackStatus, location_name: "status"))
+    CreateSecurityRequirementPackInput.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    CreateSecurityRequirementPackInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    CreateSecurityRequirementPackInput.struct_class = Types::CreateSecurityRequirementPackInput
+
+    CreateSecurityRequirementPackOutput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    CreateSecurityRequirementPackOutput.add_member(:status, Shapes::ShapeRef.new(shape: SecurityRequirementPackStatus, required: true, location_name: "status"))
+    CreateSecurityRequirementPackOutput.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    CreateSecurityRequirementPackOutput.struct_class = Types::CreateSecurityRequirementPackOutput
 
     CreateTargetDomainInput.add_member(:target_domain_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "targetDomainName"))
     CreateTargetDomainInput.add_member(:verification_method, Shapes::ShapeRef.new(shape: DomainVerificationMethod, required: true, location_name: "verificationMethod"))
@@ -749,6 +1113,69 @@ module Aws::SecurityAgent
     CreateTargetDomainOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     CreateTargetDomainOutput.add_member(:verified_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "verifiedAt"))
     CreateTargetDomainOutput.struct_class = Types::CreateTargetDomainOutput
+
+    CreateThreatInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    CreateThreatInput.add_member(:threat_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatJobId"))
+    CreateThreatInput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    CreateThreatInput.add_member(:statement, Shapes::ShapeRef.new(shape: String, location_name: "statement"))
+    CreateThreatInput.add_member(:severity, Shapes::ShapeRef.new(shape: ThreatSeverity, location_name: "severity"))
+    CreateThreatInput.add_member(:comments, Shapes::ShapeRef.new(shape: String, location_name: "comments"))
+    CreateThreatInput.add_member(:stride, Shapes::ShapeRef.new(shape: StrideCategoryList, location_name: "stride"))
+    CreateThreatInput.add_member(:threat_source, Shapes::ShapeRef.new(shape: String, location_name: "threatSource"))
+    CreateThreatInput.add_member(:prerequisites, Shapes::ShapeRef.new(shape: String, location_name: "prerequisites"))
+    CreateThreatInput.add_member(:threat_action, Shapes::ShapeRef.new(shape: String, location_name: "threatAction"))
+    CreateThreatInput.add_member(:threat_impact, Shapes::ShapeRef.new(shape: String, location_name: "threatImpact"))
+    CreateThreatInput.add_member(:impacted_goal, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedGoal"))
+    CreateThreatInput.add_member(:impacted_assets, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedAssets"))
+    CreateThreatInput.add_member(:anchor, Shapes::ShapeRef.new(shape: ThreatAnchorShape, location_name: "anchor"))
+    CreateThreatInput.add_member(:evidence, Shapes::ShapeRef.new(shape: ThreatEvidenceList, location_name: "evidence"))
+    CreateThreatInput.add_member(:recommendation, Shapes::ShapeRef.new(shape: String, location_name: "recommendation"))
+    CreateThreatInput.struct_class = Types::CreateThreatInput
+
+    CreateThreatModelInput.add_member(:title, Shapes::ShapeRef.new(shape: String, required: true, location_name: "title"))
+    CreateThreatModelInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    CreateThreatModelInput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    CreateThreatModelInput.add_member(:assets, Shapes::ShapeRef.new(shape: Assets, location_name: "assets"))
+    CreateThreatModelInput.add_member(:scope_docs, Shapes::ShapeRef.new(shape: DocumentList, location_name: "scopeDocs"))
+    CreateThreatModelInput.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, required: true, location_name: "serviceRole"))
+    CreateThreatModelInput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
+    CreateThreatModelInput.add_member(:report_destination, Shapes::ShapeRef.new(shape: ReportDestination, location_name: "reportDestination"))
+    CreateThreatModelInput.struct_class = Types::CreateThreatModelInput
+
+    CreateThreatModelOutput.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    CreateThreatModelOutput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    CreateThreatModelOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
+    CreateThreatModelOutput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    CreateThreatModelOutput.add_member(:assets, Shapes::ShapeRef.new(shape: Assets, location_name: "assets"))
+    CreateThreatModelOutput.add_member(:scope_docs, Shapes::ShapeRef.new(shape: DocumentList, location_name: "scopeDocs"))
+    CreateThreatModelOutput.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, location_name: "serviceRole"))
+    CreateThreatModelOutput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
+    CreateThreatModelOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    CreateThreatModelOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    CreateThreatModelOutput.struct_class = Types::CreateThreatModelOutput
+
+    CreateThreatOutput.add_member(:threat_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatId"))
+    CreateThreatOutput.add_member(:threat_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatJobId"))
+    CreateThreatOutput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    CreateThreatOutput.add_member(:statement, Shapes::ShapeRef.new(shape: String, location_name: "statement"))
+    CreateThreatOutput.add_member(:severity, Shapes::ShapeRef.new(shape: ThreatSeverity, location_name: "severity"))
+    CreateThreatOutput.add_member(:status, Shapes::ShapeRef.new(shape: ThreatStatus, location_name: "status"))
+    CreateThreatOutput.add_member(:comments, Shapes::ShapeRef.new(shape: String, location_name: "comments"))
+    CreateThreatOutput.add_member(:stride, Shapes::ShapeRef.new(shape: StrideCategoryList, location_name: "stride"))
+    CreateThreatOutput.add_member(:threat_source, Shapes::ShapeRef.new(shape: String, location_name: "threatSource"))
+    CreateThreatOutput.add_member(:prerequisites, Shapes::ShapeRef.new(shape: String, location_name: "prerequisites"))
+    CreateThreatOutput.add_member(:threat_action, Shapes::ShapeRef.new(shape: String, location_name: "threatAction"))
+    CreateThreatOutput.add_member(:threat_impact, Shapes::ShapeRef.new(shape: String, location_name: "threatImpact"))
+    CreateThreatOutput.add_member(:impacted_goal, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedGoal"))
+    CreateThreatOutput.add_member(:impacted_assets, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedAssets"))
+    CreateThreatOutput.add_member(:anchor, Shapes::ShapeRef.new(shape: ThreatAnchorShape, location_name: "anchor"))
+    CreateThreatOutput.add_member(:evidence, Shapes::ShapeRef.new(shape: ThreatEvidenceList, location_name: "evidence"))
+    CreateThreatOutput.add_member(:recommendation, Shapes::ShapeRef.new(shape: String, location_name: "recommendation"))
+    CreateThreatOutput.add_member(:created_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "createdBy"))
+    CreateThreatOutput.add_member(:updated_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "updatedBy"))
+    CreateThreatOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    CreateThreatOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    CreateThreatOutput.struct_class = Types::CreateThreatOutput
 
     CustomHeader.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
     CustomHeader.add_member(:value, Shapes::ShapeRef.new(shape: String, location_name: "value"))
@@ -796,11 +1223,60 @@ module Aws::SecurityAgent
 
     DeletePentestFailureList.member = Shapes::ShapeRef.new(shape: DeletePentestFailure)
 
+    DeletePrivateConnectionInput.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "privateConnectionName"))
+    DeletePrivateConnectionInput.struct_class = Types::DeletePrivateConnectionInput
+
+    DeletePrivateConnectionOutput.add_member(:name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "name"))
+    DeletePrivateConnectionOutput.add_member(:type, Shapes::ShapeRef.new(shape: PrivateConnectionType, required: true, location_name: "type"))
+    DeletePrivateConnectionOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
+    DeletePrivateConnectionOutput.add_member(:resource_gateway_id, Shapes::ShapeRef.new(shape: ResourceGatewayId, location_name: "resourceGatewayId"))
+    DeletePrivateConnectionOutput.add_member(:host_address, Shapes::ShapeRef.new(shape: HostAddress, location_name: "hostAddress"))
+    DeletePrivateConnectionOutput.add_member(:vpc_id, Shapes::ShapeRef.new(shape: PrivateConnectionVpcId, location_name: "vpcId"))
+    DeletePrivateConnectionOutput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationId, location_name: "resourceConfigurationId"))
+    DeletePrivateConnectionOutput.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    DeletePrivateConnectionOutput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    DeletePrivateConnectionOutput.add_member(:failure_message, Shapes::ShapeRef.new(shape: String, location_name: "failureMessage"))
+    DeletePrivateConnectionOutput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    DeletePrivateConnectionOutput.struct_class = Types::DeletePrivateConnectionOutput
+
+    DeleteSecurityRequirementPackInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    DeleteSecurityRequirementPackInput.struct_class = Types::DeleteSecurityRequirementPackInput
+
+    DeleteSecurityRequirementPackOutput.struct_class = Types::DeleteSecurityRequirementPackOutput
+
     DeleteTargetDomainInput.add_member(:target_domain_id, Shapes::ShapeRef.new(shape: TargetDomainId, required: true, location_name: "targetDomainId"))
     DeleteTargetDomainInput.struct_class = Types::DeleteTargetDomainInput
 
     DeleteTargetDomainOutput.add_member(:target_domain_id, Shapes::ShapeRef.new(shape: TargetDomainId, location_name: "targetDomainId"))
     DeleteTargetDomainOutput.struct_class = Types::DeleteTargetDomainOutput
+
+    DeleteThreatModelFailure.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelId"))
+    DeleteThreatModelFailure.add_member(:reason, Shapes::ShapeRef.new(shape: String, location_name: "reason"))
+    DeleteThreatModelFailure.struct_class = Types::DeleteThreatModelFailure
+
+    DeleteThreatModelFailureList.member = Shapes::ShapeRef.new(shape: DeleteThreatModelFailure)
+
+    DescribePrivateConnectionInput.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "privateConnectionName"))
+    DescribePrivateConnectionInput.struct_class = Types::DescribePrivateConnectionInput
+
+    DescribePrivateConnectionOutput.add_member(:name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "name"))
+    DescribePrivateConnectionOutput.add_member(:type, Shapes::ShapeRef.new(shape: PrivateConnectionType, required: true, location_name: "type"))
+    DescribePrivateConnectionOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
+    DescribePrivateConnectionOutput.add_member(:resource_gateway_id, Shapes::ShapeRef.new(shape: ResourceGatewayId, location_name: "resourceGatewayId"))
+    DescribePrivateConnectionOutput.add_member(:host_address, Shapes::ShapeRef.new(shape: HostAddress, location_name: "hostAddress"))
+    DescribePrivateConnectionOutput.add_member(:vpc_id, Shapes::ShapeRef.new(shape: PrivateConnectionVpcId, location_name: "vpcId"))
+    DescribePrivateConnectionOutput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationId, location_name: "resourceConfigurationId"))
+    DescribePrivateConnectionOutput.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    DescribePrivateConnectionOutput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    DescribePrivateConnectionOutput.add_member(:failure_message, Shapes::ShapeRef.new(shape: String, location_name: "failureMessage"))
+    DescribePrivateConnectionOutput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    DescribePrivateConnectionOutput.struct_class = Types::DescribePrivateConnectionOutput
+
+    DiffSource.add_member(:s3_uri, Shapes::ShapeRef.new(shape: String, location_name: "s3Uri"))
+    DiffSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    DiffSource.add_member_subclass(:s3_uri, Types::DiffSource::S3Uri)
+    DiffSource.add_member_subclass(:unknown, Types::DiffSource::Unknown)
+    DiffSource.struct_class = Types::DiffSource
 
     DiscoveredEndpoint.add_member(:uri, Shapes::ShapeRef.new(shape: String, required: true, location_name: "uri"))
     DiscoveredEndpoint.add_member(:pentest_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "pentestJobId"))
@@ -820,6 +1296,7 @@ module Aws::SecurityAgent
 
     DocumentInfo.add_member(:s3_location, Shapes::ShapeRef.new(shape: String, location_name: "s3Location"))
     DocumentInfo.add_member(:artifact_id, Shapes::ShapeRef.new(shape: String, location_name: "artifactId"))
+    DocumentInfo.add_member(:integrated_document, Shapes::ShapeRef.new(shape: IntegratedDocument, location_name: "integratedDocument"))
     DocumentInfo.struct_class = Types::DocumentInfo
 
     DocumentList.member = Shapes::ShapeRef.new(shape: DocumentInfo)
@@ -855,11 +1332,14 @@ module Aws::SecurityAgent
     Finding.add_member(:risk_score, Shapes::ShapeRef.new(shape: String, location_name: "riskScore"))
     Finding.add_member(:reasoning, Shapes::ShapeRef.new(shape: String, location_name: "reasoning"))
     Finding.add_member(:confidence, Shapes::ShapeRef.new(shape: ConfidenceLevel, location_name: "confidence"))
+    Finding.add_member(:validation_status, Shapes::ShapeRef.new(shape: ValidationStatus, location_name: "validationStatus"))
     Finding.add_member(:attack_script, Shapes::ShapeRef.new(shape: String, location_name: "attackScript"))
     Finding.add_member(:code_remediation_task, Shapes::ShapeRef.new(shape: CodeRemediationTask, location_name: "codeRemediationTask"))
     Finding.add_member(:last_updated_by, Shapes::ShapeRef.new(shape: String, location_name: "lastUpdatedBy"))
+    Finding.add_member(:customer_note, Shapes::ShapeRef.new(shape: String, location_name: "customerNote"))
     Finding.add_member(:code_locations, Shapes::ShapeRef.new(shape: CodeLocationList, location_name: "codeLocations"))
     Finding.add_member(:verification_script, Shapes::ShapeRef.new(shape: VerificationScript, location_name: "verificationScript"))
+    Finding.add_member(:alignment_rationale, Shapes::ShapeRef.new(shape: String, location_name: "alignmentRationale"))
     Finding.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     Finding.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     Finding.struct_class = Types::Finding
@@ -879,6 +1359,7 @@ module Aws::SecurityAgent
     FindingSummary.add_member(:risk_type, Shapes::ShapeRef.new(shape: String, location_name: "riskType"))
     FindingSummary.add_member(:risk_level, Shapes::ShapeRef.new(shape: RiskLevel, location_name: "riskLevel"))
     FindingSummary.add_member(:confidence, Shapes::ShapeRef.new(shape: ConfidenceLevel, location_name: "confidence"))
+    FindingSummary.add_member(:validation_status, Shapes::ShapeRef.new(shape: ValidationStatus, location_name: "validationStatus"))
     FindingSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     FindingSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     FindingSummary.struct_class = Types::FindingSummary
@@ -916,11 +1397,30 @@ module Aws::SecurityAgent
     GetIntegrationOutput.add_member(:provider_type, Shapes::ShapeRef.new(shape: ProviderType, required: true, location_name: "providerType"))
     GetIntegrationOutput.add_member(:display_name, Shapes::ShapeRef.new(shape: String, location_name: "displayName"))
     GetIntegrationOutput.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    GetIntegrationOutput.add_member(:target_url, Shapes::ShapeRef.new(shape: TargetUrl, location_name: "targetUrl"))
+    GetIntegrationOutput.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, location_name: "privateConnectionName"))
     GetIntegrationOutput.struct_class = Types::GetIntegrationOutput
+
+    GetSecurityRequirementPackInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    GetSecurityRequirementPackInput.struct_class = Types::GetSecurityRequirementPackInput
+
+    GetSecurityRequirementPackOutput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    GetSecurityRequirementPackOutput.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementPackName, required: true, location_name: "name"))
+    GetSecurityRequirementPackOutput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    GetSecurityRequirementPackOutput.add_member(:vendor_name, Shapes::ShapeRef.new(shape: String, location_name: "vendorName"))
+    GetSecurityRequirementPackOutput.add_member(:management_type, Shapes::ShapeRef.new(shape: ManagementType, required: true, location_name: "managementType"))
+    GetSecurityRequirementPackOutput.add_member(:status, Shapes::ShapeRef.new(shape: SecurityRequirementPackStatus, required: true, location_name: "status"))
+    GetSecurityRequirementPackOutput.add_member(:import_status, Shapes::ShapeRef.new(shape: SecurityRequirementPackImportStatus, location_name: "importStatus"))
+    GetSecurityRequirementPackOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    GetSecurityRequirementPackOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    GetSecurityRequirementPackOutput.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "kmsKeyId"))
+    GetSecurityRequirementPackOutput.struct_class = Types::GetSecurityRequirementPackOutput
 
     GitHubIntegrationInput.add_member(:code, Shapes::ShapeRef.new(shape: AuthCode, required: true, location_name: "code"))
     GitHubIntegrationInput.add_member(:state, Shapes::ShapeRef.new(shape: CsrfState, required: true, location_name: "state"))
     GitHubIntegrationInput.add_member(:organization_name, Shapes::ShapeRef.new(shape: String, location_name: "organizationName"))
+    GitHubIntegrationInput.add_member(:target_url, Shapes::ShapeRef.new(shape: TargetUrl, location_name: "targetUrl"))
+    GitHubIntegrationInput.add_member(:installation_id, Shapes::ShapeRef.new(shape: String, location_name: "installationId"))
     GitHubIntegrationInput.struct_class = Types::GitHubIntegrationInput
 
     GitHubRepositoryMetadata.add_member(:name, Shapes::ShapeRef.new(shape: ProviderResourceName, required: true, location_name: "name"))
@@ -937,6 +1437,26 @@ module Aws::SecurityAgent
     GitHubResourceCapabilities.add_member(:remediate_code, Shapes::ShapeRef.new(shape: Boolean, location_name: "remediateCode"))
     GitHubResourceCapabilities.struct_class = Types::GitHubResourceCapabilities
 
+    GitLabIntegrationInput.add_member(:access_token, Shapes::ShapeRef.new(shape: AccessToken, required: true, location_name: "accessToken"))
+    GitLabIntegrationInput.add_member(:target_url, Shapes::ShapeRef.new(shape: TargetUrl, location_name: "targetUrl"))
+    GitLabIntegrationInput.add_member(:token_type, Shapes::ShapeRef.new(shape: GitLabTokenType, required: true, location_name: "tokenType"))
+    GitLabIntegrationInput.add_member(:group_id, Shapes::ShapeRef.new(shape: String, location_name: "groupId"))
+    GitLabIntegrationInput.struct_class = Types::GitLabIntegrationInput
+
+    GitLabRepositoryMetadata.add_member(:name, Shapes::ShapeRef.new(shape: ProviderResourceName, required: true, location_name: "name"))
+    GitLabRepositoryMetadata.add_member(:provider_resource_id, Shapes::ShapeRef.new(shape: ProviderResourceId, required: true, location_name: "providerResourceId"))
+    GitLabRepositoryMetadata.add_member(:namespace, Shapes::ShapeRef.new(shape: GitLabNamespace, required: true, location_name: "namespace"))
+    GitLabRepositoryMetadata.add_member(:access_type, Shapes::ShapeRef.new(shape: AccessType, location_name: "accessType"))
+    GitLabRepositoryMetadata.struct_class = Types::GitLabRepositoryMetadata
+
+    GitLabRepositoryResource.add_member(:name, Shapes::ShapeRef.new(shape: ProviderResourceName, required: true, location_name: "name"))
+    GitLabRepositoryResource.add_member(:namespace, Shapes::ShapeRef.new(shape: GitLabNamespace, required: true, location_name: "namespace"))
+    GitLabRepositoryResource.struct_class = Types::GitLabRepositoryResource
+
+    GitLabResourceCapabilities.add_member(:leave_comments, Shapes::ShapeRef.new(shape: Boolean, location_name: "leaveComments"))
+    GitLabResourceCapabilities.add_member(:remediate_code, Shapes::ShapeRef.new(shape: Boolean, location_name: "remediateCode"))
+    GitLabResourceCapabilities.struct_class = Types::GitLabResourceCapabilities
+
     HttpVerification.add_member(:token, Shapes::ShapeRef.new(shape: String, location_name: "token"))
     HttpVerification.add_member(:route_path, Shapes::ShapeRef.new(shape: String, location_name: "routePath"))
     HttpVerification.struct_class = Types::HttpVerification
@@ -947,12 +1467,30 @@ module Aws::SecurityAgent
     IdCConfiguration.add_member(:idc_instance_arn, Shapes::ShapeRef.new(shape: IdCInstanceArn, location_name: "idcInstanceArn"))
     IdCConfiguration.struct_class = Types::IdCConfiguration
 
+    ImportSecurityRequirementsInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    ImportSecurityRequirementsInput.add_member(:input, Shapes::ShapeRef.new(shape: ImportSource, required: true, location_name: "input"))
+    ImportSecurityRequirementsInput.struct_class = Types::ImportSecurityRequirementsInput
+
+    ImportSecurityRequirementsOutput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    ImportSecurityRequirementsOutput.add_member(:import_status, Shapes::ShapeRef.new(shape: SecurityRequirementPackImportStatus, required: true, location_name: "importStatus"))
+    ImportSecurityRequirementsOutput.struct_class = Types::ImportSecurityRequirementsOutput
+
+    ImportSource.add_member(:documents, Shapes::ShapeRef.new(shape: SecurityRequirementArtifactList, location_name: "documents"))
+    ImportSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ImportSource.add_member_subclass(:documents, Types::ImportSource::Documents)
+    ImportSource.add_member_subclass(:unknown, Types::ImportSource::Unknown)
+    ImportSource.struct_class = Types::ImportSource
+
     InitiateProviderRegistrationInput.add_member(:provider, Shapes::ShapeRef.new(shape: Provider, required: true, location_name: "provider"))
     InitiateProviderRegistrationInput.struct_class = Types::InitiateProviderRegistrationInput
 
     InitiateProviderRegistrationOutput.add_member(:redirect_to, Shapes::ShapeRef.new(shape: Location, required: true, location_name: "redirectTo"))
     InitiateProviderRegistrationOutput.add_member(:csrf_state, Shapes::ShapeRef.new(shape: CsrfState, required: true, location_name: "csrfState"))
     InitiateProviderRegistrationOutput.struct_class = Types::InitiateProviderRegistrationOutput
+
+    IntegratedDocument.add_member(:integration_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "integrationId"))
+    IntegratedDocument.add_member(:resource_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "resourceId"))
+    IntegratedDocument.struct_class = Types::IntegratedDocument
 
     IntegratedRepository.add_member(:integration_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "integrationId"))
     IntegratedRepository.add_member(:provider_resource_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "providerResourceId"))
@@ -961,8 +1499,14 @@ module Aws::SecurityAgent
     IntegratedRepositoryList.member = Shapes::ShapeRef.new(shape: IntegratedRepository)
 
     IntegratedResource.add_member(:github_repository, Shapes::ShapeRef.new(shape: GitHubRepositoryResource, location_name: "githubRepository"))
+    IntegratedResource.add_member(:gitlab_repository, Shapes::ShapeRef.new(shape: GitLabRepositoryResource, location_name: "gitlabRepository"))
+    IntegratedResource.add_member(:bitbucket_repository, Shapes::ShapeRef.new(shape: BitbucketRepositoryResource, location_name: "bitbucketRepository"))
+    IntegratedResource.add_member(:confluence_document, Shapes::ShapeRef.new(shape: ConfluenceDocumentResource, location_name: "confluenceDocument"))
     IntegratedResource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     IntegratedResource.add_member_subclass(:github_repository, Types::IntegratedResource::GithubRepository)
+    IntegratedResource.add_member_subclass(:gitlab_repository, Types::IntegratedResource::GitlabRepository)
+    IntegratedResource.add_member_subclass(:bitbucket_repository, Types::IntegratedResource::BitbucketRepository)
+    IntegratedResource.add_member_subclass(:confluence_document, Types::IntegratedResource::ConfluenceDocument)
     IntegratedResource.add_member_subclass(:unknown, Types::IntegratedResource::Unknown)
     IntegratedResource.struct_class = Types::IntegratedResource
 
@@ -973,8 +1517,14 @@ module Aws::SecurityAgent
     IntegratedResourceInputItemList.member = Shapes::ShapeRef.new(shape: IntegratedResourceInputItem)
 
     IntegratedResourceMetadata.add_member(:github_repository, Shapes::ShapeRef.new(shape: GitHubRepositoryMetadata, location_name: "githubRepository"))
+    IntegratedResourceMetadata.add_member(:gitlab_repository, Shapes::ShapeRef.new(shape: GitLabRepositoryMetadata, location_name: "gitlabRepository"))
+    IntegratedResourceMetadata.add_member(:bitbucket_repository, Shapes::ShapeRef.new(shape: BitbucketRepositoryMetadata, location_name: "bitbucketRepository"))
+    IntegratedResourceMetadata.add_member(:confluence_document, Shapes::ShapeRef.new(shape: ConfluenceDocumentMetadata, location_name: "confluenceDocument"))
     IntegratedResourceMetadata.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     IntegratedResourceMetadata.add_member_subclass(:github_repository, Types::IntegratedResourceMetadata::GithubRepository)
+    IntegratedResourceMetadata.add_member_subclass(:gitlab_repository, Types::IntegratedResourceMetadata::GitlabRepository)
+    IntegratedResourceMetadata.add_member_subclass(:bitbucket_repository, Types::IntegratedResourceMetadata::BitbucketRepository)
+    IntegratedResourceMetadata.add_member_subclass(:confluence_document, Types::IntegratedResourceMetadata::ConfluenceDocument)
     IntegratedResourceMetadata.add_member_subclass(:unknown, Types::IntegratedResourceMetadata::Unknown)
     IntegratedResourceMetadata.struct_class = Types::IntegratedResourceMetadata
 
@@ -998,6 +1548,8 @@ module Aws::SecurityAgent
     IntegrationSummary.add_member(:provider, Shapes::ShapeRef.new(shape: Provider, required: true, location_name: "provider"))
     IntegrationSummary.add_member(:provider_type, Shapes::ShapeRef.new(shape: ProviderType, required: true, location_name: "providerType"))
     IntegrationSummary.add_member(:display_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "displayName"))
+    IntegrationSummary.add_member(:target_url, Shapes::ShapeRef.new(shape: TargetUrl, location_name: "targetUrl"))
+    IntegrationSummary.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, location_name: "privateConnectionName"))
     IntegrationSummary.struct_class = Types::IntegrationSummary
 
     IntegrationSummaryList.member = Shapes::ShapeRef.new(shape: IntegrationSummary)
@@ -1152,6 +1704,36 @@ module Aws::SecurityAgent
     ListPentestsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListPentestsOutput.struct_class = Types::ListPentestsOutput
 
+    ListPrivateConnectionsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListPrivateConnectionsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListPrivateConnectionsInput.struct_class = Types::ListPrivateConnectionsInput
+
+    ListPrivateConnectionsOutput.add_member(:private_connections, Shapes::ShapeRef.new(shape: PrivateConnectionList, required: true, location_name: "privateConnections"))
+    ListPrivateConnectionsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListPrivateConnectionsOutput.struct_class = Types::ListPrivateConnectionsOutput
+
+    ListSecurityRequirementPackFilter.add_member(:management_type, Shapes::ShapeRef.new(shape: ManagementType, location_name: "managementType"))
+    ListSecurityRequirementPackFilter.add_member(:status, Shapes::ShapeRef.new(shape: SecurityRequirementPackStatus, location_name: "status"))
+    ListSecurityRequirementPackFilter.struct_class = Types::ListSecurityRequirementPackFilter
+
+    ListSecurityRequirementPacksInput.add_member(:filter, Shapes::ShapeRef.new(shape: ListSecurityRequirementPackFilter, location_name: "filter"))
+    ListSecurityRequirementPacksInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListSecurityRequirementPacksInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListSecurityRequirementPacksInput.struct_class = Types::ListSecurityRequirementPacksInput
+
+    ListSecurityRequirementPacksOutput.add_member(:security_requirement_pack_summaries, Shapes::ShapeRef.new(shape: SecurityRequirementPackSummaryList, required: true, location_name: "securityRequirementPackSummaries"))
+    ListSecurityRequirementPacksOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListSecurityRequirementPacksOutput.struct_class = Types::ListSecurityRequirementPacksOutput
+
+    ListSecurityRequirementsInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    ListSecurityRequirementsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListSecurityRequirementsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListSecurityRequirementsInput.struct_class = Types::ListSecurityRequirementsInput
+
+    ListSecurityRequirementsOutput.add_member(:security_requirement_summaries, Shapes::ShapeRef.new(shape: SecurityRequirementSummaryList, required: true, location_name: "securityRequirementSummaries"))
+    ListSecurityRequirementsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListSecurityRequirementsOutput.struct_class = Types::ListSecurityRequirementsOutput
+
     ListTagsForResourceInput.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location: "uri", location_name: "resourceArn"))
     ListTagsForResourceInput.struct_class = Types::ListTagsForResourceInput
 
@@ -1165,6 +1747,45 @@ module Aws::SecurityAgent
     ListTargetDomainsOutput.add_member(:target_domain_summaries, Shapes::ShapeRef.new(shape: TargetDomainSummaryList, location_name: "targetDomainSummaries"))
     ListTargetDomainsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListTargetDomainsOutput.struct_class = Types::ListTargetDomainsOutput
+
+    ListThreatModelJobTasksInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    ListThreatModelJobTasksInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListThreatModelJobTasksInput.add_member(:threat_model_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelJobId"))
+    ListThreatModelJobTasksInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatModelJobTasksInput.struct_class = Types::ListThreatModelJobTasksInput
+
+    ListThreatModelJobTasksOutput.add_member(:threat_model_job_task_summaries, Shapes::ShapeRef.new(shape: ThreatModelJobTaskSummaryList, location_name: "threatModelJobTaskSummaries"))
+    ListThreatModelJobTasksOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatModelJobTasksOutput.struct_class = Types::ListThreatModelJobTasksOutput
+
+    ListThreatModelJobsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListThreatModelJobsInput.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    ListThreatModelJobsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    ListThreatModelJobsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatModelJobsInput.struct_class = Types::ListThreatModelJobsInput
+
+    ListThreatModelJobsOutput.add_member(:threat_model_job_summaries, Shapes::ShapeRef.new(shape: ThreatModelJobSummaryList, location_name: "threatModelJobSummaries"))
+    ListThreatModelJobsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatModelJobsOutput.struct_class = Types::ListThreatModelJobsOutput
+
+    ListThreatModelsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListThreatModelsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatModelsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    ListThreatModelsInput.struct_class = Types::ListThreatModelsInput
+
+    ListThreatModelsOutput.add_member(:threat_model_summaries, Shapes::ShapeRef.new(shape: ThreatModelSummaryList, location_name: "threatModelSummaries"))
+    ListThreatModelsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatModelsOutput.struct_class = Types::ListThreatModelsOutput
+
+    ListThreatsInput.add_member(:threat_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatJobId"))
+    ListThreatsInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    ListThreatsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListThreatsInput.struct_class = Types::ListThreatsInput
+
+    ListThreatsOutput.add_member(:threats, Shapes::ShapeRef.new(shape: ThreatSummaryList, location_name: "threats"))
+    ListThreatsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListThreatsOutput.struct_class = Types::ListThreatsOutput
 
     LogGroupArns.member = Shapes::ShapeRef.new(shape: LogGroupArn)
 
@@ -1219,6 +1840,8 @@ module Aws::SecurityAgent
     Pentest.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "vpcConfig"))
     Pentest.add_member(:network_traffic_config, Shapes::ShapeRef.new(shape: NetworkTrafficConfig, location_name: "networkTrafficConfig"))
     Pentest.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    Pentest.add_member(:clean_up_strategy, Shapes::ShapeRef.new(shape: CleanUpStrategy, location_name: "cleanUpStrategy"))
+    Pentest.add_member(:disable_managed_skills, Shapes::ShapeRef.new(shape: SkillTypeList, location_name: "disableManagedSkills"))
     Pentest.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     Pentest.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     Pentest.struct_class = Types::Pentest
@@ -1246,6 +1869,8 @@ module Aws::SecurityAgent
     PentestJob.add_member(:error_information, Shapes::ShapeRef.new(shape: ErrorInformation, location_name: "errorInformation"))
     PentestJob.add_member(:integrated_repositories, Shapes::ShapeRef.new(shape: IntegratedRepositoryList, location_name: "integratedRepositories"))
     PentestJob.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    PentestJob.add_member(:clean_up_strategy, Shapes::ShapeRef.new(shape: CleanUpStrategy, location_name: "cleanUpStrategy"))
+    PentestJob.add_member(:disable_managed_skills, Shapes::ShapeRef.new(shape: SkillTypeList, location_name: "disableManagedSkills"))
     PentestJob.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     PentestJob.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
     PentestJob.struct_class = Types::PentestJob
@@ -1275,17 +1900,64 @@ module Aws::SecurityAgent
 
     PentestSummaryList.member = Shapes::ShapeRef.new(shape: PentestSummary)
 
+    PortRanges.member = Shapes::ShapeRef.new(shape: PortRange)
+
+    PrivateConnectionList.member = Shapes::ShapeRef.new(shape: PrivateConnectionSummary)
+
+    PrivateConnectionMode.add_member(:service_managed, Shapes::ShapeRef.new(shape: ServiceManagedInput, location_name: "serviceManaged"))
+    PrivateConnectionMode.add_member(:self_managed, Shapes::ShapeRef.new(shape: SelfManagedInput, location_name: "selfManaged"))
+    PrivateConnectionMode.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    PrivateConnectionMode.add_member_subclass(:service_managed, Types::PrivateConnectionMode::ServiceManaged)
+    PrivateConnectionMode.add_member_subclass(:self_managed, Types::PrivateConnectionMode::SelfManaged)
+    PrivateConnectionMode.add_member_subclass(:unknown, Types::PrivateConnectionMode::Unknown)
+    PrivateConnectionMode.struct_class = Types::PrivateConnectionMode
+
+    PrivateConnectionSecurityGroupIds.member = Shapes::ShapeRef.new(shape: PrivateConnectionSecurityGroupId)
+
+    PrivateConnectionSubnetIds.member = Shapes::ShapeRef.new(shape: PrivateConnectionSubnetId)
+
+    PrivateConnectionSummary.add_member(:name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "name"))
+    PrivateConnectionSummary.add_member(:type, Shapes::ShapeRef.new(shape: PrivateConnectionType, required: true, location_name: "type"))
+    PrivateConnectionSummary.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
+    PrivateConnectionSummary.add_member(:resource_gateway_id, Shapes::ShapeRef.new(shape: ResourceGatewayId, location_name: "resourceGatewayId"))
+    PrivateConnectionSummary.add_member(:host_address, Shapes::ShapeRef.new(shape: HostAddress, location_name: "hostAddress"))
+    PrivateConnectionSummary.add_member(:vpc_id, Shapes::ShapeRef.new(shape: PrivateConnectionVpcId, location_name: "vpcId"))
+    PrivateConnectionSummary.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationId, location_name: "resourceConfigurationId"))
+    PrivateConnectionSummary.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    PrivateConnectionSummary.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    PrivateConnectionSummary.add_member(:failure_message, Shapes::ShapeRef.new(shape: String, location_name: "failureMessage"))
+    PrivateConnectionSummary.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    PrivateConnectionSummary.struct_class = Types::PrivateConnectionSummary
+
     ProviderInput.add_member(:github, Shapes::ShapeRef.new(shape: GitHubIntegrationInput, location_name: "github"))
+    ProviderInput.add_member(:gitlab, Shapes::ShapeRef.new(shape: GitLabIntegrationInput, location_name: "gitlab"))
+    ProviderInput.add_member(:bitbucket, Shapes::ShapeRef.new(shape: BitbucketIntegrationInput, location_name: "bitbucket"))
+    ProviderInput.add_member(:confluence, Shapes::ShapeRef.new(shape: ConfluenceIntegrationInput, location_name: "confluence"))
     ProviderInput.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ProviderInput.add_member_subclass(:github, Types::ProviderInput::Github)
+    ProviderInput.add_member_subclass(:gitlab, Types::ProviderInput::Gitlab)
+    ProviderInput.add_member_subclass(:bitbucket, Types::ProviderInput::Bitbucket)
+    ProviderInput.add_member_subclass(:confluence, Types::ProviderInput::Confluence)
     ProviderInput.add_member_subclass(:unknown, Types::ProviderInput::Unknown)
     ProviderInput.struct_class = Types::ProviderInput
 
     ProviderResourceCapabilities.add_member(:github, Shapes::ShapeRef.new(shape: GitHubResourceCapabilities, location_name: "github"))
+    ProviderResourceCapabilities.add_member(:gitlab, Shapes::ShapeRef.new(shape: GitLabResourceCapabilities, location_name: "gitlab"))
+    ProviderResourceCapabilities.add_member(:bitbucket, Shapes::ShapeRef.new(shape: BitbucketResourceCapabilities, location_name: "bitbucket"))
+    ProviderResourceCapabilities.add_member(:confluence, Shapes::ShapeRef.new(shape: ConfluenceResourceCapabilities, location_name: "confluence"))
     ProviderResourceCapabilities.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ProviderResourceCapabilities.add_member_subclass(:github, Types::ProviderResourceCapabilities::Github)
+    ProviderResourceCapabilities.add_member_subclass(:gitlab, Types::ProviderResourceCapabilities::Gitlab)
+    ProviderResourceCapabilities.add_member_subclass(:bitbucket, Types::ProviderResourceCapabilities::Bitbucket)
+    ProviderResourceCapabilities.add_member_subclass(:confluence, Types::ProviderResourceCapabilities::Confluence)
     ProviderResourceCapabilities.add_member_subclass(:unknown, Types::ProviderResourceCapabilities::Unknown)
     ProviderResourceCapabilities.struct_class = Types::ProviderResourceCapabilities
+
+    ReportDestination.add_member(:integration_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "integrationId"))
+    ReportDestination.add_member(:container_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "containerId"))
+    ReportDestination.add_member(:parent_id, Shapes::ShapeRef.new(shape: String, location_name: "parentId"))
+    ReportDestination.add_member(:document_id, Shapes::ShapeRef.new(shape: String, location_name: "documentId"))
+    ReportDestination.struct_class = Types::ReportDestination
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
@@ -1297,6 +1969,56 @@ module Aws::SecurityAgent
     SecretArns.member = Shapes::ShapeRef.new(shape: SecretArn)
 
     SecurityGroupArns.member = Shapes::ShapeRef.new(shape: SecurityGroupArn)
+
+    SecurityRequirementArtifact.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementArtifactName, required: true, location_name: "name"))
+    SecurityRequirementArtifact.add_member(:format, Shapes::ShapeRef.new(shape: SecurityRequirementArtifactFormat, required: true, location_name: "format"))
+    SecurityRequirementArtifact.add_member(:content, Shapes::ShapeRef.new(shape: SecurityRequirementDocumentContent, required: true, location_name: "content"))
+    SecurityRequirementArtifact.struct_class = Types::SecurityRequirementArtifact
+
+    SecurityRequirementArtifactList.member = Shapes::ShapeRef.new(shape: SecurityRequirementArtifact)
+
+    SecurityRequirementNameList.member = Shapes::ShapeRef.new(shape: SecurityRequirementName)
+
+    SecurityRequirementPackSummary.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    SecurityRequirementPackSummary.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementPackName, required: true, location_name: "name"))
+    SecurityRequirementPackSummary.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    SecurityRequirementPackSummary.add_member(:vendor_name, Shapes::ShapeRef.new(shape: String, location_name: "vendorName"))
+    SecurityRequirementPackSummary.add_member(:management_type, Shapes::ShapeRef.new(shape: ManagementType, required: true, location_name: "managementType"))
+    SecurityRequirementPackSummary.add_member(:status, Shapes::ShapeRef.new(shape: SecurityRequirementPackStatus, required: true, location_name: "status"))
+    SecurityRequirementPackSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    SecurityRequirementPackSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    SecurityRequirementPackSummary.struct_class = Types::SecurityRequirementPackSummary
+
+    SecurityRequirementPackSummaryList.member = Shapes::ShapeRef.new(shape: SecurityRequirementPackSummary)
+
+    SecurityRequirementSummary.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    SecurityRequirementSummary.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementName, required: true, location_name: "name"))
+    SecurityRequirementSummary.add_member(:description, Shapes::ShapeRef.new(shape: String, required: true, location_name: "description"))
+    SecurityRequirementSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "createdAt"))
+    SecurityRequirementSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "updatedAt"))
+    SecurityRequirementSummary.struct_class = Types::SecurityRequirementSummary
+
+    SecurityRequirementSummaryList.member = Shapes::ShapeRef.new(shape: SecurityRequirementSummary)
+
+    SelfManagedInput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationId, required: true, location_name: "resourceConfigurationId"))
+    SelfManagedInput.add_member(:certificate, Shapes::ShapeRef.new(shape: CertificateChain, location_name: "certificate"))
+    SelfManagedInput.struct_class = Types::SelfManagedInput
+
+    ServiceManagedInput.add_member(:host_address, Shapes::ShapeRef.new(shape: HostAddress, required: true, location_name: "hostAddress"))
+    ServiceManagedInput.add_member(:vpc_id, Shapes::ShapeRef.new(shape: PrivateConnectionVpcId, required: true, location_name: "vpcId"))
+    ServiceManagedInput.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: PrivateConnectionSubnetIds, required: true, location_name: "subnetIds"))
+    ServiceManagedInput.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: PrivateConnectionSecurityGroupIds, location_name: "securityGroupIds"))
+    ServiceManagedInput.add_member(:ip_address_type, Shapes::ShapeRef.new(shape: IpAddressType, location_name: "ipAddressType"))
+    ServiceManagedInput.add_member(:ipv4_addresses_per_eni, Shapes::ShapeRef.new(shape: MaxIpv4AddressesPerEni, location_name: "ipv4AddressesPerEni"))
+    ServiceManagedInput.add_member(:port_ranges, Shapes::ShapeRef.new(shape: PortRanges, location_name: "portRanges"))
+    ServiceManagedInput.add_member(:certificate, Shapes::ShapeRef.new(shape: CertificateChain, location_name: "certificate"))
+    ServiceManagedInput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    ServiceManagedInput.struct_class = Types::ServiceManagedInput
+
+    ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
+
+    SkillTypeList.member = Shapes::ShapeRef.new(shape: SkillType)
 
     SourceCodeRepository.add_member(:s3_location, Shapes::ShapeRef.new(shape: String, location_name: "s3Location"))
     SourceCodeRepository.struct_class = Types::SourceCodeRepository
@@ -1313,6 +2035,7 @@ module Aws::SecurityAgent
 
     StartCodeReviewJobInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
     StartCodeReviewJobInput.add_member(:code_review_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "codeReviewId"))
+    StartCodeReviewJobInput.add_member(:diff_source, Shapes::ShapeRef.new(shape: DiffSource, location_name: "diffSource"))
     StartCodeReviewJobInput.struct_class = Types::StartCodeReviewJobInput
 
     StartCodeReviewJobOutput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
@@ -1337,6 +2060,19 @@ module Aws::SecurityAgent
     StartPentestJobOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
     StartPentestJobOutput.struct_class = Types::StartPentestJobOutput
 
+    StartThreatModelJobInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    StartThreatModelJobInput.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    StartThreatModelJobInput.struct_class = Types::StartThreatModelJobInput
+
+    StartThreatModelJobOutput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    StartThreatModelJobOutput.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "status"))
+    StartThreatModelJobOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    StartThreatModelJobOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    StartThreatModelJobOutput.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelId"))
+    StartThreatModelJobOutput.add_member(:threat_model_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelJobId"))
+    StartThreatModelJobOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
+    StartThreatModelJobOutput.struct_class = Types::StartThreatModelJobOutput
+
     Step.add_member(:name, Shapes::ShapeRef.new(shape: StepName, location_name: "name"))
     Step.add_member(:status, Shapes::ShapeRef.new(shape: StepStatus, location_name: "status"))
     Step.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
@@ -1356,6 +2092,16 @@ module Aws::SecurityAgent
     StopPentestJobInput.struct_class = Types::StopPentestJobInput
 
     StopPentestJobOutput.struct_class = Types::StopPentestJobOutput
+
+    StopThreatModelJobInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    StopThreatModelJobInput.add_member(:threat_model_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelJobId"))
+    StopThreatModelJobInput.struct_class = Types::StopThreatModelJobInput
+
+    StopThreatModelJobOutput.struct_class = Types::StopThreatModelJobOutput
+
+    StrideCategoryList.member = Shapes::ShapeRef.new(shape: StrideCategory)
+
+    StringList.member = Shapes::ShapeRef.new(shape: String)
 
     SubnetArns.member = Shapes::ShapeRef.new(shape: SubnetArn)
 
@@ -1422,6 +2168,142 @@ module Aws::SecurityAgent
 
     TaskSummaryList.member = Shapes::ShapeRef.new(shape: TaskSummary)
 
+    Threat.add_member(:threat_id, Shapes::ShapeRef.new(shape: String, location_name: "threatId"))
+    Threat.add_member(:threat_job_id, Shapes::ShapeRef.new(shape: String, location_name: "threatJobId"))
+    Threat.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    Threat.add_member(:statement, Shapes::ShapeRef.new(shape: String, location_name: "statement"))
+    Threat.add_member(:severity, Shapes::ShapeRef.new(shape: ThreatSeverity, location_name: "severity"))
+    Threat.add_member(:status, Shapes::ShapeRef.new(shape: ThreatStatus, location_name: "status"))
+    Threat.add_member(:comments, Shapes::ShapeRef.new(shape: String, location_name: "comments"))
+    Threat.add_member(:threat_source, Shapes::ShapeRef.new(shape: String, location_name: "threatSource"))
+    Threat.add_member(:prerequisites, Shapes::ShapeRef.new(shape: String, location_name: "prerequisites"))
+    Threat.add_member(:threat_action, Shapes::ShapeRef.new(shape: String, location_name: "threatAction"))
+    Threat.add_member(:threat_impact, Shapes::ShapeRef.new(shape: String, location_name: "threatImpact"))
+    Threat.add_member(:impacted_goal, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedGoal"))
+    Threat.add_member(:impacted_assets, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedAssets"))
+    Threat.add_member(:anchor, Shapes::ShapeRef.new(shape: ThreatAnchorShape, location_name: "anchor"))
+    Threat.add_member(:evidence, Shapes::ShapeRef.new(shape: ThreatEvidenceList, location_name: "evidence"))
+    Threat.add_member(:stride, Shapes::ShapeRef.new(shape: StrideCategoryList, location_name: "stride"))
+    Threat.add_member(:recommendation, Shapes::ShapeRef.new(shape: String, location_name: "recommendation"))
+    Threat.add_member(:created_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "createdBy"))
+    Threat.add_member(:updated_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "updatedBy"))
+    Threat.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    Threat.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    Threat.struct_class = Types::Threat
+
+    ThreatAnchorShape.add_member(:kind, Shapes::ShapeRef.new(shape: String, location_name: "kind"))
+    ThreatAnchorShape.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "id"))
+    ThreatAnchorShape.add_member(:package_id, Shapes::ShapeRef.new(shape: String, location_name: "packageId"))
+    ThreatAnchorShape.struct_class = Types::ThreatAnchorShape
+
+    ThreatEvidenceList.member = Shapes::ShapeRef.new(shape: ThreatEvidenceShape)
+
+    ThreatEvidenceShape.add_member(:package_id, Shapes::ShapeRef.new(shape: String, location_name: "packageId"))
+    ThreatEvidenceShape.add_member(:path, Shapes::ShapeRef.new(shape: String, location_name: "path"))
+    ThreatEvidenceShape.struct_class = Types::ThreatEvidenceShape
+
+    ThreatIdList.member = Shapes::ShapeRef.new(shape: String)
+
+    ThreatList.member = Shapes::ShapeRef.new(shape: Threat)
+
+    ThreatModel.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    ThreatModel.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    ThreatModel.add_member(:title, Shapes::ShapeRef.new(shape: String, required: true, location_name: "title"))
+    ThreatModel.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    ThreatModel.add_member(:assets, Shapes::ShapeRef.new(shape: Assets, required: true, location_name: "assets"))
+    ThreatModel.add_member(:scope_docs, Shapes::ShapeRef.new(shape: DocumentList, location_name: "scopeDocs"))
+    ThreatModel.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, location_name: "serviceRole"))
+    ThreatModel.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
+    ThreatModel.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    ThreatModel.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    ThreatModel.struct_class = Types::ThreatModel
+
+    ThreatModelIdList.member = Shapes::ShapeRef.new(shape: String)
+
+    ThreatModelJob.add_member(:threat_model_job_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelJobId"))
+    ThreatModelJob.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelId"))
+    ThreatModelJob.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
+    ThreatModelJob.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    ThreatModelJob.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "status"))
+    ThreatModelJob.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    ThreatModelJob.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    ThreatModelJob.add_member(:execution_start_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "executionStartTime"))
+    ThreatModelJob.add_member(:execution_end_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "executionEndTime"))
+    ThreatModelJob.add_member(:source_code, Shapes::ShapeRef.new(shape: SourceCodeRepositoryList, location_name: "sourceCode"))
+    ThreatModelJob.add_member(:integrated_repositories, Shapes::ShapeRef.new(shape: IntegratedRepositoryList, location_name: "integratedRepositories"))
+    ThreatModelJob.add_member(:documents, Shapes::ShapeRef.new(shape: DocumentList, location_name: "documents"))
+    ThreatModelJob.add_member(:scope_docs, Shapes::ShapeRef.new(shape: DocumentList, location_name: "scopeDocs"))
+    ThreatModelJob.add_member(:error_information, Shapes::ShapeRef.new(shape: ErrorInformation, location_name: "errorInformation"))
+    ThreatModelJob.add_member(:system_overview, Shapes::ShapeRef.new(shape: String, location_name: "systemOverview"))
+    ThreatModelJob.struct_class = Types::ThreatModelJob
+
+    ThreatModelJobIdList.member = Shapes::ShapeRef.new(shape: String)
+
+    ThreatModelJobList.member = Shapes::ShapeRef.new(shape: ThreatModelJob)
+
+    ThreatModelJobSummary.add_member(:threat_model_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelJobId"))
+    ThreatModelJobSummary.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    ThreatModelJobSummary.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
+    ThreatModelJobSummary.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    ThreatModelJobSummary.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "status"))
+    ThreatModelJobSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    ThreatModelJobSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    ThreatModelJobSummary.struct_class = Types::ThreatModelJobSummary
+
+    ThreatModelJobSummaryList.member = Shapes::ShapeRef.new(shape: ThreatModelJobSummary)
+
+    ThreatModelJobTask.add_member(:task_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "taskId"))
+    ThreatModelJobTask.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelId"))
+    ThreatModelJobTask.add_member(:threat_model_job_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelJobId"))
+    ThreatModelJobTask.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
+    ThreatModelJobTask.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    ThreatModelJobTask.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    ThreatModelJobTask.add_member(:execution_status, Shapes::ShapeRef.new(shape: TaskExecutionStatus, location_name: "executionStatus"))
+    ThreatModelJobTask.add_member(:logs_location, Shapes::ShapeRef.new(shape: LogLocation, location_name: "logsLocation"))
+    ThreatModelJobTask.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    ThreatModelJobTask.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    ThreatModelJobTask.struct_class = Types::ThreatModelJobTask
+
+    ThreatModelJobTaskList.member = Shapes::ShapeRef.new(shape: ThreatModelJobTask)
+
+    ThreatModelJobTaskSummary.add_member(:task_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "taskId"))
+    ThreatModelJobTaskSummary.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelId"))
+    ThreatModelJobTaskSummary.add_member(:threat_model_job_id, Shapes::ShapeRef.new(shape: String, location_name: "threatModelJobId"))
+    ThreatModelJobTaskSummary.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
+    ThreatModelJobTaskSummary.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    ThreatModelJobTaskSummary.add_member(:execution_status, Shapes::ShapeRef.new(shape: TaskExecutionStatus, location_name: "executionStatus"))
+    ThreatModelJobTaskSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    ThreatModelJobTaskSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    ThreatModelJobTaskSummary.struct_class = Types::ThreatModelJobTaskSummary
+
+    ThreatModelJobTaskSummaryList.member = Shapes::ShapeRef.new(shape: ThreatModelJobTaskSummary)
+
+    ThreatModelList.member = Shapes::ShapeRef.new(shape: ThreatModel)
+
+    ThreatModelSummary.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    ThreatModelSummary.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    ThreatModelSummary.add_member(:title, Shapes::ShapeRef.new(shape: String, required: true, location_name: "title"))
+    ThreatModelSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    ThreatModelSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    ThreatModelSummary.struct_class = Types::ThreatModelSummary
+
+    ThreatModelSummaryList.member = Shapes::ShapeRef.new(shape: ThreatModelSummary)
+
+    ThreatSummary.add_member(:threat_id, Shapes::ShapeRef.new(shape: String, location_name: "threatId"))
+    ThreatSummary.add_member(:threat_job_id, Shapes::ShapeRef.new(shape: String, location_name: "threatJobId"))
+    ThreatSummary.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    ThreatSummary.add_member(:statement, Shapes::ShapeRef.new(shape: String, location_name: "statement"))
+    ThreatSummary.add_member(:severity, Shapes::ShapeRef.new(shape: ThreatSeverity, location_name: "severity"))
+    ThreatSummary.add_member(:status, Shapes::ShapeRef.new(shape: ThreatStatus, location_name: "status"))
+    ThreatSummary.add_member(:stride, Shapes::ShapeRef.new(shape: StrideCategoryList, location_name: "stride"))
+    ThreatSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "createdBy"))
+    ThreatSummary.add_member(:updated_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "updatedBy"))
+    ThreatSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    ThreatSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    ThreatSummary.struct_class = Types::ThreatSummary
+
+    ThreatSummaryList.member = Shapes::ShapeRef.new(shape: ThreatSummary)
+
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ThrottlingException.add_member(:service_code, Shapes::ShapeRef.new(shape: String, location_name: "serviceCode"))
     ThrottlingException.add_member(:quota_code, Shapes::ShapeRef.new(shape: String, location_name: "quotaCode"))
@@ -1466,6 +2348,7 @@ module Aws::SecurityAgent
     UpdateCodeReviewInput.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, location_name: "serviceRole"))
     UpdateCodeReviewInput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
     UpdateCodeReviewInput.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    UpdateCodeReviewInput.add_member(:validation_mode, Shapes::ShapeRef.new(shape: ValidationMode, location_name: "validationMode"))
     UpdateCodeReviewInput.struct_class = Types::UpdateCodeReviewInput
 
     UpdateCodeReviewOutput.add_member(:code_review_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "codeReviewId"))
@@ -1477,12 +2360,20 @@ module Aws::SecurityAgent
     UpdateCodeReviewOutput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
     UpdateCodeReviewOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
     UpdateCodeReviewOutput.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    UpdateCodeReviewOutput.add_member(:validation_mode, Shapes::ShapeRef.new(shape: ValidationMode, location_name: "validationMode"))
     UpdateCodeReviewOutput.struct_class = Types::UpdateCodeReviewOutput
 
     UpdateFindingInput.add_member(:finding_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "findingId"))
     UpdateFindingInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    UpdateFindingInput.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    UpdateFindingInput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    UpdateFindingInput.add_member(:risk_type, Shapes::ShapeRef.new(shape: String, location_name: "riskType"))
     UpdateFindingInput.add_member(:risk_level, Shapes::ShapeRef.new(shape: RiskLevel, location_name: "riskLevel"))
+    UpdateFindingInput.add_member(:risk_score, Shapes::ShapeRef.new(shape: String, location_name: "riskScore"))
+    UpdateFindingInput.add_member(:attack_script, Shapes::ShapeRef.new(shape: String, location_name: "attackScript"))
+    UpdateFindingInput.add_member(:reasoning, Shapes::ShapeRef.new(shape: String, location_name: "reasoning"))
     UpdateFindingInput.add_member(:status, Shapes::ShapeRef.new(shape: FindingStatus, location_name: "status"))
+    UpdateFindingInput.add_member(:customer_note, Shapes::ShapeRef.new(shape: String, location_name: "customerNote"))
     UpdateFindingInput.struct_class = Types::UpdateFindingInput
 
     UpdateFindingOutput.struct_class = Types::UpdateFindingOutput
@@ -1504,6 +2395,7 @@ module Aws::SecurityAgent
     UpdatePentestInput.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "vpcConfig"))
     UpdatePentestInput.add_member(:network_traffic_config, Shapes::ShapeRef.new(shape: NetworkTrafficConfig, location_name: "networkTrafficConfig"))
     UpdatePentestInput.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
+    UpdatePentestInput.add_member(:disable_managed_skills, Shapes::ShapeRef.new(shape: SkillTypeList, location_name: "disableManagedSkills"))
     UpdatePentestInput.struct_class = Types::UpdatePentestInput
 
     UpdatePentestOutput.add_member(:pentest_id, Shapes::ShapeRef.new(shape: String, location_name: "pentestId"))
@@ -1517,6 +2409,44 @@ module Aws::SecurityAgent
     UpdatePentestOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
     UpdatePentestOutput.struct_class = Types::UpdatePentestOutput
 
+    UpdatePrivateConnectionCertificateInput.add_member(:private_connection_name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "privateConnectionName"))
+    UpdatePrivateConnectionCertificateInput.add_member(:certificate, Shapes::ShapeRef.new(shape: CertificateChain, required: true, location_name: "certificate"))
+    UpdatePrivateConnectionCertificateInput.struct_class = Types::UpdatePrivateConnectionCertificateInput
+
+    UpdatePrivateConnectionCertificateOutput.add_member(:name, Shapes::ShapeRef.new(shape: PrivateConnectionName, required: true, location_name: "name"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:type, Shapes::ShapeRef.new(shape: PrivateConnectionType, required: true, location_name: "type"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:status, Shapes::ShapeRef.new(shape: PrivateConnectionStatus, required: true, location_name: "status"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:resource_gateway_id, Shapes::ShapeRef.new(shape: ResourceGatewayId, location_name: "resourceGatewayId"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:host_address, Shapes::ShapeRef.new(shape: HostAddress, location_name: "hostAddress"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:vpc_id, Shapes::ShapeRef.new(shape: PrivateConnectionVpcId, location_name: "vpcId"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:resource_configuration_id, Shapes::ShapeRef.new(shape: ResourceConfigurationId, location_name: "resourceConfigurationId"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:certificate_expiry_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "certificateExpiryTime"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:dns_resolution, Shapes::ShapeRef.new(shape: ResourceConfigDnsResolution, location_name: "dnsResolution"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:failure_message, Shapes::ShapeRef.new(shape: String, location_name: "failureMessage"))
+    UpdatePrivateConnectionCertificateOutput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    UpdatePrivateConnectionCertificateOutput.struct_class = Types::UpdatePrivateConnectionCertificateOutput
+
+    UpdateSecurityRequirementEntry.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementName, required: true, location_name: "name"))
+    UpdateSecurityRequirementEntry.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    UpdateSecurityRequirementEntry.add_member(:domain, Shapes::ShapeRef.new(shape: String, location_name: "domain"))
+    UpdateSecurityRequirementEntry.add_member(:evaluation, Shapes::ShapeRef.new(shape: String, location_name: "evaluation"))
+    UpdateSecurityRequirementEntry.add_member(:remediation, Shapes::ShapeRef.new(shape: String, location_name: "remediation"))
+    UpdateSecurityRequirementEntry.struct_class = Types::UpdateSecurityRequirementEntry
+
+    UpdateSecurityRequirementEntryList.member = Shapes::ShapeRef.new(shape: UpdateSecurityRequirementEntry)
+
+    UpdateSecurityRequirementPackInput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    UpdateSecurityRequirementPackInput.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementPackName, location_name: "name"))
+    UpdateSecurityRequirementPackInput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    UpdateSecurityRequirementPackInput.add_member(:status, Shapes::ShapeRef.new(shape: SecurityRequirementPackStatus, location_name: "status"))
+    UpdateSecurityRequirementPackInput.struct_class = Types::UpdateSecurityRequirementPackInput
+
+    UpdateSecurityRequirementPackOutput.add_member(:pack_id, Shapes::ShapeRef.new(shape: SecurityRequirementPackId, required: true, location_name: "packId"))
+    UpdateSecurityRequirementPackOutput.add_member(:name, Shapes::ShapeRef.new(shape: SecurityRequirementPackName, location_name: "name"))
+    UpdateSecurityRequirementPackOutput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    UpdateSecurityRequirementPackOutput.add_member(:status, Shapes::ShapeRef.new(shape: SecurityRequirementPackStatus, location_name: "status"))
+    UpdateSecurityRequirementPackOutput.struct_class = Types::UpdateSecurityRequirementPackOutput
+
     UpdateTargetDomainInput.add_member(:target_domain_id, Shapes::ShapeRef.new(shape: TargetDomainId, required: true, location_name: "targetDomainId"))
     UpdateTargetDomainInput.add_member(:verification_method, Shapes::ShapeRef.new(shape: DomainVerificationMethod, required: true, location_name: "verificationMethod"))
     UpdateTargetDomainInput.struct_class = Types::UpdateTargetDomainInput
@@ -1529,6 +2459,69 @@ module Aws::SecurityAgent
     UpdateTargetDomainOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
     UpdateTargetDomainOutput.add_member(:verified_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "verifiedAt"))
     UpdateTargetDomainOutput.struct_class = Types::UpdateTargetDomainOutput
+
+    UpdateThreatInput.add_member(:threat_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatId"))
+    UpdateThreatInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    UpdateThreatInput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    UpdateThreatInput.add_member(:status, Shapes::ShapeRef.new(shape: ThreatStatus, location_name: "status"))
+    UpdateThreatInput.add_member(:comments, Shapes::ShapeRef.new(shape: String, location_name: "comments"))
+    UpdateThreatInput.add_member(:statement, Shapes::ShapeRef.new(shape: String, location_name: "statement"))
+    UpdateThreatInput.add_member(:severity, Shapes::ShapeRef.new(shape: ThreatSeverity, location_name: "severity"))
+    UpdateThreatInput.add_member(:threat_source, Shapes::ShapeRef.new(shape: String, location_name: "threatSource"))
+    UpdateThreatInput.add_member(:prerequisites, Shapes::ShapeRef.new(shape: String, location_name: "prerequisites"))
+    UpdateThreatInput.add_member(:threat_action, Shapes::ShapeRef.new(shape: String, location_name: "threatAction"))
+    UpdateThreatInput.add_member(:threat_impact, Shapes::ShapeRef.new(shape: String, location_name: "threatImpact"))
+    UpdateThreatInput.add_member(:impacted_goal, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedGoal"))
+    UpdateThreatInput.add_member(:impacted_assets, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedAssets"))
+    UpdateThreatInput.add_member(:anchor, Shapes::ShapeRef.new(shape: ThreatAnchorShape, location_name: "anchor"))
+    UpdateThreatInput.add_member(:evidence, Shapes::ShapeRef.new(shape: ThreatEvidenceList, location_name: "evidence"))
+    UpdateThreatInput.add_member(:recommendation, Shapes::ShapeRef.new(shape: String, location_name: "recommendation"))
+    UpdateThreatInput.struct_class = Types::UpdateThreatInput
+
+    UpdateThreatModelInput.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    UpdateThreatModelInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "agentSpaceId"))
+    UpdateThreatModelInput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    UpdateThreatModelInput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    UpdateThreatModelInput.add_member(:assets, Shapes::ShapeRef.new(shape: Assets, location_name: "assets"))
+    UpdateThreatModelInput.add_member(:scope_docs, Shapes::ShapeRef.new(shape: DocumentList, location_name: "scopeDocs"))
+    UpdateThreatModelInput.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, location_name: "serviceRole"))
+    UpdateThreatModelInput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
+    UpdateThreatModelInput.struct_class = Types::UpdateThreatModelInput
+
+    UpdateThreatModelOutput.add_member(:threat_model_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatModelId"))
+    UpdateThreatModelOutput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    UpdateThreatModelOutput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: String, location_name: "agentSpaceId"))
+    UpdateThreatModelOutput.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    UpdateThreatModelOutput.add_member(:assets, Shapes::ShapeRef.new(shape: Assets, location_name: "assets"))
+    UpdateThreatModelOutput.add_member(:scope_docs, Shapes::ShapeRef.new(shape: DocumentList, location_name: "scopeDocs"))
+    UpdateThreatModelOutput.add_member(:service_role, Shapes::ShapeRef.new(shape: ServiceRole, location_name: "serviceRole"))
+    UpdateThreatModelOutput.add_member(:log_config, Shapes::ShapeRef.new(shape: CloudWatchLog, location_name: "logConfig"))
+    UpdateThreatModelOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    UpdateThreatModelOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    UpdateThreatModelOutput.struct_class = Types::UpdateThreatModelOutput
+
+    UpdateThreatOutput.add_member(:threat_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatId"))
+    UpdateThreatOutput.add_member(:threat_job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "threatJobId"))
+    UpdateThreatOutput.add_member(:title, Shapes::ShapeRef.new(shape: String, location_name: "title"))
+    UpdateThreatOutput.add_member(:statement, Shapes::ShapeRef.new(shape: String, location_name: "statement"))
+    UpdateThreatOutput.add_member(:severity, Shapes::ShapeRef.new(shape: ThreatSeverity, location_name: "severity"))
+    UpdateThreatOutput.add_member(:status, Shapes::ShapeRef.new(shape: ThreatStatus, location_name: "status"))
+    UpdateThreatOutput.add_member(:comments, Shapes::ShapeRef.new(shape: String, location_name: "comments"))
+    UpdateThreatOutput.add_member(:stride, Shapes::ShapeRef.new(shape: StrideCategoryList, location_name: "stride"))
+    UpdateThreatOutput.add_member(:threat_source, Shapes::ShapeRef.new(shape: String, location_name: "threatSource"))
+    UpdateThreatOutput.add_member(:prerequisites, Shapes::ShapeRef.new(shape: String, location_name: "prerequisites"))
+    UpdateThreatOutput.add_member(:threat_action, Shapes::ShapeRef.new(shape: String, location_name: "threatAction"))
+    UpdateThreatOutput.add_member(:threat_impact, Shapes::ShapeRef.new(shape: String, location_name: "threatImpact"))
+    UpdateThreatOutput.add_member(:impacted_goal, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedGoal"))
+    UpdateThreatOutput.add_member(:impacted_assets, Shapes::ShapeRef.new(shape: StringList, location_name: "impactedAssets"))
+    UpdateThreatOutput.add_member(:anchor, Shapes::ShapeRef.new(shape: ThreatAnchorShape, location_name: "anchor"))
+    UpdateThreatOutput.add_member(:evidence, Shapes::ShapeRef.new(shape: ThreatEvidenceList, location_name: "evidence"))
+    UpdateThreatOutput.add_member(:recommendation, Shapes::ShapeRef.new(shape: String, location_name: "recommendation"))
+    UpdateThreatOutput.add_member(:created_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "createdBy"))
+    UpdateThreatOutput.add_member(:updated_by, Shapes::ShapeRef.new(shape: ThreatActor, location_name: "updatedBy"))
+    UpdateThreatOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "createdAt"))
+    UpdateThreatOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "updatedAt"))
+    UpdateThreatOutput.struct_class = Types::UpdateThreatOutput
 
     UriList.member = Shapes::ShapeRef.new(shape: String)
 
@@ -1617,6 +2610,21 @@ module Aws::SecurityAgent
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
+      api.add_operation(:batch_create_security_requirements, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchCreateSecurityRequirements"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchCreateSecurityRequirements"
+        o.input = Shapes::ShapeRef.new(shape: BatchCreateSecurityRequirementsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchCreateSecurityRequirementsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
       api.add_operation(:batch_delete_code_reviews, Seahorse::Model::Operation.new.tap do |o|
         o.name = "BatchDeleteCodeReviews"
         o.http_method = "POST"
@@ -1631,6 +2639,28 @@ module Aws::SecurityAgent
         o.http_request_uri = "/BatchDeletePentests"
         o.input = Shapes::ShapeRef.new(shape: BatchDeletePentestsInput)
         o.output = Shapes::ShapeRef.new(shape: BatchDeletePentestsOutput)
+      end)
+
+      api.add_operation(:batch_delete_security_requirements, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchDeleteSecurityRequirements"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchDeleteSecurityRequirements"
+        o.input = Shapes::ShapeRef.new(shape: BatchDeleteSecurityRequirementsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchDeleteSecurityRequirementsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:batch_delete_threat_models, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchDeleteThreatModels"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchDeleteThreatModels"
+        o.input = Shapes::ShapeRef.new(shape: BatchDeleteThreatModelsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchDeleteThreatModelsOutput)
       end)
 
       api.add_operation(:batch_get_agent_spaces, Seahorse::Model::Operation.new.tap do |o|
@@ -1710,12 +2740,71 @@ module Aws::SecurityAgent
         o.output = Shapes::ShapeRef.new(shape: BatchGetPentestsOutput)
       end)
 
+      api.add_operation(:batch_get_security_requirements, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetSecurityRequirements"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchGetSecurityRequirements"
+        o.input = Shapes::ShapeRef.new(shape: BatchGetSecurityRequirementsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetSecurityRequirementsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:batch_get_target_domains, Seahorse::Model::Operation.new.tap do |o|
         o.name = "BatchGetTargetDomains"
         o.http_method = "POST"
         o.http_request_uri = "/BatchGetTargetDomains"
         o.input = Shapes::ShapeRef.new(shape: BatchGetTargetDomainsInput)
         o.output = Shapes::ShapeRef.new(shape: BatchGetTargetDomainsOutput)
+      end)
+
+      api.add_operation(:batch_get_threat_model_job_tasks, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetThreatModelJobTasks"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchGetThreatModelJobTasks"
+        o.input = Shapes::ShapeRef.new(shape: BatchGetThreatModelJobTasksInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetThreatModelJobTasksOutput)
+      end)
+
+      api.add_operation(:batch_get_threat_model_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetThreatModelJobs"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchGetThreatModelJobs"
+        o.input = Shapes::ShapeRef.new(shape: BatchGetThreatModelJobsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetThreatModelJobsOutput)
+      end)
+
+      api.add_operation(:batch_get_threat_models, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetThreatModels"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchGetThreatModels"
+        o.input = Shapes::ShapeRef.new(shape: BatchGetThreatModelsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetThreatModelsOutput)
+      end)
+
+      api.add_operation(:batch_get_threats, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetThreats"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchGetThreats"
+        o.input = Shapes::ShapeRef.new(shape: BatchGetThreatsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetThreatsOutput)
+      end)
+
+      api.add_operation(:batch_update_security_requirements, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchUpdateSecurityRequirements"
+        o.http_method = "POST"
+        o.http_request_uri = "/BatchUpdateSecurityRequirements"
+        o.input = Shapes::ShapeRef.new(shape: BatchUpdateSecurityRequirementsInput)
+        o.output = Shapes::ShapeRef.new(shape: BatchUpdateSecurityRequirementsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:create_agent_space, Seahorse::Model::Operation.new.tap do |o|
@@ -1772,12 +2861,56 @@ module Aws::SecurityAgent
         o.output = Shapes::ShapeRef.new(shape: CreatePentestOutput)
       end)
 
+      api.add_operation(:create_private_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreatePrivateConnection"
+        o.http_method = "POST"
+        o.http_request_uri = "/CreatePrivateConnection"
+        o.input = Shapes::ShapeRef.new(shape: CreatePrivateConnectionInput)
+        o.output = Shapes::ShapeRef.new(shape: CreatePrivateConnectionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:create_security_requirement_pack, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateSecurityRequirementPack"
+        o.http_method = "POST"
+        o.http_request_uri = "/CreateSecurityRequirementPack"
+        o.input = Shapes::ShapeRef.new(shape: CreateSecurityRequirementPackInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateSecurityRequirementPackOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
       api.add_operation(:create_target_domain, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateTargetDomain"
         o.http_method = "POST"
         o.http_request_uri = "/CreateTargetDomain"
         o.input = Shapes::ShapeRef.new(shape: CreateTargetDomainInput)
         o.output = Shapes::ShapeRef.new(shape: CreateTargetDomainOutput)
+      end)
+
+      api.add_operation(:create_threat, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateThreat"
+        o.http_method = "POST"
+        o.http_request_uri = "/CreateThreat"
+        o.input = Shapes::ShapeRef.new(shape: CreateThreatInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateThreatOutput)
+      end)
+
+      api.add_operation(:create_threat_model, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateThreatModel"
+        o.http_method = "POST"
+        o.http_request_uri = "/CreateThreatModel"
+        o.input = Shapes::ShapeRef.new(shape: CreateThreatModelInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateThreatModelOutput)
       end)
 
       api.add_operation(:delete_agent_space, Seahorse::Model::Operation.new.tap do |o|
@@ -1831,12 +2964,53 @@ module Aws::SecurityAgent
         o.output = Shapes::ShapeRef.new(shape: DeleteMembershipResponse)
       end)
 
+      api.add_operation(:delete_private_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeletePrivateConnection"
+        o.http_method = "POST"
+        o.http_request_uri = "/DeletePrivateConnection"
+        o.input = Shapes::ShapeRef.new(shape: DeletePrivateConnectionInput)
+        o.output = Shapes::ShapeRef.new(shape: DeletePrivateConnectionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:delete_security_requirement_pack, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteSecurityRequirementPack"
+        o.http_method = "POST"
+        o.http_request_uri = "/DeleteSecurityRequirementPack"
+        o.input = Shapes::ShapeRef.new(shape: DeleteSecurityRequirementPackInput)
+        o.output = Shapes::ShapeRef.new(shape: DeleteSecurityRequirementPackOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:delete_target_domain, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteTargetDomain"
         o.http_method = "POST"
         o.http_request_uri = "/DeleteTargetDomain"
         o.input = Shapes::ShapeRef.new(shape: DeleteTargetDomainInput)
         o.output = Shapes::ShapeRef.new(shape: DeleteTargetDomainOutput)
+      end)
+
+      api.add_operation(:describe_private_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribePrivateConnection"
+        o.http_method = "POST"
+        o.http_request_uri = "/DescribePrivateConnection"
+        o.input = Shapes::ShapeRef.new(shape: DescribePrivateConnectionInput)
+        o.output = Shapes::ShapeRef.new(shape: DescribePrivateConnectionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:get_application, Seahorse::Model::Operation.new.tap do |o|
@@ -1871,6 +3045,34 @@ module Aws::SecurityAgent
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:get_security_requirement_pack, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetSecurityRequirementPack"
+        o.http_method = "POST"
+        o.http_request_uri = "/GetSecurityRequirementPack"
+        o.input = Shapes::ShapeRef.new(shape: GetSecurityRequirementPackInput)
+        o.output = Shapes::ShapeRef.new(shape: GetSecurityRequirementPackOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:import_security_requirements, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ImportSecurityRequirements"
+        o.http_method = "POST"
+        o.http_request_uri = "/ImportSecurityRequirements"
+        o.input = Shapes::ShapeRef.new(shape: ImportSecurityRequirementsInput)
+        o.output = Shapes::ShapeRef.new(shape: ImportSecurityRequirementsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
       end)
 
       api.add_operation(:initiate_provider_registration, Seahorse::Model::Operation.new.tap do |o|
@@ -2098,6 +3300,61 @@ module Aws::SecurityAgent
         )
       end)
 
+      api.add_operation(:list_private_connections, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListPrivateConnections"
+        o.http_method = "POST"
+        o.http_request_uri = "/ListPrivateConnections"
+        o.input = Shapes::ShapeRef.new(shape: ListPrivateConnectionsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListPrivateConnectionsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_security_requirement_packs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListSecurityRequirementPacks"
+        o.http_method = "POST"
+        o.http_request_uri = "/ListSecurityRequirementPacks"
+        o.input = Shapes::ShapeRef.new(shape: ListSecurityRequirementPacksInput)
+        o.output = Shapes::ShapeRef.new(shape: ListSecurityRequirementPacksOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_security_requirements, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListSecurityRequirements"
+        o.http_method = "POST"
+        o.http_request_uri = "/ListSecurityRequirements"
+        o.input = Shapes::ShapeRef.new(shape: ListSecurityRequirementsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListSecurityRequirementsOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_tags_for_resource, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListTagsForResource"
         o.http_method = "GET"
@@ -2112,6 +3369,62 @@ module Aws::SecurityAgent
         o.http_request_uri = "/ListTargetDomains"
         o.input = Shapes::ShapeRef.new(shape: ListTargetDomainsInput)
         o.output = Shapes::ShapeRef.new(shape: ListTargetDomainsOutput)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_threat_model_job_tasks, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListThreatModelJobTasks"
+        o.http_method = "POST"
+        o.http_request_uri = "/ListThreatModelJobTasks"
+        o.input = Shapes::ShapeRef.new(shape: ListThreatModelJobTasksInput)
+        o.output = Shapes::ShapeRef.new(shape: ListThreatModelJobTasksOutput)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_threat_model_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListThreatModelJobs"
+        o.http_method = "POST"
+        o.http_request_uri = "/ListThreatModelJobs"
+        o.input = Shapes::ShapeRef.new(shape: ListThreatModelJobsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListThreatModelJobsOutput)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_threat_models, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListThreatModels"
+        o.http_method = "POST"
+        o.http_request_uri = "/ListThreatModels"
+        o.input = Shapes::ShapeRef.new(shape: ListThreatModelsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListThreatModelsOutput)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_threats, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListThreats"
+        o.http_method = "POST"
+        o.http_request_uri = "/ListThreats"
+        o.input = Shapes::ShapeRef.new(shape: ListThreatsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListThreatsOutput)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -2144,6 +3457,14 @@ module Aws::SecurityAgent
         o.output = Shapes::ShapeRef.new(shape: StartPentestJobOutput)
       end)
 
+      api.add_operation(:start_threat_model_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartThreatModelJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/StartThreatModelJob"
+        o.input = Shapes::ShapeRef.new(shape: StartThreatModelJobInput)
+        o.output = Shapes::ShapeRef.new(shape: StartThreatModelJobOutput)
+      end)
+
       api.add_operation(:stop_code_review_job, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StopCodeReviewJob"
         o.http_method = "POST"
@@ -2158,6 +3479,14 @@ module Aws::SecurityAgent
         o.http_request_uri = "/StopPentestJob"
         o.input = Shapes::ShapeRef.new(shape: StopPentestJobInput)
         o.output = Shapes::ShapeRef.new(shape: StopPentestJobOutput)
+      end)
+
+      api.add_operation(:stop_threat_model_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopThreatModelJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/StopThreatModelJob"
+        o.input = Shapes::ShapeRef.new(shape: StopThreatModelJobInput)
+        o.output = Shapes::ShapeRef.new(shape: StopThreatModelJobOutput)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|
@@ -2230,12 +3559,56 @@ module Aws::SecurityAgent
         o.output = Shapes::ShapeRef.new(shape: UpdatePentestOutput)
       end)
 
+      api.add_operation(:update_private_connection_certificate, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdatePrivateConnectionCertificate"
+        o.http_method = "POST"
+        o.http_request_uri = "/UpdatePrivateConnectionCertificate"
+        o.input = Shapes::ShapeRef.new(shape: UpdatePrivateConnectionCertificateInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdatePrivateConnectionCertificateOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:update_security_requirement_pack, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateSecurityRequirementPack"
+        o.http_method = "POST"
+        o.http_request_uri = "/UpdateSecurityRequirementPack"
+        o.input = Shapes::ShapeRef.new(shape: UpdateSecurityRequirementPackInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateSecurityRequirementPackOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:update_target_domain, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateTargetDomain"
         o.http_method = "POST"
         o.http_request_uri = "/UpdateTargetDomain"
         o.input = Shapes::ShapeRef.new(shape: UpdateTargetDomainInput)
         o.output = Shapes::ShapeRef.new(shape: UpdateTargetDomainOutput)
+      end)
+
+      api.add_operation(:update_threat, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateThreat"
+        o.http_method = "POST"
+        o.http_request_uri = "/UpdateThreat"
+        o.input = Shapes::ShapeRef.new(shape: UpdateThreatInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateThreatOutput)
+      end)
+
+      api.add_operation(:update_threat_model, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateThreatModel"
+        o.http_method = "POST"
+        o.http_request_uri = "/UpdateThreatModel"
+        o.input = Shapes::ShapeRef.new(shape: UpdateThreatModelInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateThreatModelOutput)
       end)
 
       api.add_operation(:verify_target_domain, Seahorse::Model::Operation.new.tap do |o|

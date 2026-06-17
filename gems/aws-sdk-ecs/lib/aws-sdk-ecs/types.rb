@@ -3285,6 +3285,21 @@ module Aws::ECS
     #   optional value. You can apply up to 50 tags to a service.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] task_definition_arn
+    #   The Amazon Resource Name (ARN) of a task definition to use to create
+    #   the Express Gateway service. This allows you to manage your own task
+    #   definition, giving you more control over the service configuration
+    #   such as adding sidecar containers.
+    #
+    #   The task definition must have a container named `Main` with a single
+    #   TCP port mapping that includes a container port and port name. The
+    #   task definition must also have `FARGATE` compatibility.
+    #
+    #   If you provide a task definition ARN, you cannot also specify
+    #   `primaryContainer`, `executionRoleArn`, `taskRoleArn`, `cpu`, or
+    #   `memory`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/CreateExpressGatewayServiceRequest AWS API Documentation
     #
     class CreateExpressGatewayServiceRequest < Struct.new(
@@ -3299,7 +3314,8 @@ module Aws::ECS
       :cpu,
       :memory,
       :scaling_target,
-      :tags)
+      :tags,
+      :task_definition_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4952,18 +4968,25 @@ module Aws::ECS
     #   @return [String]
     #
     # @!attribute [rw] pid_mode
-    #   The process namespace mode for the daemon. A value of `shared` means
-    #   the daemon shares the PID namespace with co-located tasks, giving it
-    #   visibility into application processes. A value of `none` means the
-    #   daemon has its own isolated PID namespace.
+    #   The PID namespace mode for the daemon. The valid values are `none`
+    #   and `shared`. The default is `none`.
+    #
+    #   If `none` is specified or no value is provided, the daemon runs with
+    #   its own PID namespace, isolated from other tasks. If `shared` is
+    #   specified, the daemon joins the host PID namespace, making it
+    #   accessible to non-daemon tasks that use `pidMode: "host"` or other
+    #   daemons that use `pidMode: "shared"`.
     #   @return [String]
     #
     # @!attribute [rw] ipc_mode
-    #   The IPC namespace mode for the daemon. A value of `shared` means the
-    #   daemon shares the IPC namespace with co-located tasks, allowing
-    #   communication through POSIX shared memory, semaphores, and message
-    #   queues. A value of `none` means the daemon has its own isolated IPC
-    #   namespace.
+    #   The IPC namespace mode for the daemon. The valid values are `none`
+    #   and `shared`. The default is `none`.
+    #
+    #   If `none` is specified or no value is provided, the daemon runs with
+    #   its own IPC namespace, isolated from other tasks. If `shared` is
+    #   specified, the daemon joins the host IPC namespace, making it
+    #   accessible to non-daemon tasks that use `ipcMode: "host"` or other
+    #   daemons that use `ipcMode: "shared"`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DaemonTaskDefinition AWS API Documentation
@@ -5918,8 +5941,8 @@ module Aws::ECS
     #   @return [Integer]
     #
     # @!attribute [rw] lifecycle_hooks
-    #   An array of deployment lifecycle hook objects to run custom logic at
-    #   specific stages of the deployment lifecycle.
+    #   An array of deployment lifecycle hook objects to run custom logic or
+    #   pause the deployment at specific stages of the deployment lifecycle.
     #   @return [Array<Types::DeploymentLifecycleHook>]
     #
     # @!attribute [rw] linear_configuration
@@ -6068,9 +6091,9 @@ module Aws::ECS
       include Aws::Structure
     end
 
-    # A deployment lifecycle hook runs custom logic at specific stages of
-    # the deployment process. Currently, you can use Lambda functions as
-    # hook targets.
+    # A deployment lifecycle hook runs custom logic or pauses the deployment
+    # at specific stages of the deployment process. You can use Lambda
+    # functions or pause hooks as hook targets.
     #
     # For more information, see [Lifecycle hooks for Amazon ECS service
     # deployments][1] in the <i> Amazon Elastic Container Service Developer
@@ -6095,10 +6118,11 @@ module Aws::ECS
     #   @return [String]
     #
     # @!attribute [rw] hook_target_arn
-    #   The Amazon Resource Name (ARN) of the hook target. Currently, only
-    #   Lambda function ARNs are supported.
+    #   The Amazon Resource Name (ARN) of the hook target. For `AWS_LAMBDA`
+    #   hooks, this is the Lambda function ARN. This field is not applicable
+    #   for `PAUSE` hooks.
     #
-    #   You must provide this parameter when configuring a deployment
+    #   You must provide this parameter when configuring an `AWS_LAMBDA`
     #   lifecycle hook.
     #   @return [String]
     #
@@ -6158,11 +6182,20 @@ module Aws::ECS
     #
     #     You can use a lifecycle hook for this stage.
     #
+    #   * PRE\_PRODUCTION\_TRAFFIC\_SHIFT
+    #
+    #     Occurs before production traffic shift. For linear and canary
+    #     deployments, this stage is invoked before every traffic shift
+    #     step.
+    #
+    #     You can use a lifecycle hook for this stage.
+    #
     #   * PRODUCTION\_TRAFFIC\_SHIFT
     #
     #     Production traffic is shifting to the green service revision. The
     #     green service revision is migrating from 0% to 100% of production
-    #     traffic.
+    #     traffic. For linear and canary deployments, this stage is invoked
+    #     at every traffic shift step.
     #
     #     You can use a lifecycle hook for this stage.
     #
@@ -6172,13 +6205,20 @@ module Aws::ECS
     #
     #     You can use a lifecycle hook for this stage.
     #
+    #   <note markdown="1"> `PAUSE` hooks cannot be configured at `TEST_TRAFFIC_SHIFT` or
+    #   `PRODUCTION_TRAFFIC_SHIFT` stages. These stages are only valid for
+    #   `AWS_LAMBDA` hooks.
+    #
+    #    </note>
+    #
     #   You must provide this parameter when configuring a deployment
     #   lifecycle hook.
     #   @return [Array<String>]
     #
     # @!attribute [rw] hook_details
-    #   Use this field to specify custom parameters that Amazon ECS will
-    #   pass to your hook target invocations (such as a Lambda function).
+    #   Use this field to specify custom parameters that Amazon ECS passes
+    #   to your Lambda function on each invocation. This field is not used
+    #   for `PAUSE` hooks.
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
     # @!attribute [rw] timeout_configuration
@@ -6228,14 +6268,9 @@ module Aws::ECS
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   The status of the lifecycle hook. Valid values depend on the hook
-    #   type:
-    #
-    #   * For `AWS_LAMBDA` hooks: `IN_PROGRESS`, `SUCCEEDED`, `FAILED`, and
-    #     `TIMED_OUT`.
-    #
-    #   * For `PAUSE` hooks: `AWAITING_ACTION`, `SUCCEEDED`, `FAILED`, and
-    #     `TIMED_OUT`.
+    #   The status of the lifecycle hook. Valid values include
+    #   `AWAITING_ACTION`, `IN_PROGRESS`, `SUCCEEDED`, `FAILED`, and
+    #   `TIMED_OUT`.
     #   @return [String]
     #
     # @!attribute [rw] expires_at
@@ -6268,6 +6303,8 @@ module Aws::ECS
     # @!attribute [rw] timeout_in_minutes
     #   The number of minutes Amazon ECS waits for the lifecycle hook to
     #   complete before taking the timeout action.
+    #
+    #   Default: 1440 (24 hours)
     #   @return [Integer]
     #
     # @!attribute [rw] action
@@ -6278,6 +6315,8 @@ module Aws::ECS
     #
     #   * `ROLLBACK` - Rolls back the deployment to the previous service
     #     revision.
+    #
+    #   Default: `ROLLBACK`
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DeploymentLifecycleHookTimeoutConfiguration AWS API Documentation
@@ -7820,6 +7859,12 @@ module Aws::ECS
     #   The ARN of the task role for the service revision.
     #   @return [String]
     #
+    # @!attribute [rw] task_definition_arn
+    #   The ARN of the task definition used by this service revision. This
+    #   is present for all Express services and reflects the task definition
+    #   in use, whether managed by Amazon ECS or provided by the customer.
+    #   @return [String]
+    #
     # @!attribute [rw] cpu
     #   The CPU allocation for tasks in this service revision.
     #   @return [String]
@@ -7858,6 +7903,7 @@ module Aws::ECS
       :service_revision_arn,
       :execution_role_arn,
       :task_role_arn,
+      :task_definition_arn,
       :cpu,
       :memory,
       :network_configuration,
@@ -9758,7 +9804,7 @@ module Aws::ECS
 
     # @!attribute [rw] cluster_arn
     #   The Amazon Resource Name (ARN) of the cluster to filter daemons by.
-    #   If not specified, daemons from all clusters are returned.
+    #   If you do not specify a cluster, the default cluster is assumed.
     #   @return [String]
     #
     # @!attribute [rw] capacity_provider_arns
@@ -13020,19 +13066,25 @@ module Aws::ECS
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] pid_mode
-    #   The process namespace mode for the daemon. When set to `shared`, the
-    #   daemon shares the PID namespace with co-located tasks on the same
-    #   container instance, giving the daemon visibility into application
-    #   processes. When set to `none`, the daemon gets its own isolated PID
-    #   namespace. The default is `none`.
+    #   The PID namespace mode for the daemon. The valid values are `none`
+    #   and `shared`. The default is `none`.
+    #
+    #   If `none` is specified or no value is provided, the daemon runs with
+    #   its own PID namespace, isolated from other tasks. If `shared` is
+    #   specified, the daemon joins the host PID namespace, making it
+    #   accessible to non-daemon tasks that use `pidMode: "host"` or other
+    #   daemons that use `pidMode: "shared"`.
     #   @return [String]
     #
     # @!attribute [rw] ipc_mode
-    #   The IPC namespace mode for the daemon. When set to `shared`, the
-    #   daemon shares the IPC namespace with co-located tasks on the same
-    #   container instance, allowing communication through POSIX shared
-    #   memory, semaphores, and message queues. When set to `none`, the
-    #   daemon gets its own isolated IPC namespace. The default is `none`.
+    #   The IPC namespace mode for the daemon. The valid values are `none`
+    #   and `shared`. The default is `none`.
+    #
+    #   If `none` is specified or no value is provided, the daemon runs with
+    #   its own IPC namespace, isolated from other tasks. If `shared` is
+    #   specified, the daemon joins the host IPC namespace, making it
+    #   accessible to non-daemon tasks that use `ipcMode: "host"` or other
+    #   daemons that use `ipcMode: "shared"`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/RegisterDaemonTaskDefinitionRequest AWS API Documentation
@@ -15099,11 +15151,18 @@ module Aws::ECS
     #     The test traffic shift is complete. The green service revision
     #     handles 100% of the test traffic.
     #
+    #   * PRE\_PRODUCTION\_TRAFFIC\_SHIFT
+    #
+    #     Occurs before production traffic shift. For linear and canary
+    #     deployments, this stage is invoked before every traffic shift
+    #     step.
+    #
     #   * PRODUCTION\_TRAFFIC\_SHIFT
     #
     #     Production traffic is shifting to the green service revision. The
     #     green service revision is migrating from 0% to 100% of production
-    #     traffic.
+    #     traffic. For linear and canary deployments, this stage is invoked
+    #     at every traffic shift step.
     #
     #   * POST\_PRODUCTION\_TRAFFIC\_SHIFT
     #
@@ -15317,7 +15376,7 @@ module Aws::ECS
     end
 
     # The service deploy ARN that you specified in the
-    # `StopServiceDeployment` doesn't exist. You can use
+    # `ContinueServiceDeployment` doesn't exist. You can use
     # `ListServiceDeployments` to retrieve the service deployment ARNs.
     #
     # @!attribute [rw] message
@@ -18602,6 +18661,20 @@ module Aws::ECS
     #   The auto-scaling configuration for the Express service.
     #   @return [Types::ExpressGatewayScalingTarget]
     #
+    # @!attribute [rw] task_definition_arn
+    #   The Amazon Resource Name (ARN) of a task definition to use to update
+    #   the Express Gateway service. This allows you to manage your own task
+    #   definition, giving you more control over the service configuration
+    #   such as adding sidecar containers.
+    #
+    #   The task definition must have a container named `Main` with a single
+    #   TCP port mapping that includes a container port and port name. The
+    #   task definition must also have `FARGATE` compatibility.
+    #
+    #   If you provide a task definition ARN, you cannot also specify
+    #   `primaryContainer`, `taskRoleArn`, `cpu`, or `memory`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/UpdateExpressGatewayServiceRequest AWS API Documentation
     #
     class UpdateExpressGatewayServiceRequest < Struct.new(
@@ -18613,7 +18686,8 @@ module Aws::ECS
       :network_configuration,
       :cpu,
       :memory,
-      :scaling_target)
+      :scaling_target,
+      :task_definition_arn)
       SENSITIVE = []
       include Aws::Structure
     end

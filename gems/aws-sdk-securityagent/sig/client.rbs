@@ -91,6 +91,26 @@ module Aws
                         ) -> _AddArtifactResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AddArtifactResponseSuccess
 
+      interface _BatchCreateSecurityRequirementsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchCreateSecurityRequirementsOutput]
+        def security_requirements: () -> ::Array[Types::BatchCreateSecurityRequirementResult]
+        def errors: () -> ::Array[Types::BatchSecurityRequirementError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_create_security_requirements-instance_method
+      def batch_create_security_requirements: (
+                                                pack_id: ::String,
+                                                security_requirements: Array[
+                                                  {
+                                                    name: ::String,
+                                                    description: ::String,
+                                                    domain: ::String,
+                                                    evaluation: ::String,
+                                                    remediation: ::String?
+                                                  }
+                                                ]
+                                              ) -> _BatchCreateSecurityRequirementsResponseSuccess
+                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchCreateSecurityRequirementsResponseSuccess
+
       interface _BatchDeleteCodeReviewsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchDeleteCodeReviewsOutput]
         def deleted: () -> ::Array[::String]
@@ -114,6 +134,30 @@ module Aws
                                    agent_space_id: ::String
                                  ) -> _BatchDeletePentestsResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchDeletePentestsResponseSuccess
+
+      interface _BatchDeleteSecurityRequirementsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchDeleteSecurityRequirementsOutput]
+        def deleted_security_requirement_names: () -> ::Array[::String]
+        def errors: () -> ::Array[Types::BatchSecurityRequirementError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_delete_security_requirements-instance_method
+      def batch_delete_security_requirements: (
+                                                pack_id: ::String,
+                                                security_requirement_names: Array[::String]
+                                              ) -> _BatchDeleteSecurityRequirementsResponseSuccess
+                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchDeleteSecurityRequirementsResponseSuccess
+
+      interface _BatchDeleteThreatModelsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchDeleteThreatModelsOutput]
+        def deleted: () -> ::Array[::String]
+        def failed: () -> ::Array[Types::DeleteThreatModelFailure]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_delete_threat_models-instance_method
+      def batch_delete_threat_models: (
+                                        threat_model_ids: Array[::String],
+                                        agent_space_id: ::String
+                                      ) -> _BatchDeleteThreatModelsResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchDeleteThreatModelsResponseSuccess
 
       interface _BatchGetAgentSpacesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetAgentSpacesOutput]
@@ -221,6 +265,18 @@ module Aws
                               ) -> _BatchGetPentestsResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetPentestsResponseSuccess
 
+      interface _BatchGetSecurityRequirementsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetSecurityRequirementsOutput]
+        def security_requirements: () -> ::Array[Types::BatchGetSecurityRequirementResult]
+        def errors: () -> ::Array[Types::BatchSecurityRequirementError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_get_security_requirements-instance_method
+      def batch_get_security_requirements: (
+                                             pack_id: ::String,
+                                             security_requirement_names: Array[::String]
+                                           ) -> _BatchGetSecurityRequirementsResponseSuccess
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetSecurityRequirementsResponseSuccess
+
       interface _BatchGetTargetDomainsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetTargetDomainsOutput]
         def target_domains: () -> ::Array[Types::TargetDomain]
@@ -231,6 +287,74 @@ module Aws
                                       target_domain_ids: Array[::String]
                                     ) -> _BatchGetTargetDomainsResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetTargetDomainsResponseSuccess
+
+      interface _BatchGetThreatModelJobTasksResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetThreatModelJobTasksOutput]
+        def threat_model_job_tasks: () -> ::Array[Types::ThreatModelJobTask]
+        def not_found: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_get_threat_model_job_tasks-instance_method
+      def batch_get_threat_model_job_tasks: (
+                                              agent_space_id: ::String,
+                                              threat_model_job_task_ids: Array[::String]
+                                            ) -> _BatchGetThreatModelJobTasksResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetThreatModelJobTasksResponseSuccess
+
+      interface _BatchGetThreatModelJobsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetThreatModelJobsOutput]
+        def threat_model_jobs: () -> ::Array[Types::ThreatModelJob]
+        def not_found: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_get_threat_model_jobs-instance_method
+      def batch_get_threat_model_jobs: (
+                                         threat_model_job_ids: Array[::String],
+                                         agent_space_id: ::String
+                                       ) -> _BatchGetThreatModelJobsResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetThreatModelJobsResponseSuccess
+
+      interface _BatchGetThreatModelsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetThreatModelsOutput]
+        def threat_models: () -> ::Array[Types::ThreatModel]
+        def not_found: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_get_threat_models-instance_method
+      def batch_get_threat_models: (
+                                     threat_model_ids: Array[::String],
+                                     agent_space_id: ::String
+                                   ) -> _BatchGetThreatModelsResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetThreatModelsResponseSuccess
+
+      interface _BatchGetThreatsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetThreatsOutput]
+        def threats: () -> ::Array[Types::Threat]
+        def not_found: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_get_threats-instance_method
+      def batch_get_threats: (
+                               threat_ids: Array[::String],
+                               agent_space_id: ::String
+                             ) -> _BatchGetThreatsResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetThreatsResponseSuccess
+
+      interface _BatchUpdateSecurityRequirementsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchUpdateSecurityRequirementsOutput]
+        def updated_security_requirement_names: () -> ::Array[::String]
+        def errors: () -> ::Array[Types::BatchSecurityRequirementError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#batch_update_security_requirements-instance_method
+      def batch_update_security_requirements: (
+                                                pack_id: ::String,
+                                                security_requirements: Array[
+                                                  {
+                                                    name: ::String,
+                                                    description: ::String?,
+                                                    domain: ::String?,
+                                                    evaluation: ::String?,
+                                                    remediation: ::String?
+                                                  }
+                                                ]
+                                              ) -> _BatchUpdateSecurityRequirementsResponseSuccess
+                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchUpdateSecurityRequirementsResponseSuccess
 
       interface _CreateAgentSpaceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateAgentSpaceOutput]
@@ -283,6 +407,7 @@ module Aws
         def log_config: () -> Types::CloudWatchLog
         def agent_space_id: () -> ::String
         def code_remediation_strategy: () -> ("AUTOMATIC" | "DISABLED")
+        def validation_mode: () -> ("DISABLED" | "SIMULATED")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#create_code_review-instance_method
       def create_code_review: (
@@ -294,7 +419,8 @@ module Aws
                                   log_group: ::String?,
                                   log_stream: ::String?
                                 },
-                                ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED")
+                                ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED"),
+                                ?validation_mode: ("DISABLED" | "SIMULATED")
                               ) -> _CreateCodeReviewResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateCodeReviewResponseSuccess
 
@@ -304,17 +430,38 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#create_integration-instance_method
       def create_integration: (
-                                provider: ("GITHUB"),
+                                provider: ("GITHUB" | "GITLAB" | "BITBUCKET" | "CONFLUENCE"),
                                 input: {
                                   github: {
                                     code: ::String,
                                     state: ::String,
-                                    organization_name: ::String?
+                                    organization_name: ::String?,
+                                    target_url: ::String?,
+                                    installation_id: ::String?
+                                  }?,
+                                  gitlab: {
+                                    access_token: ::String,
+                                    target_url: ::String?,
+                                    token_type: ("PERSONAL" | "GROUP"),
+                                    group_id: ::String?
+                                  }?,
+                                  bitbucket: {
+                                    installation_id: ::String,
+                                    workspace: ::String,
+                                    code: ::String,
+                                    state: ::String
+                                  }?,
+                                  confluence: {
+                                    installation_id: ::String,
+                                    code: ::String,
+                                    state: ::String,
+                                    site_url: ::String
                                   }?
                                 },
                                 integration_display_name: ::String,
                                 ?kms_key_id: ::String,
-                                ?tags: Hash[::String, ::String]
+                                ?tags: Hash[::String, ::String],
+                                ?private_connection_name: ::String
                               ) -> _CreateIntegrationResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateIntegrationResponseSuccess
 
@@ -364,9 +511,64 @@ module Aws
                               subnet_arns: Array[::String]?
                             },
                             ?network_traffic_config: Params::network_traffic_config,
-                            ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED")
+                            ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED"),
+                            ?disable_managed_skills: Array[("FINDING_PERSONALIZATION" | "LOGIN_OPTIMIZATION")]
                           ) -> _CreatePentestResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePentestResponseSuccess
+
+      interface _CreatePrivateConnectionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreatePrivateConnectionOutput]
+        def name: () -> ::String
+        def type: () -> ("SERVICE_MANAGED" | "SELF_MANAGED")
+        def status: () -> ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
+        def resource_gateway_id: () -> ::String
+        def host_address: () -> ::String
+        def vpc_id: () -> ::String
+        def resource_configuration_id: () -> ::String
+        def certificate_expiry_time: () -> ::Time
+        def dns_resolution: () -> ("PUBLIC" | "IN_VPC")
+        def failure_message: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#create_private_connection-instance_method
+      def create_private_connection: (
+                                       private_connection_name: ::String,
+                                       mode: {
+                                         service_managed: {
+                                           host_address: ::String,
+                                           vpc_id: ::String,
+                                           subnet_ids: Array[::String],
+                                           security_group_ids: Array[::String]?,
+                                           ip_address_type: ("IPV4" | "IPV6" | "DUAL_STACK")?,
+                                           ipv4_addresses_per_eni: ::Integer?,
+                                           port_ranges: Array[::String]?,
+                                           certificate: ::String?,
+                                           dns_resolution: ("PUBLIC" | "IN_VPC")?
+                                         }?,
+                                         self_managed: {
+                                           resource_configuration_id: ::String,
+                                           certificate: ::String?
+                                         }?
+                                       },
+                                       ?tags: Hash[::String, ::String]
+                                     ) -> _CreatePrivateConnectionResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePrivateConnectionResponseSuccess
+
+      interface _CreateSecurityRequirementPackResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateSecurityRequirementPackOutput]
+        def pack_id: () -> ::String
+        def status: () -> ("ENABLED" | "DISABLED")
+        def kms_key_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#create_security_requirement_pack-instance_method
+      def create_security_requirement_pack: (
+                                              name: ::String,
+                                              ?description: ::String,
+                                              ?status: ("ENABLED" | "DISABLED"),
+                                              ?kms_key_id: ::String,
+                                              ?tags: Hash[::String, ::String]
+                                            ) -> _CreateSecurityRequirementPackResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateSecurityRequirementPackResponseSuccess
 
       interface _CreateTargetDomainResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateTargetDomainOutput]
@@ -385,6 +587,96 @@ module Aws
                                   ?tags: Hash[::String, ::String]
                                 ) -> _CreateTargetDomainResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTargetDomainResponseSuccess
+
+      interface _CreateThreatResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateThreatOutput]
+        def threat_id: () -> ::String
+        def threat_job_id: () -> ::String
+        def title: () -> ::String
+        def statement: () -> ::String
+        def severity: () -> ("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO")
+        def status: () -> ("OPEN" | "RESOLVED" | "DISMISSED")
+        def comments: () -> ::String
+        def stride: () -> ::Array[("SPOOFING" | "TAMPERING" | "REPUDIATION" | "INFORMATION_DISCLOSURE" | "DENIAL_OF_SERVICE" | "ELEVATION_OF_PRIVILEGE")]
+        def threat_source: () -> ::String
+        def prerequisites: () -> ::String
+        def threat_action: () -> ::String
+        def threat_impact: () -> ::String
+        def impacted_goal: () -> ::Array[::String]
+        def impacted_assets: () -> ::Array[::String]
+        def anchor: () -> Types::ThreatAnchorShape
+        def evidence: () -> ::Array[Types::ThreatEvidenceShape]
+        def recommendation: () -> ::String
+        def created_by: () -> ("CUSTOMER" | "AGENT")
+        def updated_by: () -> ("CUSTOMER" | "AGENT")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#create_threat-instance_method
+      def create_threat: (
+                           agent_space_id: ::String,
+                           threat_job_id: ::String,
+                           ?title: ::String,
+                           ?statement: ::String,
+                           ?severity: ("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO"),
+                           ?comments: ::String,
+                           ?stride: Array[("SPOOFING" | "TAMPERING" | "REPUDIATION" | "INFORMATION_DISCLOSURE" | "DENIAL_OF_SERVICE" | "ELEVATION_OF_PRIVILEGE")],
+                           ?threat_source: ::String,
+                           ?prerequisites: ::String,
+                           ?threat_action: ::String,
+                           ?threat_impact: ::String,
+                           ?impacted_goal: Array[::String],
+                           ?impacted_assets: Array[::String],
+                           ?anchor: {
+                             kind: ::String?,
+                             id: ::String?,
+                             package_id: ::String?
+                           },
+                           ?evidence: Array[
+                             {
+                               package_id: ::String?,
+                               path: ::String?
+                             }
+                           ],
+                           ?recommendation: ::String
+                         ) -> _CreateThreatResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateThreatResponseSuccess
+
+      interface _CreateThreatModelResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateThreatModelOutput]
+        def threat_model_id: () -> ::String
+        def title: () -> ::String
+        def agent_space_id: () -> ::String
+        def description: () -> ::String
+        def assets: () -> Types::Assets
+        def scope_docs: () -> ::Array[Types::DocumentInfo]
+        def service_role: () -> ::String
+        def log_config: () -> Types::CloudWatchLog
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#create_threat_model-instance_method
+      def create_threat_model: (
+                                 title: ::String,
+                                 agent_space_id: ::String,
+                                 ?description: ::String,
+                                 ?assets: Params::assets,
+                                 ?scope_docs: Array[
+                                   Params::document_info
+                                 ],
+                                 service_role: ::String,
+                                 ?log_config: {
+                                   log_group: ::String?,
+                                   log_stream: ::String?
+                                 },
+                                 ?report_destination: {
+                                   integration_id: ::String,
+                                   container_id: ::String,
+                                   parent_id: ::String?,
+                                   document_id: ::String?
+                                 }
+                               ) -> _CreateThreatModelResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateThreatModelResponseSuccess
 
       interface _DeleteAgentSpaceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAgentSpaceOutput]
@@ -433,6 +725,35 @@ module Aws
                              ) -> _DeleteMembershipResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteMembershipResponseSuccess
 
+      interface _DeletePrivateConnectionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeletePrivateConnectionOutput]
+        def name: () -> ::String
+        def type: () -> ("SERVICE_MANAGED" | "SELF_MANAGED")
+        def status: () -> ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
+        def resource_gateway_id: () -> ::String
+        def host_address: () -> ::String
+        def vpc_id: () -> ::String
+        def resource_configuration_id: () -> ::String
+        def certificate_expiry_time: () -> ::Time
+        def dns_resolution: () -> ("PUBLIC" | "IN_VPC")
+        def failure_message: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#delete_private_connection-instance_method
+      def delete_private_connection: (
+                                       private_connection_name: ::String
+                                     ) -> _DeletePrivateConnectionResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeletePrivateConnectionResponseSuccess
+
+      interface _DeleteSecurityRequirementPackResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSecurityRequirementPackOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#delete_security_requirement_pack-instance_method
+      def delete_security_requirement_pack: (
+                                              pack_id: ::String
+                                            ) -> _DeleteSecurityRequirementPackResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteSecurityRequirementPackResponseSuccess
+
       interface _DeleteTargetDomainResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTargetDomainOutput]
         def target_domain_id: () -> ::String
@@ -442,6 +763,26 @@ module Aws
                                   target_domain_id: ::String
                                 ) -> _DeleteTargetDomainResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTargetDomainResponseSuccess
+
+      interface _DescribePrivateConnectionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribePrivateConnectionOutput]
+        def name: () -> ::String
+        def type: () -> ("SERVICE_MANAGED" | "SELF_MANAGED")
+        def status: () -> ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
+        def resource_gateway_id: () -> ::String
+        def host_address: () -> ::String
+        def vpc_id: () -> ::String
+        def resource_configuration_id: () -> ::String
+        def certificate_expiry_time: () -> ::Time
+        def dns_resolution: () -> ("PUBLIC" | "IN_VPC")
+        def failure_message: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#describe_private_connection-instance_method
+      def describe_private_connection: (
+                                         private_connection_name: ::String
+                                       ) -> _DescribePrivateConnectionResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribePrivateConnectionResponseSuccess
 
       interface _GetApplicationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetApplicationResponse]
@@ -477,16 +818,57 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::GetIntegrationOutput]
         def integration_id: () -> ::String
         def installation_id: () -> ::String
-        def provider: () -> ("GITHUB")
+        def provider: () -> ("GITHUB" | "GITLAB" | "BITBUCKET" | "CONFLUENCE")
         def provider_type: () -> ("SOURCE_CODE" | "DOCUMENTATION")
         def display_name: () -> ::String
         def kms_key_id: () -> ::String
+        def target_url: () -> ::String
+        def private_connection_name: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#get_integration-instance_method
       def get_integration: (
                              integration_id: ::String
                            ) -> _GetIntegrationResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetIntegrationResponseSuccess
+
+      interface _GetSecurityRequirementPackResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetSecurityRequirementPackOutput]
+        def pack_id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def vendor_name: () -> ::String
+        def management_type: () -> ("AWS_MANAGED" | "CUSTOMER_MANAGED")
+        def status: () -> ("ENABLED" | "DISABLED")
+        def import_status: () -> ("PENDING" | "IN_PROGRESS" | "FAILED" | "COMPLETED")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def kms_key_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#get_security_requirement_pack-instance_method
+      def get_security_requirement_pack: (
+                                           pack_id: ::String
+                                         ) -> _GetSecurityRequirementPackResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSecurityRequirementPackResponseSuccess
+
+      interface _ImportSecurityRequirementsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ImportSecurityRequirementsOutput]
+        def pack_id: () -> ::String
+        def import_status: () -> ("PENDING" | "IN_PROGRESS" | "FAILED" | "COMPLETED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#import_security_requirements-instance_method
+      def import_security_requirements: (
+                                          pack_id: ::String,
+                                          input: {
+                                            documents: Array[
+                                              {
+                                                name: ::String,
+                                                format: ("MD" | "PDF" | "TXT" | "DOCX" | "DOC"),
+                                                content: ::String
+                                              }
+                                            ]?
+                                          }
+                                        ) -> _ImportSecurityRequirementsResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ImportSecurityRequirementsResponseSuccess
 
       interface _InitiateProviderRegistrationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::InitiateProviderRegistrationOutput]
@@ -495,7 +877,7 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#initiate_provider_registration-instance_method
       def initiate_provider_registration: (
-                                            provider: ("GITHUB")
+                                            provider: ("GITHUB" | "GITLAB" | "BITBUCKET" | "CONFLUENCE")
                                           ) -> _InitiateProviderRegistrationResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _InitiateProviderRegistrationResponseSuccess
 
@@ -546,7 +928,7 @@ module Aws
                                         agent_space_id: ::String,
                                         ?max_results: ::Integer,
                                         ?code_review_job_id: ::String,
-                                        ?step_name: ("PREFLIGHT" | "STATIC_ANALYSIS" | "PENTEST" | "FINALIZING"),
+                                        ?step_name: ("PREFLIGHT" | "STATIC_ANALYSIS" | "PENTEST" | "FINALIZING" | "VALIDATION"),
                                         ?category_name: ::String,
                                         ?next_token: ::String
                                       ) -> _ListCodeReviewJobTasksResponseSuccess
@@ -623,7 +1005,7 @@ module Aws
       def list_integrated_resources: (
                                        agent_space_id: ::String,
                                        ?integration_id: ::String,
-                                       ?resource_type: ("CODE_REPOSITORY"),
+                                       ?resource_type: ("CODE_REPOSITORY" | "DOCUMENT"),
                                        ?next_token: ::String,
                                        ?max_results: ::Integer
                                      ) -> _ListIntegratedResourcesResponseSuccess
@@ -637,7 +1019,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_integrations-instance_method
       def list_integrations: (
                                ?filter: {
-                                 provider: ("GITHUB")?,
+                                 provider: ("GITHUB" | "GITLAB" | "BITBUCKET" | "CONFLUENCE")?,
                                  provider_type: ("SOURCE_CODE" | "DOCUMENTATION")?
                                },
                                ?next_token: ::String,
@@ -670,7 +1052,7 @@ module Aws
                                     agent_space_id: ::String,
                                     ?max_results: ::Integer,
                                     ?pentest_job_id: ::String,
-                                    ?step_name: ("PREFLIGHT" | "STATIC_ANALYSIS" | "PENTEST" | "FINALIZING"),
+                                    ?step_name: ("PREFLIGHT" | "STATIC_ANALYSIS" | "PENTEST" | "FINALIZING" | "VALIDATION"),
                                     ?category_name: ::String,
                                     ?next_token: ::String
                                   ) -> _ListPentestJobTasksResponseSuccess
@@ -703,6 +1085,47 @@ module Aws
                          ) -> _ListPentestsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPentestsResponseSuccess
 
+      interface _ListPrivateConnectionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListPrivateConnectionsOutput]
+        def private_connections: () -> ::Array[Types::PrivateConnectionSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_private_connections-instance_method
+      def list_private_connections: (
+                                      ?max_results: ::Integer,
+                                      ?next_token: ::String
+                                    ) -> _ListPrivateConnectionsResponseSuccess
+                                  | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListPrivateConnectionsResponseSuccess
+
+      interface _ListSecurityRequirementPacksResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSecurityRequirementPacksOutput]
+        def security_requirement_pack_summaries: () -> ::Array[Types::SecurityRequirementPackSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_security_requirement_packs-instance_method
+      def list_security_requirement_packs: (
+                                             ?filter: {
+                                               management_type: ("AWS_MANAGED" | "CUSTOMER_MANAGED")?,
+                                               status: ("ENABLED" | "DISABLED")?
+                                             },
+                                             ?next_token: ::String,
+                                             ?max_results: ::Integer
+                                           ) -> _ListSecurityRequirementPacksResponseSuccess
+                                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSecurityRequirementPacksResponseSuccess
+
+      interface _ListSecurityRequirementsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSecurityRequirementsOutput]
+        def security_requirement_summaries: () -> ::Array[Types::SecurityRequirementSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_security_requirements-instance_method
+      def list_security_requirements: (
+                                        pack_id: ::String,
+                                        ?next_token: ::String,
+                                        ?max_results: ::Integer
+                                      ) -> _ListSecurityRequirementsResponseSuccess
+                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSecurityRequirementsResponseSuccess
+
       interface _ListTagsForResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceOutput]
         def tags: () -> ::Hash[::String, ::String]
@@ -724,6 +1147,61 @@ module Aws
                                  ?max_results: ::Integer
                                ) -> _ListTargetDomainsResponseSuccess
                              | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTargetDomainsResponseSuccess
+
+      interface _ListThreatModelJobTasksResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListThreatModelJobTasksOutput]
+        def threat_model_job_task_summaries: () -> ::Array[Types::ThreatModelJobTaskSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_threat_model_job_tasks-instance_method
+      def list_threat_model_job_tasks: (
+                                         agent_space_id: ::String,
+                                         ?max_results: ::Integer,
+                                         threat_model_job_id: ::String,
+                                         ?next_token: ::String
+                                       ) -> _ListThreatModelJobTasksResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListThreatModelJobTasksResponseSuccess
+
+      interface _ListThreatModelJobsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListThreatModelJobsOutput]
+        def threat_model_job_summaries: () -> ::Array[Types::ThreatModelJobSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_threat_model_jobs-instance_method
+      def list_threat_model_jobs: (
+                                    ?max_results: ::Integer,
+                                    threat_model_id: ::String,
+                                    agent_space_id: ::String,
+                                    ?next_token: ::String
+                                  ) -> _ListThreatModelJobsResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListThreatModelJobsResponseSuccess
+
+      interface _ListThreatModelsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListThreatModelsOutput]
+        def threat_model_summaries: () -> ::Array[Types::ThreatModelSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_threat_models-instance_method
+      def list_threat_models: (
+                                ?max_results: ::Integer,
+                                ?next_token: ::String,
+                                agent_space_id: ::String
+                              ) -> _ListThreatModelsResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListThreatModelsResponseSuccess
+
+      interface _ListThreatsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListThreatsOutput]
+        def threats: () -> ::Array[Types::ThreatSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#list_threats-instance_method
+      def list_threats: (
+                          threat_job_id: ::String,
+                          agent_space_id: ::String,
+                          ?next_token: ::String,
+                          ?max_results: ::Integer
+                        ) -> _ListThreatsResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListThreatsResponseSuccess
 
       interface _StartCodeRemediationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartCodeRemediationOutput]
@@ -750,7 +1228,10 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#start_code_review_job-instance_method
       def start_code_review_job: (
                                    agent_space_id: ::String,
-                                   code_review_id: ::String
+                                   code_review_id: ::String,
+                                   ?diff_source: {
+                                     s3_uri: ::String?
+                                   }
                                  ) -> _StartCodeReviewJobResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartCodeReviewJobResponseSuccess
 
@@ -771,6 +1252,23 @@ module Aws
                              ) -> _StartPentestJobResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartPentestJobResponseSuccess
 
+      interface _StartThreatModelJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartThreatModelJobOutput]
+        def title: () -> ::String
+        def status: () -> ("IN_PROGRESS" | "STOPPING" | "STOPPED" | "FAILED" | "COMPLETED")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def threat_model_id: () -> ::String
+        def threat_model_job_id: () -> ::String
+        def agent_space_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#start_threat_model_job-instance_method
+      def start_threat_model_job: (
+                                    agent_space_id: ::String,
+                                    threat_model_id: ::String
+                                  ) -> _StartThreatModelJobResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartThreatModelJobResponseSuccess
+
       interface _StopCodeReviewJobResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StopCodeReviewJobOutput]
       end
@@ -790,6 +1288,16 @@ module Aws
                               pentest_job_id: ::String
                             ) -> _StopPentestJobResponseSuccess
                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopPentestJobResponseSuccess
+
+      interface _StopThreatModelJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StopThreatModelJobOutput]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#stop_threat_model_job-instance_method
+      def stop_threat_model_job: (
+                                   agent_space_id: ::String,
+                                   threat_model_job_id: ::String
+                                 ) -> _StopThreatModelJobResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StopThreatModelJobResponseSuccess
 
       interface _TagResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::TagResourceOutput]
@@ -859,6 +1367,7 @@ module Aws
         def log_config: () -> Types::CloudWatchLog
         def agent_space_id: () -> ::String
         def code_remediation_strategy: () -> ("AUTOMATIC" | "DISABLED")
+        def validation_mode: () -> ("DISABLED" | "SIMULATED")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#update_code_review-instance_method
       def update_code_review: (
@@ -871,7 +1380,8 @@ module Aws
                                   log_group: ::String?,
                                   log_stream: ::String?
                                 },
-                                ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED")
+                                ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED"),
+                                ?validation_mode: ("DISABLED" | "SIMULATED")
                               ) -> _UpdateCodeReviewResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCodeReviewResponseSuccess
 
@@ -882,8 +1392,15 @@ module Aws
       def update_finding: (
                             finding_id: ::String,
                             agent_space_id: ::String,
+                            ?name: ::String,
+                            ?description: ::String,
+                            ?risk_type: ::String,
                             ?risk_level: ("UNKNOWN" | "INFORMATIONAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL"),
-                            ?status: ("ACTIVE" | "RESOLVED" | "ACCEPTED" | "FALSE_POSITIVE")
+                            ?risk_score: ::String,
+                            ?attack_script: ::String,
+                            ?reasoning: ::String,
+                            ?status: ("ACTIVE" | "RESOLVED" | "ACCEPTED" | "FALSE_POSITIVE"),
+                            ?customer_note: ::String
                           ) -> _UpdateFindingResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateFindingResponseSuccess
 
@@ -900,12 +1417,40 @@ module Aws
                                                github_repository: {
                                                  name: ::String,
                                                  owner: ::String
+                                               }?,
+                                               gitlab_repository: {
+                                                 name: ::String,
+                                                 namespace: ::String
+                                               }?,
+                                               bitbucket_repository: {
+                                                 name: ::String,
+                                                 workspace: ::String
+                                               }?,
+                                               confluence_document: {
+                                                 name: ::String,
+                                                 space_key: ::String,
+                                                 page_id: ::String,
+                                                 title: ::String?,
+                                                 space_title: ::String?
                                                }?
                                              },
                                              capabilities: {
                                                github: {
                                                  leave_comments: bool?,
                                                  remediate_code: bool?
+                                               }?,
+                                               gitlab: {
+                                                 leave_comments: bool?,
+                                                 remediate_code: bool?
+                                               }?,
+                                               bitbucket: {
+                                                 leave_comments: bool?,
+                                                 remediate_code: bool?
+                                               }?,
+                                               confluence: {
+                                                 fetch_document: bool?,
+                                                 create_document: bool?,
+                                                 update_document: bool?
                                                }?
                                              }?
                                            }
@@ -943,9 +1488,47 @@ module Aws
                               subnet_arns: Array[::String]?
                             },
                             ?network_traffic_config: Params::network_traffic_config,
-                            ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED")
+                            ?code_remediation_strategy: ("AUTOMATIC" | "DISABLED"),
+                            ?disable_managed_skills: Array[("FINDING_PERSONALIZATION" | "LOGIN_OPTIMIZATION")]
                           ) -> _UpdatePentestResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePentestResponseSuccess
+
+      interface _UpdatePrivateConnectionCertificateResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdatePrivateConnectionCertificateOutput]
+        def name: () -> ::String
+        def type: () -> ("SERVICE_MANAGED" | "SELF_MANAGED")
+        def status: () -> ("ACTIVE" | "CREATE_IN_PROGRESS" | "CREATE_FAILED" | "DELETE_IN_PROGRESS" | "DELETE_FAILED")
+        def resource_gateway_id: () -> ::String
+        def host_address: () -> ::String
+        def vpc_id: () -> ::String
+        def resource_configuration_id: () -> ::String
+        def certificate_expiry_time: () -> ::Time
+        def dns_resolution: () -> ("PUBLIC" | "IN_VPC")
+        def failure_message: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#update_private_connection_certificate-instance_method
+      def update_private_connection_certificate: (
+                                                   private_connection_name: ::String,
+                                                   certificate: ::String
+                                                 ) -> _UpdatePrivateConnectionCertificateResponseSuccess
+                                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePrivateConnectionCertificateResponseSuccess
+
+      interface _UpdateSecurityRequirementPackResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateSecurityRequirementPackOutput]
+        def pack_id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def status: () -> ("ENABLED" | "DISABLED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#update_security_requirement_pack-instance_method
+      def update_security_requirement_pack: (
+                                              pack_id: ::String,
+                                              ?name: ::String,
+                                              ?description: ::String,
+                                              ?status: ("ENABLED" | "DISABLED")
+                                            ) -> _UpdateSecurityRequirementPackResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateSecurityRequirementPackResponseSuccess
 
       interface _UpdateTargetDomainResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateTargetDomainOutput]
@@ -963,6 +1546,91 @@ module Aws
                                   verification_method: ("DNS_TXT" | "HTTP_ROUTE" | "PRIVATE_VPC")
                                 ) -> _UpdateTargetDomainResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTargetDomainResponseSuccess
+
+      interface _UpdateThreatResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateThreatOutput]
+        def threat_id: () -> ::String
+        def threat_job_id: () -> ::String
+        def title: () -> ::String
+        def statement: () -> ::String
+        def severity: () -> ("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO")
+        def status: () -> ("OPEN" | "RESOLVED" | "DISMISSED")
+        def comments: () -> ::String
+        def stride: () -> ::Array[("SPOOFING" | "TAMPERING" | "REPUDIATION" | "INFORMATION_DISCLOSURE" | "DENIAL_OF_SERVICE" | "ELEVATION_OF_PRIVILEGE")]
+        def threat_source: () -> ::String
+        def prerequisites: () -> ::String
+        def threat_action: () -> ::String
+        def threat_impact: () -> ::String
+        def impacted_goal: () -> ::Array[::String]
+        def impacted_assets: () -> ::Array[::String]
+        def anchor: () -> Types::ThreatAnchorShape
+        def evidence: () -> ::Array[Types::ThreatEvidenceShape]
+        def recommendation: () -> ::String
+        def created_by: () -> ("CUSTOMER" | "AGENT")
+        def updated_by: () -> ("CUSTOMER" | "AGENT")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#update_threat-instance_method
+      def update_threat: (
+                           threat_id: ::String,
+                           agent_space_id: ::String,
+                           ?title: ::String,
+                           ?status: ("OPEN" | "RESOLVED" | "DISMISSED"),
+                           ?comments: ::String,
+                           ?statement: ::String,
+                           ?severity: ("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO"),
+                           ?threat_source: ::String,
+                           ?prerequisites: ::String,
+                           ?threat_action: ::String,
+                           ?threat_impact: ::String,
+                           ?impacted_goal: Array[::String],
+                           ?impacted_assets: Array[::String],
+                           ?anchor: {
+                             kind: ::String?,
+                             id: ::String?,
+                             package_id: ::String?
+                           },
+                           ?evidence: Array[
+                             {
+                               package_id: ::String?,
+                               path: ::String?
+                             }
+                           ],
+                           ?recommendation: ::String
+                         ) -> _UpdateThreatResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateThreatResponseSuccess
+
+      interface _UpdateThreatModelResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateThreatModelOutput]
+        def threat_model_id: () -> ::String
+        def title: () -> ::String
+        def agent_space_id: () -> ::String
+        def description: () -> ::String
+        def assets: () -> Types::Assets
+        def scope_docs: () -> ::Array[Types::DocumentInfo]
+        def service_role: () -> ::String
+        def log_config: () -> Types::CloudWatchLog
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SecurityAgent/Client.html#update_threat_model-instance_method
+      def update_threat_model: (
+                                 threat_model_id: ::String,
+                                 agent_space_id: ::String,
+                                 ?title: ::String,
+                                 ?description: ::String,
+                                 ?assets: Params::assets,
+                                 ?scope_docs: Array[
+                                   Params::document_info
+                                 ],
+                                 ?service_role: ::String,
+                                 ?log_config: {
+                                   log_group: ::String?,
+                                   log_stream: ::String?
+                                 }
+                               ) -> _UpdateThreatModelResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateThreatModelResponseSuccess
 
       interface _VerifyTargetDomainResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::VerifyTargetDomainOutput]

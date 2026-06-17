@@ -47,7 +47,23 @@ module Aws::Glue
     ApplicationArn = Shapes::StringShape.new(name: 'ApplicationArn')
     ApplyMapping = Shapes::StructureShape.new(name: 'ApplyMapping')
     ArnString = Shapes::StringShape.new(name: 'ArnString')
+    AssetDescription = Shapes::StringShape.new(name: 'AssetDescription')
+    AssetFormEntry = Shapes::StructureShape.new(name: 'AssetFormEntry')
+    AssetFormKey = Shapes::StringShape.new(name: 'AssetFormKey')
+    AssetFormMap = Shapes::MapShape.new(name: 'AssetFormMap')
+    AssetId = Shapes::StringShape.new(name: 'AssetId')
+    AssetName = Shapes::StringShape.new(name: 'AssetName')
+    AssetTypeFormKey = Shapes::StringShape.new(name: 'AssetTypeFormKey')
+    AssetTypeFormReference = Shapes::StructureShape.new(name: 'AssetTypeFormReference')
+    AssetTypeFormsMap = Shapes::MapShape.new(name: 'AssetTypeFormsMap')
+    AssetTypeId = Shapes::StringShape.new(name: 'AssetTypeId')
+    AssetTypeItem = Shapes::StructureShape.new(name: 'AssetTypeItem')
+    AssetTypeItemList = Shapes::ListShape.new(name: 'AssetTypeItemList')
+    AssetTypeName = Shapes::StringShape.new(name: 'AssetTypeName')
+    AssociateGlossaryTermsRequest = Shapes::StructureShape.new(name: 'AssociateGlossaryTermsRequest')
+    AssociateGlossaryTermsResponse = Shapes::StructureShape.new(name: 'AssociateGlossaryTermsResponse')
     AthenaConnectorSource = Shapes::StructureShape.new(name: 'AthenaConnectorSource')
+    AttachmentName = Shapes::StringShape.new(name: 'AttachmentName')
     AttemptCount = Shapes::IntegerShape.new(name: 'AttemptCount')
     AuditColumnNamesList = Shapes::ListShape.new(name: 'AuditColumnNamesList')
     AuditContext = Shapes::StructureShape.new(name: 'AuditContext')
@@ -92,6 +108,8 @@ module Aws::Glue
     BatchGetDataQualityResultResponse = Shapes::StructureShape.new(name: 'BatchGetDataQualityResultResponse')
     BatchGetDevEndpointsRequest = Shapes::StructureShape.new(name: 'BatchGetDevEndpointsRequest')
     BatchGetDevEndpointsResponse = Shapes::StructureShape.new(name: 'BatchGetDevEndpointsResponse')
+    BatchGetIterableFormsRequest = Shapes::StructureShape.new(name: 'BatchGetIterableFormsRequest')
+    BatchGetIterableFormsResponse = Shapes::StructureShape.new(name: 'BatchGetIterableFormsResponse')
     BatchGetJobsRequest = Shapes::StructureShape.new(name: 'BatchGetJobsRequest')
     BatchGetJobsResponse = Shapes::StructureShape.new(name: 'BatchGetJobsResponse')
     BatchGetPartitionRequest = Shapes::StructureShape.new(name: 'BatchGetPartitionRequest')
@@ -336,6 +354,10 @@ module Aws::Glue
     CreateDatabaseResponse = Shapes::StructureShape.new(name: 'CreateDatabaseResponse')
     CreateDevEndpointRequest = Shapes::StructureShape.new(name: 'CreateDevEndpointRequest')
     CreateDevEndpointResponse = Shapes::StructureShape.new(name: 'CreateDevEndpointResponse')
+    CreateGlossaryRequest = Shapes::StructureShape.new(name: 'CreateGlossaryRequest')
+    CreateGlossaryResponse = Shapes::StructureShape.new(name: 'CreateGlossaryResponse')
+    CreateGlossaryTermRequest = Shapes::StructureShape.new(name: 'CreateGlossaryTermRequest')
+    CreateGlossaryTermResponse = Shapes::StructureShape.new(name: 'CreateGlossaryTermResponse')
     CreateGlueIdentityCenterConfigurationRequest = Shapes::StructureShape.new(name: 'CreateGlueIdentityCenterConfigurationRequest')
     CreateGlueIdentityCenterConfigurationResponse = Shapes::StructureShape.new(name: 'CreateGlueIdentityCenterConfigurationResponse')
     CreateGrokClassifierRequest = Shapes::StructureShape.new(name: 'CreateGrokClassifierRequest')
@@ -378,6 +400,7 @@ module Aws::Glue
     CreateWorkflowRequest = Shapes::StructureShape.new(name: 'CreateWorkflowRequest')
     CreateWorkflowResponse = Shapes::StructureShape.new(name: 'CreateWorkflowResponse')
     CreateXMLClassifierRequest = Shapes::StructureShape.new(name: 'CreateXMLClassifierRequest')
+    CreatedAt = Shapes::TimestampShape.new(name: 'CreatedAt')
     CreatedTimestamp = Shapes::StringShape.new(name: 'CreatedTimestamp')
     CredentialKey = Shapes::StringShape.new(name: 'CredentialKey')
     CredentialMap = Shapes::MapShape.new(name: 'CredentialMap')
@@ -470,6 +493,12 @@ module Aws::Glue
     DecimalColumnStatisticsData = Shapes::StructureShape.new(name: 'DecimalColumnStatisticsData')
     DecimalNumber = Shapes::StructureShape.new(name: 'DecimalNumber')
     DefaultValue = Shapes::StringShape.new(name: 'DefaultValue')
+    DeleteAssetRequest = Shapes::StructureShape.new(name: 'DeleteAssetRequest')
+    DeleteAssetResponse = Shapes::StructureShape.new(name: 'DeleteAssetResponse')
+    DeleteAssetTypeRequest = Shapes::StructureShape.new(name: 'DeleteAssetTypeRequest')
+    DeleteAssetTypeResponse = Shapes::StructureShape.new(name: 'DeleteAssetTypeResponse')
+    DeleteAttachmentRequest = Shapes::StructureShape.new(name: 'DeleteAttachmentRequest')
+    DeleteAttachmentResponse = Shapes::StructureShape.new(name: 'DeleteAttachmentResponse')
     DeleteBehavior = Shapes::StringShape.new(name: 'DeleteBehavior')
     DeleteBlueprintRequest = Shapes::StructureShape.new(name: 'DeleteBlueprintRequest')
     DeleteBlueprintResponse = Shapes::StructureShape.new(name: 'DeleteBlueprintResponse')
@@ -498,6 +527,12 @@ module Aws::Glue
     DeleteDatabaseResponse = Shapes::StructureShape.new(name: 'DeleteDatabaseResponse')
     DeleteDevEndpointRequest = Shapes::StructureShape.new(name: 'DeleteDevEndpointRequest')
     DeleteDevEndpointResponse = Shapes::StructureShape.new(name: 'DeleteDevEndpointResponse')
+    DeleteFormTypeRequest = Shapes::StructureShape.new(name: 'DeleteFormTypeRequest')
+    DeleteFormTypeResponse = Shapes::StructureShape.new(name: 'DeleteFormTypeResponse')
+    DeleteGlossaryRequest = Shapes::StructureShape.new(name: 'DeleteGlossaryRequest')
+    DeleteGlossaryResponse = Shapes::StructureShape.new(name: 'DeleteGlossaryResponse')
+    DeleteGlossaryTermRequest = Shapes::StructureShape.new(name: 'DeleteGlossaryTermRequest')
+    DeleteGlossaryTermResponse = Shapes::StructureShape.new(name: 'DeleteGlossaryTermResponse')
     DeleteGlueIdentityCenterConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteGlueIdentityCenterConfigurationRequest')
     DeleteGlueIdentityCenterConfigurationResponse = Shapes::StructureShape.new(name: 'DeleteGlueIdentityCenterConfigurationResponse')
     DeleteIntegrationRequest = Shapes::StructureShape.new(name: 'DeleteIntegrationRequest')
@@ -563,6 +598,8 @@ module Aws::Glue
     DirectKafkaSource = Shapes::StructureShape.new(name: 'DirectKafkaSource')
     DirectKinesisSource = Shapes::StructureShape.new(name: 'DirectKinesisSource')
     DirectSchemaChangePolicy = Shapes::StructureShape.new(name: 'DirectSchemaChangePolicy')
+    DisassociateGlossaryTermsRequest = Shapes::StructureShape.new(name: 'DisassociateGlossaryTermsRequest')
+    DisassociateGlossaryTermsResponse = Shapes::StructureShape.new(name: 'DisassociateGlossaryTermsResponse')
     DisplayName = Shapes::StringShape.new(name: 'DisplayName')
     Double = Shapes::FloatShape.new(name: 'Double')
     DoubleColumnStatisticsData = Shapes::StructureShape.new(name: 'DoubleColumnStatisticsData')
@@ -653,6 +690,12 @@ module Aws::Glue
     FindMatchesMetrics = Shapes::StructureShape.new(name: 'FindMatchesMetrics')
     FindMatchesParameters = Shapes::StructureShape.new(name: 'FindMatchesParameters')
     FindMatchesTaskRunProperties = Shapes::StructureShape.new(name: 'FindMatchesTaskRunProperties')
+    FormContent = Shapes::StringShape.new(name: 'FormContent')
+    FormTypeId = Shapes::StringShape.new(name: 'FormTypeId')
+    FormTypeItem = Shapes::StructureShape.new(name: 'FormTypeItem')
+    FormTypeItemList = Shapes::ListShape.new(name: 'FormTypeItemList')
+    FormTypeName = Shapes::StringShape.new(name: 'FormTypeName')
+    FormTypeSchema = Shapes::StringShape.new(name: 'FormTypeSchema')
     FormatString = Shapes::StringShape.new(name: 'FormatString')
     FunctionType = Shapes::StringShape.new(name: 'FunctionType')
     Generic512CharString = Shapes::StringShape.new(name: 'Generic512CharString')
@@ -660,6 +703,10 @@ module Aws::Glue
     GenericLimitedString = Shapes::StringShape.new(name: 'GenericLimitedString')
     GenericMap = Shapes::MapShape.new(name: 'GenericMap')
     GenericString = Shapes::StringShape.new(name: 'GenericString')
+    GetAssetInput = Shapes::StructureShape.new(name: 'GetAssetInput')
+    GetAssetOutput = Shapes::StructureShape.new(name: 'GetAssetOutput')
+    GetAssetTypeRequest = Shapes::StructureShape.new(name: 'GetAssetTypeRequest')
+    GetAssetTypeResponse = Shapes::StructureShape.new(name: 'GetAssetTypeResponse')
     GetBlueprintRequest = Shapes::StructureShape.new(name: 'GetBlueprintRequest')
     GetBlueprintResponse = Shapes::StructureShape.new(name: 'GetBlueprintResponse')
     GetBlueprintRunRequest = Shapes::StructureShape.new(name: 'GetBlueprintRunRequest')
@@ -728,6 +775,12 @@ module Aws::Glue
     GetDevEndpointsResponse = Shapes::StructureShape.new(name: 'GetDevEndpointsResponse')
     GetEntityRecordsRequest = Shapes::StructureShape.new(name: 'GetEntityRecordsRequest')
     GetEntityRecordsResponse = Shapes::StructureShape.new(name: 'GetEntityRecordsResponse')
+    GetFormTypeRequest = Shapes::StructureShape.new(name: 'GetFormTypeRequest')
+    GetFormTypeResponse = Shapes::StructureShape.new(name: 'GetFormTypeResponse')
+    GetGlossaryRequest = Shapes::StructureShape.new(name: 'GetGlossaryRequest')
+    GetGlossaryResponse = Shapes::StructureShape.new(name: 'GetGlossaryResponse')
+    GetGlossaryTermRequest = Shapes::StructureShape.new(name: 'GetGlossaryTermRequest')
+    GetGlossaryTermResponse = Shapes::StructureShape.new(name: 'GetGlossaryTermResponse')
     GetGlueIdentityCenterConfigurationRequest = Shapes::StructureShape.new(name: 'GetGlueIdentityCenterConfigurationRequest')
     GetGlueIdentityCenterConfigurationResponse = Shapes::StructureShape.new(name: 'GetGlueIdentityCenterConfigurationResponse')
     GetIntegrationResourcePropertyRequest = Shapes::StructureShape.new(name: 'GetIntegrationResourcePropertyRequest')
@@ -826,6 +879,17 @@ module Aws::Glue
     GetWorkflowRunResponse = Shapes::StructureShape.new(name: 'GetWorkflowRunResponse')
     GetWorkflowRunsRequest = Shapes::StructureShape.new(name: 'GetWorkflowRunsRequest')
     GetWorkflowRunsResponse = Shapes::StructureShape.new(name: 'GetWorkflowRunsResponse')
+    GlossaryId = Shapes::StringShape.new(name: 'GlossaryId')
+    GlossaryItem = Shapes::StructureShape.new(name: 'GlossaryItem')
+    GlossaryItemList = Shapes::ListShape.new(name: 'GlossaryItemList')
+    GlossaryLongDescription = Shapes::StringShape.new(name: 'GlossaryLongDescription')
+    GlossaryName = Shapes::StringShape.new(name: 'GlossaryName')
+    GlossaryShortDescription = Shapes::StringShape.new(name: 'GlossaryShortDescription')
+    GlossaryTermId = Shapes::StringShape.new(name: 'GlossaryTermId')
+    GlossaryTermIdList = Shapes::ListShape.new(name: 'GlossaryTermIdList')
+    GlossaryTermItem = Shapes::StructureShape.new(name: 'GlossaryTermItem')
+    GlossaryTermItemList = Shapes::ListShape.new(name: 'GlossaryTermItemList')
+    GlossaryTermName = Shapes::StringShape.new(name: 'GlossaryTermName')
     GlueEncryptionException = Shapes::StructureShape.new(name: 'GlueEncryptionException')
     GluePolicy = Shapes::StructureShape.new(name: 'GluePolicy')
     GlueRecordType = Shapes::StringShape.new(name: 'GlueRecordType')
@@ -944,6 +1008,23 @@ module Aws::Glue
     IsParentEntity = Shapes::BooleanShape.new(name: 'IsParentEntity')
     IsVersionValid = Shapes::BooleanShape.new(name: 'IsVersionValid')
     Iso8601DateTime = Shapes::TimestampShape.new(name: 'Iso8601DateTime', timestampFormat: "iso8601")
+    ItemDescription = Shapes::StringShape.new(name: 'ItemDescription')
+    ItemError = Shapes::StructureShape.new(name: 'ItemError')
+    ItemErrorCode = Shapes::StringShape.new(name: 'ItemErrorCode')
+    ItemErrorList = Shapes::ListShape.new(name: 'ItemErrorList')
+    ItemErrorMessage = Shapes::StringShape.new(name: 'ItemErrorMessage')
+    ItemId = Shapes::StringShape.new(name: 'ItemId')
+    ItemIdentifier = Shapes::StringShape.new(name: 'ItemIdentifier')
+    ItemIdentifierList = Shapes::ListShape.new(name: 'ItemIdentifierList')
+    ItemName = Shapes::StringShape.new(name: 'ItemName')
+    IterableFormEntry = Shapes::StructureShape.new(name: 'IterableFormEntry')
+    IterableFormItem = Shapes::StructureShape.new(name: 'IterableFormItem')
+    IterableFormItemList = Shapes::ListShape.new(name: 'IterableFormItemList')
+    IterableFormKey = Shapes::StringShape.new(name: 'IterableFormKey')
+    IterableFormListItem = Shapes::StructureShape.new(name: 'IterableFormListItem')
+    IterableFormListItemList = Shapes::ListShape.new(name: 'IterableFormListItemList')
+    IterableFormMap = Shapes::MapShape.new(name: 'IterableFormMap')
+    IterableFormName = Shapes::StringShape.new(name: 'IterableFormName')
     JDBCConnectionType = Shapes::StringShape.new(name: 'JDBCConnectionType')
     JDBCConnectorOptions = Shapes::StructureShape.new(name: 'JDBCConnectorOptions')
     JDBCConnectorSource = Shapes::StructureShape.new(name: 'JDBCConnectorSource')
@@ -999,6 +1080,8 @@ module Aws::Glue
     LimitedPathList = Shapes::ListShape.new(name: 'LimitedPathList')
     LimitedStringList = Shapes::ListShape.new(name: 'LimitedStringList')
     LineageConfiguration = Shapes::StructureShape.new(name: 'LineageConfiguration')
+    ListAssetTypesRequest = Shapes::StructureShape.new(name: 'ListAssetTypesRequest')
+    ListAssetTypesResponse = Shapes::StructureShape.new(name: 'ListAssetTypesResponse')
     ListBlueprintsRequest = Shapes::StructureShape.new(name: 'ListBlueprintsRequest')
     ListBlueprintsResponse = Shapes::StructureShape.new(name: 'ListBlueprintsResponse')
     ListColumnStatisticsTaskRunsRequest = Shapes::StructureShape.new(name: 'ListColumnStatisticsTaskRunsRequest')
@@ -1027,8 +1110,16 @@ module Aws::Glue
     ListDevEndpointsResponse = Shapes::StructureShape.new(name: 'ListDevEndpointsResponse')
     ListEntitiesRequest = Shapes::StructureShape.new(name: 'ListEntitiesRequest')
     ListEntitiesResponse = Shapes::StructureShape.new(name: 'ListEntitiesResponse')
+    ListFormTypesRequest = Shapes::StructureShape.new(name: 'ListFormTypesRequest')
+    ListFormTypesResponse = Shapes::StructureShape.new(name: 'ListFormTypesResponse')
+    ListGlossariesRequest = Shapes::StructureShape.new(name: 'ListGlossariesRequest')
+    ListGlossariesResponse = Shapes::StructureShape.new(name: 'ListGlossariesResponse')
+    ListGlossaryTermsRequest = Shapes::StructureShape.new(name: 'ListGlossaryTermsRequest')
+    ListGlossaryTermsResponse = Shapes::StructureShape.new(name: 'ListGlossaryTermsResponse')
     ListIntegrationResourcePropertiesRequest = Shapes::StructureShape.new(name: 'ListIntegrationResourcePropertiesRequest')
     ListIntegrationResourcePropertiesResponse = Shapes::StructureShape.new(name: 'ListIntegrationResourcePropertiesResponse')
+    ListIterableFormsRequest = Shapes::StructureShape.new(name: 'ListIterableFormsRequest')
+    ListIterableFormsResponse = Shapes::StructureShape.new(name: 'ListIterableFormsResponse')
     ListJobsRequest = Shapes::StructureShape.new(name: 'ListJobsRequest')
     ListJobsResponse = Shapes::StructureShape.new(name: 'ListJobsResponse')
     ListMLTransformsRequest = Shapes::StructureShape.new(name: 'ListMLTransformsRequest')
@@ -1095,6 +1186,9 @@ module Aws::Glue
     Merge = Shapes::StructureShape.new(name: 'Merge')
     MessagePrefix = Shapes::StringShape.new(name: 'MessagePrefix')
     MessageString = Shapes::StringShape.new(name: 'MessageString')
+    MetadataDescription = Shapes::StringShape.new(name: 'MetadataDescription')
+    MetadataFormContent = Shapes::StringShape.new(name: 'MetadataFormContent')
+    MetadataFormTypeIdentifier = Shapes::StringShape.new(name: 'MetadataFormTypeIdentifier')
     MetadataInfo = Shapes::StructureShape.new(name: 'MetadataInfo')
     MetadataInfoMap = Shapes::MapShape.new(name: 'MetadataInfoMap')
     MetadataKeyString = Shapes::StringShape.new(name: 'MetadataKeyString')
@@ -1238,10 +1332,18 @@ module Aws::Glue
     PropertyTypes = Shapes::ListShape.new(name: 'PropertyTypes')
     PropertyValue = Shapes::StringShape.new(name: 'PropertyValue')
     PublicKeysList = Shapes::ListShape.new(name: 'PublicKeysList')
+    PutAssetRequest = Shapes::StructureShape.new(name: 'PutAssetRequest')
+    PutAssetResponse = Shapes::StructureShape.new(name: 'PutAssetResponse')
+    PutAssetTypeRequest = Shapes::StructureShape.new(name: 'PutAssetTypeRequest')
+    PutAssetTypeResponse = Shapes::StructureShape.new(name: 'PutAssetTypeResponse')
+    PutAttachmentRequest = Shapes::StructureShape.new(name: 'PutAttachmentRequest')
+    PutAttachmentResponse = Shapes::StructureShape.new(name: 'PutAttachmentResponse')
     PutDataCatalogEncryptionSettingsRequest = Shapes::StructureShape.new(name: 'PutDataCatalogEncryptionSettingsRequest')
     PutDataCatalogEncryptionSettingsResponse = Shapes::StructureShape.new(name: 'PutDataCatalogEncryptionSettingsResponse')
     PutDataQualityProfileAnnotationRequest = Shapes::StructureShape.new(name: 'PutDataQualityProfileAnnotationRequest')
     PutDataQualityProfileAnnotationResponse = Shapes::StructureShape.new(name: 'PutDataQualityProfileAnnotationResponse')
+    PutFormTypeRequest = Shapes::StructureShape.new(name: 'PutFormTypeRequest')
+    PutFormTypeResponse = Shapes::StructureShape.new(name: 'PutFormTypeResponse')
     PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
     PutResourcePolicyResponse = Shapes::StructureShape.new(name: 'PutResourcePolicyResponse')
     PutSchemaVersionMetadataInput = Shapes::StructureShape.new(name: 'PutSchemaVersionMetadataInput')
@@ -1375,9 +1477,30 @@ module Aws::Glue
     SchemaVersionNumber = Shapes::StructureShape.new(name: 'SchemaVersionNumber')
     SchemaVersionStatus = Shapes::StringShape.new(name: 'SchemaVersionStatus')
     ScriptLocationString = Shapes::StringShape.new(name: 'ScriptLocationString')
+    SearchAttribute = Shapes::StringShape.new(name: 'SearchAttribute')
+    SearchAttributeFilter = Shapes::StructureShape.new(name: 'SearchAttributeFilter')
+    SearchFilterClause = Shapes::UnionShape.new(name: 'SearchFilterClause')
+    SearchFilterClauseList = Shapes::ListShape.new(name: 'SearchFilterClauseList')
+    SearchFilterLongValue = Shapes::IntegerShape.new(name: 'SearchFilterLongValue')
+    SearchFilterOperator = Shapes::StringShape.new(name: 'SearchFilterOperator')
+    SearchFilterStringValue = Shapes::StringShape.new(name: 'SearchFilterStringValue')
+    SearchFilterValue = Shapes::UnionShape.new(name: 'SearchFilterValue')
+    SearchInput = Shapes::StructureShape.new(name: 'SearchInput')
+    SearchMapFilter = Shapes::StructureShape.new(name: 'SearchMapFilter')
+    SearchMapFilterValue = Shapes::UnionShape.new(name: 'SearchMapFilterValue')
+    SearchMapKey = Shapes::StringShape.new(name: 'SearchMapKey')
+    SearchMaxResults = Shapes::IntegerShape.new(name: 'SearchMaxResults')
+    SearchNextToken = Shapes::StringShape.new(name: 'SearchNextToken')
+    SearchOutput = Shapes::StructureShape.new(name: 'SearchOutput')
     SearchPropertyPredicates = Shapes::ListShape.new(name: 'SearchPropertyPredicates')
+    SearchResultItem = Shapes::StructureShape.new(name: 'SearchResultItem')
+    SearchResultItemList = Shapes::ListShape.new(name: 'SearchResultItemList')
+    SearchResultName = Shapes::StringShape.new(name: 'SearchResultName')
+    SearchSort = Shapes::StructureShape.new(name: 'SearchSort')
+    SearchSortOrder = Shapes::StringShape.new(name: 'SearchSortOrder')
     SearchTablesRequest = Shapes::StructureShape.new(name: 'SearchTablesRequest')
     SearchTablesResponse = Shapes::StructureShape.new(name: 'SearchTablesResponse')
+    SearchText = Shapes::StringShape.new(name: 'SearchText')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
     SecurityConfiguration = Shapes::StructureShape.new(name: 'SecurityConfiguration')
     SecurityConfigurationList = Shapes::ListShape.new(name: 'SecurityConfigurationList')
@@ -1617,6 +1740,10 @@ module Aws::Glue
     UpdateDatabaseResponse = Shapes::StructureShape.new(name: 'UpdateDatabaseResponse')
     UpdateDevEndpointRequest = Shapes::StructureShape.new(name: 'UpdateDevEndpointRequest')
     UpdateDevEndpointResponse = Shapes::StructureShape.new(name: 'UpdateDevEndpointResponse')
+    UpdateGlossaryRequest = Shapes::StructureShape.new(name: 'UpdateGlossaryRequest')
+    UpdateGlossaryResponse = Shapes::StructureShape.new(name: 'UpdateGlossaryResponse')
+    UpdateGlossaryTermRequest = Shapes::StructureShape.new(name: 'UpdateGlossaryTermRequest')
+    UpdateGlossaryTermResponse = Shapes::StructureShape.new(name: 'UpdateGlossaryTermResponse')
     UpdateGlueIdentityCenterConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateGlueIdentityCenterConfigurationRequest')
     UpdateGlueIdentityCenterConfigurationResponse = Shapes::StructureShape.new(name: 'UpdateGlueIdentityCenterConfigurationResponse')
     UpdateGrokClassifierRequest = Shapes::StructureShape.new(name: 'UpdateGrokClassifierRequest')
@@ -1655,6 +1782,7 @@ module Aws::Glue
     UpdateWorkflowRequest = Shapes::StructureShape.new(name: 'UpdateWorkflowRequest')
     UpdateWorkflowResponse = Shapes::StructureShape.new(name: 'UpdateWorkflowResponse')
     UpdateXMLClassifierRequest = Shapes::StructureShape.new(name: 'UpdateXMLClassifierRequest')
+    UpdatedAt = Shapes::TimestampShape.new(name: 'UpdatedAt')
     UpdatedTimestamp = Shapes::StringShape.new(name: 'UpdatedTimestamp')
     UpsertRedshiftTargetOptions = Shapes::StructureShape.new(name: 'UpsertRedshiftTargetOptions')
     UriString = Shapes::StringShape.new(name: 'UriString')
@@ -1812,6 +1940,34 @@ module Aws::Glue
     ApplyMapping.add_member(:inputs, Shapes::ShapeRef.new(shape: OneInput, required: true, location_name: "Inputs"))
     ApplyMapping.add_member(:mapping, Shapes::ShapeRef.new(shape: Mappings, required: true, location_name: "Mapping"))
     ApplyMapping.struct_class = Types::ApplyMapping
+
+    AssetFormEntry.add_member(:form_type_id, Shapes::ShapeRef.new(shape: FormTypeId, location_name: "FormTypeId"))
+    AssetFormEntry.add_member(:content, Shapes::ShapeRef.new(shape: FormContent, location_name: "Content"))
+    AssetFormEntry.struct_class = Types::AssetFormEntry
+
+    AssetFormMap.key = Shapes::ShapeRef.new(shape: AssetFormKey)
+    AssetFormMap.value = Shapes::ShapeRef.new(shape: AssetFormEntry)
+
+    AssetTypeFormReference.add_member(:form_type_identifier, Shapes::ShapeRef.new(shape: FormTypeId, required: true, location_name: "FormTypeIdentifier"))
+    AssetTypeFormReference.struct_class = Types::AssetTypeFormReference
+
+    AssetTypeFormsMap.key = Shapes::ShapeRef.new(shape: AssetTypeFormKey)
+    AssetTypeFormsMap.value = Shapes::ShapeRef.new(shape: AssetTypeFormReference)
+
+    AssetTypeItem.add_member(:id, Shapes::ShapeRef.new(shape: AssetTypeId, location_name: "Id"))
+    AssetTypeItem.add_member(:name, Shapes::ShapeRef.new(shape: AssetTypeName, location_name: "Name"))
+    AssetTypeItem.struct_class = Types::AssetTypeItem
+
+    AssetTypeItemList.member = Shapes::ShapeRef.new(shape: AssetTypeItem)
+
+    AssociateGlossaryTermsRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    AssociateGlossaryTermsRequest.add_member(:glossary_term_identifiers, Shapes::ShapeRef.new(shape: GlossaryTermIdList, required: true, location_name: "GlossaryTermIdentifiers"))
+    AssociateGlossaryTermsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    AssociateGlossaryTermsRequest.struct_class = Types::AssociateGlossaryTermsRequest
+
+    AssociateGlossaryTermsResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "Identifier"))
+    AssociateGlossaryTermsResponse.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
+    AssociateGlossaryTermsResponse.struct_class = Types::AssociateGlossaryTermsResponse
 
     AthenaConnectorSource.add_member(:name, Shapes::ShapeRef.new(shape: NodeName, required: true, location_name: "Name"))
     AthenaConnectorSource.add_member(:connection_name, Shapes::ShapeRef.new(shape: EnclosedInStringProperty, required: true, location_name: "ConnectionName"))
@@ -1971,6 +2127,15 @@ module Aws::Glue
     BatchGetDevEndpointsResponse.add_member(:dev_endpoints, Shapes::ShapeRef.new(shape: DevEndpointList, location_name: "DevEndpoints"))
     BatchGetDevEndpointsResponse.add_member(:dev_endpoints_not_found, Shapes::ShapeRef.new(shape: DevEndpointNames, location_name: "DevEndpointsNotFound"))
     BatchGetDevEndpointsResponse.struct_class = Types::BatchGetDevEndpointsResponse
+
+    BatchGetIterableFormsRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
+    BatchGetIterableFormsRequest.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, required: true, location_name: "IterableFormName"))
+    BatchGetIterableFormsRequest.add_member(:item_identifiers, Shapes::ShapeRef.new(shape: ItemIdentifierList, required: true, location_name: "ItemIdentifiers"))
+    BatchGetIterableFormsRequest.struct_class = Types::BatchGetIterableFormsRequest
+
+    BatchGetIterableFormsResponse.add_member(:items, Shapes::ShapeRef.new(shape: IterableFormItemList, location_name: "Items"))
+    BatchGetIterableFormsResponse.add_member(:errors, Shapes::ShapeRef.new(shape: ItemErrorList, location_name: "Errors"))
+    BatchGetIterableFormsResponse.struct_class = Types::BatchGetIterableFormsResponse
 
     BatchGetJobsRequest.add_member(:job_names, Shapes::ShapeRef.new(shape: JobNameList, required: true, location_name: "JobNames"))
     BatchGetJobsRequest.struct_class = Types::BatchGetJobsRequest
@@ -2940,6 +3105,30 @@ module Aws::Glue
     CreateDevEndpointResponse.add_member(:arguments, Shapes::ShapeRef.new(shape: MapValue, location_name: "Arguments"))
     CreateDevEndpointResponse.struct_class = Types::CreateDevEndpointResponse
 
+    CreateGlossaryRequest.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryName, required: true, location_name: "Name"))
+    CreateGlossaryRequest.add_member(:description, Shapes::ShapeRef.new(shape: MetadataDescription, location_name: "Description"))
+    CreateGlossaryRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    CreateGlossaryRequest.struct_class = Types::CreateGlossaryRequest
+
+    CreateGlossaryResponse.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryId, location_name: "Id"))
+    CreateGlossaryResponse.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryName, location_name: "Name"))
+    CreateGlossaryResponse.add_member(:description, Shapes::ShapeRef.new(shape: MetadataDescription, location_name: "Description"))
+    CreateGlossaryResponse.struct_class = Types::CreateGlossaryResponse
+
+    CreateGlossaryTermRequest.add_member(:glossary_identifier, Shapes::ShapeRef.new(shape: GlossaryId, required: true, location_name: "GlossaryIdentifier"))
+    CreateGlossaryTermRequest.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryTermName, required: true, location_name: "Name"))
+    CreateGlossaryTermRequest.add_member(:short_description, Shapes::ShapeRef.new(shape: GlossaryShortDescription, location_name: "ShortDescription"))
+    CreateGlossaryTermRequest.add_member(:long_description, Shapes::ShapeRef.new(shape: GlossaryLongDescription, location_name: "LongDescription"))
+    CreateGlossaryTermRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    CreateGlossaryTermRequest.struct_class = Types::CreateGlossaryTermRequest
+
+    CreateGlossaryTermResponse.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryTermId, location_name: "Id"))
+    CreateGlossaryTermResponse.add_member(:glossary_id, Shapes::ShapeRef.new(shape: GlossaryId, location_name: "GlossaryId"))
+    CreateGlossaryTermResponse.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryTermName, location_name: "Name"))
+    CreateGlossaryTermResponse.add_member(:short_description, Shapes::ShapeRef.new(shape: GlossaryShortDescription, location_name: "ShortDescription"))
+    CreateGlossaryTermResponse.add_member(:long_description, Shapes::ShapeRef.new(shape: GlossaryLongDescription, location_name: "LongDescription"))
+    CreateGlossaryTermResponse.struct_class = Types::CreateGlossaryTermResponse
+
     CreateGlueIdentityCenterConfigurationRequest.add_member(:instance_arn, Shapes::ShapeRef.new(shape: IdentityCenterInstanceArn, required: true, location_name: "InstanceArn"))
     CreateGlueIdentityCenterConfigurationRequest.add_member(:scopes, Shapes::ShapeRef.new(shape: IdentityCenterScopesList, location_name: "Scopes"))
     CreateGlueIdentityCenterConfigurationRequest.add_member(:user_background_sessions_enabled, Shapes::ShapeRef.new(shape: NullableBoolean, location_name: "UserBackgroundSessionsEnabled"))
@@ -3530,6 +3719,23 @@ module Aws::Glue
     DecimalNumber.add_member(:scale, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "Scale"))
     DecimalNumber.struct_class = Types::DecimalNumber
 
+    DeleteAssetRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    DeleteAssetRequest.struct_class = Types::DeleteAssetRequest
+
+    DeleteAssetResponse.struct_class = Types::DeleteAssetResponse
+
+    DeleteAssetTypeRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetTypeId, required: true, location_name: "Identifier"))
+    DeleteAssetTypeRequest.struct_class = Types::DeleteAssetTypeRequest
+
+    DeleteAssetTypeResponse.struct_class = Types::DeleteAssetTypeResponse
+
+    DeleteAttachmentRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    DeleteAttachmentRequest.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, required: true, location_name: "AttachmentName"))
+    DeleteAttachmentRequest.struct_class = Types::DeleteAttachmentRequest
+
+    DeleteAttachmentResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "Identifier"))
+    DeleteAttachmentResponse.struct_class = Types::DeleteAttachmentResponse
+
     DeleteBlueprintRequest.add_member(:name, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "Name"))
     DeleteBlueprintRequest.struct_class = Types::DeleteBlueprintRequest
 
@@ -3608,6 +3814,21 @@ module Aws::Glue
     DeleteDevEndpointRequest.struct_class = Types::DeleteDevEndpointRequest
 
     DeleteDevEndpointResponse.struct_class = Types::DeleteDevEndpointResponse
+
+    DeleteFormTypeRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: FormTypeId, required: true, location_name: "Identifier"))
+    DeleteFormTypeRequest.struct_class = Types::DeleteFormTypeRequest
+
+    DeleteFormTypeResponse.struct_class = Types::DeleteFormTypeResponse
+
+    DeleteGlossaryRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: GlossaryId, required: true, location_name: "Identifier"))
+    DeleteGlossaryRequest.struct_class = Types::DeleteGlossaryRequest
+
+    DeleteGlossaryResponse.struct_class = Types::DeleteGlossaryResponse
+
+    DeleteGlossaryTermRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: GlossaryTermId, required: true, location_name: "Identifier"))
+    DeleteGlossaryTermRequest.struct_class = Types::DeleteGlossaryTermRequest
+
+    DeleteGlossaryTermResponse.struct_class = Types::DeleteGlossaryTermResponse
 
     DeleteGlueIdentityCenterConfigurationRequest.struct_class = Types::DeleteGlueIdentityCenterConfigurationRequest
 
@@ -3880,6 +4101,15 @@ module Aws::Glue
     DirectSchemaChangePolicy.add_member(:database, Shapes::ShapeRef.new(shape: EnclosedInStringProperty, location_name: "Database"))
     DirectSchemaChangePolicy.struct_class = Types::DirectSchemaChangePolicy
 
+    DisassociateGlossaryTermsRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    DisassociateGlossaryTermsRequest.add_member(:glossary_term_identifiers, Shapes::ShapeRef.new(shape: GlossaryTermIdList, required: true, location_name: "GlossaryTermIdentifiers"))
+    DisassociateGlossaryTermsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    DisassociateGlossaryTermsRequest.struct_class = Types::DisassociateGlossaryTermsRequest
+
+    DisassociateGlossaryTermsResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "Identifier"))
+    DisassociateGlossaryTermsResponse.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
+    DisassociateGlossaryTermsResponse.struct_class = Types::DisassociateGlossaryTermsResponse
+
     DoubleColumnStatisticsData.add_member(:minimum_value, Shapes::ShapeRef.new(shape: Double, location_name: "MinimumValue"))
     DoubleColumnStatisticsData.add_member(:maximum_value, Shapes::ShapeRef.new(shape: Double, location_name: "MaximumValue"))
     DoubleColumnStatisticsData.add_member(:number_of_nulls, Shapes::ShapeRef.new(shape: NonNegativeLong, required: true, location_name: "NumberOfNulls"))
@@ -4134,8 +4364,37 @@ module Aws::Glue
     FindMatchesTaskRunProperties.add_member(:job_run_id, Shapes::ShapeRef.new(shape: HashString, location_name: "JobRunId"))
     FindMatchesTaskRunProperties.struct_class = Types::FindMatchesTaskRunProperties
 
+    FormTypeItem.add_member(:id, Shapes::ShapeRef.new(shape: FormTypeId, location_name: "Id"))
+    FormTypeItem.add_member(:name, Shapes::ShapeRef.new(shape: FormTypeName, location_name: "Name"))
+    FormTypeItem.struct_class = Types::FormTypeItem
+
+    FormTypeItemList.member = Shapes::ShapeRef.new(shape: FormTypeItem)
+
     GenericMap.key = Shapes::ShapeRef.new(shape: GenericString)
     GenericMap.value = Shapes::ShapeRef.new(shape: GenericString)
+
+    GetAssetInput.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    GetAssetInput.struct_class = Types::GetAssetInput
+
+    GetAssetOutput.add_member(:id, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Id"))
+    GetAssetOutput.add_member(:name, Shapes::ShapeRef.new(shape: AssetName, location_name: "Name"))
+    GetAssetOutput.add_member(:description, Shapes::ShapeRef.new(shape: AssetDescription, location_name: "Description"))
+    GetAssetOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, location_name: "CreatedAt"))
+    GetAssetOutput.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "UpdatedAt"))
+    GetAssetOutput.add_member(:asset_type_id, Shapes::ShapeRef.new(shape: AssetTypeId, required: true, location_name: "AssetTypeId"))
+    GetAssetOutput.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
+    GetAssetOutput.add_member(:forms, Shapes::ShapeRef.new(shape: AssetFormMap, location_name: "Forms"))
+    GetAssetOutput.add_member(:attachments, Shapes::ShapeRef.new(shape: AssetFormMap, location_name: "Attachments"))
+    GetAssetOutput.add_member(:iterable_forms, Shapes::ShapeRef.new(shape: IterableFormMap, location_name: "IterableForms"))
+    GetAssetOutput.struct_class = Types::GetAssetOutput
+
+    GetAssetTypeRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetTypeId, required: true, location_name: "Identifier"))
+    GetAssetTypeRequest.struct_class = Types::GetAssetTypeRequest
+
+    GetAssetTypeResponse.add_member(:id, Shapes::ShapeRef.new(shape: AssetTypeId, location_name: "Id"))
+    GetAssetTypeResponse.add_member(:name, Shapes::ShapeRef.new(shape: AssetTypeName, location_name: "Name"))
+    GetAssetTypeResponse.add_member(:forms, Shapes::ShapeRef.new(shape: AssetTypeFormsMap, location_name: "Forms"))
+    GetAssetTypeResponse.struct_class = Types::GetAssetTypeResponse
 
     GetBlueprintRequest.add_member(:name, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "Name"))
     GetBlueprintRequest.add_member(:include_blueprint, Shapes::ShapeRef.new(shape: NullableBoolean, location_name: "IncludeBlueprint"))
@@ -4459,6 +4718,32 @@ module Aws::Glue
     GetEntityRecordsResponse.add_member(:records, Shapes::ShapeRef.new(shape: Records, location_name: "Records"))
     GetEntityRecordsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     GetEntityRecordsResponse.struct_class = Types::GetEntityRecordsResponse
+
+    GetFormTypeRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: FormTypeId, required: true, location_name: "Identifier"))
+    GetFormTypeRequest.struct_class = Types::GetFormTypeRequest
+
+    GetFormTypeResponse.add_member(:id, Shapes::ShapeRef.new(shape: FormTypeId, location_name: "Id"))
+    GetFormTypeResponse.add_member(:name, Shapes::ShapeRef.new(shape: FormTypeName, location_name: "Name"))
+    GetFormTypeResponse.add_member(:schema, Shapes::ShapeRef.new(shape: FormTypeSchema, location_name: "Schema"))
+    GetFormTypeResponse.struct_class = Types::GetFormTypeResponse
+
+    GetGlossaryRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: GlossaryId, required: true, location_name: "Identifier"))
+    GetGlossaryRequest.struct_class = Types::GetGlossaryRequest
+
+    GetGlossaryResponse.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryId, location_name: "Id"))
+    GetGlossaryResponse.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryName, location_name: "Name"))
+    GetGlossaryResponse.add_member(:description, Shapes::ShapeRef.new(shape: MetadataDescription, location_name: "Description"))
+    GetGlossaryResponse.struct_class = Types::GetGlossaryResponse
+
+    GetGlossaryTermRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: GlossaryTermId, required: true, location_name: "Identifier"))
+    GetGlossaryTermRequest.struct_class = Types::GetGlossaryTermRequest
+
+    GetGlossaryTermResponse.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryTermId, location_name: "Id"))
+    GetGlossaryTermResponse.add_member(:glossary_id, Shapes::ShapeRef.new(shape: GlossaryId, location_name: "GlossaryId"))
+    GetGlossaryTermResponse.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryTermName, location_name: "Name"))
+    GetGlossaryTermResponse.add_member(:short_description, Shapes::ShapeRef.new(shape: GlossaryShortDescription, location_name: "ShortDescription"))
+    GetGlossaryTermResponse.add_member(:long_description, Shapes::ShapeRef.new(shape: GlossaryLongDescription, location_name: "LongDescription"))
+    GetGlossaryTermResponse.struct_class = Types::GetGlossaryTermResponse
 
     GetGlueIdentityCenterConfigurationRequest.struct_class = Types::GetGlueIdentityCenterConfigurationRequest
 
@@ -4973,6 +5258,22 @@ module Aws::Glue
     GetWorkflowRunsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: GenericString, location_name: "NextToken"))
     GetWorkflowRunsResponse.struct_class = Types::GetWorkflowRunsResponse
 
+    GlossaryItem.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryId, location_name: "Id"))
+    GlossaryItem.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryName, location_name: "Name"))
+    GlossaryItem.add_member(:description, Shapes::ShapeRef.new(shape: MetadataDescription, location_name: "Description"))
+    GlossaryItem.struct_class = Types::GlossaryItem
+
+    GlossaryItemList.member = Shapes::ShapeRef.new(shape: GlossaryItem)
+
+    GlossaryTermIdList.member = Shapes::ShapeRef.new(shape: GlossaryTermId)
+
+    GlossaryTermItem.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryTermId, location_name: "Id"))
+    GlossaryTermItem.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryTermName, location_name: "Name"))
+    GlossaryTermItem.add_member(:short_description, Shapes::ShapeRef.new(shape: GlossaryShortDescription, location_name: "ShortDescription"))
+    GlossaryTermItem.struct_class = Types::GlossaryTermItem
+
+    GlossaryTermItemList.member = Shapes::ShapeRef.new(shape: GlossaryTermItem)
+
     GlueEncryptionException.add_member(:message, Shapes::ShapeRef.new(shape: MessageString, location_name: "Message"))
     GlueEncryptionException.struct_class = Types::GlueEncryptionException
 
@@ -5319,6 +5620,38 @@ module Aws::Glue
     InvalidStateException.add_member(:message, Shapes::ShapeRef.new(shape: MessageString, location_name: "Message"))
     InvalidStateException.struct_class = Types::InvalidStateException
 
+    ItemError.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
+    ItemError.add_member(:code, Shapes::ShapeRef.new(shape: ItemErrorCode, location_name: "Code"))
+    ItemError.add_member(:message, Shapes::ShapeRef.new(shape: ItemErrorMessage, location_name: "Message"))
+    ItemError.struct_class = Types::ItemError
+
+    ItemErrorList.member = Shapes::ShapeRef.new(shape: ItemError)
+
+    ItemIdentifierList.member = Shapes::ShapeRef.new(shape: ItemIdentifier)
+
+    IterableFormEntry.add_member(:form_type_id, Shapes::ShapeRef.new(shape: FormTypeId, location_name: "FormTypeId"))
+    IterableFormEntry.struct_class = Types::IterableFormEntry
+
+    IterableFormItem.add_member(:item_id, Shapes::ShapeRef.new(shape: ItemId, location_name: "ItemId"))
+    IterableFormItem.add_member(:item_name, Shapes::ShapeRef.new(shape: ItemName, location_name: "ItemName"))
+    IterableFormItem.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
+    IterableFormItem.add_member(:forms, Shapes::ShapeRef.new(shape: AssetFormMap, location_name: "Forms"))
+    IterableFormItem.add_member(:attachments, Shapes::ShapeRef.new(shape: AssetFormMap, location_name: "Attachments"))
+    IterableFormItem.struct_class = Types::IterableFormItem
+
+    IterableFormItemList.member = Shapes::ShapeRef.new(shape: IterableFormItem)
+
+    IterableFormListItem.add_member(:item_id, Shapes::ShapeRef.new(shape: ItemId, location_name: "ItemId"))
+    IterableFormListItem.add_member(:item_name, Shapes::ShapeRef.new(shape: ItemName, location_name: "ItemName"))
+    IterableFormListItem.add_member(:description, Shapes::ShapeRef.new(shape: ItemDescription, location_name: "Description"))
+    IterableFormListItem.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
+    IterableFormListItem.struct_class = Types::IterableFormListItem
+
+    IterableFormListItemList.member = Shapes::ShapeRef.new(shape: IterableFormListItem)
+
+    IterableFormMap.key = Shapes::ShapeRef.new(shape: IterableFormKey)
+    IterableFormMap.value = Shapes::ShapeRef.new(shape: IterableFormEntry)
+
     JDBCConnectorOptions.add_member(:filter_predicate, Shapes::ShapeRef.new(shape: EnclosedInStringProperty, location_name: "FilterPredicate"))
     JDBCConnectorOptions.add_member(:partition_column, Shapes::ShapeRef.new(shape: EnclosedInStringProperty, location_name: "PartitionColumn"))
     JDBCConnectorOptions.add_member(:lower_bound, Shapes::ShapeRef.new(shape: BoxedNonNegativeLong, location_name: "LowerBound"))
@@ -5588,6 +5921,14 @@ module Aws::Glue
     LineageConfiguration.add_member(:crawler_lineage_settings, Shapes::ShapeRef.new(shape: CrawlerLineageSettings, location_name: "CrawlerLineageSettings"))
     LineageConfiguration.struct_class = Types::LineageConfiguration
 
+    ListAssetTypesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PageSize, location_name: "MaxResults"))
+    ListAssetTypesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListAssetTypesRequest.struct_class = Types::ListAssetTypesRequest
+
+    ListAssetTypesResponse.add_member(:items, Shapes::ShapeRef.new(shape: AssetTypeItemList, location_name: "Items"))
+    ListAssetTypesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListAssetTypesResponse.struct_class = Types::ListAssetTypesResponse
+
     ListBlueprintsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: GenericString, location_name: "NextToken"))
     ListBlueprintsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: OrchestrationPageSize25, location_name: "MaxResults"))
     ListBlueprintsRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "Tags"))
@@ -5720,6 +6061,31 @@ module Aws::Glue
     ListEntitiesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListEntitiesResponse.struct_class = Types::ListEntitiesResponse
 
+    ListFormTypesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PageSize, location_name: "MaxResults"))
+    ListFormTypesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListFormTypesRequest.struct_class = Types::ListFormTypesRequest
+
+    ListFormTypesResponse.add_member(:items, Shapes::ShapeRef.new(shape: FormTypeItemList, required: true, location_name: "Items"))
+    ListFormTypesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListFormTypesResponse.struct_class = Types::ListFormTypesResponse
+
+    ListGlossariesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PageSize, location_name: "MaxResults"))
+    ListGlossariesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListGlossariesRequest.struct_class = Types::ListGlossariesRequest
+
+    ListGlossariesResponse.add_member(:items, Shapes::ShapeRef.new(shape: GlossaryItemList, location_name: "Items"))
+    ListGlossariesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListGlossariesResponse.struct_class = Types::ListGlossariesResponse
+
+    ListGlossaryTermsRequest.add_member(:glossary_identifier, Shapes::ShapeRef.new(shape: GlossaryId, required: true, location_name: "GlossaryIdentifier"))
+    ListGlossaryTermsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PageSize, location_name: "MaxResults"))
+    ListGlossaryTermsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListGlossaryTermsRequest.struct_class = Types::ListGlossaryTermsRequest
+
+    ListGlossaryTermsResponse.add_member(:items, Shapes::ShapeRef.new(shape: GlossaryTermItemList, location_name: "Items"))
+    ListGlossaryTermsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListGlossaryTermsResponse.struct_class = Types::ListGlossaryTermsResponse
+
     ListIntegrationResourcePropertiesRequest.add_member(:marker, Shapes::ShapeRef.new(shape: String1024, location_name: "Marker"))
     ListIntegrationResourcePropertiesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: IntegrationResourcePropertyFilterList, location_name: "Filters"))
     ListIntegrationResourcePropertiesRequest.add_member(:max_records, Shapes::ShapeRef.new(shape: IntegrationInteger, location_name: "MaxRecords"))
@@ -5728,6 +6094,16 @@ module Aws::Glue
     ListIntegrationResourcePropertiesResponse.add_member(:integration_resource_property_list, Shapes::ShapeRef.new(shape: IntegrationResourcePropertyList, location_name: "IntegrationResourcePropertyList"))
     ListIntegrationResourcePropertiesResponse.add_member(:marker, Shapes::ShapeRef.new(shape: String1024, location_name: "Marker"))
     ListIntegrationResourcePropertiesResponse.struct_class = Types::ListIntegrationResourcePropertiesResponse
+
+    ListIterableFormsRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
+    ListIterableFormsRequest.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, required: true, location_name: "IterableFormName"))
+    ListIterableFormsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PageSize, location_name: "MaxResults"))
+    ListIterableFormsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListIterableFormsRequest.struct_class = Types::ListIterableFormsRequest
+
+    ListIterableFormsResponse.add_member(:items, Shapes::ShapeRef.new(shape: IterableFormListItemList, location_name: "Items"))
+    ListIterableFormsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
+    ListIterableFormsResponse.struct_class = Types::ListIterableFormsResponse
 
     ListJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: GenericString, location_name: "NextToken"))
     ListJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: PageSize, location_name: "MaxResults"))
@@ -6286,6 +6662,47 @@ module Aws::Glue
 
     PublicKeysList.member = Shapes::ShapeRef.new(shape: GenericString)
 
+    PutAssetRequest.add_member(:asset_type_id, Shapes::ShapeRef.new(shape: AssetTypeId, required: true, location_name: "AssetTypeId"))
+    PutAssetRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    PutAssetRequest.add_member(:name, Shapes::ShapeRef.new(shape: AssetName, required: true, location_name: "Name"))
+    PutAssetRequest.add_member(:description, Shapes::ShapeRef.new(shape: AssetDescription, location_name: "Description"))
+    PutAssetRequest.add_member(:forms, Shapes::ShapeRef.new(shape: AssetFormMap, required: true, location_name: "Forms"))
+    PutAssetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    PutAssetRequest.struct_class = Types::PutAssetRequest
+
+    PutAssetResponse.add_member(:id, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Id"))
+    PutAssetResponse.add_member(:name, Shapes::ShapeRef.new(shape: AssetName, required: true, location_name: "Name"))
+    PutAssetResponse.add_member(:description, Shapes::ShapeRef.new(shape: AssetDescription, location_name: "Description"))
+    PutAssetResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, location_name: "CreatedAt"))
+    PutAssetResponse.add_member(:forms, Shapes::ShapeRef.new(shape: AssetFormMap, location_name: "Forms"))
+    PutAssetResponse.struct_class = Types::PutAssetResponse
+
+    PutAssetTypeRequest.add_member(:name, Shapes::ShapeRef.new(shape: AssetTypeName, required: true, location_name: "Name"))
+    PutAssetTypeRequest.add_member(:forms, Shapes::ShapeRef.new(shape: AssetTypeFormsMap, required: true, location_name: "Forms"))
+    PutAssetTypeRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    PutAssetTypeRequest.struct_class = Types::PutAssetTypeRequest
+
+    PutAssetTypeResponse.add_member(:id, Shapes::ShapeRef.new(shape: AssetTypeId, location_name: "Id"))
+    PutAssetTypeResponse.add_member(:name, Shapes::ShapeRef.new(shape: AssetTypeName, location_name: "Name"))
+    PutAssetTypeResponse.add_member(:forms, Shapes::ShapeRef.new(shape: AssetTypeFormsMap, location_name: "Forms"))
+    PutAssetTypeResponse.struct_class = Types::PutAssetTypeResponse
+
+    PutAttachmentRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
+    PutAttachmentRequest.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    PutAttachmentRequest.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
+    PutAttachmentRequest.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, required: true, location_name: "AttachmentName"))
+    PutAttachmentRequest.add_member(:content, Shapes::ShapeRef.new(shape: MetadataFormContent, required: true, location_name: "Content"))
+    PutAttachmentRequest.add_member(:form_type_id, Shapes::ShapeRef.new(shape: MetadataFormTypeIdentifier, required: true, location_name: "FormTypeId"))
+    PutAttachmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    PutAttachmentRequest.struct_class = Types::PutAttachmentRequest
+
+    PutAttachmentResponse.add_member(:asset_id, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetId"))
+    PutAttachmentResponse.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    PutAttachmentResponse.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
+    PutAttachmentResponse.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, location_name: "AttachmentName"))
+    PutAttachmentResponse.add_member(:form_type_id, Shapes::ShapeRef.new(shape: MetadataFormTypeIdentifier, location_name: "FormTypeId"))
+    PutAttachmentResponse.struct_class = Types::PutAttachmentResponse
+
     PutDataCatalogEncryptionSettingsRequest.add_member(:catalog_id, Shapes::ShapeRef.new(shape: CatalogIdString, location_name: "CatalogId"))
     PutDataCatalogEncryptionSettingsRequest.add_member(:data_catalog_encryption_settings, Shapes::ShapeRef.new(shape: DataCatalogEncryptionSettings, required: true, location_name: "DataCatalogEncryptionSettings"))
     PutDataCatalogEncryptionSettingsRequest.struct_class = Types::PutDataCatalogEncryptionSettingsRequest
@@ -6297,6 +6714,16 @@ module Aws::Glue
     PutDataQualityProfileAnnotationRequest.struct_class = Types::PutDataQualityProfileAnnotationRequest
 
     PutDataQualityProfileAnnotationResponse.struct_class = Types::PutDataQualityProfileAnnotationResponse
+
+    PutFormTypeRequest.add_member(:name, Shapes::ShapeRef.new(shape: FormTypeName, required: true, location_name: "Name"))
+    PutFormTypeRequest.add_member(:schema, Shapes::ShapeRef.new(shape: FormTypeSchema, required: true, location_name: "Schema"))
+    PutFormTypeRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    PutFormTypeRequest.struct_class = Types::PutFormTypeRequest
+
+    PutFormTypeResponse.add_member(:id, Shapes::ShapeRef.new(shape: FormTypeId, location_name: "Id"))
+    PutFormTypeResponse.add_member(:name, Shapes::ShapeRef.new(shape: FormTypeName, location_name: "Name"))
+    PutFormTypeResponse.add_member(:schema, Shapes::ShapeRef.new(shape: FormTypeSchema, location_name: "Schema"))
+    PutFormTypeResponse.struct_class = Types::PutFormTypeResponse
 
     PutResourcePolicyRequest.add_member(:policy_in_json, Shapes::ShapeRef.new(shape: PolicyJsonString, required: true, location_name: "PolicyInJson"))
     PutResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: GlueResourceArn, location_name: "ResourceArn"))
@@ -6838,7 +7265,69 @@ module Aws::Glue
     SchemaVersionNumber.add_member(:version_number, Shapes::ShapeRef.new(shape: VersionLongNumber, location_name: "VersionNumber"))
     SchemaVersionNumber.struct_class = Types::SchemaVersionNumber
 
+    SearchAttributeFilter.add_member(:attribute, Shapes::ShapeRef.new(shape: SearchAttribute, required: true, location_name: "Attribute"))
+    SearchAttributeFilter.add_member(:operator, Shapes::ShapeRef.new(shape: SearchFilterOperator, required: true, location_name: "Operator"))
+    SearchAttributeFilter.add_member(:value, Shapes::ShapeRef.new(shape: SearchFilterValue, location_name: "Value"))
+    SearchAttributeFilter.struct_class = Types::SearchAttributeFilter
+
+    SearchFilterClause.add_member(:and_all_filters, Shapes::ShapeRef.new(shape: SearchFilterClauseList, location_name: "AndAllFilters"))
+    SearchFilterClause.add_member(:or_any_filters, Shapes::ShapeRef.new(shape: SearchFilterClauseList, location_name: "OrAnyFilters"))
+    SearchFilterClause.add_member(:attribute_filter, Shapes::ShapeRef.new(shape: SearchAttributeFilter, location_name: "AttributeFilter"))
+    SearchFilterClause.add_member(:map_filter, Shapes::ShapeRef.new(shape: SearchMapFilter, location_name: "MapFilter"))
+    SearchFilterClause.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SearchFilterClause.add_member_subclass(:and_all_filters, Types::SearchFilterClause::AndAllFilters)
+    SearchFilterClause.add_member_subclass(:or_any_filters, Types::SearchFilterClause::OrAnyFilters)
+    SearchFilterClause.add_member_subclass(:attribute_filter, Types::SearchFilterClause::AttributeFilter)
+    SearchFilterClause.add_member_subclass(:map_filter, Types::SearchFilterClause::MapFilter)
+    SearchFilterClause.add_member_subclass(:unknown, Types::SearchFilterClause::Unknown)
+    SearchFilterClause.struct_class = Types::SearchFilterClause
+
+    SearchFilterClauseList.member = Shapes::ShapeRef.new(shape: SearchFilterClause)
+
+    SearchFilterValue.add_member(:string_value, Shapes::ShapeRef.new(shape: SearchFilterStringValue, location_name: "StringValue"))
+    SearchFilterValue.add_member(:long_value, Shapes::ShapeRef.new(shape: SearchFilterLongValue, location_name: "LongValue"))
+    SearchFilterValue.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SearchFilterValue.add_member_subclass(:string_value, Types::SearchFilterValue::StringValue)
+    SearchFilterValue.add_member_subclass(:long_value, Types::SearchFilterValue::LongValue)
+    SearchFilterValue.add_member_subclass(:unknown, Types::SearchFilterValue::Unknown)
+    SearchFilterValue.struct_class = Types::SearchFilterValue
+
+    SearchInput.add_member(:search_text, Shapes::ShapeRef.new(shape: SearchText, location_name: "SearchText"))
+    SearchInput.add_member(:max_results, Shapes::ShapeRef.new(shape: SearchMaxResults, location_name: "MaxResults"))
+    SearchInput.add_member(:next_token, Shapes::ShapeRef.new(shape: SearchNextToken, location_name: "NextToken"))
+    SearchInput.add_member(:sort, Shapes::ShapeRef.new(shape: SearchSort, location_name: "Sort"))
+    SearchInput.add_member(:filter_clause, Shapes::ShapeRef.new(shape: SearchFilterClause, location_name: "FilterClause"))
+    SearchInput.struct_class = Types::SearchInput
+
+    SearchMapFilter.add_member(:attribute, Shapes::ShapeRef.new(shape: SearchAttribute, required: true, location_name: "Attribute"))
+    SearchMapFilter.add_member(:key, Shapes::ShapeRef.new(shape: SearchMapKey, required: true, location_name: "Key"))
+    SearchMapFilter.add_member(:value, Shapes::ShapeRef.new(shape: SearchMapFilterValue, required: true, location_name: "Value"))
+    SearchMapFilter.struct_class = Types::SearchMapFilter
+
+    SearchMapFilterValue.add_member(:string_value, Shapes::ShapeRef.new(shape: SearchFilterStringValue, location_name: "StringValue"))
+    SearchMapFilterValue.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SearchMapFilterValue.add_member_subclass(:string_value, Types::SearchMapFilterValue::StringValue)
+    SearchMapFilterValue.add_member_subclass(:unknown, Types::SearchMapFilterValue::Unknown)
+    SearchMapFilterValue.struct_class = Types::SearchMapFilterValue
+
+    SearchOutput.add_member(:items, Shapes::ShapeRef.new(shape: SearchResultItemList, location_name: "Items"))
+    SearchOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: SearchNextToken, location_name: "NextToken"))
+    SearchOutput.struct_class = Types::SearchOutput
+
     SearchPropertyPredicates.member = Shapes::ShapeRef.new(shape: PropertyPredicate)
+
+    SearchResultItem.add_member(:id, Shapes::ShapeRef.new(shape: AssetId, location_name: "Id"))
+    SearchResultItem.add_member(:asset_name, Shapes::ShapeRef.new(shape: SearchResultName, location_name: "AssetName"))
+    SearchResultItem.add_member(:asset_description, Shapes::ShapeRef.new(shape: AssetDescription, location_name: "AssetDescription"))
+    SearchResultItem.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "UpdatedAt"))
+    SearchResultItem.add_member(:asset_type_id, Shapes::ShapeRef.new(shape: AssetTypeId, location_name: "AssetTypeId"))
+    SearchResultItem.struct_class = Types::SearchResultItem
+
+    SearchResultItemList.member = Shapes::ShapeRef.new(shape: SearchResultItem)
+
+    SearchSort.add_member(:attribute, Shapes::ShapeRef.new(shape: SearchAttribute, required: true, location_name: "Attribute"))
+    SearchSort.add_member(:order, Shapes::ShapeRef.new(shape: SearchSortOrder, location_name: "Order"))
+    SearchSort.struct_class = Types::SearchSort
 
     SearchTablesRequest.add_member(:catalog_id, Shapes::ShapeRef.new(shape: CatalogIdString, location_name: "CatalogId"))
     SearchTablesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: Token, location_name: "NextToken"))
@@ -7730,6 +8219,31 @@ module Aws::Glue
 
     UpdateDevEndpointResponse.struct_class = Types::UpdateDevEndpointResponse
 
+    UpdateGlossaryRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: GlossaryId, required: true, location_name: "Identifier"))
+    UpdateGlossaryRequest.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryName, location_name: "Name"))
+    UpdateGlossaryRequest.add_member(:description, Shapes::ShapeRef.new(shape: MetadataDescription, location_name: "Description"))
+    UpdateGlossaryRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    UpdateGlossaryRequest.struct_class = Types::UpdateGlossaryRequest
+
+    UpdateGlossaryResponse.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryId, location_name: "Id"))
+    UpdateGlossaryResponse.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryName, location_name: "Name"))
+    UpdateGlossaryResponse.add_member(:description, Shapes::ShapeRef.new(shape: MetadataDescription, location_name: "Description"))
+    UpdateGlossaryResponse.struct_class = Types::UpdateGlossaryResponse
+
+    UpdateGlossaryTermRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: GlossaryTermId, required: true, location_name: "Identifier"))
+    UpdateGlossaryTermRequest.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryTermName, location_name: "Name"))
+    UpdateGlossaryTermRequest.add_member(:short_description, Shapes::ShapeRef.new(shape: GlossaryShortDescription, location_name: "ShortDescription"))
+    UpdateGlossaryTermRequest.add_member(:long_description, Shapes::ShapeRef.new(shape: GlossaryLongDescription, location_name: "LongDescription"))
+    UpdateGlossaryTermRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    UpdateGlossaryTermRequest.struct_class = Types::UpdateGlossaryTermRequest
+
+    UpdateGlossaryTermResponse.add_member(:id, Shapes::ShapeRef.new(shape: GlossaryTermId, location_name: "Id"))
+    UpdateGlossaryTermResponse.add_member(:glossary_id, Shapes::ShapeRef.new(shape: GlossaryId, location_name: "GlossaryId"))
+    UpdateGlossaryTermResponse.add_member(:name, Shapes::ShapeRef.new(shape: GlossaryTermName, location_name: "Name"))
+    UpdateGlossaryTermResponse.add_member(:short_description, Shapes::ShapeRef.new(shape: GlossaryShortDescription, location_name: "ShortDescription"))
+    UpdateGlossaryTermResponse.add_member(:long_description, Shapes::ShapeRef.new(shape: GlossaryLongDescription, location_name: "LongDescription"))
+    UpdateGlossaryTermResponse.struct_class = Types::UpdateGlossaryTermResponse
+
     UpdateGlueIdentityCenterConfigurationRequest.add_member(:scopes, Shapes::ShapeRef.new(shape: IdentityCenterScopesList, location_name: "Scopes"))
     UpdateGlueIdentityCenterConfigurationRequest.add_member(:user_background_sessions_enabled, Shapes::ShapeRef.new(shape: NullableBoolean, location_name: "UserBackgroundSessionsEnabled"))
     UpdateGlueIdentityCenterConfigurationRequest.struct_class = Types::UpdateGlueIdentityCenterConfigurationRequest
@@ -8085,6 +8599,20 @@ module Aws::Glue
         "uid" => "glue-2017-03-31",
       }
 
+      api.add_operation(:associate_glossary_terms, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AssociateGlossaryTerms"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: AssociateGlossaryTermsRequest)
+        o.output = Shapes::ShapeRef.new(shape: AssociateGlossaryTermsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
       api.add_operation(:batch_create_partition, Seahorse::Model::Operation.new.tap do |o|
         o.name = "BatchCreatePartition"
         o.http_method = "POST"
@@ -8201,6 +8729,19 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+      end)
+
+      api.add_operation(:batch_get_iterable_forms, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchGetIterableForms"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: BatchGetIterableFormsRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchGetIterableFormsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:batch_get_jobs, Seahorse::Model::Operation.new.tap do |o|
@@ -8507,6 +9048,35 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: ResourceNumberLimitExceededException)
       end)
 
+      api.add_operation(:create_glossary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateGlossary"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateGlossaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateGlossaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AlreadyExistsException)
+      end)
+
+      api.add_operation(:create_glossary_term, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateGlossaryTerm"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateGlossaryTermRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateGlossaryTermResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AlreadyExistsException)
+      end)
+
       api.add_operation(:create_glue_identity_center_configuration, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateGlueIdentityCenterConfiguration"
         o.http_method = "POST"
@@ -8795,6 +9365,46 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
       end)
 
+      api.add_operation(:delete_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAsset"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAssetRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAssetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:delete_asset_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAssetType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAssetTypeRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAssetTypeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:delete_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteAttachment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteAttachmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
       api.add_operation(:delete_blueprint, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteBlueprint"
         o.http_method = "POST"
@@ -8955,6 +9565,47 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+      end)
+
+      api.add_operation(:delete_form_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteFormType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteFormTypeRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteFormTypeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:delete_glossary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteGlossary"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteGlossaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteGlossaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:delete_glossary_term, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteGlossaryTerm"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteGlossaryTermRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteGlossaryTermResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:delete_glue_identity_center_configuration, Seahorse::Model::Operation.new.tap do |o|
@@ -9295,6 +9946,46 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+      end)
+
+      api.add_operation(:disassociate_glossary_terms, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DisassociateGlossaryTerms"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DisassociateGlossaryTermsRequest)
+        o.output = Shapes::ShapeRef.new(shape: DisassociateGlossaryTermsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:get_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAsset"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetAssetInput)
+        o.output = Shapes::ShapeRef.new(shape: GetAssetOutput)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+      end)
+
+      api.add_operation(:get_asset_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAssetType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetAssetTypeRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetAssetTypeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:get_blueprint, Seahorse::Model::Operation.new.tap do |o|
@@ -9738,6 +10429,43 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: FederationSourceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:get_form_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetFormType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetFormTypeRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetFormTypeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:get_glossary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetGlossary"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetGlossaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetGlossaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:get_glossary_term, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetGlossaryTerm"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetGlossaryTermRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetGlossaryTermResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:get_glue_identity_center_configuration, Seahorse::Model::Operation.new.tap do |o|
@@ -10457,6 +11185,24 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
       end)
 
+      api.add_operation(:list_asset_types, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListAssetTypes"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListAssetTypesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListAssetTypesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_blueprints, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListBlueprints"
         o.http_method = "POST"
@@ -10676,6 +11422,60 @@ module Aws::Glue
         )
       end)
 
+      api.add_operation(:list_form_types, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListFormTypes"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListFormTypesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListFormTypesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_glossaries, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListGlossaries"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListGlossariesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListGlossariesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_glossary_terms, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListGlossaryTerms"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListGlossaryTermsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListGlossaryTermsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_integration_resource_properties, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListIntegrationResourceProperties"
         o.http_method = "POST"
@@ -10689,6 +11489,25 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+      end)
+
+      api.add_operation(:list_iterable_forms, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListIterableForms"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListIterableFormsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListIterableFormsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_jobs, Seahorse::Model::Operation.new.tap do |o|
@@ -10921,6 +11740,47 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
       end)
 
+      api.add_operation(:put_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutAsset"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutAssetRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutAssetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:put_asset_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutAssetType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutAssetTypeRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutAssetTypeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:put_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutAttachment"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutAttachmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
       api.add_operation(:put_data_catalog_encryption_settings, Seahorse::Model::Operation.new.tap do |o|
         o.name = "PutDataCatalogEncryptionSettings"
         o.http_method = "POST"
@@ -10941,6 +11801,19 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+      end)
+
+      api.add_operation(:put_form_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutFormType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutFormTypeRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutFormTypeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:put_resource_policy, Seahorse::Model::Operation.new.tap do |o|
@@ -11076,6 +11949,24 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: OperationNotSupportedException)
         o.errors << Shapes::ShapeRef.new(shape: SessionBusyException)
         o.errors << Shapes::ShapeRef.new(shape: IllegalSessionStateException)
+      end)
+
+      api.add_operation(:search, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "Search"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: SearchInput)
+        o.output = Shapes::ShapeRef.new(shape: SearchOutput)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:search_tables, Seahorse::Model::Operation.new.tap do |o|
@@ -11596,6 +12487,36 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+      end)
+
+      api.add_operation(:update_glossary, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateGlossary"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateGlossaryRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateGlossaryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AlreadyExistsException)
+      end)
+
+      api.add_operation(:update_glossary_term, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateGlossaryTerm"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateGlossaryTermRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateGlossaryTermResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AlreadyExistsException)
       end)
 
       api.add_operation(:update_glue_identity_center_configuration, Seahorse::Model::Operation.new.tap do |o|

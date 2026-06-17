@@ -50,6 +50,28 @@ module Aws
       require_confirmation: ("ENABLED" | "DISABLED")?
     }
 
+      type media_extraction_configuration = {
+      image_extraction_configuration: {
+        image_extraction_status: ("ENABLED" | "DISABLED")
+      }?,
+      audio_extraction_configuration: {
+        audio_extraction_status: ("ENABLED" | "DISABLED")
+      }?,
+      video_extraction_configuration: {
+        video_extraction_status: ("ENABLED" | "DISABLED")
+      }?
+    }
+
+      type managed_knowledge_base_connector_configuration = {
+      deletion_protection_configuration: {
+        deletion_protection_status: ("ENABLED" | "DISABLED"),
+        deletion_protection_threshold: ::Integer?
+      }?,
+      media_extraction_configuration: Params::media_extraction_configuration?,
+      connector_parameters: {
+      }?
+    }
+
       type web_crawler_configuration = {
       crawler_limits: {
         rate_limit: ::Integer?,
@@ -134,7 +156,8 @@ module Aws
     }
 
       type data_source_configuration = {
-      type: ("S3" | "WEB" | "CONFLUENCE" | "SALESFORCE" | "SHAREPOINT" | "CUSTOM" | "REDSHIFT_METADATA"),
+      type: ("S3" | "WEB" | "CONFLUENCE" | "SALESFORCE" | "SHAREPOINT" | "CUSTOM" | "REDSHIFT_METADATA" | "MANAGED_KNOWLEDGE_BASE_CONNECTOR"),
+      managed_knowledge_base_connector_configuration: Params::managed_knowledge_base_connector_configuration?,
       s3_configuration: {
         bucket_arn: ::String,
         inclusion_prefixes: Array[::String]?,
@@ -179,7 +202,7 @@ module Aws
     }
 
       type parsing_configuration = {
-      parsing_strategy: ("BEDROCK_FOUNDATION_MODEL" | "BEDROCK_DATA_AUTOMATION"),
+      parsing_strategy: ("BEDROCK_FOUNDATION_MODEL" | "BEDROCK_DATA_AUTOMATION" | "SMART_PARSING"),
       bedrock_foundation_model_configuration: {
         model_arn: ::String,
         parsing_prompt: {
@@ -543,6 +566,15 @@ module Aws
       supplemental_data_storage_configuration: Params::supplemental_data_storage_configuration?
     }
 
+      type managed_knowledge_base_configuration = {
+      embedding_model_type: ("CUSTOM" | "MANAGED")?,
+      embedding_model_arn: ::String?,
+      embedding_model_configuration: Params::embedding_model_configuration?,
+      server_side_encryption_configuration: {
+        kms_key_arn: ::String?
+      }?
+    }
+
       type redshift_provisioned_configuration = {
       cluster_identifier: ::String,
       auth_configuration: {
@@ -595,8 +627,9 @@ module Aws
     }
 
       type knowledge_base_configuration = {
-      type: ("VECTOR" | "KENDRA" | "SQL"),
+      type: ("VECTOR" | "KENDRA" | "SQL" | "MANAGED"),
       vector_knowledge_base_configuration: Params::vector_knowledge_base_configuration?,
+      managed_knowledge_base_configuration: Params::managed_knowledge_base_configuration?,
       kendra_knowledge_base_configuration: {
         kendra_index_arn: ::String
       }?,

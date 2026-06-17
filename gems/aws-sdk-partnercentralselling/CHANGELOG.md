@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.36.0 (2026-06-17)
+------------------
+
+* Feature - Cosell Resonate AND Prospecing API Launch with ARN correction
+
 1.35.0 (2026-06-16)
 ------------------
 

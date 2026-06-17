@@ -26,6 +26,7 @@ module Aws::DevOpsAgent
     ApiKeyValue = Shapes::StringShape.new(name: 'ApiKeyValue')
     Asset = Shapes::StructureShape.new(name: 'Asset')
     AssetContent = Shapes::UnionShape.new(name: 'AssetContent')
+    AssetContentUrl = Shapes::StringShape.new(name: 'AssetContentUrl')
     AssetFile = Shapes::StructureShape.new(name: 'AssetFile')
     AssetFileBody = Shapes::UnionShape.new(name: 'AssetFileBody')
     AssetFileBytes = Shapes::BlobShape.new(name: 'AssetFileBytes')
@@ -36,6 +37,7 @@ module Aws::DevOpsAgent
     AssetFileText = Shapes::StringShape.new(name: 'AssetFileText')
     AssetIdList = Shapes::ListShape.new(name: 'AssetIdList')
     AssetList = Shapes::ListShape.new(name: 'AssetList')
+    AssetSourceUrlContent = Shapes::StructureShape.new(name: 'AssetSourceUrlContent')
     AssetType = Shapes::StringShape.new(name: 'AssetType')
     AssetTypeList = Shapes::ListShape.new(name: 'AssetTypeList')
     AssetTypeSummary = Shapes::StructureShape.new(name: 'AssetTypeSummary')
@@ -49,6 +51,7 @@ module Aws::DevOpsAgent
     AssociateServiceInput = Shapes::StructureShape.new(name: 'AssociateServiceInput')
     AssociateServiceOutput = Shapes::StructureShape.new(name: 'AssociateServiceOutput')
     Association = Shapes::StructureShape.new(name: 'Association')
+    AssociationCapabilities = Shapes::MapShape.new(name: 'AssociationCapabilities')
     AssociationId = Shapes::StringShape.new(name: 'AssociationId')
     AssociationsList = Shapes::ListShape.new(name: 'AssociationsList')
     AuthFlow = Shapes::StringShape.new(name: 'AuthFlow')
@@ -58,6 +61,8 @@ module Aws::DevOpsAgent
     BacklogTaskDescription = Shapes::StringShape.new(name: 'BacklogTaskDescription')
     BacklogTaskTitle = Shapes::StringShape.new(name: 'BacklogTaskTitle')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
+    CapabilityConfiguration = Shapes::StructureShape.new(name: 'CapabilityConfiguration')
+    CapabilityType = Shapes::StringShape.new(name: 'CapabilityType')
     CertificateString = Shapes::StringShape.new(name: 'CertificateString')
     ChatExecution = Shapes::StructureShape.new(name: 'ChatExecution')
     ChatExecutionId = Shapes::StringShape.new(name: 'ChatExecutionId')
@@ -272,6 +277,7 @@ module Aws::DevOpsAgent
     MCPServerOAuth3LOConfig = Shapes::StructureShape.new(name: 'MCPServerOAuth3LOConfig')
     MCPServerOAuth3LOConfigAuthorizationUrlString = Shapes::StringShape.new(name: 'MCPServerOAuth3LOConfigAuthorizationUrlString')
     MCPServerOAuth3LOConfigClientNameString = Shapes::StringShape.new(name: 'MCPServerOAuth3LOConfigClientNameString')
+    MCPServerOAuth3LOConfigClientSecretString = Shapes::StringShape.new(name: 'MCPServerOAuth3LOConfigClientSecretString')
     MCPServerOAuth3LOConfigExchangeUrlString = Shapes::StringShape.new(name: 'MCPServerOAuth3LOConfigExchangeUrlString')
     MCPServerOAuth3LOConfigReturnToEndpointString = Shapes::StringShape.new(name: 'MCPServerOAuth3LOConfigReturnToEndpointString')
     MCPServerOAuthClientCredentialsConfig = Shapes::StructureShape.new(name: 'MCPServerOAuthClientCredentialsConfig')
@@ -353,10 +359,38 @@ module Aws::DevOpsAgent
     RegisteredMCPServerSigV4DetailsServiceString = Shapes::StringShape.new(name: 'RegisteredMCPServerSigV4DetailsServiceString')
     RegisteredNewRelicDetails = Shapes::StructureShape.new(name: 'RegisteredNewRelicDetails')
     RegisteredPagerDutyDetails = Shapes::StructureShape.new(name: 'RegisteredPagerDutyDetails')
+    RegisteredRemoteAgentDetails = Shapes::StructureShape.new(name: 'RegisteredRemoteAgentDetails')
+    RegisteredRemoteAgentDetailsDescriptionString = Shapes::StringShape.new(name: 'RegisteredRemoteAgentDetailsDescriptionString')
+    RegisteredRemoteAgentSigV4Details = Shapes::StructureShape.new(name: 'RegisteredRemoteAgentSigV4Details')
+    RegisteredRemoteAgentSigV4DetailsDescriptionString = Shapes::StringShape.new(name: 'RegisteredRemoteAgentSigV4DetailsDescriptionString')
+    RegisteredRemoteAgentSigV4DetailsServiceString = Shapes::StringShape.new(name: 'RegisteredRemoteAgentSigV4DetailsServiceString')
     RegisteredService = Shapes::StructureShape.new(name: 'RegisteredService')
     RegisteredServiceNowDetails = Shapes::StructureShape.new(name: 'RegisteredServiceNowDetails')
     RegisteredServicesList = Shapes::ListShape.new(name: 'RegisteredServicesList')
     RegisteredSlackServiceDetails = Shapes::StructureShape.new(name: 'RegisteredSlackServiceDetails')
+    RemoteAgentAPIKeyConfig = Shapes::StructureShape.new(name: 'RemoteAgentAPIKeyConfig')
+    RemoteAgentAPIKeyConfigApiKeyHeaderString = Shapes::StringShape.new(name: 'RemoteAgentAPIKeyConfigApiKeyHeaderString')
+    RemoteAgentAPIKeyConfigApiKeyNameString = Shapes::StringShape.new(name: 'RemoteAgentAPIKeyConfigApiKeyNameString')
+    RemoteAgentAPIKeyConfigApiKeyValueString = Shapes::StringShape.new(name: 'RemoteAgentAPIKeyConfigApiKeyValueString')
+    RemoteAgentAuthorizationConfig = Shapes::UnionShape.new(name: 'RemoteAgentAuthorizationConfig')
+    RemoteAgentAuthorizationMethod = Shapes::StringShape.new(name: 'RemoteAgentAuthorizationMethod')
+    RemoteAgentBearerTokenConfig = Shapes::StructureShape.new(name: 'RemoteAgentBearerTokenConfig')
+    RemoteAgentBearerTokenConfigAuthorizationHeaderString = Shapes::StringShape.new(name: 'RemoteAgentBearerTokenConfigAuthorizationHeaderString')
+    RemoteAgentBearerTokenConfigTokenNameString = Shapes::StringShape.new(name: 'RemoteAgentBearerTokenConfigTokenNameString')
+    RemoteAgentBearerTokenConfigTokenValueString = Shapes::StringShape.new(name: 'RemoteAgentBearerTokenConfigTokenValueString')
+    RemoteAgentConfiguration = Shapes::StructureShape.new(name: 'RemoteAgentConfiguration')
+    RemoteAgentEndpoint = Shapes::StringShape.new(name: 'RemoteAgentEndpoint')
+    RemoteAgentName = Shapes::StringShape.new(name: 'RemoteAgentName')
+    RemoteAgentOAuthClientCredentialsConfig = Shapes::StructureShape.new(name: 'RemoteAgentOAuthClientCredentialsConfig')
+    RemoteAgentOAuthClientCredentialsConfigClientNameString = Shapes::StringShape.new(name: 'RemoteAgentOAuthClientCredentialsConfigClientNameString')
+    RemoteAgentOAuthClientCredentialsConfigExchangeUrlString = Shapes::StringShape.new(name: 'RemoteAgentOAuthClientCredentialsConfigExchangeUrlString')
+    RemoteAgentServiceDetails = Shapes::StructureShape.new(name: 'RemoteAgentServiceDetails')
+    RemoteAgentServiceDetailsDescriptionString = Shapes::StringShape.new(name: 'RemoteAgentServiceDetailsDescriptionString')
+    RemoteAgentSigV4AuthorizationConfig = Shapes::StructureShape.new(name: 'RemoteAgentSigV4AuthorizationConfig')
+    RemoteAgentSigV4AuthorizationConfigServiceString = Shapes::StringShape.new(name: 'RemoteAgentSigV4AuthorizationConfigServiceString')
+    RemoteAgentSigV4Configuration = Shapes::StructureShape.new(name: 'RemoteAgentSigV4Configuration')
+    RemoteAgentSigV4ServiceDetails = Shapes::StructureShape.new(name: 'RemoteAgentSigV4ServiceDetails')
+    RemoteAgentSigV4ServiceDetailsDescriptionString = Shapes::StringShape.new(name: 'RemoteAgentSigV4ServiceDetailsDescriptionString')
     ResourceConfigDnsResolution = Shapes::StringShape.new(name: 'ResourceConfigDnsResolution')
     ResourceConfigurationArn = Shapes::StringShape.new(name: 'ResourceConfigurationArn')
     ResourceGatewayArn = Shapes::StringShape.new(name: 'ResourceGatewayArn')
@@ -504,6 +538,8 @@ module Aws::DevOpsAgent
     AdditionalServiceDetails.add_member(:mcpservergrafana, Shapes::ShapeRef.new(shape: RegisteredGrafanaServerDetails, location_name: "mcpservergrafana"))
     AdditionalServiceDetails.add_member(:pagerduty, Shapes::ShapeRef.new(shape: RegisteredPagerDutyDetails, location_name: "pagerduty"))
     AdditionalServiceDetails.add_member(:mcpserversigv4, Shapes::ShapeRef.new(shape: RegisteredMCPServerSigV4Details, location_name: "mcpserversigv4"))
+    AdditionalServiceDetails.add_member(:remoteagent, Shapes::ShapeRef.new(shape: RegisteredRemoteAgentDetails, location_name: "remoteagent"))
+    AdditionalServiceDetails.add_member(:remoteagentsigv4, Shapes::ShapeRef.new(shape: RegisteredRemoteAgentSigV4Details, location_name: "remoteagentsigv4"))
     AdditionalServiceDetails.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     AdditionalServiceDetails.add_member_subclass(:github, Types::AdditionalServiceDetails::Github)
     AdditionalServiceDetails.add_member_subclass(:slack, Types::AdditionalServiceDetails::Slack)
@@ -518,6 +554,8 @@ module Aws::DevOpsAgent
     AdditionalServiceDetails.add_member_subclass(:mcpservergrafana, Types::AdditionalServiceDetails::Mcpservergrafana)
     AdditionalServiceDetails.add_member_subclass(:pagerduty, Types::AdditionalServiceDetails::Pagerduty)
     AdditionalServiceDetails.add_member_subclass(:mcpserversigv4, Types::AdditionalServiceDetails::Mcpserversigv4)
+    AdditionalServiceDetails.add_member_subclass(:remoteagent, Types::AdditionalServiceDetails::Remoteagent)
+    AdditionalServiceDetails.add_member_subclass(:remoteagentsigv4, Types::AdditionalServiceDetails::Remoteagentsigv4)
     AdditionalServiceDetails.add_member_subclass(:unknown, Types::AdditionalServiceDetails::Unknown)
     AdditionalServiceDetails.struct_class = Types::AdditionalServiceDetails
 
@@ -548,9 +586,11 @@ module Aws::DevOpsAgent
 
     AssetContent.add_member(:file, Shapes::ShapeRef.new(shape: AssetFileContent, location_name: "file"))
     AssetContent.add_member(:zip, Shapes::ShapeRef.new(shape: AssetZipContent, location_name: "zip"))
+    AssetContent.add_member(:source_url, Shapes::ShapeRef.new(shape: AssetSourceUrlContent, location_name: "sourceUrl"))
     AssetContent.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     AssetContent.add_member_subclass(:file, Types::AssetContent::File)
     AssetContent.add_member_subclass(:zip, Types::AssetContent::Zip)
+    AssetContent.add_member_subclass(:source_url, Types::AssetContent::SourceUrl)
     AssetContent.add_member_subclass(:unknown, Types::AssetContent::Unknown)
     AssetContent.struct_class = Types::AssetContent
 
@@ -588,6 +628,9 @@ module Aws::DevOpsAgent
 
     AssetList.member = Shapes::ShapeRef.new(shape: Asset)
 
+    AssetSourceUrlContent.add_member(:url, Shapes::ShapeRef.new(shape: AssetContentUrl, required: true, location_name: "url"))
+    AssetSourceUrlContent.struct_class = Types::AssetSourceUrlContent
+
     AssetTypeList.member = Shapes::ShapeRef.new(shape: AssetTypeSummary)
 
     AssetTypeSummary.add_member(:asset_type, Shapes::ShapeRef.new(shape: AssetType, required: true, location_name: "assetType"))
@@ -617,6 +660,7 @@ module Aws::DevOpsAgent
     AssociateServiceInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     AssociateServiceInput.add_member(:service_id, Shapes::ShapeRef.new(shape: ServiceId, required: true, location_name: "serviceId"))
     AssociateServiceInput.add_member(:configuration, Shapes::ShapeRef.new(shape: ServiceConfiguration, required: true, location_name: "configuration"))
+    AssociateServiceInput.add_member(:capabilities, Shapes::ShapeRef.new(shape: AssociationCapabilities, location_name: "capabilities"))
     AssociateServiceInput.struct_class = Types::AssociateServiceInput
 
     AssociateServiceOutput.add_member(:association, Shapes::ShapeRef.new(shape: Association, required: true, location_name: "association"))
@@ -630,7 +674,11 @@ module Aws::DevOpsAgent
     Association.add_member(:association_id, Shapes::ShapeRef.new(shape: AssociationId, required: true, location_name: "associationId"))
     Association.add_member(:service_id, Shapes::ShapeRef.new(shape: ServiceId, required: true, location_name: "serviceId"))
     Association.add_member(:configuration, Shapes::ShapeRef.new(shape: ServiceConfiguration, required: true, location_name: "configuration"))
+    Association.add_member(:capabilities, Shapes::ShapeRef.new(shape: AssociationCapabilities, location_name: "capabilities"))
     Association.struct_class = Types::Association
+
+    AssociationCapabilities.key = Shapes::ShapeRef.new(shape: CapabilityType)
+    AssociationCapabilities.value = Shapes::ShapeRef.new(shape: CapabilityConfiguration)
 
     AssociationsList.member = Shapes::ShapeRef.new(shape: Association)
 
@@ -641,6 +689,9 @@ module Aws::DevOpsAgent
     AzureDevOpsConfiguration.add_member(:project_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "projectId"))
     AzureDevOpsConfiguration.add_member(:project_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "projectName"))
     AzureDevOpsConfiguration.struct_class = Types::AzureDevOpsConfiguration
+
+    CapabilityConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "enabled"))
+    CapabilityConfiguration.struct_class = Types::CapabilityConfiguration
 
     ChatExecution.add_member(:execution_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "executionId"))
     ChatExecution.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
@@ -978,11 +1029,13 @@ module Aws::DevOpsAgent
     GitHubConfiguration.add_member(:owner, Shapes::ShapeRef.new(shape: String, required: true, location_name: "owner"))
     GitHubConfiguration.add_member(:owner_type, Shapes::ShapeRef.new(shape: GithubRepoOwnerType, required: true, location_name: "ownerType"))
     GitHubConfiguration.add_member(:instance_identifier, Shapes::ShapeRef.new(shape: String, location_name: "instanceIdentifier"))
+    GitHubConfiguration.add_member(:runtime_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "runtimeRoleArn"))
     GitHubConfiguration.struct_class = Types::GitHubConfiguration
 
     GitLabConfiguration.add_member(:project_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "projectId"))
     GitLabConfiguration.add_member(:project_path, Shapes::ShapeRef.new(shape: String, required: true, location_name: "projectPath"))
     GitLabConfiguration.add_member(:instance_identifier, Shapes::ShapeRef.new(shape: String, location_name: "instanceIdentifier"))
+    GitLabConfiguration.add_member(:runtime_role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "runtimeRoleArn"))
     GitLabConfiguration.struct_class = Types::GitLabConfiguration
 
     GitLabDetails.add_member(:target_url, Shapes::ShapeRef.new(shape: GitLabDetailsTargetUrlString, required: true, location_name: "targetUrl"))
@@ -1297,7 +1350,7 @@ module Aws::DevOpsAgent
     MCPServerOAuth3LOConfig.add_member(:return_to_endpoint, Shapes::ShapeRef.new(shape: MCPServerOAuth3LOConfigReturnToEndpointString, required: true, location_name: "returnToEndpoint"))
     MCPServerOAuth3LOConfig.add_member(:authorization_url, Shapes::ShapeRef.new(shape: MCPServerOAuth3LOConfigAuthorizationUrlString, required: true, location_name: "authorizationUrl"))
     MCPServerOAuth3LOConfig.add_member(:exchange_url, Shapes::ShapeRef.new(shape: MCPServerOAuth3LOConfigExchangeUrlString, required: true, location_name: "exchangeUrl"))
-    MCPServerOAuth3LOConfig.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecret, location_name: "clientSecret"))
+    MCPServerOAuth3LOConfig.add_member(:client_secret, Shapes::ShapeRef.new(shape: MCPServerOAuth3LOConfigClientSecretString, location_name: "clientSecret"))
     MCPServerOAuth3LOConfig.add_member(:support_code_challenge, Shapes::ShapeRef.new(shape: Boolean, location_name: "supportCodeChallenge"))
     MCPServerOAuth3LOConfig.add_member(:scopes, Shapes::ShapeRef.new(shape: Scopes, location_name: "scopes"))
     MCPServerOAuth3LOConfig.struct_class = Types::MCPServerOAuth3LOConfig
@@ -1521,6 +1574,21 @@ module Aws::DevOpsAgent
     RegisteredPagerDutyDetails.add_member(:scopes, Shapes::ShapeRef.new(shape: PagerDutyScopesList, required: true, location_name: "scopes"))
     RegisteredPagerDutyDetails.struct_class = Types::RegisteredPagerDutyDetails
 
+    RegisteredRemoteAgentDetails.add_member(:name, Shapes::ShapeRef.new(shape: RemoteAgentName, required: true, location_name: "name"))
+    RegisteredRemoteAgentDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: RemoteAgentEndpoint, required: true, location_name: "endpoint"))
+    RegisteredRemoteAgentDetails.add_member(:description, Shapes::ShapeRef.new(shape: RegisteredRemoteAgentDetailsDescriptionString, location_name: "description"))
+    RegisteredRemoteAgentDetails.add_member(:authorization_method, Shapes::ShapeRef.new(shape: RemoteAgentAuthorizationMethod, required: true, location_name: "authorizationMethod"))
+    RegisteredRemoteAgentDetails.add_member(:api_key_header, Shapes::ShapeRef.new(shape: String, location_name: "apiKeyHeader"))
+    RegisteredRemoteAgentDetails.struct_class = Types::RegisteredRemoteAgentDetails
+
+    RegisteredRemoteAgentSigV4Details.add_member(:name, Shapes::ShapeRef.new(shape: RemoteAgentName, required: true, location_name: "name"))
+    RegisteredRemoteAgentSigV4Details.add_member(:endpoint, Shapes::ShapeRef.new(shape: RemoteAgentEndpoint, required: true, location_name: "endpoint"))
+    RegisteredRemoteAgentSigV4Details.add_member(:description, Shapes::ShapeRef.new(shape: RegisteredRemoteAgentSigV4DetailsDescriptionString, location_name: "description"))
+    RegisteredRemoteAgentSigV4Details.add_member(:region, Shapes::ShapeRef.new(shape: SigV4Region, required: true, location_name: "region"))
+    RegisteredRemoteAgentSigV4Details.add_member(:service, Shapes::ShapeRef.new(shape: RegisteredRemoteAgentSigV4DetailsServiceString, required: true, location_name: "service"))
+    RegisteredRemoteAgentSigV4Details.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "roleArn"))
+    RegisteredRemoteAgentSigV4Details.struct_class = Types::RegisteredRemoteAgentSigV4Details
+
     RegisteredService.add_member(:service_id, Shapes::ShapeRef.new(shape: ServiceId, required: true, location_name: "serviceId"))
     RegisteredService.add_member(:service_type, Shapes::ShapeRef.new(shape: Service, required: true, location_name: "serviceType"))
     RegisteredService.add_member(:name, Shapes::ShapeRef.new(shape: ServiceName, location_name: "name"))
@@ -1538,6 +1606,55 @@ module Aws::DevOpsAgent
     RegisteredSlackServiceDetails.add_member(:team_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "teamId"))
     RegisteredSlackServiceDetails.add_member(:team_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "teamName"))
     RegisteredSlackServiceDetails.struct_class = Types::RegisteredSlackServiceDetails
+
+    RemoteAgentAPIKeyConfig.add_member(:api_key_name, Shapes::ShapeRef.new(shape: RemoteAgentAPIKeyConfigApiKeyNameString, required: true, location_name: "apiKeyName"))
+    RemoteAgentAPIKeyConfig.add_member(:api_key_value, Shapes::ShapeRef.new(shape: RemoteAgentAPIKeyConfigApiKeyValueString, required: true, location_name: "apiKeyValue"))
+    RemoteAgentAPIKeyConfig.add_member(:api_key_header, Shapes::ShapeRef.new(shape: RemoteAgentAPIKeyConfigApiKeyHeaderString, required: true, location_name: "apiKeyHeader"))
+    RemoteAgentAPIKeyConfig.struct_class = Types::RemoteAgentAPIKeyConfig
+
+    RemoteAgentAuthorizationConfig.add_member(:api_key, Shapes::ShapeRef.new(shape: RemoteAgentAPIKeyConfig, location_name: "apiKey"))
+    RemoteAgentAuthorizationConfig.add_member(:o_auth_client_credentials, Shapes::ShapeRef.new(shape: RemoteAgentOAuthClientCredentialsConfig, location_name: "oAuthClientCredentials"))
+    RemoteAgentAuthorizationConfig.add_member(:bearer_token, Shapes::ShapeRef.new(shape: RemoteAgentBearerTokenConfig, location_name: "bearerToken"))
+    RemoteAgentAuthorizationConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    RemoteAgentAuthorizationConfig.add_member_subclass(:api_key, Types::RemoteAgentAuthorizationConfig::ApiKey)
+    RemoteAgentAuthorizationConfig.add_member_subclass(:o_auth_client_credentials, Types::RemoteAgentAuthorizationConfig::OAuthClientCredentials)
+    RemoteAgentAuthorizationConfig.add_member_subclass(:bearer_token, Types::RemoteAgentAuthorizationConfig::BearerToken)
+    RemoteAgentAuthorizationConfig.add_member_subclass(:unknown, Types::RemoteAgentAuthorizationConfig::Unknown)
+    RemoteAgentAuthorizationConfig.struct_class = Types::RemoteAgentAuthorizationConfig
+
+    RemoteAgentBearerTokenConfig.add_member(:token_name, Shapes::ShapeRef.new(shape: RemoteAgentBearerTokenConfigTokenNameString, required: true, location_name: "tokenName"))
+    RemoteAgentBearerTokenConfig.add_member(:token_value, Shapes::ShapeRef.new(shape: RemoteAgentBearerTokenConfigTokenValueString, required: true, location_name: "tokenValue"))
+    RemoteAgentBearerTokenConfig.add_member(:authorization_header, Shapes::ShapeRef.new(shape: RemoteAgentBearerTokenConfigAuthorizationHeaderString, location_name: "authorizationHeader"))
+    RemoteAgentBearerTokenConfig.struct_class = Types::RemoteAgentBearerTokenConfig
+
+    RemoteAgentConfiguration.struct_class = Types::RemoteAgentConfiguration
+
+    RemoteAgentOAuthClientCredentialsConfig.add_member(:client_name, Shapes::ShapeRef.new(shape: RemoteAgentOAuthClientCredentialsConfigClientNameString, location_name: "clientName"))
+    RemoteAgentOAuthClientCredentialsConfig.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientId, required: true, location_name: "clientId"))
+    RemoteAgentOAuthClientCredentialsConfig.add_member(:exchange_parameters, Shapes::ShapeRef.new(shape: ExchangeParameters, location_name: "exchangeParameters"))
+    RemoteAgentOAuthClientCredentialsConfig.add_member(:client_secret, Shapes::ShapeRef.new(shape: ClientSecret, required: true, location_name: "clientSecret"))
+    RemoteAgentOAuthClientCredentialsConfig.add_member(:exchange_url, Shapes::ShapeRef.new(shape: RemoteAgentOAuthClientCredentialsConfigExchangeUrlString, required: true, location_name: "exchangeUrl"))
+    RemoteAgentOAuthClientCredentialsConfig.add_member(:scopes, Shapes::ShapeRef.new(shape: Scopes, location_name: "scopes"))
+    RemoteAgentOAuthClientCredentialsConfig.struct_class = Types::RemoteAgentOAuthClientCredentialsConfig
+
+    RemoteAgentServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: RemoteAgentName, required: true, location_name: "name"))
+    RemoteAgentServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: RemoteAgentEndpoint, required: true, location_name: "endpoint"))
+    RemoteAgentServiceDetails.add_member(:description, Shapes::ShapeRef.new(shape: RemoteAgentServiceDetailsDescriptionString, location_name: "description"))
+    RemoteAgentServiceDetails.add_member(:authorization_config, Shapes::ShapeRef.new(shape: RemoteAgentAuthorizationConfig, required: true, location_name: "authorizationConfig"))
+    RemoteAgentServiceDetails.struct_class = Types::RemoteAgentServiceDetails
+
+    RemoteAgentSigV4AuthorizationConfig.add_member(:region, Shapes::ShapeRef.new(shape: SigV4Region, required: true, location_name: "region"))
+    RemoteAgentSigV4AuthorizationConfig.add_member(:service, Shapes::ShapeRef.new(shape: RemoteAgentSigV4AuthorizationConfigServiceString, required: true, location_name: "service"))
+    RemoteAgentSigV4AuthorizationConfig.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "roleArn"))
+    RemoteAgentSigV4AuthorizationConfig.struct_class = Types::RemoteAgentSigV4AuthorizationConfig
+
+    RemoteAgentSigV4Configuration.struct_class = Types::RemoteAgentSigV4Configuration
+
+    RemoteAgentSigV4ServiceDetails.add_member(:name, Shapes::ShapeRef.new(shape: RemoteAgentName, required: true, location_name: "name"))
+    RemoteAgentSigV4ServiceDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: RemoteAgentEndpoint, required: true, location_name: "endpoint"))
+    RemoteAgentSigV4ServiceDetails.add_member(:description, Shapes::ShapeRef.new(shape: RemoteAgentSigV4ServiceDetailsDescriptionString, location_name: "description"))
+    RemoteAgentSigV4ServiceDetails.add_member(:authorization_config, Shapes::ShapeRef.new(shape: RemoteAgentSigV4AuthorizationConfig, required: true, location_name: "authorizationConfig"))
+    RemoteAgentSigV4ServiceDetails.struct_class = Types::RemoteAgentSigV4ServiceDetails
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
@@ -1660,6 +1777,8 @@ module Aws::DevOpsAgent
     ServiceConfiguration.add_member(:mcpservergrafana, Shapes::ShapeRef.new(shape: MCPServerGrafanaConfiguration, location_name: "mcpservergrafana"))
     ServiceConfiguration.add_member(:pagerduty, Shapes::ShapeRef.new(shape: PagerDutyConfiguration, location_name: "pagerduty"))
     ServiceConfiguration.add_member(:mcpserversigv4, Shapes::ShapeRef.new(shape: MCPServerSigV4Configuration, location_name: "mcpserversigv4"))
+    ServiceConfiguration.add_member(:remoteagent, Shapes::ShapeRef.new(shape: RemoteAgentConfiguration, location_name: "remoteagent"))
+    ServiceConfiguration.add_member(:remoteagentsigv4, Shapes::ShapeRef.new(shape: RemoteAgentSigV4Configuration, location_name: "remoteagentsigv4"))
     ServiceConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ServiceConfiguration.add_member_subclass(:source_aws, Types::ServiceConfiguration::SourceAws)
     ServiceConfiguration.add_member_subclass(:aws, Types::ServiceConfiguration::Aws)
@@ -1678,6 +1797,8 @@ module Aws::DevOpsAgent
     ServiceConfiguration.add_member_subclass(:mcpservergrafana, Types::ServiceConfiguration::Mcpservergrafana)
     ServiceConfiguration.add_member_subclass(:pagerduty, Types::ServiceConfiguration::Pagerduty)
     ServiceConfiguration.add_member_subclass(:mcpserversigv4, Types::ServiceConfiguration::Mcpserversigv4)
+    ServiceConfiguration.add_member_subclass(:remoteagent, Types::ServiceConfiguration::Remoteagent)
+    ServiceConfiguration.add_member_subclass(:remoteagentsigv4, Types::ServiceConfiguration::Remoteagentsigv4)
     ServiceConfiguration.add_member_subclass(:unknown, Types::ServiceConfiguration::Unknown)
     ServiceConfiguration.struct_class = Types::ServiceConfiguration
 
@@ -1693,6 +1814,8 @@ module Aws::DevOpsAgent
     ServiceDetails.add_member(:pagerduty, Shapes::ShapeRef.new(shape: PagerDutyDetails, location_name: "pagerduty"))
     ServiceDetails.add_member(:azureidentity, Shapes::ShapeRef.new(shape: RegisteredAzureIdentityDetails, location_name: "azureidentity"))
     ServiceDetails.add_member(:mcpserversigv4, Shapes::ShapeRef.new(shape: MCPServerSigV4ServiceDetails, location_name: "mcpserversigv4"))
+    ServiceDetails.add_member(:remoteagent, Shapes::ShapeRef.new(shape: RemoteAgentServiceDetails, location_name: "remoteagent"))
+    ServiceDetails.add_member(:remoteagentsigv4, Shapes::ShapeRef.new(shape: RemoteAgentSigV4ServiceDetails, location_name: "remoteagentsigv4"))
     ServiceDetails.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ServiceDetails.add_member_subclass(:dynatrace, Types::ServiceDetails::Dynatrace)
     ServiceDetails.add_member_subclass(:servicenow, Types::ServiceDetails::Servicenow)
@@ -1706,6 +1829,8 @@ module Aws::DevOpsAgent
     ServiceDetails.add_member_subclass(:pagerduty, Types::ServiceDetails::Pagerduty)
     ServiceDetails.add_member_subclass(:azureidentity, Types::ServiceDetails::Azureidentity)
     ServiceDetails.add_member_subclass(:mcpserversigv4, Types::ServiceDetails::Mcpserversigv4)
+    ServiceDetails.add_member_subclass(:remoteagent, Types::ServiceDetails::Remoteagent)
+    ServiceDetails.add_member_subclass(:remoteagentsigv4, Types::ServiceDetails::Remoteagentsigv4)
     ServiceDetails.add_member_subclass(:unknown, Types::ServiceDetails::Unknown)
     ServiceDetails.struct_class = Types::ServiceDetails
 
@@ -1870,6 +1995,7 @@ module Aws::DevOpsAgent
     UpdateAssociationInput.add_member(:agent_space_id, Shapes::ShapeRef.new(shape: AgentSpaceId, required: true, location: "uri", location_name: "agentSpaceId"))
     UpdateAssociationInput.add_member(:association_id, Shapes::ShapeRef.new(shape: AssociationId, required: true, location: "uri", location_name: "associationId"))
     UpdateAssociationInput.add_member(:configuration, Shapes::ShapeRef.new(shape: ServiceConfiguration, required: true, location_name: "configuration"))
+    UpdateAssociationInput.add_member(:capabilities, Shapes::ShapeRef.new(shape: AssociationCapabilities, location_name: "capabilities"))
     UpdateAssociationInput.struct_class = Types::UpdateAssociationInput
 
     UpdateAssociationOutput.add_member(:association, Shapes::ShapeRef.new(shape: Association, required: true, location_name: "association"))

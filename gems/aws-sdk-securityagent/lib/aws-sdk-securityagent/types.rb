@@ -387,6 +387,96 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # Contains information about a successfully created security
+    # requirement.
+    #
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the pack containing the security
+    #   requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain
+    #   The security domain the requirement belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation
+    #   The evaluation criteria used to assess compliance with this
+    #   requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] remediation
+    #   The recommended remediation steps when the requirement is not met.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the security requirement was created, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the security requirement was last updated, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchCreateSecurityRequirementResult AWS API Documentation
+    #
+    class BatchCreateSecurityRequirementResult < Struct.new(
+      :pack_id,
+      :name,
+      :description,
+      :domain,
+      :evaluation,
+      :remediation,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to add
+    #   requirements to.
+    #   @return [String]
+    #
+    # @!attribute [rw] security_requirements
+    #   The list of security requirements to create.
+    #   @return [Array<Types::CreateSecurityRequirementEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchCreateSecurityRequirementsInput AWS API Documentation
+    #
+    class BatchCreateSecurityRequirementsInput < Struct.new(
+      :pack_id,
+      :security_requirements)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] security_requirements
+    #   The list of security requirements that were successfully created.
+    #   @return [Array<Types::BatchCreateSecurityRequirementResult>]
+    #
+    # @!attribute [rw] errors
+    #   The list of errors for security requirements that failed to be
+    #   created.
+    #   @return [Array<Types::BatchSecurityRequirementError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchCreateSecurityRequirementsOutput AWS API Documentation
+    #
+    class BatchCreateSecurityRequirementsOutput < Struct.new(
+      :security_requirements,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input for deleting multiple code reviews.
     #
     # @!attribute [rw] code_review_ids
@@ -462,6 +552,83 @@ module Aws::SecurityAgent
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchDeletePentestsOutput AWS API Documentation
     #
     class BatchDeletePentestsOutput < Struct.new(
+      :deleted,
+      :failed)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to remove
+    #   requirements from.
+    #   @return [String]
+    #
+    # @!attribute [rw] security_requirement_names
+    #   The list of security requirement names to delete.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchDeleteSecurityRequirementsInput AWS API Documentation
+    #
+    class BatchDeleteSecurityRequirementsInput < Struct.new(
+      :pack_id,
+      :security_requirement_names)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] deleted_security_requirement_names
+    #   The list of security requirement names that were successfully
+    #   deleted.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] errors
+    #   The list of errors for security requirements that failed to be
+    #   deleted.
+    #   @return [Array<Types::BatchSecurityRequirementError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchDeleteSecurityRequirementsOutput AWS API Documentation
+    #
+    class BatchDeleteSecurityRequirementsOutput < Struct.new(
+      :deleted_security_requirement_names,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for deleting multiple threat models.
+    #
+    # @!attribute [rw] threat_model_ids
+    #   The list of threat model identifiers to delete.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   models to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchDeleteThreatModelsInput AWS API Documentation
+    #
+    class BatchDeleteThreatModelsInput < Struct.new(
+      :threat_model_ids,
+      :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the BatchDeleteThreatModels operation.
+    #
+    # @!attribute [rw] deleted
+    #   The list of threat model identifiers that were successfully deleted.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] failed
+    #   The list of threat models that failed to delete, including the
+    #   reason for each failure.
+    #   @return [Array<Types::DeleteThreatModelFailure>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchDeleteThreatModelsOutput AWS API Documentation
+    #
+    class BatchDeleteThreatModelsOutput < Struct.new(
       :deleted,
       :failed)
       SENSITIVE = []
@@ -800,6 +967,96 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # Contains information about a successfully retrieved security
+    # requirement.
+    #
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the pack containing the security
+    #   requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain
+    #   The security domain the requirement belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation
+    #   The evaluation criteria used to assess compliance with this
+    #   requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] remediation
+    #   The recommended remediation steps when the requirement is not met.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the security requirement was created, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the security requirement was last updated, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetSecurityRequirementResult AWS API Documentation
+    #
+    class BatchGetSecurityRequirementResult < Struct.new(
+      :pack_id,
+      :name,
+      :description,
+      :domain,
+      :evaluation,
+      :remediation,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to retrieve
+    #   requirements from.
+    #   @return [String]
+    #
+    # @!attribute [rw] security_requirement_names
+    #   The list of security requirement names to retrieve.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetSecurityRequirementsInput AWS API Documentation
+    #
+    class BatchGetSecurityRequirementsInput < Struct.new(
+      :pack_id,
+      :security_requirement_names)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] security_requirements
+    #   The list of security requirements that were successfully retrieved.
+    #   @return [Array<Types::BatchGetSecurityRequirementResult>]
+    #
+    # @!attribute [rw] errors
+    #   The list of errors for security requirements that failed to be
+    #   retrieved.
+    #   @return [Array<Types::BatchSecurityRequirementError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetSecurityRequirementsOutput AWS API Documentation
+    #
+    class BatchGetSecurityRequirementsOutput < Struct.new(
+      :security_requirements,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input for batch retrieving target domains.
     #
     # @!attribute [rw] target_domain_ids
@@ -829,6 +1086,322 @@ module Aws::SecurityAgent
     class BatchGetTargetDomainsOutput < Struct.new(
       :target_domains,
       :not_found)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for retrieving multiple tasks associated with a threat model
+    # job.
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the tasks.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_job_task_ids
+    #   The list of task identifiers to retrieve.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelJobTasksInput AWS API Documentation
+    #
+    class BatchGetThreatModelJobTasksInput < Struct.new(
+      :agent_space_id,
+      :threat_model_job_task_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the BatchGetThreatModelJobTasks operation.
+    #
+    # @!attribute [rw] threat_model_job_tasks
+    #   The list of threat model job tasks that were found.
+    #   @return [Array<Types::ThreatModelJobTask>]
+    #
+    # @!attribute [rw] not_found
+    #   The list of task identifiers that were not found.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelJobTasksOutput AWS API Documentation
+    #
+    class BatchGetThreatModelJobTasksOutput < Struct.new(
+      :threat_model_job_tasks,
+      :not_found)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for BatchGetThreatModelJobs operation.
+    #
+    # @!attribute [rw] threat_model_job_ids
+    #   The list of threat model job identifiers to retrieve.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model jobs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelJobsInput AWS API Documentation
+    #
+    class BatchGetThreatModelJobsInput < Struct.new(
+      :threat_model_job_ids,
+      :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the BatchGetThreatModelJobs operation.
+    #
+    # @!attribute [rw] threat_model_jobs
+    #   The list of threat model jobs that were found.
+    #   @return [Array<Types::ThreatModelJob>]
+    #
+    # @!attribute [rw] not_found
+    #   The list of threat model job identifiers that were not found.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelJobsOutput AWS API Documentation
+    #
+    class BatchGetThreatModelJobsOutput < Struct.new(
+      :threat_model_jobs,
+      :not_found)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for retrieving multiple threat models by their IDs.
+    #
+    # @!attribute [rw] threat_model_ids
+    #   The list of threat model identifiers to retrieve.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   models.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelsInput AWS API Documentation
+    #
+    class BatchGetThreatModelsInput < Struct.new(
+      :threat_model_ids,
+      :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the BatchGetThreatModels operation.
+    #
+    # @!attribute [rw] threat_models
+    #   The list of threat models that were found.
+    #   @return [Array<Types::ThreatModel>]
+    #
+    # @!attribute [rw] not_found
+    #   The list of threat model identifiers that were not found.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelsOutput AWS API Documentation
+    #
+    class BatchGetThreatModelsOutput < Struct.new(
+      :threat_models,
+      :not_found)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for retrieving multiple threats.
+    #
+    # @!attribute [rw] threat_ids
+    #   The list of threat identifiers to retrieve.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatsInput AWS API Documentation
+    #
+    class BatchGetThreatsInput < Struct.new(
+      :threat_ids,
+      :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the BatchGetThreats operation.
+    #
+    # @!attribute [rw] threats
+    #   The list of threats that were found.
+    #   @return [Array<Types::Threat>]
+    #
+    # @!attribute [rw] not_found
+    #   The list of threat identifiers that were not found.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatsOutput AWS API Documentation
+    #
+    class BatchGetThreatsOutput < Struct.new(
+      :threats,
+      :not_found)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about an error that occurred for a specific
+    # security requirement during a batch operation.
+    #
+    # @!attribute [rw] security_requirement_name
+    #   The name of the security requirement that caused the error.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchSecurityRequirementError AWS API Documentation
+    #
+    class BatchSecurityRequirementError < Struct.new(
+      :security_requirement_name,
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack containing
+    #   the requirements to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] security_requirements
+    #   The list of security requirement updates to apply.
+    #   @return [Array<Types::UpdateSecurityRequirementEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchUpdateSecurityRequirementsInput AWS API Documentation
+    #
+    class BatchUpdateSecurityRequirementsInput < Struct.new(
+      :pack_id,
+      :security_requirements)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] updated_security_requirement_names
+    #   The list of security requirement names that were successfully
+    #   updated.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] errors
+    #   The list of errors for security requirements that failed to be
+    #   updated.
+    #   @return [Array<Types::BatchSecurityRequirementError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchUpdateSecurityRequirementsOutput AWS API Documentation
+    #
+    class BatchUpdateSecurityRequirementsOutput < Struct.new(
+      :updated_security_requirement_names,
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for creating a Bitbucket integration.
+    #
+    # @!attribute [rw] installation_id
+    #   The Atlassian installation identifier, available from the Atlassian
+    #   administration console.
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace
+    #   The Bitbucket workspace slug that identifies the workspace to
+    #   integrate, for example acme-corp.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The OAuth 2.0 authorization code returned from the consent redirect.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The CSRF state token echoed back from the OAuth redirect.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BitbucketIntegrationInput AWS API Documentation
+    #
+    class BitbucketIntegrationInput < Struct.new(
+      :installation_id,
+      :workspace,
+      :code,
+      :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Metadata for an integrated Bitbucket repository.
+    #
+    # @!attribute [rw] name
+    #   Name of the resource e.g. repository name, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_resource_id
+    #   Provider Id of the resource e.g. GitHub repository id, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace
+    #   The workspace slug that owns the repository.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_type
+    #   Defines the visibility level of provider resources. PRIVATE
+    #   indicates restricted access, while PUBLIC indicates open access.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BitbucketRepositoryMetadata AWS API Documentation
+    #
+    class BitbucketRepositoryMetadata < Struct.new(
+      :name,
+      :provider_resource_id,
+      :workspace,
+      :access_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A Bitbucket repository integrated as a resource.
+    #
+    # @!attribute [rw] name
+    #   Name of the resource e.g. repository name, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace
+    #   The workspace slug that owns the repository.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BitbucketRepositoryResource AWS API Documentation
+    #
+    class BitbucketRepositoryResource < Struct.new(
+      :name,
+      :workspace)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Capabilities for an integrated Bitbucket repository.
+    #
+    # @!attribute [rw] leave_comments
+    #   Whether to post code review comments on pull requests.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] remediate_code
+    #   Whether to create pull requests with automated fixes.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BitbucketResourceCapabilities AWS API Documentation
+    #
+    class BitbucketResourceCapabilities < Struct.new(
+      :leave_comments,
+      :remediate_code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -986,6 +1559,11 @@ module Aws::SecurityAgent
     #   The code remediation strategy for the code review.
     #   @return [String]
     #
+    # @!attribute [rw] validation_mode
+    #   The validation mode for the code review. Valid values are SIMULATED
+    #   and DISABLED.
+    #   @return [String]
+    #
     # @!attribute [rw] created_at
     #   The date and time the code review was created, in UTC format.
     #   @return [Time]
@@ -1004,6 +1582,7 @@ module Aws::SecurityAgent
       :service_role,
       :log_config,
       :code_remediation_strategy,
+      :validation_mode,
       :created_at,
       :updated_at)
       SENSITIVE = []
@@ -1339,6 +1918,134 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # Metadata for an integrated Confluence document.
+    #
+    # @!attribute [rw] name
+    #   Name of the resource e.g. repository name, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_resource_id
+    #   Provider Id of the resource e.g. GitHub repository id, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_key
+    #   The Confluence space key containing the document.
+    #   @return [String]
+    #
+    # @!attribute [rw] page_id
+    #   The Confluence page identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The display title of the Confluence page.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_title
+    #   The display title of the Confluence space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ConfluenceDocumentMetadata AWS API Documentation
+    #
+    class ConfluenceDocumentMetadata < Struct.new(
+      :name,
+      :provider_resource_id,
+      :space_key,
+      :page_id,
+      :title,
+      :space_title)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A Confluence document (page) integrated as a resource.
+    #
+    # @!attribute [rw] name
+    #   Name of the resource e.g. repository name, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_key
+    #   The Confluence space key containing the document.
+    #   @return [String]
+    #
+    # @!attribute [rw] page_id
+    #   The Confluence page identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The display title of the Confluence page.
+    #   @return [String]
+    #
+    # @!attribute [rw] space_title
+    #   The display title of the Confluence space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ConfluenceDocumentResource AWS API Documentation
+    #
+    class ConfluenceDocumentResource < Struct.new(
+      :name,
+      :space_key,
+      :page_id,
+      :title,
+      :space_title)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for creating a Confluence integration.
+    #
+    # @!attribute [rw] installation_id
+    #   The Atlassian installation identifier, available from the Atlassian
+    #   administration console.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The OAuth 2.0 authorization code returned from the consent redirect.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The CSRF state token echoed back from the OAuth redirect.
+    #   @return [String]
+    #
+    # @!attribute [rw] site_url
+    #   The Confluence Cloud site URL, for example
+    #   https://mysite.atlassian.net.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ConfluenceIntegrationInput AWS API Documentation
+    #
+    class ConfluenceIntegrationInput < Struct.new(
+      :installation_id,
+      :code,
+      :state,
+      :site_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Capabilities for an integrated Confluence space.
+    #
+    # @!attribute [rw] fetch_document
+    #   Whether to fetch documents from this space.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] create_document
+    #   Whether to create documents in this space.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] update_document
+    #   Whether to update documents in this space.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ConfluenceResourceCapabilities AWS API Documentation
+    #
+    class ConfluenceResourceCapabilities < Struct.new(
+      :fetch_document,
+      :create_document,
+      :update_document)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input for creating a new agent space.
     #
     # @!attribute [rw] name
@@ -1512,6 +2219,11 @@ module Aws::SecurityAgent
     #   AUTOMATIC and DISABLED.
     #   @return [String]
     #
+    # @!attribute [rw] validation_mode
+    #   The validation mode for the code review. Valid values are SIMULATED
+    #   and DISABLED.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateCodeReviewInput AWS API Documentation
     #
     class CreateCodeReviewInput < Struct.new(
@@ -1520,7 +2232,8 @@ module Aws::SecurityAgent
       :assets,
       :service_role,
       :log_config,
-      :code_remediation_strategy)
+      :code_remediation_strategy,
+      :validation_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1564,6 +2277,10 @@ module Aws::SecurityAgent
     #   The code remediation strategy for the code review.
     #   @return [String]
     #
+    # @!attribute [rw] validation_mode
+    #   The validation mode for the code review.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateCodeReviewOutput AWS API Documentation
     #
     class CreateCodeReviewOutput < Struct.new(
@@ -1575,7 +2292,8 @@ module Aws::SecurityAgent
       :service_role,
       :log_config,
       :agent_space_id,
-      :code_remediation_strategy)
+      :code_remediation_strategy,
+      :validation_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1601,6 +2319,12 @@ module Aws::SecurityAgent
     #   The tags to associate with the integration.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] private_connection_name
+    #   The name of an active private connection used to reach a self-hosted
+    #   provider instance over private networking. Specify this when the
+    #   instance is not publicly reachable.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateIntegrationInput AWS API Documentation
     #
     class CreateIntegrationInput < Struct.new(
@@ -1608,7 +2332,8 @@ module Aws::SecurityAgent
       :input,
       :integration_display_name,
       :kms_key_id,
-      :tags)
+      :tags,
+      :private_connection_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1707,6 +2432,11 @@ module Aws::SecurityAgent
     #   AUTOMATIC and DISABLED.
     #   @return [String]
     #
+    # @!attribute [rw] disable_managed_skills
+    #   A list of managed skills to disable for this pentest. Valid values
+    #   include FINDING\_PERSONALIZATION and LOGIN\_OPTIMIZATION.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreatePentestInput AWS API Documentation
     #
     class CreatePentestInput < Struct.new(
@@ -1718,7 +2448,8 @@ module Aws::SecurityAgent
       :log_config,
       :vpc_config,
       :network_traffic_config,
-      :code_remediation_strategy)
+      :code_remediation_strategy,
+      :disable_managed_skills)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1773,6 +2504,184 @@ module Aws::SecurityAgent
       :service_role,
       :log_config,
       :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] private_connection_name
+    #   A unique name for the private connection within your account.
+    #   @return [String]
+    #
+    # @!attribute [rw] mode
+    #   The configuration for the private connection. Specify either a
+    #   service-managed or a self-managed mode.
+    #   @return [Types::PrivateConnectionMode]
+    #
+    # @!attribute [rw] tags
+    #   The tags to attach to the private connection.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreatePrivateConnectionInput AWS API Documentation
+    #
+    class CreatePrivateConnectionInput < Struct.new(
+      :private_connection_name,
+      :mode,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the private connection, indicating whether it is
+    #   service-managed or self-managed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_gateway_id
+    #   The identifier or ARN of the VPC Lattice resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_address
+    #   The IP address or DNS name of the target resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC the resource gateway is created in.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_configuration_id
+    #   The identifier or ARN of the VPC Lattice resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_expiry_time
+    #   The date and time the connection's certificate expires, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] dns_resolution
+    #   The DNS resolution mode for the resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   A message describing why the private connection entered a failed
+    #   state, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags attached to the private connection.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreatePrivateConnectionOutput AWS API Documentation
+    #
+    class CreatePrivateConnectionOutput < Struct.new(
+      :name,
+      :type,
+      :status,
+      :resource_gateway_id,
+      :host_address,
+      :vpc_id,
+      :resource_configuration_id,
+      :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the details for a security requirement to create within a
+    # pack.
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain
+    #   The security domain the requirement belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation
+    #   The evaluation criteria used to assess compliance with this
+    #   requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] remediation
+    #   The recommended remediation steps when the requirement is not met.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateSecurityRequirementEntry AWS API Documentation
+    #
+    class CreateSecurityRequirementEntry < Struct.new(
+      :name,
+      :description,
+      :domain,
+      :evaluation,
+      :remediation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the pack. Defaults to ENABLED if not provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The identifier of the AWS KMS key used to encrypt pack contents.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags to associate with the security requirement pack.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateSecurityRequirementPackInput AWS API Documentation
+    #
+    class CreateSecurityRequirementPackInput < Struct.new(
+      :name,
+      :description,
+      :status,
+      :kms_key_id,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the created security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the created security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The identifier of the AWS KMS key used to encrypt pack contents.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateSecurityRequirementPackOutput AWS API Documentation
+    #
+    class CreateSecurityRequirementPackOutput < Struct.new(
+      :pack_id,
+      :status,
+      :kms_key_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1843,6 +2752,322 @@ module Aws::SecurityAgent
       :verification_details,
       :created_at,
       :verified_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for creating a new threat.
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_job_id
+    #   The unique identifier of the threat model job the threat belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   A short title summarizing the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] statement
+    #   The natural-language threat statement.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   The severity level of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] comments
+    #   Optional customer comment on the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] stride
+    #   The STRIDE categories applicable to this threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] threat_source
+    #   The actor or origin of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] prerequisites
+    #   The conditions required for the threat to be exploitable.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_action
+    #   What the threat source can do.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_impact
+    #   The direct consequence of the threat action.
+    #   @return [String]
+    #
+    # @!attribute [rw] impacted_goal
+    #   The security goals affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] impacted_assets
+    #   The specific assets affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] anchor
+    #   The DFD element this threat is anchored to.
+    #   @return [Types::ThreatAnchorShape]
+    #
+    # @!attribute [rw] evidence
+    #   The source code files supporting the threat.
+    #   @return [Array<Types::ThreatEvidenceShape>]
+    #
+    # @!attribute [rw] recommendation
+    #   The recommended mitigation guidance for this threat.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateThreatInput AWS API Documentation
+    #
+    class CreateThreatInput < Struct.new(
+      :agent_space_id,
+      :threat_job_id,
+      :title,
+      :statement,
+      :severity,
+      :comments,
+      :stride,
+      :threat_source,
+      :prerequisites,
+      :threat_action,
+      :threat_impact,
+      :impacted_goal,
+      :impacted_assets,
+      :anchor,
+      :evidence,
+      :recommendation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for creating a new threat model.
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space to create the threat model
+    #   in.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the application or system being threat modeled.
+    #   @return [String]
+    #
+    # @!attribute [rw] assets
+    #   The assets to include in the threat model.
+    #   @return [Types::Assets]
+    #
+    # @!attribute [rw] scope_docs
+    #   The scoped documents for the agent to focus on during threat
+    #   modeling.
+    #   @return [Array<Types::DocumentInfo>]
+    #
+    # @!attribute [rw] service_role
+    #   The IAM service role to use for the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_config
+    #   The CloudWatch Logs configuration for the threat model.
+    #   @return [Types::CloudWatchLog]
+    #
+    # @!attribute [rw] report_destination
+    #   The destination for publishing scan reports to an integrated
+    #   document provider.
+    #   @return [Types::ReportDestination]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateThreatModelInput AWS API Documentation
+    #
+    class CreateThreatModelInput < Struct.new(
+      :title,
+      :agent_space_id,
+      :description,
+      :assets,
+      :scope_docs,
+      :service_role,
+      :log_config,
+      :report_destination)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the CreateThreatModel operation.
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the created threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the application or system being threat modeled.
+    #   @return [String]
+    #
+    # @!attribute [rw] assets
+    #   The assets included in the threat model.
+    #   @return [Types::Assets]
+    #
+    # @!attribute [rw] scope_docs
+    #   The scoped documents for the agent to focus on during threat
+    #   modeling.
+    #   @return [Array<Types::DocumentInfo>]
+    #
+    # @!attribute [rw] service_role
+    #   The IAM service role used for the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_config
+    #   The CloudWatch Logs configuration for the threat model.
+    #   @return [Types::CloudWatchLog]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat model was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat model was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateThreatModelOutput AWS API Documentation
+    #
+    class CreateThreatModelOutput < Struct.new(
+      :threat_model_id,
+      :title,
+      :agent_space_id,
+      :description,
+      :assets,
+      :scope_docs,
+      :service_role,
+      :log_config,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the CreateThreat operation.
+    #
+    # @!attribute [rw] threat_id
+    #   The unique identifier of the created threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_job_id
+    #   The unique identifier of the threat model job the threat belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   A short title summarizing the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] statement
+    #   The natural-language threat statement.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   The severity level of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] comments
+    #   Optional customer comment on the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] stride
+    #   The STRIDE categories applicable to this threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] threat_source
+    #   The actor or origin of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] prerequisites
+    #   The conditions required for the threat to be exploitable.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_action
+    #   What the threat source can do.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_impact
+    #   The direct consequence of the threat action.
+    #   @return [String]
+    #
+    # @!attribute [rw] impacted_goal
+    #   The security goals affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] impacted_assets
+    #   The specific assets affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] anchor
+    #   The DFD element this threat is anchored to.
+    #   @return [Types::ThreatAnchorShape]
+    #
+    # @!attribute [rw] evidence
+    #   The source code files supporting the threat.
+    #   @return [Array<Types::ThreatEvidenceShape>]
+    #
+    # @!attribute [rw] recommendation
+    #   The recommended mitigation guidance for this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by
+    #   Who created this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_by
+    #   Who last updated this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateThreatOutput AWS API Documentation
+    #
+    class CreateThreatOutput < Struct.new(
+      :threat_id,
+      :threat_job_id,
+      :title,
+      :statement,
+      :severity,
+      :status,
+      :comments,
+      :stride,
+      :threat_source,
+      :prerequisites,
+      :threat_action,
+      :threat_impact,
+      :impacted_goal,
+      :impacted_assets,
+      :anchor,
+      :evidence,
+      :recommendation,
+      :created_by,
+      :updated_by,
+      :created_at,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2018,6 +3243,99 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # @!attribute [rw] private_connection_name
+    #   The name of the private connection to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DeletePrivateConnectionInput AWS API Documentation
+    #
+    class DeletePrivateConnectionInput < Struct.new(
+      :private_connection_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the private connection, indicating whether it is
+    #   service-managed or self-managed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_gateway_id
+    #   The identifier or ARN of the VPC Lattice resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_address
+    #   The IP address or DNS name of the target resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC the resource gateway is created in.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_configuration_id
+    #   The identifier or ARN of the VPC Lattice resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_expiry_time
+    #   The date and time the connection's certificate expires, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] dns_resolution
+    #   The DNS resolution mode for the resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   A message describing why the private connection entered a failed
+    #   state, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags attached to the private connection.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DeletePrivateConnectionOutput AWS API Documentation
+    #
+    class DeletePrivateConnectionOutput < Struct.new(
+      :name,
+      :type,
+      :status,
+      :resource_gateway_id,
+      :host_address,
+      :vpc_id,
+      :resource_configuration_id,
+      :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DeleteSecurityRequirementPackInput AWS API Documentation
+    #
+    class DeleteSecurityRequirementPackInput < Struct.new(
+      :pack_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DeleteSecurityRequirementPackOutput AWS API Documentation
+    #
+    class DeleteSecurityRequirementPackOutput < Aws::EmptyStructure; end
+
     # Input for deleting a target domain.
     #
     # @!attribute [rw] target_domain_id
@@ -2044,6 +3362,125 @@ module Aws::SecurityAgent
       :target_domain_id)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # Contains information about a threat model that failed to delete.
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model that failed to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason
+    #   The reason the threat model failed to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DeleteThreatModelFailure AWS API Documentation
+    #
+    class DeleteThreatModelFailure < Struct.new(
+      :threat_model_id,
+      :reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] private_connection_name
+    #   The name of the private connection to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DescribePrivateConnectionInput AWS API Documentation
+    #
+    class DescribePrivateConnectionInput < Struct.new(
+      :private_connection_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the private connection, indicating whether it is
+    #   service-managed or self-managed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_gateway_id
+    #   The identifier or ARN of the VPC Lattice resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_address
+    #   The IP address or DNS name of the target resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC the resource gateway is created in.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_configuration_id
+    #   The identifier or ARN of the VPC Lattice resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_expiry_time
+    #   The date and time the connection's certificate expires, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] dns_resolution
+    #   The DNS resolution mode for the resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   A message describing why the private connection entered a failed
+    #   state, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags attached to the private connection.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DescribePrivateConnectionOutput AWS API Documentation
+    #
+    class DescribePrivateConnectionOutput < Struct.new(
+      :name,
+      :type,
+      :status,
+      :resource_gateway_id,
+      :host_address,
+      :vpc_id,
+      :resource_configuration_id,
+      :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Source of the diff for a differential code scan.
+    #
+    # @note DiffSource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] s3_uri
+    #   S3 URI pointing to a unified diff file. The file must be in standard
+    #   unified diff format and stored in an S3 bucket connected to your
+    #   Agent Space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DiffSource AWS API Documentation
+    #
+    class DiffSource < Struct.new(
+      :s3_uri,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class S3Uri < DiffSource; end
+      class Unknown < DiffSource; end
     end
 
     # Represents an endpoint discovered during a pentest job.
@@ -2127,11 +3564,16 @@ module Aws::SecurityAgent
     #   The unique identifier of the artifact associated with the document.
     #   @return [String]
     #
+    # @!attribute [rw] integrated_document
+    #   A reference to a document in an integrated third-party provider.
+    #   @return [Types::IntegratedDocument]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DocumentInfo AWS API Documentation
     #
     class DocumentInfo < Struct.new(
       :s3_location,
-      :artifact_id)
+      :artifact_id,
+      :integrated_document)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2268,6 +3710,12 @@ module Aws::SecurityAgent
     #   FALSE\_POSITIVE, UNCONFIRMED, LOW, MEDIUM, and HIGH.
     #   @return [String]
     #
+    # @!attribute [rw] validation_status
+    #   The simulated validation status of the finding. Valid values are
+    #   NOT\_VALIDATED, VALIDATING, CONFIRMED, NOT\_REPRODUCED, and
+    #   VALIDATION\_FAILED.
+    #   @return [String]
+    #
     # @!attribute [rw] attack_script
     #   The attack script used to reproduce the finding.
     #   @return [String]
@@ -2281,6 +3729,10 @@ module Aws::SecurityAgent
     #   The identifier of the entity that last updated the finding.
     #   @return [String]
     #
+    # @!attribute [rw] customer_note
+    #   A customer-provided note on the finding.
+    #   @return [String]
+    #
     # @!attribute [rw] code_locations
     #   The file locations involved in the vulnerability, as reported by the
     #   code scanner.
@@ -2291,6 +3743,11 @@ module Aws::SecurityAgent
     #   including download URL, instructions, and required environment
     #   variables.
     #   @return [Types::VerificationScript]
+    #
+    # @!attribute [rw] alignment_rationale
+    #   The rationale provided by the alignment agent explaining how the
+    #   finding was adjusted based on customer preferences.
+    #   @return [String]
     #
     # @!attribute [rw] created_at
     #   The date and time the finding was created, in UTC format.
@@ -2318,11 +3775,14 @@ module Aws::SecurityAgent
       :risk_score,
       :reasoning,
       :confidence,
+      :validation_status,
       :attack_script,
       :code_remediation_task,
       :last_updated_by,
+      :customer_note,
       :code_locations,
       :verification_script,
+      :alignment_rationale,
       :created_at,
       :updated_at)
       SENSITIVE = []
@@ -2378,6 +3838,10 @@ module Aws::SecurityAgent
     #   The confidence level of the finding.
     #   @return [String]
     #
+    # @!attribute [rw] validation_status
+    #   The simulated validation status of the finding.
+    #   @return [String]
+    #
     # @!attribute [rw] created_at
     #   The date and time the finding was created, in UTC format.
     #   @return [Time]
@@ -2400,6 +3864,7 @@ module Aws::SecurityAgent
       :risk_type,
       :risk_level,
       :confidence,
+      :validation_status,
       :created_at,
       :updated_at)
       SENSITIVE = []
@@ -2543,6 +4008,17 @@ module Aws::SecurityAgent
     #   with the integration.
     #   @return [String]
     #
+    # @!attribute [rw] target_url
+    #   The HTTPS URL of the customer self-hosted instance, such as a GitHub
+    #   Enterprise Server or self-managed GitLab instance. This value is
+    #   absent for SaaS integrations.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_connection_name
+    #   The name of the private connection used to reach the integration's
+    #   self-hosted instance over private networking, if one is configured.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GetIntegrationOutput AWS API Documentation
     #
     class GetIntegrationOutput < Struct.new(
@@ -2551,6 +4027,81 @@ module Aws::SecurityAgent
       :provider,
       :provider_type,
       :display_name,
+      :kms_key_id,
+      :target_url,
+      :private_connection_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GetSecurityRequirementPackInput AWS API Documentation
+    #
+    class GetSecurityRequirementPackInput < Struct.new(
+      :pack_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] vendor_name
+    #   The vendor name for AWS managed packs, such as ISO or NIST.
+    #   @return [String]
+    #
+    # @!attribute [rw] management_type
+    #   The management type of the pack. Valid values are AWS\_MANAGED and
+    #   CUSTOMER\_MANAGED.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] import_status
+    #   The status of the security requirements import workflow for this
+    #   pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the security requirement pack was created, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the security requirement pack was last updated, in
+    #   UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The identifier of the AWS KMS key used to encrypt pack contents.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GetSecurityRequirementPackOutput AWS API Documentation
+    #
+    class GetSecurityRequirementPackOutput < Struct.new(
+      :pack_id,
+      :name,
+      :description,
+      :vendor_name,
+      :management_type,
+      :status,
+      :import_status,
+      :created_at,
+      :updated_at,
       :kms_key_id)
       SENSITIVE = []
       include Aws::Structure
@@ -2571,12 +4122,25 @@ module Aws::SecurityAgent
     #   The name of the GitHub organization to integrate with.
     #   @return [String]
     #
+    # @!attribute [rw] target_url
+    #   The HTTPS URL of a self-hosted GitHub Enterprise Server instance.
+    #   Omit this value for GitHub.com.
+    #   @return [String]
+    #
+    # @!attribute [rw] installation_id
+    #   The installation identifier provided by GitHub Enterprise Server on
+    #   the install callback. Required for GitHub Enterprise Server
+    #   integrations and ignored for GitHub.com.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GitHubIntegrationInput AWS API Documentation
     #
     class GitHubIntegrationInput < Struct.new(
       :code,
       :state,
-      :organization_name)
+      :organization_name,
+      :target_url,
+      :installation_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2652,6 +4216,106 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # The configuration for creating a GitLab integration.
+    #
+    # @!attribute [rw] access_token
+    #   The GitLab access token used to authenticate. This can be a personal
+    #   access token or a group access token.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_url
+    #   The HTTPS URL of a self-managed GitLab instance. Omit this value for
+    #   GitLab SaaS (gitlab.com).
+    #   @return [String]
+    #
+    # @!attribute [rw] token_type
+    #   The type of GitLab access token provided in accessToken.
+    #   @return [String]
+    #
+    # @!attribute [rw] group_id
+    #   The identifier of the GitLab group. Required when tokenType is group
+    #   and ignored for personal tokens.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GitLabIntegrationInput AWS API Documentation
+    #
+    class GitLabIntegrationInput < Struct.new(
+      :access_token,
+      :target_url,
+      :token_type,
+      :group_id)
+      SENSITIVE = [:access_token]
+      include Aws::Structure
+    end
+
+    # Metadata for an integrated GitLab repository.
+    #
+    # @!attribute [rw] name
+    #   Name of the resource e.g. repository name, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_resource_id
+    #   Provider Id of the resource e.g. GitHub repository id, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace (group or user path) that owns the project.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_type
+    #   Defines the visibility level of provider resources. PRIVATE
+    #   indicates restricted access, while PUBLIC indicates open access.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GitLabRepositoryMetadata AWS API Documentation
+    #
+    class GitLabRepositoryMetadata < Struct.new(
+      :name,
+      :provider_resource_id,
+      :namespace,
+      :access_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A GitLab repository integrated as a resource.
+    #
+    # @!attribute [rw] name
+    #   Name of the resource e.g. repository name, etc.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace (group or user path) that owns the project.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GitLabRepositoryResource AWS API Documentation
+    #
+    class GitLabRepositoryResource < Struct.new(
+      :name,
+      :namespace)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Capabilities for an integrated GitLab repository.
+    #
+    # @!attribute [rw] leave_comments
+    #   Whether to post code review comments on merge request discussions.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] remediate_code
+    #   Whether to create merge requests with automated fixes.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GitLabResourceCapabilities AWS API Documentation
+    #
+    class GitLabResourceCapabilities < Struct.new(
+      :leave_comments,
+      :remediate_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains HTTP route verification details for a target domain,
     # including the route path and token to serve for domain ownership
     # verification.
@@ -2693,6 +4357,64 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to import
+    #   requirements into.
+    #   @return [String]
+    #
+    # @!attribute [rw] input
+    #   The import source containing the documents to extract security
+    #   requirements from.
+    #   @return [Types::ImportSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ImportSecurityRequirementsInput AWS API Documentation
+    #
+    class ImportSecurityRequirementsInput < Struct.new(
+      :pack_id,
+      :input)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] import_status
+    #   The status of the import workflow.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ImportSecurityRequirementsOutput AWS API Documentation
+    #
+    class ImportSecurityRequirementsOutput < Struct.new(
+      :pack_id,
+      :import_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source from which to import security requirements. Currently
+    # supports document uploads.
+    #
+    # @note ImportSource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] documents
+    #   The list of documents to extract security requirements from.
+    #   @return [Array<Types::SecurityRequirementArtifact>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ImportSource AWS API Documentation
+    #
+    class ImportSource < Struct.new(
+      :documents,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Documents < ImportSource; end
+      class Unknown < ImportSource; end
+    end
+
     # @!attribute [rw] provider
     #   The provider to initiate registration with. Currently, only GITHUB
     #   is supported.
@@ -2720,6 +4442,27 @@ module Aws::SecurityAgent
     class InitiateProviderRegistrationOutput < Struct.new(
       :redirect_to,
       :csrf_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A reference to a document in a third-party provider, such as a
+    # Confluence page linked via an integration.
+    #
+    # @!attribute [rw] integration_id
+    #   The identifier of the integration that provides access to the
+    #   document.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_id
+    #   The provider-specific resource identifier for the document.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/IntegratedDocument AWS API Documentation
+    #
+    class IntegratedDocument < Struct.new(
+      :integration_id,
+      :resource_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2754,16 +4497,34 @@ module Aws::SecurityAgent
     #   The GitHub repository resource information.
     #   @return [Types::GitHubRepositoryResource]
     #
+    # @!attribute [rw] gitlab_repository
+    #   A GitLab repository integrated as a resource.
+    #   @return [Types::GitLabRepositoryResource]
+    #
+    # @!attribute [rw] bitbucket_repository
+    #   A Bitbucket repository integrated as a resource.
+    #   @return [Types::BitbucketRepositoryResource]
+    #
+    # @!attribute [rw] confluence_document
+    #   A Confluence document (page) integrated as a resource.
+    #   @return [Types::ConfluenceDocumentResource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/IntegratedResource AWS API Documentation
     #
     class IntegratedResource < Struct.new(
       :github_repository,
+      :gitlab_repository,
+      :bitbucket_repository,
+      :confluence_document,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class GithubRepository < IntegratedResource; end
+      class GitlabRepository < IntegratedResource; end
+      class BitbucketRepository < IntegratedResource; end
+      class ConfluenceDocument < IntegratedResource; end
       class Unknown < IntegratedResource; end
     end
 
@@ -2796,16 +4557,34 @@ module Aws::SecurityAgent
     #   The GitHub repository metadata.
     #   @return [Types::GitHubRepositoryMetadata]
     #
+    # @!attribute [rw] gitlab_repository
+    #   Metadata for an integrated GitLab repository.
+    #   @return [Types::GitLabRepositoryMetadata]
+    #
+    # @!attribute [rw] bitbucket_repository
+    #   Metadata for an integrated Bitbucket repository.
+    #   @return [Types::BitbucketRepositoryMetadata]
+    #
+    # @!attribute [rw] confluence_document
+    #   Metadata for an integrated Confluence document.
+    #   @return [Types::ConfluenceDocumentMetadata]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/IntegratedResourceMetadata AWS API Documentation
     #
     class IntegratedResourceMetadata < Struct.new(
       :github_repository,
+      :gitlab_repository,
+      :bitbucket_repository,
+      :confluence_document,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class GithubRepository < IntegratedResourceMetadata; end
+      class GitlabRepository < IntegratedResourceMetadata; end
+      class BitbucketRepository < IntegratedResourceMetadata; end
+      class ConfluenceDocument < IntegratedResourceMetadata; end
       class Unknown < IntegratedResourceMetadata; end
     end
 
@@ -2884,6 +4663,17 @@ module Aws::SecurityAgent
     #   The display name of the integration.
     #   @return [String]
     #
+    # @!attribute [rw] target_url
+    #   The HTTPS URL of the customer self-hosted instance, such as a GitHub
+    #   Enterprise Server or self-managed GitLab instance. This value is
+    #   absent for SaaS integrations.
+    #   @return [String]
+    #
+    # @!attribute [rw] private_connection_name
+    #   The name of the private connection used to reach the integration's
+    #   self-hosted instance over private networking, if one is configured.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/IntegrationSummary AWS API Documentation
     #
     class IntegrationSummary < Struct.new(
@@ -2891,7 +4681,9 @@ module Aws::SecurityAgent
       :installation_id,
       :provider,
       :provider_type,
-      :display_name)
+      :display_name,
+      :target_url,
+      :private_connection_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3528,7 +5320,7 @@ module Aws::SecurityAgent
     #
     # @!attribute [rw] step_name
     #   Filter tasks by step name. Valid values include PREFLIGHT,
-    #   STATIC\_ANALYSIS, PENTEST, and FINALIZING.
+    #   STATIC\_ANALYSIS, PENTEST, VALIDATION, and FINALIZING.
     #   @return [String]
     #
     # @!attribute [rw] category_name
@@ -3680,6 +5472,145 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of private connections to return in a single
+    #   response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListPrivateConnectionsInput AWS API Documentation
+    #
+    class ListPrivateConnectionsInput < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] private_connections
+    #   The list of private connections.
+    #   @return [Array<Types::PrivateConnectionSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results, if more
+    #   results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListPrivateConnectionsOutput AWS API Documentation
+    #
+    class ListPrivateConnectionsOutput < Struct.new(
+      :private_connections,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter criteria for listing security requirement packs.
+    #
+    # @!attribute [rw] management_type
+    #   Filter packs by management type. Valid values are AWS\_MANAGED and
+    #   CUSTOMER\_MANAGED.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Filter packs by status. Valid values are ENABLED and DISABLED.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListSecurityRequirementPackFilter AWS API Documentation
+    #
+    class ListSecurityRequirementPackFilter < Struct.new(
+      :management_type,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filter
+    #   The filter criteria for listing security requirement packs.
+    #   @return [Types::ListSecurityRequirementPackFilter]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from a previous request to retrieve the next
+    #   page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListSecurityRequirementPacksInput AWS API Documentation
+    #
+    class ListSecurityRequirementPacksInput < Struct.new(
+      :filter,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] security_requirement_pack_summaries
+    #   The list of security requirement pack summaries.
+    #   @return [Array<Types::SecurityRequirementPackSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token to use in a subsequent request to retrieve the
+    #   next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListSecurityRequirementPacksOutput AWS API Documentation
+    #
+    class ListSecurityRequirementPacksOutput < Struct.new(
+      :security_requirement_pack_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to list
+    #   requirements for.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from a previous request to retrieve the next
+    #   page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListSecurityRequirementsInput AWS API Documentation
+    #
+    class ListSecurityRequirementsInput < Struct.new(
+      :pack_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] security_requirement_summaries
+    #   The list of security requirement summaries.
+    #   @return [Array<Types::SecurityRequirementSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token to use in a subsequent request to retrieve the
+    #   next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListSecurityRequirementsOutput AWS API Documentation
+    #
+    class ListSecurityRequirementsOutput < Struct.new(
+      :security_requirement_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Input for ListTagsForResource operation.
     #
     # @!attribute [rw] resource_arn
@@ -3747,6 +5678,201 @@ module Aws::SecurityAgent
     #
     class ListTargetDomainsOutput < Struct.new(
       :target_domain_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for listing tasks associated with a threat model job.
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] threat_model_job_id
+    #   The unique identifier of the threat model job to list tasks for.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelJobTasksInput AWS API Documentation
+    #
+    class ListThreatModelJobTasksInput < Struct.new(
+      :agent_space_id,
+      :max_results,
+      :threat_model_job_id,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the ListThreatModelJobTasks operation.
+    #
+    # @!attribute [rw] threat_model_job_task_summaries
+    #   The list of threat model job task summaries.
+    #   @return [Array<Types::ThreatModelJobTaskSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelJobTasksOutput AWS API Documentation
+    #
+    class ListThreatModelJobTasksOutput < Struct.new(
+      :threat_model_job_task_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for ListThreatModelJobs operation.
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model to list jobs for.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelJobsInput AWS API Documentation
+    #
+    class ListThreatModelJobsInput < Struct.new(
+      :max_results,
+      :threat_model_id,
+      :agent_space_id,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the ListThreatModelJobs operation.
+    #
+    # @!attribute [rw] threat_model_job_summaries
+    #   The list of threat model job summaries.
+    #   @return [Array<Types::ThreatModelJobSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelJobsOutput AWS API Documentation
+    #
+    class ListThreatModelJobsOutput < Struct.new(
+      :threat_model_job_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for listing threat models.
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space to list threat models for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelsInput AWS API Documentation
+    #
+    class ListThreatModelsInput < Struct.new(
+      :max_results,
+      :next_token,
+      :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the ListThreatModels operation.
+    #
+    # @!attribute [rw] threat_model_summaries
+    #   The list of threat model summaries.
+    #   @return [Array<Types::ThreatModelSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelsOutput AWS API Documentation
+    #
+    class ListThreatModelsOutput < Struct.new(
+      :threat_model_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for listing threats.
+    #
+    # @!attribute [rw] threat_job_id
+    #   The unique identifier of the threat model job to list threats for.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatsInput AWS API Documentation
+    #
+    class ListThreatsInput < Struct.new(
+      :threat_job_id,
+      :agent_space_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the ListThreats operation.
+    #
+    # @!attribute [rw] threats
+    #   The list of threat summaries.
+    #   @return [Array<Types::ThreatSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatsOutput AWS API Documentation
+    #
+    class ListThreatsOutput < Struct.new(
+      :threats,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -3969,6 +6095,15 @@ module Aws::SecurityAgent
     #   The code remediation strategy for the pentest.
     #   @return [String]
     #
+    # @!attribute [rw] clean_up_strategy
+    #   Strategy for cleaning up resources after pentest job completion.
+    #   @return [String]
+    #
+    # @!attribute [rw] disable_managed_skills
+    #   A list of managed skills to disable for this pentest. Valid values
+    #   include FINDING\_PERSONALIZATION and LOGIN\_OPTIMIZATION.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] created_at
     #   The date and time the pentest was created, in UTC format.
     #   @return [Time]
@@ -3990,6 +6125,8 @@ module Aws::SecurityAgent
       :vpc_config,
       :network_traffic_config,
       :code_remediation_strategy,
+      :clean_up_strategy,
+      :disable_managed_skills,
       :created_at,
       :updated_at)
       SENSITIVE = []
@@ -4085,6 +6222,15 @@ module Aws::SecurityAgent
     #   The code remediation strategy for the pentest job.
     #   @return [String]
     #
+    # @!attribute [rw] clean_up_strategy
+    #   Strategy for cleaning up resources after pentest job completion.
+    #   @return [String]
+    #
+    # @!attribute [rw] disable_managed_skills
+    #   A list of managed skills disabled for this pentest job. Valid values
+    #   include FINDING\_PERSONALIZATION and LOGIN\_OPTIMIZATION.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] created_at
     #   The date and time the pentest job was created, in UTC format.
     #   @return [Time]
@@ -4117,6 +6263,8 @@ module Aws::SecurityAgent
       :error_information,
       :integrated_repositories,
       :code_remediation_strategy,
+      :clean_up_strategy,
+      :disable_managed_skills,
       :created_at,
       :updated_at)
       SENSITIVE = []
@@ -4196,6 +6344,103 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # The configuration for a private connection. Specify either a
+    # service-managed or a self-managed mode.
+    #
+    # @note PrivateConnectionMode is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] service_managed
+    #   The configuration for a service-managed private connection, where
+    #   the service manages the resource gateway lifecycle.
+    #   @return [Types::ServiceManagedInput]
+    #
+    # @!attribute [rw] self_managed
+    #   The configuration for a self-managed private connection, where you
+    #   manage your own resource configuration.
+    #   @return [Types::SelfManagedInput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/PrivateConnectionMode AWS API Documentation
+    #
+    class PrivateConnectionMode < Struct.new(
+      :service_managed,
+      :self_managed,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ServiceManaged < PrivateConnectionMode; end
+      class SelfManaged < PrivateConnectionMode; end
+      class Unknown < PrivateConnectionMode; end
+    end
+
+    # Summarizes a private connection.
+    #
+    # @!attribute [rw] name
+    #   The name of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the private connection, indicating whether it is
+    #   service-managed or self-managed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_gateway_id
+    #   The identifier or ARN of the VPC Lattice resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_address
+    #   The IP address or DNS name of the target resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC the resource gateway is created in.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_configuration_id
+    #   The identifier or ARN of the VPC Lattice resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_expiry_time
+    #   The date and time the connection's certificate expires, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] dns_resolution
+    #   The DNS resolution mode for the resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   A message describing why the private connection entered a failed
+    #   state, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags attached to the private connection.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/PrivateConnectionSummary AWS API Documentation
+    #
+    class PrivateConnectionSummary < Struct.new(
+      :name,
+      :type,
+      :status,
+      :resource_gateway_id,
+      :host_address,
+      :vpc_id,
+      :resource_configuration_id,
+      :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The provider-specific input for creating an integration. This is a
     # union type that contains provider-specific configuration.
     #
@@ -4205,16 +6450,34 @@ module Aws::SecurityAgent
     #   The GitHub-specific input for creating an integration.
     #   @return [Types::GitHubIntegrationInput]
     #
+    # @!attribute [rw] gitlab
+    #   The configuration for a GitLab integration.
+    #   @return [Types::GitLabIntegrationInput]
+    #
+    # @!attribute [rw] bitbucket
+    #   The configuration for a Bitbucket integration.
+    #   @return [Types::BitbucketIntegrationInput]
+    #
+    # @!attribute [rw] confluence
+    #   The configuration for a Confluence integration.
+    #   @return [Types::ConfluenceIntegrationInput]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ProviderInput AWS API Documentation
     #
     class ProviderInput < Struct.new(
       :github,
+      :gitlab,
+      :bitbucket,
+      :confluence,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class Github < ProviderInput; end
+      class Gitlab < ProviderInput; end
+      class Bitbucket < ProviderInput; end
+      class Confluence < ProviderInput; end
       class Unknown < ProviderInput; end
     end
 
@@ -4230,17 +6493,67 @@ module Aws::SecurityAgent
     #   The GitHub-specific resource capabilities.
     #   @return [Types::GitHubResourceCapabilities]
     #
+    # @!attribute [rw] gitlab
+    #   Capabilities for an integrated GitLab repository.
+    #   @return [Types::GitLabResourceCapabilities]
+    #
+    # @!attribute [rw] bitbucket
+    #   Capabilities for an integrated Bitbucket repository.
+    #   @return [Types::BitbucketResourceCapabilities]
+    #
+    # @!attribute [rw] confluence
+    #   Capabilities for an integrated Confluence space.
+    #   @return [Types::ConfluenceResourceCapabilities]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ProviderResourceCapabilities AWS API Documentation
     #
     class ProviderResourceCapabilities < Struct.new(
       :github,
+      :gitlab,
+      :bitbucket,
+      :confluence,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class Github < ProviderResourceCapabilities; end
+      class Gitlab < ProviderResourceCapabilities; end
+      class Bitbucket < ProviderResourceCapabilities; end
+      class Confluence < ProviderResourceCapabilities; end
       class Unknown < ProviderResourceCapabilities; end
+    end
+
+    # Destination for publishing scan reports to an integrated document
+    # provider.
+    #
+    # @!attribute [rw] integration_id
+    #   The integration identifier for the document provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_id
+    #   The container identifier where the report will be published.
+    #   @return [String]
+    #
+    # @!attribute [rw] parent_id
+    #   The parent document identifier under which the report will be
+    #   created.
+    #   @return [String]
+    #
+    # @!attribute [rw] document_id
+    #   The existing document identifier to update instead of creating a new
+    #   document.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ReportDestination AWS API Documentation
+    #
+    class ReportDestination < Struct.new(
+      :integration_id,
+      :container_id,
+      :parent_id,
+      :document_id)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # The specified resource was not found. Verify that the resource
@@ -4254,6 +6567,210 @@ module Aws::SecurityAgent
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ResourceNotFoundException AWS API Documentation
     #
     class ResourceNotFoundException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A document used as source material for importing security
+    # requirements.
+    #
+    # @!attribute [rw] name
+    #   The file name of the document.
+    #   @return [String]
+    #
+    # @!attribute [rw] format
+    #   The format of the document. Valid values are MD, PDF, TXT, DOCX, and
+    #   DOC.
+    #   @return [String]
+    #
+    # @!attribute [rw] content
+    #   The binary content of the document.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/SecurityRequirementArtifact AWS API Documentation
+    #
+    class SecurityRequirementArtifact < Struct.new(
+      :name,
+      :format,
+      :content)
+      SENSITIVE = [:content]
+      include Aws::Structure
+    end
+
+    # Contains summary information about a security requirement pack.
+    #
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] vendor_name
+    #   The vendor name for AWS managed packs.
+    #   @return [String]
+    #
+    # @!attribute [rw] management_type
+    #   The management type of the pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the security requirement pack was created, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the security requirement pack was last updated, in
+    #   UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/SecurityRequirementPackSummary AWS API Documentation
+    #
+    class SecurityRequirementPackSummary < Struct.new(
+      :pack_id,
+      :name,
+      :description,
+      :vendor_name,
+      :management_type,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a security requirement.
+    #
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the pack containing the security
+    #   requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the security requirement was created, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the security requirement was last updated, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/SecurityRequirementSummary AWS API Documentation
+    #
+    class SecurityRequirementSummary < Struct.new(
+      :pack_id,
+      :name,
+      :description,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for a self-managed private connection.
+    #
+    # @!attribute [rw] resource_configuration_id
+    #   The identifier or ARN of the resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate
+    #   The certificate for the private connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/SelfManagedInput AWS API Documentation
+    #
+    class SelfManagedInput < Struct.new(
+      :resource_configuration_id,
+      :certificate)
+      SENSITIVE = [:certificate]
+      include Aws::Structure
+    end
+
+    # The configuration for a service-managed private connection.
+    #
+    # @!attribute [rw] host_address
+    #   The IP address or DNS name of the target resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_id
+    #   The VPC to create the service-managed resource gateway in.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_ids
+    #   The subnets that the service-managed resource gateway spans.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] security_group_ids
+    #   The security groups to attach to the service-managed resource
+    #   gateway.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] ip_address_type
+    #   The IP address type of the service-managed resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipv4_addresses_per_eni
+    #   The number of IPv4 addresses in each elastic network interface for
+    #   the service-managed resource gateway.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] port_ranges
+    #   The TCP port ranges that a consumer can use to access the resource.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] certificate
+    #   The certificate for the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] dns_resolution
+    #   The DNS resolution mode for the resource gateway. Defaults to PUBLIC
+    #   when not set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ServiceManagedInput AWS API Documentation
+    #
+    class ServiceManagedInput < Struct.new(
+      :host_address,
+      :vpc_id,
+      :subnet_ids,
+      :security_group_ids,
+      :ip_address_type,
+      :ipv4_addresses_per_eni,
+      :port_ranges,
+      :certificate,
+      :dns_resolution)
+      SENSITIVE = [:certificate]
+      include Aws::Structure
+    end
+
+    # The request exceeds a service quota. Review your current usage and
+    # request a quota increase if needed.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ServiceQuotaExceededException AWS API Documentation
+    #
+    class ServiceQuotaExceededException < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -4321,11 +6838,17 @@ module Aws::SecurityAgent
     #   The unique identifier of the code review to start a job for.
     #   @return [String]
     #
+    # @!attribute [rw] diff_source
+    #   Source of the diff for a differential scan. When present, the job
+    #   analyzes only the changed lines instead of performing a full scan.
+    #   @return [Types::DiffSource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StartCodeReviewJobInput AWS API Documentation
     #
     class StartCodeReviewJobInput < Struct.new(
       :agent_space_id,
-      :code_review_id)
+      :code_review_id,
+      :diff_source)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4438,12 +6961,76 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # Input for starting a threat model job.
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model to start a job for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StartThreatModelJobInput AWS API Documentation
+    #
+    class StartThreatModelJobInput < Struct.new(
+      :agent_space_id,
+      :threat_model_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the StartThreatModelJob operation.
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat model job was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat model job was last updated, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_job_id
+    #   The unique identifier of the started threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StartThreatModelJobOutput AWS API Documentation
+    #
+    class StartThreatModelJobOutput < Struct.new(
+      :title,
+      :status,
+      :created_at,
+      :updated_at,
+      :threat_model_id,
+      :threat_model_job_id,
+      :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Represents a step in the pentest job execution pipeline. Steps include
     # preflight, static analysis, pentest, and finalizing.
     #
     # @!attribute [rw] name
     #   The name of the step. Valid values include PREFLIGHT,
-    #   STATIC\_ANALYSIS, PENTEST, and FINALIZING.
+    #   STATIC\_ANALYSIS, PENTEST, VALIDATION, and FINALIZING.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -4518,6 +7105,31 @@ module Aws::SecurityAgent
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StopPentestJobOutput AWS API Documentation
     #
     class StopPentestJobOutput < Aws::EmptyStructure; end
+
+    # Input for stopping a threat model job.
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_job_id
+    #   The unique identifier of the threat model job to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StopThreatModelJobInput AWS API Documentation
+    #
+    class StopThreatModelJobInput < Struct.new(
+      :agent_space_id,
+      :threat_model_job_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the StopThreatModelJob operation.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StopThreatModelJobOutput AWS API Documentation
+    #
+    class StopThreatModelJobOutput < Aws::EmptyStructure; end
 
     # Input for TagResource operation.
     #
@@ -4744,6 +7356,571 @@ module Aws::SecurityAgent
       include Aws::Structure
     end
 
+    # Represents a threat identified during threat modeling.
+    #
+    # @!attribute [rw] threat_id
+    #   The unique identifier of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_job_id
+    #   The unique identifier of the threat model job that produced the
+    #   threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   A short title summarizing the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] statement
+    #   The natural-language threat statement.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   The severity level of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] comments
+    #   Optional customer comment on the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_source
+    #   The actor or origin of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] prerequisites
+    #   The conditions required for the threat to be exploitable.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_action
+    #   What the threat source can do.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_impact
+    #   The direct consequence of the threat action.
+    #   @return [String]
+    #
+    # @!attribute [rw] impacted_goal
+    #   The security goals affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] impacted_assets
+    #   The specific assets affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] anchor
+    #   The DFD element this threat is anchored to.
+    #   @return [Types::ThreatAnchorShape]
+    #
+    # @!attribute [rw] evidence
+    #   The source code files supporting the threat.
+    #   @return [Array<Types::ThreatEvidenceShape>]
+    #
+    # @!attribute [rw] stride
+    #   The STRIDE categories applicable to this threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] recommendation
+    #   The recommended mitigation guidance for this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by
+    #   Who created this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_by
+    #   Who last updated this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/Threat AWS API Documentation
+    #
+    class Threat < Struct.new(
+      :threat_id,
+      :threat_job_id,
+      :title,
+      :statement,
+      :severity,
+      :status,
+      :comments,
+      :threat_source,
+      :prerequisites,
+      :threat_action,
+      :threat_impact,
+      :impacted_goal,
+      :impacted_assets,
+      :anchor,
+      :evidence,
+      :stride,
+      :recommendation,
+      :created_by,
+      :updated_by,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # DFD element that a threat is anchored to.
+    #
+    # @!attribute [rw] kind
+    #   The kind of DFD element.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The identifier of the DFD element.
+    #   @return [String]
+    #
+    # @!attribute [rw] package_id
+    #   The package identifier containing the DFD element.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatAnchorShape AWS API Documentation
+    #
+    class ThreatAnchorShape < Struct.new(
+      :kind,
+      :id,
+      :package_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Source code file supporting a threat.
+    #
+    # @!attribute [rw] package_id
+    #   The package identifier containing the evidence file.
+    #   @return [String]
+    #
+    # @!attribute [rw] path
+    #   The file path of the evidence.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatEvidenceShape AWS API Documentation
+    #
+    class ThreatEvidenceShape < Struct.new(
+      :package_id,
+      :path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a threat model configuration that defines the parameters
+    # for automated threat analysis, including target assets and logging
+    # configuration.
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the application or system being threat modeled.
+    #   @return [String]
+    #
+    # @!attribute [rw] assets
+    #   The assets included in the threat model.
+    #   @return [Types::Assets]
+    #
+    # @!attribute [rw] scope_docs
+    #   The scoped documents for the agent to focus on during threat
+    #   modeling.
+    #   @return [Array<Types::DocumentInfo>]
+    #
+    # @!attribute [rw] service_role
+    #   The IAM service role used for the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_config
+    #   The CloudWatch Logs configuration for the threat model.
+    #   @return [Types::CloudWatchLog]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat model was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat model was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatModel AWS API Documentation
+    #
+    class ThreatModel < Struct.new(
+      :threat_model_id,
+      :agent_space_id,
+      :title,
+      :description,
+      :assets,
+      :scope_docs,
+      :service_role,
+      :log_config,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a threat model job, which is an execution instance of a
+    # threat model.
+    #
+    # @!attribute [rw] threat_model_job_id
+    #   The unique identifier of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model associated with the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat model job was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat model job was last updated, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] execution_start_time
+    #   The date and time the threat model job execution started, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] execution_end_time
+    #   The date and time the threat model job execution ended, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] source_code
+    #   The list of source code repositories used for threat modeling.
+    #   @return [Array<Types::SourceCodeRepository>]
+    #
+    # @!attribute [rw] integrated_repositories
+    #   The list of integrated repositories used for threat modeling.
+    #   @return [Array<Types::IntegratedRepository>]
+    #
+    # @!attribute [rw] documents
+    #   The list of documents used for threat modeling.
+    #   @return [Array<Types::DocumentInfo>]
+    #
+    # @!attribute [rw] scope_docs
+    #   The scoped documents for the agent to focus on during threat
+    #   modeling.
+    #   @return [Array<Types::DocumentInfo>]
+    #
+    # @!attribute [rw] error_information
+    #   Error information if the threat model job encountered an error.
+    #   @return [Types::ErrorInformation]
+    #
+    # @!attribute [rw] system_overview
+    #   The system overview generated during threat modeling.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatModelJob AWS API Documentation
+    #
+    class ThreatModelJob < Struct.new(
+      :threat_model_job_id,
+      :threat_model_id,
+      :agent_space_id,
+      :title,
+      :status,
+      :created_at,
+      :updated_at,
+      :execution_start_time,
+      :execution_end_time,
+      :source_code,
+      :integrated_repositories,
+      :documents,
+      :scope_docs,
+      :error_information,
+      :system_overview)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a threat model job.
+    #
+    # @!attribute [rw] threat_model_job_id
+    #   The unique identifier of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model associated with the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the threat model job.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat model job was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat model job was last updated, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatModelJobSummary AWS API Documentation
+    #
+    class ThreatModelJobSummary < Struct.new(
+      :threat_model_job_id,
+      :threat_model_id,
+      :agent_space_id,
+      :title,
+      :status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents an individual task within a threat model job.
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model associated with the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_job_id
+    #   The unique identifier of the threat model job that contains the
+    #   task.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_status
+    #   The current execution status of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] logs_location
+    #   The location of the task execution logs.
+    #   @return [Types::LogLocation]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the task was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the task was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatModelJobTask AWS API Documentation
+    #
+    class ThreatModelJobTask < Struct.new(
+      :task_id,
+      :threat_model_id,
+      :threat_model_job_id,
+      :agent_space_id,
+      :title,
+      :description,
+      :execution_status,
+      :logs_location,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a threat model job task.
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model associated with the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_model_job_id
+    #   The unique identifier of the threat model job that contains the
+    #   task.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_status
+    #   The current execution status of the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the task was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the task was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatModelJobTaskSummary AWS API Documentation
+    #
+    class ThreatModelJobTaskSummary < Struct.new(
+      :task_id,
+      :threat_model_id,
+      :threat_model_job_id,
+      :agent_space_id,
+      :title,
+      :execution_status,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a threat model.
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat model was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat model was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatModelSummary AWS API Documentation
+    #
+    class ThreatModelSummary < Struct.new(
+      :threat_model_id,
+      :agent_space_id,
+      :title,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a threat.
+    #
+    # @!attribute [rw] threat_id
+    #   The unique identifier of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_job_id
+    #   The unique identifier of the threat model job that produced the
+    #   threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   A short title summarizing the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] statement
+    #   The natural-language threat statement.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   The severity level of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] stride
+    #   The STRIDE categories applicable to this threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] created_by
+    #   Who created this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_by
+    #   Who last updated this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ThreatSummary AWS API Documentation
+    #
+    class ThreatSummary < Struct.new(
+      :threat_id,
+      :threat_job_id,
+      :title,
+      :statement,
+      :severity,
+      :status,
+      :stride,
+      :created_by,
+      :updated_by,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request was denied due to request throttling.
     #
     # @!attribute [rw] message
@@ -4950,6 +8127,11 @@ module Aws::SecurityAgent
     #   The updated code remediation strategy for the code review.
     #   @return [String]
     #
+    # @!attribute [rw] validation_mode
+    #   The updated validation mode for the code review. Valid values are
+    #   SIMULATED and DISABLED.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateCodeReviewInput AWS API Documentation
     #
     class UpdateCodeReviewInput < Struct.new(
@@ -4959,7 +8141,8 @@ module Aws::SecurityAgent
       :assets,
       :service_role,
       :log_config,
-      :code_remediation_strategy)
+      :code_remediation_strategy,
+      :validation_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5003,6 +8186,10 @@ module Aws::SecurityAgent
     #   The code remediation strategy for the code review.
     #   @return [String]
     #
+    # @!attribute [rw] validation_mode
+    #   The validation mode for the code review.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateCodeReviewOutput AWS API Documentation
     #
     class UpdateCodeReviewOutput < Struct.new(
@@ -5014,7 +8201,8 @@ module Aws::SecurityAgent
       :service_role,
       :log_config,
       :agent_space_id,
-      :code_remediation_strategy)
+      :code_remediation_strategy,
+      :validation_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5029,12 +8217,40 @@ module Aws::SecurityAgent
     #   The unique identifier of the agent space that contains the finding.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   The updated name for the finding.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description for the finding.
+    #   @return [String]
+    #
+    # @!attribute [rw] risk_type
+    #   The updated risk type for the finding.
+    #   @return [String]
+    #
     # @!attribute [rw] risk_level
     #   The updated risk level for the finding.
     #   @return [String]
     #
+    # @!attribute [rw] risk_score
+    #   The updated numerical risk score for the finding.
+    #   @return [String]
+    #
+    # @!attribute [rw] attack_script
+    #   The updated attack script for the finding.
+    #   @return [String]
+    #
+    # @!attribute [rw] reasoning
+    #   The updated reasoning for the finding.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The updated status for the finding.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_note
+    #   A customer-provided note on the finding.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateFindingInput AWS API Documentation
@@ -5042,8 +8258,15 @@ module Aws::SecurityAgent
     class UpdateFindingInput < Struct.new(
       :finding_id,
       :agent_space_id,
+      :name,
+      :description,
+      :risk_type,
       :risk_level,
-      :status)
+      :risk_score,
+      :attack_script,
+      :reasoning,
+      :status,
+      :customer_note)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5122,6 +8345,12 @@ module Aws::SecurityAgent
     #   The updated code remediation strategy for the pentest.
     #   @return [String]
     #
+    # @!attribute [rw] disable_managed_skills
+    #   The updated list of managed skills to disable for this pentest.
+    #   Valid values include FINDING\_PERSONALIZATION and
+    #   LOGIN\_OPTIMIZATION.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdatePentestInput AWS API Documentation
     #
     class UpdatePentestInput < Struct.new(
@@ -5134,7 +8363,8 @@ module Aws::SecurityAgent
       :log_config,
       :vpc_config,
       :network_traffic_config,
-      :code_remediation_strategy)
+      :code_remediation_strategy,
+      :disable_managed_skills)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5189,6 +8419,180 @@ module Aws::SecurityAgent
       :service_role,
       :log_config,
       :agent_space_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] private_connection_name
+    #   The name of the private connection to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate
+    #   The PEM-encoded certificate chain for the private connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdatePrivateConnectionCertificateInput AWS API Documentation
+    #
+    class UpdatePrivateConnectionCertificateInput < Struct.new(
+      :private_connection_name,
+      :certificate)
+      SENSITIVE = [:certificate]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the private connection, indicating whether it is
+    #   service-managed or self-managed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the private connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_gateway_id
+    #   The identifier or ARN of the VPC Lattice resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_address
+    #   The IP address or DNS name of the target resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_id
+    #   The identifier of the VPC the resource gateway is created in.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_configuration_id
+    #   The identifier or ARN of the VPC Lattice resource configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_expiry_time
+    #   The date and time the connection's certificate expires, in UTC
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] dns_resolution
+    #   The DNS resolution mode for the resource gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   A message describing why the private connection entered a failed
+    #   state, if applicable.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags attached to the private connection.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdatePrivateConnectionCertificateOutput AWS API Documentation
+    #
+    class UpdatePrivateConnectionCertificateOutput < Struct.new(
+      :name,
+      :type,
+      :status,
+      :resource_gateway_id,
+      :host_address,
+      :vpc_id,
+      :resource_configuration_id,
+      :certificate_expiry_time,
+      :dns_resolution,
+      :failure_message,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the details for updating an existing security requirement
+    # within a pack. The name is an immutable identifier used to locate the
+    # requirement and cannot be modified.
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement to update. This is an immutable
+    #   identifier and cannot be changed once the requirement is created.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the security requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain
+    #   The updated security domain the requirement belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation
+    #   The updated evaluation criteria used to assess compliance with this
+    #   requirement.
+    #   @return [String]
+    #
+    # @!attribute [rw] remediation
+    #   The updated remediation steps when the requirement is not met.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateSecurityRequirementEntry AWS API Documentation
+    #
+    class UpdateSecurityRequirementEntry < Struct.new(
+      :name,
+      :description,
+      :domain,
+      :evaluation,
+      :remediation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The updated name of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The updated status of the security requirement pack.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateSecurityRequirementPackInput AWS API Documentation
+    #
+    class UpdateSecurityRequirementPackInput < Struct.new(
+      :pack_id,
+      :name,
+      :description,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pack_id
+    #   The unique identifier of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the security requirement pack.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the security requirement pack.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateSecurityRequirementPackOutput AWS API Documentation
+    #
+    class UpdateSecurityRequirementPackOutput < Struct.new(
+      :pack_id,
+      :name,
+      :description,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5252,6 +8656,322 @@ module Aws::SecurityAgent
       :verification_details,
       :created_at,
       :verified_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for updating an existing threat.
+    #
+    # @!attribute [rw] threat_id
+    #   The unique identifier of the threat to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   A short title summarizing the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The updated status of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] comments
+    #   Optional customer comment.
+    #   @return [String]
+    #
+    # @!attribute [rw] statement
+    #   The updated natural-language threat statement.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   The updated severity level of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_source
+    #   The updated actor or origin of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] prerequisites
+    #   The updated conditions required for the threat to be exploitable.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_action
+    #   The updated description of what the threat source can do.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_impact
+    #   The updated direct consequence of the threat action.
+    #   @return [String]
+    #
+    # @!attribute [rw] impacted_goal
+    #   The updated security goals affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] impacted_assets
+    #   The updated list of specific assets affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] anchor
+    #   The updated DFD element this threat is anchored to.
+    #   @return [Types::ThreatAnchorShape]
+    #
+    # @!attribute [rw] evidence
+    #   The updated source code files supporting the threat.
+    #   @return [Array<Types::ThreatEvidenceShape>]
+    #
+    # @!attribute [rw] recommendation
+    #   The updated recommended mitigation guidance for this threat.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateThreatInput AWS API Documentation
+    #
+    class UpdateThreatInput < Struct.new(
+      :threat_id,
+      :agent_space_id,
+      :title,
+      :status,
+      :comments,
+      :statement,
+      :severity,
+      :threat_source,
+      :prerequisites,
+      :threat_action,
+      :threat_impact,
+      :impacted_goal,
+      :impacted_assets,
+      :anchor,
+      :evidence,
+      :recommendation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input for updating an existing threat model.
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The updated title of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the application or system being threat
+    #   modeled.
+    #   @return [String]
+    #
+    # @!attribute [rw] assets
+    #   The updated assets for the threat model.
+    #   @return [Types::Assets]
+    #
+    # @!attribute [rw] scope_docs
+    #   The updated scoped documents for the agent to focus on during threat
+    #   modeling.
+    #   @return [Array<Types::DocumentInfo>]
+    #
+    # @!attribute [rw] service_role
+    #   The updated IAM service role for the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_config
+    #   The updated CloudWatch Logs configuration for the threat model.
+    #   @return [Types::CloudWatchLog]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateThreatModelInput AWS API Documentation
+    #
+    class UpdateThreatModelInput < Struct.new(
+      :threat_model_id,
+      :agent_space_id,
+      :title,
+      :description,
+      :assets,
+      :scope_docs,
+      :service_role,
+      :log_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the UpdateThreatModel operation.
+    #
+    # @!attribute [rw] threat_model_id
+    #   The unique identifier of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the application or system being threat modeled.
+    #   @return [String]
+    #
+    # @!attribute [rw] assets
+    #   The assets included in the threat model.
+    #   @return [Types::Assets]
+    #
+    # @!attribute [rw] scope_docs
+    #   The scoped documents for the agent to focus on during threat
+    #   modeling.
+    #   @return [Array<Types::DocumentInfo>]
+    #
+    # @!attribute [rw] service_role
+    #   The IAM service role used for the threat model.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_config
+    #   The CloudWatch Logs configuration for the threat model.
+    #   @return [Types::CloudWatchLog]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat model was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat model was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateThreatModelOutput AWS API Documentation
+    #
+    class UpdateThreatModelOutput < Struct.new(
+      :threat_model_id,
+      :title,
+      :agent_space_id,
+      :description,
+      :assets,
+      :scope_docs,
+      :service_role,
+      :log_config,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Output for the UpdateThreat operation.
+    #
+    # @!attribute [rw] threat_id
+    #   The unique identifier of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_job_id
+    #   The unique identifier of the threat model job the threat belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   A short title summarizing the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] statement
+    #   The natural-language threat statement.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   The severity level of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] comments
+    #   Optional customer comment on the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] stride
+    #   The STRIDE categories applicable to this threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] threat_source
+    #   The actor or origin of the threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] prerequisites
+    #   The conditions required for the threat to be exploitable.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_action
+    #   What the threat source can do.
+    #   @return [String]
+    #
+    # @!attribute [rw] threat_impact
+    #   The direct consequence of the threat action.
+    #   @return [String]
+    #
+    # @!attribute [rw] impacted_goal
+    #   The security goals affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] impacted_assets
+    #   The specific assets affected by the threat.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] anchor
+    #   The DFD element this threat is anchored to.
+    #   @return [Types::ThreatAnchorShape]
+    #
+    # @!attribute [rw] evidence
+    #   The source code files supporting the threat.
+    #   @return [Array<Types::ThreatEvidenceShape>]
+    #
+    # @!attribute [rw] recommendation
+    #   The recommended mitigation guidance for this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_by
+    #   Who created this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_by
+    #   Who last updated this threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time the threat was created, in UTC format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time the threat was last updated, in UTC format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateThreatOutput AWS API Documentation
+    #
+    class UpdateThreatOutput < Struct.new(
+      :threat_id,
+      :threat_job_id,
+      :title,
+      :statement,
+      :severity,
+      :status,
+      :comments,
+      :stride,
+      :threat_source,
+      :prerequisites,
+      :threat_action,
+      :threat_impact,
+      :impacted_goal,
+      :impacted_assets,
+      :anchor,
+      :evidence,
+      :recommendation,
+      :created_by,
+      :updated_by,
+      :created_at,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -2144,6 +2144,7 @@ module Aws::OpenSearchService
       attr_accessor id: ::String
       attr_accessor data_sources: ::Array[Types::DataSource]
       attr_accessor app_configs: ::Array[Types::AppConfig]
+      attr_accessor iam_identity_center_options: Types::IamIdentityCenterOptionsInput
       SENSITIVE: []
     end
 

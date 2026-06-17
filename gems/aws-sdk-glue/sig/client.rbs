@@ -79,6 +79,19 @@ module Aws
                   | (?Hash[Symbol, untyped]) -> instance
 
 
+      interface _AssociateGlossaryTermsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::AssociateGlossaryTermsResponse]
+        def identifier: () -> ::String
+        def glossary_terms: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#associate_glossary_terms-instance_method
+      def associate_glossary_terms: (
+                                      identifier: ::String,
+                                      glossary_term_identifiers: Array[::String],
+                                      ?client_token: ::String
+                                    ) -> _AssociateGlossaryTermsResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateGlossaryTermsResponseSuccess
+
       interface _BatchCreatePartitionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchCreatePartitionResponse]
         def errors: () -> ::Array[Types::PartitionError]
@@ -205,6 +218,19 @@ module Aws
                                      dev_endpoint_names: Array[::String]
                                    ) -> _BatchGetDevEndpointsResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetDevEndpointsResponseSuccess
+
+      interface _BatchGetIterableFormsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetIterableFormsResponse]
+        def items: () -> ::Array[Types::IterableFormItem]
+        def errors: () -> ::Array[Types::ItemError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#batch_get_iterable_forms-instance_method
+      def batch_get_iterable_forms: (
+                                      asset_identifier: ::String,
+                                      iterable_form_name: ::String,
+                                      item_identifiers: Array[::String]
+                                    ) -> _BatchGetIterableFormsResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchGetIterableFormsResponseSuccess
 
       interface _BatchGetJobsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetJobsResponse]
@@ -594,6 +620,38 @@ module Aws
                                  ?arguments: Hash[::String, ::String]
                                ) -> _CreateDevEndpointResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateDevEndpointResponseSuccess
+
+      interface _CreateGlossaryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateGlossaryResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#create_glossary-instance_method
+      def create_glossary: (
+                             name: ::String,
+                             ?description: ::String,
+                             ?client_token: ::String
+                           ) -> _CreateGlossaryResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateGlossaryResponseSuccess
+
+      interface _CreateGlossaryTermResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateGlossaryTermResponse]
+        def id: () -> ::String
+        def glossary_id: () -> ::String
+        def name: () -> ::String
+        def short_description: () -> ::String
+        def long_description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#create_glossary_term-instance_method
+      def create_glossary_term: (
+                                  glossary_identifier: ::String,
+                                  name: ::String,
+                                  ?short_description: ::String,
+                                  ?long_description: ::String,
+                                  ?client_token: ::String
+                                ) -> _CreateGlossaryTermResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateGlossaryTermResponseSuccess
 
       interface _CreateGlueIdentityCenterConfigurationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateGlueIdentityCenterConfigurationResponse]
@@ -1046,6 +1104,35 @@ module Aws
                            ) -> _CreateWorkflowResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateWorkflowResponseSuccess
 
+      interface _DeleteAssetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAssetResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_asset-instance_method
+      def delete_asset: (
+                          identifier: ::String
+                        ) -> _DeleteAssetResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAssetResponseSuccess
+
+      interface _DeleteAssetTypeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAssetTypeResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_asset_type-instance_method
+      def delete_asset_type: (
+                               identifier: ::String
+                             ) -> _DeleteAssetTypeResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAssetTypeResponseSuccess
+
+      interface _DeleteAttachmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAttachmentResponse]
+        def identifier: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_attachment-instance_method
+      def delete_attachment: (
+                               identifier: ::String,
+                               attachment_name: ::String
+                             ) -> _DeleteAttachmentResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAttachmentResponseSuccess
+
       interface _DeleteBlueprintResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteBlueprintResponse]
         def name: () -> ::String
@@ -1174,6 +1261,33 @@ module Aws
                                  endpoint_name: ::String
                                ) -> _DeleteDevEndpointResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteDevEndpointResponseSuccess
+
+      interface _DeleteFormTypeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteFormTypeResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_form_type-instance_method
+      def delete_form_type: (
+                              identifier: ::String
+                            ) -> _DeleteFormTypeResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteFormTypeResponseSuccess
+
+      interface _DeleteGlossaryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteGlossaryResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_glossary-instance_method
+      def delete_glossary: (
+                             identifier: ::String
+                           ) -> _DeleteGlossaryResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteGlossaryResponseSuccess
+
+      interface _DeleteGlossaryTermResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteGlossaryTermResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_glossary_term-instance_method
+      def delete_glossary_term: (
+                                  identifier: ::String
+                                ) -> _DeleteGlossaryTermResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteGlossaryTermResponseSuccess
 
       interface _DeleteGlueIdentityCenterConfigurationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteGlueIdentityCenterConfigurationResponse]
@@ -1487,6 +1601,50 @@ module Aws
                                    ]
                                  ) -> _DescribeIntegrationsResponseSuccess
                                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeIntegrationsResponseSuccess
+
+      interface _DisassociateGlossaryTermsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DisassociateGlossaryTermsResponse]
+        def identifier: () -> ::String
+        def glossary_terms: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#disassociate_glossary_terms-instance_method
+      def disassociate_glossary_terms: (
+                                         identifier: ::String,
+                                         glossary_term_identifiers: Array[::String],
+                                         ?client_token: ::String
+                                       ) -> _DisassociateGlossaryTermsResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DisassociateGlossaryTermsResponseSuccess
+
+      interface _GetAssetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAssetOutput]
+        def id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def asset_type_id: () -> ::String
+        def glossary_terms: () -> ::Array[::String]
+        def forms: () -> ::Hash[::String, Types::AssetFormEntry]
+        def attachments: () -> ::Hash[::String, Types::AssetFormEntry]
+        def iterable_forms: () -> ::Hash[::String, Types::IterableFormEntry]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#get_asset-instance_method
+      def get_asset: (
+                       identifier: ::String
+                     ) -> _GetAssetResponseSuccess
+                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAssetResponseSuccess
+
+      interface _GetAssetTypeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetAssetTypeResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def forms: () -> ::Hash[::String, Types::AssetTypeFormReference]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#get_asset_type-instance_method
+      def get_asset_type: (
+                            identifier: ::String
+                          ) -> _GetAssetTypeResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetAssetTypeResponseSuccess
 
       interface _GetBlueprintResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetBlueprintResponse]
@@ -1939,6 +2097,44 @@ module Aws
                                 ?selected_fields: Array[::String]
                               ) -> _GetEntityRecordsResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetEntityRecordsResponseSuccess
+
+      interface _GetFormTypeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetFormTypeResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def schema: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#get_form_type-instance_method
+      def get_form_type: (
+                           identifier: ::String
+                         ) -> _GetFormTypeResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetFormTypeResponseSuccess
+
+      interface _GetGlossaryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetGlossaryResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#get_glossary-instance_method
+      def get_glossary: (
+                          identifier: ::String
+                        ) -> _GetGlossaryResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetGlossaryResponseSuccess
+
+      interface _GetGlossaryTermResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetGlossaryTermResponse]
+        def id: () -> ::String
+        def glossary_id: () -> ::String
+        def name: () -> ::String
+        def short_description: () -> ::String
+        def long_description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#get_glossary_term-instance_method
+      def get_glossary_term: (
+                               identifier: ::String
+                             ) -> _GetGlossaryTermResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetGlossaryTermResponseSuccess
 
       interface _GetGlueIdentityCenterConfigurationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetGlueIdentityCenterConfigurationResponse]
@@ -2777,6 +2973,18 @@ module Aws
                                   ) -> _ImportCatalogToGlueResponseSuccess
                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ImportCatalogToGlueResponseSuccess
 
+      interface _ListAssetTypesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAssetTypesResponse]
+        def items: () -> ::Array[Types::AssetTypeItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#list_asset_types-instance_method
+      def list_asset_types: (
+                              ?max_results: ::Integer,
+                              ?next_token: ::String
+                            ) -> _ListAssetTypesResponseSuccess
+                          | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAssetTypesResponseSuccess
+
       interface _ListBlueprintsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListBlueprintsResponse]
         def blueprints: () -> ::Array[::String]
@@ -3004,6 +3212,43 @@ module Aws
                          ) -> _ListEntitiesResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListEntitiesResponseSuccess
 
+      interface _ListFormTypesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListFormTypesResponse]
+        def items: () -> ::Array[Types::FormTypeItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#list_form_types-instance_method
+      def list_form_types: (
+                             ?max_results: ::Integer,
+                             ?next_token: ::String
+                           ) -> _ListFormTypesResponseSuccess
+                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListFormTypesResponseSuccess
+
+      interface _ListGlossariesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListGlossariesResponse]
+        def items: () -> ::Array[Types::GlossaryItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#list_glossaries-instance_method
+      def list_glossaries: (
+                             ?max_results: ::Integer,
+                             ?next_token: ::String
+                           ) -> _ListGlossariesResponseSuccess
+                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListGlossariesResponseSuccess
+
+      interface _ListGlossaryTermsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListGlossaryTermsResponse]
+        def items: () -> ::Array[Types::GlossaryTermItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#list_glossary_terms-instance_method
+      def list_glossary_terms: (
+                                 glossary_identifier: ::String,
+                                 ?max_results: ::Integer,
+                                 ?next_token: ::String
+                               ) -> _ListGlossaryTermsResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListGlossaryTermsResponseSuccess
+
       interface _ListIntegrationResourcePropertiesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListIntegrationResourcePropertiesResponse]
         def integration_resource_property_list: () -> ::Array[Types::IntegrationResourceProperty]
@@ -3021,6 +3266,20 @@ module Aws
                                                   ?max_records: ::Integer
                                                 ) -> _ListIntegrationResourcePropertiesResponseSuccess
                                               | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListIntegrationResourcePropertiesResponseSuccess
+
+      interface _ListIterableFormsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListIterableFormsResponse]
+        def items: () -> ::Array[Types::IterableFormListItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#list_iterable_forms-instance_method
+      def list_iterable_forms: (
+                                 asset_identifier: ::String,
+                                 iterable_form_name: ::String,
+                                 ?max_results: ::Integer,
+                                 ?next_token: ::String
+                               ) -> _ListIterableFormsResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListIterableFormsResponseSuccess
 
       interface _ListJobsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListJobsResponse]
@@ -3228,6 +3487,64 @@ module Aws
                               ) -> _ModifyIntegrationResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyIntegrationResponseSuccess
 
+      interface _PutAssetResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::PutAssetResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+        def created_at: () -> ::Time
+        def forms: () -> ::Hash[::String, Types::AssetFormEntry]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#put_asset-instance_method
+      def put_asset: (
+                       asset_type_id: ::String,
+                       identifier: ::String,
+                       name: ::String,
+                       ?description: ::String,
+                       forms: Hash[::String, {
+                           form_type_id: ::String?,
+                           content: ::String?
+                         }],
+                       ?client_token: ::String
+                     ) -> _PutAssetResponseSuccess
+                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAssetResponseSuccess
+
+      interface _PutAssetTypeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::PutAssetTypeResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def forms: () -> ::Hash[::String, Types::AssetTypeFormReference]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#put_asset_type-instance_method
+      def put_asset_type: (
+                            name: ::String,
+                            forms: Hash[::String, {
+                                form_type_identifier: ::String
+                              }],
+                            ?client_token: ::String
+                          ) -> _PutAssetTypeResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAssetTypeResponseSuccess
+
+      interface _PutAttachmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::PutAttachmentResponse]
+        def asset_id: () -> ::String
+        def iterable_form_name: () -> ::String
+        def item_identifier: () -> ::String
+        def attachment_name: () -> ::String
+        def form_type_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#put_attachment-instance_method
+      def put_attachment: (
+                            asset_identifier: ::String,
+                            ?iterable_form_name: ::String,
+                            ?item_identifier: ::String,
+                            attachment_name: ::String,
+                            content: ::String,
+                            form_type_id: ::String,
+                            ?client_token: ::String
+                          ) -> _PutAttachmentResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAttachmentResponseSuccess
+
       interface _PutDataCatalogEncryptionSettingsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::PutDataCatalogEncryptionSettingsResponse]
       end
@@ -3257,6 +3574,20 @@ module Aws
                                                  inclusion_annotation: ("INCLUDE" | "EXCLUDE")
                                                ) -> _PutDataQualityProfileAnnotationResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutDataQualityProfileAnnotationResponseSuccess
+
+      interface _PutFormTypeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::PutFormTypeResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def schema: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#put_form_type-instance_method
+      def put_form_type: (
+                           name: ::String,
+                           schema: ::String,
+                           ?client_token: ::String
+                         ) -> _PutFormTypeResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutFormTypeResponseSuccess
 
       interface _PutResourcePolicyResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::PutResourcePolicyResponse]
@@ -3504,6 +3835,24 @@ module Aws
                            ?request_origin: ::String
                          ) -> _RunStatementResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RunStatementResponseSuccess
+
+      interface _SearchResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchOutput]
+        def items: () -> ::Array[Types::SearchResultItem]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#search-instance_method
+      def search: (
+                    ?search_text: ::String,
+                    ?max_results: ::Integer,
+                    ?next_token: ::String,
+                    ?sort: {
+                      attribute: ::String,
+                      order: ("ASCENDING" | "DESCENDING")?
+                    },
+                    ?filter_clause: Params::search_filter_clause
+                  ) -> _SearchResponseSuccess
+                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchResponseSuccess
 
       interface _SearchTablesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchTablesResponse]
@@ -4045,6 +4394,39 @@ module Aws
                                  ?add_arguments: Hash[::String, ::String]
                                ) -> _UpdateDevEndpointResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateDevEndpointResponseSuccess
+
+      interface _UpdateGlossaryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateGlossaryResponse]
+        def id: () -> ::String
+        def name: () -> ::String
+        def description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#update_glossary-instance_method
+      def update_glossary: (
+                             identifier: ::String,
+                             ?name: ::String,
+                             ?description: ::String,
+                             ?client_token: ::String
+                           ) -> _UpdateGlossaryResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGlossaryResponseSuccess
+
+      interface _UpdateGlossaryTermResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateGlossaryTermResponse]
+        def id: () -> ::String
+        def glossary_id: () -> ::String
+        def name: () -> ::String
+        def short_description: () -> ::String
+        def long_description: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#update_glossary_term-instance_method
+      def update_glossary_term: (
+                                  identifier: ::String,
+                                  ?name: ::String,
+                                  ?short_description: ::String,
+                                  ?long_description: ::String,
+                                  ?client_token: ::String
+                                ) -> _UpdateGlossaryTermResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGlossaryTermResponseSuccess
 
       interface _UpdateGlueIdentityCenterConfigurationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateGlueIdentityCenterConfigurationResponse]

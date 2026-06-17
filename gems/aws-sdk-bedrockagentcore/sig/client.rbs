@@ -892,6 +892,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#invoke_harness-instance_method
       def invoke_harness: (
                             harness_arn: ::String,
+                            ?qualifier: ::String,
                             runtime_session_id: ::String,
                             ?runtime_user_id: ::String,
                             messages: Array[
@@ -1027,6 +1028,9 @@ module Aws
                                     credential_arn: ::String,
                                     username: ::String?
                                   }?
+                                }?,
+                                aws_skills: {
+                                  paths: Array[::String]?
                                 }?
                               }
                             ],
@@ -1364,7 +1368,7 @@ module Aws
                                       }?,
                                       online_evaluation_config_source: {
                                         online_evaluation_config_arn: ::String,
-                                        session_filter_config: {
+                                        time_range: {
                                           start_time: ::Time?,
                                           end_time: ::Time?
                                         }?

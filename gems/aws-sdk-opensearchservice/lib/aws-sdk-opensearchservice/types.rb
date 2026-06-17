@@ -8336,12 +8336,18 @@ module Aws::OpenSearchService
     #   The configuration settings to modify for the OpenSearch application.
     #   @return [Array<Types::AppConfig>]
     #
+    # @!attribute [rw] iam_identity_center_options
+    #   Configuration settings for integrating IAM Identity Center with the
+    #   OpenSearch application.
+    #   @return [Types::IamIdentityCenterOptionsInput]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateApplicationRequest AWS API Documentation
     #
     class UpdateApplicationRequest < Struct.new(
       :id,
       :data_sources,
-      :app_configs)
+      :app_configs,
+      :iam_identity_center_options)
       SENSITIVE = []
       include Aws::Structure
     end

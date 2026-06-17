@@ -517,6 +517,60 @@ module Aws::SecurityAgent
       req.send_request(options)
     end
 
+    # Batch creates security requirements in a customer managed pack.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to add
+    #   requirements to.
+    #
+    # @option params [required, Array<Types::CreateSecurityRequirementEntry>] :security_requirements
+    #   The list of security requirements to create.
+    #
+    # @return [Types::BatchCreateSecurityRequirementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchCreateSecurityRequirementsOutput#security_requirements #security_requirements} => Array&lt;Types::BatchCreateSecurityRequirementResult&gt;
+    #   * {Types::BatchCreateSecurityRequirementsOutput#errors #errors} => Array&lt;Types::BatchSecurityRequirementError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_create_security_requirements({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #     security_requirements: [ # required
+    #       {
+    #         name: "SecurityRequirementName", # required
+    #         description: "String", # required
+    #         domain: "String", # required
+    #         evaluation: "String", # required
+    #         remediation: "String",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.security_requirements #=> Array
+    #   resp.security_requirements[0].pack_id #=> String
+    #   resp.security_requirements[0].name #=> String
+    #   resp.security_requirements[0].description #=> String
+    #   resp.security_requirements[0].domain #=> String
+    #   resp.security_requirements[0].evaluation #=> String
+    #   resp.security_requirements[0].remediation #=> String
+    #   resp.security_requirements[0].created_at #=> Time
+    #   resp.security_requirements[0].updated_at #=> Time
+    #   resp.errors #=> Array
+    #   resp.errors[0].security_requirement_name #=> String
+    #   resp.errors[0].code #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchCreateSecurityRequirements AWS API Documentation
+    #
+    # @overload batch_create_security_requirements(params = {})
+    # @param [Hash] params ({})
+    def batch_create_security_requirements(params = {}, options = {})
+      req = build_request(:batch_create_security_requirements, params)
+      req.send_request(options)
+    end
+
     # Deletes one or more code reviews from an agent space.
     #
     # @option params [required, Array<String>] :code_review_ids
@@ -594,6 +648,8 @@ module Aws::SecurityAgent
     #   resp.deleted[0].assets.documents #=> Array
     #   resp.deleted[0].assets.documents[0].s3_location #=> String
     #   resp.deleted[0].assets.documents[0].artifact_id #=> String
+    #   resp.deleted[0].assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.deleted[0].assets.documents[0].integrated_document.resource_id #=> String
     #   resp.deleted[0].assets.source_code #=> Array
     #   resp.deleted[0].assets.source_code[0].s3_location #=> String
     #   resp.deleted[0].assets.integrated_repositories #=> Array
@@ -617,6 +673,9 @@ module Aws::SecurityAgent
     #   resp.deleted[0].network_traffic_config.custom_headers[0].name #=> String
     #   resp.deleted[0].network_traffic_config.custom_headers[0].value #=> String
     #   resp.deleted[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
+    #   resp.deleted[0].clean_up_strategy #=> String, one of "BEST_EFFORT_DELETE", "RETAIN_ALL"
+    #   resp.deleted[0].disable_managed_skills #=> Array
+    #   resp.deleted[0].disable_managed_skills[0] #=> String, one of "FINDING_PERSONALIZATION", "LOGIN_OPTIMIZATION"
     #   resp.deleted[0].created_at #=> Time
     #   resp.deleted[0].updated_at #=> Time
     #   resp.failed #=> Array
@@ -629,6 +688,83 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def batch_delete_pentests(params = {}, options = {})
       req = build_request(:batch_delete_pentests, params)
+      req.send_request(options)
+    end
+
+    # Batch deletes security requirements from a customer managed pack.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to remove
+    #   requirements from.
+    #
+    # @option params [required, Array<String>] :security_requirement_names
+    #   The list of security requirement names to delete.
+    #
+    # @return [Types::BatchDeleteSecurityRequirementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDeleteSecurityRequirementsOutput#deleted_security_requirement_names #deleted_security_requirement_names} => Array&lt;String&gt;
+    #   * {Types::BatchDeleteSecurityRequirementsOutput#errors #errors} => Array&lt;Types::BatchSecurityRequirementError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_delete_security_requirements({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #     security_requirement_names: ["SecurityRequirementName"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.deleted_security_requirement_names #=> Array
+    #   resp.deleted_security_requirement_names[0] #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].security_requirement_name #=> String
+    #   resp.errors[0].code #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchDeleteSecurityRequirements AWS API Documentation
+    #
+    # @overload batch_delete_security_requirements(params = {})
+    # @param [Hash] params ({})
+    def batch_delete_security_requirements(params = {}, options = {})
+      req = build_request(:batch_delete_security_requirements, params)
+      req.send_request(options)
+    end
+
+    # Deletes one or more threat models from an agent space.
+    #
+    # @option params [required, Array<String>] :threat_model_ids
+    #   The list of threat model identifiers to delete.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   models to delete.
+    #
+    # @return [Types::BatchDeleteThreatModelsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDeleteThreatModelsOutput#deleted #deleted} => Array&lt;String&gt;
+    #   * {Types::BatchDeleteThreatModelsOutput#failed #failed} => Array&lt;Types::DeleteThreatModelFailure&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_delete_threat_models({
+    #     threat_model_ids: ["String"], # required
+    #     agent_space_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.deleted #=> Array
+    #   resp.deleted[0] #=> String
+    #   resp.failed #=> Array
+    #   resp.failed[0].threat_model_id #=> String
+    #   resp.failed[0].reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchDeleteThreatModels AWS API Documentation
+    #
+    # @overload batch_delete_threat_models(params = {})
+    # @param [Hash] params ({})
+    def batch_delete_threat_models(params = {}, options = {})
+      req = build_request(:batch_delete_threat_models, params)
       req.send_request(options)
     end
 
@@ -810,10 +946,12 @@ module Aws::SecurityAgent
     #   resp.code_review_jobs[0].documents #=> Array
     #   resp.code_review_jobs[0].documents[0].s3_location #=> String
     #   resp.code_review_jobs[0].documents[0].artifact_id #=> String
+    #   resp.code_review_jobs[0].documents[0].integrated_document.integration_id #=> String
+    #   resp.code_review_jobs[0].documents[0].integrated_document.resource_id #=> String
     #   resp.code_review_jobs[0].source_code #=> Array
     #   resp.code_review_jobs[0].source_code[0].s3_location #=> String
     #   resp.code_review_jobs[0].steps #=> Array
-    #   resp.code_review_jobs[0].steps[0].name #=> String, one of "PREFLIGHT", "STATIC_ANALYSIS", "PENTEST", "FINALIZING"
+    #   resp.code_review_jobs[0].steps[0].name #=> String, one of "PREFLIGHT", "STATIC_ANALYSIS", "PENTEST", "FINALIZING", "VALIDATION"
     #   resp.code_review_jobs[0].steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "COMPLETED", "FAILED", "STOPPED"
     #   resp.code_review_jobs[0].steps[0].created_at #=> Time
     #   resp.code_review_jobs[0].steps[0].updated_at #=> Time
@@ -884,6 +1022,8 @@ module Aws::SecurityAgent
     #   resp.code_reviews[0].assets.documents #=> Array
     #   resp.code_reviews[0].assets.documents[0].s3_location #=> String
     #   resp.code_reviews[0].assets.documents[0].artifact_id #=> String
+    #   resp.code_reviews[0].assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.code_reviews[0].assets.documents[0].integrated_document.resource_id #=> String
     #   resp.code_reviews[0].assets.source_code #=> Array
     #   resp.code_reviews[0].assets.source_code[0].s3_location #=> String
     #   resp.code_reviews[0].assets.integrated_repositories #=> Array
@@ -893,6 +1033,7 @@ module Aws::SecurityAgent
     #   resp.code_reviews[0].log_config.log_group #=> String
     #   resp.code_reviews[0].log_config.log_stream #=> String
     #   resp.code_reviews[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
+    #   resp.code_reviews[0].validation_mode #=> String, one of "DISABLED", "SIMULATED"
     #   resp.code_reviews[0].created_at #=> Time
     #   resp.code_reviews[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -946,6 +1087,7 @@ module Aws::SecurityAgent
     #   resp.findings[0].risk_score #=> String
     #   resp.findings[0].reasoning #=> String
     #   resp.findings[0].confidence #=> String, one of "FALSE_POSITIVE", "UNCONFIRMED", "LOW", "MEDIUM", "HIGH"
+    #   resp.findings[0].validation_status #=> String, one of "CONFIRMED", "NOT_REPRODUCED", "VALIDATION_FAILED", "VALIDATING", "NOT_VALIDATED"
     #   resp.findings[0].attack_script #=> String
     #   resp.findings[0].code_remediation_task.status #=> String, one of "IN_PROGRESS", "COMPLETED", "FAILED"
     #   resp.findings[0].code_remediation_task.status_reason #=> String
@@ -954,6 +1096,7 @@ module Aws::SecurityAgent
     #   resp.findings[0].code_remediation_task.task_details[0].code_diff_link #=> String
     #   resp.findings[0].code_remediation_task.task_details[0].pull_request_link #=> String
     #   resp.findings[0].last_updated_by #=> String
+    #   resp.findings[0].customer_note #=> String
     #   resp.findings[0].code_locations #=> Array
     #   resp.findings[0].code_locations[0].file_path #=> String
     #   resp.findings[0].code_locations[0].line_start #=> Integer
@@ -965,6 +1108,7 @@ module Aws::SecurityAgent
     #   resp.findings[0].verification_script.env_vars #=> Array
     #   resp.findings[0].verification_script.env_vars[0].name #=> String
     #   resp.findings[0].verification_script.env_vars[0].value #=> String
+    #   resp.findings[0].alignment_rationale #=> String
     #   resp.findings[0].created_at #=> Time
     #   resp.findings[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1073,6 +1217,8 @@ module Aws::SecurityAgent
     #   resp.pentest_jobs[0].documents #=> Array
     #   resp.pentest_jobs[0].documents[0].s3_location #=> String
     #   resp.pentest_jobs[0].documents[0].artifact_id #=> String
+    #   resp.pentest_jobs[0].documents[0].integrated_document.integration_id #=> String
+    #   resp.pentest_jobs[0].documents[0].integrated_document.resource_id #=> String
     #   resp.pentest_jobs[0].source_code #=> Array
     #   resp.pentest_jobs[0].source_code[0].s3_location #=> String
     #   resp.pentest_jobs[0].exclude_paths #=> Array
@@ -1082,7 +1228,7 @@ module Aws::SecurityAgent
     #   resp.pentest_jobs[0].exclude_risk_types #=> Array
     #   resp.pentest_jobs[0].exclude_risk_types[0] #=> String, one of "CROSS_SITE_SCRIPTING", "DEFAULT_CREDENTIALS", "INSECURE_DIRECT_OBJECT_REFERENCE", "PRIVILEGE_ESCALATION", "SERVER_SIDE_TEMPLATE_INJECTION", "COMMAND_INJECTION", "CODE_INJECTION", "SQL_INJECTION", "ARBITRARY_FILE_UPLOAD", "INSECURE_DESERIALIZATION", "LOCAL_FILE_INCLUSION", "INFORMATION_DISCLOSURE", "PATH_TRAVERSAL", "SERVER_SIDE_REQUEST_FORGERY", "JSON_WEB_TOKEN_VULNERABILITIES", "XML_EXTERNAL_ENTITY", "FILE_DELETION", "OTHER", "GRAPHQL_VULNERABILITIES", "BUSINESS_LOGIC_VULNERABILITIES", "CRYPTOGRAPHIC_VULNERABILITIES", "DENIAL_OF_SERVICE", "FILE_ACCESS", "FILE_CREATION", "DATABASE_MODIFICATION", "DATABASE_ACCESS", "OUTBOUND_SERVICE_REQUEST", "UNKNOWN"
     #   resp.pentest_jobs[0].steps #=> Array
-    #   resp.pentest_jobs[0].steps[0].name #=> String, one of "PREFLIGHT", "STATIC_ANALYSIS", "PENTEST", "FINALIZING"
+    #   resp.pentest_jobs[0].steps[0].name #=> String, one of "PREFLIGHT", "STATIC_ANALYSIS", "PENTEST", "FINALIZING", "VALIDATION"
     #   resp.pentest_jobs[0].steps[0].status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "COMPLETED", "FAILED", "STOPPED"
     #   resp.pentest_jobs[0].steps[0].created_at #=> Time
     #   resp.pentest_jobs[0].steps[0].updated_at #=> Time
@@ -1111,6 +1257,9 @@ module Aws::SecurityAgent
     #   resp.pentest_jobs[0].integrated_repositories[0].integration_id #=> String
     #   resp.pentest_jobs[0].integrated_repositories[0].provider_resource_id #=> String
     #   resp.pentest_jobs[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
+    #   resp.pentest_jobs[0].clean_up_strategy #=> String, one of "BEST_EFFORT_DELETE", "RETAIN_ALL"
+    #   resp.pentest_jobs[0].disable_managed_skills #=> Array
+    #   resp.pentest_jobs[0].disable_managed_skills[0] #=> String, one of "FINDING_PERSONALIZATION", "LOGIN_OPTIMIZATION"
     #   resp.pentest_jobs[0].created_at #=> Time
     #   resp.pentest_jobs[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1163,6 +1312,8 @@ module Aws::SecurityAgent
     #   resp.pentests[0].assets.documents #=> Array
     #   resp.pentests[0].assets.documents[0].s3_location #=> String
     #   resp.pentests[0].assets.documents[0].artifact_id #=> String
+    #   resp.pentests[0].assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.pentests[0].assets.documents[0].integrated_document.resource_id #=> String
     #   resp.pentests[0].assets.source_code #=> Array
     #   resp.pentests[0].assets.source_code[0].s3_location #=> String
     #   resp.pentests[0].assets.integrated_repositories #=> Array
@@ -1186,6 +1337,9 @@ module Aws::SecurityAgent
     #   resp.pentests[0].network_traffic_config.custom_headers[0].name #=> String
     #   resp.pentests[0].network_traffic_config.custom_headers[0].value #=> String
     #   resp.pentests[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
+    #   resp.pentests[0].clean_up_strategy #=> String, one of "BEST_EFFORT_DELETE", "RETAIN_ALL"
+    #   resp.pentests[0].disable_managed_skills #=> Array
+    #   resp.pentests[0].disable_managed_skills[0] #=> String, one of "FINDING_PERSONALIZATION", "LOGIN_OPTIMIZATION"
     #   resp.pentests[0].created_at #=> Time
     #   resp.pentests[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1197,6 +1351,52 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def batch_get_pentests(params = {}, options = {})
       req = build_request(:batch_get_pentests, params)
+      req.send_request(options)
+    end
+
+    # Batch retrieves security requirements from a pack.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to retrieve
+    #   requirements from.
+    #
+    # @option params [required, Array<String>] :security_requirement_names
+    #   The list of security requirement names to retrieve.
+    #
+    # @return [Types::BatchGetSecurityRequirementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetSecurityRequirementsOutput#security_requirements #security_requirements} => Array&lt;Types::BatchGetSecurityRequirementResult&gt;
+    #   * {Types::BatchGetSecurityRequirementsOutput#errors #errors} => Array&lt;Types::BatchSecurityRequirementError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_security_requirements({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #     security_requirement_names: ["SecurityRequirementName"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.security_requirements #=> Array
+    #   resp.security_requirements[0].pack_id #=> String
+    #   resp.security_requirements[0].name #=> String
+    #   resp.security_requirements[0].description #=> String
+    #   resp.security_requirements[0].domain #=> String
+    #   resp.security_requirements[0].evaluation #=> String
+    #   resp.security_requirements[0].remediation #=> String
+    #   resp.security_requirements[0].created_at #=> Time
+    #   resp.security_requirements[0].updated_at #=> Time
+    #   resp.errors #=> Array
+    #   resp.errors[0].security_requirement_name #=> String
+    #   resp.errors[0].code #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetSecurityRequirements AWS API Documentation
+    #
+    # @overload batch_get_security_requirements(params = {})
+    # @param [Hash] params ({})
+    def batch_get_security_requirements(params = {}, options = {})
+      req = build_request(:batch_get_security_requirements, params)
       req.send_request(options)
     end
 
@@ -1240,6 +1440,298 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def batch_get_target_domains(params = {}, options = {})
       req = build_request(:batch_get_target_domains, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about one or more tasks within a threat model
+    # job.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space that contains the tasks.
+    #
+    # @option params [required, Array<String>] :threat_model_job_task_ids
+    #   The list of task identifiers to retrieve.
+    #
+    # @return [Types::BatchGetThreatModelJobTasksOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetThreatModelJobTasksOutput#threat_model_job_tasks #threat_model_job_tasks} => Array&lt;Types::ThreatModelJobTask&gt;
+    #   * {Types::BatchGetThreatModelJobTasksOutput#not_found #not_found} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_threat_model_job_tasks({
+    #     agent_space_id: "String", # required
+    #     threat_model_job_task_ids: ["String"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_model_job_tasks #=> Array
+    #   resp.threat_model_job_tasks[0].task_id #=> String
+    #   resp.threat_model_job_tasks[0].threat_model_id #=> String
+    #   resp.threat_model_job_tasks[0].threat_model_job_id #=> String
+    #   resp.threat_model_job_tasks[0].agent_space_id #=> String
+    #   resp.threat_model_job_tasks[0].title #=> String
+    #   resp.threat_model_job_tasks[0].description #=> String
+    #   resp.threat_model_job_tasks[0].execution_status #=> String, one of "IN_PROGRESS", "ABORTED", "COMPLETED", "INTERNAL_ERROR", "FAILED"
+    #   resp.threat_model_job_tasks[0].logs_location.log_type #=> String, one of "CLOUDWATCH"
+    #   resp.threat_model_job_tasks[0].logs_location.cloud_watch_log.log_group #=> String
+    #   resp.threat_model_job_tasks[0].logs_location.cloud_watch_log.log_stream #=> String
+    #   resp.threat_model_job_tasks[0].created_at #=> Time
+    #   resp.threat_model_job_tasks[0].updated_at #=> Time
+    #   resp.not_found #=> Array
+    #   resp.not_found[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelJobTasks AWS API Documentation
+    #
+    # @overload batch_get_threat_model_job_tasks(params = {})
+    # @param [Hash] params ({})
+    def batch_get_threat_model_job_tasks(params = {}, options = {})
+      req = build_request(:batch_get_threat_model_job_tasks, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about one or more threat model jobs in an agent
+    # space.
+    #
+    # @option params [required, Array<String>] :threat_model_job_ids
+    #   The list of threat model job identifiers to retrieve.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model jobs.
+    #
+    # @return [Types::BatchGetThreatModelJobsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetThreatModelJobsOutput#threat_model_jobs #threat_model_jobs} => Array&lt;Types::ThreatModelJob&gt;
+    #   * {Types::BatchGetThreatModelJobsOutput#not_found #not_found} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_threat_model_jobs({
+    #     threat_model_job_ids: ["String"], # required
+    #     agent_space_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_model_jobs #=> Array
+    #   resp.threat_model_jobs[0].threat_model_job_id #=> String
+    #   resp.threat_model_jobs[0].threat_model_id #=> String
+    #   resp.threat_model_jobs[0].agent_space_id #=> String
+    #   resp.threat_model_jobs[0].title #=> String
+    #   resp.threat_model_jobs[0].status #=> String, one of "IN_PROGRESS", "STOPPING", "STOPPED", "FAILED", "COMPLETED"
+    #   resp.threat_model_jobs[0].created_at #=> Time
+    #   resp.threat_model_jobs[0].updated_at #=> Time
+    #   resp.threat_model_jobs[0].execution_start_time #=> Time
+    #   resp.threat_model_jobs[0].execution_end_time #=> Time
+    #   resp.threat_model_jobs[0].source_code #=> Array
+    #   resp.threat_model_jobs[0].source_code[0].s3_location #=> String
+    #   resp.threat_model_jobs[0].integrated_repositories #=> Array
+    #   resp.threat_model_jobs[0].integrated_repositories[0].integration_id #=> String
+    #   resp.threat_model_jobs[0].integrated_repositories[0].provider_resource_id #=> String
+    #   resp.threat_model_jobs[0].documents #=> Array
+    #   resp.threat_model_jobs[0].documents[0].s3_location #=> String
+    #   resp.threat_model_jobs[0].documents[0].artifact_id #=> String
+    #   resp.threat_model_jobs[0].documents[0].integrated_document.integration_id #=> String
+    #   resp.threat_model_jobs[0].documents[0].integrated_document.resource_id #=> String
+    #   resp.threat_model_jobs[0].scope_docs #=> Array
+    #   resp.threat_model_jobs[0].scope_docs[0].s3_location #=> String
+    #   resp.threat_model_jobs[0].scope_docs[0].artifact_id #=> String
+    #   resp.threat_model_jobs[0].scope_docs[0].integrated_document.integration_id #=> String
+    #   resp.threat_model_jobs[0].scope_docs[0].integrated_document.resource_id #=> String
+    #   resp.threat_model_jobs[0].error_information.code #=> String, one of "CLIENT_ERROR", "INTERNAL_ERROR", "STOPPED_BY_USER"
+    #   resp.threat_model_jobs[0].error_information.message #=> String
+    #   resp.threat_model_jobs[0].system_overview #=> String
+    #   resp.not_found #=> Array
+    #   resp.not_found[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModelJobs AWS API Documentation
+    #
+    # @overload batch_get_threat_model_jobs(params = {})
+    # @param [Hash] params ({})
+    def batch_get_threat_model_jobs(params = {}, options = {})
+      req = build_request(:batch_get_threat_model_jobs, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about one or more threat models in an agent
+    # space.
+    #
+    # @option params [required, Array<String>] :threat_model_ids
+    #   The list of threat model identifiers to retrieve.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   models.
+    #
+    # @return [Types::BatchGetThreatModelsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetThreatModelsOutput#threat_models #threat_models} => Array&lt;Types::ThreatModel&gt;
+    #   * {Types::BatchGetThreatModelsOutput#not_found #not_found} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_threat_models({
+    #     threat_model_ids: ["String"], # required
+    #     agent_space_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_models #=> Array
+    #   resp.threat_models[0].threat_model_id #=> String
+    #   resp.threat_models[0].agent_space_id #=> String
+    #   resp.threat_models[0].title #=> String
+    #   resp.threat_models[0].description #=> String
+    #   resp.threat_models[0].assets.endpoints #=> Array
+    #   resp.threat_models[0].assets.endpoints[0].uri #=> String
+    #   resp.threat_models[0].assets.actors #=> Array
+    #   resp.threat_models[0].assets.actors[0].identifier #=> String
+    #   resp.threat_models[0].assets.actors[0].uris #=> Array
+    #   resp.threat_models[0].assets.actors[0].uris[0] #=> String
+    #   resp.threat_models[0].assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
+    #   resp.threat_models[0].assets.actors[0].authentication.value #=> String
+    #   resp.threat_models[0].assets.actors[0].description #=> String
+    #   resp.threat_models[0].assets.documents #=> Array
+    #   resp.threat_models[0].assets.documents[0].s3_location #=> String
+    #   resp.threat_models[0].assets.documents[0].artifact_id #=> String
+    #   resp.threat_models[0].assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.threat_models[0].assets.documents[0].integrated_document.resource_id #=> String
+    #   resp.threat_models[0].assets.source_code #=> Array
+    #   resp.threat_models[0].assets.source_code[0].s3_location #=> String
+    #   resp.threat_models[0].assets.integrated_repositories #=> Array
+    #   resp.threat_models[0].assets.integrated_repositories[0].integration_id #=> String
+    #   resp.threat_models[0].assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.threat_models[0].scope_docs #=> Array
+    #   resp.threat_models[0].scope_docs[0].s3_location #=> String
+    #   resp.threat_models[0].scope_docs[0].artifact_id #=> String
+    #   resp.threat_models[0].scope_docs[0].integrated_document.integration_id #=> String
+    #   resp.threat_models[0].scope_docs[0].integrated_document.resource_id #=> String
+    #   resp.threat_models[0].service_role #=> String
+    #   resp.threat_models[0].log_config.log_group #=> String
+    #   resp.threat_models[0].log_config.log_stream #=> String
+    #   resp.threat_models[0].created_at #=> Time
+    #   resp.threat_models[0].updated_at #=> Time
+    #   resp.not_found #=> Array
+    #   resp.not_found[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreatModels AWS API Documentation
+    #
+    # @overload batch_get_threat_models(params = {})
+    # @param [Hash] params ({})
+    def batch_get_threat_models(params = {}, options = {})
+      req = build_request(:batch_get_threat_models, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about one or more threats.
+    #
+    # @option params [required, Array<String>] :threat_ids
+    #   The list of threat identifiers to retrieve.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @return [Types::BatchGetThreatsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetThreatsOutput#threats #threats} => Array&lt;Types::Threat&gt;
+    #   * {Types::BatchGetThreatsOutput#not_found #not_found} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_threats({
+    #     threat_ids: ["String"], # required
+    #     agent_space_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threats #=> Array
+    #   resp.threats[0].threat_id #=> String
+    #   resp.threats[0].threat_job_id #=> String
+    #   resp.threats[0].title #=> String
+    #   resp.threats[0].statement #=> String
+    #   resp.threats[0].severity #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"
+    #   resp.threats[0].status #=> String, one of "OPEN", "RESOLVED", "DISMISSED"
+    #   resp.threats[0].comments #=> String
+    #   resp.threats[0].threat_source #=> String
+    #   resp.threats[0].prerequisites #=> String
+    #   resp.threats[0].threat_action #=> String
+    #   resp.threats[0].threat_impact #=> String
+    #   resp.threats[0].impacted_goal #=> Array
+    #   resp.threats[0].impacted_goal[0] #=> String
+    #   resp.threats[0].impacted_assets #=> Array
+    #   resp.threats[0].impacted_assets[0] #=> String
+    #   resp.threats[0].anchor.kind #=> String
+    #   resp.threats[0].anchor.id #=> String
+    #   resp.threats[0].anchor.package_id #=> String
+    #   resp.threats[0].evidence #=> Array
+    #   resp.threats[0].evidence[0].package_id #=> String
+    #   resp.threats[0].evidence[0].path #=> String
+    #   resp.threats[0].stride #=> Array
+    #   resp.threats[0].stride[0] #=> String, one of "SPOOFING", "TAMPERING", "REPUDIATION", "INFORMATION_DISCLOSURE", "DENIAL_OF_SERVICE", "ELEVATION_OF_PRIVILEGE"
+    #   resp.threats[0].recommendation #=> String
+    #   resp.threats[0].created_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.threats[0].updated_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.threats[0].created_at #=> Time
+    #   resp.threats[0].updated_at #=> Time
+    #   resp.not_found #=> Array
+    #   resp.not_found[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchGetThreats AWS API Documentation
+    #
+    # @overload batch_get_threats(params = {})
+    # @param [Hash] params ({})
+    def batch_get_threats(params = {}, options = {})
+      req = build_request(:batch_get_threats, params)
+      req.send_request(options)
+    end
+
+    # Batch updates security requirements within a customer managed pack.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack containing the
+    #   requirements to update.
+    #
+    # @option params [required, Array<Types::UpdateSecurityRequirementEntry>] :security_requirements
+    #   The list of security requirement updates to apply.
+    #
+    # @return [Types::BatchUpdateSecurityRequirementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchUpdateSecurityRequirementsOutput#updated_security_requirement_names #updated_security_requirement_names} => Array&lt;String&gt;
+    #   * {Types::BatchUpdateSecurityRequirementsOutput#errors #errors} => Array&lt;Types::BatchSecurityRequirementError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_update_security_requirements({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #     security_requirements: [ # required
+    #       {
+    #         name: "SecurityRequirementName", # required
+    #         description: "String",
+    #         domain: "String",
+    #         evaluation: "String",
+    #         remediation: "String",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.updated_security_requirement_names #=> Array
+    #   resp.updated_security_requirement_names[0] #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].security_requirement_name #=> String
+    #   resp.errors[0].code #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/BatchUpdateSecurityRequirements AWS API Documentation
+    #
+    # @overload batch_update_security_requirements(params = {})
+    # @param [Hash] params ({})
+    def batch_update_security_requirements(params = {}, options = {})
+      req = build_request(:batch_update_security_requirements, params)
       req.send_request(options)
     end
 
@@ -1419,6 +1911,10 @@ module Aws::SecurityAgent
     #   The code remediation strategy for the code review. Valid values are
     #   AUTOMATIC and DISABLED.
     #
+    # @option params [String] :validation_mode
+    #   The validation mode for the code review. Valid values are SIMULATED
+    #   and DISABLED.
+    #
     # @return [Types::CreateCodeReviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateCodeReviewOutput#code_review_id #code_review_id} => String
@@ -1430,6 +1926,7 @@ module Aws::SecurityAgent
     #   * {Types::CreateCodeReviewOutput#log_config #log_config} => Types::CloudWatchLog
     #   * {Types::CreateCodeReviewOutput#agent_space_id #agent_space_id} => String
     #   * {Types::CreateCodeReviewOutput#code_remediation_strategy #code_remediation_strategy} => String
+    #   * {Types::CreateCodeReviewOutput#validation_mode #validation_mode} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1457,6 +1954,10 @@ module Aws::SecurityAgent
     #         {
     #           s3_location: "String",
     #           artifact_id: "String",
+    #           integrated_document: {
+    #             integration_id: "String", # required
+    #             resource_id: "String", # required
+    #           },
     #         },
     #       ],
     #       source_code: [
@@ -1477,6 +1978,7 @@ module Aws::SecurityAgent
     #       log_stream: "String",
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
+    #     validation_mode: "DISABLED", # accepts DISABLED, SIMULATED
     #   })
     #
     # @example Response structure
@@ -1497,6 +1999,8 @@ module Aws::SecurityAgent
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
+    #   resp.assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.assets.documents[0].integrated_document.resource_id #=> String
     #   resp.assets.source_code #=> Array
     #   resp.assets.source_code[0].s3_location #=> String
     #   resp.assets.integrated_repositories #=> Array
@@ -1507,6 +2011,7 @@ module Aws::SecurityAgent
     #   resp.log_config.log_stream #=> String
     #   resp.agent_space_id #=> String
     #   resp.code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
+    #   resp.validation_mode #=> String, one of "DISABLED", "SIMULATED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateCodeReview AWS API Documentation
     #
@@ -1536,6 +2041,11 @@ module Aws::SecurityAgent
     # @option params [Hash<String,String>] :tags
     #   The tags to associate with the integration.
     #
+    # @option params [String] :private_connection_name
+    #   The name of an active private connection used to reach a self-hosted
+    #   provider instance over private networking. Specify this when the
+    #   instance is not publicly reachable.
+    #
     # @return [Types::CreateIntegrationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateIntegrationOutput#integration_id #integration_id} => String
@@ -1543,12 +2053,32 @@ module Aws::SecurityAgent
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_integration({
-    #     provider: "GITHUB", # required, accepts GITHUB
+    #     provider: "GITHUB", # required, accepts GITHUB, GITLAB, BITBUCKET, CONFLUENCE
     #     input: { # required
     #       github: {
     #         code: "AuthCode", # required
     #         state: "CsrfState", # required
     #         organization_name: "String",
+    #         target_url: "TargetUrl",
+    #         installation_id: "String",
+    #       },
+    #       gitlab: {
+    #         access_token: "AccessToken", # required
+    #         target_url: "TargetUrl",
+    #         token_type: "PERSONAL", # required, accepts PERSONAL, GROUP
+    #         group_id: "String",
+    #       },
+    #       bitbucket: {
+    #         installation_id: "BitbucketInstallationId", # required
+    #         workspace: "BitbucketWorkspace", # required
+    #         code: "AuthCode", # required
+    #         state: "CsrfState", # required
+    #       },
+    #       confluence: {
+    #         installation_id: "ConfluenceInstallationId", # required
+    #         code: "AuthCode", # required
+    #         state: "CsrfState", # required
+    #         site_url: "ConfluenceSiteUrl", # required
     #       },
     #     },
     #     integration_display_name: "String", # required
@@ -1556,6 +2086,7 @@ module Aws::SecurityAgent
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
+    #     private_connection_name: "PrivateConnectionName",
     #   })
     #
     # @example Response structure
@@ -1649,6 +2180,10 @@ module Aws::SecurityAgent
     #   The code remediation strategy for the pentest. Valid values are
     #   AUTOMATIC and DISABLED.
     #
+    # @option params [Array<String>] :disable_managed_skills
+    #   A list of managed skills to disable for this pentest. Valid values
+    #   include FINDING\_PERSONALIZATION and LOGIN\_OPTIMIZATION.
+    #
     # @return [Types::CreatePentestOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreatePentestOutput#pentest_id #pentest_id} => String
@@ -1687,6 +2222,10 @@ module Aws::SecurityAgent
     #         {
     #           s3_location: "String",
     #           artifact_id: "String",
+    #           integrated_document: {
+    #             integration_id: "String", # required
+    #             resource_id: "String", # required
+    #           },
     #         },
     #       ],
     #       source_code: [
@@ -1728,6 +2267,7 @@ module Aws::SecurityAgent
     #       ],
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
+    #     disable_managed_skills: ["FINDING_PERSONALIZATION"], # accepts FINDING_PERSONALIZATION, LOGIN_OPTIMIZATION
     #   })
     #
     # @example Response structure
@@ -1748,6 +2288,8 @@ module Aws::SecurityAgent
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
+    #   resp.assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.assets.documents[0].integrated_document.resource_id #=> String
     #   resp.assets.source_code #=> Array
     #   resp.assets.source_code[0].s3_location #=> String
     #   resp.assets.integrated_repositories #=> Array
@@ -1766,6 +2308,133 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def create_pentest(params = {}, options = {})
       req = build_request(:create_pentest, params)
+      req.send_request(options)
+    end
+
+    # Creates a private connection for reaching a self-hosted provider
+    # instance over private networking using Amazon VPC Lattice.
+    #
+    # @option params [required, String] :private_connection_name
+    #   A unique name for the private connection within your account.
+    #
+    # @option params [required, Types::PrivateConnectionMode] :mode
+    #   The configuration for the private connection. Specify either a
+    #   service-managed or a self-managed mode.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags to attach to the private connection.
+    #
+    # @return [Types::CreatePrivateConnectionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreatePrivateConnectionOutput#name #name} => String
+    #   * {Types::CreatePrivateConnectionOutput#type #type} => String
+    #   * {Types::CreatePrivateConnectionOutput#status #status} => String
+    #   * {Types::CreatePrivateConnectionOutput#resource_gateway_id #resource_gateway_id} => String
+    #   * {Types::CreatePrivateConnectionOutput#host_address #host_address} => String
+    #   * {Types::CreatePrivateConnectionOutput#vpc_id #vpc_id} => String
+    #   * {Types::CreatePrivateConnectionOutput#resource_configuration_id #resource_configuration_id} => String
+    #   * {Types::CreatePrivateConnectionOutput#certificate_expiry_time #certificate_expiry_time} => Time
+    #   * {Types::CreatePrivateConnectionOutput#dns_resolution #dns_resolution} => String
+    #   * {Types::CreatePrivateConnectionOutput#failure_message #failure_message} => String
+    #   * {Types::CreatePrivateConnectionOutput#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_private_connection({
+    #     private_connection_name: "PrivateConnectionName", # required
+    #     mode: { # required
+    #       service_managed: {
+    #         host_address: "HostAddress", # required
+    #         vpc_id: "PrivateConnectionVpcId", # required
+    #         subnet_ids: ["PrivateConnectionSubnetId"], # required
+    #         security_group_ids: ["PrivateConnectionSecurityGroupId"],
+    #         ip_address_type: "IPV4", # accepts IPV4, IPV6, DUAL_STACK
+    #         ipv4_addresses_per_eni: 1,
+    #         port_ranges: ["PortRange"],
+    #         certificate: "CertificateChain",
+    #         dns_resolution: "PUBLIC", # accepts PUBLIC, IN_VPC
+    #       },
+    #       self_managed: {
+    #         resource_configuration_id: "ResourceConfigurationId", # required
+    #         certificate: "CertificateChain",
+    #       },
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.type #=> String, one of "SERVICE_MANAGED", "SELF_MANAGED"
+    #   resp.status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.resource_gateway_id #=> String
+    #   resp.host_address #=> String
+    #   resp.vpc_id #=> String
+    #   resp.resource_configuration_id #=> String
+    #   resp.certificate_expiry_time #=> Time
+    #   resp.dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.failure_message #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreatePrivateConnection AWS API Documentation
+    #
+    # @overload create_private_connection(params = {})
+    # @param [Hash] params ({})
+    def create_private_connection(params = {}, options = {})
+      req = build_request(:create_private_connection, params)
+      req.send_request(options)
+    end
+
+    # Creates a customer managed security requirement pack.
+    #
+    # @option params [required, String] :name
+    #   The name of the security requirement pack.
+    #
+    # @option params [String] :description
+    #   A description of the security requirement pack.
+    #
+    # @option params [String] :status
+    #   The status of the pack. Defaults to ENABLED if not provided.
+    #
+    # @option params [String] :kms_key_id
+    #   The identifier of the AWS KMS key used to encrypt pack contents.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags to associate with the security requirement pack.
+    #
+    # @return [Types::CreateSecurityRequirementPackOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateSecurityRequirementPackOutput#pack_id #pack_id} => String
+    #   * {Types::CreateSecurityRequirementPackOutput#status #status} => String
+    #   * {Types::CreateSecurityRequirementPackOutput#kms_key_id #kms_key_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_security_requirement_pack({
+    #     name: "SecurityRequirementPackName", # required
+    #     description: "String",
+    #     status: "ENABLED", # accepts ENABLED, DISABLED
+    #     kms_key_id: "KmsKeyId",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.pack_id #=> String
+    #   resp.status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.kms_key_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateSecurityRequirementPack AWS API Documentation
+    #
+    # @overload create_security_requirement_pack(params = {})
+    # @param [Hash] params ({})
+    def create_security_requirement_pack(params = {}, options = {})
+      req = build_request(:create_security_requirement_pack, params)
       req.send_request(options)
     end
 
@@ -1824,6 +2493,305 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def create_target_domain(params = {}, options = {})
       req = build_request(:create_target_domain, params)
+      req.send_request(options)
+    end
+
+    # Creates a new threat under a threat model job.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @option params [required, String] :threat_job_id
+    #   The unique identifier of the threat model job the threat belongs to.
+    #
+    # @option params [String] :title
+    #   A short title summarizing the threat.
+    #
+    # @option params [String] :statement
+    #   The natural-language threat statement.
+    #
+    # @option params [String] :severity
+    #   The severity level of the threat.
+    #
+    # @option params [String] :comments
+    #   Optional customer comment on the threat.
+    #
+    # @option params [Array<String>] :stride
+    #   The STRIDE categories applicable to this threat.
+    #
+    # @option params [String] :threat_source
+    #   The actor or origin of the threat.
+    #
+    # @option params [String] :prerequisites
+    #   The conditions required for the threat to be exploitable.
+    #
+    # @option params [String] :threat_action
+    #   What the threat source can do.
+    #
+    # @option params [String] :threat_impact
+    #   The direct consequence of the threat action.
+    #
+    # @option params [Array<String>] :impacted_goal
+    #   The security goals affected by the threat.
+    #
+    # @option params [Array<String>] :impacted_assets
+    #   The specific assets affected by the threat.
+    #
+    # @option params [Types::ThreatAnchorShape] :anchor
+    #   The DFD element this threat is anchored to.
+    #
+    # @option params [Array<Types::ThreatEvidenceShape>] :evidence
+    #   The source code files supporting the threat.
+    #
+    # @option params [String] :recommendation
+    #   The recommended mitigation guidance for this threat.
+    #
+    # @return [Types::CreateThreatOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateThreatOutput#threat_id #threat_id} => String
+    #   * {Types::CreateThreatOutput#threat_job_id #threat_job_id} => String
+    #   * {Types::CreateThreatOutput#title #title} => String
+    #   * {Types::CreateThreatOutput#statement #statement} => String
+    #   * {Types::CreateThreatOutput#severity #severity} => String
+    #   * {Types::CreateThreatOutput#status #status} => String
+    #   * {Types::CreateThreatOutput#comments #comments} => String
+    #   * {Types::CreateThreatOutput#stride #stride} => Array&lt;String&gt;
+    #   * {Types::CreateThreatOutput#threat_source #threat_source} => String
+    #   * {Types::CreateThreatOutput#prerequisites #prerequisites} => String
+    #   * {Types::CreateThreatOutput#threat_action #threat_action} => String
+    #   * {Types::CreateThreatOutput#threat_impact #threat_impact} => String
+    #   * {Types::CreateThreatOutput#impacted_goal #impacted_goal} => Array&lt;String&gt;
+    #   * {Types::CreateThreatOutput#impacted_assets #impacted_assets} => Array&lt;String&gt;
+    #   * {Types::CreateThreatOutput#anchor #anchor} => Types::ThreatAnchorShape
+    #   * {Types::CreateThreatOutput#evidence #evidence} => Array&lt;Types::ThreatEvidenceShape&gt;
+    #   * {Types::CreateThreatOutput#recommendation #recommendation} => String
+    #   * {Types::CreateThreatOutput#created_by #created_by} => String
+    #   * {Types::CreateThreatOutput#updated_by #updated_by} => String
+    #   * {Types::CreateThreatOutput#created_at #created_at} => Time
+    #   * {Types::CreateThreatOutput#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_threat({
+    #     agent_space_id: "String", # required
+    #     threat_job_id: "String", # required
+    #     title: "String",
+    #     statement: "String",
+    #     severity: "CRITICAL", # accepts CRITICAL, HIGH, MEDIUM, LOW, INFO
+    #     comments: "String",
+    #     stride: ["SPOOFING"], # accepts SPOOFING, TAMPERING, REPUDIATION, INFORMATION_DISCLOSURE, DENIAL_OF_SERVICE, ELEVATION_OF_PRIVILEGE
+    #     threat_source: "String",
+    #     prerequisites: "String",
+    #     threat_action: "String",
+    #     threat_impact: "String",
+    #     impacted_goal: ["String"],
+    #     impacted_assets: ["String"],
+    #     anchor: {
+    #       kind: "String",
+    #       id: "String",
+    #       package_id: "String",
+    #     },
+    #     evidence: [
+    #       {
+    #         package_id: "String",
+    #         path: "String",
+    #       },
+    #     ],
+    #     recommendation: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_id #=> String
+    #   resp.threat_job_id #=> String
+    #   resp.title #=> String
+    #   resp.statement #=> String
+    #   resp.severity #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"
+    #   resp.status #=> String, one of "OPEN", "RESOLVED", "DISMISSED"
+    #   resp.comments #=> String
+    #   resp.stride #=> Array
+    #   resp.stride[0] #=> String, one of "SPOOFING", "TAMPERING", "REPUDIATION", "INFORMATION_DISCLOSURE", "DENIAL_OF_SERVICE", "ELEVATION_OF_PRIVILEGE"
+    #   resp.threat_source #=> String
+    #   resp.prerequisites #=> String
+    #   resp.threat_action #=> String
+    #   resp.threat_impact #=> String
+    #   resp.impacted_goal #=> Array
+    #   resp.impacted_goal[0] #=> String
+    #   resp.impacted_assets #=> Array
+    #   resp.impacted_assets[0] #=> String
+    #   resp.anchor.kind #=> String
+    #   resp.anchor.id #=> String
+    #   resp.anchor.package_id #=> String
+    #   resp.evidence #=> Array
+    #   resp.evidence[0].package_id #=> String
+    #   resp.evidence[0].path #=> String
+    #   resp.recommendation #=> String
+    #   resp.created_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.updated_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateThreat AWS API Documentation
+    #
+    # @overload create_threat(params = {})
+    # @param [Hash] params ({})
+    def create_threat(params = {}, options = {})
+      req = build_request(:create_threat, params)
+      req.send_request(options)
+    end
+
+    # Creates a new threat model configuration in an agent space. A threat
+    # model defines the parameters for automated threat analysis.
+    #
+    # @option params [required, String] :title
+    #   The title of the threat model.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space to create the threat model
+    #   in.
+    #
+    # @option params [String] :description
+    #   A description of the application or system being threat modeled.
+    #
+    # @option params [Types::Assets] :assets
+    #   The assets to include in the threat model.
+    #
+    # @option params [Array<Types::DocumentInfo>] :scope_docs
+    #   The scoped documents for the agent to focus on during threat modeling.
+    #
+    # @option params [required, String] :service_role
+    #   The IAM service role to use for the threat model.
+    #
+    # @option params [Types::CloudWatchLog] :log_config
+    #   The CloudWatch Logs configuration for the threat model.
+    #
+    # @option params [Types::ReportDestination] :report_destination
+    #   The destination for publishing scan reports to an integrated document
+    #   provider.
+    #
+    # @return [Types::CreateThreatModelOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateThreatModelOutput#threat_model_id #threat_model_id} => String
+    #   * {Types::CreateThreatModelOutput#title #title} => String
+    #   * {Types::CreateThreatModelOutput#agent_space_id #agent_space_id} => String
+    #   * {Types::CreateThreatModelOutput#description #description} => String
+    #   * {Types::CreateThreatModelOutput#assets #assets} => Types::Assets
+    #   * {Types::CreateThreatModelOutput#scope_docs #scope_docs} => Array&lt;Types::DocumentInfo&gt;
+    #   * {Types::CreateThreatModelOutput#service_role #service_role} => String
+    #   * {Types::CreateThreatModelOutput#log_config #log_config} => Types::CloudWatchLog
+    #   * {Types::CreateThreatModelOutput#created_at #created_at} => Time
+    #   * {Types::CreateThreatModelOutput#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_threat_model({
+    #     title: "String", # required
+    #     agent_space_id: "String", # required
+    #     description: "String",
+    #     assets: {
+    #       endpoints: [
+    #         {
+    #           uri: "String",
+    #         },
+    #       ],
+    #       actors: [
+    #         {
+    #           identifier: "String",
+    #           uris: ["String"],
+    #           authentication: {
+    #             provider_type: "SECRETS_MANAGER", # accepts SECRETS_MANAGER, AWS_LAMBDA, AWS_IAM_ROLE, AWS_INTERNAL
+    #             value: "String",
+    #           },
+    #           description: "String",
+    #         },
+    #       ],
+    #       documents: [
+    #         {
+    #           s3_location: "String",
+    #           artifact_id: "String",
+    #           integrated_document: {
+    #             integration_id: "String", # required
+    #             resource_id: "String", # required
+    #           },
+    #         },
+    #       ],
+    #       source_code: [
+    #         {
+    #           s3_location: "String",
+    #         },
+    #       ],
+    #       integrated_repositories: [
+    #         {
+    #           integration_id: "String", # required
+    #           provider_resource_id: "String", # required
+    #         },
+    #       ],
+    #     },
+    #     scope_docs: [
+    #       {
+    #         s3_location: "String",
+    #         artifact_id: "String",
+    #         integrated_document: {
+    #           integration_id: "String", # required
+    #           resource_id: "String", # required
+    #         },
+    #       },
+    #     ],
+    #     service_role: "ServiceRole", # required
+    #     log_config: {
+    #       log_group: "String",
+    #       log_stream: "String",
+    #     },
+    #     report_destination: {
+    #       integration_id: "String", # required
+    #       container_id: "String", # required
+    #       parent_id: "String",
+    #       document_id: "String",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_model_id #=> String
+    #   resp.title #=> String
+    #   resp.agent_space_id #=> String
+    #   resp.description #=> String
+    #   resp.assets.endpoints #=> Array
+    #   resp.assets.endpoints[0].uri #=> String
+    #   resp.assets.actors #=> Array
+    #   resp.assets.actors[0].identifier #=> String
+    #   resp.assets.actors[0].uris #=> Array
+    #   resp.assets.actors[0].uris[0] #=> String
+    #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
+    #   resp.assets.actors[0].authentication.value #=> String
+    #   resp.assets.actors[0].description #=> String
+    #   resp.assets.documents #=> Array
+    #   resp.assets.documents[0].s3_location #=> String
+    #   resp.assets.documents[0].artifact_id #=> String
+    #   resp.assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.assets.documents[0].integrated_document.resource_id #=> String
+    #   resp.assets.source_code #=> Array
+    #   resp.assets.source_code[0].s3_location #=> String
+    #   resp.assets.integrated_repositories #=> Array
+    #   resp.assets.integrated_repositories[0].integration_id #=> String
+    #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.scope_docs #=> Array
+    #   resp.scope_docs[0].s3_location #=> String
+    #   resp.scope_docs[0].artifact_id #=> String
+    #   resp.scope_docs[0].integrated_document.integration_id #=> String
+    #   resp.scope_docs[0].integrated_document.resource_id #=> String
+    #   resp.service_role #=> String
+    #   resp.log_config.log_group #=> String
+    #   resp.log_config.log_stream #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateThreatModel AWS API Documentation
+    #
+    # @overload create_threat_model(params = {})
+    # @param [Hash] params ({})
+    def create_threat_model(params = {}, options = {})
+      req = build_request(:create_threat_model, params)
       req.send_request(options)
     end
 
@@ -1962,6 +2930,78 @@ module Aws::SecurityAgent
       req.send_request(options)
     end
 
+    # Deletes a private connection.
+    #
+    # @option params [required, String] :private_connection_name
+    #   The name of the private connection to delete.
+    #
+    # @return [Types::DeletePrivateConnectionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeletePrivateConnectionOutput#name #name} => String
+    #   * {Types::DeletePrivateConnectionOutput#type #type} => String
+    #   * {Types::DeletePrivateConnectionOutput#status #status} => String
+    #   * {Types::DeletePrivateConnectionOutput#resource_gateway_id #resource_gateway_id} => String
+    #   * {Types::DeletePrivateConnectionOutput#host_address #host_address} => String
+    #   * {Types::DeletePrivateConnectionOutput#vpc_id #vpc_id} => String
+    #   * {Types::DeletePrivateConnectionOutput#resource_configuration_id #resource_configuration_id} => String
+    #   * {Types::DeletePrivateConnectionOutput#certificate_expiry_time #certificate_expiry_time} => Time
+    #   * {Types::DeletePrivateConnectionOutput#dns_resolution #dns_resolution} => String
+    #   * {Types::DeletePrivateConnectionOutput#failure_message #failure_message} => String
+    #   * {Types::DeletePrivateConnectionOutput#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_private_connection({
+    #     private_connection_name: "PrivateConnectionName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.type #=> String, one of "SERVICE_MANAGED", "SELF_MANAGED"
+    #   resp.status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.resource_gateway_id #=> String
+    #   resp.host_address #=> String
+    #   resp.vpc_id #=> String
+    #   resp.resource_configuration_id #=> String
+    #   resp.certificate_expiry_time #=> Time
+    #   resp.dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.failure_message #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DeletePrivateConnection AWS API Documentation
+    #
+    # @overload delete_private_connection(params = {})
+    # @param [Hash] params ({})
+    def delete_private_connection(params = {}, options = {})
+      req = build_request(:delete_private_connection, params)
+      req.send_request(options)
+    end
+
+    # Deletes a customer managed security requirement pack and all its
+    # associated security requirements.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_security_requirement_pack({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DeleteSecurityRequirementPack AWS API Documentation
+    #
+    # @overload delete_security_requirement_pack(params = {})
+    # @param [Hash] params ({})
+    def delete_security_requirement_pack(params = {}, options = {})
+      req = build_request(:delete_security_requirement_pack, params)
+      req.send_request(options)
+    end
+
     # Deletes a target domain registration. After deletion, the domain can
     # no longer be used for penetration testing.
     #
@@ -1988,6 +3028,55 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def delete_target_domain(params = {}, options = {})
       req = build_request(:delete_target_domain, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the details of a private connection.
+    #
+    # @option params [required, String] :private_connection_name
+    #   The name of the private connection to describe.
+    #
+    # @return [Types::DescribePrivateConnectionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribePrivateConnectionOutput#name #name} => String
+    #   * {Types::DescribePrivateConnectionOutput#type #type} => String
+    #   * {Types::DescribePrivateConnectionOutput#status #status} => String
+    #   * {Types::DescribePrivateConnectionOutput#resource_gateway_id #resource_gateway_id} => String
+    #   * {Types::DescribePrivateConnectionOutput#host_address #host_address} => String
+    #   * {Types::DescribePrivateConnectionOutput#vpc_id #vpc_id} => String
+    #   * {Types::DescribePrivateConnectionOutput#resource_configuration_id #resource_configuration_id} => String
+    #   * {Types::DescribePrivateConnectionOutput#certificate_expiry_time #certificate_expiry_time} => Time
+    #   * {Types::DescribePrivateConnectionOutput#dns_resolution #dns_resolution} => String
+    #   * {Types::DescribePrivateConnectionOutput#failure_message #failure_message} => String
+    #   * {Types::DescribePrivateConnectionOutput#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_private_connection({
+    #     private_connection_name: "PrivateConnectionName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.type #=> String, one of "SERVICE_MANAGED", "SELF_MANAGED"
+    #   resp.status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.resource_gateway_id #=> String
+    #   resp.host_address #=> String
+    #   resp.vpc_id #=> String
+    #   resp.resource_configuration_id #=> String
+    #   resp.certificate_expiry_time #=> Time
+    #   resp.dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.failure_message #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/DescribePrivateConnection AWS API Documentation
+    #
+    # @overload describe_private_connection(params = {})
+    # @param [Hash] params ({})
+    def describe_private_connection(params = {}, options = {})
+      req = build_request(:describe_private_connection, params)
       req.send_request(options)
     end
 
@@ -2084,6 +3173,8 @@ module Aws::SecurityAgent
     #   * {Types::GetIntegrationOutput#provider_type #provider_type} => String
     #   * {Types::GetIntegrationOutput#display_name #display_name} => String
     #   * {Types::GetIntegrationOutput#kms_key_id #kms_key_id} => String
+    #   * {Types::GetIntegrationOutput#target_url #target_url} => String
+    #   * {Types::GetIntegrationOutput#private_connection_name #private_connection_name} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2095,10 +3186,12 @@ module Aws::SecurityAgent
     #
     #   resp.integration_id #=> String
     #   resp.installation_id #=> String
-    #   resp.provider #=> String, one of "GITHUB"
+    #   resp.provider #=> String, one of "GITHUB", "GITLAB", "BITBUCKET", "CONFLUENCE"
     #   resp.provider_type #=> String, one of "SOURCE_CODE", "DOCUMENTATION"
     #   resp.display_name #=> String
     #   resp.kms_key_id #=> String
+    #   resp.target_url #=> String
+    #   resp.private_connection_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GetIntegration AWS API Documentation
     #
@@ -2106,6 +3199,99 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def get_integration(params = {}, options = {})
       req = build_request(:get_integration, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about a security requirement pack.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to retrieve.
+    #
+    # @return [Types::GetSecurityRequirementPackOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSecurityRequirementPackOutput#pack_id #pack_id} => String
+    #   * {Types::GetSecurityRequirementPackOutput#name #name} => String
+    #   * {Types::GetSecurityRequirementPackOutput#description #description} => String
+    #   * {Types::GetSecurityRequirementPackOutput#vendor_name #vendor_name} => String
+    #   * {Types::GetSecurityRequirementPackOutput#management_type #management_type} => String
+    #   * {Types::GetSecurityRequirementPackOutput#status #status} => String
+    #   * {Types::GetSecurityRequirementPackOutput#import_status #import_status} => String
+    #   * {Types::GetSecurityRequirementPackOutput#created_at #created_at} => Time
+    #   * {Types::GetSecurityRequirementPackOutput#updated_at #updated_at} => Time
+    #   * {Types::GetSecurityRequirementPackOutput#kms_key_id #kms_key_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_security_requirement_pack({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.pack_id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.vendor_name #=> String
+    #   resp.management_type #=> String, one of "AWS_MANAGED", "CUSTOMER_MANAGED"
+    #   resp.status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.import_status #=> String, one of "PENDING", "IN_PROGRESS", "FAILED", "COMPLETED"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.kms_key_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/GetSecurityRequirementPack AWS API Documentation
+    #
+    # @overload get_security_requirement_pack(params = {})
+    # @param [Hash] params ({})
+    def get_security_requirement_pack(params = {}, options = {})
+      req = build_request(:get_security_requirement_pack, params)
+      req.send_request(options)
+    end
+
+    # Imports security requirements from uploaded documents into a customer
+    # managed security requirement pack. The import process asynchronously
+    # extracts and generates structured security requirements from the
+    # provided source files.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to import
+    #   requirements into.
+    #
+    # @option params [required, Types::ImportSource] :input
+    #   The import source containing the documents to extract security
+    #   requirements from.
+    #
+    # @return [Types::ImportSecurityRequirementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ImportSecurityRequirementsOutput#pack_id #pack_id} => String
+    #   * {Types::ImportSecurityRequirementsOutput#import_status #import_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.import_security_requirements({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #     input: { # required
+    #       documents: [
+    #         {
+    #           name: "SecurityRequirementArtifactName", # required
+    #           format: "MD", # required, accepts MD, PDF, TXT, DOCX, DOC
+    #           content: "data", # required
+    #         },
+    #       ],
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.pack_id #=> String
+    #   resp.import_status #=> String, one of "PENDING", "IN_PROGRESS", "FAILED", "COMPLETED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ImportSecurityRequirements AWS API Documentation
+    #
+    # @overload import_security_requirements(params = {})
+    # @param [Hash] params ({})
+    def import_security_requirements(params = {}, options = {})
+      req = build_request(:import_security_requirements, params)
       req.send_request(options)
     end
 
@@ -2125,7 +3311,7 @@ module Aws::SecurityAgent
     # @example Request syntax with placeholder values
     #
     #   resp = client.initiate_provider_registration({
-    #     provider: "GITHUB", # required, accepts GITHUB
+    #     provider: "GITHUB", # required, accepts GITHUB, GITLAB, BITBUCKET, CONFLUENCE
     #   })
     #
     # @example Response structure
@@ -2312,7 +3498,7 @@ module Aws::SecurityAgent
     #     agent_space_id: "String", # required
     #     max_results: 1,
     #     code_review_job_id: "String",
-    #     step_name: "PREFLIGHT", # accepts PREFLIGHT, STATIC_ANALYSIS, PENTEST, FINALIZING
+    #     step_name: "PREFLIGHT", # accepts PREFLIGHT, STATIC_ANALYSIS, PENTEST, FINALIZING, VALIDATION
     #     category_name: "String",
     #     next_token: "NextToken",
     #   })
@@ -2575,6 +3761,7 @@ module Aws::SecurityAgent
     #   resp.findings_summaries[0].risk_type #=> String
     #   resp.findings_summaries[0].risk_level #=> String, one of "UNKNOWN", "INFORMATIONAL", "LOW", "MEDIUM", "HIGH", "CRITICAL"
     #   resp.findings_summaries[0].confidence #=> String, one of "FALSE_POSITIVE", "UNCONFIRMED", "LOW", "MEDIUM", "HIGH"
+    #   resp.findings_summaries[0].validation_status #=> String, one of "CONFIRMED", "NOT_REPRODUCED", "VALIDATION_FAILED", "VALIDATING", "NOT_VALIDATED"
     #   resp.findings_summaries[0].created_at #=> Time
     #   resp.findings_summaries[0].updated_at #=> Time
     #   resp.next_token #=> String
@@ -2622,7 +3809,7 @@ module Aws::SecurityAgent
     #   resp = client.list_integrated_resources({
     #     agent_space_id: "AgentSpaceId", # required
     #     integration_id: "IntegrationId",
-    #     resource_type: "CODE_REPOSITORY", # accepts CODE_REPOSITORY
+    #     resource_type: "CODE_REPOSITORY", # accepts CODE_REPOSITORY, DOCUMENT
     #     next_token: "NextToken",
     #     max_results: 1,
     #   })
@@ -2635,8 +3822,29 @@ module Aws::SecurityAgent
     #   resp.integrated_resource_summaries[0].resource.github_repository.provider_resource_id #=> String
     #   resp.integrated_resource_summaries[0].resource.github_repository.owner #=> String
     #   resp.integrated_resource_summaries[0].resource.github_repository.access_type #=> String, one of "PRIVATE", "PUBLIC"
+    #   resp.integrated_resource_summaries[0].resource.gitlab_repository.name #=> String
+    #   resp.integrated_resource_summaries[0].resource.gitlab_repository.provider_resource_id #=> String
+    #   resp.integrated_resource_summaries[0].resource.gitlab_repository.namespace #=> String
+    #   resp.integrated_resource_summaries[0].resource.gitlab_repository.access_type #=> String, one of "PRIVATE", "PUBLIC"
+    #   resp.integrated_resource_summaries[0].resource.bitbucket_repository.name #=> String
+    #   resp.integrated_resource_summaries[0].resource.bitbucket_repository.provider_resource_id #=> String
+    #   resp.integrated_resource_summaries[0].resource.bitbucket_repository.workspace #=> String
+    #   resp.integrated_resource_summaries[0].resource.bitbucket_repository.access_type #=> String, one of "PRIVATE", "PUBLIC"
+    #   resp.integrated_resource_summaries[0].resource.confluence_document.name #=> String
+    #   resp.integrated_resource_summaries[0].resource.confluence_document.provider_resource_id #=> String
+    #   resp.integrated_resource_summaries[0].resource.confluence_document.space_key #=> String
+    #   resp.integrated_resource_summaries[0].resource.confluence_document.page_id #=> String
+    #   resp.integrated_resource_summaries[0].resource.confluence_document.title #=> String
+    #   resp.integrated_resource_summaries[0].resource.confluence_document.space_title #=> String
     #   resp.integrated_resource_summaries[0].capabilities.github.leave_comments #=> Boolean
     #   resp.integrated_resource_summaries[0].capabilities.github.remediate_code #=> Boolean
+    #   resp.integrated_resource_summaries[0].capabilities.gitlab.leave_comments #=> Boolean
+    #   resp.integrated_resource_summaries[0].capabilities.gitlab.remediate_code #=> Boolean
+    #   resp.integrated_resource_summaries[0].capabilities.bitbucket.leave_comments #=> Boolean
+    #   resp.integrated_resource_summaries[0].capabilities.bitbucket.remediate_code #=> Boolean
+    #   resp.integrated_resource_summaries[0].capabilities.confluence.fetch_document #=> Boolean
+    #   resp.integrated_resource_summaries[0].capabilities.confluence.create_document #=> Boolean
+    #   resp.integrated_resource_summaries[0].capabilities.confluence.update_document #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListIntegratedResources AWS API Documentation
@@ -2674,7 +3882,7 @@ module Aws::SecurityAgent
     #
     #   resp = client.list_integrations({
     #     filter: {
-    #       provider: "GITHUB", # accepts GITHUB
+    #       provider: "GITHUB", # accepts GITHUB, GITLAB, BITBUCKET, CONFLUENCE
     #       provider_type: "SOURCE_CODE", # accepts SOURCE_CODE, DOCUMENTATION
     #     },
     #     next_token: "NextToken",
@@ -2686,9 +3894,11 @@ module Aws::SecurityAgent
     #   resp.integration_summaries #=> Array
     #   resp.integration_summaries[0].integration_id #=> String
     #   resp.integration_summaries[0].installation_id #=> String
-    #   resp.integration_summaries[0].provider #=> String, one of "GITHUB"
+    #   resp.integration_summaries[0].provider #=> String, one of "GITHUB", "GITLAB", "BITBUCKET", "CONFLUENCE"
     #   resp.integration_summaries[0].provider_type #=> String, one of "SOURCE_CODE", "DOCUMENTATION"
     #   resp.integration_summaries[0].display_name #=> String
+    #   resp.integration_summaries[0].target_url #=> String
+    #   resp.integration_summaries[0].private_connection_name #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListIntegrations AWS API Documentation
@@ -2778,7 +3988,7 @@ module Aws::SecurityAgent
     #
     # @option params [String] :step_name
     #   Filter tasks by step name. Valid values include PREFLIGHT,
-    #   STATIC\_ANALYSIS, PENTEST, and FINALIZING.
+    #   STATIC\_ANALYSIS, PENTEST, VALIDATION, and FINALIZING.
     #
     # @option params [String] :category_name
     #   Filter tasks by category name.
@@ -2802,7 +4012,7 @@ module Aws::SecurityAgent
     #     agent_space_id: "String", # required
     #     max_results: 1,
     #     pentest_job_id: "String",
-    #     step_name: "PREFLIGHT", # accepts PREFLIGHT, STATIC_ANALYSIS, PENTEST, FINALIZING
+    #     step_name: "PREFLIGHT", # accepts PREFLIGHT, STATIC_ANALYSIS, PENTEST, FINALIZING, VALIDATION
     #     category_name: "String",
     #     next_token: "NextToken",
     #   })
@@ -2933,6 +4143,154 @@ module Aws::SecurityAgent
       req.send_request(options)
     end
 
+    # Lists the private connections in your account.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of private connections to return in a single
+    #   response.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @return [Types::ListPrivateConnectionsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListPrivateConnectionsOutput#private_connections #private_connections} => Array&lt;Types::PrivateConnectionSummary&gt;
+    #   * {Types::ListPrivateConnectionsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_private_connections({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.private_connections #=> Array
+    #   resp.private_connections[0].name #=> String
+    #   resp.private_connections[0].type #=> String, one of "SERVICE_MANAGED", "SELF_MANAGED"
+    #   resp.private_connections[0].status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.private_connections[0].resource_gateway_id #=> String
+    #   resp.private_connections[0].host_address #=> String
+    #   resp.private_connections[0].vpc_id #=> String
+    #   resp.private_connections[0].resource_configuration_id #=> String
+    #   resp.private_connections[0].certificate_expiry_time #=> Time
+    #   resp.private_connections[0].dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.private_connections[0].failure_message #=> String
+    #   resp.private_connections[0].tags #=> Hash
+    #   resp.private_connections[0].tags["TagKey"] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListPrivateConnections AWS API Documentation
+    #
+    # @overload list_private_connections(params = {})
+    # @param [Hash] params ({})
+    def list_private_connections(params = {}, options = {})
+      req = build_request(:list_private_connections, params)
+      req.send_request(options)
+    end
+
+    # Lists all security requirement packs in the caller's account.
+    #
+    # @option params [Types::ListSecurityRequirementPackFilter] :filter
+    #   The filter criteria for listing security requirement packs.
+    #
+    # @option params [String] :next_token
+    #   The pagination token from a previous request to retrieve the next page
+    #   of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single request.
+    #
+    # @return [Types::ListSecurityRequirementPacksOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSecurityRequirementPacksOutput#security_requirement_pack_summaries #security_requirement_pack_summaries} => Array&lt;Types::SecurityRequirementPackSummary&gt;
+    #   * {Types::ListSecurityRequirementPacksOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_security_requirement_packs({
+    #     filter: {
+    #       management_type: "AWS_MANAGED", # accepts AWS_MANAGED, CUSTOMER_MANAGED
+    #       status: "ENABLED", # accepts ENABLED, DISABLED
+    #     },
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.security_requirement_pack_summaries #=> Array
+    #   resp.security_requirement_pack_summaries[0].pack_id #=> String
+    #   resp.security_requirement_pack_summaries[0].name #=> String
+    #   resp.security_requirement_pack_summaries[0].description #=> String
+    #   resp.security_requirement_pack_summaries[0].vendor_name #=> String
+    #   resp.security_requirement_pack_summaries[0].management_type #=> String, one of "AWS_MANAGED", "CUSTOMER_MANAGED"
+    #   resp.security_requirement_pack_summaries[0].status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.security_requirement_pack_summaries[0].created_at #=> Time
+    #   resp.security_requirement_pack_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListSecurityRequirementPacks AWS API Documentation
+    #
+    # @overload list_security_requirement_packs(params = {})
+    # @param [Hash] params ({})
+    def list_security_requirement_packs(params = {}, options = {})
+      req = build_request(:list_security_requirement_packs, params)
+      req.send_request(options)
+    end
+
+    # Lists security requirements within a pack.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to list
+    #   requirements for.
+    #
+    # @option params [String] :next_token
+    #   The pagination token from a previous request to retrieve the next page
+    #   of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single request.
+    #
+    # @return [Types::ListSecurityRequirementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSecurityRequirementsOutput#security_requirement_summaries #security_requirement_summaries} => Array&lt;Types::SecurityRequirementSummary&gt;
+    #   * {Types::ListSecurityRequirementsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_security_requirements({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.security_requirement_summaries #=> Array
+    #   resp.security_requirement_summaries[0].pack_id #=> String
+    #   resp.security_requirement_summaries[0].name #=> String
+    #   resp.security_requirement_summaries[0].description #=> String
+    #   resp.security_requirement_summaries[0].created_at #=> Time
+    #   resp.security_requirement_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListSecurityRequirements AWS API Documentation
+    #
+    # @overload list_security_requirements(params = {})
+    # @param [Hash] params ({})
+    def list_security_requirements(params = {}, options = {})
+      req = build_request(:list_security_requirements, params)
+      req.send_request(options)
+    end
+
     # Returns the tags associated with the specified resource.
     #
     # @option params [required, String] :resource_arn
@@ -3004,6 +4362,217 @@ module Aws::SecurityAgent
       req.send_request(options)
     end
 
+    # Returns a paginated list of task summaries for the specified threat
+    # model job.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @option params [required, String] :threat_model_job_id
+    #   The unique identifier of the threat model job to list tasks for.
+    #
+    # @option params [String] :next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #
+    # @return [Types::ListThreatModelJobTasksOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListThreatModelJobTasksOutput#threat_model_job_task_summaries #threat_model_job_task_summaries} => Array&lt;Types::ThreatModelJobTaskSummary&gt;
+    #   * {Types::ListThreatModelJobTasksOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_threat_model_job_tasks({
+    #     agent_space_id: "String", # required
+    #     max_results: 1,
+    #     threat_model_job_id: "String", # required
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_model_job_task_summaries #=> Array
+    #   resp.threat_model_job_task_summaries[0].task_id #=> String
+    #   resp.threat_model_job_task_summaries[0].threat_model_id #=> String
+    #   resp.threat_model_job_task_summaries[0].threat_model_job_id #=> String
+    #   resp.threat_model_job_task_summaries[0].agent_space_id #=> String
+    #   resp.threat_model_job_task_summaries[0].title #=> String
+    #   resp.threat_model_job_task_summaries[0].execution_status #=> String, one of "IN_PROGRESS", "ABORTED", "COMPLETED", "INTERNAL_ERROR", "FAILED"
+    #   resp.threat_model_job_task_summaries[0].created_at #=> Time
+    #   resp.threat_model_job_task_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelJobTasks AWS API Documentation
+    #
+    # @overload list_threat_model_job_tasks(params = {})
+    # @param [Hash] params ({})
+    def list_threat_model_job_tasks(params = {}, options = {})
+      req = build_request(:list_threat_model_job_tasks, params)
+      req.send_request(options)
+    end
+
+    # Returns a paginated list of threat model job summaries for the
+    # specified threat model.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @option params [required, String] :threat_model_id
+    #   The unique identifier of the threat model to list jobs for.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @option params [String] :next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #
+    # @return [Types::ListThreatModelJobsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListThreatModelJobsOutput#threat_model_job_summaries #threat_model_job_summaries} => Array&lt;Types::ThreatModelJobSummary&gt;
+    #   * {Types::ListThreatModelJobsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_threat_model_jobs({
+    #     max_results: 1,
+    #     threat_model_id: "String", # required
+    #     agent_space_id: "String", # required
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_model_job_summaries #=> Array
+    #   resp.threat_model_job_summaries[0].threat_model_job_id #=> String
+    #   resp.threat_model_job_summaries[0].threat_model_id #=> String
+    #   resp.threat_model_job_summaries[0].agent_space_id #=> String
+    #   resp.threat_model_job_summaries[0].title #=> String
+    #   resp.threat_model_job_summaries[0].status #=> String, one of "IN_PROGRESS", "STOPPING", "STOPPED", "FAILED", "COMPLETED"
+    #   resp.threat_model_job_summaries[0].created_at #=> Time
+    #   resp.threat_model_job_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModelJobs AWS API Documentation
+    #
+    # @overload list_threat_model_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_threat_model_jobs(params = {}, options = {})
+      req = build_request(:list_threat_model_jobs, params)
+      req.send_request(options)
+    end
+
+    # Returns a paginated list of threat model summaries for the specified
+    # agent space.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @option params [String] :next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space to list threat models for.
+    #
+    # @return [Types::ListThreatModelsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListThreatModelsOutput#threat_model_summaries #threat_model_summaries} => Array&lt;Types::ThreatModelSummary&gt;
+    #   * {Types::ListThreatModelsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_threat_models({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     agent_space_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_model_summaries #=> Array
+    #   resp.threat_model_summaries[0].threat_model_id #=> String
+    #   resp.threat_model_summaries[0].agent_space_id #=> String
+    #   resp.threat_model_summaries[0].title #=> String
+    #   resp.threat_model_summaries[0].created_at #=> Time
+    #   resp.threat_model_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreatModels AWS API Documentation
+    #
+    # @overload list_threat_models(params = {})
+    # @param [Hash] params ({})
+    def list_threat_models(params = {}, options = {})
+      req = build_request(:list_threat_models, params)
+      req.send_request(options)
+    end
+
+    # Returns a paginated list of threats for a threat model job.
+    #
+    # @option params [required, String] :threat_job_id
+    #   The unique identifier of the threat model job to list threats for.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @option params [String] :next_token
+    #   A token to use for paginating results that are returned in the
+    #   response.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @return [Types::ListThreatsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListThreatsOutput#threats #threats} => Array&lt;Types::ThreatSummary&gt;
+    #   * {Types::ListThreatsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_threats({
+    #     threat_job_id: "String", # required
+    #     agent_space_id: "String", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threats #=> Array
+    #   resp.threats[0].threat_id #=> String
+    #   resp.threats[0].threat_job_id #=> String
+    #   resp.threats[0].title #=> String
+    #   resp.threats[0].statement #=> String
+    #   resp.threats[0].severity #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"
+    #   resp.threats[0].status #=> String, one of "OPEN", "RESOLVED", "DISMISSED"
+    #   resp.threats[0].stride #=> Array
+    #   resp.threats[0].stride[0] #=> String, one of "SPOOFING", "TAMPERING", "REPUDIATION", "INFORMATION_DISCLOSURE", "DENIAL_OF_SERVICE", "ELEVATION_OF_PRIVILEGE"
+    #   resp.threats[0].created_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.threats[0].updated_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.threats[0].created_at #=> Time
+    #   resp.threats[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/ListThreats AWS API Documentation
+    #
+    # @overload list_threats(params = {})
+    # @param [Hash] params ({})
+    def list_threats(params = {}, options = {})
+      req = build_request(:list_threats, params)
+      req.send_request(options)
+    end
+
     # Initiates code remediation for one or more security findings. This
     # creates pull requests in integrated repositories to fix the identified
     # vulnerabilities.
@@ -3052,6 +4621,10 @@ module Aws::SecurityAgent
     # @option params [required, String] :code_review_id
     #   The unique identifier of the code review to start a job for.
     #
+    # @option params [Types::DiffSource] :diff_source
+    #   Source of the diff for a differential scan. When present, the job
+    #   analyzes only the changed lines instead of performing a full scan.
+    #
     # @return [Types::StartCodeReviewJobOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartCodeReviewJobOutput#title #title} => String
@@ -3067,6 +4640,9 @@ module Aws::SecurityAgent
     #   resp = client.start_code_review_job({
     #     agent_space_id: "String", # required
     #     code_review_id: "String", # required
+    #     diff_source: {
+    #       s3_uri: "String",
+    #     },
     #   })
     #
     # @example Response structure
@@ -3133,6 +4709,50 @@ module Aws::SecurityAgent
       req.send_request(options)
     end
 
+    # Starts a new threat model job for a threat model configuration.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @option params [required, String] :threat_model_id
+    #   The unique identifier of the threat model to start a job for.
+    #
+    # @return [Types::StartThreatModelJobOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartThreatModelJobOutput#title #title} => String
+    #   * {Types::StartThreatModelJobOutput#status #status} => String
+    #   * {Types::StartThreatModelJobOutput#created_at #created_at} => Time
+    #   * {Types::StartThreatModelJobOutput#updated_at #updated_at} => Time
+    #   * {Types::StartThreatModelJobOutput#threat_model_id #threat_model_id} => String
+    #   * {Types::StartThreatModelJobOutput#threat_model_job_id #threat_model_job_id} => String
+    #   * {Types::StartThreatModelJobOutput#agent_space_id #agent_space_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_threat_model_job({
+    #     agent_space_id: "String", # required
+    #     threat_model_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.title #=> String
+    #   resp.status #=> String, one of "IN_PROGRESS", "STOPPING", "STOPPED", "FAILED", "COMPLETED"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.threat_model_id #=> String
+    #   resp.threat_model_job_id #=> String
+    #   resp.agent_space_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StartThreatModelJob AWS API Documentation
+    #
+    # @overload start_threat_model_job(params = {})
+    # @param [Hash] params ({})
+    def start_threat_model_job(params = {}, options = {})
+      req = build_request(:start_threat_model_job, params)
+      req.send_request(options)
+    end
+
     # Stops a running code review job. The job transitions to a stopping
     # state and then to stopped after cleanup completes.
     #
@@ -3184,6 +4804,32 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def stop_pentest_job(params = {}, options = {})
       req = build_request(:stop_pentest_job, params)
+      req.send_request(options)
+    end
+
+    # Stops a running threat model job.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @option params [required, String] :threat_model_job_id
+    #   The unique identifier of the threat model job to stop.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_threat_model_job({
+    #     agent_space_id: "String", # required
+    #     threat_model_job_id: "String", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/StopThreatModelJob AWS API Documentation
+    #
+    # @overload stop_threat_model_job(params = {})
+    # @param [Hash] params ({})
+    def stop_threat_model_job(params = {}, options = {})
+      req = build_request(:stop_threat_model_job, params)
       req.send_request(options)
     end
 
@@ -3401,6 +5047,10 @@ module Aws::SecurityAgent
     # @option params [String] :code_remediation_strategy
     #   The updated code remediation strategy for the code review.
     #
+    # @option params [String] :validation_mode
+    #   The updated validation mode for the code review. Valid values are
+    #   SIMULATED and DISABLED.
+    #
     # @return [Types::UpdateCodeReviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateCodeReviewOutput#code_review_id #code_review_id} => String
@@ -3412,6 +5062,7 @@ module Aws::SecurityAgent
     #   * {Types::UpdateCodeReviewOutput#log_config #log_config} => Types::CloudWatchLog
     #   * {Types::UpdateCodeReviewOutput#agent_space_id #agent_space_id} => String
     #   * {Types::UpdateCodeReviewOutput#code_remediation_strategy #code_remediation_strategy} => String
+    #   * {Types::UpdateCodeReviewOutput#validation_mode #validation_mode} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -3440,6 +5091,10 @@ module Aws::SecurityAgent
     #         {
     #           s3_location: "String",
     #           artifact_id: "String",
+    #           integrated_document: {
+    #             integration_id: "String", # required
+    #             resource_id: "String", # required
+    #           },
     #         },
     #       ],
     #       source_code: [
@@ -3460,6 +5115,7 @@ module Aws::SecurityAgent
     #       log_stream: "String",
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
+    #     validation_mode: "DISABLED", # accepts DISABLED, SIMULATED
     #   })
     #
     # @example Response structure
@@ -3480,6 +5136,8 @@ module Aws::SecurityAgent
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
+    #   resp.assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.assets.documents[0].integrated_document.resource_id #=> String
     #   resp.assets.source_code #=> Array
     #   resp.assets.source_code[0].s3_location #=> String
     #   resp.assets.integrated_repositories #=> Array
@@ -3490,6 +5148,7 @@ module Aws::SecurityAgent
     #   resp.log_config.log_stream #=> String
     #   resp.agent_space_id #=> String
     #   resp.code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
+    #   resp.validation_mode #=> String, one of "DISABLED", "SIMULATED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateCodeReview AWS API Documentation
     #
@@ -3508,11 +5167,32 @@ module Aws::SecurityAgent
     # @option params [required, String] :agent_space_id
     #   The unique identifier of the agent space that contains the finding.
     #
+    # @option params [String] :name
+    #   The updated name for the finding.
+    #
+    # @option params [String] :description
+    #   The updated description for the finding.
+    #
+    # @option params [String] :risk_type
+    #   The updated risk type for the finding.
+    #
     # @option params [String] :risk_level
     #   The updated risk level for the finding.
     #
+    # @option params [String] :risk_score
+    #   The updated numerical risk score for the finding.
+    #
+    # @option params [String] :attack_script
+    #   The updated attack script for the finding.
+    #
+    # @option params [String] :reasoning
+    #   The updated reasoning for the finding.
+    #
     # @option params [String] :status
     #   The updated status for the finding.
+    #
+    # @option params [String] :customer_note
+    #   A customer-provided note on the finding.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3521,8 +5201,15 @@ module Aws::SecurityAgent
     #   resp = client.update_finding({
     #     finding_id: "String", # required
     #     agent_space_id: "String", # required
+    #     name: "String",
+    #     description: "String",
+    #     risk_type: "String",
     #     risk_level: "UNKNOWN", # accepts UNKNOWN, INFORMATIONAL, LOW, MEDIUM, HIGH, CRITICAL
+    #     risk_score: "String",
+    #     attack_script: "String",
+    #     reasoning: "String",
     #     status: "ACTIVE", # accepts ACTIVE, RESOLVED, ACCEPTED, FALSE_POSITIVE
+    #     customer_note: "String",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateFinding AWS API Documentation
@@ -3560,11 +5247,39 @@ module Aws::SecurityAgent
     #             name: "ProviderResourceName", # required
     #             owner: "GitHubOwner", # required
     #           },
+    #           gitlab_repository: {
+    #             name: "ProviderResourceName", # required
+    #             namespace: "GitLabNamespace", # required
+    #           },
+    #           bitbucket_repository: {
+    #             name: "ProviderResourceName", # required
+    #             workspace: "BitbucketWorkspace", # required
+    #           },
+    #           confluence_document: {
+    #             name: "ProviderResourceName", # required
+    #             space_key: "String", # required
+    #             page_id: "String", # required
+    #             title: "String",
+    #             space_title: "String",
+    #           },
     #         },
     #         capabilities: {
     #           github: {
     #             leave_comments: false,
     #             remediate_code: false,
+    #           },
+    #           gitlab: {
+    #             leave_comments: false,
+    #             remediate_code: false,
+    #           },
+    #           bitbucket: {
+    #             leave_comments: false,
+    #             remediate_code: false,
+    #           },
+    #           confluence: {
+    #             fetch_document: false,
+    #             create_document: false,
+    #             update_document: false,
     #           },
     #         },
     #       },
@@ -3612,6 +5327,10 @@ module Aws::SecurityAgent
     # @option params [String] :code_remediation_strategy
     #   The updated code remediation strategy for the pentest.
     #
+    # @option params [Array<String>] :disable_managed_skills
+    #   The updated list of managed skills to disable for this pentest. Valid
+    #   values include FINDING\_PERSONALIZATION and LOGIN\_OPTIMIZATION.
+    #
     # @return [Types::UpdatePentestOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdatePentestOutput#pentest_id #pentest_id} => String
@@ -3651,6 +5370,10 @@ module Aws::SecurityAgent
     #         {
     #           s3_location: "String",
     #           artifact_id: "String",
+    #           integrated_document: {
+    #             integration_id: "String", # required
+    #             resource_id: "String", # required
+    #           },
     #         },
     #       ],
     #       source_code: [
@@ -3692,6 +5415,7 @@ module Aws::SecurityAgent
     #       ],
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
+    #     disable_managed_skills: ["FINDING_PERSONALIZATION"], # accepts FINDING_PERSONALIZATION, LOGIN_OPTIMIZATION
     #   })
     #
     # @example Response structure
@@ -3712,6 +5436,8 @@ module Aws::SecurityAgent
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
+    #   resp.assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.assets.documents[0].integrated_document.resource_id #=> String
     #   resp.assets.source_code #=> Array
     #   resp.assets.source_code[0].s3_location #=> String
     #   resp.assets.integrated_repositories #=> Array
@@ -3730,6 +5456,108 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def update_pentest(params = {}, options = {})
       req = build_request(:update_pentest, params)
+      req.send_request(options)
+    end
+
+    # Updates the certificate associated with a private connection.
+    # Certificates can be added or replaced but not removed.
+    #
+    # @option params [required, String] :private_connection_name
+    #   The name of the private connection to update.
+    #
+    # @option params [required, String] :certificate
+    #   The PEM-encoded certificate chain for the private connection.
+    #
+    # @return [Types::UpdatePrivateConnectionCertificateOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#name #name} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#type #type} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#status #status} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#resource_gateway_id #resource_gateway_id} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#host_address #host_address} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#vpc_id #vpc_id} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#resource_configuration_id #resource_configuration_id} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#certificate_expiry_time #certificate_expiry_time} => Time
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#dns_resolution #dns_resolution} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#failure_message #failure_message} => String
+    #   * {Types::UpdatePrivateConnectionCertificateOutput#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_private_connection_certificate({
+    #     private_connection_name: "PrivateConnectionName", # required
+    #     certificate: "CertificateChain", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.type #=> String, one of "SERVICE_MANAGED", "SELF_MANAGED"
+    #   resp.status #=> String, one of "ACTIVE", "CREATE_IN_PROGRESS", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.resource_gateway_id #=> String
+    #   resp.host_address #=> String
+    #   resp.vpc_id #=> String
+    #   resp.resource_configuration_id #=> String
+    #   resp.certificate_expiry_time #=> Time
+    #   resp.dns_resolution #=> String, one of "PUBLIC", "IN_VPC"
+    #   resp.failure_message #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdatePrivateConnectionCertificate AWS API Documentation
+    #
+    # @overload update_private_connection_certificate(params = {})
+    # @param [Hash] params ({})
+    def update_private_connection_certificate(params = {}, options = {})
+      req = build_request(:update_private_connection_certificate, params)
+      req.send_request(options)
+    end
+
+    # Updates a security requirement pack. For customer managed packs, both
+    # metadata and status can be updated. For AWS managed packs, only status
+    # can be updated.
+    #
+    # @option params [required, String] :pack_id
+    #   The unique identifier of the security requirement pack to update.
+    #
+    # @option params [String] :name
+    #   The updated name of the security requirement pack.
+    #
+    # @option params [String] :description
+    #   The updated description of the security requirement pack.
+    #
+    # @option params [String] :status
+    #   The updated status of the security requirement pack.
+    #
+    # @return [Types::UpdateSecurityRequirementPackOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateSecurityRequirementPackOutput#pack_id #pack_id} => String
+    #   * {Types::UpdateSecurityRequirementPackOutput#name #name} => String
+    #   * {Types::UpdateSecurityRequirementPackOutput#description #description} => String
+    #   * {Types::UpdateSecurityRequirementPackOutput#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_security_requirement_pack({
+    #     pack_id: "SecurityRequirementPackId", # required
+    #     name: "SecurityRequirementPackName",
+    #     description: "String",
+    #     status: "ENABLED", # accepts ENABLED, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.pack_id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.status #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateSecurityRequirementPack AWS API Documentation
+    #
+    # @overload update_security_requirement_pack(params = {})
+    # @param [Hash] params ({})
+    def update_security_requirement_pack(params = {}, options = {})
+      req = build_request(:update_security_requirement_pack, params)
       req.send_request(options)
     end
 
@@ -3779,6 +5607,300 @@ module Aws::SecurityAgent
     # @param [Hash] params ({})
     def update_target_domain(params = {}, options = {})
       req = build_request(:update_target_domain, params)
+      req.send_request(options)
+    end
+
+    # Updates a threat.
+    #
+    # @option params [required, String] :threat_id
+    #   The unique identifier of the threat to update.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space.
+    #
+    # @option params [String] :title
+    #   A short title summarizing the threat.
+    #
+    # @option params [String] :status
+    #   The updated status of the threat.
+    #
+    # @option params [String] :comments
+    #   Optional customer comment.
+    #
+    # @option params [String] :statement
+    #   The updated natural-language threat statement.
+    #
+    # @option params [String] :severity
+    #   The updated severity level of the threat.
+    #
+    # @option params [String] :threat_source
+    #   The updated actor or origin of the threat.
+    #
+    # @option params [String] :prerequisites
+    #   The updated conditions required for the threat to be exploitable.
+    #
+    # @option params [String] :threat_action
+    #   The updated description of what the threat source can do.
+    #
+    # @option params [String] :threat_impact
+    #   The updated direct consequence of the threat action.
+    #
+    # @option params [Array<String>] :impacted_goal
+    #   The updated security goals affected by the threat.
+    #
+    # @option params [Array<String>] :impacted_assets
+    #   The updated list of specific assets affected by the threat.
+    #
+    # @option params [Types::ThreatAnchorShape] :anchor
+    #   The updated DFD element this threat is anchored to.
+    #
+    # @option params [Array<Types::ThreatEvidenceShape>] :evidence
+    #   The updated source code files supporting the threat.
+    #
+    # @option params [String] :recommendation
+    #   The updated recommended mitigation guidance for this threat.
+    #
+    # @return [Types::UpdateThreatOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateThreatOutput#threat_id #threat_id} => String
+    #   * {Types::UpdateThreatOutput#threat_job_id #threat_job_id} => String
+    #   * {Types::UpdateThreatOutput#title #title} => String
+    #   * {Types::UpdateThreatOutput#statement #statement} => String
+    #   * {Types::UpdateThreatOutput#severity #severity} => String
+    #   * {Types::UpdateThreatOutput#status #status} => String
+    #   * {Types::UpdateThreatOutput#comments #comments} => String
+    #   * {Types::UpdateThreatOutput#stride #stride} => Array&lt;String&gt;
+    #   * {Types::UpdateThreatOutput#threat_source #threat_source} => String
+    #   * {Types::UpdateThreatOutput#prerequisites #prerequisites} => String
+    #   * {Types::UpdateThreatOutput#threat_action #threat_action} => String
+    #   * {Types::UpdateThreatOutput#threat_impact #threat_impact} => String
+    #   * {Types::UpdateThreatOutput#impacted_goal #impacted_goal} => Array&lt;String&gt;
+    #   * {Types::UpdateThreatOutput#impacted_assets #impacted_assets} => Array&lt;String&gt;
+    #   * {Types::UpdateThreatOutput#anchor #anchor} => Types::ThreatAnchorShape
+    #   * {Types::UpdateThreatOutput#evidence #evidence} => Array&lt;Types::ThreatEvidenceShape&gt;
+    #   * {Types::UpdateThreatOutput#recommendation #recommendation} => String
+    #   * {Types::UpdateThreatOutput#created_by #created_by} => String
+    #   * {Types::UpdateThreatOutput#updated_by #updated_by} => String
+    #   * {Types::UpdateThreatOutput#created_at #created_at} => Time
+    #   * {Types::UpdateThreatOutput#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_threat({
+    #     threat_id: "String", # required
+    #     agent_space_id: "String", # required
+    #     title: "String",
+    #     status: "OPEN", # accepts OPEN, RESOLVED, DISMISSED
+    #     comments: "String",
+    #     statement: "String",
+    #     severity: "CRITICAL", # accepts CRITICAL, HIGH, MEDIUM, LOW, INFO
+    #     threat_source: "String",
+    #     prerequisites: "String",
+    #     threat_action: "String",
+    #     threat_impact: "String",
+    #     impacted_goal: ["String"],
+    #     impacted_assets: ["String"],
+    #     anchor: {
+    #       kind: "String",
+    #       id: "String",
+    #       package_id: "String",
+    #     },
+    #     evidence: [
+    #       {
+    #         package_id: "String",
+    #         path: "String",
+    #       },
+    #     ],
+    #     recommendation: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_id #=> String
+    #   resp.threat_job_id #=> String
+    #   resp.title #=> String
+    #   resp.statement #=> String
+    #   resp.severity #=> String, one of "CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"
+    #   resp.status #=> String, one of "OPEN", "RESOLVED", "DISMISSED"
+    #   resp.comments #=> String
+    #   resp.stride #=> Array
+    #   resp.stride[0] #=> String, one of "SPOOFING", "TAMPERING", "REPUDIATION", "INFORMATION_DISCLOSURE", "DENIAL_OF_SERVICE", "ELEVATION_OF_PRIVILEGE"
+    #   resp.threat_source #=> String
+    #   resp.prerequisites #=> String
+    #   resp.threat_action #=> String
+    #   resp.threat_impact #=> String
+    #   resp.impacted_goal #=> Array
+    #   resp.impacted_goal[0] #=> String
+    #   resp.impacted_assets #=> Array
+    #   resp.impacted_assets[0] #=> String
+    #   resp.anchor.kind #=> String
+    #   resp.anchor.id #=> String
+    #   resp.anchor.package_id #=> String
+    #   resp.evidence #=> Array
+    #   resp.evidence[0].package_id #=> String
+    #   resp.evidence[0].path #=> String
+    #   resp.recommendation #=> String
+    #   resp.created_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.updated_by #=> String, one of "CUSTOMER", "AGENT"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateThreat AWS API Documentation
+    #
+    # @overload update_threat(params = {})
+    # @param [Hash] params ({})
+    def update_threat(params = {}, options = {})
+      req = build_request(:update_threat, params)
+      req.send_request(options)
+    end
+
+    # Updates an existing threat model configuration.
+    #
+    # @option params [required, String] :threat_model_id
+    #   The unique identifier of the threat model to update.
+    #
+    # @option params [required, String] :agent_space_id
+    #   The unique identifier of the agent space that contains the threat
+    #   model.
+    #
+    # @option params [String] :title
+    #   The updated title of the threat model.
+    #
+    # @option params [String] :description
+    #   The updated description of the application or system being threat
+    #   modeled.
+    #
+    # @option params [Types::Assets] :assets
+    #   The updated assets for the threat model.
+    #
+    # @option params [Array<Types::DocumentInfo>] :scope_docs
+    #   The updated scoped documents for the agent to focus on during threat
+    #   modeling.
+    #
+    # @option params [String] :service_role
+    #   The updated IAM service role for the threat model.
+    #
+    # @option params [Types::CloudWatchLog] :log_config
+    #   The updated CloudWatch Logs configuration for the threat model.
+    #
+    # @return [Types::UpdateThreatModelOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateThreatModelOutput#threat_model_id #threat_model_id} => String
+    #   * {Types::UpdateThreatModelOutput#title #title} => String
+    #   * {Types::UpdateThreatModelOutput#agent_space_id #agent_space_id} => String
+    #   * {Types::UpdateThreatModelOutput#description #description} => String
+    #   * {Types::UpdateThreatModelOutput#assets #assets} => Types::Assets
+    #   * {Types::UpdateThreatModelOutput#scope_docs #scope_docs} => Array&lt;Types::DocumentInfo&gt;
+    #   * {Types::UpdateThreatModelOutput#service_role #service_role} => String
+    #   * {Types::UpdateThreatModelOutput#log_config #log_config} => Types::CloudWatchLog
+    #   * {Types::UpdateThreatModelOutput#created_at #created_at} => Time
+    #   * {Types::UpdateThreatModelOutput#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_threat_model({
+    #     threat_model_id: "String", # required
+    #     agent_space_id: "String", # required
+    #     title: "String",
+    #     description: "String",
+    #     assets: {
+    #       endpoints: [
+    #         {
+    #           uri: "String",
+    #         },
+    #       ],
+    #       actors: [
+    #         {
+    #           identifier: "String",
+    #           uris: ["String"],
+    #           authentication: {
+    #             provider_type: "SECRETS_MANAGER", # accepts SECRETS_MANAGER, AWS_LAMBDA, AWS_IAM_ROLE, AWS_INTERNAL
+    #             value: "String",
+    #           },
+    #           description: "String",
+    #         },
+    #       ],
+    #       documents: [
+    #         {
+    #           s3_location: "String",
+    #           artifact_id: "String",
+    #           integrated_document: {
+    #             integration_id: "String", # required
+    #             resource_id: "String", # required
+    #           },
+    #         },
+    #       ],
+    #       source_code: [
+    #         {
+    #           s3_location: "String",
+    #         },
+    #       ],
+    #       integrated_repositories: [
+    #         {
+    #           integration_id: "String", # required
+    #           provider_resource_id: "String", # required
+    #         },
+    #       ],
+    #     },
+    #     scope_docs: [
+    #       {
+    #         s3_location: "String",
+    #         artifact_id: "String",
+    #         integrated_document: {
+    #           integration_id: "String", # required
+    #           resource_id: "String", # required
+    #         },
+    #       },
+    #     ],
+    #     service_role: "ServiceRole",
+    #     log_config: {
+    #       log_group: "String",
+    #       log_stream: "String",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.threat_model_id #=> String
+    #   resp.title #=> String
+    #   resp.agent_space_id #=> String
+    #   resp.description #=> String
+    #   resp.assets.endpoints #=> Array
+    #   resp.assets.endpoints[0].uri #=> String
+    #   resp.assets.actors #=> Array
+    #   resp.assets.actors[0].identifier #=> String
+    #   resp.assets.actors[0].uris #=> Array
+    #   resp.assets.actors[0].uris[0] #=> String
+    #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
+    #   resp.assets.actors[0].authentication.value #=> String
+    #   resp.assets.actors[0].description #=> String
+    #   resp.assets.documents #=> Array
+    #   resp.assets.documents[0].s3_location #=> String
+    #   resp.assets.documents[0].artifact_id #=> String
+    #   resp.assets.documents[0].integrated_document.integration_id #=> String
+    #   resp.assets.documents[0].integrated_document.resource_id #=> String
+    #   resp.assets.source_code #=> Array
+    #   resp.assets.source_code[0].s3_location #=> String
+    #   resp.assets.integrated_repositories #=> Array
+    #   resp.assets.integrated_repositories[0].integration_id #=> String
+    #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.scope_docs #=> Array
+    #   resp.scope_docs[0].s3_location #=> String
+    #   resp.scope_docs[0].artifact_id #=> String
+    #   resp.scope_docs[0].integrated_document.integration_id #=> String
+    #   resp.scope_docs[0].integrated_document.resource_id #=> String
+    #   resp.service_role #=> String
+    #   resp.log_config.log_group #=> String
+    #   resp.log_config.log_stream #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateThreatModel AWS API Documentation
+    #
+    # @overload update_threat_model(params = {})
+    # @param [Hash] params ({})
+    def update_threat_model(params = {}, options = {})
+      req = build_request(:update_threat_model, params)
       req.send_request(options)
     end
 
@@ -3841,7 +5963,7 @@ module Aws::SecurityAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-securityagent'
-      context[:gem_version] = '1.6.0'
+      context[:gem_version] = '1.7.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

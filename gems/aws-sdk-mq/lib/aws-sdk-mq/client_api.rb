@@ -70,6 +70,9 @@ module Aws::MQ
     DescribeConfigurationRevisionOutput = Shapes::StructureShape.new(name: 'DescribeConfigurationRevisionOutput')
     DescribeConfigurationRevisionRequest = Shapes::StructureShape.new(name: 'DescribeConfigurationRevisionRequest')
     DescribeConfigurationRevisionResponse = Shapes::StructureShape.new(name: 'DescribeConfigurationRevisionResponse')
+    DescribeSharedResourcesOutput = Shapes::StructureShape.new(name: 'DescribeSharedResourcesOutput')
+    DescribeSharedResourcesRequest = Shapes::StructureShape.new(name: 'DescribeSharedResourcesRequest')
+    DescribeSharedResourcesResponse = Shapes::StructureShape.new(name: 'DescribeSharedResourcesResponse')
     DescribeUserOutput = Shapes::StructureShape.new(name: 'DescribeUserOutput')
     DescribeUserRequest = Shapes::StructureShape.new(name: 'DescribeUserRequest')
     DescribeUserResponse = Shapes::StructureShape.new(name: 'DescribeUserResponse')
@@ -107,8 +110,14 @@ module Aws::MQ
     PromoteResponse = Shapes::StructureShape.new(name: 'PromoteResponse')
     RebootBrokerRequest = Shapes::StructureShape.new(name: 'RebootBrokerRequest')
     RebootBrokerResponse = Shapes::StructureShape.new(name: 'RebootBrokerResponse')
+    ResourceShareError = Shapes::StructureShape.new(name: 'ResourceShareError')
     SanitizationWarning = Shapes::StructureShape.new(name: 'SanitizationWarning')
     SanitizationWarningReason = Shapes::StringShape.new(name: 'SanitizationWarningReason')
+    SharedResource = Shapes::StructureShape.new(name: 'SharedResource')
+    SharedResourceError = Shapes::StructureShape.new(name: 'SharedResourceError')
+    SharedResourceErrorCode = Shapes::StringShape.new(name: 'SharedResourceErrorCode')
+    SharedResourceStatus = Shapes::StringShape.new(name: 'SharedResourceStatus')
+    SharedResourceType = Shapes::StringShape.new(name: 'SharedResourceType')
     Tags = Shapes::StructureShape.new(name: 'Tags')
     UnauthorizedException = Shapes::StructureShape.new(name: 'UnauthorizedException')
     UpdateBrokerInput = Shapes::StructureShape.new(name: 'UpdateBrokerInput')
@@ -141,7 +150,9 @@ module Aws::MQ
     __listOfConfigurationRevision = Shapes::ListShape.new(name: '__listOfConfigurationRevision')
     __listOfDeploymentMode = Shapes::ListShape.new(name: '__listOfDeploymentMode')
     __listOfEngineVersion = Shapes::ListShape.new(name: '__listOfEngineVersion')
+    __listOfResourceShareError = Shapes::ListShape.new(name: '__listOfResourceShareError')
     __listOfSanitizationWarning = Shapes::ListShape.new(name: '__listOfSanitizationWarning')
+    __listOfSharedResource = Shapes::ListShape.new(name: '__listOfSharedResource')
     __listOfUser = Shapes::ListShape.new(name: '__listOfUser')
     __listOfUserSummary = Shapes::ListShape.new(name: '__listOfUserSummary')
     __listOf__string = Shapes::ListShape.new(name: '__listOf__string')
@@ -160,6 +171,7 @@ module Aws::MQ
 
     BadRequestException.add_member(:error_attribute, Shapes::ShapeRef.new(shape: __string, location_name: "errorAttribute"))
     BadRequestException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    BadRequestException.add_member(:resource_share_errors, Shapes::ShapeRef.new(shape: __listOfResourceShareError, location_name: "resourceShareErrors"))
     BadRequestException.struct_class = Types::BadRequestException
 
     BrokerEngineType.add_member(:engine_type, Shapes::ShapeRef.new(shape: EngineType, location_name: "engineType"))
@@ -227,6 +239,7 @@ module Aws::MQ
 
     ConflictException.add_member(:error_attribute, Shapes::ShapeRef.new(shape: __string, location_name: "errorAttribute"))
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    ConflictException.add_member(:resource_share_errors, Shapes::ShapeRef.new(shape: __listOfResourceShareError, location_name: "resourceShareErrors"))
     ConflictException.struct_class = Types::ConflictException
 
     CreateBrokerInput.add_member(:authentication_strategy, Shapes::ShapeRef.new(shape: AuthenticationStrategy, location_name: "authenticationStrategy"))
@@ -495,6 +508,19 @@ module Aws::MQ
     DescribeConfigurationRevisionResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     DescribeConfigurationRevisionResponse.struct_class = Types::DescribeConfigurationRevisionResponse
 
+    DescribeSharedResourcesOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location_name: "nextToken"))
+    DescribeSharedResourcesOutput.add_member(:shared_resources, Shapes::ShapeRef.new(shape: __listOfSharedResource, location_name: "sharedResources"))
+    DescribeSharedResourcesOutput.struct_class = Types::DescribeSharedResourcesOutput
+
+    DescribeSharedResourcesRequest.add_member(:broker_id, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "broker-id"))
+    DescribeSharedResourcesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    DescribeSharedResourcesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "nextToken"))
+    DescribeSharedResourcesRequest.struct_class = Types::DescribeSharedResourcesRequest
+
+    DescribeSharedResourcesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location_name: "nextToken"))
+    DescribeSharedResourcesResponse.add_member(:shared_resources, Shapes::ShapeRef.new(shape: __listOfSharedResource, location_name: "sharedResources"))
+    DescribeSharedResourcesResponse.struct_class = Types::DescribeSharedResourcesResponse
+
     DescribeUserOutput.add_member(:broker_id, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "brokerId"))
     DescribeUserOutput.add_member(:console_access, Shapes::ShapeRef.new(shape: __boolean, location_name: "consoleAccess"))
     DescribeUserOutput.add_member(:groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "groups"))
@@ -524,14 +550,17 @@ module Aws::MQ
 
     Error.add_member(:error_attribute, Shapes::ShapeRef.new(shape: __string, location_name: "errorAttribute"))
     Error.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    Error.add_member(:resource_share_errors, Shapes::ShapeRef.new(shape: __listOfResourceShareError, location_name: "resourceShareErrors"))
     Error.struct_class = Types::Error
 
     ForbiddenException.add_member(:error_attribute, Shapes::ShapeRef.new(shape: __string, location_name: "errorAttribute"))
     ForbiddenException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    ForbiddenException.add_member(:resource_share_errors, Shapes::ShapeRef.new(shape: __listOfResourceShareError, location_name: "resourceShareErrors"))
     ForbiddenException.struct_class = Types::ForbiddenException
 
     InternalServerErrorException.add_member(:error_attribute, Shapes::ShapeRef.new(shape: __string, location_name: "errorAttribute"))
     InternalServerErrorException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    InternalServerErrorException.add_member(:resource_share_errors, Shapes::ShapeRef.new(shape: __listOfResourceShareError, location_name: "resourceShareErrors"))
     InternalServerErrorException.struct_class = Types::InternalServerErrorException
 
     LdapServerMetadataInput.add_member(:hosts, Shapes::ShapeRef.new(shape: __listOf__string, required: true, location_name: "hosts"))
@@ -638,6 +667,7 @@ module Aws::MQ
 
     NotFoundException.add_member(:error_attribute, Shapes::ShapeRef.new(shape: __string, location_name: "errorAttribute"))
     NotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    NotFoundException.add_member(:resource_share_errors, Shapes::ShapeRef.new(shape: __listOfResourceShareError, location_name: "resourceShareErrors"))
     NotFoundException.struct_class = Types::NotFoundException
 
     PendingLogs.add_member(:audit, Shapes::ShapeRef.new(shape: __boolean, location_name: "audit"))
@@ -662,16 +692,34 @@ module Aws::MQ
 
     RebootBrokerResponse.struct_class = Types::RebootBrokerResponse
 
+    ResourceShareError.add_member(:error_code, Shapes::ShapeRef.new(shape: __string, location_name: "errorCode"))
+    ResourceShareError.add_member(:resource_share_arn, Shapes::ShapeRef.new(shape: __string, location_name: "resourceShareArn"))
+    ResourceShareError.add_member(:status, Shapes::ShapeRef.new(shape: __string, location_name: "status"))
+    ResourceShareError.struct_class = Types::ResourceShareError
+
     SanitizationWarning.add_member(:attribute_name, Shapes::ShapeRef.new(shape: __string, location_name: "attributeName"))
     SanitizationWarning.add_member(:element_name, Shapes::ShapeRef.new(shape: __string, location_name: "elementName"))
     SanitizationWarning.add_member(:reason, Shapes::ShapeRef.new(shape: SanitizationWarningReason, required: true, location_name: "reason"))
     SanitizationWarning.struct_class = Types::SanitizationWarning
+
+    SharedResource.add_member(:dns_names, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "dnsNames"))
+    SharedResource.add_member(:error, Shapes::ShapeRef.new(shape: SharedResourceError, location_name: "error"))
+    SharedResource.add_member(:resource_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "resourceArn"))
+    SharedResource.add_member(:resource_share_arns, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "resourceShareArns"))
+    SharedResource.add_member(:status, Shapes::ShapeRef.new(shape: SharedResourceStatus, required: true, location_name: "status"))
+    SharedResource.add_member(:type, Shapes::ShapeRef.new(shape: SharedResourceType, required: true, location_name: "type"))
+    SharedResource.struct_class = Types::SharedResource
+
+    SharedResourceError.add_member(:code, Shapes::ShapeRef.new(shape: SharedResourceErrorCode, required: true, location_name: "code"))
+    SharedResourceError.add_member(:message, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "message"))
+    SharedResourceError.struct_class = Types::SharedResourceError
 
     Tags.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     Tags.struct_class = Types::Tags
 
     UnauthorizedException.add_member(:error_attribute, Shapes::ShapeRef.new(shape: __string, location_name: "errorAttribute"))
     UnauthorizedException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    UnauthorizedException.add_member(:resource_share_errors, Shapes::ShapeRef.new(shape: __listOfResourceShareError, location_name: "resourceShareErrors"))
     UnauthorizedException.struct_class = Types::UnauthorizedException
 
     UpdateBrokerInput.add_member(:authentication_strategy, Shapes::ShapeRef.new(shape: AuthenticationStrategy, location_name: "authenticationStrategy"))
@@ -683,6 +731,7 @@ module Aws::MQ
     UpdateBrokerInput.add_member(:ldap_server_metadata, Shapes::ShapeRef.new(shape: LdapServerMetadataInput, location_name: "ldapServerMetadata"))
     UpdateBrokerInput.add_member(:logs, Shapes::ShapeRef.new(shape: Logs, location_name: "logs"))
     UpdateBrokerInput.add_member(:maintenance_window_start_time, Shapes::ShapeRef.new(shape: WeeklyStartTime, location_name: "maintenanceWindowStartTime"))
+    UpdateBrokerInput.add_member(:resource_share_arns, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "resourceShareArns"))
     UpdateBrokerInput.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroups"))
     UpdateBrokerInput.struct_class = Types::UpdateBrokerInput
 
@@ -699,6 +748,7 @@ module Aws::MQ
     UpdateBrokerOutput.add_member(:maintenance_window_start_time, Shapes::ShapeRef.new(shape: WeeklyStartTime, location_name: "maintenanceWindowStartTime"))
     UpdateBrokerOutput.add_member(:pending_data_replication_metadata, Shapes::ShapeRef.new(shape: DataReplicationMetadataOutput, location_name: "pendingDataReplicationMetadata"))
     UpdateBrokerOutput.add_member(:pending_data_replication_mode, Shapes::ShapeRef.new(shape: DataReplicationMode, location_name: "pendingDataReplicationMode"))
+    UpdateBrokerOutput.add_member(:resource_share_arns, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "resourceShareArns"))
     UpdateBrokerOutput.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroups"))
     UpdateBrokerOutput.struct_class = Types::UpdateBrokerOutput
 
@@ -711,6 +761,7 @@ module Aws::MQ
     UpdateBrokerRequest.add_member(:ldap_server_metadata, Shapes::ShapeRef.new(shape: LdapServerMetadataInput, location_name: "ldapServerMetadata"))
     UpdateBrokerRequest.add_member(:logs, Shapes::ShapeRef.new(shape: Logs, location_name: "logs"))
     UpdateBrokerRequest.add_member(:maintenance_window_start_time, Shapes::ShapeRef.new(shape: WeeklyStartTime, location_name: "maintenanceWindowStartTime"))
+    UpdateBrokerRequest.add_member(:resource_share_arns, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "resourceShareArns"))
     UpdateBrokerRequest.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroups"))
     UpdateBrokerRequest.add_member(:data_replication_mode, Shapes::ShapeRef.new(shape: DataReplicationMode, location_name: "dataReplicationMode"))
     UpdateBrokerRequest.struct_class = Types::UpdateBrokerRequest
@@ -724,6 +775,7 @@ module Aws::MQ
     UpdateBrokerResponse.add_member(:ldap_server_metadata, Shapes::ShapeRef.new(shape: LdapServerMetadataOutput, location_name: "ldapServerMetadata"))
     UpdateBrokerResponse.add_member(:logs, Shapes::ShapeRef.new(shape: Logs, location_name: "logs"))
     UpdateBrokerResponse.add_member(:maintenance_window_start_time, Shapes::ShapeRef.new(shape: WeeklyStartTime, location_name: "maintenanceWindowStartTime"))
+    UpdateBrokerResponse.add_member(:resource_share_arns, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "resourceShareArns"))
     UpdateBrokerResponse.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroups"))
     UpdateBrokerResponse.add_member(:data_replication_metadata, Shapes::ShapeRef.new(shape: DataReplicationMetadataOutput, location_name: "dataReplicationMetadata"))
     UpdateBrokerResponse.add_member(:data_replication_mode, Shapes::ShapeRef.new(shape: DataReplicationMode, location_name: "dataReplicationMode"))
@@ -815,7 +867,11 @@ module Aws::MQ
 
     __listOfEngineVersion.member = Shapes::ShapeRef.new(shape: EngineVersion)
 
+    __listOfResourceShareError.member = Shapes::ShapeRef.new(shape: ResourceShareError)
+
     __listOfSanitizationWarning.member = Shapes::ShapeRef.new(shape: SanitizationWarning)
+
+    __listOfSharedResource.member = Shapes::ShapeRef.new(shape: SharedResource)
 
     __listOfUser.member = Shapes::ShapeRef.new(shape: User)
 
@@ -1000,6 +1056,24 @@ module Aws::MQ
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+      end)
+
+      api.add_operation(:describe_shared_resources, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeSharedResources"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/brokers/{broker-id}/shared-resources"
+        o.input = Shapes::ShapeRef.new(shape: DescribeSharedResourcesRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeSharedResourcesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:describe_user, Seahorse::Model::Operation.new.tap do |o|

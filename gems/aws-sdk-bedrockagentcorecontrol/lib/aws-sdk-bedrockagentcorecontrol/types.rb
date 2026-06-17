@@ -325,6 +325,32 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The configuration that restricts which workloads in the request's
+    # identity chain are allowed to invoke the target, identified by their
+    # hosting environments and workload identities. At launch, this is
+    # supported only for AgentCore Runtime targets, and the allowed
+    # workloads are AgentCore Gateways.
+    #
+    # @!attribute [rw] hosting_environments
+    #   The list of hosting environments whose workloads are allowed to
+    #   invoke the target. At launch, the only supported hosting environment
+    #   is AgentCore Gateway.
+    #   @return [Array<Types::HostingEnvironment>]
+    #
+    # @!attribute [rw] workload_identities
+    #   The list of workload identities that are allowed to invoke the
+    #   target.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AllowedWorkloadConfiguration AWS API Documentation
+    #
+    class AllowedWorkloadConfiguration < Struct.new(
+      :hosting_environments,
+      :workload_identities)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The configuration for an Amazon API Gateway target.
     #
     # @!attribute [rw] rest_api_id
@@ -556,16 +582,17 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret for the Atlassian OAuth2
     #   provider. Use `MANAGED` if the secret is managed by the service, or
-    #   `EXTERNAL` if you manage the secret yourself in AWS Secrets Manager.
+    #   `EXTERNAL` if you manage the secret yourself in Amazon Web Services
+    #   Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/AtlassianOauth2ProviderConfigInput AWS API Documentation
@@ -1215,14 +1242,15 @@ module Aws::BedrockAgentCoreControl
     # @!attribute [rw] api_key_secret_source
     #   The source type of the API key secret for the Coinbase Developer
     #   Platform. Use `MANAGED` if the secret is managed by the service, or
-    #   `EXTERNAL` if you manage the secret yourself in AWS Secrets Manager.
+    #   `EXTERNAL` if you manage the secret yourself in Amazon Web Services
+    #   Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the API
-    #   key secret. This includes the secret ID and the JSON key used to
-    #   extract the API key secret value from the secret. Required when
-    #   `apiKeySecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the API key secret. This includes the secret ID and the JSON
+    #   key used to extract the API key secret value from the secret.
+    #   Required when `apiKeySecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] wallet_secret
@@ -1232,14 +1260,15 @@ module Aws::BedrockAgentCoreControl
     # @!attribute [rw] wallet_secret_source
     #   The source type of the wallet secret for the Coinbase Developer
     #   Platform. Use `MANAGED` if the secret is managed by the service, or
-    #   `EXTERNAL` if you manage the secret yourself in AWS Secrets Manager.
+    #   `EXTERNAL` if you manage the secret yourself in Amazon Web Services
+    #   Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] wallet_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the wallet
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the wallet secret value from the secret. Required when
-    #   `walletSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the wallet secret. This includes the secret ID and the JSON
+    #   key used to extract the wallet secret value from the secret.
+    #   Required when `walletSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CoinbaseCdpConfigurationInput AWS API Documentation
@@ -1263,33 +1292,35 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_arn
-    #   Contains information about a secret in AWS Secrets Manager.
+    #   Contains information about a secret in Amazon Web Services Secrets
+    #   Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] api_key_secret_json_key
-    #   The JSON key used to extract the API key secret value from the AWS
-    #   Secrets Manager secret.
+    #   The JSON key used to extract the API key secret value from the
+    #   Amazon Web Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_source
     #   The source type of the API key secret. Either `MANAGED` if the
     #   secret is managed by the service, or `EXTERNAL` if managed by the
-    #   user in AWS Secrets Manager.
+    #   user in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] wallet_secret_arn
-    #   Contains information about a secret in AWS Secrets Manager.
+    #   Contains information about a secret in Amazon Web Services Secrets
+    #   Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] wallet_secret_json_key
-    #   The JSON key used to extract the wallet secret value from the AWS
-    #   Secrets Manager secret.
+    #   The JSON key used to extract the wallet secret value from the Amazon
+    #   Web Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] wallet_secret_source
     #   The source type of the wallet secret. Either `MANAGED` if the secret
     #   is managed by the service, or `EXTERNAL` if managed by the user in
-    #   AWS Secrets Manager.
+    #   Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CoinbaseCdpConfigurationOutput AWS API Documentation
@@ -1496,6 +1527,106 @@ module Aws::BedrockAgentCoreControl
     #
     class ConflictException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for a single tool within a connector.
+    #
+    # @!attribute [rw] name
+    #   The tool or operation name (for example, `retrieve` or `webSearch`).
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   An agent-facing description override for this tool.
+    #   @return [String]
+    #
+    # @!attribute [rw] parameter_values
+    #   Parameters to set as fixed or default values when provisioning this
+    #   tool.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] parameter_overrides
+    #   Parameters to expose to the agent at runtime, with optional
+    #   description overrides.
+    #   @return [Array<Types::ConnectorParameterOverride>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConnectorConfiguration AWS API Documentation
+    #
+    class ConnectorConfiguration < Struct.new(
+      :name,
+      :description,
+      :parameter_values,
+      :parameter_overrides)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies a parameter override for a connector tool, allowing you to
+    # control parameter visibility and descriptions.
+    #
+    # @!attribute [rw] path
+    #   A JSON Pointer path identifying the parameter (for example,
+    #   `/numberOfResults` or `/filter`).
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   An agent-facing description override for this parameter.
+    #   @return [String]
+    #
+    # @!attribute [rw] visible
+    #   Whether this parameter is visible to the agent. If not specified,
+    #   uses the service default.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConnectorParameterOverride AWS API Documentation
+    #
+    class ConnectorParameterOverride < Struct.new(
+      :path,
+      :description,
+      :visible)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source identifying the connector integration.
+    #
+    # @!attribute [rw] connector_id
+    #   The identifier for the connector integration (for example,
+    #   `bedrock-knowledge-bases`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConnectorSource AWS API Documentation
+    #
+    class ConnectorSource < Struct.new(
+      :connector_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for a connector integration target. Connectors provide
+    # pre-built integrations with Amazon Web Services services and
+    # third-party tools.
+    #
+    # @!attribute [rw] source
+    #   The source configuration identifying which connector to use.
+    #   @return [Types::ConnectorSource]
+    #
+    # @!attribute [rw] enabled
+    #   A list of tool names to enable from this connector. If absent, all
+    #   tools provided by the connector are enabled.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] configurations
+    #   A list of per-tool configurations for the connector.
+    #   @return [Array<Types::ConnectorConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConnectorTargetConfiguration AWS API Documentation
+    #
+    class ConnectorTargetConfiguration < Struct.new(
+      :source,
+      :enabled,
+      :configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1799,16 +1930,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the API
-    #   key. This includes the secret ID and the JSON key used to extract
-    #   the API key value from the secret. Required when
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the API key. This includes the secret ID and the JSON key
+    #   used to extract the API key value from the secret. Required when
     #   `apiKeySecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] api_key_secret_source
     #   The source type of the API key secret. Use `MANAGED` if the secret
     #   is managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -1834,14 +1965,14 @@ module Aws::BedrockAgentCoreControl
     #   @return [Types::Secret]
     #
     # @!attribute [rw] api_key_secret_json_key
-    #   The JSON key used to extract the API key value from the AWS Secrets
-    #   Manager secret.
+    #   The JSON key used to extract the API key value from the Amazon Web
+    #   Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_source
     #   The source type of the API key secret. Either `MANAGED` if the
     #   secret is managed by the service, or `EXTERNAL` if managed by the
-    #   user in AWS Secrets Manager.
+    #   user in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -2559,7 +2690,7 @@ module Aws::BedrockAgentCoreControl
       :policy_engine_configuration,
       :exception_level,
       :tags)
-      SENSITIVE = [:name, :description]
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -2625,6 +2756,12 @@ module Aws::BedrockAgentCoreControl
     #   associated with the gateway.
     #   @return [String]
     #
+    # @!attribute [rw] custom_transform_configuration
+    #   The custom transformation configuration for the gateway. This
+    #   configuration defines how the gateway transforms requests and
+    #   responses.
+    #   @return [Types::CustomTransformConfiguration]
+    #
     # @!attribute [rw] interceptor_configurations
     #   The list of interceptor configurations for the created gateway.
     #   @return [Array<Types::GatewayInterceptorConfiguration>]
@@ -2648,6 +2785,15 @@ module Aws::BedrockAgentCoreControl
     #     the end user.
     #   @return [String]
     #
+    # @!attribute [rw] web_acl_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Web Services WAF web
+    #   ACL associated with the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] waf_configuration
+    #   The Amazon Web Services WAF configuration for the gateway.
+    #   @return [Types::WafConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayResponse AWS API Documentation
     #
     class CreateGatewayResponse < Struct.new(
@@ -2666,11 +2812,14 @@ module Aws::BedrockAgentCoreControl
       :authorizer_type,
       :authorizer_configuration,
       :kms_key_arn,
+      :custom_transform_configuration,
       :interceptor_configurations,
       :policy_engine_configuration,
       :workload_identity_details,
-      :exception_level)
-      SENSITIVE = [:name, :description]
+      :exception_level,
+      :web_acl_arn,
+      :waf_configuration)
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -2936,6 +3085,61 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] harness_id
+    #   The ID of the harness to create an endpoint for.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint_name
+    #   The name of the endpoint. Must start with a letter and contain only
+    #   alphanumeric characters and underscores.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_version
+    #   The harness version that the endpoint points to and serves
+    #   invocations from.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Tags to apply to the endpoint resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateHarnessEndpointRequest AWS API Documentation
+    #
+    class CreateHarnessEndpointRequest < Struct.new(
+      :harness_id,
+      :endpoint_name,
+      :target_version,
+      :description,
+      :client_token,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] endpoint
+    #   The endpoint that was created.
+    #   @return [Types::HarnessEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateHarnessEndpointResponse AWS API Documentation
+    #
+    class CreateHarnessEndpointResponse < Struct.new(
+      :endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] harness_name
     #   The name of the harness. Must start with a letter and contain only
     #   alphanumeric characters and underscores.
@@ -3184,19 +3388,19 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] client_secret_arn
-    #   The Amazon Resource Name (ARN) of the client secret in AWS Secrets
-    #   Manager.
+    #   The Amazon Resource Name (ARN) of the client secret in Amazon Web
+    #   Services Secrets Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] client_secret_json_key
-    #   The JSON key used to extract the client secret value from the AWS
-    #   Secrets Manager secret.
+    #   The JSON key used to extract the client secret value from the Amazon
+    #   Web Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Either `MANAGED` if the secret
     #   is managed by the service, or `EXTERNAL` if managed by the user in
-    #   AWS Secrets Manager.
+    #   Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -3806,6 +4010,13 @@ module Aws::BedrockAgentCoreControl
     #   accept the analyzer findings.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The enforcement mode for the policy. Run this policy in `LOG_ONLY`
+    #   mode to collect data on how it affects your application. Once you
+    #   are satisfied with the data gathered, switch the policy to `ACTIVE`.
+    #   Defaults to `ACTIVE`.
+    #   @return [String]
+    #
     # @!attribute [rw] policy_engine_id
     #   The identifier of the policy engine which contains this policy.
     #   Policy engines group related policies and provide the execution
@@ -3830,6 +4041,7 @@ module Aws::BedrockAgentCoreControl
       :definition,
       :description,
       :validation_mode,
+      :enforcement_mode,
       :policy_engine_id,
       :client_token)
       SENSITIVE = [:description]
@@ -3876,6 +4088,10 @@ module Aws::BedrockAgentCoreControl
     #   policy is ready for use.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The enforcement mode of the created policy.
+    #   @return [String]
+    #
     # @!attribute [rw] definition
     #   The Cedar policy statement that was created. This is the validated
     #   policy definition that will be used for agent behavior control and
@@ -3904,6 +4120,7 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_arn,
       :status,
+      :enforcement_mode,
       :definition,
       :description,
       :status_reasons)
@@ -4513,6 +4730,14 @@ module Aws::BedrockAgentCoreControl
     #   configuration.
     #   @return [Array<Types::PrivateEndpointOverride>]
     #
+    # @!attribute [rw] allowed_workload_configuration
+    #   The configuration that restricts which workloads in the request's
+    #   identity chain are allowed to invoke the target, identified by their
+    #   hosting environments and workload identities. At launch, this is
+    #   supported only for AgentCore Runtime targets, and the allowed
+    #   workloads are AgentCore Gateways.
+    #   @return [Types::AllowedWorkloadConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomJWTAuthorizerConfiguration AWS API Documentation
     #
     class CustomJWTAuthorizerConfiguration < Struct.new(
@@ -4522,7 +4747,8 @@ module Aws::BedrockAgentCoreControl
       :allowed_scopes,
       :custom_claims,
       :private_endpoint,
-      :private_endpoint_overrides)
+      :private_endpoint_overrides,
+      :allowed_workload_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4582,16 +4808,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] on_behalf_of_token_exchange_config
@@ -4716,6 +4942,24 @@ module Aws::BedrockAgentCoreControl
 
       class EpisodicReflectionOverride < CustomReflectionConfigurationInput; end
       class Unknown < CustomReflectionConfigurationInput; end
+    end
+
+    # The configuration for custom transformations applied to requests and
+    # responses through the gateway. This structure defines how the gateway
+    # transforms data.
+    #
+    # @!attribute [rw] lambda
+    #   The Lambda configuration for custom transformations. This
+    #   configuration defines how the gateway uses a Lambda function to
+    #   transform data.
+    #   @return [Types::LambdaTransformConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomTransformConfiguration AWS API Documentation
+    #
+    class CustomTransformConfiguration < Struct.new(
+      :lambda)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # The configuration that specifies where to read agent traces for online
@@ -5404,6 +5648,44 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] harness_id
+    #   The ID of the harness that the endpoint belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint_name
+    #   The name of the endpoint to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteHarnessEndpointRequest AWS API Documentation
+    #
+    class DeleteHarnessEndpointRequest < Struct.new(
+      :harness_id,
+      :endpoint_name,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] endpoint
+    #   The endpoint that was deleted.
+    #   @return [Types::HarnessEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteHarnessEndpointResponse AWS API Documentation
+    #
+    class DeleteHarnessEndpointResponse < Struct.new(
+      :endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_id
     #   The ID of the harness to delete.
     #   @return [String]
     #
@@ -5415,11 +5697,18 @@ module Aws::BedrockAgentCoreControl
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] delete_managed_memory
+    #   Whether to delete the managed memory on harness deletion. Default:
+    #   true. If false, the memory is disassociated and becomes a regular
+    #   customer-owned resource.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteHarnessRequest AWS API Documentation
     #
     class DeleteHarnessRequest < Struct.new(
       :harness_id,
-      :client_token)
+      :client_token,
+      :delete_managed_memory)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5795,6 +6084,10 @@ module Aws::BedrockAgentCoreControl
     #   process.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The enforcement mode of the deleted policy.
+    #   @return [String]
+    #
     # @!attribute [rw] definition
     #   Represents the definition structure for policies within the
     #   AgentCore Policy system. This structure encapsulates different
@@ -5822,6 +6115,7 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_arn,
       :status,
+      :enforcement_mode,
       :definition,
       :description,
       :status_reasons)
@@ -6827,7 +7121,7 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :authorizer_type,
       :protocol_type)
-      SENSITIVE = [:name, :description]
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -7151,19 +7445,19 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] api_key_secret_arn
-    #   The Amazon Resource Name (ARN) of the API key secret in AWS Secrets
-    #   Manager.
+    #   The Amazon Resource Name (ARN) of the API key secret in Amazon Web
+    #   Services Secrets Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] api_key_secret_json_key
-    #   The JSON key used to extract the API key value from the AWS Secrets
-    #   Manager secret.
+    #   The JSON key used to extract the API key value from the Amazon Web
+    #   Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_source
     #   The source type of the API key secret. Either `MANAGED` if the
     #   secret is managed by the service, or `EXTERNAL` if managed by the
-    #   user in AWS Secrets Manager.
+    #   user in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -7869,6 +8163,12 @@ module Aws::BedrockAgentCoreControl
     #   gateway.
     #   @return [String]
     #
+    # @!attribute [rw] custom_transform_configuration
+    #   The custom transformation configuration for the gateway. This
+    #   configuration defines how the gateway transforms requests and
+    #   responses.
+    #   @return [Types::CustomTransformConfiguration]
+    #
     # @!attribute [rw] interceptor_configurations
     #   The interceptors configured on the gateway.
     #   @return [Array<Types::GatewayInterceptorConfiguration>]
@@ -7892,6 +8192,15 @@ module Aws::BedrockAgentCoreControl
     #     the end user.
     #   @return [String]
     #
+    # @!attribute [rw] web_acl_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Web Services WAF web
+    #   ACL associated with the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] waf_configuration
+    #   The Amazon Web Services WAF configuration for the gateway.
+    #   @return [Types::WafConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGatewayResponse AWS API Documentation
     #
     class GetGatewayResponse < Struct.new(
@@ -7910,11 +8219,14 @@ module Aws::BedrockAgentCoreControl
       :authorizer_type,
       :authorizer_configuration,
       :kms_key_arn,
+      :custom_transform_configuration,
       :interceptor_configurations,
       :policy_engine_configuration,
       :workload_identity_details,
-      :exception_level)
-      SENSITIVE = [:name, :description]
+      :exception_level,
+      :web_acl_arn,
+      :waf_configuration)
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -8107,13 +8419,48 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] harness_id
+    #   The ID of the harness that the endpoint belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint_name
+    #   The name of the endpoint to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetHarnessEndpointRequest AWS API Documentation
+    #
+    class GetHarnessEndpointRequest < Struct.new(
+      :harness_id,
+      :endpoint_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] endpoint
+    #   The endpoint resource.
+    #   @return [Types::HarnessEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetHarnessEndpointResponse AWS API Documentation
+    #
+    class GetHarnessEndpointResponse < Struct.new(
+      :endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_id
     #   The ID of the harness to retrieve.
+    #   @return [String]
+    #
+    # @!attribute [rw] harness_version
+    #   Specific version of the harness to retrieve. If omitted, returns the
+    #   current Harness configuration, including its status.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetHarnessRequest AWS API Documentation
     #
     class GetHarnessRequest < Struct.new(
-      :harness_id)
+      :harness_id,
+      :harness_version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8172,19 +8519,19 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] client_secret_arn
-    #   The Amazon Resource Name (ARN) of the client secret in AWS Secrets
-    #   Manager.
+    #   The Amazon Resource Name (ARN) of the client secret in Amazon Web
+    #   Services Secrets Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] client_secret_json_key
-    #   The JSON key used to extract the client secret value from the AWS
-    #   Secrets Manager secret.
+    #   The JSON key used to extract the client secret value from the Amazon
+    #   Web Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Either `MANAGED` if the secret
     #   is managed by the service, or `EXTERNAL` if managed by the user in
-    #   AWS Secrets Manager.
+    #   Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -8925,6 +9272,10 @@ module Aws::BedrockAgentCoreControl
     #   The current status of the policy.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The current enforcement mode of the policy.
+    #   @return [String]
+    #
     # @!attribute [rw] definition
     #   The Cedar policy statement that defines the access control rules.
     #   This contains the actual policy logic used for agent behavior
@@ -8952,6 +9303,7 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_arn,
       :status,
+      :enforcement_mode,
       :definition,
       :description,
       :status_reasons)
@@ -9007,6 +9359,10 @@ module Aws::BedrockAgentCoreControl
     #   The current status of the policy.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The current enforcement mode of the policy.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetPolicySummaryResponse AWS API Documentation
     #
     class GetPolicySummaryResponse < Struct.new(
@@ -9016,7 +9372,8 @@ module Aws::BedrockAgentCoreControl
       :created_at,
       :updated_at,
       :policy_arn,
-      :status)
+      :status,
+      :enforcement_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9330,16 +9687,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GithubOauth2ProviderConfigInput AWS API Documentation
@@ -9383,16 +9740,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GoogleOauth2ProviderConfigInput AWS API Documentation
@@ -9425,34 +9782,39 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Representation of a Harness.
+    # Representation of a harness.
     #
     # @!attribute [rw] harness_id
-    #   The ID of the Harness.
+    #   The ID of the harness.
     #   @return [String]
     #
     # @!attribute [rw] harness_name
-    #   The name of the Harness.
+    #   The name of the harness.
     #   @return [String]
     #
     # @!attribute [rw] arn
-    #   The ARN of the Harness.
+    #   The ARN of the harness.
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   The status of the Harness.
+    #   The status of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] harness_version
+    #   The version of the harness. Incremented on every successful
+    #   UpdateHarness.
     #   @return [String]
     #
     # @!attribute [rw] execution_role_arn
-    #   IAM role the Harness assumes when running.
+    #   IAM role the harness assumes when running.
     #   @return [String]
     #
     # @!attribute [rw] created_at
-    #   The createdAt time of the Harness.
+    #   The createdAt time of the harness.
     #   @return [Time]
     #
     # @!attribute [rw] updated_at
-    #   The updatedAt time of the Harness.
+    #   The updatedAt time of the harness.
     #   @return [Time]
     #
     # @!attribute [rw] model
@@ -9460,19 +9822,19 @@ module Aws::BedrockAgentCoreControl
     #   @return [Types::HarnessModelConfiguration]
     #
     # @!attribute [rw] system_prompt
-    #   The system prompt of the Harness.
+    #   The system prompt of the harness.
     #   @return [Array<Types::HarnessSystemContentBlock>]
     #
     # @!attribute [rw] tools
-    #   The tools of the Harness.
+    #   The tools of the harness.
     #   @return [Array<Types::HarnessTool>]
     #
     # @!attribute [rw] skills
-    #   The skills of the Harness.
+    #   The skills of the harness.
     #   @return [Array<Types::HarnessSkill>]
     #
     # @!attribute [rw] allowed_tools
-    #   The allowed tools of the Harness. All tools are allowed by default.
+    #   The allowed tools of the harness. All tools are allowed by default.
     #   @return [Array<String>]
     #
     # @!attribute [rw] truncation
@@ -9490,7 +9852,7 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] environment_variables
     #   Environment variables exposed in the environment in which the
-    #   Harness operates.
+    #   harness operates.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] authorizer_configuration
@@ -9528,6 +9890,7 @@ module Aws::BedrockAgentCoreControl
       :harness_name,
       :arn,
       :status,
+      :harness_version,
       :execution_role_arn,
       :created_at,
       :updated_at,
@@ -9764,6 +10127,83 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Explicitly opt out of memory.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessDisabledMemoryConfiguration AWS API Documentation
+    #
+    class HarnessDisabledMemoryConfiguration < Aws::EmptyStructure; end
+
+    # Representation of a harness endpoint. An endpoint is a named, stable
+    # reference to a specific version of a harness that callers invoke,
+    # allowing the underlying version to be updated without changing how the
+    # agent is invoked.
+    #
+    # @!attribute [rw] harness_id
+    #   The ID of the harness that the endpoint belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] harness_name
+    #   The name of the harness that the endpoint belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint_name
+    #   The name of the endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when the endpoint was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the endpoint was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] live_version
+    #   The harness version that the endpoint is currently serving.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_version
+    #   The harness version that the endpoint points to. While an update is
+    #   in progress, this can differ from the live version until the
+    #   endpoint finishes transitioning.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason the endpoint's last create or update operation failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessEndpoint AWS API Documentation
+    #
+    class HarnessEndpoint < Struct.new(
+      :harness_id,
+      :harness_name,
+      :endpoint_name,
+      :arn,
+      :status,
+      :created_at,
+      :updated_at,
+      :live_version,
+      :target_version,
+      :description,
+      :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The environment artifact for a harness, such as a container image
     # containing custom dependencies.
     #
@@ -9974,6 +10414,37 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Configuration for managed memory creation.
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the managed AgentCore Memory resource. Read-only on Get,
+    #   ignored on Create/Update input.
+    #   @return [String]
+    #
+    # @!attribute [rw] strategies
+    #   Strategy types to enable. Defaults to \[SEMANTIC, SUMMARIZATION\].
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] event_expiry_duration
+    #   Event retention in days. Defaults to 30.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] encryption_key_arn
+    #   Customer-managed KMS key. Defaults to AWS-owned key. Not updatable
+    #   after creation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessManagedMemoryConfiguration AWS API Documentation
+    #
+    class HarnessManagedMemoryConfiguration < Struct.new(
+      :arn,
+      :strategies,
+      :event_expiry_duration,
+      :encryption_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The memory configuration for a harness.
     #
     # @note HarnessMemoryConfiguration is a union - when making an API calls you must set exactly one of the members.
@@ -9984,16 +10455,29 @@ module Aws::BedrockAgentCoreControl
     #   The AgentCore Memory configuration.
     #   @return [Types::HarnessAgentCoreMemoryConfiguration]
     #
+    # @!attribute [rw] managed_memory_configuration
+    #   Harness creates and manages a memory resource in the customer's
+    #   account.
+    #   @return [Types::HarnessManagedMemoryConfiguration]
+    #
+    # @!attribute [rw] disabled
+    #   Explicitly opt out of memory.
+    #   @return [Types::HarnessDisabledMemoryConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessMemoryConfiguration AWS API Documentation
     #
     class HarnessMemoryConfiguration < Struct.new(
       :agent_core_memory_configuration,
+      :managed_memory_configuration,
+      :disabled,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class AgentCoreMemoryConfiguration < HarnessMemoryConfiguration; end
+      class ManagedMemoryConfiguration < HarnessMemoryConfiguration; end
+      class Disabled < HarnessMemoryConfiguration; end
       class Unknown < HarnessMemoryConfiguration; end
     end
 
@@ -10123,12 +10607,17 @@ module Aws::BedrockAgentCoreControl
     #   A git repository containing the skill.
     #   @return [Types::HarnessSkillGitSource]
     #
+    # @!attribute [rw] aws_skills
+    #   AWS Skills baked into the harness's underlying Runtime.
+    #   @return [Types::HarnessSkillAwsSkillsSource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSkill AWS API Documentation
     #
     class HarnessSkill < Struct.new(
       :path,
       :s3,
       :git,
+      :aws_skills,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -10137,7 +10626,23 @@ module Aws::BedrockAgentCoreControl
       class Path < HarnessSkill; end
       class S3 < HarnessSkill; end
       class Git < HarnessSkill; end
+      class AwsSkills < HarnessSkill; end
       class Unknown < HarnessSkill; end
+    end
+
+    # Passed to show that AWS Skills should be included.
+    #
+    # @!attribute [rw] paths
+    #   Optionally filter allowed skills with glob syntax, e.g.,
+    #   \['core-skills/*'\].
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSkillAwsSkillsSource AWS API Documentation
+    #
+    class HarnessSkillAwsSkillsSource < Struct.new(
+      :paths)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Authentication configuration for accessing a private git repository.
@@ -10264,6 +10769,10 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when the harness was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] harness_version
+    #   The latest version of the harness.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessSummary AWS API Documentation
     #
     class HarnessSummary < Struct.new(
@@ -10272,7 +10781,8 @@ module Aws::BedrockAgentCoreControl
       :arn,
       :status,
       :created_at,
-      :updated_at)
+      :updated_at,
+      :harness_version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10421,6 +10931,87 @@ module Aws::BedrockAgentCoreControl
       class Unknown < HarnessTruncationStrategyConfiguration; end
     end
 
+    # Summary information about a single version of a harness.
+    #
+    # @!attribute [rw] harness_id
+    #   The ID of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] harness_name
+    #   The name of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the harness.
+    #   @return [String]
+    #
+    # @!attribute [rw] harness_version
+    #   The version of the harness that this summary describes.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of this harness version.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp when this harness version was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when this harness version was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] failure_reason
+    #   Reason why the create or update operation for this harness version
+    #   failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessVersionSummary AWS API Documentation
+    #
+    class HarnessVersionSummary < Struct.new(
+      :harness_id,
+      :harness_name,
+      :arn,
+      :harness_version,
+      :status,
+      :created_at,
+      :updated_at,
+      :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A hosting environment whose workloads are allowed to invoke the
+    # target. At launch, the only supported hosting environment is AgentCore
+    # Gateway.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the hosting environment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HostingEnvironment AWS API Documentation
+    #
+    class HostingEnvironment < Struct.new(
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The API schema configuration for an HTTP target. This schema defines
+    # the API structure that the target exposes.
+    #
+    # @!attribute [rw] source
+    #   Configuration for API schema.
+    #   @return [Types::ApiSchemaConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HttpApiSchemaConfiguration AWS API Documentation
+    #
+    class HttpApiSchemaConfiguration < Struct.new(
+      :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The HTTP target configuration for a gateway target. Contains the
     # configuration for HTTP-based target endpoints.
     #
@@ -10433,16 +11024,23 @@ module Aws::BedrockAgentCoreControl
     #   communication with an agent runtime.
     #   @return [Types::RuntimeTargetConfiguration]
     #
+    # @!attribute [rw] passthrough
+    #   The passthrough configuration for the HTTP target. A passthrough
+    #   target forwards requests directly to an external HTTP endpoint.
+    #   @return [Types::PassthroughTargetConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HttpTargetConfiguration AWS API Documentation
     #
     class HttpTargetConfiguration < Struct.new(
       :agentcore_runtime,
+      :passthrough,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class AgentcoreRuntime < HttpTargetConfiguration; end
+      class Passthrough < HttpTargetConfiguration; end
       class Unknown < HttpTargetConfiguration; end
     end
 
@@ -10508,16 +11106,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] issuer
@@ -10625,6 +11223,132 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The source identifying the inference connector.
+    #
+    # @!attribute [rw] connector_id
+    #   The identifier for the inference connector (for example,
+    #   `bedrock-mantle`, `openai`, or `anthropic`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InferenceConnectorSource AWS API Documentation
+    #
+    class InferenceConnectorSource < Struct.new(
+      :connector_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for a connector-based inference target. This
+    # configuration uses a built-in connector that provides predefined rules
+    # for a large language model (LLM) provider.
+    #
+    # @!attribute [rw] source
+    #   The source configuration identifying which inference connector to
+    #   use.
+    #   @return [Types::InferenceConnectorSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InferenceConnectorTargetConfiguration AWS API Documentation
+    #
+    class InferenceConnectorTargetConfiguration < Struct.new(
+      :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for a specific inference operation, including its
+    # request path and the models that the operation supports.
+    #
+    # @!attribute [rw] path
+    #   The request path for this operation (for example, `/v1/messages` or
+    #   `/v1/responses`).
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_path
+    #   The provider path to forward requests to, if it differs from the
+    #   request path. For example, `/anthropic/v1/messages` when the
+    #   provider expects a different path than the client-facing
+    #   `/v1/messages`.
+    #   @return [String]
+    #
+    # @!attribute [rw] models
+    #   The list of models supported for this operation.
+    #   @return [Array<Types::ModelEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InferenceOperationConfiguration AWS API Documentation
+    #
+    class InferenceOperationConfiguration < Struct.new(
+      :path,
+      :provider_path,
+      :models)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for a provider-based inference target. This
+    # configuration explicitly defines the endpoint, model mapping, and
+    # operations used to route requests to a large language model (LLM)
+    # provider.
+    #
+    # @!attribute [rw] endpoint
+    #   The HTTPS endpoint of the inference provider that the gateway
+    #   forwards requests to.
+    #   @return [String]
+    #
+    # @!attribute [rw] model_mapping
+    #   The configuration that translates client-facing model IDs to the
+    #   model IDs expected by the provider.
+    #   @return [Types::ModelMapping]
+    #
+    # @!attribute [rw] operations
+    #   A list of per-operation configurations that map request paths to the
+    #   models supported for each operation.
+    #   @return [Array<Types::InferenceOperationConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InferenceProviderTargetConfiguration AWS API Documentation
+    #
+    class InferenceProviderTargetConfiguration < Struct.new(
+      :endpoint,
+      :model_mapping,
+      :operations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for an inference target. An inference target routes
+    # requests to a large language model (LLM) provider, either through a
+    # built-in connector or an explicitly configured provider.
+    #
+    # @note InferenceTargetConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note InferenceTargetConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of InferenceTargetConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] connector
+    #   The connector-based inference configuration. Use this option to
+    #   route requests to an LLM provider through a built-in connector that
+    #   includes predefined provider rules.
+    #   @return [Types::InferenceConnectorTargetConfiguration]
+    #
+    # @!attribute [rw] provider
+    #   The provider-based inference configuration. Use this option to
+    #   explicitly configure the endpoint, model mapping, and operations for
+    #   an LLM provider.
+    #   @return [Types::InferenceProviderTargetConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InferenceTargetConfiguration AWS API Documentation
+    #
+    class InferenceTargetConfiguration < Struct.new(
+      :connector,
+      :provider,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Connector < InferenceTargetConfiguration; end
+      class Provider < InferenceTargetConfiguration; end
+      class Unknown < InferenceTargetConfiguration; end
+    end
+
     # Inline examples provided directly in the request body.
     #
     # @!attribute [rw] examples
@@ -10639,12 +11363,13 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # A reference to an insight analysis to run against sessions.
+    # A reference to an insight analysis to run against sessions during
+    # evaluation. Insights provide deeper analysis beyond individual
+    # evaluator scores, including failure detection, user intent clustering,
+    # and execution summarization.
     #
     # @!attribute [rw] insight_id
-    #   Canonical insight identifiers using the Builtin.Insight.* naming
-    #   convention. Used by BatchEvaluate, InternalEvaluate, and
-    #   ServiceEngineEvaluate flows.
+    #   The unique identifier of the insight to run.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Insight AWS API Documentation
@@ -10685,10 +11410,56 @@ module Aws::BedrockAgentCoreControl
     #   interceptor. When set to true, request headers will be passed.
     #   @return [Boolean]
     #
+    # @!attribute [rw] payload_filter
+    #   The filter that determines which parts of the request or response
+    #   payload are passed as input to the interceptor.
+    #   @return [Types::InterceptorPayloadFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InterceptorInputConfiguration AWS API Documentation
     #
     class InterceptorInputConfiguration < Struct.new(
-      :pass_request_headers)
+      :pass_request_headers,
+      :payload_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A selector that identifies a payload field to exclude from the
+    # interceptor input.
+    #
+    # @note InterceptorPayloadExclusionSelector is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note InterceptorPayloadExclusionSelector is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of InterceptorPayloadExclusionSelector corresponding to the set member.
+    #
+    # @!attribute [rw] field
+    #   The field to exclude from the interceptor input.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InterceptorPayloadExclusionSelector AWS API Documentation
+    #
+    class InterceptorPayloadExclusionSelector < Struct.new(
+      :field,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Field < InterceptorPayloadExclusionSelector; end
+      class Unknown < InterceptorPayloadExclusionSelector; end
+    end
+
+    # The filter that controls which fields of the request or response
+    # payload are included in the input to the interceptor.
+    #
+    # @!attribute [rw] exclude
+    #   The list of selectors that identify payload fields to exclude from
+    #   the interceptor input.
+    #   @return [Array<Types::InterceptorPayloadExclusionSelector>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/InterceptorPayloadFilter AWS API Documentation
+    #
+    class InterceptorPayloadFilter < Struct.new(
+      :exclude)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10820,6 +11591,23 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The Lambda configuration for custom transformations. This structure
+    # defines the Lambda function that the gateway invokes to transform
+    # data.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the Lambda function. This function
+    #   is invoked by the gateway to transform data.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/LambdaTransformConfiguration AWS API Documentation
+    #
+    class LambdaTransformConfiguration < Struct.new(
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # LifecycleConfiguration lets you manage the lifecycle of runtime
     # sessions and resources in AgentCore Runtime. This configuration helps
     # optimize resource utilization by automatically cleaning up idle
@@ -10863,16 +11651,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/LinkedinOauth2ProviderConfigInput AWS API Documentation
@@ -11577,6 +12365,84 @@ module Aws::BedrockAgentCoreControl
     #
     class ListGatewaysResponse < Struct.new(
       :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_id
+    #   The ID of the harness whose endpoints are listed.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessEndpointsRequest AWS API Documentation
+    #
+    class ListHarnessEndpointsRequest < Struct.new(
+      :harness_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] endpoints
+    #   The list of harness endpoints.
+    #   @return [Array<Types::HarnessEndpoint>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessEndpointsResponse AWS API Documentation
+    #
+    class ListHarnessEndpointsResponse < Struct.new(
+      :endpoints,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_id
+    #   The ID of the harness whose versions are listed.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessVersionsRequest AWS API Documentation
+    #
+    class ListHarnessVersionsRequest < Struct.new(
+      :harness_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_versions
+    #   The list of harness version summaries.
+    #   @return [Array<Types::HarnessVersionSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessVersionsResponse AWS API Documentation
+    #
+    class ListHarnessVersionsResponse < Struct.new(
+      :harness_versions,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -12526,7 +13392,7 @@ module Aws::BedrockAgentCoreControl
       :search_type,
       :session_configuration,
       :streaming_configuration)
-      SENSITIVE = []
+      SENSITIVE = [:instructions]
       include Aws::Structure
     end
 
@@ -12775,6 +13641,12 @@ module Aws::BedrockAgentCoreControl
     #   The configuration for an Amazon API Gateway target.
     #   @return [Types::ApiGatewayTargetConfiguration]
     #
+    # @!attribute [rw] connector
+    #   The connector integration configuration for the Model Context
+    #   Protocol target. This configuration defines how the gateway uses a
+    #   pre-built connector to communicate with the target.
+    #   @return [Types::ConnectorTargetConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/McpTargetConfiguration AWS API Documentation
     #
     class McpTargetConfiguration < Struct.new(
@@ -12783,6 +13655,7 @@ module Aws::BedrockAgentCoreControl
       :lambda,
       :mcp_server,
       :api_gateway,
+      :connector,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -12793,6 +13666,7 @@ module Aws::BedrockAgentCoreControl
       class Lambda < McpTargetConfiguration; end
       class McpServer < McpTargetConfiguration; end
       class ApiGateway < McpTargetConfiguration; end
+      class Connector < McpTargetConfiguration; end
       class Unknown < McpTargetConfiguration; end
     end
 
@@ -12887,6 +13761,12 @@ module Aws::BedrockAgentCoreControl
     #   resources.
     #   @return [Types::StreamDeliveryResources]
     #
+    # @!attribute [rw] managed_by_resource_arn
+    #   ARN of the resource managing this memory (e.g. a harness). When set,
+    #   strategy modifications and deletion are only allowed through the
+    #   managing resource.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Memory AWS API Documentation
     #
     class Memory < Struct.new(
@@ -12903,7 +13783,8 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :strategies,
       :indexed_keys,
-      :stream_delivery_resources)
+      :stream_delivery_resources,
+      :managed_by_resource_arn)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -13054,6 +13935,11 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when the memory was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] managed_by_resource_arn
+    #   ARN of the resource managing this memory (e.g. a harness). Null if
+    #   not managed.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/MemorySummary AWS API Documentation
     #
     class MemorySummary < Struct.new(
@@ -13061,7 +13947,8 @@ module Aws::BedrockAgentCoreControl
       :id,
       :status,
       :created_at,
-      :updated_at)
+      :updated_at,
+      :managed_by_resource_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13165,16 +14052,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] tenant_id
@@ -13210,6 +14097,37 @@ module Aws::BedrockAgentCoreControl
     class MicrosoftOauth2ProviderConfigOutput < Struct.new(
       :oauth_discovery,
       :client_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A model entry that specifies a model supported for an inference
+    # operation.
+    #
+    # @!attribute [rw] model
+    #   The model ID or glob pattern that identifies the model (for example,
+    #   `anthropic.claude-opus-*` or `openai.gpt-oss-*`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ModelEntry AWS API Documentation
+    #
+    class ModelEntry < Struct.new(
+      :model)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration that translates model IDs between client-facing
+    # names and provider model IDs.
+    #
+    # @!attribute [rw] provider_prefix
+    #   The provider prefix configuration used for model ID translation.
+    #   @return [Types::ProviderPrefix]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ModelMapping AWS API Documentation
+    #
+    class ModelMapping < Struct.new(
+      :provider_prefix)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13903,6 +14821,41 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The configuration for an HTTP passthrough target. A passthrough target
+    # forwards requests directly to an external HTTP endpoint.
+    #
+    # @!attribute [rw] endpoint
+    #   The HTTPS endpoint that the gateway forwards requests to for this
+    #   passthrough target.
+    #   @return [String]
+    #
+    # @!attribute [rw] protocol_type
+    #   The application protocol the passthrough target implements. Required
+    #   for passthrough targets.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema
+    #   The API schema configuration that defines the structure of the
+    #   passthrough target's API.
+    #   @return [Types::HttpApiSchemaConfiguration]
+    #
+    # @!attribute [rw] stickiness_configuration
+    #   The session stickiness configuration for the passthrough target.
+    #   This configuration routes requests within the same session to the
+    #   same target.
+    #   @return [Types::StickinessConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PassthroughTargetConfiguration AWS API Documentation
+    #
+    class PassthroughTargetConfiguration < Struct.new(
+      :endpoint,
+      :protocol_type,
+      :schema,
+      :stickiness_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains summary information about a payment connector.
     #
     # @!attribute [rw] payment_connector_id
@@ -14160,6 +15113,10 @@ module Aws::BedrockAgentCoreControl
     #   The current status of the policy.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The current enforcement mode of the policy.
+    #   @return [String]
+    #
     # @!attribute [rw] definition
     #   The Cedar policy statement that defines the access control rules.
     #   This contains the actual policy logic used for agent behavior
@@ -14188,6 +15145,7 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_arn,
       :status,
+      :enforcement_mode,
       :definition,
       :description,
       :status_reasons)
@@ -14227,11 +15185,17 @@ module Aws::BedrockAgentCoreControl
     #   select the most appropriate policy option.
     #   @return [Types::PolicyGenerationDetails]
     #
+    # @!attribute [rw] policy
+    #   An AgentCore policy statement that defines the access control rules.
+    #   The statement can be a Cedar policy or a guardrails definition.
+    #   @return [Types::PolicyStatement]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicyDefinition AWS API Documentation
     #
     class PolicyDefinition < Struct.new(
       :cedar,
       :policy_generation,
+      :policy,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -14239,6 +15203,7 @@ module Aws::BedrockAgentCoreControl
 
       class Cedar < PolicyDefinition; end
       class PolicyGeneration < PolicyDefinition; end
+      class Policy < PolicyDefinition; end
       class Unknown < PolicyDefinition; end
     end
 
@@ -14579,6 +15544,22 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # An AgentCore policy statement, which supports plain Cedar policies as
+    # well as guardrails definitions.
+    #
+    # @!attribute [rw] statement
+    #   The body of the AgentCore policy statement. Contains the policy
+    #   logic, which can be a Cedar policy or a guardrails definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicyStatement AWS API Documentation
+    #
+    class PolicyStatement < Struct.new(
+      :statement)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Represents a metadata-only summary of a policy resource. This
     # structure contains resource identifiers, status, and timestamps
     # without customer-encrypted fields such as definition, description, or
@@ -14613,6 +15594,10 @@ module Aws::BedrockAgentCoreControl
     #   The current status of the policy.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The current enforcement mode of the policy.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicySummary AWS API Documentation
     #
     class PolicySummary < Struct.new(
@@ -14622,7 +15607,8 @@ module Aws::BedrockAgentCoreControl
       :created_at,
       :updated_at,
       :policy_arn,
-      :status)
+      :status,
+      :enforcement_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14692,6 +15678,30 @@ module Aws::BedrockAgentCoreControl
     #
     class ProtocolConfiguration < Struct.new(
       :server_protocol)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration that controls how a provider prefix is applied to
+    # model IDs during translation.
+    #
+    # @!attribute [rw] strip
+    #   Whether clients can omit the provider prefix from model IDs. If
+    #   `true`, the gateway accepts model IDs without the prefix and
+    #   restores the full prefixed form before forwarding to the provider.
+    #   The default is `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] separator
+    #   The single character that separates the provider prefix from the
+    #   model name (for example, `.`). The default is `.`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ProviderPrefix AWS API Documentation
+    #
+    class ProviderPrefix < Struct.new(
+      :strip,
+      :separator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15243,11 +16253,17 @@ module Aws::BedrockAgentCoreControl
     #   endpoint version. If not specified, the default endpoint is used.
     #   @return [String]
     #
+    # @!attribute [rw] schema
+    #   The API schema configuration that defines the structure of the
+    #   runtime target's API.
+    #   @return [Types::HttpApiSchemaConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RuntimeTargetConfiguration AWS API Documentation
     #
     class RuntimeTargetConfiguration < Struct.new(
       :arn,
-      :qualifier)
+      :qualifier,
+      :schema)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15352,16 +16368,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SalesforceOauth2ProviderConfigInput AWS API Documentation
@@ -15450,10 +16466,12 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Contains information about a secret in AWS Secrets Manager.
+    # Contains information about a secret in Amazon Web Services Secrets
+    # Manager.
     #
     # @!attribute [rw] secret_arn
-    #   The Amazon Resource Name (ARN) of the secret in AWS Secrets Manager.
+    #   The Amazon Resource Name (ARN) of the secret in Amazon Web Services
+    #   Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/Secret AWS API Documentation
@@ -15464,16 +16482,17 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Contains a reference to a secret stored in AWS Secrets Manager.
+    # Contains a reference to a secret stored in Amazon Web Services Secrets
+    # Manager.
     #
     # @!attribute [rw] secret_id
-    #   The ID of the AWS Secrets Manager secret that stores the secret
-    #   value.
+    #   The ID of the Amazon Web Services Secrets Manager secret that stores
+    #   the secret value.
     #   @return [String]
     #
     # @!attribute [rw] json_key
-    #   The JSON key used to extract the secret value from the AWS Secrets
-    #   Manager secret.
+    #   The JSON key used to extract the secret value from the Amazon Web
+    #   Services Secrets Manager secret.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SecretReference AWS API Documentation
@@ -15894,16 +16913,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] client_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the client
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the client secret value from the secret. Required when
-    #   `clientSecretSource` is set to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the client secret. This includes the secret ID and the JSON
+    #   key used to extract the client secret value from the secret.
+    #   Required when `clientSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SlackOauth2ProviderConfigInput AWS API Documentation
@@ -16076,6 +17095,31 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The configuration for session-sticky routing to a target. Session
+    # stickiness routes requests that share a session identifier to the same
+    # target.
+    #
+    # @!attribute [rw] identifier
+    #   The expression that identifies where to extract the session
+    #   identifier from the request (for example,
+    #   `$context.header.x-session-id`).
+    #   @return [String]
+    #
+    # @!attribute [rw] timeout
+    #   The session stickiness timeout, in seconds. After this duration of
+    #   inactivity, the session affinity expires. Valid values range from 1
+    #   to 86400.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/StickinessConfiguration AWS API Documentation
+    #
+    class StickinessConfiguration < Struct.new(
+      :identifier,
+      :timeout)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains configuration information for a memory strategy.
     #
     # @!attribute [rw] type
@@ -16210,13 +17254,13 @@ module Aws::BedrockAgentCoreControl
     # @!attribute [rw] app_secret_source
     #   The source type of the app secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] app_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the app
-    #   secret. This includes the secret ID and the JSON key used to extract
-    #   the app secret value from the secret. Required when
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the app secret. This includes the secret ID and the JSON key
+    #   used to extract the app secret value from the secret. Required when
     #   `appSecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
@@ -16227,15 +17271,15 @@ module Aws::BedrockAgentCoreControl
     # @!attribute [rw] authorization_private_key_source
     #   The source type of the authorization private key. Use `MANAGED` if
     #   the secret is managed by the service, or `EXTERNAL` if you manage
-    #   the secret yourself in AWS Secrets Manager.
+    #   the secret yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] authorization_private_key_config
-    #   A reference to the AWS Secrets Manager secret that stores the
-    #   authorization private key. This includes the secret ID and the JSON
-    #   key used to extract the authorization private key value from the
-    #   secret. Required when `authorizationPrivateKeySource` is set to
-    #   `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the authorization private key. This includes the secret ID
+    #   and the JSON key used to extract the authorization private key value
+    #   from the secret. Required when `authorizationPrivateKeySource` is
+    #   set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] authorization_id
@@ -16264,33 +17308,35 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] app_secret_arn
-    #   Contains information about a secret in AWS Secrets Manager.
+    #   Contains information about a secret in Amazon Web Services Secrets
+    #   Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] app_secret_json_key
-    #   The JSON key used to extract the app secret value from the AWS
-    #   Secrets Manager secret.
+    #   The JSON key used to extract the app secret value from the Amazon
+    #   Web Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] app_secret_source
     #   The source type of the app secret. Either `MANAGED` if the secret is
-    #   managed by the service, or `EXTERNAL` if managed by the user in AWS
-    #   Secrets Manager.
+    #   managed by the service, or `EXTERNAL` if managed by the user in
+    #   Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] authorization_private_key_arn
-    #   Contains information about a secret in AWS Secrets Manager.
+    #   Contains information about a secret in Amazon Web Services Secrets
+    #   Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] authorization_private_key_json_key
     #   The JSON key used to extract the authorization private key value
-    #   from the AWS Secrets Manager secret.
+    #   from the Amazon Web Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] authorization_private_key_source
     #   The source type of the authorization private key. Either `MANAGED`
     #   if the secret is managed by the service, or `EXTERNAL` if managed by
-    #   the user in AWS Secrets Manager.
+    #   the user in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] authorization_id
@@ -16552,11 +17598,17 @@ module Aws::BedrockAgentCoreControl
     #   an HTTP-based endpoint such as an AgentCore Runtime.
     #   @return [Types::HttpTargetConfiguration]
     #
+    # @!attribute [rw] inference
+    #   The inference configuration for the target. This configuration
+    #   routes requests to a large language model (LLM) provider.
+    #   @return [Types::InferenceTargetConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/TargetConfiguration AWS API Documentation
     #
     class TargetConfiguration < Struct.new(
       :mcp,
       :http,
+      :inference,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -16564,6 +17616,7 @@ module Aws::BedrockAgentCoreControl
 
       class Mcp < TargetConfiguration; end
       class Http < TargetConfiguration; end
+      class Inference < TargetConfiguration; end
       class Unknown < TargetConfiguration; end
     end
 
@@ -16599,6 +17652,26 @@ module Aws::BedrockAgentCoreControl
     #   values take precedence. Defaults to 1000 when not set.
     #   @return [Integer]
     #
+    # @!attribute [rw] last_synchronized_at
+    #   The timestamp when the target was last synchronized.
+    #   @return [Time]
+    #
+    # @!attribute [rw] authorization_data
+    #   Contains the authorization data that is returned when a gateway
+    #   target is configured with a credential provider with authorization
+    #   code grant type and requires user federation.
+    #   @return [Types::AuthorizationData]
+    #
+    # @!attribute [rw] target_type
+    #   The type of the target.
+    #   @return [String]
+    #
+    # @!attribute [rw] listing_mode
+    #   The listing mode for the target. MCP resources for `DEFAULT` targets
+    #   are cached at the control plane for faster access. MCP resources for
+    #   `DYNAMIC` targets are retrieved dynamically when listing tools.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/TargetSummary AWS API Documentation
     #
     class TargetSummary < Struct.new(
@@ -16608,7 +17681,11 @@ module Aws::BedrockAgentCoreControl
       :description,
       :created_at,
       :updated_at,
-      :resource_priority)
+      :resource_priority,
+      :last_synchronized_at,
+      :authorization_data,
+      :target_type,
+      :listing_mode)
       SENSITIVE = [:name, :description]
       include Aws::Structure
     end
@@ -16806,7 +17883,7 @@ module Aws::BedrockAgentCoreControl
       :s3,
       :inline_payload,
       :unknown)
-      SENSITIVE = []
+      SENSITIVE = [:inline_payload]
       include Aws::Structure
       include Aws::Structure::Union
 
@@ -17196,16 +18273,16 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the API
-    #   key. This includes the secret ID and the JSON key used to extract
-    #   the API key value from the secret. Required when
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the API key. This includes the secret ID and the JSON key
+    #   used to extract the API key value from the secret. Required when
     #   `apiKeySecretSource` is set to `EXTERNAL`.
     #   @return [Types::SecretReference]
     #
     # @!attribute [rw] api_key_secret_source
     #   The source type of the API key secret. Use `MANAGED` if the secret
     #   is managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateApiKeyCredentialProviderRequest AWS API Documentation
@@ -17220,19 +18297,19 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] api_key_secret_arn
-    #   The Amazon Resource Name (ARN) of the API key secret in AWS Secrets
-    #   Manager.
+    #   The Amazon Resource Name (ARN) of the API key secret in Amazon Web
+    #   Services Secrets Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] api_key_secret_json_key
-    #   The JSON key used to extract the API key value from the AWS Secrets
-    #   Manager secret.
+    #   The JSON key used to extract the API key value from the Amazon Web
+    #   Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] api_key_secret_source
     #   The source type of the API key secret. Either `MANAGED` if the
     #   secret is managed by the service, or `EXTERNAL` if managed by the
-    #   user in AWS Secrets Manager.
+    #   user in Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -17623,6 +18700,12 @@ module Aws::BedrockAgentCoreControl
     #   The updated ARN of the KMS key used to encrypt the gateway.
     #   @return [String]
     #
+    # @!attribute [rw] custom_transform_configuration
+    #   The updated custom transformation configuration for the gateway.
+    #   This configuration defines how the gateway transforms requests and
+    #   responses.
+    #   @return [Types::CustomTransformConfiguration]
+    #
     # @!attribute [rw] interceptor_configurations
     #   The updated interceptor configurations for the gateway.
     #   @return [Array<Types::GatewayInterceptorConfiguration>]
@@ -17646,6 +18729,10 @@ module Aws::BedrockAgentCoreControl
     #     the end user.
     #   @return [String]
     #
+    # @!attribute [rw] waf_configuration
+    #   The updated Amazon Web Services WAF configuration for the gateway.
+    #   @return [Types::WafConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayRequest AWS API Documentation
     #
     class UpdateGatewayRequest < Struct.new(
@@ -17658,10 +18745,12 @@ module Aws::BedrockAgentCoreControl
       :authorizer_type,
       :authorizer_configuration,
       :kms_key_arn,
+      :custom_transform_configuration,
       :interceptor_configurations,
       :policy_engine_configuration,
-      :exception_level)
-      SENSITIVE = [:name, :description]
+      :exception_level,
+      :waf_configuration)
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -17726,6 +18815,12 @@ module Aws::BedrockAgentCoreControl
     #   The updated ARN of the KMS key used to encrypt the gateway.
     #   @return [String]
     #
+    # @!attribute [rw] custom_transform_configuration
+    #   The custom transformation configuration for the gateway. This
+    #   configuration defines how the gateway transforms requests and
+    #   responses.
+    #   @return [Types::CustomTransformConfiguration]
+    #
     # @!attribute [rw] interceptor_configurations
     #   The updated interceptor configurations for the gateway.
     #   @return [Array<Types::GatewayInterceptorConfiguration>]
@@ -17749,6 +18844,15 @@ module Aws::BedrockAgentCoreControl
     #     the end user.
     #   @return [String]
     #
+    # @!attribute [rw] web_acl_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Web Services WAF web
+    #   ACL associated with the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] waf_configuration
+    #   The Amazon Web Services WAF configuration for the gateway.
+    #   @return [Types::WafConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayResponse AWS API Documentation
     #
     class UpdateGatewayResponse < Struct.new(
@@ -17767,11 +18871,14 @@ module Aws::BedrockAgentCoreControl
       :authorizer_type,
       :authorizer_configuration,
       :kms_key_arn,
+      :custom_transform_configuration,
       :interceptor_configurations,
       :policy_engine_configuration,
       :workload_identity_details,
-      :exception_level)
-      SENSITIVE = [:name, :description]
+      :exception_level,
+      :web_acl_arn,
+      :waf_configuration)
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -18018,6 +19125,56 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] harness_id
+    #   The ID of the harness that the endpoint belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint_name
+    #   The name of the endpoint to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_version
+    #   The harness version that the endpoint points to. If not specified,
+    #   the existing value is retained.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the endpoint. If not specified, the existing value
+    #   is retained.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateHarnessEndpointRequest AWS API Documentation
+    #
+    class UpdateHarnessEndpointRequest < Struct.new(
+      :harness_id,
+      :endpoint_name,
+      :target_version,
+      :description,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] endpoint
+    #   The updated endpoint.
+    #   @return [Types::HarnessEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateHarnessEndpointResponse AWS API Documentation
+    #
+    class UpdateHarnessEndpointResponse < Struct.new(
+      :endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] harness_id
     #   The ID of the harness to update.
     #   @return [String]
     #
@@ -18239,19 +19396,19 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] client_secret_arn
-    #   The Amazon Resource Name (ARN) of the client secret in AWS Secrets
-    #   Manager.
+    #   The Amazon Resource Name (ARN) of the client secret in Amazon Web
+    #   Services Secrets Manager.
     #   @return [Types::Secret]
     #
     # @!attribute [rw] client_secret_json_key
-    #   The JSON key used to extract the client secret value from the AWS
-    #   Secrets Manager secret.
+    #   The JSON key used to extract the client secret value from the Amazon
+    #   Web Services Secrets Manager secret.
     #   @return [String]
     #
     # @!attribute [rw] client_secret_source
     #   The source type of the client secret. Either `MANAGED` if the secret
     #   is managed by the service, or `EXTERNAL` if managed by the user in
-    #   AWS Secrets Manager.
+    #   Amazon Web Services Secrets Manager.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -18783,6 +19940,14 @@ module Aws::BedrockAgentCoreControl
     #   especially when modifying policy logic or conditions.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The enforcement mode for the policy. Run this policy in `LOG_ONLY`
+    #   mode to collect data on how it affects your application. Once you
+    #   are satisfied with the data gathered, switch the policy to `ACTIVE`.
+    #   If you omit this field, the policy's existing enforcement mode is
+    #   unchanged.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePolicyRequest AWS API Documentation
     #
     class UpdatePolicyRequest < Struct.new(
@@ -18790,7 +19955,8 @@ module Aws::BedrockAgentCoreControl
       :policy_id,
       :description,
       :definition,
-      :validation_mode)
+      :validation_mode,
+      :enforcement_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -18823,6 +19989,10 @@ module Aws::BedrockAgentCoreControl
     #   The current status of the updated policy.
     #   @return [String]
     #
+    # @!attribute [rw] enforcement_mode
+    #   The current enforcement mode of the updated policy.
+    #   @return [String]
+    #
     # @!attribute [rw] definition
     #   The updated Cedar policy statement.
     #   @return [Types::PolicyDefinition]
@@ -18845,6 +20015,7 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :policy_arn,
       :status,
+      :enforcement_mode,
       :definition,
       :description,
       :status_reasons)
@@ -19918,6 +21089,30 @@ module Aws::BedrockAgentCoreControl
       :security_groups,
       :subnets,
       :require_service_s3_endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon Web Services WAF configuration for the gateway. This
+    # configuration controls how the gateway behaves when the associated web
+    # ACL cannot be evaluated.
+    #
+    # @!attribute [rw] failure_mode
+    #   The failure mode that determines how the gateway handles requests
+    #   when Amazon Web Services WAF is unreachable or times out. Valid
+    #   values include:
+    #
+    #   * `FAIL_CLOSE` - The gateway blocks requests when Amazon Web
+    #     Services WAF cannot be evaluated.
+    #
+    #   * `FAIL_OPEN` - The gateway allows requests when Amazon Web Services
+    #     WAF cannot be evaluated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/WafConfiguration AWS API Documentation
+    #
+    class WafConfiguration < Struct.new(
+      :failure_mode)
       SENSITIVE = []
       include Aws::Structure
     end

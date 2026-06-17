@@ -1201,6 +1201,11 @@ module Aws::BedrockAgent
     #     resource. Note that the **vector store itself is not deleted** if
     #     you delete a knowledge base or data source resource.
     #
+    #   <note markdown="1"> For managed knowledge bases, the only supported option is `DELETE`,
+    #   which is also the default.
+    #
+    #    </note>
+    #
     # @option params [Types::ServerSideEncryptionConfiguration] :server_side_encryption_configuration
     #   Contains details about the server-side encryption for the data source.
     #
@@ -1219,7 +1224,26 @@ module Aws::BedrockAgent
     #     name: "Name", # required
     #     description: "Description",
     #     data_source_configuration: { # required
-    #       type: "S3", # required, accepts S3, WEB, CONFLUENCE, SALESFORCE, SHAREPOINT, CUSTOM, REDSHIFT_METADATA
+    #       type: "S3", # required, accepts S3, WEB, CONFLUENCE, SALESFORCE, SHAREPOINT, CUSTOM, REDSHIFT_METADATA, MANAGED_KNOWLEDGE_BASE_CONNECTOR
+    #       managed_knowledge_base_connector_configuration: {
+    #         deletion_protection_configuration: {
+    #           deletion_protection_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           deletion_protection_threshold: 1,
+    #         },
+    #         media_extraction_configuration: {
+    #           image_extraction_configuration: {
+    #             image_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           },
+    #           audio_extraction_configuration: {
+    #             audio_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           },
+    #           video_extraction_configuration: {
+    #             video_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           },
+    #         },
+    #         connector_parameters: {
+    #         },
+    #       },
     #       s3_configuration: {
     #         bucket_arn: "S3BucketArn", # required
     #         inclusion_prefixes: ["S3Prefix"],
@@ -1358,7 +1382,7 @@ module Aws::BedrockAgent
     #         ],
     #       },
     #       parsing_configuration: {
-    #         parsing_strategy: "BEDROCK_FOUNDATION_MODEL", # required, accepts BEDROCK_FOUNDATION_MODEL, BEDROCK_DATA_AUTOMATION
+    #         parsing_strategy: "BEDROCK_FOUNDATION_MODEL", # required, accepts BEDROCK_FOUNDATION_MODEL, BEDROCK_DATA_AUTOMATION, SMART_PARSING
     #         bedrock_foundation_model_configuration: {
     #           model_arn: "BedrockModelArn", # required
     #           parsing_prompt: {
@@ -1387,9 +1411,14 @@ module Aws::BedrockAgent
     #   resp.data_source.knowledge_base_id #=> String
     #   resp.data_source.data_source_id #=> String
     #   resp.data_source.name #=> String
-    #   resp.data_source.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL"
+    #   resp.data_source.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL", "CREATING", "UPDATING", "FAILED"
     #   resp.data_source.description #=> String
-    #   resp.data_source.data_source_configuration.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "REDSHIFT_METADATA"
+    #   resp.data_source.data_source_configuration.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "REDSHIFT_METADATA", "MANAGED_KNOWLEDGE_BASE_CONNECTOR"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.deletion_protection_configuration.deletion_protection_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.deletion_protection_configuration.deletion_protection_threshold #=> Integer
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.s3_configuration.bucket_arn #=> String
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes #=> Array
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes[0] #=> String
@@ -1454,7 +1483,7 @@ module Aws::BedrockAgent
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations #=> Array
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations[0].transformation_function.transformation_lambda_configuration.lambda_arn #=> String
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations[0].step_to_apply #=> String, one of "POST_CHUNKING"
-    #   resp.data_source.vector_ingestion_configuration.parsing_configuration.parsing_strategy #=> String, one of "BEDROCK_FOUNDATION_MODEL", "BEDROCK_DATA_AUTOMATION"
+    #   resp.data_source.vector_ingestion_configuration.parsing_configuration.parsing_strategy #=> String, one of "BEDROCK_FOUNDATION_MODEL", "BEDROCK_DATA_AUTOMATION", "SMART_PARSING"
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.model_arn #=> String
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.parsing_prompt.parsing_prompt_text #=> String
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.parsing_modality #=> String, one of "MULTIMODAL"
@@ -2200,9 +2229,9 @@ module Aws::BedrockAgent
     # a supported vector store. For more information, see [Set up a
     # knowledge base][1].
     #
-    # <note markdown="1"> If you prefer to let Amazon Bedrock create and manage a vector store
-    # for you in Amazon OpenSearch Service, use the console. For more
-    # information, see [Create a knowledge base][2].
+    # <note markdown="1"> To create a managed knowledge base, provide a
+    # `managedKnowledgeBaseConfiguration` during creation. For more
+    # information, see [Build a managed knowledge base][2].
     #
     #  </note>
     #
@@ -2211,11 +2240,19 @@ module Aws::BedrockAgent
     # * Provide the Amazon Resource Name (ARN) with permissions to create a
     #   knowledge base in the `roleArn` field.
     #
-    # * Provide the embedding model to use in the `embeddingModelArn` field
-    #   in the `knowledgeBaseConfiguration` object.
+    # * For managed knowledge bases, set `embeddingModelType` to `MANAGED`
+    #   to use the service-managed embedding model, or `CUSTOM` with an
+    #   `embeddingModelArn` to use your own. To use your own KMS key for
+    #   encryption, provide the ARN in `serverSideEncryptionConfiguration`.
+    #   No vector store configuration is required for managed knowledge
+    #   bases.
     #
-    # * Provide the configuration for your vector store in the
-    #   `storageConfiguration` object.
+    # * For self-managed knowledge bases, provide the embedding model to use
+    #   in the `embeddingModelArn` field in the `knowledgeBaseConfiguration`
+    #   object.
+    #
+    # * For self-managed knowledge bases, provide the configuration for your
+    #   vector store in the `storageConfiguration` object.
     #
     #   * For an Amazon OpenSearch Service database, use the
     #     `opensearchServerlessConfiguration` object. For more information,
@@ -2235,7 +2272,7 @@ module Aws::BedrockAgent
     #
     #
     # [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/knowlege-base-prereq.html
-    # [2]: https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create
+    # [2]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-build-managed.html
     # [3]: https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html
     # [4]: https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html
     # [5]: https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html
@@ -2288,7 +2325,7 @@ module Aws::BedrockAgent
     #     description: "Description",
     #     role_arn: "KnowledgeBaseRoleArn", # required
     #     knowledge_base_configuration: { # required
-    #       type: "VECTOR", # required, accepts VECTOR, KENDRA, SQL
+    #       type: "VECTOR", # required, accepts VECTOR, KENDRA, SQL, MANAGED
     #       vector_knowledge_base_configuration: {
     #         embedding_model_arn: "BedrockEmbeddingModelArn", # required
     #         embedding_model_configuration: {
@@ -2320,6 +2357,33 @@ module Aws::BedrockAgent
     #               },
     #             },
     #           ],
+    #         },
+    #       },
+    #       managed_knowledge_base_configuration: {
+    #         embedding_model_type: "CUSTOM", # accepts CUSTOM, MANAGED
+    #         embedding_model_arn: "BedrockEmbeddingModelArn",
+    #         embedding_model_configuration: {
+    #           bedrock_embedding_model_configuration: {
+    #             dimensions: 1,
+    #             embedding_data_type: "FLOAT32", # accepts FLOAT32, BINARY
+    #             audio: [
+    #               {
+    #                 segmentation_configuration: { # required
+    #                   fixed_length_duration: 1, # required
+    #                 },
+    #               },
+    #             ],
+    #             video: [
+    #               {
+    #                 segmentation_configuration: { # required
+    #                   fixed_length_duration: 1, # required
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #         server_side_encryption_configuration: {
+    #           kms_key_arn: "KmsKeyArn",
     #         },
     #       },
     #       kendra_knowledge_base_configuration: {
@@ -2477,7 +2541,7 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.knowledge_base_arn #=> String
     #   resp.knowledge_base.description #=> String
     #   resp.knowledge_base.role_arn #=> String
-    #   resp.knowledge_base.knowledge_base_configuration.type #=> String, one of "VECTOR", "KENDRA", "SQL"
+    #   resp.knowledge_base.knowledge_base_configuration.type #=> String, one of "VECTOR", "KENDRA", "SQL", "MANAGED"
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.dimensions #=> Integer
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.embedding_data_type #=> String, one of "FLOAT32", "BINARY"
@@ -2488,6 +2552,15 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations #=> Array
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations[0].type #=> String, one of "S3"
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations[0].s3_location.uri #=> String
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_type #=> String, one of "CUSTOM", "MANAGED"
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_arn #=> String
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.dimensions #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.embedding_data_type #=> String, one of "FLOAT32", "BINARY"
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.audio #=> Array
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.audio[0].segmentation_configuration.fixed_length_duration #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.video #=> Array
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.video[0].segmentation_configuration.fixed_length_duration #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.server_side_encryption_configuration.kms_key_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.kendra_knowledge_base_configuration.kendra_index_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.sql_knowledge_base_configuration.type #=> String, one of "REDSHIFT"
     #   resp.knowledge_base.knowledge_base_configuration.sql_knowledge_base_configuration.redshift_configuration.storage_configurations #=> Array
@@ -2563,7 +2636,7 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.vector_bucket_arn #=> String
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.index_arn #=> String
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.index_name #=> String
-    #   resp.knowledge_base.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL"
+    #   resp.knowledge_base.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL", "UPDATE_UNSUCCESSFUL"
     #   resp.knowledge_base.created_at #=> Time
     #   resp.knowledge_base.updated_at #=> Time
     #   resp.knowledge_base.failure_reasons #=> Array
@@ -3097,7 +3170,7 @@ module Aws::BedrockAgent
     #
     #   resp.knowledge_base_id #=> String
     #   resp.data_source_id #=> String
-    #   resp.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL"
+    #   resp.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL", "CREATING", "UPDATING", "FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DeleteDataSource AWS API Documentation
     #
@@ -3242,7 +3315,7 @@ module Aws::BedrockAgent
     # @example Response structure
     #
     #   resp.knowledge_base_id #=> String
-    #   resp.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL"
+    #   resp.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL", "UPDATE_UNSUCCESSFUL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DeleteKnowledgeBase AWS API Documentation
     #
@@ -3371,6 +3444,45 @@ module Aws::BedrockAgent
     # @param [Hash] params ({})
     def delete_prompt(params = {}, options = {})
       req = build_request(:delete_prompt, params)
+      req.send_request(options)
+    end
+
+    # Removes the resource policy associated with a knowledge base. After
+    # deletion, other AWS accounts can no longer access the knowledge base
+    # using cross-account permissions.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base to remove the
+    #   resource policy from.
+    #
+    # @option params [String] :expected_revision_id
+    #   The expected revision identifier of the resource policy. Use this to
+    #   prevent conflicts when multiple users update the same policy
+    #   concurrently.
+    #
+    # @return [Types::DeleteResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteResourcePolicyResponse#resource_arn #resource_arn} => String
+    #   * {Types::DeleteResourcePolicyResponse#revision_id #revision_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #     expected_revision_id: "RevisionId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.revision_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
       req.send_request(options)
     end
 
@@ -3800,9 +3912,14 @@ module Aws::BedrockAgent
     #   resp.data_source.knowledge_base_id #=> String
     #   resp.data_source.data_source_id #=> String
     #   resp.data_source.name #=> String
-    #   resp.data_source.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL"
+    #   resp.data_source.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL", "CREATING", "UPDATING", "FAILED"
     #   resp.data_source.description #=> String
-    #   resp.data_source.data_source_configuration.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "REDSHIFT_METADATA"
+    #   resp.data_source.data_source_configuration.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "REDSHIFT_METADATA", "MANAGED_KNOWLEDGE_BASE_CONNECTOR"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.deletion_protection_configuration.deletion_protection_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.deletion_protection_configuration.deletion_protection_threshold #=> Integer
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.s3_configuration.bucket_arn #=> String
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes #=> Array
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes[0] #=> String
@@ -3867,7 +3984,7 @@ module Aws::BedrockAgent
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations #=> Array
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations[0].transformation_function.transformation_lambda_configuration.lambda_arn #=> String
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations[0].step_to_apply #=> String, one of "POST_CHUNKING"
-    #   resp.data_source.vector_ingestion_configuration.parsing_configuration.parsing_strategy #=> String, one of "BEDROCK_FOUNDATION_MODEL", "BEDROCK_DATA_AUTOMATION"
+    #   resp.data_source.vector_ingestion_configuration.parsing_configuration.parsing_strategy #=> String, one of "BEDROCK_FOUNDATION_MODEL", "BEDROCK_DATA_AUTOMATION", "SMART_PARSING"
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.model_arn #=> String
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.parsing_prompt.parsing_prompt_text #=> String
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.parsing_modality #=> String, one of "MULTIMODAL"
@@ -4333,6 +4450,7 @@ module Aws::BedrockAgent
     #   resp.ingestion_job.statistics.number_of_metadata_documents_modified #=> Integer
     #   resp.ingestion_job.statistics.number_of_documents_deleted #=> Integer
     #   resp.ingestion_job.statistics.number_of_documents_failed #=> Integer
+    #   resp.ingestion_job.statistics.number_of_documents_skipped #=> Integer
     #   resp.ingestion_job.failure_reasons #=> Array
     #   resp.ingestion_job.failure_reasons[0] #=> String
     #   resp.ingestion_job.started_at #=> Time
@@ -4370,7 +4488,7 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.knowledge_base_arn #=> String
     #   resp.knowledge_base.description #=> String
     #   resp.knowledge_base.role_arn #=> String
-    #   resp.knowledge_base.knowledge_base_configuration.type #=> String, one of "VECTOR", "KENDRA", "SQL"
+    #   resp.knowledge_base.knowledge_base_configuration.type #=> String, one of "VECTOR", "KENDRA", "SQL", "MANAGED"
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.dimensions #=> Integer
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.embedding_data_type #=> String, one of "FLOAT32", "BINARY"
@@ -4381,6 +4499,15 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations #=> Array
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations[0].type #=> String, one of "S3"
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations[0].s3_location.uri #=> String
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_type #=> String, one of "CUSTOM", "MANAGED"
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_arn #=> String
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.dimensions #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.embedding_data_type #=> String, one of "FLOAT32", "BINARY"
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.audio #=> Array
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.audio[0].segmentation_configuration.fixed_length_duration #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.video #=> Array
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.video[0].segmentation_configuration.fixed_length_duration #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.server_side_encryption_configuration.kms_key_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.kendra_knowledge_base_configuration.kendra_index_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.sql_knowledge_base_configuration.type #=> String, one of "REDSHIFT"
     #   resp.knowledge_base.knowledge_base_configuration.sql_knowledge_base_configuration.redshift_configuration.storage_configurations #=> Array
@@ -4456,7 +4583,7 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.vector_bucket_arn #=> String
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.index_arn #=> String
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.index_name #=> String
-    #   resp.knowledge_base.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL"
+    #   resp.knowledge_base.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL", "UPDATE_UNSUCCESSFUL"
     #   resp.knowledge_base.created_at #=> Time
     #   resp.knowledge_base.updated_at #=> Time
     #   resp.knowledge_base.failure_reasons #=> Array
@@ -4627,6 +4754,39 @@ module Aws::BedrockAgent
       req.send_request(options)
     end
 
+    # Retrieves the resource policy associated with a knowledge base.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base to retrieve the
+    #   resource policy for.
+    #
+    # @return [Types::GetResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyResponse#resource_arn #resource_arn} => String
+    #   * {Types::GetResourcePolicyResponse#policy #policy} => String
+    #   * {Types::GetResourcePolicyResponse#revision_id #revision_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.policy #=> String
+    #   resp.revision_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Ingests documents directly into the knowledge base that is connected
     # to the data source. The `dataSourceType` specified in the content for
     # each document must match the type of the data source that you specify
@@ -4692,6 +4852,13 @@ module Aws::BedrockAgent
     #             uri: "S3ObjectUri", # required
     #             bucket_owner_account_id: "BucketOwnerAccountId",
     #           },
+    #           access_control_list: [
+    #             {
+    #               name: "DocumentAccessControlEntryNameString", # required
+    #               type: "USER", # required, accepts USER
+    #               access: "ALLOW", # required, accepts ALLOW, DENY
+    #             },
+    #           ],
     #         },
     #         content: { # required
     #           data_source_type: "CUSTOM", # required, accepts CUSTOM, S3
@@ -5114,7 +5281,7 @@ module Aws::BedrockAgent
     #   resp.data_source_summaries[0].knowledge_base_id #=> String
     #   resp.data_source_summaries[0].data_source_id #=> String
     #   resp.data_source_summaries[0].name #=> String
-    #   resp.data_source_summaries[0].status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL"
+    #   resp.data_source_summaries[0].status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL", "CREATING", "UPDATING", "FAILED"
     #   resp.data_source_summaries[0].description #=> String
     #   resp.data_source_summaries[0].updated_at #=> Time
     #   resp.next_token #=> String
@@ -5372,6 +5539,7 @@ module Aws::BedrockAgent
     #   resp.ingestion_job_summaries[0].statistics.number_of_metadata_documents_modified #=> Integer
     #   resp.ingestion_job_summaries[0].statistics.number_of_documents_deleted #=> Integer
     #   resp.ingestion_job_summaries[0].statistics.number_of_documents_failed #=> Integer
+    #   resp.ingestion_job_summaries[0].statistics.number_of_documents_skipped #=> Integer
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/ListIngestionJobs AWS API Documentation
@@ -5484,7 +5652,7 @@ module Aws::BedrockAgent
     #   resp.knowledge_base_summaries[0].knowledge_base_id #=> String
     #   resp.knowledge_base_summaries[0].name #=> String
     #   resp.knowledge_base_summaries[0].description #=> String
-    #   resp.knowledge_base_summaries[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL"
+    #   resp.knowledge_base_summaries[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL", "UPDATE_UNSUCCESSFUL"
     #   resp.knowledge_base_summaries[0].updated_at #=> Time
     #   resp.next_token #=> String
     #
@@ -5661,6 +5829,59 @@ module Aws::BedrockAgent
       req.send_request(options)
     end
 
+    # Associates a resource policy with a knowledge base. A resource policy
+    # allows other AWS accounts to access the knowledge base. For more
+    # information, see [Cross-account access for knowledge bases][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-cross-account.html
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base to attach the
+    #   resource policy to.
+    #
+    # @option params [required, String] :policy
+    #   The JSON-formatted resource policy to associate with the knowledge
+    #   base.
+    #
+    #   **SDK automatically handles json encoding and base64 encoding for you
+    #   when the required value (Hash, Array, etc.) is provided according to
+    #   the description.**
+    #
+    # @option params [String] :expected_revision_id
+    #   The expected revision identifier of the resource policy. Use this to
+    #   prevent conflicts when multiple users update the same policy
+    #   concurrently. Specify the `revisionId` from the most recent
+    #   `GetResourcePolicy` or `PutResourcePolicy` response.
+    #
+    # @return [Types::PutResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePolicyResponse#resource_arn #resource_arn} => String
+    #   * {Types::PutResourcePolicyResponse#revision_id #revision_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #     policy: "ResourcePolicy", # required
+    #     expected_revision_id: "RevisionId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.revision_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Begins a data ingestion job. Data sources are ingested into your
     # knowledge base so that Large Language Models (LLMs) can use your data.
     #
@@ -5715,6 +5936,7 @@ module Aws::BedrockAgent
     #   resp.ingestion_job.statistics.number_of_metadata_documents_modified #=> Integer
     #   resp.ingestion_job.statistics.number_of_documents_deleted #=> Integer
     #   resp.ingestion_job.statistics.number_of_documents_failed #=> Integer
+    #   resp.ingestion_job.statistics.number_of_documents_skipped #=> Integer
     #   resp.ingestion_job.failure_reasons #=> Array
     #   resp.ingestion_job.failure_reasons[0] #=> String
     #   resp.ingestion_job.started_at #=> Time
@@ -5770,6 +5992,7 @@ module Aws::BedrockAgent
     #   resp.ingestion_job.statistics.number_of_metadata_documents_modified #=> Integer
     #   resp.ingestion_job.statistics.number_of_documents_deleted #=> Integer
     #   resp.ingestion_job.statistics.number_of_documents_failed #=> Integer
+    #   resp.ingestion_job.statistics.number_of_documents_skipped #=> Integer
     #   resp.ingestion_job.failure_reasons #=> Array
     #   resp.ingestion_job.failure_reasons[0] #=> String
     #   resp.ingestion_job.started_at #=> Time
@@ -6476,7 +6699,26 @@ module Aws::BedrockAgent
     #     name: "Name", # required
     #     description: "Description",
     #     data_source_configuration: { # required
-    #       type: "S3", # required, accepts S3, WEB, CONFLUENCE, SALESFORCE, SHAREPOINT, CUSTOM, REDSHIFT_METADATA
+    #       type: "S3", # required, accepts S3, WEB, CONFLUENCE, SALESFORCE, SHAREPOINT, CUSTOM, REDSHIFT_METADATA, MANAGED_KNOWLEDGE_BASE_CONNECTOR
+    #       managed_knowledge_base_connector_configuration: {
+    #         deletion_protection_configuration: {
+    #           deletion_protection_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           deletion_protection_threshold: 1,
+    #         },
+    #         media_extraction_configuration: {
+    #           image_extraction_configuration: {
+    #             image_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           },
+    #           audio_extraction_configuration: {
+    #             audio_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           },
+    #           video_extraction_configuration: {
+    #             video_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           },
+    #         },
+    #         connector_parameters: {
+    #         },
+    #       },
     #       s3_configuration: {
     #         bucket_arn: "S3BucketArn", # required
     #         inclusion_prefixes: ["S3Prefix"],
@@ -6615,7 +6857,7 @@ module Aws::BedrockAgent
     #         ],
     #       },
     #       parsing_configuration: {
-    #         parsing_strategy: "BEDROCK_FOUNDATION_MODEL", # required, accepts BEDROCK_FOUNDATION_MODEL, BEDROCK_DATA_AUTOMATION
+    #         parsing_strategy: "BEDROCK_FOUNDATION_MODEL", # required, accepts BEDROCK_FOUNDATION_MODEL, BEDROCK_DATA_AUTOMATION, SMART_PARSING
     #         bedrock_foundation_model_configuration: {
     #           model_arn: "BedrockModelArn", # required
     #           parsing_prompt: {
@@ -6644,9 +6886,14 @@ module Aws::BedrockAgent
     #   resp.data_source.knowledge_base_id #=> String
     #   resp.data_source.data_source_id #=> String
     #   resp.data_source.name #=> String
-    #   resp.data_source.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL"
+    #   resp.data_source.status #=> String, one of "AVAILABLE", "DELETING", "DELETE_UNSUCCESSFUL", "CREATING", "UPDATING", "FAILED"
     #   resp.data_source.description #=> String
-    #   resp.data_source.data_source_configuration.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "REDSHIFT_METADATA"
+    #   resp.data_source.data_source_configuration.type #=> String, one of "S3", "WEB", "CONFLUENCE", "SALESFORCE", "SHAREPOINT", "CUSTOM", "REDSHIFT_METADATA", "MANAGED_KNOWLEDGE_BASE_CONNECTOR"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.deletion_protection_configuration.deletion_protection_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.deletion_protection_configuration.deletion_protection_threshold #=> Integer
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.s3_configuration.bucket_arn #=> String
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes #=> Array
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes[0] #=> String
@@ -6711,7 +6958,7 @@ module Aws::BedrockAgent
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations #=> Array
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations[0].transformation_function.transformation_lambda_configuration.lambda_arn #=> String
     #   resp.data_source.vector_ingestion_configuration.custom_transformation_configuration.transformations[0].step_to_apply #=> String, one of "POST_CHUNKING"
-    #   resp.data_source.vector_ingestion_configuration.parsing_configuration.parsing_strategy #=> String, one of "BEDROCK_FOUNDATION_MODEL", "BEDROCK_DATA_AUTOMATION"
+    #   resp.data_source.vector_ingestion_configuration.parsing_configuration.parsing_strategy #=> String, one of "BEDROCK_FOUNDATION_MODEL", "BEDROCK_DATA_AUTOMATION", "SMART_PARSING"
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.model_arn #=> String
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.parsing_prompt.parsing_prompt_text #=> String
     #   resp.data_source.vector_ingestion_configuration.parsing_configuration.bedrock_foundation_model_configuration.parsing_modality #=> String, one of "MULTIMODAL"
@@ -7303,7 +7550,7 @@ module Aws::BedrockAgent
     #     description: "Description",
     #     role_arn: "KnowledgeBaseRoleArn", # required
     #     knowledge_base_configuration: { # required
-    #       type: "VECTOR", # required, accepts VECTOR, KENDRA, SQL
+    #       type: "VECTOR", # required, accepts VECTOR, KENDRA, SQL, MANAGED
     #       vector_knowledge_base_configuration: {
     #         embedding_model_arn: "BedrockEmbeddingModelArn", # required
     #         embedding_model_configuration: {
@@ -7335,6 +7582,33 @@ module Aws::BedrockAgent
     #               },
     #             },
     #           ],
+    #         },
+    #       },
+    #       managed_knowledge_base_configuration: {
+    #         embedding_model_type: "CUSTOM", # accepts CUSTOM, MANAGED
+    #         embedding_model_arn: "BedrockEmbeddingModelArn",
+    #         embedding_model_configuration: {
+    #           bedrock_embedding_model_configuration: {
+    #             dimensions: 1,
+    #             embedding_data_type: "FLOAT32", # accepts FLOAT32, BINARY
+    #             audio: [
+    #               {
+    #                 segmentation_configuration: { # required
+    #                   fixed_length_duration: 1, # required
+    #                 },
+    #               },
+    #             ],
+    #             video: [
+    #               {
+    #                 segmentation_configuration: { # required
+    #                   fixed_length_duration: 1, # required
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #         server_side_encryption_configuration: {
+    #           kms_key_arn: "KmsKeyArn",
     #         },
     #       },
     #       kendra_knowledge_base_configuration: {
@@ -7489,7 +7763,7 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.knowledge_base_arn #=> String
     #   resp.knowledge_base.description #=> String
     #   resp.knowledge_base.role_arn #=> String
-    #   resp.knowledge_base.knowledge_base_configuration.type #=> String, one of "VECTOR", "KENDRA", "SQL"
+    #   resp.knowledge_base.knowledge_base_configuration.type #=> String, one of "VECTOR", "KENDRA", "SQL", "MANAGED"
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.dimensions #=> Integer
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.embedding_data_type #=> String, one of "FLOAT32", "BINARY"
@@ -7500,6 +7774,15 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations #=> Array
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations[0].type #=> String, one of "S3"
     #   resp.knowledge_base.knowledge_base_configuration.vector_knowledge_base_configuration.supplemental_data_storage_configuration.storage_locations[0].s3_location.uri #=> String
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_type #=> String, one of "CUSTOM", "MANAGED"
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_arn #=> String
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.dimensions #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.embedding_data_type #=> String, one of "FLOAT32", "BINARY"
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.audio #=> Array
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.audio[0].segmentation_configuration.fixed_length_duration #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.video #=> Array
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.embedding_model_configuration.bedrock_embedding_model_configuration.video[0].segmentation_configuration.fixed_length_duration #=> Integer
+    #   resp.knowledge_base.knowledge_base_configuration.managed_knowledge_base_configuration.server_side_encryption_configuration.kms_key_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.kendra_knowledge_base_configuration.kendra_index_arn #=> String
     #   resp.knowledge_base.knowledge_base_configuration.sql_knowledge_base_configuration.type #=> String, one of "REDSHIFT"
     #   resp.knowledge_base.knowledge_base_configuration.sql_knowledge_base_configuration.redshift_configuration.storage_configurations #=> Array
@@ -7575,7 +7858,7 @@ module Aws::BedrockAgent
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.vector_bucket_arn #=> String
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.index_arn #=> String
     #   resp.knowledge_base.storage_configuration.s3_vectors_configuration.index_name #=> String
-    #   resp.knowledge_base.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL"
+    #   resp.knowledge_base.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "UPDATING", "FAILED", "DELETE_UNSUCCESSFUL", "UPDATE_UNSUCCESSFUL"
     #   resp.knowledge_base.created_at #=> Time
     #   resp.knowledge_base.updated_at #=> Time
     #   resp.knowledge_base.failure_reasons #=> Array
@@ -8155,7 +8438,7 @@ module Aws::BedrockAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagent'
-      context[:gem_version] = '1.77.0'
+      context[:gem_version] = '1.78.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

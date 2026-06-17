@@ -2582,7 +2582,7 @@ module Aws::BedrockAgentCore
       class Unknown < EvaluationTarget; end
     end
 
-    # An evaluator to run against sessions
+    # An evaluator to run against sessions during batch evaluation.
     #
     # @!attribute [rw] evaluator_id
     #   The unique identifier of the evaluator. Can reference built-in
@@ -2799,7 +2799,8 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Customer-facing execution summary clustering result written to S3.
+    # The execution summary clustering result containing grouped execution
+    # patterns identified across evaluated sessions.
     #
     # @!attribute [rw] execution_summaries
     #   The list of execution summary clusters identified across analyzed
@@ -2966,7 +2967,8 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Unified customer-facing clustering result written to S3.
+    # The failure analysis clustering result containing categorized failure
+    # clusters with root causes and remediation recommendations.
     #
     # @!attribute [rw] failures
     #   The list of failure category clusters identified across analyzed
@@ -3366,15 +3368,18 @@ module Aws::BedrockAgentCore
     #   @return [Types::EvaluationJobResults]
     #
     # @!attribute [rw] failure_analysis_result
-    #   Unified customer-facing clustering result written to S3.
+    #   The failure analysis results from insights, containing categorized
+    #   failure clusters with root causes and recommendations.
     #   @return [Types::FailureAnalysisResultContent]
     #
     # @!attribute [rw] user_intent_result
-    #   Customer-facing user intent clustering result written to S3.
+    #   The user intent clustering results from insights, containing grouped
+    #   user intents across evaluated sessions.
     #   @return [Types::UserIntentClusteringResultContent]
     #
     # @!attribute [rw] execution_summary_result
-    #   Customer-facing execution summary clustering result written to S3.
+    #   The execution summary clustering results from insights, containing
+    #   grouped execution patterns across evaluated sessions.
     #   @return [Types::ExecutionSummaryClusteringResultContent]
     #
     # @!attribute [rw] error_details
@@ -4877,12 +4882,17 @@ module Aws::BedrockAgentCore
     #   A git repository containing the skill.
     #   @return [Types::HarnessSkillGitSource]
     #
+    # @!attribute [rw] aws_skills
+    #   AWS Skills baked into the Harness's underlying Runtime.
+    #   @return [Types::HarnessSkillAwsSkillsSource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSkill AWS API Documentation
     #
     class HarnessSkill < Struct.new(
       :path,
       :s3,
       :git,
+      :aws_skills,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -4891,7 +4901,23 @@ module Aws::BedrockAgentCore
       class Path < HarnessSkill; end
       class S3 < HarnessSkill; end
       class Git < HarnessSkill; end
+      class AwsSkills < HarnessSkill; end
       class Unknown < HarnessSkill; end
+    end
+
+    # Passed to show that AWS Skills should be included.
+    #
+    # @!attribute [rw] paths
+    #   Optionally filter allowed skills with glob syntax, e.g.,
+    #   \['core-skills/*'\].
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessSkillAwsSkillsSource AWS API Documentation
+    #
+    class HarnessSkillAwsSkillsSource < Struct.new(
+      :paths)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Authentication configuration for accessing a private git repository.
@@ -5323,12 +5349,13 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # A reference to an insight analysis to run against sessions.
+    # A reference to an insight analysis to run against sessions during
+    # batch evaluation. Insights provide deeper analysis beyond individual
+    # evaluator scores, including failure detection, user intent clustering,
+    # and execution summarization.
     #
     # @!attribute [rw] insight_id
-    #   Canonical insight identifiers using the Builtin.Insight.* naming
-    #   convention. Used by BatchEvaluate, InternalEvaluate, and
-    #   ServiceEngineEvaluate flows.
+    #   The unique identifier of the insight to run.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/Insight AWS API Documentation
@@ -5342,9 +5369,7 @@ module Aws::BedrockAgentCore
     # A signal indicating a detected failure within a span.
     #
     # @!attribute [rw] category
-    #   Failure category taxonomy for agent session insights. Values must
-    #   stay in sync with the category registry in AgentCoreLens
-    #   (amzn\_agentcore\_lens.config.failure\_detection.FAILURE\_CATEGORIES).
+    #   The failure category classification for this signal.
     #   @return [String]
     #
     # @!attribute [rw] evidence
@@ -5834,6 +5859,11 @@ module Aws::BedrockAgentCore
     #   The ARN of the harness to invoke.
     #   @return [String]
     #
+    # @!attribute [rw] qualifier
+    #   The endpoint name to invoke. If omitted, the DEFAULT endpoint is
+    #   used.
+    #   @return [String]
+    #
     # @!attribute [rw] runtime_session_id
     #   The session ID for the invocation. Use the same session ID across
     #   requests to continue a conversation.
@@ -5897,6 +5927,7 @@ module Aws::BedrockAgentCore
     #
     class InvokeHarnessRequest < Struct.new(
       :harness_arn,
+      :qualifier,
       :runtime_session_id,
       :runtime_user_id,
       :messages,
@@ -7533,7 +7564,7 @@ module Aws::BedrockAgentCore
     #   configuration to use as the session source.
     #   @return [String]
     #
-    # @!attribute [rw] session_filter_config
+    # @!attribute [rw] time_range
     #   Optional session filter configuration to narrow down which sessions
     #   from the online evaluation configuration to include.
     #   @return [Types::SessionFilterConfig]
@@ -7542,7 +7573,7 @@ module Aws::BedrockAgentCore
     #
     class OnlineEvaluationConfigSource < Struct.new(
       :online_evaluation_config_arn,
-      :session_filter_config)
+      :time_range)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10652,7 +10683,8 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
-    # Customer-facing user intent clustering result written to S3.
+    # The user intent clustering result containing grouped user intents
+    # identified across evaluated sessions.
     #
     # @!attribute [rw] user_intents
     #   The list of user intent clusters identified across analyzed

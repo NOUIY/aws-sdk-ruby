@@ -52,11 +52,15 @@ module Aws::MQ
     # @!attribute [rw] message
     #   @return [String]
     #
+    # @!attribute [rw] resource_share_errors
+    #   @return [Array<Types::ResourceShareError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/BadRequestException AWS API Documentation
     #
     class BadRequestException < Struct.new(
       :error_attribute,
-      :message)
+      :message,
+      :resource_share_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -398,11 +402,15 @@ module Aws::MQ
     # @!attribute [rw] message
     #   @return [String]
     #
+    # @!attribute [rw] resource_share_errors
+    #   @return [Array<Types::ResourceShareError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/ConflictException AWS API Documentation
     #
     class ConflictException < Struct.new(
       :error_attribute,
-      :message)
+      :message,
+      :resource_share_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1732,6 +1740,60 @@ module Aws::MQ
       include Aws::Structure
     end
 
+    # Returns the networking resources shared to the broker.
+    #
+    # @!attribute [rw] next_token
+    #   The token that specifies the next page of results Amazon MQ should
+    #   return. To request the first page, leave nextToken empty.
+    #   @return [String]
+    #
+    # @!attribute [rw] shared_resources
+    #   A list of resources shared to the broker.
+    #   @return [Array<Types::SharedResource>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/DescribeSharedResourcesOutput AWS API Documentation
+    #
+    class DescribeSharedResourcesOutput < Struct.new(
+      :next_token,
+      :shared_resources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] broker_id
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/DescribeSharedResourcesRequest AWS API Documentation
+    #
+    class DescribeSharedResourcesRequest < Struct.new(
+      :broker_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @!attribute [rw] shared_resources
+    #   @return [Array<Types::SharedResource>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/DescribeSharedResourcesResponse AWS API Documentation
+    #
+    class DescribeSharedResourcesResponse < Struct.new(
+      :next_token,
+      :shared_resources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Returns information about an ActiveMQ user.
     #
     # @!attribute [rw] broker_id
@@ -1872,11 +1934,16 @@ module Aws::MQ
     #   The explanation of the error.
     #   @return [String]
     #
+    # @!attribute [rw] resource_share_errors
+    #   The list of resource share errors.
+    #   @return [Array<Types::ResourceShareError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/Error AWS API Documentation
     #
     class Error < Struct.new(
       :error_attribute,
-      :message)
+      :message,
+      :resource_share_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1888,12 +1955,16 @@ module Aws::MQ
     #
     # @!attribute [rw] message
     #   @return [String]
+    #
+    # @!attribute [rw] resource_share_errors
+    #   @return [Array<Types::ResourceShareError>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/ForbiddenException AWS API Documentation
     #
     class ForbiddenException < Struct.new(
       :error_attribute,
-      :message)
+      :message,
+      :resource_share_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1906,11 +1977,15 @@ module Aws::MQ
     # @!attribute [rw] message
     #   @return [String]
     #
+    # @!attribute [rw] resource_share_errors
+    #   @return [Array<Types::ResourceShareError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/InternalServerErrorException AWS API Documentation
     #
     class InternalServerErrorException < Struct.new(
       :error_attribute,
-      :message)
+      :message,
+      :resource_share_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2450,11 +2525,15 @@ module Aws::MQ
     # @!attribute [rw] message
     #   @return [String]
     #
+    # @!attribute [rw] resource_share_errors
+    #   @return [Array<Types::ResourceShareError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/NotFoundException AWS API Documentation
     #
     class NotFoundException < Struct.new(
       :error_attribute,
-      :message)
+      :message,
+      :resource_share_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2551,6 +2630,30 @@ module Aws::MQ
     #
     class RebootBrokerResponse < Aws::EmptyStructure; end
 
+    # Returns info about the resource share error after updating the broker.
+    #
+    # @!attribute [rw] error_code
+    #   The error code of the resource share.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_share_arn
+    #   The ARN of the resource share.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the resource share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/ResourceShareError AWS API Documentation
+    #
+    class ResourceShareError < Struct.new(
+      :error_code,
+      :resource_share_arn,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Returns information about the configuration element or attribute that
     # was sanitized in the configuration.
     #
@@ -2577,6 +2680,65 @@ module Aws::MQ
       include Aws::Structure
     end
 
+    # Represents a resource that is shared with the broker, including its
+    # type, ARN, and current status.
+    #
+    # @!attribute [rw] dns_names
+    #   The DNS names accessible by the broker.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] error
+    #   Information on the error encountered by the resource.
+    #   @return [Types::SharedResourceError]
+    #
+    # @!attribute [rw] resource_arn
+    #   The ARN of the shared resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_share_arns
+    #   The resource share ARNs to which the resource belongs.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] status
+    #   The status of the shared resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of shared resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/SharedResource AWS API Documentation
+    #
+    class SharedResource < Struct.new(
+      :dns_names,
+      :error,
+      :resource_arn,
+      :resource_share_arns,
+      :status,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information on the error encountered by the resource.
+    #
+    # @!attribute [rw] code
+    #   The error code associated with the error.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/SharedResourceError AWS API Documentation
+    #
+    class SharedResourceError < Struct.new(
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A map of the key-value pairs for the resource tag.
     #
     # @!attribute [rw] tags
@@ -2599,11 +2761,15 @@ module Aws::MQ
     # @!attribute [rw] message
     #   @return [String]
     #
+    # @!attribute [rw] resource_share_errors
+    #   @return [Array<Types::ResourceShareError>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mq-2017-11-27/UnauthorizedException AWS API Documentation
     #
     class UnauthorizedException < Struct.new(
       :error_attribute,
-      :message)
+      :message,
+      :resource_share_errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2675,6 +2841,10 @@ module Aws::MQ
     #   The parameters that determine the WeeklyStartTime.
     #   @return [Types::WeeklyStartTime]
     #
+    # @!attribute [rw] resource_share_arns
+    #   The list of resource shares to update on the broker.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] security_groups
     #   The list of security groups (1 minimum, 5 maximum) that authorizes
     #   connections to brokers.
@@ -2692,6 +2862,7 @@ module Aws::MQ
       :ldap_server_metadata,
       :logs,
       :maintenance_window_start_time,
+      :resource_share_arns,
       :security_groups)
       SENSITIVE = []
       include Aws::Structure
@@ -2773,6 +2944,10 @@ module Aws::MQ
     #   pair after reboot.
     #   @return [String]
     #
+    # @!attribute [rw] resource_share_arns
+    #   The pending broker's target list of resource shares.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] security_groups
     #   The list of security groups (1 minimum, 5 maximum) that authorizes
     #   connections to brokers.
@@ -2794,6 +2969,7 @@ module Aws::MQ
       :maintenance_window_start_time,
       :pending_data_replication_metadata,
       :pending_data_replication_mode,
+      :resource_share_arns,
       :security_groups)
       SENSITIVE = []
       include Aws::Structure
@@ -2837,6 +3013,9 @@ module Aws::MQ
     #   begins to apply pending updates or patches to the broker.
     #   @return [Types::WeeklyStartTime]
     #
+    # @!attribute [rw] resource_share_arns
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] security_groups
     #   @return [Array<String>]
     #
@@ -2856,6 +3035,7 @@ module Aws::MQ
       :ldap_server_metadata,
       :logs,
       :maintenance_window_start_time,
+      :resource_share_arns,
       :security_groups,
       :data_replication_mode)
       SENSITIVE = []
@@ -2898,6 +3078,9 @@ module Aws::MQ
     #   begins to apply pending updates or patches to the broker.
     #   @return [Types::WeeklyStartTime]
     #
+    # @!attribute [rw] resource_share_arns
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] security_groups
     #   @return [Array<String>]
     #
@@ -2933,6 +3116,7 @@ module Aws::MQ
       :ldap_server_metadata,
       :logs,
       :maintenance_window_start_time,
+      :resource_share_arns,
       :security_groups,
       :data_replication_metadata,
       :data_replication_mode,

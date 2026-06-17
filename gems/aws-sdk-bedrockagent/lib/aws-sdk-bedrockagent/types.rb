@@ -1217,6 +1217,20 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # Configuration for audio extraction.
+    #
+    # @!attribute [rw] audio_extraction_status
+    #   Whether audio extraction is enabled or disabled.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/AudioExtractionConfiguration AWS API Documentation
+    #
+    class AudioExtractionConfiguration < Struct.new(
+      :audio_extraction_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for segmenting audio content during multimodal knowledge
     # base ingestion. Determines how audio files are divided into chunks for
     # processing.
@@ -1595,7 +1609,7 @@ module Aws::BedrockAgent
     end
 
     # The configuration information to connect to Confluence as your data
-    # source.
+    # source for self-managed knowledge bases.
     #
     # @!attribute [rw] source_configuration
     #   The endpoint information to connect to your Confluence data source.
@@ -2140,6 +2154,11 @@ module Aws::BedrockAgent
     #     into vector embeddings upon deletion of a knowledge base or data
     #     source resource. Note that the **vector store itself is not
     #     deleted** if you delete a knowledge base or data source resource.
+    #
+    #   <note markdown="1"> For managed knowledge bases, the only supported option is `DELETE`,
+    #   which is also the default.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] server_side_encryption_configuration
@@ -3056,55 +3075,87 @@ module Aws::BedrockAgent
     #   The type of data source.
     #   @return [String]
     #
+    # @!attribute [rw] managed_knowledge_base_connector_configuration
+    #   Contains the configuration for a data source that connects a managed
+    #   knowledge base to a supported data source connector. Specify this
+    #   object when the data source type is
+    #   `MANAGED_KNOWLEDGE_BASE_CONNECTOR`.
+    #   @return [Types::ManagedKnowledgeBaseConnectorConfiguration]
+    #
     # @!attribute [rw] s3_configuration
     #   The configuration information to connect to Amazon S3 as your data
-    #   source.
+    #   source for self-managed knowledge bases. To configure this data
+    #   source for managed knowledge bases, use
+    #   [managedKnowledgeBaseConnectorConfiguration][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html
     #   @return [Types::S3DataSourceConfiguration]
     #
     # @!attribute [rw] web_configuration
     #   The configuration of web URLs to crawl for your data source. You
     #   should be authorized to crawl the URLs.
     #
-    #   <note markdown="1"> Crawling web URLs as your data source is in preview release and is
-    #   subject to change.
+    #   <note markdown="1"> To configure this data source for managed knowledge bases, use
+    #   [managedKnowledgeBaseConnectorConfiguration][1]. Web crawler data
+    #   source connector for self-managed knowledge bases is in preview
+    #   release and is subject to change.
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html
     #   @return [Types::WebDataSourceConfiguration]
     #
     # @!attribute [rw] confluence_configuration
     #   The configuration information to connect to Confluence as your data
-    #   source.
+    #   source for self-managed knowledge bases.
     #
-    #   <note markdown="1"> Confluence data source connector is in preview release and is
-    #   subject to change.
+    #   <note markdown="1"> To configure this data source for managed knowledge bases, use
+    #   [managedKnowledgeBaseConnectorConfiguration][1]. Confluence data
+    #   source connector for self-managed knowledge bases is in preview
+    #   release and is subject to change.
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html
     #   @return [Types::ConfluenceDataSourceConfiguration]
     #
     # @!attribute [rw] salesforce_configuration
     #   The configuration information to connect to Salesforce as your data
     #   source.
     #
-    #   <note markdown="1"> Salesforce data source connector is in preview release and is
-    #   subject to change.
+    #   <note markdown="1"> Salesforce data source connector for self-managed knowledge bases is
+    #   in preview release and is subject to change.
     #
     #    </note>
     #   @return [Types::SalesforceDataSourceConfiguration]
     #
     # @!attribute [rw] share_point_configuration
     #   The configuration information to connect to SharePoint as your data
-    #   source.
+    #   source for self-managed knowledge bases.
     #
-    #   <note markdown="1"> SharePoint data source connector is in preview release and is
-    #   subject to change.
+    #   <note markdown="1"> To configure this data source for managed knowledge bases, use
+    #   [managedKnowledgeBaseConnectorConfiguration][1]. SharePoint data
+    #   source connector for self-managed knowledge bases is in preview
+    #   release and is subject to change.
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html
     #   @return [Types::SharePointDataSourceConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DataSourceConfiguration AWS API Documentation
     #
     class DataSourceConfiguration < Struct.new(
       :type,
+      :managed_knowledge_base_connector_configuration,
       :s3_configuration,
       :web_configuration,
       :confluence_configuration,
@@ -3574,6 +3625,66 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base to remove the
+    #   resource policy from.
+    #   @return [String]
+    #
+    # @!attribute [rw] expected_revision_id
+    #   The expected revision identifier of the resource policy. Use this to
+    #   prevent conflicts when multiple users update the same policy
+    #   concurrently.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DeleteResourcePolicyRequest AWS API Documentation
+    #
+    class DeleteResourcePolicyRequest < Struct.new(
+      :resource_arn,
+      :expected_revision_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The ARN of the knowledge base that the resource policy was removed
+    #   from.
+    #   @return [String]
+    #
+    # @!attribute [rw] revision_id
+    #   The revision identifier after the resource policy was deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DeleteResourcePolicyResponse AWS API Documentation
+    #
+    class DeleteResourcePolicyResponse < Struct.new(
+      :resource_arn,
+      :revision_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for deletion protection.
+    #
+    # @!attribute [rw] deletion_protection_status
+    #   Enable or disable deletion protection for the connector.
+    #   @return [String]
+    #
+    # @!attribute [rw] deletion_protection_threshold
+    #   The threshold is the maximum percentage of documents that a sync job
+    #   can delete from your index. If a sync would delete more than this
+    #   percentage, the sync skips its delete phase, leaving your indexed
+    #   documents in place. Not supported for the Custom connector.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DeletionProtectionConfiguration AWS API Documentation
+    #
+    class DeletionProtectionConfiguration < Struct.new(
+      :deletion_protection_status,
+      :deletion_protection_threshold)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] agent_id
     #   An agent ID.
     #   @return [String]
@@ -3627,6 +3738,30 @@ module Aws::BedrockAgent
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DisassociateAgentKnowledgeBaseResponse AWS API Documentation
     #
     class DisassociateAgentKnowledgeBaseResponse < Aws::EmptyStructure; end
+
+    # An access control entry specifying a principal and their access level.
+    #
+    # @!attribute [rw] name
+    #   The user identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of principal.
+    #   @return [String]
+    #
+    # @!attribute [rw] access
+    #   Whether to allow or deny access.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DocumentAccessControlEntry AWS API Documentation
+    #
+    class DocumentAccessControlEntry < Struct.new(
+      :name,
+      :type,
+      :access)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Contains information about the content of a document. Choose a
     # `dataSourceType` and include the field that corresponds to it.
@@ -3702,13 +3837,19 @@ module Aws::BedrockAgent
     #   with the content to ingest.
     #   @return [Types::CustomS3Location]
     #
+    # @!attribute [rw] access_control_list
+    #   Access control list for the document. Used when metadata type is
+    #   IN\_LINE\_ATTRIBUTE.
+    #   @return [Array<Types::DocumentAccessControlEntry>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DocumentMetadata AWS API Documentation
     #
     class DocumentMetadata < Struct.new(
       :type,
       :inline_attributes,
-      :s3_location)
-      SENSITIVE = []
+      :s3_location,
+      :access_control_list)
+      SENSITIVE = [:access_control_list]
       include Aws::Structure
     end
 
@@ -5463,6 +5604,43 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base to retrieve the
+    #   resource policy for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/GetResourcePolicyRequest AWS API Documentation
+    #
+    class GetResourcePolicyRequest < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The ARN of the knowledge base that the resource policy is associated
+    #   with.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The JSON-formatted resource policy associated with the knowledge
+    #   base.
+    #   @return [String]
+    #
+    # @!attribute [rw] revision_id
+    #   The revision identifier of the resource policy.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/GetResourcePolicyResponse AWS API Documentation
+    #
+    class GetResourcePolicyResponse < Struct.new(
+      :resource_arn,
+      :policy,
+      :revision_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details about a guardrail associated with a resource.
     #
     # @!attribute [rw] guardrail_identifier
@@ -5520,6 +5698,20 @@ module Aws::BedrockAgent
     #
     class HierarchicalChunkingLevelConfiguration < Struct.new(
       :max_tokens)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for image extraction.
+    #
+    # @!attribute [rw] image_extraction_status
+    #   Whether image extraction is enabled or disabled.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/ImageExtractionConfiguration AWS API Documentation
+    #
+    class ImageExtractionConfiguration < Struct.new(
+      :image_extraction_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5799,6 +5991,10 @@ module Aws::BedrockAgent
     #   The number of source documents that failed to be ingested.
     #   @return [Integer]
     #
+    # @!attribute [rw] number_of_documents_skipped
+    #   The number of source documents that were skipped during ingestion.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/IngestionJobStatistics AWS API Documentation
     #
     class IngestionJobStatistics < Struct.new(
@@ -5808,7 +6004,8 @@ module Aws::BedrockAgent
       :number_of_modified_documents_indexed,
       :number_of_metadata_documents_modified,
       :number_of_documents_deleted,
-      :number_of_documents_failed)
+      :number_of_documents_failed,
+      :number_of_documents_skipped)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6098,13 +6295,17 @@ module Aws::BedrockAgent
     #
     # @!attribute [rw] type
     #   The type of data that the data source is converted into for the
-    #   knowledge base.
+    #   knowledge base. Choose `MANAGED` to create a managed knowledge base.
     #   @return [String]
     #
     # @!attribute [rw] vector_knowledge_base_configuration
     #   Contains details about the model that's used to convert the data
     #   source into vector embeddings.
     #   @return [Types::VectorKnowledgeBaseConfiguration]
+    #
+    # @!attribute [rw] managed_knowledge_base_configuration
+    #   Configurations for a managed knowledge base.
+    #   @return [Types::ManagedKnowledgeBaseConfiguration]
     #
     # @!attribute [rw] kendra_knowledge_base_configuration
     #   Settings for an Amazon Kendra knowledge base.
@@ -6120,6 +6321,7 @@ module Aws::BedrockAgent
     class KnowledgeBaseConfiguration < Struct.new(
       :type,
       :vector_knowledge_base_configuration,
+      :managed_knowledge_base_configuration,
       :kendra_knowledge_base_configuration,
       :sql_knowledge_base_configuration)
       SENSITIVE = []
@@ -7294,6 +7496,96 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # Configurations for a managed knowledge base.
+    #
+    # @!attribute [rw] embedding_model_type
+    #   Choose `CUSTOM` to provide your own Bedrock embedding model ARN.
+    #   Choose `MANAGED` to use a service-managed embedding model. For more
+    #   information, see [Embedding model options][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-create.html#kb-managed-embedding-models
+    #   @return [String]
+    #
+    # @!attribute [rw] embedding_model_arn
+    #   The ARN for the embeddings model.
+    #   @return [String]
+    #
+    # @!attribute [rw] embedding_model_configuration
+    #   The configuration details for the embeddings model.
+    #   @return [Types::EmbeddingModelConfiguration]
+    #
+    # @!attribute [rw] server_side_encryption_configuration
+    #   Contains the configuration for server-side encryption for your
+    #   managed knowledge base.
+    #   @return [Types::ServerSideEncryptionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/ManagedKnowledgeBaseConfiguration AWS API Documentation
+    #
+    class ManagedKnowledgeBaseConfiguration < Struct.new(
+      :embedding_model_type,
+      :embedding_model_arn,
+      :embedding_model_configuration,
+      :server_side_encryption_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for managed knowledge base connector data sources.
+    #
+    # @!attribute [rw] deletion_protection_configuration
+    #   A safeguard against accidental bulk deletion of indexed content.
+    #   @return [Types::DeletionProtectionConfiguration]
+    #
+    # @!attribute [rw] media_extraction_configuration
+    #   Configuration for extracting media (images, audio, video) from data
+    #   source files.
+    #   @return [Types::MediaExtractionConfiguration]
+    #
+    # @!attribute [rw] connector_parameters
+    #   Connector-specific parameters. For more information, see [Connect a
+    #   data source][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-connect-ds.html
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/ManagedKnowledgeBaseConnectorConfiguration AWS API Documentation
+    #
+    class ManagedKnowledgeBaseConnectorConfiguration < Struct.new(
+      :deletion_protection_configuration,
+      :media_extraction_configuration,
+      :connector_parameters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for media extraction settings.
+    #
+    # @!attribute [rw] image_extraction_configuration
+    #   Configuration for image extraction.
+    #   @return [Types::ImageExtractionConfiguration]
+    #
+    # @!attribute [rw] audio_extraction_configuration
+    #   Configuration for audio extraction.
+    #   @return [Types::AudioExtractionConfiguration]
+    #
+    # @!attribute [rw] video_extraction_configuration
+    #   Configuration for video extraction.
+    #   @return [Types::VideoExtractionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/MediaExtractionConfiguration AWS API Documentation
+    #
+    class MediaExtractionConfiguration < Struct.new(
+      :image_extraction_configuration,
+      :audio_extraction_configuration,
+      :video_extraction_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details of the memory configuration.
     #
     # @!attribute [rw] enabled_memory_types
@@ -8008,7 +8300,13 @@ module Aws::BedrockAgent
     # [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-advanced-parsing.html
     #
     # @!attribute [rw] parsing_strategy
-    #   The parsing strategy for the data source.
+    #   The parsing strategy for the data source. Only `SMART_PARSING` can
+    #   be selected for managed knowledge bases. For more information, see
+    #   [Customize ingestion for managed knowledge bases][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-customize-ingestion.html
     #   @return [String]
     #
     # @!attribute [rw] bedrock_foundation_model_configuration
@@ -8802,6 +9100,53 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the knowledge base to attach the
+    #   resource policy to.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The JSON-formatted resource policy to associate with the knowledge
+    #   base.
+    #   @return [String]
+    #
+    # @!attribute [rw] expected_revision_id
+    #   The expected revision identifier of the resource policy. Use this to
+    #   prevent conflicts when multiple users update the same policy
+    #   concurrently. Specify the `revisionId` from the most recent
+    #   `GetResourcePolicy` or `PutResourcePolicy` response.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/PutResourcePolicyRequest AWS API Documentation
+    #
+    class PutResourcePolicyRequest < Struct.new(
+      :resource_arn,
+      :policy,
+      :expected_revision_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The ARN of the knowledge base that the resource policy was attached
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] revision_id
+    #   The revision identifier of the resource policy. Use this value in
+    #   the `expectedRevisionId` field of a subsequent `PutResourcePolicy`
+    #   or `DeleteResourcePolicy` request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/PutResourcePolicyResponse AWS API Documentation
+    #
+    class PutResourcePolicyResponse < Struct.new(
+      :resource_arn,
+      :revision_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains information about a column in the current table for the query
     # engine to consider.
     #
@@ -9394,7 +9739,13 @@ module Aws::BedrockAgent
     end
 
     # The configuration information to connect to Amazon S3 as your data
-    # source.
+    # source for self-managed knowledge bases. To configure this data source
+    # for managed knowledge bases, use
+    # [managedKnowledgeBaseConnectorConfiguration][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html
     #
     # @!attribute [rw] bucket_arn
     #   The Amazon Resource Name (ARN) of the S3 bucket that contains your
@@ -9616,7 +9967,8 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
-    # Contains the configuration for server-side encryption.
+    # Contains the configuration for server-side encryption for your managed
+    # knowledge base.
     #
     # @!attribute [rw] kms_key_arn
     #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
@@ -9678,7 +10030,7 @@ module Aws::BedrockAgent
     end
 
     # The configuration information to connect to SharePoint as your data
-    # source.
+    # source for self-managed knowledge bases.
     #
     # @!attribute [rw] source_configuration
     #   The endpoint information to connect to your SharePoint data source.
@@ -10017,13 +10369,15 @@ module Aws::BedrockAgent
       class Unknown < StorageFlowNodeServiceConfiguration; end
     end
 
-    # Specifies configurations for the storage location of the images
-    # extracted from multimodal documents in your data source. These images
-    # can be retrieved and returned to the end user.
+    # Specifies configurations for the storage location of multimedia
+    # content (images, audio, and video) extracted from multimodal documents
+    # in your data source. This content can be retrieved and returned to the
+    # end user with timestamp references for audio and video segments.
     #
     # @!attribute [rw] storage_locations
-    #   A list of objects specifying storage locations for images extracted
-    #   from multimodal documents in your data source.
+    #   A list of objects specifying storage locations for multimedia
+    #   content (images, audio, and video) extracted from multimodal
+    #   documents in your data source.
     #   @return [Array<Types::SupplementalDataStorageLocation>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/SupplementalDataStorageConfiguration AWS API Documentation
@@ -10034,8 +10388,9 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
-    # Contains information about a storage location for images extracted
-    # from multimodal documents in your data source.
+    # Contains information about a storage location for multimedia content
+    # (images, audio, and video) extracted from multimodal documents in your
+    # data source.
     #
     # @!attribute [rw] type
     #   Specifies the storage service used for this location.
@@ -10043,7 +10398,7 @@ module Aws::BedrockAgent
     #
     # @!attribute [rw] s3_location
     #   Contains information about the Amazon S3 location for the extracted
-    #   images.
+    #   multimedia content.
     #   @return [Types::S3Location]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/SupplementalDataStorageLocation AWS API Documentation
@@ -11674,6 +12029,20 @@ module Aws::BedrockAgent
     #
     class VideoConfiguration < Struct.new(
       :segmentation_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for video extraction.
+    #
+    # @!attribute [rw] video_extraction_status
+    #   Whether video extraction is enabled or disabled.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/VideoExtractionConfiguration AWS API Documentation
+    #
+    class VideoExtractionConfiguration < Struct.new(
+      :video_extraction_status)
       SENSITIVE = []
       include Aws::Structure
     end

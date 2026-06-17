@@ -377,10 +377,13 @@ module Aws
         def authorizer_type: () -> ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
         def authorizer_configuration: () -> Types::AuthorizerConfiguration
         def kms_key_arn: () -> ::String
+        def custom_transform_configuration: () -> Types::CustomTransformConfiguration
         def interceptor_configurations: () -> ::Array[Types::GatewayInterceptorConfiguration]
         def policy_engine_configuration: () -> Types::GatewayPolicyEngineConfiguration
         def workload_identity_details: () -> Types::WorkloadIdentityDetails
         def exception_level: () -> ("DEBUG")
+        def web_acl_arn: () -> ::String
+        def waf_configuration: () -> Types::WafConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_gateway-instance_method
       def create_gateway: (
@@ -454,7 +457,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_gateway_target-instance_method
       def create_gateway_target: (
                                    gateway_identifier: ::String,
-                                   name: ::String,
+                                   ?name: ::String,
                                    ?description: ::String,
                                    ?client_token: ::String,
                                    target_configuration: Params::target_configuration,
@@ -508,6 +511,21 @@ module Aws
                             ?tags: Hash[::String, ::String]
                           ) -> _CreateHarnessResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateHarnessResponseSuccess
+
+      interface _CreateHarnessEndpointResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateHarnessEndpointResponse]
+        def endpoint: () -> Types::HarnessEndpoint
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_harness_endpoint-instance_method
+      def create_harness_endpoint: (
+                                     harness_id: ::String,
+                                     endpoint_name: ::String,
+                                     ?target_version: ::String,
+                                     ?description: ::String,
+                                     ?client_token: ::String,
+                                     ?tags: Hash[::String, ::String]
+                                   ) -> _CreateHarnessEndpointResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateHarnessEndpointResponseSuccess
 
       interface _CreateMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateMemoryOutput]
@@ -669,6 +687,7 @@ module Aws
         def updated_at: () -> ::Time
         def policy_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def enforcement_mode: () -> ("ACTIVE" | "LOG_ONLY")
         def definition: () -> Types::PolicyDefinition
         def description: () -> ::String
         def status_reasons: () -> ::Array[::String]
@@ -679,6 +698,7 @@ module Aws
                            definition: Params::policy_definition,
                            ?description: ::String,
                            ?validation_mode: ("FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS"),
+                           ?enforcement_mode: ("ACTIVE" | "LOG_ONLY"),
                            policy_engine_id: ::String,
                            ?client_token: ::String
                          ) -> _CreatePolicyResponseSuccess
@@ -960,9 +980,22 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_harness-instance_method
       def delete_harness: (
                             harness_id: ::String,
-                            ?client_token: ::String
+                            ?client_token: ::String,
+                            ?delete_managed_memory: bool
                           ) -> _DeleteHarnessResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteHarnessResponseSuccess
+
+      interface _DeleteHarnessEndpointResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteHarnessEndpointResponse]
+        def endpoint: () -> Types::HarnessEndpoint
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_harness_endpoint-instance_method
+      def delete_harness_endpoint: (
+                                     harness_id: ::String,
+                                     endpoint_name: ::String,
+                                     ?client_token: ::String
+                                   ) -> _DeleteHarnessEndpointResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteHarnessEndpointResponseSuccess
 
       interface _DeleteMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteMemoryOutput]
@@ -1040,6 +1073,7 @@ module Aws
         def updated_at: () -> ::Time
         def policy_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def enforcement_mode: () -> ("ACTIVE" | "LOG_ONLY")
         def definition: () -> Types::PolicyDefinition
         def description: () -> ::String
         def status_reasons: () -> ::Array[::String]
@@ -1340,10 +1374,13 @@ module Aws
         def authorizer_type: () -> ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
         def authorizer_configuration: () -> Types::AuthorizerConfiguration
         def kms_key_arn: () -> ::String
+        def custom_transform_configuration: () -> Types::CustomTransformConfiguration
         def interceptor_configurations: () -> ::Array[Types::GatewayInterceptorConfiguration]
         def policy_engine_configuration: () -> Types::GatewayPolicyEngineConfiguration
         def workload_identity_details: () -> Types::WorkloadIdentityDetails
         def exception_level: () -> ("DEBUG")
+        def web_acl_arn: () -> ::String
+        def waf_configuration: () -> Types::WafConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_gateway-instance_method
       def get_gateway: (
@@ -1403,9 +1440,21 @@ module Aws
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_harness-instance_method
       def get_harness: (
-                         harness_id: ::String
+                         harness_id: ::String,
+                         ?harness_version: ::String
                        ) -> _GetHarnessResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetHarnessResponseSuccess
+
+      interface _GetHarnessEndpointResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetHarnessEndpointResponse]
+        def endpoint: () -> Types::HarnessEndpoint
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_harness_endpoint-instance_method
+      def get_harness_endpoint: (
+                                  harness_id: ::String,
+                                  endpoint_name: ::String
+                                ) -> _GetHarnessEndpointResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetHarnessEndpointResponseSuccess
 
       interface _GetMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetMemoryOutput]
@@ -1528,6 +1577,7 @@ module Aws
         def updated_at: () -> ::Time
         def policy_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def enforcement_mode: () -> ("ACTIVE" | "LOG_ONLY")
         def definition: () -> Types::PolicyDefinition
         def description: () -> ::String
         def status_reasons: () -> ::Array[::String]
@@ -1621,6 +1671,7 @@ module Aws
         def updated_at: () -> ::Time
         def policy_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def enforcement_mode: () -> ("ACTIVE" | "LOG_ONLY")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_policy_summary-instance_method
       def get_policy_summary: (
@@ -1919,6 +1970,32 @@ module Aws
                            ?next_token: ::String
                          ) -> _ListGatewaysResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListGatewaysResponseSuccess
+
+      interface _ListHarnessEndpointsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListHarnessEndpointsResponse]
+        def endpoints: () -> ::Array[Types::HarnessEndpoint]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_harness_endpoints-instance_method
+      def list_harness_endpoints: (
+                                    harness_id: ::String,
+                                    ?max_results: ::Integer,
+                                    ?next_token: ::String
+                                  ) -> _ListHarnessEndpointsResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListHarnessEndpointsResponseSuccess
+
+      interface _ListHarnessVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListHarnessVersionsResponse]
+        def harness_versions: () -> ::Array[Types::HarnessVersionSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_harness_versions-instance_method
+      def list_harness_versions: (
+                                   harness_id: ::String,
+                                   ?max_results: ::Integer,
+                                   ?next_token: ::String
+                                 ) -> _ListHarnessVersionsResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListHarnessVersionsResponseSuccess
 
       interface _ListHarnessesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListHarnessesResponse]
@@ -2426,10 +2503,13 @@ module Aws
         def authorizer_type: () -> ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
         def authorizer_configuration: () -> Types::AuthorizerConfiguration
         def kms_key_arn: () -> ::String
+        def custom_transform_configuration: () -> Types::CustomTransformConfiguration
         def interceptor_configurations: () -> ::Array[Types::GatewayInterceptorConfiguration]
         def policy_engine_configuration: () -> Types::GatewayPolicyEngineConfiguration
         def workload_identity_details: () -> Types::WorkloadIdentityDetails
         def exception_level: () -> ("DEBUG")
+        def web_acl_arn: () -> ::String
+        def waf_configuration: () -> Types::WafConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_gateway-instance_method
       def update_gateway: (
@@ -2442,6 +2522,11 @@ module Aws
                             authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY"),
                             ?authorizer_configuration: Params::authorizer_configuration,
                             ?kms_key_arn: ::String,
+                            ?custom_transform_configuration: {
+                              lambda: {
+                                arn: ::String?
+                              }?
+                            },
                             ?interceptor_configurations: Array[
                               Params::gateway_interceptor_configuration
                             ],
@@ -2449,7 +2534,10 @@ module Aws
                               arn: ::String,
                               mode: ("LOG_ONLY" | "ENFORCE")
                             },
-                            ?exception_level: ("DEBUG")
+                            ?exception_level: ("DEBUG"),
+                            ?waf_configuration: {
+                              failure_mode: ("FAIL_CLOSE" | "FAIL_OPEN")?
+                            }
                           ) -> _UpdateGatewayResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGatewayResponseSuccess
 
@@ -2504,7 +2592,7 @@ module Aws
       def update_gateway_target: (
                                    gateway_identifier: ::String,
                                    target_id: ::String,
-                                   name: ::String,
+                                   ?name: ::String,
                                    ?description: ::String,
                                    target_configuration: Params::target_configuration,
                                    ?credential_provider_configurations: Array[
@@ -2560,6 +2648,20 @@ module Aws
                             ?timeout_seconds: ::Integer
                           ) -> _UpdateHarnessResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateHarnessResponseSuccess
+
+      interface _UpdateHarnessEndpointResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateHarnessEndpointResponse]
+        def endpoint: () -> Types::HarnessEndpoint
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_harness_endpoint-instance_method
+      def update_harness_endpoint: (
+                                     harness_id: ::String,
+                                     endpoint_name: ::String,
+                                     ?target_version: ::String,
+                                     ?description: ::String,
+                                     ?client_token: ::String
+                                   ) -> _UpdateHarnessEndpointResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateHarnessEndpointResponseSuccess
 
       interface _UpdateMemoryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateMemoryOutput]
@@ -2787,6 +2889,7 @@ module Aws
         def updated_at: () -> ::Time
         def policy_arn: () -> ::String
         def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def enforcement_mode: () -> ("ACTIVE" | "LOG_ONLY")
         def definition: () -> Types::PolicyDefinition
         def description: () -> ::String
         def status_reasons: () -> ::Array[::String]
@@ -2799,7 +2902,8 @@ module Aws
                              optional_value: ::String?
                            },
                            ?definition: Params::policy_definition,
-                           ?validation_mode: ("FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS")
+                           ?validation_mode: ("FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS"),
+                           ?enforcement_mode: ("ACTIVE" | "LOG_ONLY")
                          ) -> _UpdatePolicyResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePolicyResponseSuccess
 

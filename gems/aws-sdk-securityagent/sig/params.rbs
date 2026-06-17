@@ -33,10 +33,7 @@ module Aws
         Params::actor
       ]?,
       documents: Array[
-        {
-          s3_location: ::String?,
-          artifact_id: ::String?
-        }
+        Params::document_info
       ]?,
       source_code: Array[
         {
@@ -59,6 +56,15 @@ module Aws
         value: ::String?
       }?,
       description: ::String?
+    }
+
+      type document_info = {
+      s3_location: ::String?,
+      artifact_id: ::String?,
+      integrated_document: {
+        integration_id: ::String,
+        resource_id: ::String
+      }?
     }
 
       type network_traffic_config = {

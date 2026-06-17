@@ -106,6 +106,14 @@ module Aws::DevOpsAgent
     #   SigV4-authenticated MCP server-specific service details.
     #   @return [Types::RegisteredMCPServerSigV4Details]
     #
+    # @!attribute [rw] remoteagent
+    #   Remote A2A agent-specific service details (token-based auth).
+    #   @return [Types::RegisteredRemoteAgentDetails]
+    #
+    # @!attribute [rw] remoteagentsigv4
+    #   Remote A2A agent-specific service details (SigV4 auth).
+    #   @return [Types::RegisteredRemoteAgentSigV4Details]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AdditionalServiceDetails AWS API Documentation
     #
     class AdditionalServiceDetails < Struct.new(
@@ -122,6 +130,8 @@ module Aws::DevOpsAgent
       :mcpservergrafana,
       :pagerduty,
       :mcpserversigv4,
+      :remoteagent,
+      :remoteagentsigv4,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -140,6 +150,8 @@ module Aws::DevOpsAgent
       class Mcpservergrafana < AdditionalServiceDetails; end
       class Pagerduty < AdditionalServiceDetails; end
       class Mcpserversigv4 < AdditionalServiceDetails; end
+      class Remoteagent < AdditionalServiceDetails; end
+      class Remoteagentsigv4 < AdditionalServiceDetails; end
       class Unknown < AdditionalServiceDetails; end
     end
 
@@ -251,7 +263,8 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
-    # Content for an asset, either a single file or a zip bundle
+    # Content for an asset: a single file, a zip bundle, or a source URL to
+    # import from
     #
     # @note AssetContent is a union - when making an API calls you must set exactly one of the members.
     #
@@ -263,11 +276,16 @@ module Aws::DevOpsAgent
     #   A zip file containing multiple files
     #   @return [Types::AssetZipContent]
     #
+    # @!attribute [rw] source_url
+    #   A source URL to import asset content from
+    #   @return [Types::AssetSourceUrlContent]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetContent AWS API Documentation
     #
     class AssetContent < Struct.new(
       :file,
       :zip,
+      :source_url,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -275,6 +293,7 @@ module Aws::DevOpsAgent
 
       class File < AssetContent; end
       class Zip < AssetContent; end
+      class SourceUrl < AssetContent; end
       class Unknown < AssetContent; end
     end
 
@@ -406,6 +425,20 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Content for an asset sourced from an external URL.
+    #
+    # @!attribute [rw] url
+    #   The source URL to import asset content from
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssetSourceUrlContent AWS API Documentation
+    #
+    class AssetSourceUrlContent < Struct.new(
+      :url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Summary of an asset type, including its identifier and description.
     #
     # @!attribute [rw] asset_type
@@ -506,12 +539,17 @@ module Aws::DevOpsAgent
     #   given service.
     #   @return [Types::ServiceConfiguration]
     #
+    # @!attribute [rw] capabilities
+    #   Enabled capabilities for this association.
+    #   @return [Hash<String,Types::CapabilityConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/AssociateServiceInput AWS API Documentation
     #
     class AssociateServiceInput < Struct.new(
       :agent_space_id,
       :service_id,
-      :configuration)
+      :configuration,
+      :capabilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -569,6 +607,10 @@ module Aws::DevOpsAgent
     #   given service.
     #   @return [Types::ServiceConfiguration]
     #
+    # @!attribute [rw] capabilities
+    #   Enabled capabilities for this association.
+    #   @return [Hash<String,Types::CapabilityConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/Association AWS API Documentation
     #
     class Association < Struct.new(
@@ -578,7 +620,8 @@ module Aws::DevOpsAgent
       :status,
       :association_id,
       :service_id,
-      :configuration)
+      :configuration,
+      :capabilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -617,6 +660,20 @@ module Aws::DevOpsAgent
       :organization_name,
       :project_id,
       :project_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Capability configuration for the AWS DevOps Agent.
+    #
+    # @!attribute [rw] enabled
+    #   Whether the capability is enabled.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CapabilityConfiguration AWS API Documentation
+    #
+    class CapabilityConfiguration < Struct.new(
+      :enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -817,7 +874,8 @@ module Aws::DevOpsAgent
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
     # @!attribute [rw] content
-    #   The content for the asset. Provide a single file or a zip bundle.
+    #   The content for the asset. Provide a single file, a zip bundle, or a
+    #   sourceUrl to import from an external source.
     #   @return [Types::AssetContent]
     #
     # @!attribute [rw] client_token
@@ -1056,9 +1114,11 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for creating a new Trigger
+    #
     # @!attribute [rw] agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space where the Trigger will be
+    #   created
     #   @return [String]
     #
     # @!attribute [rw] type
@@ -1098,6 +1158,8 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Response structure for creating a new Trigger
+    #
     # @!attribute [rw] trigger
     #   The Trigger object
     #   @return [Types::Trigger]
@@ -1270,14 +1332,14 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for deleting a Trigger
+    #
     # @!attribute [rw] agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space containing the Trigger
     #   @return [String]
     #
     # @!attribute [rw] trigger_id
-    #   Generic resource identifier (allows alphanumeric characters,
-    #   hyphens, and underscores; 1-128 characters)
+    #   The unique identifier of the Trigger to delete
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteTriggerRequest AWS API Documentation
@@ -1289,6 +1351,8 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Response structure for deleting a Trigger
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/DeleteTriggerResponse AWS API Documentation
     #
     class DeleteTriggerResponse < Aws::EmptyStructure; end
@@ -2122,14 +2186,14 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for getting a Trigger
+    #
     # @!attribute [rw] agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space containing the Trigger
     #   @return [String]
     #
     # @!attribute [rw] trigger_id
-    #   Generic resource identifier (allows alphanumeric characters,
-    #   hyphens, and underscores; 1-128 characters)
+    #   The unique identifier of the Trigger to retrieve
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetTriggerRequest AWS API Documentation
@@ -2141,6 +2205,8 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Response structure for getting a Trigger
+    #
     # @!attribute [rw] trigger
     #   The Trigger object
     #   @return [Types::Trigger]
@@ -2176,6 +2242,11 @@ module Aws::DevOpsAgent
     #   github.enterprise.com)
     #   @return [String]
     #
+    # @!attribute [rw] runtime_role_arn
+    #   Optional role ARN that AIDevOps assumes at runtime for automatic
+    #   verification testing and VPC connectivity on this association.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GitHubConfiguration AWS API Documentation
     #
     class GitHubConfiguration < Struct.new(
@@ -2183,7 +2254,8 @@ module Aws::DevOpsAgent
       :repo_id,
       :owner,
       :owner_type,
-      :instance_identifier)
+      :instance_identifier,
+      :runtime_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2203,12 +2275,18 @@ module Aws::DevOpsAgent
     #   e2e.gamma.dev.us-east-1.gitlab.falco.ai.aws.dev)
     #   @return [String]
     #
+    # @!attribute [rw] runtime_role_arn
+    #   Optional role ARN that AIDevOps assumes at runtime for automatic
+    #   verification testing and VPC connectivity on this association.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GitLabConfiguration AWS API Documentation
     #
     class GitLabConfiguration < Struct.new(
       :project_id,
       :project_path,
-      :instance_identifier)
+      :instance_identifier,
+      :runtime_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3376,9 +3454,11 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for listing Triggers in an agent space
+    #
     # @!attribute [rw] agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space whose Triggers should be
+    #   listed
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -3405,12 +3485,14 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Response structure for listing Triggers
+    #
     # @!attribute [rw] items
     #   The list of Triggers
     #   @return [Array<Types::Trigger>]
     #
     # @!attribute [rw] next_token
-    #   Pagination token for list operations (1-2048 characters)
+    #   Pagination token to retrieve the next page of results
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListTriggersResponse AWS API Documentation
@@ -4662,6 +4744,80 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Details specific to a registered token-based remote A2A agent.
+    #
+    # @!attribute [rw] name
+    #   Name identifier for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint
+    #   HTTPS endpoint URL for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description field
+    #   @return [String]
+    #
+    # @!attribute [rw] authorization_method
+    #   The authorization method used by the remote agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_header
+    #   If the remote agent uses API key authentication, the header name.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RegisteredRemoteAgentDetails AWS API Documentation
+    #
+    class RegisteredRemoteAgentDetails < Struct.new(
+      :name,
+      :endpoint,
+      :description,
+      :authorization_method,
+      :api_key_header)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # Details specific to a registered SigV4-authenticated remote A2A agent.
+    #
+    # @!attribute [rw] name
+    #   Name identifier for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint
+    #   HTTPS endpoint URL for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description field
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   AWS region identifier or wildcard (*) for SigV4a multi-region
+    #   signing.
+    #   @return [String]
+    #
+    # @!attribute [rw] service
+    #   The AWS service name for SigV4 signing.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   AWS IAM role ARN.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RegisteredRemoteAgentSigV4Details AWS API Documentation
+    #
+    class RegisteredRemoteAgentSigV4Details < Struct.new(
+      :name,
+      :endpoint,
+      :description,
+      :region,
+      :service,
+      :role_arn)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
     # Represents a registered service with its configuration and accessible
     # resources.
     #
@@ -4738,6 +4894,229 @@ module Aws::DevOpsAgent
       :team_id,
       :team_name)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # API key configuration for remote A2A agent.
+    #
+    # @!attribute [rw] api_key_name
+    #   User friendly API key name specified by end user.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_value
+    #   API key value for authenticating with the service.
+    #   @return [String]
+    #
+    # @!attribute [rw] api_key_header
+    #   HTTP header name to send the API key in requests to the service.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentAPIKeyConfig AWS API Documentation
+    #
+    class RemoteAgentAPIKeyConfig < Struct.new(
+      :api_key_name,
+      :api_key_value,
+      :api_key_header)
+      SENSITIVE = [:api_key_value]
+      include Aws::Structure
+    end
+
+    # Authorization configuration for remote A2A agents with token-based
+    # auth (API key, OAuth, bearer token).
+    #
+    # @note RemoteAgentAuthorizationConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] api_key
+    #   Remote agent configuration with API key authentication.
+    #   @return [Types::RemoteAgentAPIKeyConfig]
+    #
+    # @!attribute [rw] o_auth_client_credentials
+    #   Remote agent configuration with OAuth client credentials.
+    #   @return [Types::RemoteAgentOAuthClientCredentialsConfig]
+    #
+    # @!attribute [rw] bearer_token
+    #   Remote agent configuration with Bearer token (RFC 6750).
+    #   @return [Types::RemoteAgentBearerTokenConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentAuthorizationConfig AWS API Documentation
+    #
+    class RemoteAgentAuthorizationConfig < Struct.new(
+      :api_key,
+      :o_auth_client_credentials,
+      :bearer_token,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ApiKey < RemoteAgentAuthorizationConfig; end
+      class OAuthClientCredentials < RemoteAgentAuthorizationConfig; end
+      class BearerToken < RemoteAgentAuthorizationConfig; end
+      class Unknown < RemoteAgentAuthorizationConfig; end
+    end
+
+    # Bearer token configuration for remote A2A agent (RFC 6750).
+    #
+    # @!attribute [rw] token_name
+    #   User friendly bearer token name specified by end user.
+    #   @return [String]
+    #
+    # @!attribute [rw] token_value
+    #   Bearer token value in alphanumeric for authenticating with the
+    #   service.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorization_header
+    #   HTTP header name to send the bearer token in requests to the
+    #   service. Defaults to 'Authorization' per RFC 6750.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentBearerTokenConfig AWS API Documentation
+    #
+    class RemoteAgentBearerTokenConfig < Struct.new(
+      :token_name,
+      :token_value,
+      :authorization_header)
+      SENSITIVE = [:token_value]
+      include Aws::Structure
+    end
+
+    # Configuration for token-based remote A2A agent integration.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentConfiguration AWS API Documentation
+    #
+    class RemoteAgentConfiguration < Aws::EmptyStructure; end
+
+    # OAuth client credentials configuration for remote A2A agent.
+    #
+    # @!attribute [rw] client_name
+    #   User friendly OAuth client name specified by end user.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_id
+    #   OAuth client ID for authenticating with the service.
+    #   @return [String]
+    #
+    # @!attribute [rw] exchange_parameters
+    #   OAuth token exchange parameters for authenticating with the service.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] client_secret
+    #   OAuth client secret for authenticating with the service.
+    #   @return [String]
+    #
+    # @!attribute [rw] exchange_url
+    #   OAuth token exchange URL.
+    #   @return [String]
+    #
+    # @!attribute [rw] scopes
+    #   OAuth scopes for authentication.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentOAuthClientCredentialsConfig AWS API Documentation
+    #
+    class RemoteAgentOAuthClientCredentialsConfig < Struct.new(
+      :client_name,
+      :client_id,
+      :exchange_parameters,
+      :client_secret,
+      :exchange_url,
+      :scopes)
+      SENSITIVE = [:client_id, :exchange_parameters, :client_secret]
+      include Aws::Structure
+    end
+
+    # Complete service details for token-based remote A2A agent integration.
+    #
+    # @!attribute [rw] name
+    #   Name identifier for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint
+    #   HTTPS endpoint URL for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description field
+    #   @return [String]
+    #
+    # @!attribute [rw] authorization_config
+    #   Remote agent authorization configuration.
+    #   @return [Types::RemoteAgentAuthorizationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentServiceDetails AWS API Documentation
+    #
+    class RemoteAgentServiceDetails < Struct.new(
+      :name,
+      :endpoint,
+      :description,
+      :authorization_config)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # SigV4 authorization configuration for remote A2A agent.
+    #
+    # @!attribute [rw] region
+    #   AWS region identifier or wildcard (*) for SigV4a multi-region
+    #   signing.
+    #   @return [String]
+    #
+    # @!attribute [rw] service
+    #   The AWS service name for SigV4 signing.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   AWS IAM role ARN.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentSigV4AuthorizationConfig AWS API Documentation
+    #
+    class RemoteAgentSigV4AuthorizationConfig < Struct.new(
+      :region,
+      :service,
+      :role_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for SigV4-authenticated remote A2A agent integration.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentSigV4Configuration AWS API Documentation
+    #
+    class RemoteAgentSigV4Configuration < Aws::EmptyStructure; end
+
+    # Complete service details for SigV4-authenticated remote A2A agent
+    # integration.
+    #
+    # @!attribute [rw] name
+    #   Name identifier for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] endpoint
+    #   HTTPS endpoint URL for a remote A2A agent.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description field
+    #   @return [String]
+    #
+    # @!attribute [rw] authorization_config
+    #   Remote agent SigV4 authorization configuration.
+    #   @return [Types::RemoteAgentSigV4AuthorizationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/RemoteAgentSigV4ServiceDetails AWS API Documentation
+    #
+    class RemoteAgentSigV4ServiceDetails < Struct.new(
+      :name,
+      :endpoint,
+      :description,
+      :authorization_config)
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -4923,7 +5302,15 @@ module Aws::DevOpsAgent
     #   @return [String]
     #
     # @!attribute [rw] user_action_response
-    #   Response to a UI prompt (not a text conversation message)
+    #   Response to a UI prompt (not a text conversation message). Operator
+    #   App SDK clients set this to the control-string sentinel
+    #   `"APPROVAL\_ACTION"` when the request is resuming a paused tool
+    #   call after an operator approval decision; in that case the
+    #   structured decision context lives on the sibling `approvalAction`
+    #   member and the chat agent reads from there. Preserved as a String
+    #   for back-compat: pre-typed-approval clients still encode arbitrary
+    #   UI-prompt responses as JSON in this field, and the chat agent parses
+    #   them out during the transition.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/SendMessageContext AWS API Documentation
@@ -5242,6 +5629,14 @@ module Aws::DevOpsAgent
     #   SigV4-authenticated MCP server integration configuration.
     #   @return [Types::MCPServerSigV4Configuration]
     #
+    # @!attribute [rw] remoteagent
+    #   Remote A2A agent integration configuration (token-based auth).
+    #   @return [Types::RemoteAgentConfiguration]
+    #
+    # @!attribute [rw] remoteagentsigv4
+    #   Remote A2A agent integration configuration (SigV4 auth).
+    #   @return [Types::RemoteAgentSigV4Configuration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ServiceConfiguration AWS API Documentation
     #
     class ServiceConfiguration < Struct.new(
@@ -5262,6 +5657,8 @@ module Aws::DevOpsAgent
       :mcpservergrafana,
       :pagerduty,
       :mcpserversigv4,
+      :remoteagent,
+      :remoteagentsigv4,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -5284,6 +5681,8 @@ module Aws::DevOpsAgent
       class Mcpservergrafana < ServiceConfiguration; end
       class Pagerduty < ServiceConfiguration; end
       class Mcpserversigv4 < ServiceConfiguration; end
+      class Remoteagent < ServiceConfiguration; end
+      class Remoteagentsigv4 < ServiceConfiguration; end
       class Unknown < ServiceConfiguration; end
     end
 
@@ -5341,6 +5740,14 @@ module Aws::DevOpsAgent
     #   SigV4-authenticated MCP server-specific service details.
     #   @return [Types::MCPServerSigV4ServiceDetails]
     #
+    # @!attribute [rw] remoteagent
+    #   Remote A2A agent service details (token-based auth).
+    #   @return [Types::RemoteAgentServiceDetails]
+    #
+    # @!attribute [rw] remoteagentsigv4
+    #   Remote A2A agent service details (SigV4 auth).
+    #   @return [Types::RemoteAgentSigV4ServiceDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ServiceDetails AWS API Documentation
     #
     class ServiceDetails < Struct.new(
@@ -5356,6 +5763,8 @@ module Aws::DevOpsAgent
       :pagerduty,
       :azureidentity,
       :mcpserversigv4,
+      :remoteagent,
+      :remoteagentsigv4,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -5373,6 +5782,8 @@ module Aws::DevOpsAgent
       class Pagerduty < ServiceDetails; end
       class Azureidentity < ServiceDetails; end
       class Mcpserversigv4 < ServiceDetails; end
+      class Remoteagent < ServiceDetails; end
+      class Remoteagentsigv4 < ServiceDetails; end
       class Unknown < ServiceDetails; end
     end
 
@@ -5803,13 +6214,11 @@ module Aws::DevOpsAgent
     # A Trigger fires on a schedule and invokes an agent
     #
     # @!attribute [rw] trigger_id
-    #   Generic resource identifier (allows alphanumeric characters,
-    #   hyphens, and underscores; 1-128 characters)
+    #   The unique identifier for this Trigger
     #   @return [String]
     #
     # @!attribute [rw] agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The agent space this Trigger belongs to
     #   @return [String]
     #
     # @!attribute [rw] type
@@ -6015,8 +6424,9 @@ module Aws::DevOpsAgent
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
     # @!attribute [rw] content
-    #   Optional content to set or replace. A single file adds or replaces
-    #   one file; a zip replaces all files.
+    #   Optional content update. A single file adds or replaces one file; a
+    #   zip replaces all files; a sourceUrl re-syncs from the original
+    #   source.
     #   @return [Types::AssetContent]
     #
     # @!attribute [rw] client_token
@@ -6068,12 +6478,17 @@ module Aws::DevOpsAgent
     #   given service. The entire configuration is replaced on update.
     #   @return [Types::ServiceConfiguration]
     #
+    # @!attribute [rw] capabilities
+    #   Enabled capabilities for this association.
+    #   @return [Hash<String,Types::CapabilityConfiguration>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/UpdateAssociationInput AWS API Documentation
     #
     class UpdateAssociationInput < Struct.new(
       :agent_space_id,
       :association_id,
-      :configuration)
+      :configuration,
+      :capabilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6367,14 +6782,14 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Request structure for updating a Trigger
+    #
     # @!attribute [rw] agent_space_id
-    #   Unique identifier for an agent space (allows alphanumeric characters
-    #   and hyphens; 1-64 characters)
+    #   The unique identifier for the agent space containing the Trigger
     #   @return [String]
     #
     # @!attribute [rw] trigger_id
-    #   Generic resource identifier (allows alphanumeric characters,
-    #   hyphens, and underscores; 1-128 characters)
+    #   The unique identifier of the Trigger to update
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -6400,6 +6815,8 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Response structure for updating a Trigger
+    #
     # @!attribute [rw] trigger
     #   The Trigger object
     #   @return [Types::Trigger]

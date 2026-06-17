@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.98.0 (2026-06-17)
+------------------
+
+* Feature - This release adds private networking support for Amazon MQ for RabbitMQ. You can now associate AWS RAM resource shares with your broker and retrieve shared resource details using the new DescribeSharedResources API.
+
 1.97.0 (2026-06-04)
 ------------------
 

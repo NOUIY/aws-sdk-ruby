@@ -691,6 +691,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     request_header_configuration: {
@@ -824,15 +832,15 @@ module Aws::BedrockAgentCoreControl
     #   stored securely.
     #
     # @option params [Types::SecretReference] :api_key_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the API key.
-    #   This includes the secret ID and the JSON key used to extract the API
-    #   key value from the secret. Required when `apiKeySecretSource` is set
-    #   to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the API key. This includes the secret ID and the JSON key used
+    #   to extract the API key value from the secret. Required when
+    #   `apiKeySecretSource` is set to `EXTERNAL`.
     #
     # @option params [String] :api_key_secret_source
     #   The source type of the API key secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to the API key credential
@@ -1611,10 +1619,13 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreateGatewayResponse#authorizer_type #authorizer_type} => String
     #   * {Types::CreateGatewayResponse#authorizer_configuration #authorizer_configuration} => Types::AuthorizerConfiguration
     #   * {Types::CreateGatewayResponse#kms_key_arn #kms_key_arn} => String
+    #   * {Types::CreateGatewayResponse#custom_transform_configuration #custom_transform_configuration} => Types::CustomTransformConfiguration
     #   * {Types::CreateGatewayResponse#interceptor_configurations #interceptor_configurations} => Array&lt;Types::GatewayInterceptorConfiguration&gt;
     #   * {Types::CreateGatewayResponse#policy_engine_configuration #policy_engine_configuration} => Types::GatewayPolicyEngineConfiguration
     #   * {Types::CreateGatewayResponse#workload_identity_details #workload_identity_details} => Types::WorkloadIdentityDetails
     #   * {Types::CreateGatewayResponse#exception_level #exception_level} => String
+    #   * {Types::CreateGatewayResponse#web_acl_arn #web_acl_arn} => String
+    #   * {Types::CreateGatewayResponse#waf_configuration #waf_configuration} => Types::WafConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -1692,6 +1703,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     kms_key_arn: "KmsKeyArn",
@@ -1705,6 +1724,13 @@ module Aws::BedrockAgentCoreControl
     #         interception_points: ["REQUEST"], # required, accepts REQUEST, RESPONSE
     #         input_configuration: {
     #           pass_request_headers: false, # required
+    #           payload_filter: {
+    #             exclude: [ # required
+    #               {
+    #                 field: "RESPONSE_BODY", # accepts RESPONSE_BODY
+    #               },
+    #             ],
+    #           },
     #         },
     #       },
     #     ],
@@ -1775,16 +1801,25 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.kms_key_arn #=> String
+    #   resp.custom_transform_configuration.lambda.arn #=> String
     #   resp.interceptor_configurations #=> Array
     #   resp.interceptor_configurations[0].interceptor.lambda.arn #=> String
     #   resp.interceptor_configurations[0].interception_points #=> Array
     #   resp.interceptor_configurations[0].interception_points[0] #=> String, one of "REQUEST", "RESPONSE"
     #   resp.interceptor_configurations[0].input_configuration.pass_request_headers #=> Boolean
+    #   resp.interceptor_configurations[0].input_configuration.payload_filter.exclude #=> Array
+    #   resp.interceptor_configurations[0].input_configuration.payload_filter.exclude[0].field #=> String, one of "RESPONSE_BODY"
     #   resp.policy_engine_configuration.arn #=> String
     #   resp.policy_engine_configuration.mode #=> String, one of "LOG_ONLY", "ENFORCE"
     #   resp.workload_identity_details.workload_identity_arn #=> String
     #   resp.exception_level #=> String, one of "DEBUG"
+    #   resp.web_acl_arn #=> String
+    #   resp.waf_configuration.failure_mode #=> String, one of "FAIL_CLOSE", "FAIL_OPEN"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGateway AWS API Documentation
     #
@@ -1963,7 +1998,7 @@ module Aws::BedrockAgentCoreControl
     # @option params [required, String] :gateway_identifier
     #   The identifier of the gateway to create a target for.
     #
-    # @option params [required, String] :name
+    # @option params [String] :name
     #   The name of the gateway target. The name must be unique within the
     #   gateway.
     #
@@ -2024,7 +2059,7 @@ module Aws::BedrockAgentCoreControl
     #
     #   resp = client.create_gateway_target({
     #     gateway_identifier: "GatewayIdentifier", # required
-    #     name: "TargetName", # required
+    #     name: "TargetName",
     #     description: "TargetDescription",
     #     client_token: "ClientToken",
     #     target_configuration: { # required
@@ -2116,11 +2151,85 @@ module Aws::BedrockAgentCoreControl
     #             ],
     #           },
     #         },
+    #         connector: {
+    #           source: { # required
+    #             connector_id: "ConnectorId", # required
+    #           },
+    #           enabled: ["String"],
+    #           configurations: [
+    #             {
+    #               name: "ConnectorConfigurationNameString", # required
+    #               description: "ConnectorConfigurationDescriptionString",
+    #               parameter_values: {
+    #               },
+    #               parameter_overrides: [
+    #                 {
+    #                   path: "String", # required
+    #                   description: "String",
+    #                   visible: false,
+    #                 },
+    #               ],
+    #             },
+    #           ],
+    #         },
     #       },
     #       http: {
     #         agentcore_runtime: {
     #           arn: "RuntimeArn", # required
     #           qualifier: "RuntimeQualifier",
+    #           schema: {
+    #             source: { # required
+    #               s3: {
+    #                 uri: "S3BucketUri",
+    #                 bucket_owner_account_id: "AwsAccountId",
+    #               },
+    #               inline_payload: "InlinePayload",
+    #             },
+    #           },
+    #         },
+    #         passthrough: {
+    #           endpoint: "PassthroughEndpoint", # required
+    #           protocol_type: "MCP", # required, accepts MCP, A2A, INFERENCE, CUSTOM
+    #           schema: {
+    #             source: { # required
+    #               s3: {
+    #                 uri: "S3BucketUri",
+    #                 bucket_owner_account_id: "AwsAccountId",
+    #               },
+    #               inline_payload: "InlinePayload",
+    #             },
+    #           },
+    #           stickiness_configuration: {
+    #             identifier: "StickinessConfigurationIdentifierString", # required
+    #             timeout: 1,
+    #           },
+    #         },
+    #       },
+    #       inference: {
+    #         connector: {
+    #           source: { # required
+    #             connector_id: "InferenceConnectorId", # required
+    #           },
+    #         },
+    #         provider: {
+    #           endpoint: "PassthroughEndpoint", # required
+    #           model_mapping: {
+    #             provider_prefix: {
+    #               strip: false,
+    #               separator: "ProviderPrefixSeparatorString",
+    #             },
+    #           },
+    #           operations: [
+    #             {
+    #               path: "InferenceOperationPath", # required
+    #               provider_path: "InferenceOperationPath",
+    #               models: [
+    #                 {
+    #                   model: "ModelPattern", # required
+    #                 },
+    #               ],
+    #             },
+    #           ],
     #         },
     #       },
     #     },
@@ -2226,8 +2335,37 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.target_configuration.mcp.connector.enabled #=> Array
+    #   resp.target_configuration.mcp.connector.enabled[0] #=> String
+    #   resp.target_configuration.mcp.connector.configurations #=> Array
+    #   resp.target_configuration.mcp.connector.configurations[0].name #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].description #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides #=> Array
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].path #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].description #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].visible #=> Boolean
     #   resp.target_configuration.http.agentcore_runtime.arn #=> String
     #   resp.target_configuration.http.agentcore_runtime.qualifier #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.s3.uri #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.inline_payload #=> String
+    #   resp.target_configuration.http.passthrough.endpoint #=> String
+    #   resp.target_configuration.http.passthrough.protocol_type #=> String, one of "MCP", "A2A", "INFERENCE", "CUSTOM"
+    #   resp.target_configuration.http.passthrough.schema.source.s3.uri #=> String
+    #   resp.target_configuration.http.passthrough.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.inference.connector.source.connector_id #=> String
+    #   resp.target_configuration.inference.provider.endpoint #=> String
+    #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
+    #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.separator #=> String
+    #   resp.target_configuration.inference.provider.operations #=> Array
+    #   resp.target_configuration.inference.provider.operations[0].path #=> String
+    #   resp.target_configuration.inference.provider.operations[0].provider_path #=> String
+    #   resp.target_configuration.inference.provider.operations[0].models #=> Array
+    #   resp.target_configuration.inference.provider.operations[0].models[0].model #=> String
     #   resp.credential_provider_configurations #=> Array
     #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
@@ -2277,7 +2415,7 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Operation to create a Harness.
+    # Operation to create a harness.
     #
     # @option params [required, String] :harness_name
     #   The name of the harness. Must start with a letter and contain only
@@ -2457,6 +2595,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     model: {
@@ -2560,6 +2706,9 @@ module Aws::BedrockAgentCoreControl
     #             username: "String",
     #           },
     #         },
+    #         aws_skills: {
+    #           paths: ["HarnessAwsSkillPath"],
+    #         },
     #       },
     #     ],
     #     allowed_tools: ["HarnessAllowedTool"],
@@ -2575,6 +2724,14 @@ module Aws::BedrockAgentCoreControl
     #             strategy_id: "String",
     #           },
     #         },
+    #       },
+    #       managed_memory_configuration: {
+    #         arn: "MemoryArn",
+    #         strategies: ["SEMANTIC"], # accepts SEMANTIC, SUMMARIZATION, USER_PREFERENCE, EPISODIC
+    #         event_expiry_duration: 1,
+    #         encryption_key_arn: "KmsKeyArn",
+    #       },
+    #       disabled: {
     #       },
     #     },
     #     truncation: {
@@ -2604,6 +2761,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.harness_name #=> String
     #   resp.harness.arn #=> String
     #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.harness_version #=> String
     #   resp.harness.execution_role_arn #=> String
     #   resp.harness.created_at #=> Time
     #   resp.harness.updated_at #=> Time
@@ -2656,6 +2814,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.skills[0].git.path #=> String
     #   resp.harness.skills[0].git.auth.credential_arn #=> String
     #   resp.harness.skills[0].git.auth.username #=> String
+    #   resp.harness.skills[0].aws_skills.paths #=> Array
+    #   resp.harness.skills[0].aws_skills.paths[0] #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -2719,6 +2879,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -2726,6 +2890,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.memory.managed_memory_configuration.arn #=> String
+    #   resp.harness.memory.managed_memory_configuration.strategies #=> Array
+    #   resp.harness.memory.managed_memory_configuration.strategies[0] #=> String, one of "SEMANTIC", "SUMMARIZATION", "USER_PREFERENCE", "EPISODIC"
+    #   resp.harness.memory.managed_memory_configuration.event_expiry_duration #=> Integer
+    #   resp.harness.memory.managed_memory_configuration.encryption_key_arn #=> String
     #   resp.harness.max_iterations #=> Integer
     #   resp.harness.max_tokens #=> Integer
     #   resp.harness.timeout_seconds #=> Integer
@@ -2737,6 +2906,72 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def create_harness(params = {}, options = {})
       req = build_request(:create_harness, params)
+      req.send_request(options)
+    end
+
+    # Operation to create a harness endpoint.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness to create an endpoint for.
+    #
+    # @option params [required, String] :endpoint_name
+    #   The name of the endpoint. Must start with a letter and contain only
+    #   alphanumeric characters and underscores.
+    #
+    # @option params [String] :target_version
+    #   The harness version that the endpoint points to and serves invocations
+    #   from.
+    #
+    # @option params [String] :description
+    #   A description of the endpoint.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Hash<String,String>] :tags
+    #   Tags to apply to the endpoint resource.
+    #
+    # @return [Types::CreateHarnessEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateHarnessEndpointResponse#endpoint #endpoint} => Types::HarnessEndpoint
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_harness_endpoint({
+    #     harness_id: "HarnessId", # required
+    #     endpoint_name: "HarnessEndpointName", # required
+    #     target_version: "HarnessVersion",
+    #     description: "HarnessEndpointDescription",
+    #     client_token: "ClientToken",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.endpoint.harness_id #=> String
+    #   resp.endpoint.harness_name #=> String
+    #   resp.endpoint.endpoint_name #=> String
+    #   resp.endpoint.arn #=> String
+    #   resp.endpoint.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.endpoint.created_at #=> Time
+    #   resp.endpoint.updated_at #=> Time
+    #   resp.endpoint.live_version #=> String
+    #   resp.endpoint.target_version #=> String
+    #   resp.endpoint.description #=> String
+    #   resp.endpoint.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateHarnessEndpoint AWS API Documentation
+    #
+    # @overload create_harness_endpoint(params = {})
+    # @param [Hash] params ({})
+    def create_harness_endpoint(params = {}, options = {})
+      req = build_request(:create_harness_endpoint, params)
       req.send_request(options)
     end
 
@@ -3226,6 +3461,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].type #=> String, one of "MEMORY_RECORDS"
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].level #=> String, one of "METADATA_ONLY", "FULL_CONTENT"
+    #   resp.memory.managed_by_resource_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateMemory AWS API Documentation
     #
@@ -3995,6 +4231,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     role_arn: "RoleArn", # required
@@ -4046,6 +4290,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.role_arn #=> String
     #   resp.workload_identity_details.workload_identity_arn #=> String
     #   resp.created_at #=> Time
@@ -4111,6 +4359,12 @@ module Aws::BedrockAgentCoreControl
     #   and IGNORE\_ALL\_FINDINGS only when you understand and accept the
     #   analyzer findings.
     #
+    # @option params [String] :enforcement_mode
+    #   The enforcement mode for the policy. Run this policy in `LOG_ONLY`
+    #   mode to collect data on how it affects your application. Once you are
+    #   satisfied with the data gathered, switch the policy to `ACTIVE`.
+    #   Defaults to `ACTIVE`.
+    #
     # @option params [required, String] :policy_engine_id
     #   The identifier of the policy engine which contains this policy. Policy
     #   engines group related policies and provide the execution context for
@@ -4135,6 +4389,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreatePolicyResponse#updated_at #updated_at} => Time
     #   * {Types::CreatePolicyResponse#policy_arn #policy_arn} => String
     #   * {Types::CreatePolicyResponse#status #status} => String
+    #   * {Types::CreatePolicyResponse#enforcement_mode #enforcement_mode} => String
     #   * {Types::CreatePolicyResponse#definition #definition} => Types::PolicyDefinition
     #   * {Types::CreatePolicyResponse#description #description} => String
     #   * {Types::CreatePolicyResponse#status_reasons #status_reasons} => Array&lt;String&gt;
@@ -4151,9 +4406,13 @@ module Aws::BedrockAgentCoreControl
     #         policy_generation_id: "ResourceId", # required
     #         policy_generation_asset_id: "ResourceId", # required
     #       },
+    #       policy: {
+    #         statement: "Statement", # required
+    #       },
     #     },
     #     description: "Description",
     #     validation_mode: "FAIL_ON_ANY_FINDINGS", # accepts FAIL_ON_ANY_FINDINGS, IGNORE_ALL_FINDINGS
+    #     enforcement_mode: "ACTIVE", # accepts ACTIVE, LOG_ONLY
     #     policy_engine_id: "ResourceId", # required
     #     client_token: "ClientToken",
     #   })
@@ -4167,9 +4426,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.updated_at #=> Time
     #   resp.policy_arn #=> String
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.enforcement_mode #=> String, one of "ACTIVE", "LOG_ONLY"
     #   resp.definition.cedar.statement #=> String
     #   resp.definition.policy_generation.policy_generation_id #=> String
     #   resp.definition.policy_generation.policy_generation_asset_id #=> String
+    #   resp.definition.policy.statement #=> String
     #   resp.description #=> String
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
@@ -4387,6 +4648,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     client_token: "ClientToken",
@@ -5122,6 +5391,11 @@ module Aws::BedrockAgentCoreControl
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    # @option params [Boolean] :delete_managed_memory
+    #   Whether to delete the managed memory on harness deletion. Default:
+    #   true. If false, the memory is disassociated and becomes a regular
+    #   customer-owned resource.
+    #
     # @return [Types::DeleteHarnessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteHarnessResponse#harness #harness} => Types::Harness
@@ -5131,6 +5405,7 @@ module Aws::BedrockAgentCoreControl
     #   resp = client.delete_harness({
     #     harness_id: "HarnessId", # required
     #     client_token: "ClientToken",
+    #     delete_managed_memory: false,
     #   })
     #
     # @example Response structure
@@ -5139,6 +5414,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.harness_name #=> String
     #   resp.harness.arn #=> String
     #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.harness_version #=> String
     #   resp.harness.execution_role_arn #=> String
     #   resp.harness.created_at #=> Time
     #   resp.harness.updated_at #=> Time
@@ -5191,6 +5467,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.skills[0].git.path #=> String
     #   resp.harness.skills[0].git.auth.credential_arn #=> String
     #   resp.harness.skills[0].git.auth.username #=> String
+    #   resp.harness.skills[0].aws_skills.paths #=> Array
+    #   resp.harness.skills[0].aws_skills.paths[0] #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -5254,6 +5532,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -5261,6 +5543,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.memory.managed_memory_configuration.arn #=> String
+    #   resp.harness.memory.managed_memory_configuration.strategies #=> Array
+    #   resp.harness.memory.managed_memory_configuration.strategies[0] #=> String, one of "SEMANTIC", "SUMMARIZATION", "USER_PREFERENCE", "EPISODIC"
+    #   resp.harness.memory.managed_memory_configuration.event_expiry_duration #=> Integer
+    #   resp.harness.memory.managed_memory_configuration.encryption_key_arn #=> String
     #   resp.harness.max_iterations #=> Integer
     #   resp.harness.max_tokens #=> Integer
     #   resp.harness.timeout_seconds #=> Integer
@@ -5272,6 +5559,56 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def delete_harness(params = {}, options = {})
       req = build_request(:delete_harness, params)
+      req.send_request(options)
+    end
+
+    # Operation to delete a harness endpoint.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness that the endpoint belongs to.
+    #
+    # @option params [required, String] :endpoint_name
+    #   The name of the endpoint to delete.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::DeleteHarnessEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteHarnessEndpointResponse#endpoint #endpoint} => Types::HarnessEndpoint
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_harness_endpoint({
+    #     harness_id: "HarnessId", # required
+    #     endpoint_name: "HarnessEndpointName", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.endpoint.harness_id #=> String
+    #   resp.endpoint.harness_name #=> String
+    #   resp.endpoint.endpoint_name #=> String
+    #   resp.endpoint.arn #=> String
+    #   resp.endpoint.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.endpoint.created_at #=> Time
+    #   resp.endpoint.updated_at #=> Time
+    #   resp.endpoint.live_version #=> String
+    #   resp.endpoint.target_version #=> String
+    #   resp.endpoint.description #=> String
+    #   resp.endpoint.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteHarnessEndpoint AWS API Documentation
+    #
+    # @overload delete_harness_endpoint(params = {})
+    # @param [Hash] params ({})
+    def delete_harness_endpoint(params = {}, options = {})
+      req = build_request(:delete_harness_endpoint, params)
       req.send_request(options)
     end
 
@@ -5513,6 +5850,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::DeletePolicyResponse#updated_at #updated_at} => Time
     #   * {Types::DeletePolicyResponse#policy_arn #policy_arn} => String
     #   * {Types::DeletePolicyResponse#status #status} => String
+    #   * {Types::DeletePolicyResponse#enforcement_mode #enforcement_mode} => String
     #   * {Types::DeletePolicyResponse#definition #definition} => Types::PolicyDefinition
     #   * {Types::DeletePolicyResponse#description #description} => String
     #   * {Types::DeletePolicyResponse#status_reasons #status_reasons} => Array&lt;String&gt;
@@ -5533,9 +5871,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.updated_at #=> Time
     #   resp.policy_arn #=> String
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.enforcement_mode #=> String, one of "ACTIVE", "LOG_ONLY"
     #   resp.definition.cedar.statement #=> String
     #   resp.definition.policy_generation.policy_generation_id #=> String
     #   resp.definition.policy_generation.policy_generation_asset_id #=> String
+    #   resp.definition.policy.statement #=> String
     #   resp.description #=> String
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
@@ -5815,6 +6155,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.request_header_configuration.request_header_allowlist #=> Array
     #   resp.request_header_configuration.request_header_allowlist[0] #=> String
     #   resp.metadata_configuration.require_mmdsv2 #=> Boolean
@@ -6373,10 +6717,13 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetGatewayResponse#authorizer_type #authorizer_type} => String
     #   * {Types::GetGatewayResponse#authorizer_configuration #authorizer_configuration} => Types::AuthorizerConfiguration
     #   * {Types::GetGatewayResponse#kms_key_arn #kms_key_arn} => String
+    #   * {Types::GetGatewayResponse#custom_transform_configuration #custom_transform_configuration} => Types::CustomTransformConfiguration
     #   * {Types::GetGatewayResponse#interceptor_configurations #interceptor_configurations} => Array&lt;Types::GatewayInterceptorConfiguration&gt;
     #   * {Types::GetGatewayResponse#policy_engine_configuration #policy_engine_configuration} => Types::GatewayPolicyEngineConfiguration
     #   * {Types::GetGatewayResponse#workload_identity_details #workload_identity_details} => Types::WorkloadIdentityDetails
     #   * {Types::GetGatewayResponse#exception_level #exception_level} => String
+    #   * {Types::GetGatewayResponse#web_acl_arn #web_acl_arn} => String
+    #   * {Types::GetGatewayResponse#waf_configuration #waf_configuration} => Types::WafConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -6441,16 +6788,25 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.kms_key_arn #=> String
+    #   resp.custom_transform_configuration.lambda.arn #=> String
     #   resp.interceptor_configurations #=> Array
     #   resp.interceptor_configurations[0].interceptor.lambda.arn #=> String
     #   resp.interceptor_configurations[0].interception_points #=> Array
     #   resp.interceptor_configurations[0].interception_points[0] #=> String, one of "REQUEST", "RESPONSE"
     #   resp.interceptor_configurations[0].input_configuration.pass_request_headers #=> Boolean
+    #   resp.interceptor_configurations[0].input_configuration.payload_filter.exclude #=> Array
+    #   resp.interceptor_configurations[0].input_configuration.payload_filter.exclude[0].field #=> String, one of "RESPONSE_BODY"
     #   resp.policy_engine_configuration.arn #=> String
     #   resp.policy_engine_configuration.mode #=> String, one of "LOG_ONLY", "ENFORCE"
     #   resp.workload_identity_details.workload_identity_arn #=> String
     #   resp.exception_level #=> String, one of "DEBUG"
+    #   resp.web_acl_arn #=> String
+    #   resp.waf_configuration.failure_mode #=> String, one of "FAIL_CLOSE", "FAIL_OPEN"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetGateway AWS API Documentation
     #
@@ -6622,8 +6978,37 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.target_configuration.mcp.connector.enabled #=> Array
+    #   resp.target_configuration.mcp.connector.enabled[0] #=> String
+    #   resp.target_configuration.mcp.connector.configurations #=> Array
+    #   resp.target_configuration.mcp.connector.configurations[0].name #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].description #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides #=> Array
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].path #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].description #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].visible #=> Boolean
     #   resp.target_configuration.http.agentcore_runtime.arn #=> String
     #   resp.target_configuration.http.agentcore_runtime.qualifier #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.s3.uri #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.inline_payload #=> String
+    #   resp.target_configuration.http.passthrough.endpoint #=> String
+    #   resp.target_configuration.http.passthrough.protocol_type #=> String, one of "MCP", "A2A", "INFERENCE", "CUSTOM"
+    #   resp.target_configuration.http.passthrough.schema.source.s3.uri #=> String
+    #   resp.target_configuration.http.passthrough.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.inference.connector.source.connector_id #=> String
+    #   resp.target_configuration.inference.provider.endpoint #=> String
+    #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
+    #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.separator #=> String
+    #   resp.target_configuration.inference.provider.operations #=> Array
+    #   resp.target_configuration.inference.provider.operations[0].path #=> String
+    #   resp.target_configuration.inference.provider.operations[0].provider_path #=> String
+    #   resp.target_configuration.inference.provider.operations[0].models #=> Array
+    #   resp.target_configuration.inference.provider.operations[0].models[0].model #=> String
     #   resp.credential_provider_configurations #=> Array
     #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
@@ -6673,10 +7058,14 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Operation to get a single Harness.
+    # Operation to get a single harness.
     #
     # @option params [required, String] :harness_id
     #   The ID of the harness to retrieve.
+    #
+    # @option params [String] :harness_version
+    #   Specific version of the harness to retrieve. If omitted, returns the
+    #   current Harness configuration, including its status.
     #
     # @return [Types::GetHarnessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -6686,6 +7075,7 @@ module Aws::BedrockAgentCoreControl
     #
     #   resp = client.get_harness({
     #     harness_id: "HarnessId", # required
+    #     harness_version: "HarnessVersion",
     #   })
     #
     # @example Response structure
@@ -6694,6 +7084,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.harness_name #=> String
     #   resp.harness.arn #=> String
     #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.harness_version #=> String
     #   resp.harness.execution_role_arn #=> String
     #   resp.harness.created_at #=> Time
     #   resp.harness.updated_at #=> Time
@@ -6746,6 +7137,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.skills[0].git.path #=> String
     #   resp.harness.skills[0].git.auth.credential_arn #=> String
     #   resp.harness.skills[0].git.auth.username #=> String
+    #   resp.harness.skills[0].aws_skills.paths #=> Array
+    #   resp.harness.skills[0].aws_skills.paths[0] #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -6809,6 +7202,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -6816,6 +7213,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.memory.managed_memory_configuration.arn #=> String
+    #   resp.harness.memory.managed_memory_configuration.strategies #=> Array
+    #   resp.harness.memory.managed_memory_configuration.strategies[0] #=> String, one of "SEMANTIC", "SUMMARIZATION", "USER_PREFERENCE", "EPISODIC"
+    #   resp.harness.memory.managed_memory_configuration.event_expiry_duration #=> Integer
+    #   resp.harness.memory.managed_memory_configuration.encryption_key_arn #=> String
     #   resp.harness.max_iterations #=> Integer
     #   resp.harness.max_tokens #=> Integer
     #   resp.harness.timeout_seconds #=> Integer
@@ -6827,6 +7229,48 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def get_harness(params = {}, options = {})
       req = build_request(:get_harness, params)
+      req.send_request(options)
+    end
+
+    # Operation to get a single harness endpoint.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness that the endpoint belongs to.
+    #
+    # @option params [required, String] :endpoint_name
+    #   The name of the endpoint to retrieve.
+    #
+    # @return [Types::GetHarnessEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetHarnessEndpointResponse#endpoint #endpoint} => Types::HarnessEndpoint
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_harness_endpoint({
+    #     harness_id: "HarnessId", # required
+    #     endpoint_name: "HarnessEndpointName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.endpoint.harness_id #=> String
+    #   resp.endpoint.harness_name #=> String
+    #   resp.endpoint.endpoint_name #=> String
+    #   resp.endpoint.arn #=> String
+    #   resp.endpoint.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.endpoint.created_at #=> Time
+    #   resp.endpoint.updated_at #=> Time
+    #   resp.endpoint.live_version #=> String
+    #   resp.endpoint.target_version #=> String
+    #   resp.endpoint.description #=> String
+    #   resp.endpoint.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetHarnessEndpoint AWS API Documentation
+    #
+    # @overload get_harness_endpoint(params = {})
+    # @param [Hash] params ({})
+    def get_harness_endpoint(params = {}, options = {})
+      req = build_request(:get_harness_endpoint, params)
       req.send_request(options)
     end
 
@@ -6953,6 +7397,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].type #=> String, one of "MEMORY_RECORDS"
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].level #=> String, one of "METADATA_ONLY", "FULL_CONTENT"
+    #   resp.memory.managed_by_resource_arn #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -7371,6 +7816,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.role_arn #=> String
     #   resp.workload_identity_details.workload_identity_arn #=> String
     #   resp.created_at #=> Time
@@ -7410,6 +7859,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetPolicyResponse#updated_at #updated_at} => Time
     #   * {Types::GetPolicyResponse#policy_arn #policy_arn} => String
     #   * {Types::GetPolicyResponse#status #status} => String
+    #   * {Types::GetPolicyResponse#enforcement_mode #enforcement_mode} => String
     #   * {Types::GetPolicyResponse#definition #definition} => Types::PolicyDefinition
     #   * {Types::GetPolicyResponse#description #description} => String
     #   * {Types::GetPolicyResponse#status_reasons #status_reasons} => Array&lt;String&gt;
@@ -7430,9 +7880,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.updated_at #=> Time
     #   resp.policy_arn #=> String
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.enforcement_mode #=> String, one of "ACTIVE", "LOG_ONLY"
     #   resp.definition.cedar.statement #=> String
     #   resp.definition.policy_generation.policy_generation_id #=> String
     #   resp.definition.policy_generation.policy_generation_asset_id #=> String
+    #   resp.definition.policy.statement #=> String
     #   resp.description #=> String
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
@@ -7704,6 +8156,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetPolicySummaryResponse#updated_at #updated_at} => Time
     #   * {Types::GetPolicySummaryResponse#policy_arn #policy_arn} => String
     #   * {Types::GetPolicySummaryResponse#status #status} => String
+    #   * {Types::GetPolicySummaryResponse#enforcement_mode #enforcement_mode} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -7721,6 +8174,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.updated_at #=> Time
     #   resp.policy_arn #=> String
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.enforcement_mode #=> String, one of "ACTIVE", "LOG_ONLY"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetPolicySummary AWS API Documentation
     #
@@ -7800,6 +8254,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.approval_configuration.auto_approval #=> Boolean
     #   resp.status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
     #   resp.status_reason #=> String
@@ -8754,6 +9212,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].updated_at #=> Time
     #   resp.items[0].resource_priority #=> Integer
+    #   resp.items[0].last_synchronized_at #=> Time
+    #   resp.items[0].authorization_data.oauth2.authorization_url #=> String
+    #   resp.items[0].authorization_data.oauth2.user_id #=> String
+    #   resp.items[0].target_type #=> String, one of "OPEN_API_SCHEMA", "SMITHY_MODEL", "MCP_SERVER", "LAMBDA", "API_GATEWAY", "CONNECTOR", "AGENTCORE_RUNTIME", "PASSTHROUGH", "PROVIDER"
+    #   resp.items[0].listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListGatewayTargets AWS API Documentation
@@ -8815,7 +9278,106 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Operation to list Harnesses.
+    # Operation to list the endpoints of a harness.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness whose endpoints are listed.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results.
+    #
+    # @return [Types::ListHarnessEndpointsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListHarnessEndpointsResponse#endpoints #endpoints} => Array&lt;Types::HarnessEndpoint&gt;
+    #   * {Types::ListHarnessEndpointsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_harness_endpoints({
+    #     harness_id: "HarnessId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.endpoints #=> Array
+    #   resp.endpoints[0].harness_id #=> String
+    #   resp.endpoints[0].harness_name #=> String
+    #   resp.endpoints[0].endpoint_name #=> String
+    #   resp.endpoints[0].arn #=> String
+    #   resp.endpoints[0].status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.endpoints[0].created_at #=> Time
+    #   resp.endpoints[0].updated_at #=> Time
+    #   resp.endpoints[0].live_version #=> String
+    #   resp.endpoints[0].target_version #=> String
+    #   resp.endpoints[0].description #=> String
+    #   resp.endpoints[0].failure_reason #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessEndpoints AWS API Documentation
+    #
+    # @overload list_harness_endpoints(params = {})
+    # @param [Hash] params ({})
+    def list_harness_endpoints(params = {}, options = {})
+      req = build_request(:list_harness_endpoints, params)
+      req.send_request(options)
+    end
+
+    # Operation to list the versions of a Harness.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness whose versions are listed.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results.
+    #
+    # @return [Types::ListHarnessVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListHarnessVersionsResponse#harness_versions #harness_versions} => Array&lt;Types::HarnessVersionSummary&gt;
+    #   * {Types::ListHarnessVersionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_harness_versions({
+    #     harness_id: "HarnessId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.harness_versions #=> Array
+    #   resp.harness_versions[0].harness_id #=> String
+    #   resp.harness_versions[0].harness_name #=> String
+    #   resp.harness_versions[0].arn #=> String
+    #   resp.harness_versions[0].harness_version #=> String
+    #   resp.harness_versions[0].status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness_versions[0].created_at #=> Time
+    #   resp.harness_versions[0].updated_at #=> Time
+    #   resp.harness_versions[0].failure_reason #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnessVersions AWS API Documentation
+    #
+    # @overload list_harness_versions(params = {})
+    # @param [Hash] params ({})
+    def list_harness_versions(params = {}, options = {})
+      req = build_request(:list_harness_versions, params)
+      req.send_request(options)
+    end
+
+    # Operation to list harnesses.
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return in a single call.
@@ -8846,6 +9408,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harnesses[0].status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
     #   resp.harnesses[0].created_at #=> Time
     #   resp.harnesses[0].updated_at #=> Time
+    #   resp.harnesses[0].harness_version #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListHarnesses AWS API Documentation
@@ -8891,6 +9454,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memories[0].status #=> String, one of "CREATING", "ACTIVE", "FAILED", "DELETING", "UPDATING"
     #   resp.memories[0].created_at #=> Time
     #   resp.memories[0].updated_at #=> Time
+    #   resp.memories[0].managed_by_resource_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListMemories AWS API Documentation
@@ -9192,9 +9756,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.policies[0].updated_at #=> Time
     #   resp.policies[0].policy_arn #=> String
     #   resp.policies[0].status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.policies[0].enforcement_mode #=> String, one of "ACTIVE", "LOG_ONLY"
     #   resp.policies[0].definition.cedar.statement #=> String
     #   resp.policies[0].definition.policy_generation.policy_generation_id #=> String
     #   resp.policies[0].definition.policy_generation.policy_generation_asset_id #=> String
+    #   resp.policies[0].definition.policy.statement #=> String
     #   resp.policies[0].description #=> String
     #   resp.policies[0].status_reasons #=> Array
     #   resp.policies[0].status_reasons[0] #=> String
@@ -9383,6 +9949,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.policy_generation_assets[0].definition.cedar.statement #=> String
     #   resp.policy_generation_assets[0].definition.policy_generation.policy_generation_id #=> String
     #   resp.policy_generation_assets[0].definition.policy_generation.policy_generation_asset_id #=> String
+    #   resp.policy_generation_assets[0].definition.policy.statement #=> String
     #   resp.policy_generation_assets[0].raw_text_fragment #=> String
     #   resp.policy_generation_assets[0].findings #=> Array
     #   resp.policy_generation_assets[0].findings[0].type #=> String, one of "VALID", "INVALID", "NOT_TRANSLATABLE", "ALLOW_ALL", "ALLOW_NONE", "DENY_ALL", "DENY_NONE"
@@ -9574,6 +10141,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.policies[0].updated_at #=> Time
     #   resp.policies[0].policy_arn #=> String
     #   resp.policies[0].status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.policies[0].enforcement_mode #=> String, one of "ACTIVE", "LOG_ONLY"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListPolicySummaries AWS API Documentation
@@ -10103,8 +10671,37 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.targets[0].target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.targets[0].target_configuration.mcp.connector.enabled #=> Array
+    #   resp.targets[0].target_configuration.mcp.connector.enabled[0] #=> String
+    #   resp.targets[0].target_configuration.mcp.connector.configurations #=> Array
+    #   resp.targets[0].target_configuration.mcp.connector.configurations[0].name #=> String
+    #   resp.targets[0].target_configuration.mcp.connector.configurations[0].description #=> String
+    #   resp.targets[0].target_configuration.mcp.connector.configurations[0].parameter_overrides #=> Array
+    #   resp.targets[0].target_configuration.mcp.connector.configurations[0].parameter_overrides[0].path #=> String
+    #   resp.targets[0].target_configuration.mcp.connector.configurations[0].parameter_overrides[0].description #=> String
+    #   resp.targets[0].target_configuration.mcp.connector.configurations[0].parameter_overrides[0].visible #=> Boolean
     #   resp.targets[0].target_configuration.http.agentcore_runtime.arn #=> String
     #   resp.targets[0].target_configuration.http.agentcore_runtime.qualifier #=> String
+    #   resp.targets[0].target_configuration.http.agentcore_runtime.schema.source.s3.uri #=> String
+    #   resp.targets[0].target_configuration.http.agentcore_runtime.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.targets[0].target_configuration.http.agentcore_runtime.schema.source.inline_payload #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.endpoint #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.protocol_type #=> String, one of "MCP", "A2A", "INFERENCE", "CUSTOM"
+    #   resp.targets[0].target_configuration.http.passthrough.schema.source.s3.uri #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.schema.source.inline_payload #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.targets[0].target_configuration.inference.connector.source.connector_id #=> String
+    #   resp.targets[0].target_configuration.inference.provider.endpoint #=> String
+    #   resp.targets[0].target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
+    #   resp.targets[0].target_configuration.inference.provider.model_mapping.provider_prefix.separator #=> String
+    #   resp.targets[0].target_configuration.inference.provider.operations #=> Array
+    #   resp.targets[0].target_configuration.inference.provider.operations[0].path #=> String
+    #   resp.targets[0].target_configuration.inference.provider.operations[0].provider_path #=> String
+    #   resp.targets[0].target_configuration.inference.provider.operations[0].models #=> Array
+    #   resp.targets[0].target_configuration.inference.provider.operations[0].models[0].model #=> String
     #   resp.targets[0].credential_provider_configurations #=> Array
     #   resp.targets[0].credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.targets[0].credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
@@ -10366,6 +10963,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     request_header_configuration: {
@@ -10492,15 +11097,15 @@ module Aws::BedrockAgentCoreControl
     #   existing API key and is encrypted and stored securely.
     #
     # @option params [Types::SecretReference] :api_key_secret_config
-    #   A reference to the AWS Secrets Manager secret that stores the API key.
-    #   This includes the secret ID and the JSON key used to extract the API
-    #   key value from the secret. Required when `apiKeySecretSource` is set
-    #   to `EXTERNAL`.
+    #   A reference to the Amazon Web Services Secrets Manager secret that
+    #   stores the API key. This includes the secret ID and the JSON key used
+    #   to extract the API key value from the secret. Required when
+    #   `apiKeySecretSource` is set to `EXTERNAL`.
     #
     # @option params [String] :api_key_secret_source
     #   The source type of the API key secret. Use `MANAGED` if the secret is
     #   managed by the service, or `EXTERNAL` if you manage the secret
-    #   yourself in AWS Secrets Manager.
+    #   yourself in Amazon Web Services Secrets Manager.
     #
     # @return [Types::UpdateApiKeyCredentialProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -10911,6 +11516,11 @@ module Aws::BedrockAgentCoreControl
     # @option params [String] :kms_key_arn
     #   The updated ARN of the KMS key used to encrypt the gateway.
     #
+    # @option params [Types::CustomTransformConfiguration] :custom_transform_configuration
+    #   The updated custom transformation configuration for the gateway. This
+    #   configuration defines how the gateway transforms requests and
+    #   responses.
+    #
     # @option params [Array<Types::GatewayInterceptorConfiguration>] :interceptor_configurations
     #   The updated interceptor configurations for the gateway.
     #
@@ -10931,6 +11541,9 @@ module Aws::BedrockAgentCoreControl
     #   * If the value is omitted, a generic error message is returned to the
     #     end user.
     #
+    # @option params [Types::WafConfiguration] :waf_configuration
+    #   The updated Amazon Web Services WAF configuration for the gateway.
+    #
     # @return [Types::UpdateGatewayResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateGatewayResponse#gateway_arn #gateway_arn} => String
@@ -10948,10 +11561,13 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdateGatewayResponse#authorizer_type #authorizer_type} => String
     #   * {Types::UpdateGatewayResponse#authorizer_configuration #authorizer_configuration} => Types::AuthorizerConfiguration
     #   * {Types::UpdateGatewayResponse#kms_key_arn #kms_key_arn} => String
+    #   * {Types::UpdateGatewayResponse#custom_transform_configuration #custom_transform_configuration} => Types::CustomTransformConfiguration
     #   * {Types::UpdateGatewayResponse#interceptor_configurations #interceptor_configurations} => Array&lt;Types::GatewayInterceptorConfiguration&gt;
     #   * {Types::UpdateGatewayResponse#policy_engine_configuration #policy_engine_configuration} => Types::GatewayPolicyEngineConfiguration
     #   * {Types::UpdateGatewayResponse#workload_identity_details #workload_identity_details} => Types::WorkloadIdentityDetails
     #   * {Types::UpdateGatewayResponse#exception_level #exception_level} => String
+    #   * {Types::UpdateGatewayResponse#web_acl_arn #web_acl_arn} => String
+    #   * {Types::UpdateGatewayResponse#waf_configuration #waf_configuration} => Types::WafConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -11029,9 +11645,22 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     kms_key_arn: "KmsKeyArn",
+    #     custom_transform_configuration: {
+    #       lambda: {
+    #         arn: "LambdaFunctionArn",
+    #       },
+    #     },
     #     interceptor_configurations: [
     #       {
     #         interceptor: { # required
@@ -11042,6 +11671,13 @@ module Aws::BedrockAgentCoreControl
     #         interception_points: ["REQUEST"], # required, accepts REQUEST, RESPONSE
     #         input_configuration: {
     #           pass_request_headers: false, # required
+    #           payload_filter: {
+    #             exclude: [ # required
+    #               {
+    #                 field: "RESPONSE_BODY", # accepts RESPONSE_BODY
+    #               },
+    #             ],
+    #           },
     #         },
     #       },
     #     ],
@@ -11050,6 +11686,9 @@ module Aws::BedrockAgentCoreControl
     #       mode: "LOG_ONLY", # required, accepts LOG_ONLY, ENFORCE
     #     },
     #     exception_level: "DEBUG", # accepts DEBUG
+    #     waf_configuration: {
+    #       failure_mode: "FAIL_CLOSE", # accepts FAIL_CLOSE, FAIL_OPEN
+    #     },
     #   })
     #
     # @example Response structure
@@ -11109,16 +11748,25 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.kms_key_arn #=> String
+    #   resp.custom_transform_configuration.lambda.arn #=> String
     #   resp.interceptor_configurations #=> Array
     #   resp.interceptor_configurations[0].interceptor.lambda.arn #=> String
     #   resp.interceptor_configurations[0].interception_points #=> Array
     #   resp.interceptor_configurations[0].interception_points[0] #=> String, one of "REQUEST", "RESPONSE"
     #   resp.interceptor_configurations[0].input_configuration.pass_request_headers #=> Boolean
+    #   resp.interceptor_configurations[0].input_configuration.payload_filter.exclude #=> Array
+    #   resp.interceptor_configurations[0].input_configuration.payload_filter.exclude[0].field #=> String, one of "RESPONSE_BODY"
     #   resp.policy_engine_configuration.arn #=> String
     #   resp.policy_engine_configuration.mode #=> String, one of "LOG_ONLY", "ENFORCE"
     #   resp.workload_identity_details.workload_identity_arn #=> String
     #   resp.exception_level #=> String, one of "DEBUG"
+    #   resp.web_acl_arn #=> String
+    #   resp.waf_configuration.failure_mode #=> String, one of "FAIL_CLOSE", "FAIL_OPEN"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGateway AWS API Documentation
     #
@@ -11291,7 +11939,7 @@ module Aws::BedrockAgentCoreControl
     # @option params [required, String] :target_id
     #   The unique identifier of the gateway target to update.
     #
-    # @option params [required, String] :name
+    # @option params [String] :name
     #   The updated name for the gateway target.
     #
     # @option params [String] :description
@@ -11336,7 +11984,7 @@ module Aws::BedrockAgentCoreControl
     #   resp = client.update_gateway_target({
     #     gateway_identifier: "GatewayIdentifier", # required
     #     target_id: "TargetId", # required
-    #     name: "TargetName", # required
+    #     name: "TargetName",
     #     description: "TargetDescription",
     #     target_configuration: { # required
     #       mcp: {
@@ -11427,11 +12075,85 @@ module Aws::BedrockAgentCoreControl
     #             ],
     #           },
     #         },
+    #         connector: {
+    #           source: { # required
+    #             connector_id: "ConnectorId", # required
+    #           },
+    #           enabled: ["String"],
+    #           configurations: [
+    #             {
+    #               name: "ConnectorConfigurationNameString", # required
+    #               description: "ConnectorConfigurationDescriptionString",
+    #               parameter_values: {
+    #               },
+    #               parameter_overrides: [
+    #                 {
+    #                   path: "String", # required
+    #                   description: "String",
+    #                   visible: false,
+    #                 },
+    #               ],
+    #             },
+    #           ],
+    #         },
     #       },
     #       http: {
     #         agentcore_runtime: {
     #           arn: "RuntimeArn", # required
     #           qualifier: "RuntimeQualifier",
+    #           schema: {
+    #             source: { # required
+    #               s3: {
+    #                 uri: "S3BucketUri",
+    #                 bucket_owner_account_id: "AwsAccountId",
+    #               },
+    #               inline_payload: "InlinePayload",
+    #             },
+    #           },
+    #         },
+    #         passthrough: {
+    #           endpoint: "PassthroughEndpoint", # required
+    #           protocol_type: "MCP", # required, accepts MCP, A2A, INFERENCE, CUSTOM
+    #           schema: {
+    #             source: { # required
+    #               s3: {
+    #                 uri: "S3BucketUri",
+    #                 bucket_owner_account_id: "AwsAccountId",
+    #               },
+    #               inline_payload: "InlinePayload",
+    #             },
+    #           },
+    #           stickiness_configuration: {
+    #             identifier: "StickinessConfigurationIdentifierString", # required
+    #             timeout: 1,
+    #           },
+    #         },
+    #       },
+    #       inference: {
+    #         connector: {
+    #           source: { # required
+    #             connector_id: "InferenceConnectorId", # required
+    #           },
+    #         },
+    #         provider: {
+    #           endpoint: "PassthroughEndpoint", # required
+    #           model_mapping: {
+    #             provider_prefix: {
+    #               strip: false,
+    #               separator: "ProviderPrefixSeparatorString",
+    #             },
+    #           },
+    #           operations: [
+    #             {
+    #               path: "InferenceOperationPath", # required
+    #               provider_path: "InferenceOperationPath",
+    #               models: [
+    #                 {
+    #                   model: "ModelPattern", # required
+    #                 },
+    #               ],
+    #             },
+    #           ],
     #         },
     #       },
     #     },
@@ -11537,8 +12259,37 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].filter_path #=> String
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
+    #   resp.target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.target_configuration.mcp.connector.enabled #=> Array
+    #   resp.target_configuration.mcp.connector.enabled[0] #=> String
+    #   resp.target_configuration.mcp.connector.configurations #=> Array
+    #   resp.target_configuration.mcp.connector.configurations[0].name #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].description #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides #=> Array
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].path #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].description #=> String
+    #   resp.target_configuration.mcp.connector.configurations[0].parameter_overrides[0].visible #=> Boolean
     #   resp.target_configuration.http.agentcore_runtime.arn #=> String
     #   resp.target_configuration.http.agentcore_runtime.qualifier #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.s3.uri #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.http.agentcore_runtime.schema.source.inline_payload #=> String
+    #   resp.target_configuration.http.passthrough.endpoint #=> String
+    #   resp.target_configuration.http.passthrough.protocol_type #=> String, one of "MCP", "A2A", "INFERENCE", "CUSTOM"
+    #   resp.target_configuration.http.passthrough.schema.source.s3.uri #=> String
+    #   resp.target_configuration.http.passthrough.schema.source.s3.bucket_owner_account_id #=> String
+    #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.inference.connector.source.connector_id #=> String
+    #   resp.target_configuration.inference.provider.endpoint #=> String
+    #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
+    #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.separator #=> String
+    #   resp.target_configuration.inference.provider.operations #=> Array
+    #   resp.target_configuration.inference.provider.operations[0].path #=> String
+    #   resp.target_configuration.inference.provider.operations[0].provider_path #=> String
+    #   resp.target_configuration.inference.provider.operations[0].models #=> Array
+    #   resp.target_configuration.inference.provider.operations[0].models[0].model #=> String
     #   resp.credential_provider_configurations #=> Array
     #   resp.credential_provider_configurations[0].credential_provider_type #=> String, one of "GATEWAY_IAM_ROLE", "OAUTH", "API_KEY", "CALLER_IAM_CREDENTIALS", "JWT_PASSTHROUGH"
     #   resp.credential_provider_configurations[0].credential_provider.oauth_credential_provider.provider_arn #=> String
@@ -11588,7 +12339,7 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Operation to update a Harness.
+    # Operation to update a harness.
     #
     # @option params [required, String] :harness_id
     #   The ID of the harness to update.
@@ -11774,6 +12525,14 @@ module Aws::BedrockAgentCoreControl
     #               },
     #             },
     #           ],
+    #           allowed_workload_configuration: {
+    #             hosting_environments: [
+    #               {
+    #                 arn: "BedrockAgentcoreResourceArn", # required
+    #               },
+    #             ],
+    #             workload_identities: ["WorkloadIdentityNameType"],
+    #           },
     #         },
     #       },
     #     },
@@ -11878,6 +12637,9 @@ module Aws::BedrockAgentCoreControl
     #             username: "String",
     #           },
     #         },
+    #         aws_skills: {
+    #           paths: ["HarnessAwsSkillPath"],
+    #         },
     #       },
     #     ],
     #     allowed_tools: ["HarnessAllowedTool"],
@@ -11894,6 +12656,14 @@ module Aws::BedrockAgentCoreControl
     #               strategy_id: "String",
     #             },
     #           },
+    #         },
+    #         managed_memory_configuration: {
+    #           arn: "MemoryArn",
+    #           strategies: ["SEMANTIC"], # accepts SEMANTIC, SUMMARIZATION, USER_PREFERENCE, EPISODIC
+    #           event_expiry_duration: 1,
+    #           encryption_key_arn: "KmsKeyArn",
+    #         },
+    #         disabled: {
     #         },
     #       },
     #     },
@@ -11921,6 +12691,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.harness_name #=> String
     #   resp.harness.arn #=> String
     #   resp.harness.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.harness.harness_version #=> String
     #   resp.harness.execution_role_arn #=> String
     #   resp.harness.created_at #=> Time
     #   resp.harness.updated_at #=> Time
@@ -11973,6 +12744,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.skills[0].git.path #=> String
     #   resp.harness.skills[0].git.auth.credential_arn #=> String
     #   resp.harness.skills[0].git.auth.username #=> String
+    #   resp.harness.skills[0].aws_skills.paths #=> Array
+    #   resp.harness.skills[0].aws_skills.paths[0] #=> String
     #   resp.harness.allowed_tools #=> Array
     #   resp.harness.allowed_tools[0] #=> String
     #   resp.harness.truncation.strategy #=> String, one of "sliding_window", "summarization", "none"
@@ -12036,6 +12809,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.harness.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.harness.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.harness.memory.agent_core_memory_configuration.arn #=> String
     #   resp.harness.memory.agent_core_memory_configuration.actor_id #=> String
     #   resp.harness.memory.agent_core_memory_configuration.messages_count #=> Integer
@@ -12043,6 +12820,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].top_k #=> Integer
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].relevance_score #=> Float
     #   resp.harness.memory.agent_core_memory_configuration.retrieval_config["String"].strategy_id #=> String
+    #   resp.harness.memory.managed_memory_configuration.arn #=> String
+    #   resp.harness.memory.managed_memory_configuration.strategies #=> Array
+    #   resp.harness.memory.managed_memory_configuration.strategies[0] #=> String, one of "SEMANTIC", "SUMMARIZATION", "USER_PREFERENCE", "EPISODIC"
+    #   resp.harness.memory.managed_memory_configuration.event_expiry_duration #=> Integer
+    #   resp.harness.memory.managed_memory_configuration.encryption_key_arn #=> String
     #   resp.harness.max_iterations #=> Integer
     #   resp.harness.max_tokens #=> Integer
     #   resp.harness.timeout_seconds #=> Integer
@@ -12054,6 +12836,66 @@ module Aws::BedrockAgentCoreControl
     # @param [Hash] params ({})
     def update_harness(params = {}, options = {})
       req = build_request(:update_harness, params)
+      req.send_request(options)
+    end
+
+    # Operation to update a harness endpoint.
+    #
+    # @option params [required, String] :harness_id
+    #   The ID of the harness that the endpoint belongs to.
+    #
+    # @option params [required, String] :endpoint_name
+    #   The name of the endpoint to update.
+    #
+    # @option params [String] :target_version
+    #   The harness version that the endpoint points to. If not specified, the
+    #   existing value is retained.
+    #
+    # @option params [String] :description
+    #   A description of the endpoint. If not specified, the existing value is
+    #   retained.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateHarnessEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateHarnessEndpointResponse#endpoint #endpoint} => Types::HarnessEndpoint
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_harness_endpoint({
+    #     harness_id: "HarnessId", # required
+    #     endpoint_name: "HarnessEndpointName", # required
+    #     target_version: "HarnessVersion",
+    #     description: "HarnessEndpointDescription",
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.endpoint.harness_id #=> String
+    #   resp.endpoint.harness_name #=> String
+    #   resp.endpoint.endpoint_name #=> String
+    #   resp.endpoint.arn #=> String
+    #   resp.endpoint.status #=> String, one of "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "READY", "DELETING", "DELETE_FAILED"
+    #   resp.endpoint.created_at #=> Time
+    #   resp.endpoint.updated_at #=> Time
+    #   resp.endpoint.live_version #=> String
+    #   resp.endpoint.target_version #=> String
+    #   resp.endpoint.description #=> String
+    #   resp.endpoint.failure_reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateHarnessEndpoint AWS API Documentation
+    #
+    # @overload update_harness_endpoint(params = {})
+    # @param [Hash] params ({})
+    def update_harness_endpoint(params = {}, options = {})
+      req = build_request(:update_harness_endpoint, params)
       req.send_request(options)
     end
 
@@ -12699,6 +13541,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].type #=> String, one of "MEMORY_RECORDS"
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations[0].level #=> String, one of "METADATA_ONLY", "FULL_CONTENT"
+    #   resp.memory.managed_by_resource_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateMemory AWS API Documentation
     #
@@ -13418,6 +14261,14 @@ module Aws::BedrockAgentCoreControl
     #             },
     #           },
     #         ],
+    #         allowed_workload_configuration: {
+    #           hosting_environments: [
+    #             {
+    #               arn: "BedrockAgentcoreResourceArn", # required
+    #             },
+    #           ],
+    #           workload_identities: ["WorkloadIdentityNameType"],
+    #         },
     #       },
     #     },
     #     role_arn: "RoleArn",
@@ -13480,6 +14331,13 @@ module Aws::BedrockAgentCoreControl
     #   FAIL\_ON\_ANY\_FINDINGS to ensure policy correctness during updates,
     #   especially when modifying policy logic or conditions.
     #
+    # @option params [String] :enforcement_mode
+    #   The enforcement mode for the policy. Run this policy in `LOG_ONLY`
+    #   mode to collect data on how it affects your application. Once you are
+    #   satisfied with the data gathered, switch the policy to `ACTIVE`. If
+    #   you omit this field, the policy's existing enforcement mode is
+    #   unchanged.
+    #
     # @return [Types::UpdatePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdatePolicyResponse#policy_id #policy_id} => String
@@ -13489,6 +14347,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdatePolicyResponse#updated_at #updated_at} => Time
     #   * {Types::UpdatePolicyResponse#policy_arn #policy_arn} => String
     #   * {Types::UpdatePolicyResponse#status #status} => String
+    #   * {Types::UpdatePolicyResponse#enforcement_mode #enforcement_mode} => String
     #   * {Types::UpdatePolicyResponse#definition #definition} => Types::PolicyDefinition
     #   * {Types::UpdatePolicyResponse#description #description} => String
     #   * {Types::UpdatePolicyResponse#status_reasons #status_reasons} => Array&lt;String&gt;
@@ -13509,8 +14368,12 @@ module Aws::BedrockAgentCoreControl
     #         policy_generation_id: "ResourceId", # required
     #         policy_generation_asset_id: "ResourceId", # required
     #       },
+    #       policy: {
+    #         statement: "Statement", # required
+    #       },
     #     },
     #     validation_mode: "FAIL_ON_ANY_FINDINGS", # accepts FAIL_ON_ANY_FINDINGS, IGNORE_ALL_FINDINGS
+    #     enforcement_mode: "ACTIVE", # accepts ACTIVE, LOG_ONLY
     #   })
     #
     # @example Response structure
@@ -13522,9 +14385,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.updated_at #=> Time
     #   resp.policy_arn #=> String
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.enforcement_mode #=> String, one of "ACTIVE", "LOG_ONLY"
     #   resp.definition.cedar.statement #=> String
     #   resp.definition.policy_generation.policy_generation_id #=> String
     #   resp.definition.policy_generation.policy_generation_asset_id #=> String
+    #   resp.definition.policy.statement #=> String
     #   resp.description #=> String
     #   resp.status_reasons #=> Array
     #   resp.status_reasons[0] #=> String
@@ -13696,6 +14561,14 @@ module Aws::BedrockAgentCoreControl
     #               },
     #             },
     #           ],
+    #           allowed_workload_configuration: {
+    #             hosting_environments: [
+    #               {
+    #                 arn: "BedrockAgentcoreResourceArn", # required
+    #               },
+    #             ],
+    #             workload_identities: ["WorkloadIdentityNameType"],
+    #           },
     #         },
     #       },
     #     },
@@ -13749,6 +14622,10 @@ module Aws::BedrockAgentCoreControl
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.authorizer_configuration.custom_jwt_authorizer.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.hosting_environments[0].arn #=> String
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities #=> Array
+    #   resp.authorizer_configuration.custom_jwt_authorizer.allowed_workload_configuration.workload_identities[0] #=> String
     #   resp.approval_configuration.auto_approval #=> Boolean
     #   resp.status #=> String, one of "CREATING", "READY", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED", "DELETING", "DELETE_FAILED"
     #   resp.status_reason #=> String
@@ -14080,7 +14957,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.53.0'
+      context[:gem_version] = '1.54.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -8,6 +8,15 @@
 module Aws
   module DevOpsAgent
     module Params
+      type git_hub_configuration = {
+      repo_name: ::String,
+      repo_id: ::String,
+      owner: ::String,
+      owner_type: ("organization" | "user"),
+      instance_identifier: ::String?,
+      runtime_role_arn: ::String?
+    }
+
       type slack_transmission_target = {
       ops_oncall_target: {
         channel_name: ::String?,
@@ -37,13 +46,7 @@ module Aws
         account_id: ::String,
         account_type: ("monitor")
       }?,
-      github: {
-        repo_name: ::String,
-        repo_id: ::String,
-        owner: ::String,
-        owner_type: ("organization" | "user"),
-        instance_identifier: ::String?
-      }?,
+      github: Params::git_hub_configuration?,
       slack: Params::slack_configuration?,
       dynatrace: {
         env_id: ::String,
@@ -65,7 +68,8 @@ module Aws
       gitlab: {
         project_id: ::String,
         project_path: ::String,
-        instance_identifier: ::String?
+        instance_identifier: ::String?,
+        runtime_role_arn: ::String?
       }?,
       mcpserversplunk: {
       }?,
@@ -90,6 +94,10 @@ module Aws
       }?,
       mcpserversigv4: {
         tools: Array[::String]
+      }?,
+      remoteagent: {
+      }?,
+      remoteagentsigv4: {
       }?
     }
 
@@ -107,6 +115,9 @@ module Aws
       file: Params::asset_file_content?,
       zip: {
         zip_file: ::String
+      }?,
+      source_url: {
+        url: ::String
       }?
     }
 

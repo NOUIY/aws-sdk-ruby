@@ -100,6 +100,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class AllowedWorkloadConfiguration
+      attr_accessor hosting_environments: ::Array[Types::HostingEnvironment]
+      attr_accessor workload_identities: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class ApiGatewayTargetConfiguration
       attr_accessor rest_api_id: ::String
       attr_accessor stage: ::String
@@ -450,6 +456,33 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class ConnectorConfiguration
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor parameter_values: untyped
+      attr_accessor parameter_overrides: ::Array[Types::ConnectorParameterOverride]
+      SENSITIVE: []
+    end
+
+    class ConnectorParameterOverride
+      attr_accessor path: ::String
+      attr_accessor description: ::String
+      attr_accessor visible: bool
+      SENSITIVE: []
+    end
+
+    class ConnectorSource
+      attr_accessor connector_id: ::String
+      SENSITIVE: []
+    end
+
+    class ConnectorTargetConfiguration
+      attr_accessor source: Types::ConnectorSource
+      attr_accessor enabled: ::Array[::String]
+      attr_accessor configurations: ::Array[Types::ConnectorConfiguration]
+      SENSITIVE: []
+    end
+
     class ConsolidationConfiguration
       attr_accessor custom_consolidation_configuration: Types::CustomConsolidationConfiguration
       attr_accessor unknown: untyped
@@ -694,7 +727,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor policy_engine_configuration: Types::GatewayPolicyEngineConfiguration
       attr_accessor exception_level: ("DEBUG")
       attr_accessor tags: ::Hash[::String, ::String]
-      SENSITIVE: [:name, :description]
+      SENSITIVE: [:description]
     end
 
     class CreateGatewayResponse
@@ -713,11 +746,14 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
       attr_accessor authorizer_configuration: Types::AuthorizerConfiguration
       attr_accessor kms_key_arn: ::String
+      attr_accessor custom_transform_configuration: Types::CustomTransformConfiguration
       attr_accessor interceptor_configurations: ::Array[Types::GatewayInterceptorConfiguration]
       attr_accessor policy_engine_configuration: Types::GatewayPolicyEngineConfiguration
       attr_accessor workload_identity_details: Types::WorkloadIdentityDetails
       attr_accessor exception_level: ("DEBUG")
-      SENSITIVE: [:name, :description]
+      attr_accessor web_acl_arn: ::String
+      attr_accessor waf_configuration: Types::WafConfiguration
+      SENSITIVE: [:description]
     end
 
     class CreateGatewayRuleRequest
@@ -773,6 +809,21 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorization_data: Types::AuthorizationData
       attr_accessor protocol_type: ("MCP" | "HTTP")
       SENSITIVE: [:name, :description]
+    end
+
+    class CreateHarnessEndpointRequest
+      attr_accessor harness_id: ::String
+      attr_accessor endpoint_name: ::String
+      attr_accessor target_version: ::String
+      attr_accessor description: ::String
+      attr_accessor client_token: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateHarnessEndpointResponse
+      attr_accessor endpoint: Types::HarnessEndpoint
+      SENSITIVE: []
     end
 
     class CreateHarnessRequest
@@ -956,6 +1007,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor description: ::String
       attr_accessor validation_mode: ("FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       attr_accessor policy_engine_id: ::String
       attr_accessor client_token: ::String
       SENSITIVE: [:description]
@@ -969,6 +1021,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor policy_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor description: ::String
       attr_accessor status_reasons: ::Array[::String]
@@ -1177,6 +1230,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor custom_claims: ::Array[Types::CustomClaimValidationType]
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
+      attr_accessor allowed_workload_configuration: Types::AllowedWorkloadConfiguration
       SENSITIVE: []
     end
 
@@ -1233,6 +1287,11 @@ module Aws::BedrockAgentCoreControl
       end
       class Unknown < CustomReflectionConfigurationInput
       end
+    end
+
+    class CustomTransformConfiguration
+      attr_accessor lambda: Types::LambdaTransformConfiguration
+      SENSITIVE: []
     end
 
     class DataSourceConfig
@@ -1453,9 +1512,22 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class DeleteHarnessEndpointRequest
+      attr_accessor harness_id: ::String
+      attr_accessor endpoint_name: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteHarnessEndpointResponse
+      attr_accessor endpoint: Types::HarnessEndpoint
+      SENSITIVE: []
+    end
+
     class DeleteHarnessRequest
       attr_accessor harness_id: ::String
       attr_accessor client_token: ::String
+      attr_accessor delete_managed_memory: bool
       SENSITIVE: []
     end
 
@@ -1566,6 +1638,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor policy_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor description: ::String
       attr_accessor status_reasons: ::Array[::String]
@@ -1872,7 +1945,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
       attr_accessor protocol_type: ("MCP")
-      SENSITIVE: [:name, :description]
+      SENSITIVE: [:description]
     end
 
     class GatewayTarget
@@ -2132,11 +2205,14 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
       attr_accessor authorizer_configuration: Types::AuthorizerConfiguration
       attr_accessor kms_key_arn: ::String
+      attr_accessor custom_transform_configuration: Types::CustomTransformConfiguration
       attr_accessor interceptor_configurations: ::Array[Types::GatewayInterceptorConfiguration]
       attr_accessor policy_engine_configuration: Types::GatewayPolicyEngineConfiguration
       attr_accessor workload_identity_details: Types::WorkloadIdentityDetails
       attr_accessor exception_level: ("DEBUG")
-      SENSITIVE: [:name, :description]
+      attr_accessor web_acl_arn: ::String
+      attr_accessor waf_configuration: Types::WafConfiguration
+      SENSITIVE: [:description]
     end
 
     class GetGatewayRuleRequest
@@ -2185,8 +2261,20 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: [:name, :description]
     end
 
+    class GetHarnessEndpointRequest
+      attr_accessor harness_id: ::String
+      attr_accessor endpoint_name: ::String
+      SENSITIVE: []
+    end
+
+    class GetHarnessEndpointResponse
+      attr_accessor endpoint: Types::HarnessEndpoint
+      SENSITIVE: []
+    end
+
     class GetHarnessRequest
       attr_accessor harness_id: ::String
+      attr_accessor harness_version: ::String
       SENSITIVE: []
     end
 
@@ -2394,6 +2482,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor policy_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor description: ::String
       attr_accessor status_reasons: ::Array[::String]
@@ -2414,6 +2503,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor policy_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       SENSITIVE: []
     end
 
@@ -2530,6 +2620,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor harness_name: ::String
       attr_accessor arn: ::String
       attr_accessor status: ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
+      attr_accessor harness_version: ::String
       attr_accessor execution_role_arn: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
@@ -2606,6 +2697,24 @@ module Aws::BedrockAgentCoreControl
       attr_accessor top_p: ::Float
       attr_accessor api_format: ("converse_stream" | "responses" | "chat_completions")
       attr_accessor additional_params: untyped
+      SENSITIVE: []
+    end
+
+    class HarnessDisabledMemoryConfiguration < Aws::EmptyStructure
+    end
+
+    class HarnessEndpoint
+      attr_accessor harness_id: ::String
+      attr_accessor harness_name: ::String
+      attr_accessor endpoint_name: ::String
+      attr_accessor arn: ::String
+      attr_accessor status: ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor live_version: ::String
+      attr_accessor target_version: ::String
+      attr_accessor description: ::String
+      attr_accessor failure_reason: ::String
       SENSITIVE: []
     end
 
@@ -2686,12 +2795,26 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: [:api_base]
     end
 
+    class HarnessManagedMemoryConfiguration
+      attr_accessor arn: ::String
+      attr_accessor strategies: ::Array[("SEMANTIC" | "SUMMARIZATION" | "USER_PREFERENCE" | "EPISODIC")]
+      attr_accessor event_expiry_duration: ::Integer
+      attr_accessor encryption_key_arn: ::String
+      SENSITIVE: []
+    end
+
     class HarnessMemoryConfiguration
       attr_accessor agent_core_memory_configuration: Types::HarnessAgentCoreMemoryConfiguration
+      attr_accessor managed_memory_configuration: Types::HarnessManagedMemoryConfiguration
+      attr_accessor disabled: Types::HarnessDisabledMemoryConfiguration
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class AgentCoreMemoryConfiguration < HarnessMemoryConfiguration
+      end
+      class ManagedMemoryConfiguration < HarnessMemoryConfiguration
+      end
+      class Disabled < HarnessMemoryConfiguration
       end
       class Unknown < HarnessMemoryConfiguration
       end
@@ -2738,6 +2861,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor path: ::String
       attr_accessor s3: Types::HarnessSkillS3Source
       attr_accessor git: Types::HarnessSkillGitSource
+      attr_accessor aws_skills: Types::HarnessSkillAwsSkillsSource
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -2747,8 +2871,15 @@ module Aws::BedrockAgentCoreControl
       end
       class Git < HarnessSkill
       end
+      class AwsSkills < HarnessSkill
+      end
       class Unknown < HarnessSkill
       end
+    end
+
+    class HarnessSkillAwsSkillsSource
+      attr_accessor paths: ::Array[::String]
+      SENSITIVE: []
     end
 
     class HarnessSkillGitAuth
@@ -2788,6 +2919,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor status: ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
+      attr_accessor harness_version: ::String
       SENSITIVE: []
     end
 
@@ -2852,12 +2984,37 @@ module Aws::BedrockAgentCoreControl
       end
     end
 
+    class HarnessVersionSummary
+      attr_accessor harness_id: ::String
+      attr_accessor harness_name: ::String
+      attr_accessor arn: ::String
+      attr_accessor harness_version: ::String
+      attr_accessor status: ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor failure_reason: ::String
+      SENSITIVE: []
+    end
+
+    class HostingEnvironment
+      attr_accessor arn: ::String
+      SENSITIVE: []
+    end
+
+    class HttpApiSchemaConfiguration
+      attr_accessor source: Types::ApiSchemaConfiguration
+      SENSITIVE: []
+    end
+
     class HttpTargetConfiguration
       attr_accessor agentcore_runtime: Types::RuntimeTargetConfiguration
+      attr_accessor passthrough: Types::PassthroughTargetConfiguration
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class AgentcoreRuntime < HttpTargetConfiguration
+      end
+      class Passthrough < HttpTargetConfiguration
       end
       class Unknown < HttpTargetConfiguration
       end
@@ -2906,6 +3063,44 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class InferenceConnectorSource
+      attr_accessor connector_id: ::String
+      SENSITIVE: []
+    end
+
+    class InferenceConnectorTargetConfiguration
+      attr_accessor source: Types::InferenceConnectorSource
+      SENSITIVE: []
+    end
+
+    class InferenceOperationConfiguration
+      attr_accessor path: ::String
+      attr_accessor provider_path: ::String
+      attr_accessor models: ::Array[Types::ModelEntry]
+      SENSITIVE: []
+    end
+
+    class InferenceProviderTargetConfiguration
+      attr_accessor endpoint: ::String
+      attr_accessor model_mapping: Types::ModelMapping
+      attr_accessor operations: ::Array[Types::InferenceOperationConfiguration]
+      SENSITIVE: []
+    end
+
+    class InferenceTargetConfiguration
+      attr_accessor connector: Types::InferenceConnectorTargetConfiguration
+      attr_accessor provider: Types::InferenceProviderTargetConfiguration
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Connector < InferenceTargetConfiguration
+      end
+      class Provider < InferenceTargetConfiguration
+      end
+      class Unknown < InferenceTargetConfiguration
+      end
+    end
+
     class InlineExamplesSource
       attr_accessor examples: ::Array[untyped]
       SENSITIVE: []
@@ -2929,6 +3124,23 @@ module Aws::BedrockAgentCoreControl
 
     class InterceptorInputConfiguration
       attr_accessor pass_request_headers: bool
+      attr_accessor payload_filter: Types::InterceptorPayloadFilter
+      SENSITIVE: []
+    end
+
+    class InterceptorPayloadExclusionSelector
+      attr_accessor field: ("RESPONSE_BODY")
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Field < InterceptorPayloadExclusionSelector
+      end
+      class Unknown < InterceptorPayloadExclusionSelector
+      end
+    end
+
+    class InterceptorPayloadFilter
+      attr_accessor exclude: ::Array[Types::InterceptorPayloadExclusionSelector]
       SENSITIVE: []
     end
 
@@ -2968,6 +3180,11 @@ module Aws::BedrockAgentCoreControl
     end
 
     class LambdaInterceptorConfiguration
+      attr_accessor arn: ::String
+      SENSITIVE: []
+    end
+
+    class LambdaTransformConfiguration
       attr_accessor arn: ::String
       SENSITIVE: []
     end
@@ -3195,6 +3412,32 @@ module Aws::BedrockAgentCoreControl
 
     class ListGatewaysResponse
       attr_accessor items: ::Array[Types::GatewaySummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListHarnessEndpointsRequest
+      attr_accessor harness_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListHarnessEndpointsResponse
+      attr_accessor endpoints: ::Array[Types::HarnessEndpoint]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListHarnessVersionsRequest
+      attr_accessor harness_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListHarnessVersionsResponse
+      attr_accessor harness_versions: ::Array[Types::HarnessVersionSummary]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -3448,7 +3691,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor search_type: ("SEMANTIC")
       attr_accessor session_configuration: Types::SessionConfiguration
       attr_accessor streaming_configuration: Types::StreamingConfiguration
-      SENSITIVE: []
+      SENSITIVE: [:instructions]
     end
 
     class ManagedResourceDetails
@@ -3515,6 +3758,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor lambda: Types::McpLambdaTargetConfiguration
       attr_accessor mcp_server: Types::McpServerTargetConfiguration
       attr_accessor api_gateway: Types::ApiGatewayTargetConfiguration
+      attr_accessor connector: Types::ConnectorTargetConfiguration
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -3527,6 +3771,8 @@ module Aws::BedrockAgentCoreControl
       class McpServer < McpTargetConfiguration
       end
       class ApiGateway < McpTargetConfiguration
+      end
+      class Connector < McpTargetConfiguration
       end
       class Unknown < McpTargetConfiguration
       end
@@ -3561,6 +3807,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor strategies: ::Array[Types::MemoryStrategy]
       attr_accessor indexed_keys: ::Array[Types::IndexedKey]
       attr_accessor stream_delivery_resources: Types::StreamDeliveryResources
+      attr_accessor managed_by_resource_arn: ::String
       SENSITIVE: [:description]
     end
 
@@ -3613,6 +3860,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor status: ("CREATING" | "ACTIVE" | "FAILED" | "DELETING" | "UPDATING")
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
+      attr_accessor managed_by_resource_arn: ::String
       SENSITIVE: []
     end
 
@@ -3653,6 +3901,16 @@ module Aws::BedrockAgentCoreControl
     class MicrosoftOauth2ProviderConfigOutput
       attr_accessor oauth_discovery: Types::Oauth2Discovery
       attr_accessor client_id: ::String
+      SENSITIVE: []
+    end
+
+    class ModelEntry
+      attr_accessor model: ::String
+      SENSITIVE: []
+    end
+
+    class ModelMapping
+      attr_accessor provider_prefix: Types::ProviderPrefix
       SENSITIVE: []
     end
 
@@ -3892,6 +4150,14 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class PassthroughTargetConfiguration
+      attr_accessor endpoint: ::String
+      attr_accessor protocol_type: ("MCP" | "A2A" | "INFERENCE" | "CUSTOM")
+      attr_accessor schema: Types::HttpApiSchemaConfiguration
+      attr_accessor stickiness_configuration: Types::StickinessConfiguration
+      SENSITIVE: []
+    end
+
     class PaymentConnectorSummary
       attr_accessor payment_connector_id: ::String
       attr_accessor name: ::String
@@ -3964,6 +4230,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor policy_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor description: ::String
       attr_accessor status_reasons: ::Array[::String]
@@ -3973,12 +4240,15 @@ module Aws::BedrockAgentCoreControl
     class PolicyDefinition
       attr_accessor cedar: Types::CedarPolicy
       attr_accessor policy_generation: Types::PolicyGenerationDetails
+      attr_accessor policy: Types::PolicyStatement
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class Cedar < PolicyDefinition
       end
       class PolicyGeneration < PolicyDefinition
+      end
+      class Policy < PolicyDefinition
       end
       class Unknown < PolicyDefinition
       end
@@ -4049,6 +4319,11 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class PolicyStatement
+      attr_accessor statement: ::String
+      SENSITIVE: []
+    end
+
     class PolicySummary
       attr_accessor policy_id: ::String
       attr_accessor name: ::String
@@ -4057,6 +4332,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor policy_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       SENSITIVE: []
     end
 
@@ -4082,6 +4358,12 @@ module Aws::BedrockAgentCoreControl
 
     class ProtocolConfiguration
       attr_accessor server_protocol: ("MCP" | "HTTP" | "A2A" | "AGUI")
+      SENSITIVE: []
+    end
+
+    class ProviderPrefix
+      attr_accessor strip: bool
+      attr_accessor separator: ::String
       SENSITIVE: []
     end
 
@@ -4264,6 +4546,7 @@ module Aws::BedrockAgentCoreControl
     class RuntimeTargetConfiguration
       attr_accessor arn: ::String
       attr_accessor qualifier: ::String
+      attr_accessor schema: Types::HttpApiSchemaConfiguration
       SENSITIVE: []
     end
 
@@ -4502,6 +4785,12 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: [:target_name]
     end
 
+    class StickinessConfiguration
+      attr_accessor identifier: ::String
+      attr_accessor timeout: ::Integer
+      SENSITIVE: []
+    end
+
     class StrategyConfiguration
       attr_accessor type: ("SEMANTIC_OVERRIDE" | "SUMMARY_OVERRIDE" | "USER_PREFERENCE_OVERRIDE" | "SELF_MANAGED" | "EPISODIC_OVERRIDE")
       attr_accessor extraction: Types::ExtractionConfiguration
@@ -4641,12 +4930,15 @@ module Aws::BedrockAgentCoreControl
     class TargetConfiguration
       attr_accessor mcp: Types::McpTargetConfiguration
       attr_accessor http: Types::HttpTargetConfiguration
+      attr_accessor inference: Types::InferenceTargetConfiguration
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class Mcp < TargetConfiguration
       end
       class Http < TargetConfiguration
+      end
+      class Inference < TargetConfiguration
       end
       class Unknown < TargetConfiguration
       end
@@ -4660,6 +4952,10 @@ module Aws::BedrockAgentCoreControl
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       attr_accessor resource_priority: ::Integer
+      attr_accessor last_synchronized_at: ::Time
+      attr_accessor authorization_data: Types::AuthorizationData
+      attr_accessor target_type: ("OPEN_API_SCHEMA" | "SMITHY_MODEL" | "MCP_SERVER" | "LAMBDA" | "API_GATEWAY" | "CONNECTOR" | "AGENTCORE_RUNTIME" | "PASSTHROUGH" | "PROVIDER")
+      attr_accessor listing_mode: ("DEFAULT" | "DYNAMIC")
       SENSITIVE: [:name, :description]
     end
 
@@ -4943,10 +5239,12 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
       attr_accessor authorizer_configuration: Types::AuthorizerConfiguration
       attr_accessor kms_key_arn: ::String
+      attr_accessor custom_transform_configuration: Types::CustomTransformConfiguration
       attr_accessor interceptor_configurations: ::Array[Types::GatewayInterceptorConfiguration]
       attr_accessor policy_engine_configuration: Types::GatewayPolicyEngineConfiguration
       attr_accessor exception_level: ("DEBUG")
-      SENSITIVE: [:name, :description]
+      attr_accessor waf_configuration: Types::WafConfiguration
+      SENSITIVE: [:description]
     end
 
     class UpdateGatewayResponse
@@ -4965,11 +5263,14 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorizer_type: ("CUSTOM_JWT" | "AWS_IAM" | "NONE" | "AUTHENTICATE_ONLY")
       attr_accessor authorizer_configuration: Types::AuthorizerConfiguration
       attr_accessor kms_key_arn: ::String
+      attr_accessor custom_transform_configuration: Types::CustomTransformConfiguration
       attr_accessor interceptor_configurations: ::Array[Types::GatewayInterceptorConfiguration]
       attr_accessor policy_engine_configuration: Types::GatewayPolicyEngineConfiguration
       attr_accessor workload_identity_details: Types::WorkloadIdentityDetails
       attr_accessor exception_level: ("DEBUG")
-      SENSITIVE: [:name, :description]
+      attr_accessor web_acl_arn: ::String
+      attr_accessor waf_configuration: Types::WafConfiguration
+      SENSITIVE: [:description]
     end
 
     class UpdateGatewayRuleRequest
@@ -5026,6 +5327,20 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorization_data: Types::AuthorizationData
       attr_accessor protocol_type: ("MCP" | "HTTP")
       SENSITIVE: [:name, :description]
+    end
+
+    class UpdateHarnessEndpointRequest
+      attr_accessor harness_id: ::String
+      attr_accessor endpoint_name: ::String
+      attr_accessor target_version: ::String
+      attr_accessor description: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateHarnessEndpointResponse
+      attr_accessor endpoint: Types::HarnessEndpoint
+      SENSITIVE: []
     end
 
     class UpdateHarnessRequest
@@ -5202,6 +5517,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: Types::UpdatedDescription
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor validation_mode: ("FAIL_ON_ANY_FINDINGS" | "IGNORE_ALL_FINDINGS")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       SENSITIVE: []
     end
 
@@ -5213,6 +5529,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor updated_at: ::Time
       attr_accessor policy_arn: ::String
       attr_accessor status: ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor enforcement_mode: ("ACTIVE" | "LOG_ONLY")
       attr_accessor definition: Types::PolicyDefinition
       attr_accessor description: ::String
       attr_accessor status_reasons: ::Array[::String]
@@ -5502,6 +5819,11 @@ module Aws::BedrockAgentCoreControl
       attr_accessor security_groups: ::Array[::String]
       attr_accessor subnets: ::Array[::String]
       attr_accessor require_service_s3_endpoint: bool
+      SENSITIVE: []
+    end
+
+    class WafConfiguration
+      attr_accessor failure_mode: ("FAIL_CLOSE" | "FAIL_OPEN")
       SENSITIVE: []
     end
 

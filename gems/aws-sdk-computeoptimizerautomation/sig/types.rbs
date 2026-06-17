@@ -165,7 +165,7 @@ module Aws::ComputeOptimizerAutomation
     end
 
     class DoubleCriteriaCondition
-      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")
+      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")
       attr_accessor values: ::Array[::Float]
       SENSITIVE: []
     end
@@ -273,7 +273,7 @@ module Aws::ComputeOptimizerAutomation
     end
 
     class IntegerCriteriaCondition
-      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")
+      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")
       attr_accessor values: ::Array[::Integer]
       SENSITIVE: []
     end
@@ -524,7 +524,7 @@ module Aws::ComputeOptimizerAutomation
     end
 
     class ResourceTagsCriteriaCondition
-      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")
+      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")
       attr_accessor key: ::String
       attr_accessor values: ::Array[::String]
       SENSITIVE: []
@@ -579,7 +579,7 @@ module Aws::ComputeOptimizerAutomation
     end
 
     class StringCriteriaCondition
-      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals")
+      attr_accessor comparison: ("StringEquals" | "StringNotEquals" | "StringEqualsIgnoreCase" | "StringNotEqualsIgnoreCase" | "StringLike" | "StringNotLike" | "NumericEquals" | "NumericNotEquals" | "NumericLessThan" | "NumericLessThanEquals" | "NumericGreaterThan" | "NumericGreaterThanEquals" | "StringEqualsIfExists" | "StringNotEqualsIfExists" | "StringEqualsIgnoreCaseIfExists" | "StringNotEqualsIgnoreCaseIfExists" | "StringLikeIfExists" | "StringNotLikeIfExists" | "NumericEqualsIfExists" | "NumericNotEqualsIfExists" | "NumericLessThanIfExists" | "NumericLessThanEqualsIfExists" | "NumericGreaterThanIfExists" | "NumericGreaterThanEqualsIfExists")
       attr_accessor values: ::Array[::String]
       SENSITIVE: []
     end

@@ -100,6 +100,202 @@ module Aws::BedrockAgentRuntime
       SENSITIVE: [:return_control_payload, :text]
     end
 
+    class AgenticRetrieveAction
+      attr_accessor full_document_expansion: Types::AgenticRetrieveFullDocExpansionDetails
+      attr_accessor retrieve: Types::AgenticRetrieveActionDetails
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveActionDetails
+      attr_accessor input_query: Types::AgenticRetrieveMessageContent
+      attr_accessor source_retrievers: ::Array[Types::AgenticRetrieveSourceRetriever]
+      SENSITIVE: [:input_query]
+    end
+
+    class AgenticRetrieveBedrockGuardrailConfiguration
+      attr_accessor guardrail_id: ::String
+      attr_accessor guardrail_version: ::String
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveBedrockRerankingConfiguration
+      attr_accessor model_configuration: Types::AgenticRetrieveBedrockRerankingModelConfiguration
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveBedrockRerankingModelConfiguration
+      attr_accessor model_arn: ::String
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveCitation
+      attr_accessor end_index: ::Integer
+      attr_accessor references: ::Array[Types::AgenticRetrieveCitationReference]
+      attr_accessor start_index: ::Integer
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveCitationReference
+      attr_accessor result_index: ::Integer
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveConfiguration
+      attr_accessor foundation_model_configuration: Types::FoundationModelConfiguration
+      attr_accessor foundation_model_type: ("CUSTOM" | "MANAGED")
+      attr_accessor max_agent_iteration: ::Integer
+      attr_accessor reranking_configuration: Types::AgenticRetrieveRerankingConfiguration
+      attr_accessor reranking_model_type: ("CUSTOM" | "MANAGED" | "NONE")
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveFailure
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveFullDocExpansionDetails
+      attr_accessor document_id: ::String
+      attr_accessor source_retriever: Types::AgenticRetrieveSourceRetriever
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveGeneratedResponse
+      attr_accessor answer: ::String
+      attr_accessor citations: ::Array[Types::AgenticRetrieveCitation]
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveGuardrailWarning
+      attr_accessor action: ("INTERVENED" | "NONE")
+      attr_accessor id: ::String
+      attr_accessor message: ::String
+      attr_accessor version: ::String
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveMessage
+      attr_accessor content: Types::AgenticRetrieveMessageContent
+      attr_accessor role: ("user" | "assistant")
+      SENSITIVE: [:content]
+    end
+
+    class AgenticRetrieveMessageContent
+      attr_accessor text: ::String
+      SENSITIVE: []
+    end
+
+    class AgenticRetrievePolicyConfiguration
+      attr_accessor bedrock_guardrail_configuration: Types::AgenticRetrieveBedrockGuardrailConfiguration
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveRerankingConfiguration
+      attr_accessor bedrock_reranking_configuration: Types::AgenticRetrieveBedrockRerankingConfiguration
+      attr_accessor type: ("BEDROCK_RERANKING_MODEL")
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveResponseEvent
+      attr_accessor text: ::String
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveResultEvent
+      attr_accessor generated_response: Types::AgenticRetrieveGeneratedResponse
+      attr_accessor next_token: ::String
+      attr_accessor results: ::Array[Types::AgenticRetrieveResultItem]
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveResultItem
+      attr_accessor content: Types::RetrievalContent
+      attr_accessor metadata: ::Hash[::String, untyped]
+      attr_accessor source_retriever: Types::AgenticRetrieveSourceRetriever
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveSourceMetadata
+      attr_accessor identifier: ::String
+      attr_accessor retrieval_type: ("BedrockKnowledgeBase")
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveSourceRetriever
+      attr_accessor identifier: ::String
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveStreamRequest
+      attr_accessor agentic_retrieve_configuration: Types::AgenticRetrieveConfiguration
+      attr_accessor generate_response: bool
+      attr_accessor messages: ::Array[Types::AgenticRetrieveMessage]
+      attr_accessor next_token: ::String
+      attr_accessor policy_configuration: Types::AgenticRetrievePolicyConfiguration
+      attr_accessor retrievers: ::Array[Types::AgenticRetriever]
+      attr_accessor user_context: Types::UserContext
+      SENSITIVE: [:user_context]
+    end
+
+    class AgenticRetrieveStreamResponse
+      attr_accessor stream: Types::AgenticRetrieveStreamResponseOutput
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveTraceEvent
+      attr_accessor attributes: Types::AgenticRetrieveTraceEventAttributes
+      attr_accessor id: ::String
+      attr_accessor timestamp: ::Integer
+      attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveTraceEventAttributes
+      attr_accessor actions: ::Array[Types::AgenticRetrieveAction]
+      attr_accessor failures: ::Array[Types::AgenticRetrieveFailure]
+      attr_accessor message: ::String
+      attr_accessor retrieval_metadata: ::Array[Types::AgenticRetrieveSourceMetadata]
+      attr_accessor retrieval_response: ::Array[Types::AgenticRetrieveTraceResultItem]
+      attr_accessor status: ("IN_PROGRESS" | "SUCCEEDED" | "FAILED")
+      attr_accessor step: ("Planning" | "Retrieval" | "SpeculativeRetrieval" | "FullDocumentExpansion")
+      attr_accessor warnings: ::Array[Types::AgenticRetrieveWarning]
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveTraceResultItem
+      attr_accessor content: Types::RetrievalContent
+      attr_accessor metadata: ::Hash[::String, untyped]
+      attr_accessor source_retriever: Types::AgenticRetrieveSourceRetriever
+      SENSITIVE: []
+    end
+
+    class AgenticRetrieveWarning
+      attr_accessor guardrail: Types::AgenticRetrieveGuardrailWarning
+      attr_accessor message: Types::AgenticRetrieveWarningMessage
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Guardrail < AgenticRetrieveWarning
+      end
+      class Message < AgenticRetrieveWarning
+      end
+      class Unknown < AgenticRetrieveWarning
+      end
+    end
+
+    class AgenticRetrieveWarningMessage
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class AgenticRetriever
+      attr_accessor configuration: Types::RetrieverConfiguration
+      attr_accessor description: ::String
+      SENSITIVE: []
+    end
+
     class AnalyzePromptEvent
       attr_accessor message: ::String
       attr_accessor event_type: untyped
@@ -157,6 +353,16 @@ module Aws::BedrockAgentRuntime
       attr_accessor message: ::String
       attr_accessor resource_name: ::String
       attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class BedrockFoundationModelConfiguration
+      attr_accessor model_configuration: Types::BedrockFoundationModelModelConfiguration
+      SENSITIVE: []
+    end
+
+    class BedrockFoundationModelModelConfiguration
+      attr_accessor model_arn: ::String
       SENSITIVE: []
     end
 
@@ -739,6 +945,12 @@ module Aws::BedrockAgentRuntime
       SENSITIVE: []
     end
 
+    class FoundationModelConfiguration
+      attr_accessor bedrock_foundation_model_configuration: Types::BedrockFoundationModelConfiguration
+      attr_accessor type: ("BEDROCK_FOUNDATION_MODEL")
+      SENSITIVE: []
+    end
+
     class FunctionDefinition
       attr_accessor description: ::String
       attr_accessor name: ::String
@@ -830,6 +1042,22 @@ module Aws::BedrockAgentRuntime
       attr_accessor memory_contents: ::Array[Types::Memory]
       attr_accessor next_token: ::String
       SENSITIVE: []
+    end
+
+    class GetDocumentContentRequest
+      attr_accessor data_source_id: ::String
+      attr_accessor document_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor output_format: ("RAW" | "EXTRACTED")
+      attr_accessor user_context: Types::UserContext
+      SENSITIVE: [:user_context]
+    end
+
+    class GetDocumentContentResponse
+      attr_accessor document_content_length: ::Integer
+      attr_accessor mime_type: ::String
+      attr_accessor presigned_url: ::String
+      SENSITIVE: [:presigned_url]
     end
 
     class GetExecutionFlowSnapshotRequest
@@ -1307,12 +1535,14 @@ module Aws::BedrockAgentRuntime
     end
 
     class KnowledgeBaseRetrievalConfiguration
+      attr_accessor managed_search_configuration: Types::ManagedSearchConfiguration
       attr_accessor vector_search_configuration: Types::KnowledgeBaseVectorSearchConfiguration
       SENSITIVE: []
     end
 
     class KnowledgeBaseRetrievalResult
       attr_accessor content: Types::RetrievalResultContent
+      attr_accessor document_id: ::String
       attr_accessor location: Types::RetrievalResultLocation
       attr_accessor metadata: ::Hash[::String, untyped]
       attr_accessor score: ::Float
@@ -1325,6 +1555,12 @@ module Aws::BedrockAgentRuntime
       attr_accessor model_arn: ::String
       attr_accessor orchestration_configuration: Types::OrchestrationConfiguration
       attr_accessor retrieval_configuration: Types::KnowledgeBaseRetrievalConfiguration
+      SENSITIVE: []
+    end
+
+    class KnowledgeBaseRetrieverConfiguration
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor retrieval_overrides: Types::RetrievalOverrides
       SENSITIVE: []
     end
 
@@ -1413,6 +1649,33 @@ module Aws::BedrockAgentRuntime
 
     class ListTagsForResourceResponse
       attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class ManagedSearchBedrockRerankingConfiguration
+      attr_accessor metadata_configuration: Types::MetadataConfigurationForReranking
+      attr_accessor model_configuration: Types::ManagedSearchBedrockRerankingModelConfiguration
+      attr_accessor number_of_reranked_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ManagedSearchBedrockRerankingModelConfiguration
+      attr_accessor additional_model_request_fields: ::Hash[::String, untyped]
+      attr_accessor model_arn: ::String
+      SENSITIVE: []
+    end
+
+    class ManagedSearchConfiguration
+      attr_accessor filter: Types::RetrievalFilter
+      attr_accessor number_of_results: ::Integer
+      attr_accessor reranking_configuration: Types::ManagedSearchRerankingConfiguration
+      attr_accessor reranking_model_type: ("CUSTOM" | "MANAGED" | "NONE")
+      SENSITIVE: [:filter]
+    end
+
+    class ManagedSearchRerankingConfiguration
+      attr_accessor bedrock_reranking_configuration: Types::ManagedSearchBedrockRerankingConfiguration
+      attr_accessor type: ("BEDROCK_RERANKING_MODEL")
       SENSITIVE: []
     end
 
@@ -1941,6 +2204,13 @@ module Aws::BedrockAgentRuntime
       SENSITIVE: []
     end
 
+    class RetrievalContent
+      attr_accessor byte_content: ::String
+      attr_accessor mime_type: ::String
+      attr_accessor text: ::String
+      SENSITIVE: []
+    end
+
     class RetrievalFilter
       attr_accessor and_all: ::Array[Types::RetrievalFilter]
       attr_accessor equals: Types::FilterAttribute
@@ -1988,6 +2258,12 @@ module Aws::BedrockAgentRuntime
       end
     end
 
+    class RetrievalOverrides
+      attr_accessor filter: Types::RetrievalFilter
+      attr_accessor max_number_of_results: ::Integer
+      SENSITIVE: [:filter]
+    end
+
     class RetrievalResultConfluenceLocation
       attr_accessor url: ::String
       SENSITIVE: []
@@ -2015,6 +2291,11 @@ module Aws::BedrockAgentRuntime
       SENSITIVE: []
     end
 
+    class RetrievalResultGoogleDriveLocation
+      attr_accessor url: ::String
+      SENSITIVE: []
+    end
+
     class RetrievalResultKendraDocumentLocation
       attr_accessor uri: ::String
       SENSITIVE: []
@@ -2023,13 +2304,20 @@ module Aws::BedrockAgentRuntime
     class RetrievalResultLocation
       attr_accessor confluence_location: Types::RetrievalResultConfluenceLocation
       attr_accessor custom_document_location: Types::RetrievalResultCustomDocumentLocation
+      attr_accessor google_drive_location: Types::RetrievalResultGoogleDriveLocation
       attr_accessor kendra_document_location: Types::RetrievalResultKendraDocumentLocation
+      attr_accessor one_drive_location: Types::RetrievalResultOneDriveLocation
       attr_accessor s3_location: Types::RetrievalResultS3Location
       attr_accessor salesforce_location: Types::RetrievalResultSalesforceLocation
       attr_accessor share_point_location: Types::RetrievalResultSharePointLocation
       attr_accessor sql_location: Types::RetrievalResultSqlLocation
-      attr_accessor type: ("S3" | "WEB" | "CONFLUENCE" | "SALESFORCE" | "SHAREPOINT" | "CUSTOM" | "KENDRA" | "SQL")
+      attr_accessor type: ("S3" | "WEB" | "CONFLUENCE" | "SALESFORCE" | "SHAREPOINT" | "CUSTOM" | "KENDRA" | "SQL" | "ONEDRIVE" | "GOOGLEDRIVE")
       attr_accessor web_location: Types::RetrievalResultWebLocation
+      SENSITIVE: []
+    end
+
+    class RetrievalResultOneDriveLocation
+      attr_accessor url: ::String
       SENSITIVE: []
     end
 
@@ -2086,7 +2374,8 @@ module Aws::BedrockAgentRuntime
       attr_accessor retrieve_and_generate_configuration: Types::RetrieveAndGenerateConfiguration
       attr_accessor session_configuration: Types::RetrieveAndGenerateSessionConfiguration
       attr_accessor session_id: ::String
-      SENSITIVE: [:input]
+      attr_accessor user_context: Types::UserContext
+      SENSITIVE: [:input, :user_context]
     end
 
     class RetrieveAndGenerateResponse
@@ -2107,7 +2396,8 @@ module Aws::BedrockAgentRuntime
       attr_accessor retrieve_and_generate_configuration: Types::RetrieveAndGenerateConfiguration
       attr_accessor session_configuration: Types::RetrieveAndGenerateSessionConfiguration
       attr_accessor session_id: ::String
-      SENSITIVE: [:input]
+      attr_accessor user_context: Types::UserContext
+      SENSITIVE: [:input, :user_context]
     end
 
     class RetrieveAndGenerateStreamResponse
@@ -2122,7 +2412,8 @@ module Aws::BedrockAgentRuntime
       attr_accessor next_token: ::String
       attr_accessor retrieval_configuration: Types::KnowledgeBaseRetrievalConfiguration
       attr_accessor retrieval_query: Types::KnowledgeBaseQuery
-      SENSITIVE: [:retrieval_query]
+      attr_accessor user_context: Types::UserContext
+      SENSITIVE: [:retrieval_query, :user_context]
     end
 
     class RetrieveResponse
@@ -2137,6 +2428,17 @@ module Aws::BedrockAgentRuntime
       attr_accessor location: Types::RetrievalResultLocation
       attr_accessor metadata: ::Hash[::String, untyped]
       SENSITIVE: [:content, :location, :metadata]
+    end
+
+    class RetrieverConfiguration
+      attr_accessor knowledge_base: Types::KnowledgeBaseRetrieverConfiguration
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class KnowledgeBase < RetrieverConfiguration
+      end
+      class Unknown < RetrieverConfiguration
+      end
     end
 
     class ReturnControlPayload
@@ -2404,6 +2706,11 @@ module Aws::BedrockAgentRuntime
       SENSITIVE: []
     end
 
+    class UserContext
+      attr_accessor user_id: ::String
+      SENSITIVE: []
+    end
+
     class ValidationException
       attr_accessor message: ::String
       attr_accessor event_type: untyped
@@ -2433,6 +2740,10 @@ module Aws::BedrockAgentRuntime
       attr_accessor s3_uri: ::String
       attr_accessor summary: ::String
       SENSITIVE: []
+    end
+
+    class AgenticRetrieveStreamResponseOutput < Enumerator[untyped, untyped]
+      def event_types: () -> [:access_denied_exception, :bad_gateway_exception, :conflict_exception, :dependency_failed_exception, :internal_server_exception, :resource_not_found_exception, :response_event, :result, :service_quota_exceeded_exception, :throttling_exception, :trace_event, :validation_exception]
     end
 
     class FlowResponseStream < Enumerator[untyped, untyped]

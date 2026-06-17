@@ -1497,6 +1497,7 @@ module Aws::BedrockAgentCore
       attr_accessor path: ::String
       attr_accessor s3: Types::HarnessSkillS3Source
       attr_accessor git: Types::HarnessSkillGitSource
+      attr_accessor aws_skills: Types::HarnessSkillAwsSkillsSource
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -1506,8 +1507,15 @@ module Aws::BedrockAgentCore
       end
       class Git < HarnessSkill
       end
+      class AwsSkills < HarnessSkill
+      end
       class Unknown < HarnessSkill
       end
+    end
+
+    class HarnessSkillAwsSkillsSource
+      attr_accessor paths: ::Array[::String]
+      SENSITIVE: []
     end
 
     class HarnessSkillGitAuth
@@ -1667,7 +1675,7 @@ module Aws::BedrockAgentCore
     end
 
     class InsightsFailureSignal
-      attr_accessor category: ("execution-error-category-authentication" | "execution-error-category-resource-not-found" | "execution-error-category-service-errors" | "execution-error-category-rate-limiting" | "execution-error-category-formatting" | "execution-error-category-timeout" | "execution-error-category-resource-exhaustion" | "execution-error-category-environment" | "execution-error-category-tool-schema" | "task-instruction-category-non-compliance" | "task-instruction-category-problem-id" | "incorrect-actions-category-tool-selection" | "incorrect-actions-category-poor-information-retrieval" | "incorrect-actions-category-clarification" | "incorrect-actions-category-inappropriate-info-request" | "context-handling-error-category-context-handling-failures" | "hallucination-category-hall-capabilities" | "hallucination-category-hall-misunderstand" | "hallucination-category-hall-usage" | "hallucination-category-hall-history" | "hallucination-category-hall-params" | "hallucination-category-fabricate-tool-outputs" | "repetitive-behavior-category-repetition-tool" | "repetitive-behavior-category-repetition-info" | "repetitive-behavior-category-step-repetition" | "orchestration-related-errors-category-reasoning-mismatch" | "orchestration-related-errors-category-goal-deviation" | "orchestration-related-errors-category-premature-termination" | "orchestration-related-errors-category-unaware-termination" | "llm-output-category-nonsensical" | "configuration-mismatch-category-tool-definition" | "coding-use-case-specific-failure-types-category-edge-case-oversights" | "coding-use-case-specific-failure-types-category-dependency-issues")
+      attr_accessor category: ("execution-error-category-authentication" | "execution-error-category-resource-not-found" | "execution-error-category-service-errors" | "execution-error-category-rate-limiting" | "execution-error-category-formatting" | "execution-error-category-timeout" | "execution-error-category-resource-exhaustion" | "execution-error-category-environment" | "execution-error-category-tool-schema" | "task-instruction-category-non-compliance" | "task-instruction-category-problem-id" | "incorrect-actions-category-tool-selection" | "incorrect-actions-category-poor-information-retrieval" | "incorrect-actions-category-clarification" | "incorrect-actions-category-inappropriate-info-request" | "context-handling-error-category-context-handling-failures" | "hallucination-category-hall-capabilities" | "hallucination-category-hall-misunderstand" | "hallucination-category-hall-usage" | "hallucination-category-hall-history" | "hallucination-category-hall-params" | "hallucination-category-fabricate-tool-outputs" | "repetitive-behavior-category-repetition-tool" | "repetitive-behavior-category-repetition-info" | "repetitive-behavior-category-step-repetition" | "orchestration-related-errors-category-reasoning-mismatch" | "orchestration-related-errors-category-goal-deviation" | "orchestration-related-errors-category-premature-termination" | "orchestration-related-errors-category-unaware-termination" | "llm-output-category-nonsensical" | "configuration-mismatch-category-tool-definition" | "coding-use-case-specific-failure-types-category-edge-case-oversights" | "coding-use-case-specific-failure-types-category-dependency-issues" | "other")
       attr_accessor evidence: ::String
       attr_accessor confidence: ::Float
       SENSITIVE: []
@@ -1780,6 +1788,7 @@ module Aws::BedrockAgentCore
 
     class InvokeHarnessRequest
       attr_accessor harness_arn: ::String
+      attr_accessor qualifier: ::String
       attr_accessor runtime_session_id: ::String
       attr_accessor runtime_user_id: ::String
       attr_accessor messages: ::Array[Types::HarnessMessage]
@@ -2293,7 +2302,7 @@ module Aws::BedrockAgentCore
 
     class OnlineEvaluationConfigSource
       attr_accessor online_evaluation_config_arn: ::String
-      attr_accessor session_filter_config: Types::SessionFilterConfig
+      attr_accessor time_range: Types::SessionFilterConfig
       SENSITIVE: []
     end
 
