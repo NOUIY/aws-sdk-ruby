@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.124.0 (2026-06-18)
+------------------
+
+* Feature - Adds support for ECS high-resolution predefined scaling metrics (ECSServiceAverageCPUUtilizationHighResolution, ECSServiceAverageMemoryUtilizationHighResolution) enabling 20-second metric periods for faster scaling
+
 1.123.0 (2026-06-03)
 ------------------
 

@@ -5949,6 +5949,65 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # The configuration for automatic patching of the instance group. When
+    # configured, the system automatically applies security patch AMI
+    # updates to the instance group.
+    #
+    # @!attribute [rw] patching_strategy
+    #   The strategy for applying patches to instances in the group.
+    #   @return [String]
+    #
+    # @!attribute [rw] patch_schedule
+    #   The schedule for automatic patching, including the next patch date.
+    #   @return [Types::ClusterPatchSchedule]
+    #
+    # @!attribute [rw] deployment_config
+    #   The deployment configuration for rolling patch updates, including
+    #   rollback settings and batch sizes. Only applicable when using a
+    #   rolling patching strategy.
+    #   @return [Types::DeploymentConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterAutoPatchConfig AWS API Documentation
+    #
+    class ClusterAutoPatchConfig < Struct.new(
+      :patching_strategy,
+      :patch_schedule,
+      :deployment_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The auto-patching configuration details for the instance group,
+    # including the patching strategy and schedule.
+    #
+    # @!attribute [rw] patching_strategy
+    #   The strategy used for applying patches to instances in the group.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_patch_schedule
+    #   The currently active patch schedule that the system will execute.
+    #   @return [Types::ClusterPatchScheduleDetails]
+    #
+    # @!attribute [rw] desired_patch_schedule
+    #   The requested patch schedule. Differs from CurrentPatchSchedule when
+    #   a reschedule request is pending.
+    #   @return [Types::ClusterPatchScheduleDetails]
+    #
+    # @!attribute [rw] deployment_config
+    #   The deployment configuration for rolling patch updates.
+    #   @return [Types::DeploymentConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterAutoPatchConfigDetails AWS API Documentation
+    #
+    class ClusterAutoPatchConfigDetails < Struct.new(
+      :patching_strategy,
+      :current_patch_schedule,
+      :desired_patch_schedule,
+      :deployment_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies the autoscaling configuration for a HyperPod cluster.
     #
     # @!attribute [rw] mode
@@ -6369,6 +6428,11 @@ module Aws::SageMaker
     #   updating the AMI.
     #   @return [Types::ScheduledUpdateConfig]
     #
+    # @!attribute [rw] auto_patch_config
+    #   The auto-patching configuration for the instance group, including
+    #   the current patching strategy and next scheduled patch date.
+    #   @return [Types::ClusterAutoPatchConfigDetails]
+    #
     # @!attribute [rw] current_image_id
     #   The ID of the Amazon Machine Image (AMI) currently in use by the
     #   instance group.
@@ -6377,6 +6441,17 @@ module Aws::SageMaker
     # @!attribute [rw] desired_image_id
     #   The ID of the Amazon Machine Image (AMI) desired for the instance
     #   group.
+    #   @return [String]
+    #
+    # @!attribute [rw] current_image_release_version
+    #   The version of the HyperPod-managed AMI currently running on the
+    #   instance group.
+    #   @return [String]
+    #
+    # @!attribute [rw] desired_image_release_version
+    #   The desired version of the HyperPod-managed AMI for the instance
+    #   group. This may differ from the current version when an update is
+    #   pending.
     #   @return [String]
     #
     # @!attribute [rw] image_version_status
@@ -6466,8 +6541,11 @@ module Aws::SageMaker
       :training_plan_status,
       :override_vpc_config,
       :scheduled_update_config,
+      :auto_patch_config,
       :current_image_id,
       :desired_image_id,
+      :current_image_release_version,
+      :desired_image_release_version,
       :image_version_status,
       :active_operations,
       :kubernetes_config,
@@ -6632,6 +6710,19 @@ module Aws::SageMaker
     #   patched with the specified image.
     #   @return [String]
     #
+    # @!attribute [rw] auto_patch_config
+    #   The configuration for automatic OS security patching. If present,
+    #   the system automatically applies PATCH AMI updates to this instance
+    #   group.
+    #   @return [Types::ClusterAutoPatchConfig]
+    #
+    # @!attribute [rw] image_release_version
+    #   The version of the HyperPod-managed AMI to use for the instance
+    #   group. Uses semantic versioning in the format `MAJOR.MINOR.PATCH`
+    #   (for example, `1.2.3`). If omitted, the latest available version is
+    #   used.
+    #   @return [String]
+    #
     # @!attribute [rw] kubernetes_config
     #   Specifies the Kubernetes configuration for the instance group. You
     #   describe what you want the labels and taints to look like, and the
@@ -6668,6 +6759,8 @@ module Aws::SageMaker
       :override_vpc_config,
       :scheduled_update_config,
       :image_id,
+      :auto_patch_config,
+      :image_release_version,
       :kubernetes_config,
       :slurm_config,
       :capacity_requirements,
@@ -7138,6 +7231,16 @@ module Aws::SageMaker
     #   The ID of the Amazon Machine Image (AMI) desired for the node.
     #   @return [String]
     #
+    # @!attribute [rw] current_image_release_version
+    #   The version of the HyperPod-managed AMI currently running on the
+    #   node.
+    #   @return [String]
+    #
+    # @!attribute [rw] desired_image_release_version
+    #   The desired version of the HyperPod-managed AMI for the node. This
+    #   may differ from the current version when an update is pending.
+    #   @return [String]
+    #
     # @!attribute [rw] image_version_status
     #   The status of the image version for the cluster node.
     #   @return [String]
@@ -7183,6 +7286,8 @@ module Aws::SageMaker
       :placement,
       :current_image_id,
       :desired_image_id,
+      :current_image_release_version,
+      :desired_image_release_version,
       :image_version_status,
       :ultra_server_info,
       :kubernetes_config,
@@ -7237,6 +7342,11 @@ module Aws::SageMaker
     #   The private DNS hostname of the SageMaker HyperPod cluster node.
     #   @return [String]
     #
+    # @!attribute [rw] current_image_release_version
+    #   The version of the HyperPod-managed AMI currently running on the
+    #   node.
+    #   @return [String]
+    #
     # @!attribute [rw] image_version_status
     #   The status of the image version for the cluster node.
     #   @return [String]
@@ -7253,6 +7363,7 @@ module Aws::SageMaker
       :instance_status,
       :ultra_server_info,
       :private_dns_hostname,
+      :current_image_release_version,
       :image_version_status)
       SENSITIVE = []
       include Aws::Structure
@@ -7315,6 +7426,37 @@ module Aws::SageMaker
     #
     class ClusterOrchestratorSlurmConfig < Struct.new(
       :slurm_config_strategy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The schedule configuration for automatic patching.
+    #
+    # @!attribute [rw] next_patch_date
+    #   The date and time of the next scheduled automatic patch. The system
+    #   sets this automatically when a patch is detected. Use this field to
+    #   reschedule the patch to a different date.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterPatchSchedule AWS API Documentation
+    #
+    class ClusterPatchSchedule < Struct.new(
+      :next_patch_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The schedule details for automatic patching, including the next
+    # scheduled patch date.
+    #
+    # @!attribute [rw] next_patch_date
+    #   The date and time of the next scheduled automatic patch.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterPatchScheduleDetails AWS API Documentation
+    #
+    class ClusterPatchScheduleDetails < Struct.new(
+      :next_patch_date)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7751,6 +7893,11 @@ module Aws::SageMaker
     #   see ` CreateTrainingPlan `.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] image_version_status
+    #   The aggregate status of the image version across the cluster's
+    #   instance groups.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ClusterSummary AWS API Documentation
     #
     class ClusterSummary < Struct.new(
@@ -7758,7 +7905,8 @@ module Aws::SageMaker
       :cluster_name,
       :creation_time,
       :cluster_status,
-      :training_plan_arns)
+      :training_plan_arns,
+      :image_version_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -56184,10 +56332,17 @@ module Aws::SageMaker
     #   The name of the instance group to update.
     #   @return [String]
     #
+    # @!attribute [rw] image_release_version
+    #   The version of the HyperPod-managed AMI to update to for the
+    #   instance group. Uses semantic versioning in the format
+    #   `MAJOR.MINOR.PATCH`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/UpdateClusterSoftwareInstanceGroupSpecification AWS API Documentation
     #
     class UpdateClusterSoftwareInstanceGroupSpecification < Struct.new(
-      :instance_group_name)
+      :instance_group_name,
+      :image_release_version)
       SENSITIVE = []
       include Aws::Structure
     end

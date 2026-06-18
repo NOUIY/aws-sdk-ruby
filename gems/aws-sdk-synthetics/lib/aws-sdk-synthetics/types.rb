@@ -23,6 +23,29 @@ module Aws::Synthetics
       include Aws::Structure
     end
 
+    # A structure that specifies a replica location for a canary, including
+    # the Region and optional VPC configuration.
+    #
+    # @!attribute [rw] location
+    #   The Amazon Web Services Region where the canary replica should be
+    #   created, for example `us-east-1`.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_config
+    #   The VPC configuration to use for the canary replica in this
+    #   location. If not specified, the replica runs without VPC
+    #   connectivity.
+    #   @return [Types::VpcConfigInput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/AddReplicaLocationInput AWS API Documentation
+    #
+    class AddReplicaLocationInput < Struct.new(
+      :location,
+      :vpc_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A structure that contains the configuration for canary artifacts,
     # including the encryption-at-rest settings for artifacts that the
     # canary uploads to Amazon S3.
@@ -305,6 +328,12 @@ module Aws::Synthetics
     #   future compatibility.
     #   @return [Array<Types::VisualReferenceOutput>]
     #
+    # @!attribute [rw] multi_location_config
+    #   If this canary is part of a multi-location configuration, this
+    #   structure contains information about the canary's location type,
+    #   primary location, and replicas.
+    #   @return [Types::MultiLocationConfig]
+    #
     # @!attribute [rw] tags
     #   The list of key-value pairs that are associated with the canary.
     #   @return [Hash<String,String>]
@@ -341,6 +370,7 @@ module Aws::Synthetics
       :browser_configs,
       :engine_configs,
       :visual_references,
+      :multi_location_config,
       :tags,
       :artifact_config,
       :dry_run_config)
@@ -423,7 +453,7 @@ module Aws::Synthetics
     #
     #   Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in
     #   authentication schemes (Basic, API Key, OAuth, SigV4) and assertion
-    #   capabilities. When you specify `BlueprintTypes`, the Handler field
+    #   capabilities. When you specify `BlueprintTypes`, the `Handler` field
     #   cannot be specified since the blueprint provides a pre-defined entry
     #   point.
     #
@@ -474,7 +504,7 @@ module Aws::Synthetics
     #
     #   Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in
     #   authentication schemes (Basic, API Key, OAuth, SigV4) and assertion
-    #   capabilities. When you specify `BlueprintTypes`, the Handler field
+    #   capabilities. When you specify `BlueprintTypes`, the `Handler` field
     #   cannot be specified since the blueprint provides a pre-defined entry
     #   point.
     #
@@ -573,6 +603,10 @@ module Aws::Synthetics
     #   The browser type associated with this canary run.
     #   @return [String]
     #
+    # @!attribute [rw] location
+    #   The Amazon Web Services Region where this canary run was executed.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/CanaryRun AWS API Documentation
     #
     class CanaryRun < Struct.new(
@@ -584,7 +618,8 @@ module Aws::Synthetics
       :timeline,
       :artifact_s3_location,
       :dry_run_config,
-      :browser_type)
+      :browser_type,
+      :location)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1092,6 +1127,13 @@ module Aws::Synthetics
     #    </note>
     #   @return [Array<Types::BrowserConfig>]
     #
+    # @!attribute [rw] add_replica_locations
+    #   A list of locations (Amazon Web Services Regions) to add as replicas
+    #   for the canary. Each location specifies a Region and optional VPC
+    #   configuration for the replica. You can add up to 50 replica
+    #   locations.
+    #   @return [Array<Types::AddReplicaLocationInput>]
+    #
     # @!attribute [rw] tags
     #   A list of key-value pairs to associate with the canary. You can
     #   associate as many as 50 tags with a canary.
@@ -1128,6 +1170,7 @@ module Aws::Synthetics
       :resources_to_replicate_tags,
       :provisioned_resource_cleanup,
       :browser_configs,
+      :add_replica_locations,
       :tags,
       :artifact_config)
       SENSITIVE = []
@@ -1875,6 +1918,41 @@ module Aws::Synthetics
       include Aws::Structure
     end
 
+    # A structure that contains information about the multi-location
+    # configuration of a canary, including whether it is a primary or
+    # replica, the primary location, and the list of replicas.
+    #
+    # @!attribute [rw] location_type
+    #   Indicates whether this canary is the `Primary` or a `Replica` in the
+    #   multi-location configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_location
+    #   The Amazon Web Services Region where the primary canary is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] replicas
+    #   A list of replicas for this canary. This field is present only for
+    #   the primary location canary.
+    #   @return [Array<Types::Replica>]
+    #
+    # @!attribute [rw] replication_state
+    #   The overall replication state of the canary across all replica
+    #   locations. This field is present only for the primary location
+    #   canary. Valid values are `InProgress`, `InSync`, and `Inconsistent`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/MultiLocationConfig AWS API Documentation
+    #
+    class MultiLocationConfig < Struct.new(
+      :location_type,
+      :primary_location,
+      :replicas,
+      :replication_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The specified resource was not found.
     #
     # @!attribute [rw] message
@@ -1884,6 +1962,70 @@ module Aws::Synthetics
     #
     class NotFoundException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that contains information about a canary replica in a
+    # specific location.
+    #
+    # @!attribute [rw] location
+    #   The Amazon Web Services Region where this replica is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_status
+    #   A structure that contains information about the replication status
+    #   of this replica.
+    #   @return [Types::ReplicationStatus]
+    #
+    # @!attribute [rw] canary_state
+    #   The current state of the canary in this replica location.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified
+    #   The date and time that the replica was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] vpc_config
+    #   The VPC configuration for the canary replica in this location.
+    #   @return [Types::VpcConfigOutput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/Replica AWS API Documentation
+    #
+    class Replica < Struct.new(
+      :location,
+      :replication_status,
+      :canary_state,
+      :last_modified,
+      :vpc_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that contains information about the replication status of
+    # a canary replica.
+    #
+    # @!attribute [rw] state
+    #   The replication state of the replica. Valid values are `InProgress`,
+    #   `InSync`, and `Inconsistent`.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_reason
+    #   A description that provides more detail about the current
+    #   replication state.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_reason_code
+    #   A code that provides more detail about the current replication
+    #   state.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/ReplicationStatus AWS API Documentation
+    #
+    class ReplicationStatus < Struct.new(
+      :state,
+      :state_reason,
+      :state_reason_code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2548,6 +2690,20 @@ module Aws::Synthetics
     #    </note>
     #   @return [Array<Types::BrowserConfig>]
     #
+    # @!attribute [rw] add_replica_locations
+    #   A list of locations (Amazon Web Services Regions) to add as replicas
+    #   for the canary. Each location specifies a Region and optional VPC
+    #   configuration for the replica. You can add up to 50 replica
+    #   locations.
+    #   @return [Array<Types::AddReplicaLocationInput>]
+    #
+    # @!attribute [rw] remove_replica_locations
+    #   A list of locations (Amazon Web Services Regions) to remove as
+    #   replicas for the canary. You must specify at least one location to
+    #   remove. All replicas can be removed in a single API call and you
+    #   cannot remove the primary location.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/UpdateCanaryRequest AWS API Documentation
     #
     class UpdateCanaryRequest < Struct.new(
@@ -2566,7 +2722,9 @@ module Aws::Synthetics
       :provisioned_resource_cleanup,
       :dry_run_id,
       :visual_references,
-      :browser_configs)
+      :browser_configs,
+      :add_replica_locations,
+      :remove_replica_locations)
       SENSITIVE = []
       include Aws::Structure
     end

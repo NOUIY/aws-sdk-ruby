@@ -474,6 +474,7 @@ module Aws::CognitoIdentityProvider
     SearchedAttributeNamesListType = Shapes::ListShape.new(name: 'SearchedAttributeNamesListType')
     SecretCodeType = Shapes::StringShape.new(name: 'SecretCodeType')
     SecretHashType = Shapes::StringShape.new(name: 'SecretHashType')
+    SecurityPolicyType = Shapes::StringShape.new(name: 'SecurityPolicyType')
     SessionType = Shapes::StringShape.new(name: 'SessionType')
     SetLogDeliveryConfigurationRequest = Shapes::StructureShape.new(name: 'SetLogDeliveryConfigurationRequest')
     SetLogDeliveryConfigurationResponse = Shapes::StructureShape.new(name: 'SetLogDeliveryConfigurationResponse')
@@ -1215,6 +1216,7 @@ module Aws::CognitoIdentityProvider
     CustomAttributesListType.member = Shapes::ShapeRef.new(shape: SchemaAttributeType)
 
     CustomDomainConfigType.add_member(:certificate_arn, Shapes::ShapeRef.new(shape: ArnType, required: true, location_name: "CertificateArn"))
+    CustomDomainConfigType.add_member(:security_policy, Shapes::ShapeRef.new(shape: SecurityPolicyType, location_name: "SecurityPolicy"))
     CustomDomainConfigType.struct_class = Types::CustomDomainConfigType
 
     CustomEmailLambdaVersionConfigType.add_member(:lambda_version, Shapes::ShapeRef.new(shape: CustomEmailSenderLambdaVersionType, required: true, location_name: "LambdaVersion"))

@@ -1702,7 +1702,7 @@ module Aws::GameLift
     #     configuration. Amazon GameLift Servers uses the following formula:
     #     `4192 + [# of game server container groups per fleet instance] *
     #     [# of container ports in the game server container group
-    #     definition] + [# of container ports in the game server container
+    #     definition] + [# of container ports in the per instance container
     #     group definition]`
     #
     #   ^
@@ -1739,7 +1739,7 @@ module Aws::GameLift
     #     configuration. Amazon GameLift Servers uses the following formula:
     #     `4192 + [# of game server container groups per fleet instance] *
     #     [# of container ports in the game server container group
-    #     definition] + [# of container ports in the game server container
+    #     definition] + [# of container ports in the per instance container
     #     group definition]`
     #
     #   You can also choose to manually set this parameter. When manually
@@ -1777,11 +1777,11 @@ module Aws::GameLift
     #   host your game servers. This includes including CPU, memory,
     #   storage, and networking capacity.
     #
-    #   By default, Amazon GameLift Servers selects an instance type that
-    #   fits the needs of your container groups and is available in all
-    #   selected fleet locations. You can also choose to manually set this
-    #   parameter. See [Amazon Elastic Compute Cloud Instance Types][1] for
-    #   detailed descriptions of Amazon EC2 instance types.
+    #   By default, Amazon GameLift Servers uses the `c5.large` instance
+    #   type. If this instance type does not have sufficient resources for
+    #   your container groups, you can choose a different instance type that
+    #   better fits your needs. See [Amazon Elastic Compute Cloud Instance
+    #   Types][1] for detailed descriptions of Amazon EC2 instance types.
     #
     #   You can't update this fleet property later.
     #
@@ -2748,11 +2748,13 @@ module Aws::GameLift
     #   the same string return the original `GameSession` object, with an
     #   updated status. Maximum token length is 48 characters. If provided,
     #   this string is included in the new game session's ID. The value is
-    #   always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
-    #   Idempotency tokens remain in use for 30 days after a game session
-    #   has ended; game session objects are retained for this time period
-    #   and then deleted.
+    #   always a full ARN in the following format: For Home Region game
+    #   session - `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<ID string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`. Idempotency tokens remain in use for 30
+    #   days after a game session has ended; game session objects are
+    #   retained for this time period and then deleted.
     #   @return [String]
     #
     # @!attribute [rw] game_session_data
@@ -3182,8 +3184,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to add a player to. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-    #   string>`.
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_id
@@ -3221,8 +3226,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to add players to. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-    #   string>`.
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_ids
@@ -4090,6 +4098,19 @@ module Aws::GameLift
     #   A unique identifier for the container fleet.
     #   @return [String]
     #
+    # @!attribute [rw] fleet_arn
+    #   The Amazon Resource Name ([ARN][1]) that is assigned to a Amazon
+    #   GameLift Servers fleet resource and uniquely identifies it. ARNs are
+    #   unique across all Regions. Format is
+    #   `arn:aws:gamelift:<region>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912`.
+    #   In a GameLift fleet ARN, the resource ID matches the `FleetId`
+    #   value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html
+    #   @return [String]
+    #
     # @!attribute [rw] location
     #   The location of the fleet instance, expressed as an Amazon Web
     #   Services Region code, such as `us-west-2`.
@@ -4132,6 +4153,7 @@ module Aws::GameLift
     #
     class DescribeContainerGroupPortMappingsOutput < Struct.new(
       :fleet_id,
+      :fleet_arn,
       :location,
       :container_group_definition_arn,
       :container_group_type,
@@ -4755,7 +4777,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to retrieve. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] alias_id
@@ -4903,7 +4929,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to retrieve. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] alias_id
@@ -5162,8 +5192,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to retrieve player sessions for. The value is always a full ARN in
-    #   the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   the following format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_id
@@ -6004,6 +6037,15 @@ module Aws::GameLift
     #   session. On receiving a `CreateGameSession` request, Amazon GameLift
     #   Servers checks that the player (identified by `CreatorId`) has
     #   created fewer than game session limit in the specified time period.
+    #
+    #   The purpose of this policy is to prevent a single player from
+    #   consuming a large share of available hosting resources. For example,
+    #   setting `NewGameSessionsPerCreator` to `4` and
+    #   `PolicyPeriodInMinutes` to `10` limits each player to creating 4
+    #   game sessions every 10 minutes. Setting these values too high (for
+    #   example, 200 game sessions every 1000 minutes) still allows a single
+    #   player to rapidly consume resources. We recommend keeping these
+    #   values small.
     #   @return [Types::ResourceCreationLimitPolicy]
     #
     # @!attribute [rw] metric_groups
@@ -6512,17 +6554,21 @@ module Aws::GameLift
     #
     # **Part of:** [ContainerGroupDefinition][2]
     #
-    # **Returned by:** [DescribeContainerGroupDefinition][3],
-    # [ListContainerGroupDefinitions][4],
-    # [UpdateContainerGroupDefinition][5]
+    # **Returned by:** [CreateContainerGroupDefinition][3],
+    # [DescribeContainerGroupDefinition][4],
+    # [ListContainerGroupDefinitions][5],
+    # [ListContainerGroupDefinitionVersions][6],
+    # [UpdateContainerGroupDefinition][7]
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput
     # [2]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html
-    # [3]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html
-    # [4]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html
-    # [5]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html
+    # [3]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html
+    # [4]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html
+    # [5]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html
+    # [6]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitionVersions.html
+    # [7]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html
     #
     # @!attribute [rw] container_name
     #   The container definition identifier. Container names are unique
@@ -6579,6 +6625,16 @@ module Aws::GameLift
     #   compatible with container fleets.
     #   @return [String]
     #
+    # @!attribute [rw] linux_capabilities
+    #   Linux-specific modifications that are applied to the default Docker
+    #   container configuration, such as Linux capabilities. For more
+    #   information see [LinuxCapabilities][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html
+    #   @return [Types::LinuxCapabilities]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/GameServerContainerDefinition AWS API Documentation
     #
     class GameServerContainerDefinition < Struct.new(
@@ -6589,7 +6645,8 @@ module Aws::GameLift
       :image_uri,
       :port_configuration,
       :resolved_image_digest,
-      :server_sdk_version)
+      :server_sdk_version,
+      :linux_capabilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6691,6 +6748,16 @@ module Aws::GameLift
     #   compatible with container fleets.
     #   @return [String]
     #
+    # @!attribute [rw] linux_capabilities
+    #   Linux-specific modifications that are applied to the default Docker
+    #   container configuration, such as Linux capabilities. For more
+    #   information see [LinuxCapabilities][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html
+    #   @return [Types::LinuxCapabilities]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/GameServerContainerDefinitionInput AWS API Documentation
     #
     class GameServerContainerDefinitionInput < Struct.new(
@@ -6700,7 +6767,8 @@ module Aws::GameLift
       :environment_override,
       :image_uri,
       :port_configuration,
-      :server_sdk_version)
+      :server_sdk_version,
+      :linux_capabilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6988,8 +7056,12 @@ module Aws::GameLift
     #
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all
-    #   regions. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   regions. The value is always a full ARN in the following format: For
+    #   Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -7209,8 +7281,12 @@ module Aws::GameLift
     #
     # @!attribute [rw] game_session_arn
     #   An identifier for the game session that is unique across all
-    #   regions. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   regions. The value is always a full ARN in the following format: For
+    #   Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] ip_address
@@ -7433,18 +7509,26 @@ module Aws::GameLift
     #
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all
-    #   regions. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
-    #   This value is the same as `GameSessionArn`. This value isn't final
-    #   until placement status is `FULFILLED`.
+    #   regions. The value is always a full ARN in the following format: For
+    #   Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`. This value is the same as
+    #   `GameSessionArn`. This value isn't final until placement status is
+    #   `FULFILLED`.
     #   @return [String]
     #
     # @!attribute [rw] game_session_arn
     #   An identifier for the game session that is unique across all
-    #   regions. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
-    #   This value is the same as `GameSessionId`. This value isn't final
-    #   until placement status is `FULFILLED`.
+    #   regions. The value is always a full ARN in the following format: For
+    #   Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`. This value is the same as
+    #   `GameSessionId`. This value isn't final until placement status is
+    #   `FULFILLED`.
     #   @return [String]
     #
     # @!attribute [rw] game_session_region
@@ -7455,8 +7539,9 @@ module Aws::GameLift
     #
     # @!attribute [rw] player_latencies
     #   A set of values, expressed in milliseconds, that indicates the
-    #   amount of latency that a player experiences when connected to Amazon
-    #   Web Services Regions.
+    #   amount of latency that a player experiences when connected to a
+    #   fleet location (Amazon Web Services Regions or custom locations for
+    #   Amazon GameLift Servers Anywhere fleets).
     #   @return [Array<Types::PlayerLatency>]
     #
     # @!attribute [rw] start_time
@@ -7867,8 +7952,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to get logs for. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-    #   string>`.
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/GetGameSessionLogUrlInput AWS API Documentation
@@ -7936,8 +8024,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   for which to retrieve player connection details. The value is always
-    #   a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   a full ARN in the following format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_ids
@@ -7957,8 +8048,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   for which the player connection details were retrieved. The value is
-    #   always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   always a full ARN in the following format: For Home Region game
+    #   session - `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<ID string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] player_connection_details
@@ -8359,6 +8453,56 @@ module Aws::GameLift
     #
     class LimitExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A set of Linux capabilities that are added to a container's default
+    # Docker configuration for a container defined in the
+    # [ContainerGroupDefinition][1]. For more detailed information about
+    # these Linux capabilities, see the [capabilities(7)][2] Linux manual
+    # page.
+    #
+    # **Modifying capabilities on an existing container:** To remove a
+    # capability, update the `Include` list with only the needed
+    # capabilities. To revert back to default capabilities, omit
+    # `LinuxCapabilities` within the ContainerDefinition.
+    #
+    # <b>Part of: </b> [GameServerContainerDefinition][3],
+    # [GameServerContainerDefinitionInput][4],
+    # [SupportContainerDefinition][5], [SupportContainerDefinitionInput][6]
+    #
+    # <b>Returned by: </b> [CreateContainerGroupDefinition][7],
+    # [DescribeContainerGroupDefinition][8],
+    # [ListContainerGroupDefinitions][9],
+    # [ListContainerGroupDefinitionVersions][10],
+    # [UpdateContainerGroupDefinition][11]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html
+    # [2]: https://man7.org/linux/man-pages/man7/capabilities.7.html
+    # [3]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html
+    # [4]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html
+    # [5]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html
+    # [6]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html
+    # [7]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html
+    # [8]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html
+    # [9]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html
+    # [10]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitionVersions.html
+    # [11]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html
+    #
+    # @!attribute [rw] include
+    #   The list of Linux capabilities to add to the container's default
+    #   configuration. Specify each capability as a string from the set of
+    #   supported capability names (for example, `NET_BIND_SERVICE` or
+    #   `SYS_PTRACE`).
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/LinuxCapabilities AWS API Documentation
+    #
+    class LinuxCapabilities < Struct.new(
+      :include)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9715,7 +9859,7 @@ module Aws::GameLift
       include Aws::Structure
     end
 
-    # The requested resources was not found. The resource was either not
+    # The requested resource was not found. The resource was either not
     # created yet or deleted.
     #
     # @!attribute [rw] message
@@ -9833,10 +9977,11 @@ module Aws::GameLift
     #
     # @!attribute [rw] latency_in_ms
     #   A set of values, expressed in milliseconds, that indicates the
-    #   amount of latency that a player experiences when connected to Amazon
-    #   Web Services Regions. If this property is present, FlexMatch
-    #   considers placing the match only in Regions for which latency is
-    #   reported.
+    #   amount of latency that a player experiences when connected to a
+    #   fleet location (Amazon Web Services Regions or custom locations for
+    #   Amazon GameLift Servers Anywhere fleets). If this property is
+    #   present, FlexMatch considers placing the match only in Regions for
+    #   which latency is reported.
     #
     #   If a matchmaker has a rule that evaluates player latency, players
     #   must report latency in order to be matched. If no latency is
@@ -9961,17 +10106,20 @@ module Aws::GameLift
 
     # Regional latency information for a player, used when requesting a new
     # game session. This value indicates the amount of time lag that exists
-    # when the player is connected to a fleet in the specified Region. The
-    # relative difference between a player's latency values for multiple
-    # Regions are used to determine which fleets are best suited to place a
-    # new game session for the player.
+    # when the player is connected to a fleet in the specified location (an
+    # Amazon Web Services Region or a custom location for Amazon GameLift
+    # Servers Anywhere fleets). The relative difference between a player's
+    # latency values for multiple locations are used to determine which
+    # fleets are best suited to place a new game session for the player.
     #
     # @!attribute [rw] player_id
     #   A unique identifier for a player associated with the latency data.
     #   @return [String]
     #
     # @!attribute [rw] region_identifier
-    #   Name of the Region that is associated with the latency value.
+    #   Name of the Region or custom location that is associated with the
+    #   latency value. For Amazon GameLift Servers Anywhere fleets, use the
+    #   custom location name.
     #   @return [String]
     #
     # @!attribute [rw] latency_in_milliseconds
@@ -10046,8 +10194,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   that the player session is connected to. The value is always a full
-    #   ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   ARN in the following format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] fleet_id
@@ -10593,6 +10744,14 @@ module Aws::GameLift
     # session. On receiving a `CreateGameSession` request, Amazon GameLift
     # Servers checks that the player (identified by `CreatorId`) has created
     # fewer than game session limit in the specified time period.
+    #
+    # The purpose of this policy is to prevent a single player from
+    # consuming a large share of available hosting resources. For example,
+    # setting `NewGameSessionsPerCreator` to `4` and `PolicyPeriodInMinutes`
+    # to `10` limits each player to creating 4 game sessions every 10
+    # minutes. Setting these values too high (for example, 200 game sessions
+    # every 1000 minutes) still allows a single player to rapidly consume
+    # resources. We recommend keeping these values small.
     #
     # @!attribute [rw] new_game_sessions_per_creator
     #   A policy that puts limits on the number of game sessions that a
@@ -11315,10 +11474,11 @@ module Aws::GameLift
     #
     # @!attribute [rw] player_latencies
     #   A set of values, expressed in milliseconds, that indicates the
-    #   amount of latency that a player experiences when connected to Amazon
-    #   Web Services Regions. This information is used to try to place the
-    #   new game session where it can offer the best possible gameplay
-    #   experience for the players.
+    #   amount of latency that a player experiences when connected to a
+    #   fleet location (Amazon Web Services Regions or custom locations for
+    #   Amazon GameLift Servers Anywhere fleets). This information is used
+    #   to try to place the new game session where it can offer the best
+    #   possible gameplay experience for the players.
     #   @return [Array<Types::PlayerLatency>]
     #
     # @!attribute [rw] desired_player_sessions
@@ -11396,10 +11556,13 @@ module Aws::GameLift
     #
     # @!attribute [rw] game_session_arn
     #   An identifier for the game session that is unique across all
-    #   regions. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
-    #   When using FlexMatch as a standalone matchmaking solution, this
-    #   parameter is not needed.
+    #   regions. The value is always a full ARN in the following format: For
+    #   Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`. When using FlexMatch as a standalone
+    #   matchmaking solution, this parameter is not needed.
     #   @return [String]
     #
     # @!attribute [rw] players
@@ -11601,17 +11764,21 @@ module Aws::GameLift
     #
     # **Part of:** [ContainerGroupDefinition][2]
     #
-    # **Returned by:** [DescribeContainerGroupDefinition][3],
-    # [ListContainerGroupDefinitions][4],
-    # [UpdateContainerGroupDefinition][5]
+    # **Returned by:** [CreateContainerGroupDefinition][3],
+    # [DescribeContainerGroupDefinition][4],
+    # [ListContainerGroupDefinitions][5],
+    # [ListContainerGroupDefinitionVersions][6],
+    # [UpdateContainerGroupDefinition][7]
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html
     # [2]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html
-    # [3]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html
-    # [4]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html
-    # [5]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html
+    # [3]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html
+    # [4]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html
+    # [5]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html
+    # [6]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitionVersions.html
+    # [7]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html
     #
     # @!attribute [rw] container_name
     #   The container definition identifier. Container names are unique
@@ -11699,6 +11866,16 @@ module Aws::GameLift
     #   [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html
     #   @return [Float]
     #
+    # @!attribute [rw] linux_capabilities
+    #   Linux-specific modifications that are applied to the default Docker
+    #   container configuration, such as Linux capabilities. For more
+    #   information see [LinuxCapabilities][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html
+    #   @return [Types::LinuxCapabilities]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/SupportContainerDefinition AWS API Documentation
     #
     class SupportContainerDefinition < Struct.new(
@@ -11712,7 +11889,8 @@ module Aws::GameLift
       :memory_hard_limit_mebibytes,
       :port_configuration,
       :resolved_image_digest,
-      :vcpu)
+      :vcpu,
+      :linux_capabilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11854,6 +12032,16 @@ module Aws::GameLift
     #   [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html
     #   @return [Float]
     #
+    # @!attribute [rw] linux_capabilities
+    #   Linux-specific modifications that are applied to the default Docker
+    #   container configuration, such as Linux capabilities. For more
+    #   information see [LinuxCapabilities][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/gamelift/latest/apireference/API_LinuxCapabilities.html
+    #   @return [Types::LinuxCapabilities]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gamelift-2015-10-01/SupportContainerDefinitionInput AWS API Documentation
     #
     class SupportContainerDefinitionInput < Struct.new(
@@ -11866,7 +12054,8 @@ module Aws::GameLift
       :image_uri,
       :memory_hard_limit_mebibytes,
       :port_configuration,
-      :vcpu)
+      :vcpu,
+      :linux_capabilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12061,8 +12250,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to be terminated. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
-    #   string>`.
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] termination_mode
@@ -12894,7 +13086,11 @@ module Aws::GameLift
     # @!attribute [rw] game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to update. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet
+    #   ID>/<location>/<ID string>`.
     #   @return [String]
     #
     # @!attribute [rw] maximum_player_session_count

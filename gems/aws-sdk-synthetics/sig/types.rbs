@@ -13,6 +13,12 @@ module Aws::Synthetics
       SENSITIVE: []
     end
 
+    class AddReplicaLocationInput
+      attr_accessor location: ::String
+      attr_accessor vpc_config: Types::VpcConfigInput
+      SENSITIVE: []
+    end
+
     class ArtifactConfigInput
       attr_accessor s3_encryption: Types::S3EncryptionConfig
       SENSITIVE: []
@@ -68,6 +74,7 @@ module Aws::Synthetics
       attr_accessor browser_configs: ::Array[Types::BrowserConfig]
       attr_accessor engine_configs: ::Array[Types::EngineConfig]
       attr_accessor visual_references: ::Array[Types::VisualReferenceOutput]
+      attr_accessor multi_location_config: Types::MultiLocationConfig
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor artifact_config: Types::ArtifactConfigOutput
       attr_accessor dry_run_config: Types::DryRunConfigOutput
@@ -114,6 +121,7 @@ module Aws::Synthetics
       attr_accessor artifact_s3_location: ::String
       attr_accessor dry_run_config: Types::CanaryDryRunConfigOutput
       attr_accessor browser_type: ("CHROME" | "FIREFOX")
+      attr_accessor location: ::String
       SENSITIVE: []
     end
 
@@ -197,6 +205,7 @@ module Aws::Synthetics
       attr_accessor resources_to_replicate_tags: ::Array[("lambda-function")]
       attr_accessor provisioned_resource_cleanup: ("AUTOMATIC" | "OFF")
       attr_accessor browser_configs: ::Array[Types::BrowserConfig]
+      attr_accessor add_replica_locations: ::Array[Types::AddReplicaLocationInput]
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor artifact_config: Types::ArtifactConfigInput
       SENSITIVE: []
@@ -412,8 +421,32 @@ module Aws::Synthetics
       SENSITIVE: []
     end
 
+    class MultiLocationConfig
+      attr_accessor location_type: ("Primary" | "Replica")
+      attr_accessor primary_location: ::String
+      attr_accessor replicas: ::Array[Types::Replica]
+      attr_accessor replication_state: ("InProgress" | "InSync" | "Inconsistent")
+      SENSITIVE: []
+    end
+
     class NotFoundException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class Replica
+      attr_accessor location: ::String
+      attr_accessor replication_status: Types::ReplicationStatus
+      attr_accessor canary_state: ("CREATING" | "READY" | "STARTING" | "RUNNING" | "UPDATING" | "STOPPING" | "STOPPED" | "ERROR" | "DELETING")
+      attr_accessor last_modified: ::Time
+      attr_accessor vpc_config: Types::VpcConfigOutput
+      SENSITIVE: []
+    end
+
+    class ReplicationStatus
+      attr_accessor state: ("InProgress" | "InSync" | "Inconsistent")
+      attr_accessor state_reason: ::String
+      attr_accessor state_reason_code: ::String
       SENSITIVE: []
     end
 
@@ -535,6 +568,8 @@ module Aws::Synthetics
       attr_accessor dry_run_id: ::String
       attr_accessor visual_references: ::Array[Types::VisualReferenceInput]
       attr_accessor browser_configs: ::Array[Types::BrowserConfig]
+      attr_accessor add_replica_locations: ::Array[Types::AddReplicaLocationInput]
+      attr_accessor remove_replica_locations: ::Array[::String]
       SENSITIVE: []
     end
 

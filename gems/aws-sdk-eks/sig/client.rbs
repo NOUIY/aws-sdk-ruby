@@ -228,13 +228,7 @@ module Aws
                             name: ::String,
                             ?version: ::String,
                             role_arn: ::String,
-                            resources_vpc_config: {
-                              subnet_ids: Array[::String]?,
-                              security_group_ids: Array[::String]?,
-                              endpoint_public_access: bool?,
-                              endpoint_private_access: bool?,
-                              public_access_cidrs: Array[::String]?
-                            },
+                            resources_vpc_config: Params::vpc_config_request,
                             ?kubernetes_network_config: {
                               service_ipv_4_cidr: ::String?,
                               ip_family: ("ipv4" | "ipv6")?,
@@ -1051,13 +1045,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EKS/Client.html#update_cluster_config-instance_method
       def update_cluster_config: (
                                    name: ::String,
-                                   ?resources_vpc_config: {
-                                     subnet_ids: Array[::String]?,
-                                     security_group_ids: Array[::String]?,
-                                     endpoint_public_access: bool?,
-                                     endpoint_private_access: bool?,
-                                     public_access_cidrs: Array[::String]?
-                                   },
+                                   ?resources_vpc_config: Params::vpc_config_request,
                                    ?logging: {
                                      cluster_logging: Array[
                                        {

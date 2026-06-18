@@ -112,7 +112,7 @@ module Aws::Batch
 
     class ComputeResource
       attr_accessor type: ("EC2" | "SPOT" | "FARGATE" | "FARGATE_SPOT")
-      attr_accessor allocation_strategy: ("BEST_FIT" | "BEST_FIT_PROGRESSIVE" | "SPOT_CAPACITY_OPTIMIZED" | "SPOT_PRICE_CAPACITY_OPTIMIZED")
+      attr_accessor allocation_strategy: ("BEST_FIT" | "BEST_FIT_PROGRESSIVE" | "BEST_FIT_PROGRESSIVE_ORDERED" | "SPOT_CAPACITY_OPTIMIZED" | "SPOT_PRICE_CAPACITY_OPTIMIZED" | "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED")
       attr_accessor minv_cpus: ::Integer
       attr_accessor maxv_cpus: ::Integer
       attr_accessor desiredv_cpus: ::Integer
@@ -138,7 +138,7 @@ module Aws::Batch
       attr_accessor desiredv_cpus: ::Integer
       attr_accessor subnets: ::Array[::String]
       attr_accessor security_group_ids: ::Array[::String]
-      attr_accessor allocation_strategy: ("BEST_FIT_PROGRESSIVE" | "SPOT_CAPACITY_OPTIMIZED" | "SPOT_PRICE_CAPACITY_OPTIMIZED")
+      attr_accessor allocation_strategy: ("BEST_FIT_PROGRESSIVE" | "BEST_FIT_PROGRESSIVE_ORDERED" | "SPOT_CAPACITY_OPTIMIZED" | "SPOT_PRICE_CAPACITY_OPTIMIZED" | "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED")
       attr_accessor instance_types: ::Array[::String]
       attr_accessor ec2_key_pair: ::String
       attr_accessor instance_role: ::String

@@ -748,6 +748,7 @@ module Aws
       interface _DescribeContainerGroupPortMappingsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeContainerGroupPortMappingsOutput]
         def fleet_id: () -> ::String
+        def fleet_arn: () -> ::String
         def location: () -> ::String
         def container_group_definition_arn: () -> ::String
         def container_group_type: () -> ("GAME_SERVER" | "PER_INSTANCE")

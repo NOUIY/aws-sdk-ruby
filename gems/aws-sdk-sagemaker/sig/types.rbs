@@ -1178,6 +1178,21 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class ClusterAutoPatchConfig
+      attr_accessor patching_strategy: ("WhenIdle" | "WhenAllIdle")
+      attr_accessor patch_schedule: Types::ClusterPatchSchedule
+      attr_accessor deployment_config: Types::DeploymentConfiguration
+      SENSITIVE: []
+    end
+
+    class ClusterAutoPatchConfigDetails
+      attr_accessor patching_strategy: ("WhenIdle" | "WhenAllIdle")
+      attr_accessor current_patch_schedule: Types::ClusterPatchScheduleDetails
+      attr_accessor desired_patch_schedule: Types::ClusterPatchScheduleDetails
+      attr_accessor deployment_config: Types::DeploymentConfiguration
+      SENSITIVE: []
+    end
+
     class ClusterAutoScalingConfig
       attr_accessor mode: ("Enable" | "Disable")
       attr_accessor auto_scaler_type: ("Karpenter")
@@ -1263,9 +1278,12 @@ module Aws::SageMaker
       attr_accessor training_plan_status: ::String
       attr_accessor override_vpc_config: Types::VpcConfig
       attr_accessor scheduled_update_config: Types::ScheduledUpdateConfig
+      attr_accessor auto_patch_config: Types::ClusterAutoPatchConfigDetails
       attr_accessor current_image_id: ::String
       attr_accessor desired_image_id: ::String
-      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable")
+      attr_accessor current_image_release_version: ::String
+      attr_accessor desired_image_release_version: ::String
+      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable" | "SecurityUpdateRequired" | "EndOfLife")
       attr_accessor active_operations: ::Hash[("Scaling"), ::Integer]
       attr_accessor kubernetes_config: Types::ClusterKubernetesConfigDetails
       attr_accessor capacity_requirements: Types::ClusterCapacityRequirements
@@ -1292,6 +1310,8 @@ module Aws::SageMaker
       attr_accessor override_vpc_config: Types::VpcConfig
       attr_accessor scheduled_update_config: Types::ScheduledUpdateConfig
       attr_accessor image_id: ::String
+      attr_accessor auto_patch_config: Types::ClusterAutoPatchConfig
+      attr_accessor image_release_version: ::String
       attr_accessor kubernetes_config: Types::ClusterKubernetesConfig
       attr_accessor slurm_config: Types::ClusterSlurmConfig
       attr_accessor capacity_requirements: Types::ClusterCapacityRequirements
@@ -1417,7 +1437,9 @@ module Aws::SageMaker
       attr_accessor placement: Types::ClusterInstancePlacement
       attr_accessor current_image_id: ::String
       attr_accessor desired_image_id: ::String
-      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable")
+      attr_accessor current_image_release_version: ::String
+      attr_accessor desired_image_release_version: ::String
+      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable" | "SecurityUpdateRequired" | "EndOfLife")
       attr_accessor ultra_server_info: Types::UltraServerInfo
       attr_accessor kubernetes_config: Types::ClusterKubernetesConfigNodeDetails
       attr_accessor capacity_type: ("Spot" | "OnDemand")
@@ -1435,7 +1457,8 @@ module Aws::SageMaker
       attr_accessor instance_status: Types::ClusterInstanceStatusDetails
       attr_accessor ultra_server_info: Types::UltraServerInfo
       attr_accessor private_dns_hostname: ::String
-      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable")
+      attr_accessor current_image_release_version: ::String
+      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable" | "SecurityUpdateRequired" | "EndOfLife")
       SENSITIVE: []
     end
 
@@ -1455,6 +1478,16 @@ module Aws::SageMaker
 
     class ClusterOrchestratorSlurmConfig
       attr_accessor slurm_config_strategy: ("Overwrite" | "Managed" | "Merge")
+      SENSITIVE: []
+    end
+
+    class ClusterPatchSchedule
+      attr_accessor next_patch_date: ::Time
+      SENSITIVE: []
+    end
+
+    class ClusterPatchScheduleDetails
+      attr_accessor next_patch_date: ::Time
       SENSITIVE: []
     end
 
@@ -1548,6 +1581,7 @@ module Aws::SageMaker
       attr_accessor creation_time: ::Time
       attr_accessor cluster_status: ("Creating" | "Deleting" | "Failed" | "InService" | "RollingBack" | "SystemUpdating" | "Updating")
       attr_accessor training_plan_arns: ::Array[::String]
+      attr_accessor image_version_status: ("UpToDate" | "UpdateAvailable" | "SecurityUpdateRequired" | "EndOfLife")
       SENSITIVE: []
     end
 
@@ -11881,6 +11915,7 @@ module Aws::SageMaker
 
     class UpdateClusterSoftwareInstanceGroupSpecification
       attr_accessor instance_group_name: ::String
+      attr_accessor image_release_version: ::String
       SENSITIVE: []
     end
 

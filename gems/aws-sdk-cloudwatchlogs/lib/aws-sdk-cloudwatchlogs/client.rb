@@ -3626,7 +3626,10 @@ module Aws::CloudWatchLogs
     #
     # The returned log events are sorted by event timestamp, the timestamp
     # when the event was ingested by CloudWatch Logs, and the ID of the
-    # `PutLogEvents` request.
+    # `PutLogEvents` request. By default, the events are returned in
+    # ascending timestamp order (oldest first). To return events in
+    # descending timestamp order (newest first), set the `startFromHead`
+    # parameter to `false`.
     #
     # If you are using CloudWatch cross-account observability, you can use
     # this operation in a monitoring account and view data from the linked
@@ -3706,6 +3709,24 @@ module Aws::CloudWatchLogs
     # @option params [Integer] :limit
     #   The maximum number of events to return. The default is 10,000 events.
     #
+    # @option params [Boolean] :start_from_head
+    #   If the value is true, the earliest log events are returned first. If
+    #   the value is false, the latest log events are returned first. The
+    #   default value is true.
+    #
+    #   The `startFromHead` parameter sets the sort direction on the first
+    #   request. On subsequent requests, the `nextToken` determines the sort
+    #   direction. To continue paginating in the same direction, provide the
+    #   returned `nextToken`. If you provide both `nextToken` and
+    #   `startFromHead`, the direction of the `nextToken` is used.
+    #
+    #   <note markdown="1"> Setting `startFromHead` to `false` is supported only when `startTime`
+    #   is on or after `Jan 1, 2024 00:00:00 UTC`. A request with
+    #   `startFromHead` set to `false` and a `startTime` before this date
+    #   returns an `InvalidParameterException`.
+    #
+    #    </note>
+    #
     # @option params [Boolean] :interleaved
     #   If the value is true, the operation attempts to provide responses that
     #   contain events from multiple log streams within the log group,
@@ -3744,6 +3765,7 @@ module Aws::CloudWatchLogs
     #     filter_pattern: "FilterPattern",
     #     next_token: "NextToken",
     #     limit: 1,
+    #     start_from_head: false,
     #     interleaved: false,
     #     unmask: false,
     #   })
@@ -9325,7 +9347,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.155.0'
+      context[:gem_version] = '1.156.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

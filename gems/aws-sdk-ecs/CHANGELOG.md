@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.238.0 (2026-06-18)
+------------------
+
+* Feature - Amazon ECS services now support high resolution (20 second) CloudWatch metrics for CPUUtilization and MemoryUtilization. Use these metrics for faster service auto scaling.
+
 1.237.0 (2026-06-17)
 ------------------
 

@@ -3829,6 +3829,13 @@ module Aws::ECS
     #   The VPC Lattice configuration for the service being created.
     #   @return [Array<Types::VpcLatticeConfiguration>]
     #
+    # @!attribute [rw] monitoring
+    #   The optional monitoring configuration for the service, which defines
+    #   the resolution for the service-level `CPUUtilization` and
+    #   `MemoryUtilization` Amazon CloudWatch metrics. When not specified,
+    #   Amazon ECS uses the default resolution of `60` seconds.
+    #   @return [Types::MonitoringConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/CreateServiceRequest AWS API Documentation
     #
     class CreateServiceRequest < Struct.new(
@@ -3857,7 +3864,8 @@ module Aws::ECS
       :enable_execute_command,
       :service_connect_configuration,
       :volume_configurations,
-      :vpc_lattice_configurations)
+      :vpc_lattice_configurations,
+      :monitoring)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11675,6 +11683,28 @@ module Aws::ECS
       include Aws::Structure
     end
 
+    # The configuration for a specific set of metrics to collect for a
+    # service.
+    #
+    # @!attribute [rw] metric_names
+    #   The list of metric names to configure. The supported metric names
+    #   are `CPUUtilization` and `MemoryUtilization`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] resolution_seconds
+    #   The resolution, in seconds, at which to collect the metrics. The
+    #   valid values are `20` and `60`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/MetricConfiguration AWS API Documentation
+    #
+    class MetricConfiguration < Struct.new(
+      :metric_names,
+      :resolution_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Amazon ECS can't determine the current version of the Amazon ECS
     # container agent on the container instance and doesn't have enough
     # information to proceed with an update. This could be because the agent
@@ -11689,6 +11719,23 @@ module Aws::ECS
     #
     class MissingVersionException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The optional monitoring configuration for a service, which defines the
+    # resolution for the service-level `CPUUtilization` and
+    # `MemoryUtilization` Amazon CloudWatch metrics. When not specified,
+    # Amazon ECS uses the default resolution of `60` seconds.
+    #
+    # @!attribute [rw] metric_configurations
+    #   The list of metric configurations for the service monitoring.
+    #   @return [Array<Types::MetricConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/MonitoringConfiguration AWS API Documentation
+    #
+    class MonitoringConfiguration < Struct.new(
+      :metric_configurations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15853,6 +15900,13 @@ module Aws::ECS
     #   Express service for Amazon ECS.
     #   @return [Types::ECSManagedResources]
     #
+    # @!attribute [rw] monitoring
+    #   The optional monitoring configuration for the service, which defines
+    #   the resolution for the service-level `CPUUtilization` and
+    #   `MemoryUtilization` Amazon CloudWatch metrics. When not specified,
+    #   Amazon ECS uses the default resolution of `60` seconds.
+    #   @return [Types::MonitoringConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ServiceRevision AWS API Documentation
     #
     class ServiceRevision < Struct.new(
@@ -15875,7 +15929,8 @@ module Aws::ECS
       :created_at,
       :vpc_lattice_configurations,
       :resolved_configuration,
-      :ecs_managed_resources)
+      :ecs_managed_resources,
+      :monitoring)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19169,6 +19224,13 @@ module Aws::ECS
     #   This parameter triggers a new service deployment.
     #   @return [Array<Types::VpcLatticeConfiguration>]
     #
+    # @!attribute [rw] monitoring
+    #   The optional monitoring configuration for the service, which defines
+    #   the resolution for the service-level `CPUUtilization` and
+    #   `MemoryUtilization` Amazon CloudWatch metrics. When not specified,
+    #   Amazon ECS uses the default resolution of `60` seconds.
+    #   @return [Types::MonitoringConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/UpdateServiceRequest AWS API Documentation
     #
     class UpdateServiceRequest < Struct.new(
@@ -19193,7 +19255,8 @@ module Aws::ECS
       :service_registries,
       :service_connect_configuration,
       :volume_configurations,
-      :vpc_lattice_configurations)
+      :vpc_lattice_configurations,
+      :monitoring)
       SENSITIVE = []
       include Aws::Structure
     end

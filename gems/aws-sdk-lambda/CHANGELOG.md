@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.184.0 (2026-06-18)
+------------------
+
+* Feature - Converging and fixing existing documentation gaps in Lambda SDK
+
 1.183.0 (2026-06-02)
 ------------------
 

@@ -418,6 +418,8 @@ module Aws::SageMaker
     ClientSecret = Shapes::StringShape.new(name: 'ClientSecret')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     ClusterArn = Shapes::StringShape.new(name: 'ClusterArn')
+    ClusterAutoPatchConfig = Shapes::StructureShape.new(name: 'ClusterAutoPatchConfig')
+    ClusterAutoPatchConfigDetails = Shapes::StructureShape.new(name: 'ClusterAutoPatchConfigDetails')
     ClusterAutoScalerType = Shapes::StringShape.new(name: 'ClusterAutoScalerType')
     ClusterAutoScalingConfig = Shapes::StructureShape.new(name: 'ClusterAutoScalingConfig')
     ClusterAutoScalingConfigOutput = Shapes::StructureShape.new(name: 'ClusterAutoScalingConfigOutput')
@@ -498,6 +500,9 @@ module Aws::SageMaker
     ClusterOrchestratorSlurmConfig = Shapes::StructureShape.new(name: 'ClusterOrchestratorSlurmConfig')
     ClusterPartitionName = Shapes::StringShape.new(name: 'ClusterPartitionName')
     ClusterPartitionNames = Shapes::ListShape.new(name: 'ClusterPartitionNames')
+    ClusterPatchSchedule = Shapes::StructureShape.new(name: 'ClusterPatchSchedule')
+    ClusterPatchScheduleDetails = Shapes::StructureShape.new(name: 'ClusterPatchScheduleDetails')
+    ClusterPatchingStrategy = Shapes::StringShape.new(name: 'ClusterPatchingStrategy')
     ClusterPrivateDnsHostname = Shapes::StringShape.new(name: 'ClusterPrivateDnsHostname')
     ClusterPrivatePrimaryIp = Shapes::StringShape.new(name: 'ClusterPrivatePrimaryIp')
     ClusterPrivatePrimaryIpv6 = Shapes::StringShape.new(name: 'ClusterPrivatePrimaryIpv6')
@@ -1431,6 +1436,7 @@ module Aws::SageMaker
     ImageId = Shapes::StringShape.new(name: 'ImageId')
     ImageName = Shapes::StringShape.new(name: 'ImageName')
     ImageNameContains = Shapes::StringShape.new(name: 'ImageNameContains')
+    ImageReleaseVersion = Shapes::StringShape.new(name: 'ImageReleaseVersion')
     ImageSortBy = Shapes::StringShape.new(name: 'ImageSortBy')
     ImageSortOrder = Shapes::StringShape.new(name: 'ImageSortOrder')
     ImageStatus = Shapes::StringShape.new(name: 'ImageStatus')
@@ -4014,6 +4020,17 @@ module Aws::SageMaker
     ClarifyTextConfig.add_member(:granularity, Shapes::ShapeRef.new(shape: ClarifyTextGranularity, required: true, location_name: "Granularity"))
     ClarifyTextConfig.struct_class = Types::ClarifyTextConfig
 
+    ClusterAutoPatchConfig.add_member(:patching_strategy, Shapes::ShapeRef.new(shape: ClusterPatchingStrategy, required: true, location_name: "PatchingStrategy"))
+    ClusterAutoPatchConfig.add_member(:patch_schedule, Shapes::ShapeRef.new(shape: ClusterPatchSchedule, location_name: "PatchSchedule"))
+    ClusterAutoPatchConfig.add_member(:deployment_config, Shapes::ShapeRef.new(shape: DeploymentConfiguration, location_name: "DeploymentConfig"))
+    ClusterAutoPatchConfig.struct_class = Types::ClusterAutoPatchConfig
+
+    ClusterAutoPatchConfigDetails.add_member(:patching_strategy, Shapes::ShapeRef.new(shape: ClusterPatchingStrategy, location_name: "PatchingStrategy"))
+    ClusterAutoPatchConfigDetails.add_member(:current_patch_schedule, Shapes::ShapeRef.new(shape: ClusterPatchScheduleDetails, location_name: "CurrentPatchSchedule"))
+    ClusterAutoPatchConfigDetails.add_member(:desired_patch_schedule, Shapes::ShapeRef.new(shape: ClusterPatchScheduleDetails, location_name: "DesiredPatchSchedule"))
+    ClusterAutoPatchConfigDetails.add_member(:deployment_config, Shapes::ShapeRef.new(shape: DeploymentConfiguration, location_name: "DeploymentConfig"))
+    ClusterAutoPatchConfigDetails.struct_class = Types::ClusterAutoPatchConfigDetails
+
     ClusterAutoScalingConfig.add_member(:mode, Shapes::ShapeRef.new(shape: ClusterAutoScalingMode, required: true, location_name: "Mode"))
     ClusterAutoScalingConfig.add_member(:auto_scaler_type, Shapes::ShapeRef.new(shape: ClusterAutoScalerType, location_name: "AutoScalerType"))
     ClusterAutoScalingConfig.struct_class = Types::ClusterAutoScalingConfig
@@ -4086,8 +4103,11 @@ module Aws::SageMaker
     ClusterInstanceGroupDetails.add_member(:training_plan_status, Shapes::ShapeRef.new(shape: InstanceGroupTrainingPlanStatus, location_name: "TrainingPlanStatus"))
     ClusterInstanceGroupDetails.add_member(:override_vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "OverrideVpcConfig"))
     ClusterInstanceGroupDetails.add_member(:scheduled_update_config, Shapes::ShapeRef.new(shape: ScheduledUpdateConfig, location_name: "ScheduledUpdateConfig"))
+    ClusterInstanceGroupDetails.add_member(:auto_patch_config, Shapes::ShapeRef.new(shape: ClusterAutoPatchConfigDetails, location_name: "AutoPatchConfig"))
     ClusterInstanceGroupDetails.add_member(:current_image_id, Shapes::ShapeRef.new(shape: ImageId, location_name: "CurrentImageId"))
     ClusterInstanceGroupDetails.add_member(:desired_image_id, Shapes::ShapeRef.new(shape: ImageId, location_name: "DesiredImageId"))
+    ClusterInstanceGroupDetails.add_member(:current_image_release_version, Shapes::ShapeRef.new(shape: ImageReleaseVersion, location_name: "CurrentImageReleaseVersion"))
+    ClusterInstanceGroupDetails.add_member(:desired_image_release_version, Shapes::ShapeRef.new(shape: ImageReleaseVersion, location_name: "DesiredImageReleaseVersion"))
     ClusterInstanceGroupDetails.add_member(:image_version_status, Shapes::ShapeRef.new(shape: ClusterImageVersionStatus, location_name: "ImageVersionStatus"))
     ClusterInstanceGroupDetails.add_member(:active_operations, Shapes::ShapeRef.new(shape: ActiveOperations, location_name: "ActiveOperations"))
     ClusterInstanceGroupDetails.add_member(:kubernetes_config, Shapes::ShapeRef.new(shape: ClusterKubernetesConfigDetails, location_name: "KubernetesConfig"))
@@ -4115,6 +4135,8 @@ module Aws::SageMaker
     ClusterInstanceGroupSpecification.add_member(:override_vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "OverrideVpcConfig"))
     ClusterInstanceGroupSpecification.add_member(:scheduled_update_config, Shapes::ShapeRef.new(shape: ScheduledUpdateConfig, location_name: "ScheduledUpdateConfig"))
     ClusterInstanceGroupSpecification.add_member(:image_id, Shapes::ShapeRef.new(shape: ImageId, location_name: "ImageId"))
+    ClusterInstanceGroupSpecification.add_member(:auto_patch_config, Shapes::ShapeRef.new(shape: ClusterAutoPatchConfig, location_name: "AutoPatchConfig"))
+    ClusterInstanceGroupSpecification.add_member(:image_release_version, Shapes::ShapeRef.new(shape: ImageReleaseVersion, location_name: "ImageReleaseVersion"))
     ClusterInstanceGroupSpecification.add_member(:kubernetes_config, Shapes::ShapeRef.new(shape: ClusterKubernetesConfig, location_name: "KubernetesConfig"))
     ClusterInstanceGroupSpecification.add_member(:slurm_config, Shapes::ShapeRef.new(shape: ClusterSlurmConfig, location_name: "SlurmConfig"))
     ClusterInstanceGroupSpecification.add_member(:capacity_requirements, Shapes::ShapeRef.new(shape: ClusterCapacityRequirements, location_name: "CapacityRequirements"))
@@ -4220,6 +4242,8 @@ module Aws::SageMaker
     ClusterNodeDetails.add_member(:placement, Shapes::ShapeRef.new(shape: ClusterInstancePlacement, location_name: "Placement"))
     ClusterNodeDetails.add_member(:current_image_id, Shapes::ShapeRef.new(shape: ImageId, location_name: "CurrentImageId"))
     ClusterNodeDetails.add_member(:desired_image_id, Shapes::ShapeRef.new(shape: ImageId, location_name: "DesiredImageId"))
+    ClusterNodeDetails.add_member(:current_image_release_version, Shapes::ShapeRef.new(shape: ImageReleaseVersion, location_name: "CurrentImageReleaseVersion"))
+    ClusterNodeDetails.add_member(:desired_image_release_version, Shapes::ShapeRef.new(shape: ImageReleaseVersion, location_name: "DesiredImageReleaseVersion"))
     ClusterNodeDetails.add_member(:image_version_status, Shapes::ShapeRef.new(shape: ClusterImageVersionStatus, location_name: "ImageVersionStatus"))
     ClusterNodeDetails.add_member(:ultra_server_info, Shapes::ShapeRef.new(shape: UltraServerInfo, location_name: "UltraServerInfo"))
     ClusterNodeDetails.add_member(:kubernetes_config, Shapes::ShapeRef.new(shape: ClusterKubernetesConfigNodeDetails, location_name: "KubernetesConfig"))
@@ -4242,6 +4266,7 @@ module Aws::SageMaker
     ClusterNodeSummary.add_member(:instance_status, Shapes::ShapeRef.new(shape: ClusterInstanceStatusDetails, required: true, location_name: "InstanceStatus"))
     ClusterNodeSummary.add_member(:ultra_server_info, Shapes::ShapeRef.new(shape: UltraServerInfo, location_name: "UltraServerInfo"))
     ClusterNodeSummary.add_member(:private_dns_hostname, Shapes::ShapeRef.new(shape: ClusterPrivateDnsHostname, location_name: "PrivateDnsHostname"))
+    ClusterNodeSummary.add_member(:current_image_release_version, Shapes::ShapeRef.new(shape: ImageReleaseVersion, location_name: "CurrentImageReleaseVersion"))
     ClusterNodeSummary.add_member(:image_version_status, Shapes::ShapeRef.new(shape: ClusterImageVersionStatus, location_name: "ImageVersionStatus"))
     ClusterNodeSummary.struct_class = Types::ClusterNodeSummary
 
@@ -4258,6 +4283,12 @@ module Aws::SageMaker
     ClusterOrchestratorSlurmConfig.struct_class = Types::ClusterOrchestratorSlurmConfig
 
     ClusterPartitionNames.member = Shapes::ShapeRef.new(shape: ClusterPartitionName)
+
+    ClusterPatchSchedule.add_member(:next_patch_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "NextPatchDate"))
+    ClusterPatchSchedule.struct_class = Types::ClusterPatchSchedule
+
+    ClusterPatchScheduleDetails.add_member(:next_patch_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "NextPatchDate"))
+    ClusterPatchScheduleDetails.struct_class = Types::ClusterPatchScheduleDetails
 
     ClusterRestrictedInstanceGroupDetails.add_member(:current_count, Shapes::ShapeRef.new(shape: ClusterNonNegativeInstanceCount, location_name: "CurrentCount"))
     ClusterRestrictedInstanceGroupDetails.add_member(:target_count, Shapes::ShapeRef.new(shape: ClusterInstanceCount, location_name: "TargetCount"))
@@ -4337,6 +4368,7 @@ module Aws::SageMaker
     ClusterSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreationTime"))
     ClusterSummary.add_member(:cluster_status, Shapes::ShapeRef.new(shape: ClusterStatus, required: true, location_name: "ClusterStatus"))
     ClusterSummary.add_member(:training_plan_arns, Shapes::ShapeRef.new(shape: TrainingPlanArns, location_name: "TrainingPlanArns"))
+    ClusterSummary.add_member(:image_version_status, Shapes::ShapeRef.new(shape: ClusterImageVersionStatus, location_name: "ImageVersionStatus"))
     ClusterSummary.struct_class = Types::ClusterSummary
 
     ClusterTieredStorageConfig.add_member(:mode, Shapes::ShapeRef.new(shape: ClusterConfigMode, required: true, location_name: "Mode"))
@@ -12738,6 +12770,7 @@ module Aws::SageMaker
     UpdateClusterSchedulerConfigResponse.struct_class = Types::UpdateClusterSchedulerConfigResponse
 
     UpdateClusterSoftwareInstanceGroupSpecification.add_member(:instance_group_name, Shapes::ShapeRef.new(shape: ClusterInstanceGroupName, required: true, location_name: "InstanceGroupName"))
+    UpdateClusterSoftwareInstanceGroupSpecification.add_member(:image_release_version, Shapes::ShapeRef.new(shape: ImageReleaseVersion, location_name: "ImageReleaseVersion"))
     UpdateClusterSoftwareInstanceGroupSpecification.struct_class = Types::UpdateClusterSoftwareInstanceGroupSpecification
 
     UpdateClusterSoftwareInstanceGroups.member = Shapes::ShapeRef.new(shape: UpdateClusterSoftwareInstanceGroupSpecification)

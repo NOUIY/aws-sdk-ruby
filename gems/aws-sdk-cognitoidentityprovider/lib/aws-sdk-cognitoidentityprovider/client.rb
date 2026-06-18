@@ -6442,6 +6442,7 @@ module Aws::CognitoIdentityProvider
     #     managed_login_version: 1,
     #     custom_domain_config: {
     #       certificate_arn: "ArnType", # required
+    #       security_policy: "TLS_V1", # accepts TLS_V1, TLS_V1_2_2021, TLS_V1_3_2025
     #     },
     #     routing: {
     #       failover: {
@@ -7796,6 +7797,7 @@ module Aws::CognitoIdentityProvider
     #   resp.domain_description.version #=> String
     #   resp.domain_description.status #=> String, one of "CREATING", "DELETING", "UPDATING", "ACTIVE", "FAILED"
     #   resp.domain_description.custom_domain_config.certificate_arn #=> String
+    #   resp.domain_description.custom_domain_config.security_policy #=> String, one of "TLS_V1", "TLS_V1_2_2021", "TLS_V1_3_2025"
     #   resp.domain_description.managed_login_version #=> Integer
     #   resp.domain_description.routing.failover.secondary_region #=> String
     #   resp.domain_description.routing.failover.primary_route_53_health_check_id #=> String
@@ -13833,6 +13835,7 @@ module Aws::CognitoIdentityProvider
     #     managed_login_version: 1,
     #     custom_domain_config: {
     #       certificate_arn: "ArnType", # required
+    #       security_policy: "TLS_V1", # accepts TLS_V1, TLS_V1_2_2021, TLS_V1_3_2025
     #     },
     #     routing: {
     #       failover: {
@@ -14074,7 +14077,7 @@ module Aws::CognitoIdentityProvider
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cognitoidentityprovider'
-      context[:gem_version] = '1.144.0'
+      context[:gem_version] = '1.145.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

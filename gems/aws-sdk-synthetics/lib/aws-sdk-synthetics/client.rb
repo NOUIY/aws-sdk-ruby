@@ -667,6 +667,11 @@ module Aws::Synthetics
     #
     #    </note>
     #
+    # @option params [Array<Types::AddReplicaLocationInput>] :add_replica_locations
+    #   A list of locations (Amazon Web Services Regions) to add as replicas
+    #   for the canary. Each location specifies a Region and optional VPC
+    #   configuration for the replica. You can add up to 50 replica locations.
+    #
     # @option params [Hash<String,String>] :tags
     #   A list of key-value pairs to associate with the canary. You can
     #   associate as many as 50 tags with a canary.
@@ -739,6 +744,16 @@ module Aws::Synthetics
     #         browser_type: "CHROME", # accepts CHROME, FIREFOX
     #       },
     #     ],
+    #     add_replica_locations: [
+    #       {
+    #         location: "Location", # required
+    #         vpc_config: {
+    #           subnet_ids: ["SubnetId"],
+    #           security_group_ids: ["SecurityGroupId"],
+    #           ipv_6_allowed_for_dual_stack: false,
+    #         },
+    #       },
+    #     ],
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -806,6 +821,22 @@ module Aws::Synthetics
     #   resp.canary.visual_references[0].base_screenshots[0].ignore_coordinates[0] #=> String
     #   resp.canary.visual_references[0].base_canary_run_id #=> String
     #   resp.canary.visual_references[0].browser_type #=> String, one of "CHROME", "FIREFOX"
+    #   resp.canary.multi_location_config.location_type #=> String, one of "Primary", "Replica"
+    #   resp.canary.multi_location_config.primary_location #=> String
+    #   resp.canary.multi_location_config.replicas #=> Array
+    #   resp.canary.multi_location_config.replicas[0].location #=> String
+    #   resp.canary.multi_location_config.replicas[0].replication_status.state #=> String, one of "InProgress", "InSync", "Inconsistent"
+    #   resp.canary.multi_location_config.replicas[0].replication_status.state_reason #=> String
+    #   resp.canary.multi_location_config.replicas[0].replication_status.state_reason_code #=> String
+    #   resp.canary.multi_location_config.replicas[0].canary_state #=> String, one of "CREATING", "READY", "STARTING", "RUNNING", "UPDATING", "STOPPING", "STOPPED", "ERROR", "DELETING"
+    #   resp.canary.multi_location_config.replicas[0].last_modified #=> Time
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.vpc_id #=> String
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.subnet_ids #=> Array
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.subnet_ids[0] #=> String
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.security_group_ids #=> Array
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.security_group_ids[0] #=> String
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.ipv_6_allowed_for_dual_stack #=> Boolean
+    #   resp.canary.multi_location_config.replication_state #=> String, one of "InProgress", "InSync", "Inconsistent"
     #   resp.canary.tags #=> Hash
     #   resp.canary.tags["TagKey"] #=> String
     #   resp.canary.artifact_config.s3_encryption.encryption_mode #=> String, one of "SSE_S3", "SSE_KMS"
@@ -1110,6 +1141,22 @@ module Aws::Synthetics
     #   resp.canaries[0].visual_references[0].base_screenshots[0].ignore_coordinates[0] #=> String
     #   resp.canaries[0].visual_references[0].base_canary_run_id #=> String
     #   resp.canaries[0].visual_references[0].browser_type #=> String, one of "CHROME", "FIREFOX"
+    #   resp.canaries[0].multi_location_config.location_type #=> String, one of "Primary", "Replica"
+    #   resp.canaries[0].multi_location_config.primary_location #=> String
+    #   resp.canaries[0].multi_location_config.replicas #=> Array
+    #   resp.canaries[0].multi_location_config.replicas[0].location #=> String
+    #   resp.canaries[0].multi_location_config.replicas[0].replication_status.state #=> String, one of "InProgress", "InSync", "Inconsistent"
+    #   resp.canaries[0].multi_location_config.replicas[0].replication_status.state_reason #=> String
+    #   resp.canaries[0].multi_location_config.replicas[0].replication_status.state_reason_code #=> String
+    #   resp.canaries[0].multi_location_config.replicas[0].canary_state #=> String, one of "CREATING", "READY", "STARTING", "RUNNING", "UPDATING", "STOPPING", "STOPPED", "ERROR", "DELETING"
+    #   resp.canaries[0].multi_location_config.replicas[0].last_modified #=> Time
+    #   resp.canaries[0].multi_location_config.replicas[0].vpc_config.vpc_id #=> String
+    #   resp.canaries[0].multi_location_config.replicas[0].vpc_config.subnet_ids #=> Array
+    #   resp.canaries[0].multi_location_config.replicas[0].vpc_config.subnet_ids[0] #=> String
+    #   resp.canaries[0].multi_location_config.replicas[0].vpc_config.security_group_ids #=> Array
+    #   resp.canaries[0].multi_location_config.replicas[0].vpc_config.security_group_ids[0] #=> String
+    #   resp.canaries[0].multi_location_config.replicas[0].vpc_config.ipv_6_allowed_for_dual_stack #=> Boolean
+    #   resp.canaries[0].multi_location_config.replication_state #=> String, one of "InProgress", "InSync", "Inconsistent"
     #   resp.canaries[0].tags #=> Hash
     #   resp.canaries[0].tags["TagKey"] #=> String
     #   resp.canaries[0].artifact_config.s3_encryption.encryption_mode #=> String, one of "SSE_S3", "SSE_KMS"
@@ -1211,6 +1258,7 @@ module Aws::Synthetics
     #   resp.canaries_last_run[0].last_run.artifact_s3_location #=> String
     #   resp.canaries_last_run[0].last_run.dry_run_config.dry_run_id #=> String
     #   resp.canaries_last_run[0].last_run.browser_type #=> String, one of "CHROME", "FIREFOX"
+    #   resp.canaries_last_run[0].last_run.location #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/DescribeCanariesLastRun AWS API Documentation
@@ -1382,6 +1430,22 @@ module Aws::Synthetics
     #   resp.canary.visual_references[0].base_screenshots[0].ignore_coordinates[0] #=> String
     #   resp.canary.visual_references[0].base_canary_run_id #=> String
     #   resp.canary.visual_references[0].browser_type #=> String, one of "CHROME", "FIREFOX"
+    #   resp.canary.multi_location_config.location_type #=> String, one of "Primary", "Replica"
+    #   resp.canary.multi_location_config.primary_location #=> String
+    #   resp.canary.multi_location_config.replicas #=> Array
+    #   resp.canary.multi_location_config.replicas[0].location #=> String
+    #   resp.canary.multi_location_config.replicas[0].replication_status.state #=> String, one of "InProgress", "InSync", "Inconsistent"
+    #   resp.canary.multi_location_config.replicas[0].replication_status.state_reason #=> String
+    #   resp.canary.multi_location_config.replicas[0].replication_status.state_reason_code #=> String
+    #   resp.canary.multi_location_config.replicas[0].canary_state #=> String, one of "CREATING", "READY", "STARTING", "RUNNING", "UPDATING", "STOPPING", "STOPPED", "ERROR", "DELETING"
+    #   resp.canary.multi_location_config.replicas[0].last_modified #=> Time
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.vpc_id #=> String
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.subnet_ids #=> Array
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.subnet_ids[0] #=> String
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.security_group_ids #=> Array
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.security_group_ids[0] #=> String
+    #   resp.canary.multi_location_config.replicas[0].vpc_config.ipv_6_allowed_for_dual_stack #=> Boolean
+    #   resp.canary.multi_location_config.replication_state #=> String, one of "InProgress", "InSync", "Inconsistent"
     #   resp.canary.tags #=> Hash
     #   resp.canary.tags["TagKey"] #=> String
     #   resp.canary.artifact_config.s3_encryption.encryption_mode #=> String, one of "SSE_S3", "SSE_KMS"
@@ -1470,6 +1534,7 @@ module Aws::Synthetics
     #   resp.canary_runs[0].artifact_s3_location #=> String
     #   resp.canary_runs[0].dry_run_config.dry_run_id #=> String
     #   resp.canary_runs[0].browser_type #=> String, one of "CHROME", "FIREFOX"
+    #   resp.canary_runs[0].location #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/GetCanaryRuns AWS API Documentation
@@ -2279,6 +2344,17 @@ module Aws::Synthetics
     #
     #    </note>
     #
+    # @option params [Array<Types::AddReplicaLocationInput>] :add_replica_locations
+    #   A list of locations (Amazon Web Services Regions) to add as replicas
+    #   for the canary. Each location specifies a Region and optional VPC
+    #   configuration for the replica. You can add up to 50 replica locations.
+    #
+    # @option params [Array<String>] :remove_replica_locations
+    #   A list of locations (Amazon Web Services Regions) to remove as
+    #   replicas for the canary. You must specify at least one location to
+    #   remove. All replicas can be removed in a single API call and you
+    #   cannot remove the primary location.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -2360,6 +2436,17 @@ module Aws::Synthetics
     #         browser_type: "CHROME", # accepts CHROME, FIREFOX
     #       },
     #     ],
+    #     add_replica_locations: [
+    #       {
+    #         location: "Location", # required
+    #         vpc_config: {
+    #           subnet_ids: ["SubnetId"],
+    #           security_group_ids: ["SecurityGroupId"],
+    #           ipv_6_allowed_for_dual_stack: false,
+    #         },
+    #       },
+    #     ],
+    #     remove_replica_locations: ["Location"],
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/UpdateCanary AWS API Documentation
@@ -2389,7 +2476,7 @@ module Aws::Synthetics
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-synthetics'
-      context[:gem_version] = '1.85.0'
+      context[:gem_version] = '1.86.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

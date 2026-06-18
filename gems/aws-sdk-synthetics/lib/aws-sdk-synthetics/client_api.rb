@@ -15,6 +15,8 @@ module Aws::Synthetics
     include Seahorse::Model
 
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
+    AddReplicaLocationInput = Shapes::StructureShape.new(name: 'AddReplicaLocationInput')
+    AddReplicaLocations = Shapes::ListShape.new(name: 'AddReplicaLocations')
     ArtifactConfigInput = Shapes::StructureShape.new(name: 'ArtifactConfigInput')
     ArtifactConfigOutput = Shapes::StructureShape.new(name: 'ArtifactConfigOutput')
     AssociateResourceRequest = Shapes::StructureShape.new(name: 'AssociateResourceRequest')
@@ -110,6 +112,8 @@ module Aws::Synthetics
     ListGroupsResponse = Shapes::StructureShape.new(name: 'ListGroupsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
+    Location = Shapes::StringShape.new(name: 'Location')
+    LocationType = Shapes::StringShape.new(name: 'LocationType')
     MaxCanaryResults = Shapes::IntegerShape.new(name: 'MaxCanaryResults')
     MaxFifteenMinutesInSeconds = Shapes::IntegerShape.new(name: 'MaxFifteenMinutesInSeconds')
     MaxGroupResults = Shapes::IntegerShape.new(name: 'MaxGroupResults')
@@ -118,10 +122,16 @@ module Aws::Synthetics
     MaxSize100 = Shapes::IntegerShape.new(name: 'MaxSize100')
     MaxSize1024 = Shapes::IntegerShape.new(name: 'MaxSize1024')
     MaxSize3008 = Shapes::IntegerShape.new(name: 'MaxSize3008')
+    MultiLocationConfig = Shapes::StructureShape.new(name: 'MultiLocationConfig')
     NotFoundException = Shapes::StructureShape.new(name: 'NotFoundException')
     NullableBoolean = Shapes::BooleanShape.new(name: 'NullableBoolean')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
     ProvisionedResourceCleanupSetting = Shapes::StringShape.new(name: 'ProvisionedResourceCleanupSetting')
+    RemoveReplicaLocations = Shapes::ListShape.new(name: 'RemoveReplicaLocations')
+    Replica = Shapes::StructureShape.new(name: 'Replica')
+    Replicas = Shapes::ListShape.new(name: 'Replicas')
+    ReplicationState = Shapes::StringShape.new(name: 'ReplicationState')
+    ReplicationStatus = Shapes::StructureShape.new(name: 'ReplicationStatus')
     RequestEntityTooLargeException = Shapes::StructureShape.new(name: 'RequestEntityTooLargeException')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceList = Shapes::ListShape.new(name: 'ResourceList')
@@ -174,6 +184,12 @@ module Aws::Synthetics
 
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
+
+    AddReplicaLocationInput.add_member(:location, Shapes::ShapeRef.new(shape: Location, required: true, location_name: "Location"))
+    AddReplicaLocationInput.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfigInput, location_name: "VpcConfig"))
+    AddReplicaLocationInput.struct_class = Types::AddReplicaLocationInput
+
+    AddReplicaLocations.member = Shapes::ShapeRef.new(shape: AddReplicaLocationInput)
 
     ArtifactConfigInput.add_member(:s3_encryption, Shapes::ShapeRef.new(shape: S3EncryptionConfig, location_name: "S3Encryption"))
     ArtifactConfigInput.struct_class = Types::ArtifactConfigInput
@@ -228,6 +244,7 @@ module Aws::Synthetics
     Canary.add_member(:browser_configs, Shapes::ShapeRef.new(shape: BrowserConfigs, location_name: "BrowserConfigs"))
     Canary.add_member(:engine_configs, Shapes::ShapeRef.new(shape: EngineConfigs, location_name: "EngineConfigs"))
     Canary.add_member(:visual_references, Shapes::ShapeRef.new(shape: VisualReferencesOutput, location_name: "VisualReferences"))
+    Canary.add_member(:multi_location_config, Shapes::ShapeRef.new(shape: MultiLocationConfig, location_name: "MultiLocationConfig"))
     Canary.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     Canary.add_member(:artifact_config, Shapes::ShapeRef.new(shape: ArtifactConfigOutput, location_name: "ArtifactConfig"))
     Canary.add_member(:dry_run_config, Shapes::ShapeRef.new(shape: DryRunConfigOutput, location_name: "DryRunConfig"))
@@ -264,6 +281,7 @@ module Aws::Synthetics
     CanaryRun.add_member(:artifact_s3_location, Shapes::ShapeRef.new(shape: String, location_name: "ArtifactS3Location"))
     CanaryRun.add_member(:dry_run_config, Shapes::ShapeRef.new(shape: CanaryDryRunConfigOutput, location_name: "DryRunConfig"))
     CanaryRun.add_member(:browser_type, Shapes::ShapeRef.new(shape: BrowserType, location_name: "BrowserType"))
+    CanaryRun.add_member(:location, Shapes::ShapeRef.new(shape: Location, location_name: "Location"))
     CanaryRun.struct_class = Types::CanaryRun
 
     CanaryRunConfigInput.add_member(:timeout_in_seconds, Shapes::ShapeRef.new(shape: MaxFifteenMinutesInSeconds, location_name: "TimeoutInSeconds"))
@@ -329,6 +347,7 @@ module Aws::Synthetics
     CreateCanaryRequest.add_member(:resources_to_replicate_tags, Shapes::ShapeRef.new(shape: ResourceList, location_name: "ResourcesToReplicateTags"))
     CreateCanaryRequest.add_member(:provisioned_resource_cleanup, Shapes::ShapeRef.new(shape: ProvisionedResourceCleanupSetting, location_name: "ProvisionedResourceCleanup"))
     CreateCanaryRequest.add_member(:browser_configs, Shapes::ShapeRef.new(shape: BrowserConfigs, location_name: "BrowserConfigs"))
+    CreateCanaryRequest.add_member(:add_replica_locations, Shapes::ShapeRef.new(shape: AddReplicaLocations, location_name: "AddReplicaLocations"))
     CreateCanaryRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     CreateCanaryRequest.add_member(:artifact_config, Shapes::ShapeRef.new(shape: ArtifactConfigInput, location_name: "ArtifactConfig"))
     CreateCanaryRequest.struct_class = Types::CreateCanaryRequest
@@ -487,8 +506,30 @@ module Aws::Synthetics
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
 
+    MultiLocationConfig.add_member(:location_type, Shapes::ShapeRef.new(shape: LocationType, location_name: "LocationType"))
+    MultiLocationConfig.add_member(:primary_location, Shapes::ShapeRef.new(shape: Location, location_name: "PrimaryLocation"))
+    MultiLocationConfig.add_member(:replicas, Shapes::ShapeRef.new(shape: Replicas, location_name: "Replicas"))
+    MultiLocationConfig.add_member(:replication_state, Shapes::ShapeRef.new(shape: ReplicationState, location_name: "ReplicationState"))
+    MultiLocationConfig.struct_class = Types::MultiLocationConfig
+
     NotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     NotFoundException.struct_class = Types::NotFoundException
+
+    RemoveReplicaLocations.member = Shapes::ShapeRef.new(shape: Location)
+
+    Replica.add_member(:location, Shapes::ShapeRef.new(shape: Location, location_name: "Location"))
+    Replica.add_member(:replication_status, Shapes::ShapeRef.new(shape: ReplicationStatus, location_name: "ReplicationStatus"))
+    Replica.add_member(:canary_state, Shapes::ShapeRef.new(shape: CanaryState, location_name: "CanaryState"))
+    Replica.add_member(:last_modified, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModified"))
+    Replica.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfigOutput, location_name: "VpcConfig"))
+    Replica.struct_class = Types::Replica
+
+    Replicas.member = Shapes::ShapeRef.new(shape: Replica)
+
+    ReplicationStatus.add_member(:state, Shapes::ShapeRef.new(shape: ReplicationState, location_name: "State"))
+    ReplicationStatus.add_member(:state_reason, Shapes::ShapeRef.new(shape: String, location_name: "StateReason"))
+    ReplicationStatus.add_member(:state_reason_code, Shapes::ShapeRef.new(shape: String, location_name: "StateReasonCode"))
+    ReplicationStatus.struct_class = Types::ReplicationStatus
 
     RequestEntityTooLargeException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
     RequestEntityTooLargeException.struct_class = Types::RequestEntityTooLargeException
@@ -590,6 +631,8 @@ module Aws::Synthetics
     UpdateCanaryRequest.add_member(:dry_run_id, Shapes::ShapeRef.new(shape: UUID, location_name: "DryRunId"))
     UpdateCanaryRequest.add_member(:visual_references, Shapes::ShapeRef.new(shape: VisualReferences, location_name: "VisualReferences"))
     UpdateCanaryRequest.add_member(:browser_configs, Shapes::ShapeRef.new(shape: BrowserConfigs, location_name: "BrowserConfigs"))
+    UpdateCanaryRequest.add_member(:add_replica_locations, Shapes::ShapeRef.new(shape: AddReplicaLocations, location_name: "AddReplicaLocations"))
+    UpdateCanaryRequest.add_member(:remove_replica_locations, Shapes::ShapeRef.new(shape: RemoveReplicaLocations, location_name: "RemoveReplicaLocations"))
     UpdateCanaryRequest.struct_class = Types::UpdateCanaryRequest
 
     UpdateCanaryResponse.struct_class = Types::UpdateCanaryResponse

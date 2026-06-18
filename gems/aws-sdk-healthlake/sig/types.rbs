@@ -31,6 +31,9 @@ module Aws::HealthLake
       attr_accessor client_token: ::String
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor identity_provider_configuration: Types::IdentityProviderConfiguration
+      attr_accessor analytics_configuration: Types::AnalyticsConfiguration
+      attr_accessor nlp_configuration: Types::NlpConfiguration
+      attr_accessor profile_configuration: Types::ProfileConfiguration
       SENSITIVE: []
     end
 
@@ -355,8 +358,8 @@ module Aws::HealthLake
     class UpdateFHIRDatastoreRequest
       attr_accessor datastore_id: ::String
       attr_accessor datastore_name: ::String
-      attr_accessor analytics_configuration: Types::AnalyticsConfiguration
       attr_accessor nlp_configuration: Types::NlpConfiguration
+      attr_accessor analytics_configuration: Types::AnalyticsConfiguration
       attr_accessor profile_configuration: Types::ProfileConfiguration
       attr_accessor identity_provider_configuration: Types::IdentityProviderConfiguration
       SENSITIVE: []

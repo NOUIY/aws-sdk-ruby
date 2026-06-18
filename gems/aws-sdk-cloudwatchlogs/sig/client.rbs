@@ -691,6 +691,7 @@ module Aws
                                ?filter_pattern: ::String,
                                ?next_token: ::String,
                                ?limit: ::Integer,
+                               ?start_from_head: bool,
                                ?interleaved: bool,
                                ?unmask: bool
                              ) -> _FilterLogEventsResponseSuccess

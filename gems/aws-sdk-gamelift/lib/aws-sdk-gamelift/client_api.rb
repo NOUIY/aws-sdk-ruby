@@ -376,6 +376,9 @@ module Aws::GameLift
     LaunchTemplateSpecification = Shapes::StructureShape.new(name: 'LaunchTemplateSpecification')
     LaunchTemplateVersion = Shapes::StringShape.new(name: 'LaunchTemplateVersion')
     LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException')
+    LinuxCapabilities = Shapes::StructureShape.new(name: 'LinuxCapabilities')
+    LinuxCapability = Shapes::StringShape.new(name: 'LinuxCapability')
+    LinuxCapabilityList = Shapes::ListShape.new(name: 'LinuxCapabilityList')
     ListAliasesInput = Shapes::StructureShape.new(name: 'ListAliasesInput')
     ListAliasesOutput = Shapes::StructureShape.new(name: 'ListAliasesOutput')
     ListBuildsInput = Shapes::StructureShape.new(name: 'ListBuildsInput')
@@ -1187,6 +1190,7 @@ module Aws::GameLift
     DescribeContainerGroupPortMappingsInput.struct_class = Types::DescribeContainerGroupPortMappingsInput
 
     DescribeContainerGroupPortMappingsOutput.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, location_name: "FleetId"))
+    DescribeContainerGroupPortMappingsOutput.add_member(:fleet_arn, Shapes::ShapeRef.new(shape: FleetArn, location_name: "FleetArn"))
     DescribeContainerGroupPortMappingsOutput.add_member(:location, Shapes::ShapeRef.new(shape: LocationStringModel, location_name: "Location"))
     DescribeContainerGroupPortMappingsOutput.add_member(:container_group_definition_arn, Shapes::ShapeRef.new(shape: ContainerGroupDefinitionArn, location_name: "ContainerGroupDefinitionArn"))
     DescribeContainerGroupPortMappingsOutput.add_member(:container_group_type, Shapes::ShapeRef.new(shape: ContainerGroupType, location_name: "ContainerGroupType"))
@@ -1573,6 +1577,7 @@ module Aws::GameLift
     GameServerContainerDefinition.add_member(:port_configuration, Shapes::ShapeRef.new(shape: ContainerPortConfiguration, location_name: "PortConfiguration"))
     GameServerContainerDefinition.add_member(:resolved_image_digest, Shapes::ShapeRef.new(shape: Sha256, location_name: "ResolvedImageDigest"))
     GameServerContainerDefinition.add_member(:server_sdk_version, Shapes::ShapeRef.new(shape: ServerSdkVersion, location_name: "ServerSdkVersion"))
+    GameServerContainerDefinition.add_member(:linux_capabilities, Shapes::ShapeRef.new(shape: LinuxCapabilities, location_name: "LinuxCapabilities"))
     GameServerContainerDefinition.struct_class = Types::GameServerContainerDefinition
 
     GameServerContainerDefinitionInput.add_member(:container_name, Shapes::ShapeRef.new(shape: NonZeroAnd128MaxAsciiString, required: true, location_name: "ContainerName"))
@@ -1582,6 +1587,7 @@ module Aws::GameLift
     GameServerContainerDefinitionInput.add_member(:image_uri, Shapes::ShapeRef.new(shape: ImageUriString, required: true, location_name: "ImageUri"))
     GameServerContainerDefinitionInput.add_member(:port_configuration, Shapes::ShapeRef.new(shape: ContainerPortConfiguration, required: true, location_name: "PortConfiguration"))
     GameServerContainerDefinitionInput.add_member(:server_sdk_version, Shapes::ShapeRef.new(shape: ServerSdkVersion, required: true, location_name: "ServerSdkVersion"))
+    GameServerContainerDefinitionInput.add_member(:linux_capabilities, Shapes::ShapeRef.new(shape: LinuxCapabilities, location_name: "LinuxCapabilities"))
     GameServerContainerDefinitionInput.struct_class = Types::GameServerContainerDefinitionInput
 
     GameServerContainerGroupCounts.add_member(:pending, Shapes::ShapeRef.new(shape: WholeNumber, location_name: "PENDING"))
@@ -1822,6 +1828,11 @@ module Aws::GameLift
 
     LimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "Message"))
     LimitExceededException.struct_class = Types::LimitExceededException
+
+    LinuxCapabilities.add_member(:include, Shapes::ShapeRef.new(shape: LinuxCapabilityList, location_name: "Include"))
+    LinuxCapabilities.struct_class = Types::LinuxCapabilities
+
+    LinuxCapabilityList.member = Shapes::ShapeRef.new(shape: LinuxCapability)
 
     ListAliasesInput.add_member(:routing_strategy_type, Shapes::ShapeRef.new(shape: RoutingStrategyType, location_name: "RoutingStrategyType"))
     ListAliasesInput.add_member(:name, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "Name"))
@@ -2345,6 +2356,7 @@ module Aws::GameLift
     SupportContainerDefinition.add_member(:port_configuration, Shapes::ShapeRef.new(shape: ContainerPortConfiguration, location_name: "PortConfiguration"))
     SupportContainerDefinition.add_member(:resolved_image_digest, Shapes::ShapeRef.new(shape: Sha256, location_name: "ResolvedImageDigest"))
     SupportContainerDefinition.add_member(:vcpu, Shapes::ShapeRef.new(shape: ContainerVcpu, location_name: "Vcpu"))
+    SupportContainerDefinition.add_member(:linux_capabilities, Shapes::ShapeRef.new(shape: LinuxCapabilities, location_name: "LinuxCapabilities"))
     SupportContainerDefinition.struct_class = Types::SupportContainerDefinition
 
     SupportContainerDefinitionInput.add_member(:container_name, Shapes::ShapeRef.new(shape: NonZeroAnd128MaxAsciiString, required: true, location_name: "ContainerName"))
@@ -2357,6 +2369,7 @@ module Aws::GameLift
     SupportContainerDefinitionInput.add_member(:memory_hard_limit_mebibytes, Shapes::ShapeRef.new(shape: ContainerMemoryLimit, location_name: "MemoryHardLimitMebibytes"))
     SupportContainerDefinitionInput.add_member(:port_configuration, Shapes::ShapeRef.new(shape: ContainerPortConfiguration, location_name: "PortConfiguration"))
     SupportContainerDefinitionInput.add_member(:vcpu, Shapes::ShapeRef.new(shape: ContainerVcpu, location_name: "Vcpu"))
+    SupportContainerDefinitionInput.add_member(:linux_capabilities, Shapes::ShapeRef.new(shape: LinuxCapabilities, location_name: "LinuxCapabilities"))
     SupportContainerDefinitionInput.struct_class = Types::SupportContainerDefinitionInput
 
     SupportContainerDefinitionInputList.member = Shapes::ShapeRef.new(shape: SupportContainerDefinitionInput)

@@ -127,6 +127,9 @@ module Aws
                                browser_type: ("CHROME" | "FIREFOX")?
                              }
                            ],
+                           ?add_replica_locations: Array[
+                             Params::add_replica_location_input
+                           ],
                            ?tags: Hash[::String, ::String],
                            ?artifact_config: {
                              s3_encryption: {
@@ -429,7 +432,11 @@ module Aws
                              {
                                browser_type: ("CHROME" | "FIREFOX")?
                              }
-                           ]
+                           ],
+                           ?add_replica_locations: Array[
+                             Params::add_replica_location_input
+                           ],
+                           ?remove_replica_locations: Array[::String]
                          ) -> _UpdateCanaryResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCanaryResponseSuccess
     end

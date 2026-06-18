@@ -790,7 +790,8 @@ module Aws
                                      user_pool_id: ::String,
                                      ?managed_login_version: ::Integer,
                                      ?custom_domain_config: {
-                                       certificate_arn: ::String
+                                       certificate_arn: ::String,
+                                       security_policy: ("TLS_V1" | "TLS_V1_2_2021" | "TLS_V1_3_2025")?
                                      },
                                      ?routing: {
                                        failover: {
@@ -1969,7 +1970,8 @@ module Aws
                                      user_pool_id: ::String,
                                      ?managed_login_version: ::Integer,
                                      ?custom_domain_config: {
-                                       certificate_arn: ::String
+                                       certificate_arn: ::String,
+                                       security_policy: ("TLS_V1" | "TLS_V1_2_2021" | "TLS_V1_3_2025")?
                                      },
                                      ?routing: {
                                        failover: {

@@ -8,6 +8,15 @@
 module Aws
   module EKS
     module Params
+      type vpc_config_request = {
+      subnet_ids: Array[::String]?,
+      security_group_ids: Array[::String]?,
+      endpoint_public_access: bool?,
+      endpoint_private_access: bool?,
+      public_access_cidrs: Array[::String]?,
+      control_plane_egress_mode: ("AWS_MANAGED" | "CUSTOMER_ROUTED" | "CUSTOMER_ISOLATED")?
+    }
+
       type remote_network_config_request = {
       remote_node_networks: Array[
         {

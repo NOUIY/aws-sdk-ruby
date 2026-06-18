@@ -839,6 +839,7 @@ module Aws::CloudWatchLogs
       attr_accessor filter_pattern: ::String
       attr_accessor next_token: ::String
       attr_accessor limit: ::Integer
+      attr_accessor start_from_head: bool
       attr_accessor interleaved: bool
       attr_accessor unmask: bool
       SENSITIVE: []

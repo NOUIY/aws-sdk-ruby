@@ -27,8 +27,12 @@ module Aws::Lambda
   # See {Seahorse::Client::RequestContext} for more information.
   #
   # ## Error Classes
+  # * {AliasLimitExceededException}
   # * {CallbackTimeoutException}
   # * {CapacityProviderLimitExceededException}
+  # * {CodeArtifactUserDeletedException}
+  # * {CodeArtifactUserFailedException}
+  # * {CodeArtifactUserPendingException}
   # * {CodeSigningConfigNotFoundException}
   # * {CodeStorageExceededException}
   # * {CodeVerificationFailedException}
@@ -41,6 +45,7 @@ module Aws::Lambda
   # * {EFSMountFailureException}
   # * {EFSMountTimeoutException}
   # * {ENILimitReachedException}
+  # * {ENINotReadyException}
   # * {FunctionVersionsPerCapacityProviderLimitExceededException}
   # * {InvalidCodeSignatureException}
   # * {InvalidParameterValueException}
@@ -53,10 +58,12 @@ module Aws::Lambda
   # * {KMSDisabledException}
   # * {KMSInvalidStateException}
   # * {KMSNotFoundException}
+  # * {ModeNotSupportedException}
   # * {NoPublishedVersionException}
   # * {PolicyLengthExceededException}
   # * {PreconditionFailedException}
   # * {ProvisionedConcurrencyConfigNotFoundException}
+  # * {PublicPolicyException}
   # * {RecursiveInvocationException}
   # * {RequestTooLargeException}
   # * {ResourceConflictException}
@@ -68,8 +75,10 @@ module Aws::Lambda
   # * {S3FilesMountTimeoutException}
   # * {SerializedRequestEntityTooLargeException}
   # * {ServiceException}
+  # * {ServiceQuotaExceededException}
   # * {SnapStartException}
   # * {SnapStartNotReadyException}
+  # * {SnapStartRegenerationFailureException}
   # * {SnapStartTimeoutException}
   # * {SubnetIPAddressLimitReachedException}
   # * {TooManyRequestsException}
@@ -80,6 +89,26 @@ module Aws::Lambda
   module Errors
 
     extend Aws::Errors::DynamicErrors
+
+    class AliasLimitExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::AliasLimitExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
 
     class CallbackTimeoutException < ServiceError
 
@@ -106,6 +135,66 @@ module Aws::Lambda
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::Lambda::Types::CapacityProviderLimitExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class CodeArtifactUserDeletedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::CodeArtifactUserDeletedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class CodeArtifactUserFailedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::CodeArtifactUserFailedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class CodeArtifactUserPendingException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::CodeArtifactUserPendingException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -366,6 +455,26 @@ module Aws::Lambda
       end
     end
 
+    class ENINotReadyException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::ENINotReadyException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class FunctionVersionsPerCapacityProviderLimitExceededException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -606,6 +715,26 @@ module Aws::Lambda
       end
     end
 
+    class ModeNotSupportedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::ModeNotSupportedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class NoPublishedVersionException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -671,6 +800,26 @@ module Aws::Lambda
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::Lambda::Types::ProvisionedConcurrencyConfigNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class PublicPolicyException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::PublicPolicyException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -906,6 +1055,26 @@ module Aws::Lambda
       end
     end
 
+    class ServiceQuotaExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::ServiceQuotaExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class SnapStartException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -931,6 +1100,26 @@ module Aws::Lambda
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::Lambda::Types::SnapStartNotReadyException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def type
+        @data[:type]
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class SnapStartRegenerationFailureException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::Lambda::Types::SnapStartRegenerationFailureException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

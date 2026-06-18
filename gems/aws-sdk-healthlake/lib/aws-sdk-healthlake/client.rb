@@ -510,6 +510,16 @@ module Aws::HealthLake
     # @option params [Types::IdentityProviderConfiguration] :identity_provider_configuration
     #   The identity provider configuration to use for the data store.
     #
+    # @option params [Types::AnalyticsConfiguration] :analytics_configuration
+    #   The analytics configuration for the data store.
+    #
+    # @option params [Types::NlpConfiguration] :nlp_configuration
+    #   The natural language processing (NLP) configuration for the data
+    #   store.
+    #
+    # @option params [Types::ProfileConfiguration] :profile_configuration
+    #   The profile configuration for the data store.
+    #
     # @return [Types::CreateFHIRDatastoreResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateFHIRDatastoreResponse#datastore_id #datastore_id} => String
@@ -543,6 +553,15 @@ module Aws::HealthLake
     #       fine_grained_authorization_enabled: false,
     #       metadata: "ConfigurationMetadata",
     #       idp_lambda_arn: "LambdaArn",
+    #     },
+    #     analytics_configuration: {
+    #       status: "ENABLED", # accepts ENABLED, ENABLING, DISABLED, DISABLING, PAUSING, PAUSED
+    #     },
+    #     nlp_configuration: {
+    #       status: "ENABLED", # accepts ENABLED, DISABLED, ENABLING, DISABLING
+    #     },
+    #     profile_configuration: {
+    #       default_profiles: ["String"],
     #     },
     #   })
     #
@@ -1192,25 +1211,26 @@ module Aws::HealthLake
       req.send_request(options)
     end
 
-    # <para>Update the properties of a FHIR-enabled data store.</para>
+    # Update the properties of a FHIR-enabled data store.
     #
     # @option params [required, String] :datastore_id
-    #   <para>The data store identifier.</para>
+    #   The data store identifier.
     #
     # @option params [String] :datastore_name
-    #   <para>The data store name.</para>
-    #
-    # @option params [Types::AnalyticsConfiguration] :analytics_configuration
-    #   <para>The analytics configuration for the data store.</para>
+    #   The data store name.
     #
     # @option params [Types::NlpConfiguration] :nlp_configuration
-    #   <para>The NLP configuration for the data store.</para>
+    #   The natural language processing (NLP) configuration for the data
+    #   store.
+    #
+    # @option params [Types::AnalyticsConfiguration] :analytics_configuration
+    #   The analytics configuration for the data store.
     #
     # @option params [Types::ProfileConfiguration] :profile_configuration
-    #   <para>The profile configuration for the data store.</para>
+    #   The profile configuration for the data store.
     #
     # @option params [Types::IdentityProviderConfiguration] :identity_provider_configuration
-    #   <para>The identity provider configuration for the data store.</para>
+    #   The identity provider configuration for the data store.
     #
     # @return [Types::UpdateFHIRDatastoreResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1221,11 +1241,11 @@ module Aws::HealthLake
     #   resp = client.update_fhir_datastore({
     #     datastore_id: "DatastoreId", # required
     #     datastore_name: "DatastoreName",
-    #     analytics_configuration: {
-    #       status: "ENABLED", # accepts ENABLED, ENABLING, DISABLED, DISABLING, PAUSING, PAUSED
-    #     },
     #     nlp_configuration: {
     #       status: "ENABLED", # accepts ENABLED, DISABLED, ENABLING, DISABLING
+    #     },
+    #     analytics_configuration: {
+    #       status: "ENABLED", # accepts ENABLED, ENABLING, DISABLED, DISABLING, PAUSING, PAUSED
     #     },
     #     profile_configuration: {
     #       default_profiles: ["String"],
@@ -1288,7 +1308,7 @@ module Aws::HealthLake
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-healthlake'
-      context[:gem_version] = '1.65.0'
+      context[:gem_version] = '1.66.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

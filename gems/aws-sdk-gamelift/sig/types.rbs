@@ -726,6 +726,7 @@ module Aws::GameLift
 
     class DescribeContainerGroupPortMappingsOutput
       attr_accessor fleet_id: ::String
+      attr_accessor fleet_arn: ::String
       attr_accessor location: ::String
       attr_accessor container_group_definition_arn: ::String
       attr_accessor container_group_type: ("GAME_SERVER" | "PER_INSTANCE")
@@ -1221,6 +1222,7 @@ module Aws::GameLift
       attr_accessor port_configuration: Types::ContainerPortConfiguration
       attr_accessor resolved_image_digest: ::String
       attr_accessor server_sdk_version: ::String
+      attr_accessor linux_capabilities: Types::LinuxCapabilities
       SENSITIVE: []
     end
 
@@ -1232,6 +1234,7 @@ module Aws::GameLift
       attr_accessor image_uri: ::String
       attr_accessor port_configuration: Types::ContainerPortConfiguration
       attr_accessor server_sdk_version: ::String
+      attr_accessor linux_capabilities: Types::LinuxCapabilities
       SENSITIVE: []
     end
 
@@ -1510,6 +1513,11 @@ module Aws::GameLift
 
     class LimitExceededException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class LinuxCapabilities
+      attr_accessor include: ::Array[("AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM")]
       SENSITIVE: []
     end
 
@@ -2133,6 +2141,7 @@ module Aws::GameLift
       attr_accessor port_configuration: Types::ContainerPortConfiguration
       attr_accessor resolved_image_digest: ::String
       attr_accessor vcpu: ::Float
+      attr_accessor linux_capabilities: Types::LinuxCapabilities
       SENSITIVE: []
     end
 
@@ -2147,6 +2156,7 @@ module Aws::GameLift
       attr_accessor memory_hard_limit_mebibytes: ::Integer
       attr_accessor port_configuration: Types::ContainerPortConfiguration
       attr_accessor vcpu: ::Float
+      attr_accessor linux_capabilities: Types::LinuxCapabilities
       SENSITIVE: []
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.131.0 (2026-06-18)
+------------------
+
+* Feature - Amazon GameLift Servers has launched support for customizing Linux capabilities in container fleets. You can now specify additional Linux capabilities for containers in a container group definition, giving you finer control over the default Docker capabilities available to your containers.
+
 1.130.0 (2026-06-01)
 ------------------
 

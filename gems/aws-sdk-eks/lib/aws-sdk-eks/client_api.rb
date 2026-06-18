@@ -103,6 +103,7 @@ module Aws::EKS
     ConnectorConfigProvider = Shapes::StringShape.new(name: 'ConnectorConfigProvider')
     ConnectorConfigRequest = Shapes::StructureShape.new(name: 'ConnectorConfigRequest')
     ConnectorConfigResponse = Shapes::StructureShape.new(name: 'ConnectorConfigResponse')
+    ControlPlaneEgressModeType = Shapes::StringShape.new(name: 'ControlPlaneEgressModeType')
     ControlPlanePlacementRequest = Shapes::StructureShape.new(name: 'ControlPlanePlacementRequest')
     ControlPlanePlacementResponse = Shapes::StructureShape.new(name: 'ControlPlanePlacementResponse')
     ControlPlaneScalingConfig = Shapes::StructureShape.new(name: 'ControlPlaneScalingConfig')
@@ -1813,6 +1814,7 @@ module Aws::EKS
     VpcConfigRequest.add_member(:endpoint_public_access, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "endpointPublicAccess"))
     VpcConfigRequest.add_member(:endpoint_private_access, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "endpointPrivateAccess"))
     VpcConfigRequest.add_member(:public_access_cidrs, Shapes::ShapeRef.new(shape: StringList, location_name: "publicAccessCidrs"))
+    VpcConfigRequest.add_member(:control_plane_egress_mode, Shapes::ShapeRef.new(shape: ControlPlaneEgressModeType, location_name: "controlPlaneEgressMode"))
     VpcConfigRequest.struct_class = Types::VpcConfigRequest
 
     VpcConfigResponse.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: StringList, location_name: "subnetIds"))
@@ -1822,6 +1824,7 @@ module Aws::EKS
     VpcConfigResponse.add_member(:endpoint_public_access, Shapes::ShapeRef.new(shape: Boolean, location_name: "endpointPublicAccess"))
     VpcConfigResponse.add_member(:endpoint_private_access, Shapes::ShapeRef.new(shape: Boolean, location_name: "endpointPrivateAccess"))
     VpcConfigResponse.add_member(:public_access_cidrs, Shapes::ShapeRef.new(shape: StringList, location_name: "publicAccessCidrs"))
+    VpcConfigResponse.add_member(:control_plane_egress_mode, Shapes::ShapeRef.new(shape: ControlPlaneEgressModeType, location_name: "controlPlaneEgressMode"))
     VpcConfigResponse.struct_class = Types::VpcConfigResponse
 
     WarmPoolConfig.add_member(:enabled, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "enabled"))

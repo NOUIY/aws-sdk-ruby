@@ -122,6 +122,9 @@ module Aws::HealthLake
     CreateFHIRDatastoreRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientTokenString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateFHIRDatastoreRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateFHIRDatastoreRequest.add_member(:identity_provider_configuration, Shapes::ShapeRef.new(shape: IdentityProviderConfiguration, location_name: "IdentityProviderConfiguration"))
+    CreateFHIRDatastoreRequest.add_member(:analytics_configuration, Shapes::ShapeRef.new(shape: AnalyticsConfiguration, location_name: "AnalyticsConfiguration"))
+    CreateFHIRDatastoreRequest.add_member(:nlp_configuration, Shapes::ShapeRef.new(shape: NlpConfiguration, location_name: "NlpConfiguration"))
+    CreateFHIRDatastoreRequest.add_member(:profile_configuration, Shapes::ShapeRef.new(shape: ProfileConfiguration, location_name: "ProfileConfiguration"))
     CreateFHIRDatastoreRequest.struct_class = Types::CreateFHIRDatastoreRequest
 
     CreateFHIRDatastoreResponse.add_member(:datastore_id, Shapes::ShapeRef.new(shape: DatastoreId, required: true, location_name: "DatastoreId"))
@@ -364,8 +367,8 @@ module Aws::HealthLake
 
     UpdateFHIRDatastoreRequest.add_member(:datastore_id, Shapes::ShapeRef.new(shape: DatastoreId, required: true, location_name: "DatastoreId"))
     UpdateFHIRDatastoreRequest.add_member(:datastore_name, Shapes::ShapeRef.new(shape: DatastoreName, location_name: "DatastoreName"))
-    UpdateFHIRDatastoreRequest.add_member(:analytics_configuration, Shapes::ShapeRef.new(shape: AnalyticsConfiguration, location_name: "AnalyticsConfiguration"))
     UpdateFHIRDatastoreRequest.add_member(:nlp_configuration, Shapes::ShapeRef.new(shape: NlpConfiguration, location_name: "NlpConfiguration"))
+    UpdateFHIRDatastoreRequest.add_member(:analytics_configuration, Shapes::ShapeRef.new(shape: AnalyticsConfiguration, location_name: "AnalyticsConfiguration"))
     UpdateFHIRDatastoreRequest.add_member(:profile_configuration, Shapes::ShapeRef.new(shape: ProfileConfiguration, location_name: "ProfileConfiguration"))
     UpdateFHIRDatastoreRequest.add_member(:identity_provider_configuration, Shapes::ShapeRef.new(shape: IdentityProviderConfiguration, location_name: "IdentityProviderConfiguration"))
     UpdateFHIRDatastoreRequest.struct_class = Types::UpdateFHIRDatastoreRequest

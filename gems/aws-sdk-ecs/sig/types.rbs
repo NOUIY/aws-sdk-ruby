@@ -470,6 +470,7 @@ module Aws::ECS
       attr_accessor service_connect_configuration: Types::ServiceConnectConfiguration
       attr_accessor volume_configurations: ::Array[Types::ServiceVolumeConfiguration]
       attr_accessor vpc_lattice_configurations: ::Array[Types::VpcLatticeConfiguration]
+      attr_accessor monitoring: Types::MonitoringConfiguration
       SENSITIVE: []
     end
 
@@ -1880,8 +1881,19 @@ module Aws::ECS
       SENSITIVE: []
     end
 
+    class MetricConfiguration
+      attr_accessor metric_names: ::Array[::String]
+      attr_accessor resolution_seconds: ::Integer
+      SENSITIVE: []
+    end
+
     class MissingVersionException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class MonitoringConfiguration
+      attr_accessor metric_configurations: ::Array[Types::MetricConfiguration]
       SENSITIVE: []
     end
 
@@ -2430,6 +2442,7 @@ module Aws::ECS
       attr_accessor vpc_lattice_configurations: ::Array[Types::VpcLatticeConfiguration]
       attr_accessor resolved_configuration: Types::ResolvedConfiguration
       attr_accessor ecs_managed_resources: Types::ECSManagedResources
+      attr_accessor monitoring: Types::MonitoringConfiguration
       SENSITIVE: []
     end
 
@@ -2938,6 +2951,7 @@ module Aws::ECS
       attr_accessor service_connect_configuration: Types::ServiceConnectConfiguration
       attr_accessor volume_configurations: ::Array[Types::ServiceVolumeConfiguration]
       attr_accessor vpc_lattice_configurations: ::Array[Types::VpcLatticeConfiguration]
+      attr_accessor monitoring: Types::MonitoringConfiguration
       SENSITIVE: []
     end
 

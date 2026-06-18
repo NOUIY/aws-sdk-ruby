@@ -325,7 +325,15 @@ module Aws
                                 target_group_arn: ::String,
                                 port_name: ::String
                               }
-                            ]
+                            ],
+                            ?monitoring: {
+                              metric_configurations: Array[
+                                {
+                                  metric_names: Array[::String],
+                                  resolution_seconds: ::Integer
+                                }
+                              ]?
+                            }
                           ) -> _CreateServiceResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateServiceResponseSuccess
 
@@ -1878,7 +1886,15 @@ module Aws
                                 target_group_arn: ::String,
                                 port_name: ::String
                               }
-                            ]
+                            ],
+                            ?monitoring: {
+                              metric_configurations: Array[
+                                {
+                                  metric_names: Array[::String],
+                                  resolution_seconds: ::Integer
+                                }
+                              ]?
+                            }
                           ) -> _UpdateServiceResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateServiceResponseSuccess
 

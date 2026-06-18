@@ -746,6 +746,7 @@ module Aws::CognitoIdentityProvider
 
     class CustomDomainConfigType
       attr_accessor certificate_arn: ::String
+      attr_accessor security_policy: ("TLS_V1" | "TLS_V1_2_2021" | "TLS_V1_3_2025")
       SENSITIVE: []
     end
 

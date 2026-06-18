@@ -254,6 +254,14 @@ module Aws
       deployment_config: Params::deployment_configuration?
     }
 
+      type cluster_auto_patch_config = {
+      patching_strategy: ("WhenIdle" | "WhenAllIdle"),
+      patch_schedule: {
+        next_patch_date: ::Time?
+      }?,
+      deployment_config: Params::deployment_configuration?
+    }
+
       type cluster_kubernetes_config = {
       labels: Hash[::String, ::String]?,
       taints: Array[
@@ -291,6 +299,8 @@ module Aws
       }?,
       scheduled_update_config: Params::scheduled_update_config?,
       image_id: ::String?,
+      auto_patch_config: Params::cluster_auto_patch_config?,
+      image_release_version: ::String?,
       kubernetes_config: Params::cluster_kubernetes_config?,
       slurm_config: {
         node_type: ("Controller" | "Login" | "Compute"),

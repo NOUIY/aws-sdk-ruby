@@ -111,6 +111,15 @@ module Aws
                                      fine_grained_authorization_enabled: bool?,
                                      metadata: ::String?,
                                      idp_lambda_arn: ::String?
+                                   },
+                                   ?analytics_configuration: {
+                                     status: ("ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | "PAUSING" | "PAUSED")?
+                                   },
+                                   ?nlp_configuration: {
+                                     status: ("ENABLED" | "DISABLED" | "ENABLING" | "DISABLING")?
+                                   },
+                                   ?profile_configuration: {
+                                     default_profiles: Array[::String]?
                                    }
                                  ) -> _CreateFHIRDatastoreResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateFHIRDatastoreResponseSuccess
@@ -301,11 +310,11 @@ module Aws
       def update_fhir_datastore: (
                                    datastore_id: ::String,
                                    ?datastore_name: ::String,
-                                   ?analytics_configuration: {
-                                     status: ("ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | "PAUSING" | "PAUSED")?
-                                   },
                                    ?nlp_configuration: {
                                      status: ("ENABLED" | "DISABLED" | "ENABLING" | "DISABLING")?
+                                   },
+                                   ?analytics_configuration: {
+                                     status: ("ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | "PAUSING" | "PAUSED")?
                                    },
                                    ?profile_configuration: {
                                      default_profiles: Array[::String]?

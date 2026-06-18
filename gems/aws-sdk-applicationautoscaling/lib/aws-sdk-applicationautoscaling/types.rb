@@ -1920,8 +1920,25 @@ module Aws::ApplicationAutoScaling
     # [1]: https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html#predefined-metrics
     #
     # @!attribute [rw] predefined_metric_type
-    #   The metric type. The `ALBRequestCountPerTarget` metric type applies
-    #   only to Spot Fleets and ECS services.
+    #   The metric type. The following are notes about specific metric
+    #   types:
+    #
+    #   * `ALBRequestCountPerTarget` - This metric type applies only to Spot
+    #     Fleets and ECS services.
+    #
+    #   * `ECSServiceAverageCPUUtilizationHighResolution` - The
+    #     high-resolution version of `ECSServiceAverageCPUUtilization` that
+    #     uses 20-second CloudWatch metrics. Use this metric for target
+    #     tracking scaling policies that evaluate metrics every 20 seconds.
+    #     You must enable high-resolution metrics in Amazon ECS before
+    #     creating a scaling policy with this metric type.
+    #
+    #   * `ECSServiceAverageMemoryUtilizationHighResolution` - The
+    #     high-resolution version of `ECSServiceAverageMemoryUtilization`
+    #     that uses 20-second CloudWatch metrics. Use this metric for target
+    #     tracking scaling policies that evaluate metrics every 20 seconds.
+    #     You must enable high-resolution metrics in Amazon ECS before
+    #     creating a scaling policy with this metric type.
     #   @return [String]
     #
     # @!attribute [rw] resource_label

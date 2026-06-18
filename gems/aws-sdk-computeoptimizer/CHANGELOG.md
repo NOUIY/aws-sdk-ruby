@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.99.0 (2026-06-18)
+------------------
+
+* Feature - This release surfaces two new metrics Volume IOPS Exceeded and Volume Throughput Exceeded into EBS volume rightsizing recommendations.
+
 1.98.0 (2026-06-08)
 ------------------
 

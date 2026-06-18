@@ -7474,7 +7474,8 @@ module Aws
                                      cluster_name: ::String,
                                      ?instance_groups: Array[
                                        {
-                                         instance_group_name: ::String
+                                         instance_group_name: ::String,
+                                         image_release_version: ::String?
                                        }
                                      ],
                                      ?deployment_config: Params::deployment_configuration,

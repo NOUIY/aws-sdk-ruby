@@ -3572,6 +3572,25 @@ module Aws::CloudWatchLogs
     #   events.
     #   @return [Integer]
     #
+    # @!attribute [rw] start_from_head
+    #   If the value is true, the earliest log events are returned first. If
+    #   the value is false, the latest log events are returned first. The
+    #   default value is true.
+    #
+    #   The `startFromHead` parameter sets the sort direction on the first
+    #   request. On subsequent requests, the `nextToken` determines the sort
+    #   direction. To continue paginating in the same direction, provide the
+    #   returned `nextToken`. If you provide both `nextToken` and
+    #   `startFromHead`, the direction of the `nextToken` is used.
+    #
+    #   <note markdown="1"> Setting `startFromHead` to `false` is supported only when
+    #   `startTime` is on or after `Jan 1, 2024 00:00:00 UTC`. A request
+    #   with `startFromHead` set to `false` and a `startTime` before this
+    #   date returns an `InvalidParameterException`.
+    #
+    #    </note>
+    #   @return [Boolean]
+    #
     # @!attribute [rw] interleaved
     #   If the value is true, the operation attempts to provide responses
     #   that contain events from multiple log streams within the log group,
@@ -3604,6 +3623,7 @@ module Aws::CloudWatchLogs
       :filter_pattern,
       :next_token,
       :limit,
+      :start_from_head,
       :interleaved,
       :unmask)
       SENSITIVE = []
@@ -3623,8 +3643,9 @@ module Aws::CloudWatchLogs
     #   @return [Array<Types::SearchedLogStream>]
     #
     # @!attribute [rw] next_token
-    #   The token to use when requesting the next set of items. The token
-    #   expires after 24 hours.
+    #   The token for the next set of items in the sorting direction
+    #   specified by the `startFromHead` parameter in the first request. The
+    #   token expires after 24 hours.
     #
     #   If the results don't include a `nextToken`, then pagination is
     #   finished.

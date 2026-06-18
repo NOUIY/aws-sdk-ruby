@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.624.0 (2026-06-18)
+------------------
+
+* Feature - Documentation updates clarifying CancelCapacityReservation cancellable states
+
 1.623.0 (2026-06-10)
 ------------------
 

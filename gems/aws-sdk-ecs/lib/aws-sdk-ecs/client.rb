@@ -2171,6 +2171,12 @@ module Aws::ECS
     # @option params [Array<Types::VpcLatticeConfiguration>] :vpc_lattice_configurations
     #   The VPC Lattice configuration for the service being created.
     #
+    # @option params [Types::MonitoringConfiguration] :monitoring
+    #   The optional monitoring configuration for the service, which defines
+    #   the resolution for the service-level `CPUUtilization` and
+    #   `MemoryUtilization` Amazon CloudWatch metrics. When not specified,
+    #   Amazon ECS uses the default resolution of `60` seconds.
+    #
     # @return [Types::CreateServiceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateServiceResponse#service #service} => Types::Service
@@ -2365,6 +2371,47 @@ module Aws::ECS
     #       service_name: "ecs-service-with-pause-hook", 
     #       status: "ACTIVE", 
     #       task_definition: "arn:aws:ecs:us-east-1:012345678910:task-definition/ecs-demo:1", 
+    #     }, 
+    #   }
+    #
+    # @example Example: To create a service with a monitoring configuration
+    #
+    #   # This example creates a service with a monitoring configuration that sets 20-second resolution for CPUUtilization and
+    #   # MemoryUtilization CloudWatch metrics. The monitoring configuration is not returned in the CreateService response. Use
+    #   # DescribeServiceRevisions to view the monitoring configuration.
+    #
+    #   resp = client.create_service({
+    #     desired_count: 2, 
+    #     monitoring: {
+    #       metric_configurations: [
+    #         {
+    #           metric_names: [
+    #             "CPUUtilization", 
+    #             "MemoryUtilization", 
+    #           ], 
+    #           resolution_seconds: 20, 
+    #         }, 
+    #       ], 
+    #     }, 
+    #     service_name: "ecs-monitored-service", 
+    #     task_definition: "my-app:1", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     service: {
+    #       cluster_arn: "arn:aws:ecs:us-east-1:012345678910:cluster/default", 
+    #       deployment_configuration: {
+    #         maximum_percent: 200, 
+    #         minimum_healthy_percent: 100, 
+    #       }, 
+    #       desired_count: 2, 
+    #       pending_count: 0, 
+    #       running_count: 0, 
+    #       service_arn: "arn:aws:ecs:us-east-1:012345678910:service/default/ecs-monitored-service", 
+    #       service_name: "ecs-monitored-service", 
+    #       status: "ACTIVE", 
+    #       task_definition: "arn:aws:ecs:us-east-1:012345678910:task-definition/my-app:1", 
     #     }, 
     #   }
     #
@@ -2567,6 +2614,14 @@ module Aws::ECS
     #         port_name: "String", # required
     #       },
     #     ],
+    #     monitoring: {
+    #       metric_configurations: [
+    #         {
+    #           metric_names: ["MetricName"], # required
+    #           resolution_seconds: 1, # required
+    #         },
+    #       ],
+    #     },
     #   })
     #
     # @example Response structure
@@ -6299,6 +6354,46 @@ module Aws::ECS
     #     ], 
     #   }
     #
+    # @example Example: To describe a service revision with a monitoring configuration
+    #
+    #   # This example describes a service revision that has a monitoring configuration with 20-second resolution for
+    #   # CPUUtilization and MemoryUtilization CloudWatch metrics.
+    #
+    #   resp = client.describe_service_revisions({
+    #     service_revision_arns: [
+    #       "arn:aws:ecs:us-east-1:012345678910:service-revision/default/ecs-monitored-service/8675309012345678901", 
+    #     ], 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     failures: [
+    #     ], 
+    #     service_revisions: [
+    #       {
+    #         cluster_arn: "arn:aws:ecs:us-east-1:012345678910:cluster/default", 
+    #         created_at: Time.parse("2026-06-10T12:00:00.00Z"), 
+    #         launch_type: "FARGATE", 
+    #         monitoring: {
+    #           metric_configurations: [
+    #             {
+    #               metric_names: [
+    #                 "CPUUtilization", 
+    #                 "MemoryUtilization", 
+    #               ], 
+    #               resolution_seconds: 20, 
+    #             }, 
+    #           ], 
+    #         }, 
+    #         platform_family: "DockerLinux", 
+    #         platform_version: "1.4.0", 
+    #         service_arn: "arn:aws:ecs:us-east-1:012345678910:service/default/ecs-monitored-service", 
+    #         service_revision_arn: "arn:aws:ecs:us-east-1:012345678910:service-revision/default/ecs-monitored-service/8675309012345678901", 
+    #         task_definition: "arn:aws:ecs:us-east-1:012345678910:task-definition/my-app:1", 
+    #       }, 
+    #     ], 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_service_revisions({
@@ -6462,6 +6557,10 @@ module Aws::ECS
     #   resp.service_revisions[0].ecs_managed_resources.log_groups[0].status_reason #=> String
     #   resp.service_revisions[0].ecs_managed_resources.log_groups[0].updated_at #=> Time
     #   resp.service_revisions[0].ecs_managed_resources.log_groups[0].log_group_name #=> String
+    #   resp.service_revisions[0].monitoring.metric_configurations #=> Array
+    #   resp.service_revisions[0].monitoring.metric_configurations[0].metric_names #=> Array
+    #   resp.service_revisions[0].monitoring.metric_configurations[0].metric_names[0] #=> String
+    #   resp.service_revisions[0].monitoring.metric_configurations[0].resolution_seconds #=> Integer
     #   resp.failures #=> Array
     #   resp.failures[0].arn #=> String
     #   resp.failures[0].reason #=> String
@@ -15116,6 +15215,12 @@ module Aws::ECS
     #
     #   This parameter triggers a new service deployment.
     #
+    # @option params [Types::MonitoringConfiguration] :monitoring
+    #   The optional monitoring configuration for the service, which defines
+    #   the resolution for the service-level `CPUUtilization` and
+    #   `MemoryUtilization` Amazon CloudWatch metrics. When not specified,
+    #   Amazon ECS uses the default resolution of `60` seconds.
+    #
     # @return [Types::UpdateServiceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateServiceResponse#service #service} => Types::Service
@@ -15170,6 +15275,31 @@ module Aws::ECS
     #       strategy: "BLUE_GREEN", 
     #     }, 
     #     service: "my-blue-green-service", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
+    #
+    # @example Example: To update a service with a monitoring configuration
+    #
+    #   # This example updates a service to add a monitoring configuration that sets 20-second resolution for CPUUtilization and
+    #   # MemoryUtilization CloudWatch metrics. The monitoring configuration is not returned in the UpdateService response. Use
+    #   # DescribeServiceRevisions to view the monitoring configuration.
+    #
+    #   resp = client.update_service({
+    #     monitoring: {
+    #       metric_configurations: [
+    #         {
+    #           metric_names: [
+    #             "CPUUtilization", 
+    #             "MemoryUtilization", 
+    #           ], 
+    #           resolution_seconds: 20, 
+    #         }, 
+    #       ], 
+    #     }, 
+    #     service: "ecs-monitored-service", 
     #   })
     #
     #   resp.to_h outputs the following:
@@ -15366,6 +15496,14 @@ module Aws::ECS
     #         port_name: "String", # required
     #       },
     #     ],
+    #     monitoring: {
+    #       metric_configurations: [
+    #         {
+    #           metric_names: ["MetricName"], # required
+    #           resolution_seconds: 1, # required
+    #         },
+    #       ],
+    #     },
     #   })
     #
     # @example Response structure
@@ -16072,7 +16210,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.237.0'
+      context[:gem_version] = '1.238.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

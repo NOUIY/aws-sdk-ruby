@@ -468,7 +468,7 @@ module Aws::Batch
     ComputeResource.add_member(:desiredv_cpus, Shapes::ShapeRef.new(shape: Integer, location_name: "desiredvCpus"))
     ComputeResource.add_member(:instance_types, Shapes::ShapeRef.new(shape: StringList, location_name: "instanceTypes"))
     ComputeResource.add_member(:image_id, Shapes::ShapeRef.new(shape: String, deprecated: true, location_name: "imageId", metadata: {"deprecatedMessage" => "This field is deprecated, use ec2Configuration[].imageIdOverride instead."}))
-    ComputeResource.add_member(:subnets, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "subnets"))
+    ComputeResource.add_member(:subnets, Shapes::ShapeRef.new(shape: StringList, location_name: "subnets"))
     ComputeResource.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: StringList, location_name: "securityGroupIds"))
     ComputeResource.add_member(:ec2_key_pair, Shapes::ShapeRef.new(shape: String, location_name: "ec2KeyPair"))
     ComputeResource.add_member(:instance_role, Shapes::ShapeRef.new(shape: String, location_name: "instanceRole"))

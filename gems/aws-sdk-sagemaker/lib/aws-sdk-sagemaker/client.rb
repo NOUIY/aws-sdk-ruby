@@ -2846,6 +2846,31 @@ module Aws::SageMaker
     #           },
     #         },
     #         image_id: "ImageId",
+    #         auto_patch_config: {
+    #           patching_strategy: "WhenIdle", # required, accepts WhenIdle, WhenAllIdle
+    #           patch_schedule: {
+    #             next_patch_date: Time.now,
+    #           },
+    #           deployment_config: {
+    #             rolling_update_policy: {
+    #               maximum_batch_size: { # required
+    #                 type: "INSTANCE_COUNT", # required, accepts INSTANCE_COUNT, CAPACITY_PERCENTAGE
+    #                 value: 1, # required
+    #               },
+    #               rollback_maximum_batch_size: {
+    #                 type: "INSTANCE_COUNT", # required, accepts INSTANCE_COUNT, CAPACITY_PERCENTAGE
+    #                 value: 1, # required
+    #               },
+    #             },
+    #             wait_interval_in_seconds: 1,
+    #             auto_rollback_configuration: [
+    #               {
+    #                 alarm_name: "AlarmName", # required
+    #               },
+    #             ],
+    #           },
+    #         },
+    #         image_release_version: "ImageReleaseVersion",
     #         kubernetes_config: {
     #           labels: {
     #             "ClusterKubernetesLabelKey" => "ClusterKubernetesLabelValue",
@@ -14968,9 +14993,21 @@ module Aws::SageMaker
     #   resp.instance_groups[0].scheduled_update_config.deployment_config.wait_interval_in_seconds #=> Integer
     #   resp.instance_groups[0].scheduled_update_config.deployment_config.auto_rollback_configuration #=> Array
     #   resp.instance_groups[0].scheduled_update_config.deployment_config.auto_rollback_configuration[0].alarm_name #=> String
+    #   resp.instance_groups[0].auto_patch_config.patching_strategy #=> String, one of "WhenIdle", "WhenAllIdle"
+    #   resp.instance_groups[0].auto_patch_config.current_patch_schedule.next_patch_date #=> Time
+    #   resp.instance_groups[0].auto_patch_config.desired_patch_schedule.next_patch_date #=> Time
+    #   resp.instance_groups[0].auto_patch_config.deployment_config.rolling_update_policy.maximum_batch_size.type #=> String, one of "INSTANCE_COUNT", "CAPACITY_PERCENTAGE"
+    #   resp.instance_groups[0].auto_patch_config.deployment_config.rolling_update_policy.maximum_batch_size.value #=> Integer
+    #   resp.instance_groups[0].auto_patch_config.deployment_config.rolling_update_policy.rollback_maximum_batch_size.type #=> String, one of "INSTANCE_COUNT", "CAPACITY_PERCENTAGE"
+    #   resp.instance_groups[0].auto_patch_config.deployment_config.rolling_update_policy.rollback_maximum_batch_size.value #=> Integer
+    #   resp.instance_groups[0].auto_patch_config.deployment_config.wait_interval_in_seconds #=> Integer
+    #   resp.instance_groups[0].auto_patch_config.deployment_config.auto_rollback_configuration #=> Array
+    #   resp.instance_groups[0].auto_patch_config.deployment_config.auto_rollback_configuration[0].alarm_name #=> String
     #   resp.instance_groups[0].current_image_id #=> String
     #   resp.instance_groups[0].desired_image_id #=> String
-    #   resp.instance_groups[0].image_version_status #=> String, one of "UpToDate", "UpdateAvailable"
+    #   resp.instance_groups[0].current_image_release_version #=> String
+    #   resp.instance_groups[0].desired_image_release_version #=> String
+    #   resp.instance_groups[0].image_version_status #=> String, one of "UpToDate", "UpdateAvailable", "SecurityUpdateRequired", "EndOfLife"
     #   resp.instance_groups[0].active_operations #=> Hash
     #   resp.instance_groups[0].active_operations["ActiveClusterOperationName"] #=> Integer
     #   resp.instance_groups[0].kubernetes_config.current_labels #=> Hash
@@ -15199,7 +15236,9 @@ module Aws::SageMaker
     #   resp.node_details.placement.availability_zone_id #=> String
     #   resp.node_details.current_image_id #=> String
     #   resp.node_details.desired_image_id #=> String
-    #   resp.node_details.image_version_status #=> String, one of "UpToDate", "UpdateAvailable"
+    #   resp.node_details.current_image_release_version #=> String
+    #   resp.node_details.desired_image_release_version #=> String
+    #   resp.node_details.image_version_status #=> String, one of "UpToDate", "UpdateAvailable", "SecurityUpdateRequired", "EndOfLife"
     #   resp.node_details.ultra_server_info.id #=> String
     #   resp.node_details.ultra_server_info.type #=> String
     #   resp.node_details.kubernetes_config.current_labels #=> Hash
@@ -22669,7 +22708,8 @@ module Aws::SageMaker
     #   resp.cluster_node_summaries[0].ultra_server_info.id #=> String
     #   resp.cluster_node_summaries[0].ultra_server_info.type #=> String
     #   resp.cluster_node_summaries[0].private_dns_hostname #=> String
-    #   resp.cluster_node_summaries[0].image_version_status #=> String, one of "UpToDate", "UpdateAvailable"
+    #   resp.cluster_node_summaries[0].current_image_release_version #=> String
+    #   resp.cluster_node_summaries[0].image_version_status #=> String, one of "UpToDate", "UpdateAvailable", "SecurityUpdateRequired", "EndOfLife"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListClusterNodes AWS API Documentation
     #
@@ -22867,6 +22907,7 @@ module Aws::SageMaker
     #   resp.cluster_summaries[0].cluster_status #=> String, one of "Creating", "Deleting", "Failed", "InService", "RollingBack", "SystemUpdating", "Updating"
     #   resp.cluster_summaries[0].training_plan_arns #=> Array
     #   resp.cluster_summaries[0].training_plan_arns[0] #=> String
+    #   resp.cluster_summaries[0].image_version_status #=> String, one of "UpToDate", "UpdateAvailable", "SecurityUpdateRequired", "EndOfLife"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ListClusters AWS API Documentation
     #
@@ -30410,6 +30451,31 @@ module Aws::SageMaker
     #           },
     #         },
     #         image_id: "ImageId",
+    #         auto_patch_config: {
+    #           patching_strategy: "WhenIdle", # required, accepts WhenIdle, WhenAllIdle
+    #           patch_schedule: {
+    #             next_patch_date: Time.now,
+    #           },
+    #           deployment_config: {
+    #             rolling_update_policy: {
+    #               maximum_batch_size: { # required
+    #                 type: "INSTANCE_COUNT", # required, accepts INSTANCE_COUNT, CAPACITY_PERCENTAGE
+    #                 value: 1, # required
+    #               },
+    #               rollback_maximum_batch_size: {
+    #                 type: "INSTANCE_COUNT", # required, accepts INSTANCE_COUNT, CAPACITY_PERCENTAGE
+    #                 value: 1, # required
+    #               },
+    #             },
+    #             wait_interval_in_seconds: 1,
+    #             auto_rollback_configuration: [
+    #               {
+    #                 alarm_name: "AlarmName", # required
+    #               },
+    #             ],
+    #           },
+    #         },
+    #         image_release_version: "ImageReleaseVersion",
     #         kubernetes_config: {
     #           labels: {
     #             "ClusterKubernetesLabelKey" => "ClusterKubernetesLabelValue",
@@ -30653,6 +30719,7 @@ module Aws::SageMaker
     #     instance_groups: [
     #       {
     #         instance_group_name: "ClusterInstanceGroupName", # required
+    #         image_release_version: "ImageReleaseVersion",
     #       },
     #     ],
     #     deployment_config: {
@@ -34439,7 +34506,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.374.0'
+      context[:gem_version] = '1.375.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

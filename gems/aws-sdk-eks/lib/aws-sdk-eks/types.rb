@@ -8034,8 +8034,10 @@ module Aws::EKS
     #   @return [String]
     #
     # @!attribute [rw] resources_vpc_config
-    #   An object representing the VPC configuration to use for an Amazon
-    #   EKS cluster.
+    #   An object representing the VPC configuration to use for the cluster
+    #   update. You can use this parameter to update the control plane
+    #   egress mode, the subnets used by the cluster, the security groups,
+    #   and the endpoint access settings.
     #   @return [Types::VpcConfigRequest]
     #
     # @!attribute [rw] logging
@@ -8768,6 +8770,26 @@ module Aws::EKS
     #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html
     #   @return [Array<String>]
     #
+    # @!attribute [rw] control_plane_egress_mode
+    #   Specifies the control plane egress routing mode for the cluster. If
+    #   the cluster is set to `AWS_MANAGED`, Amazon EKS manages the egress
+    #   path from the control plane and you don't need to configure NAT
+    #   gateways or other routing infrastructure for control plane traffic.
+    #   If the cluster is set to `CUSTOMER_ROUTED`, you manage the egress
+    #   path from the control plane in your VPC subnets. You are responsible
+    #   for ensuring that the control plane can reach required endpoints
+    #   such as webhook servers and OIDC providers. The default value is
+    #   `AWS_MANAGED`. Once set to `CUSTOMER_ROUTED`, this setting cannot be
+    #   changed back to `AWS_MANAGED` on the same cluster.
+    #
+    #   [Learn more about control plane egress routing in the *Amazon EKS
+    #   User Guide*.][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/VpcConfigRequest AWS API Documentation
     #
     class VpcConfigRequest < Struct.new(
@@ -8775,7 +8797,8 @@ module Aws::EKS
       :security_group_ids,
       :endpoint_public_access,
       :endpoint_private_access,
-      :public_access_cidrs)
+      :public_access_cidrs,
+      :control_plane_egress_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8843,6 +8866,21 @@ module Aws::EKS
     #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html
     #   @return [Array<String>]
     #
+    # @!attribute [rw] control_plane_egress_mode
+    #   The current control plane egress routing mode for the cluster. If
+    #   the cluster is set to `AWS_MANAGED`, Amazon EKS manages the egress
+    #   path from the control plane. If the cluster is set to
+    #   `CUSTOMER_ROUTED`, you manage the egress path from the control plane
+    #   in your VPC subnets.
+    #
+    #   [Learn more about control plane egress routing in the *Amazon EKS
+    #   User Guide*.][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/VpcConfigResponse AWS API Documentation
     #
     class VpcConfigResponse < Struct.new(
@@ -8852,7 +8890,8 @@ module Aws::EKS
       :vpc_id,
       :endpoint_public_access,
       :endpoint_private_access,
-      :public_access_cidrs)
+      :public_access_cidrs,
+      :control_plane_egress_mode)
       SENSITIVE = []
       include Aws::Structure
     end

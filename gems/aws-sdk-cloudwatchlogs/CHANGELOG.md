@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.156.0 (2026-06-18)
+------------------
+
+* Feature - Added optional startFromHead parameter to FilterLogEvents enabling descending timestamp order (newest first) when set to false. Default true preserves existing ascending order. Reverse sorting requires a startTime on or after Jan 1, 2024.
+
 1.155.0 (2026-06-15)
 ------------------
 

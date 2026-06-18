@@ -1095,7 +1095,7 @@ module Aws::GameLift
     #     configuration. Amazon GameLift Servers uses the following formula:
     #     `4192 + [# of game server container groups per fleet instance] * [#
     #     of container ports in the game server container group definition] +
-    #     [# of container ports in the game server container group
+    #     [# of container ports in the per instance container group
     #     definition]`
     #
     #   ^
@@ -1131,7 +1131,7 @@ module Aws::GameLift
     #     configuration. Amazon GameLift Servers uses the following formula:
     #     `4192 + [# of game server container groups per fleet instance] * [#
     #     of container ports in the game server container group definition] +
-    #     [# of container ports in the game server container group
+    #     [# of container ports in the per instance container group
     #     definition]`
     #
     #   You can also choose to manually set this parameter. When manually
@@ -1167,11 +1167,11 @@ module Aws::GameLift
     #   your game servers. This includes including CPU, memory, storage, and
     #   networking capacity.
     #
-    #   By default, Amazon GameLift Servers selects an instance type that fits
-    #   the needs of your container groups and is available in all selected
-    #   fleet locations. You can also choose to manually set this parameter.
-    #   See [Amazon Elastic Compute Cloud Instance Types][1] for detailed
-    #   descriptions of Amazon EC2 instance types.
+    #   By default, Amazon GameLift Servers uses the `c5.large` instance type.
+    #   If this instance type does not have sufficient resources for your
+    #   container groups, you can choose a different instance type that better
+    #   fits your needs. See [Amazon Elastic Compute Cloud Instance Types][1]
+    #   for detailed descriptions of Amazon EC2 instance types.
     #
     #   You can't update this fleet property later.
     #
@@ -1463,11 +1463,11 @@ module Aws::GameLift
     #
     #   * `ContainerGroupType` (`GAME_SERVER`)
     #
-    #   * `OperatingSystem` (omit to use default value)
+    #   * `OperatingSystem`
     #
-    #   * `TotalMemoryLimitMebibytes` (omit to use default value)
+    #   * `TotalMemoryLimitMebibytes`
     #
-    #   * `TotalVcpuLimit `(omit to use default value)
+    #   * `TotalVcpuLimit`
     #
     #   * At least one `GameServerContainerDefinition`
     #
@@ -1477,7 +1477,7 @@ module Aws::GameLift
     #
     #     * `PortConfiguration`
     #
-    #     * `ServerSdkVersion` (omit to use default value)
+    #     * `ServerSdkVersion`
     # * Create a per-instance container group definition. Provide the
     #   following required parameter values:
     #
@@ -1485,11 +1485,11 @@ module Aws::GameLift
     #
     #   * `ContainerGroupType` (`PER_INSTANCE`)
     #
-    #   * `OperatingSystem` (omit to use default value)
+    #   * `OperatingSystem`
     #
-    #   * `TotalMemoryLimitMebibytes` (omit to use default value)
+    #   * `TotalMemoryLimitMebibytes`
     #
-    #   * `TotalVcpuLimit `(omit to use default value)
+    #   * `TotalVcpuLimit`
     #
     #   * At least one `SupportContainerDefinition`
     #
@@ -1630,6 +1630,9 @@ module Aws::GameLift
     #         ],
     #       },
     #       server_sdk_version: "ServerSdkVersion", # required
+    #       linux_capabilities: {
+    #         include: ["AUDIT_CONTROL"], # accepts AUDIT_CONTROL, AUDIT_WRITE, BLOCK_SUSPEND, CHOWN, DAC_OVERRIDE, DAC_READ_SEARCH, FOWNER, FSETID, IPC_LOCK, IPC_OWNER, KILL, LEASE, LINUX_IMMUTABLE, MAC_ADMIN, MAC_OVERRIDE, MKNOD, NET_ADMIN, NET_BIND_SERVICE, NET_BROADCAST, NET_RAW, SETFCAP, SETGID, SETPCAP, SETUID, SYS_ADMIN, SYS_BOOT, SYS_CHROOT, SYS_MODULE, SYS_NICE, SYS_PACCT, SYS_PTRACE, SYS_RAWIO, SYS_RESOURCE, SYS_TIME, SYS_TTY_CONFIG, SYSLOG, WAKE_ALARM
+    #       },
     #     },
     #     support_container_definitions: [
     #       {
@@ -1673,6 +1676,9 @@ module Aws::GameLift
     #           ],
     #         },
     #         vcpu: 1.0,
+    #         linux_capabilities: {
+    #           include: ["AUDIT_CONTROL"], # accepts AUDIT_CONTROL, AUDIT_WRITE, BLOCK_SUSPEND, CHOWN, DAC_OVERRIDE, DAC_READ_SEARCH, FOWNER, FSETID, IPC_LOCK, IPC_OWNER, KILL, LEASE, LINUX_IMMUTABLE, MAC_ADMIN, MAC_OVERRIDE, MKNOD, NET_ADMIN, NET_BIND_SERVICE, NET_BROADCAST, NET_RAW, SETFCAP, SETGID, SETPCAP, SETUID, SYS_ADMIN, SYS_BOOT, SYS_CHROOT, SYS_MODULE, SYS_NICE, SYS_PACCT, SYS_PTRACE, SYS_RAWIO, SYS_RESOURCE, SYS_TIME, SYS_TTY_CONFIG, SYSLOG, WAKE_ALARM
+    #         },
     #       },
     #     ],
     #     operating_system: "AMAZON_LINUX_2023", # required, accepts AMAZON_LINUX_2023
@@ -1712,6 +1718,8 @@ module Aws::GameLift
     #   resp.container_group_definition.game_server_container_definition.port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definition.game_server_container_definition.resolved_image_digest #=> String
     #   resp.container_group_definition.game_server_container_definition.server_sdk_version #=> String
+    #   resp.container_group_definition.game_server_container_definition.linux_capabilities.include #=> Array
+    #   resp.container_group_definition.game_server_container_definition.linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definition.support_container_definitions #=> Array
     #   resp.container_group_definition.support_container_definitions[0].container_name #=> String
     #   resp.container_group_definition.support_container_definitions[0].depends_on #=> Array
@@ -1739,6 +1747,8 @@ module Aws::GameLift
     #   resp.container_group_definition.support_container_definitions[0].port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definition.support_container_definitions[0].resolved_image_digest #=> String
     #   resp.container_group_definition.support_container_definitions[0].vcpu #=> Float
+    #   resp.container_group_definition.support_container_definitions[0].linux_capabilities.include #=> Array
+    #   resp.container_group_definition.support_container_definitions[0].linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definition.version_number #=> Integer
     #   resp.container_group_definition.version_description #=> String
     #   resp.container_group_definition.status #=> String, one of "READY", "COPYING", "FAILED"
@@ -2689,11 +2699,13 @@ module Aws::GameLift
     #   the same string return the original `GameSession` object, with an
     #   updated status. Maximum token length is 48 characters. If provided,
     #   this string is included in the new game session's ID. The value is
-    #   always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
-    #   Idempotency tokens remain in use for 30 days after a game session has
-    #   ended; game session objects are retained for this time period and then
-    #   deleted.
+    #   always a full ARN in the following format: For Home Region game
+    #   session - `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID
+    #   string>`. For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+    #   string>`. Idempotency tokens remain in use for 30 days after a game
+    #   session has ended; game session objects are retained for this time
+    #   period and then deleted.
     #
     # @option params [String] :game_session_data
     #   A set of custom game session properties, formatted as a single string
@@ -3400,7 +3412,10 @@ module Aws::GameLift
     # @option params [required, String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to add a player to. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
     #   string>`.
     #
     # @option params [required, String] :player_id
@@ -3482,7 +3497,10 @@ module Aws::GameLift
     # @option params [required, String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to add players to. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
     #   string>`.
     #
     # @option params [required, Array<String>] :player_ids
@@ -3738,6 +3756,24 @@ module Aws::GameLift
     # You must create or delete the peering connection while the
     # authorization is valid.
     #
+    # <note markdown="1"> Amazon GameLift Servers uses the caller's credentials to update
+    # peer-VPC resources. The IAM user that calls this operation must have
+    # the following Amazon EC2 permissions enabled:
+    #
+    #  * `ec2:AcceptVpcPeeringConnection`
+    #
+    # * `ec2:AuthorizeSecurityGroupEgress`
+    #
+    # * `ec2:AuthorizeSecurityGroupIngress`
+    #
+    # * `ec2:CreateRoute`
+    #
+    # * `ec2:DescribeRouteTables`
+    #
+    # * `ec2:DescribeSecurityGroups`
+    #
+    #  </note>
+    #
     # **Related actions**
     #
     # [All APIs by task][3]
@@ -3823,6 +3859,24 @@ module Aws::GameLift
     # polling to track the request's status using
     # [DescribeVpcPeeringConnections][3] , or by monitoring fleet events for
     # success or failure using [DescribeFleetEvents][4] .
+    #
+    # <note markdown="1"> Amazon GameLift Servers uses the caller's credentials to update
+    # peer-VPC resources. The IAM user that calls this operation must have
+    # the following Amazon EC2 permissions enabled:
+    #
+    #  * `ec2:AcceptVpcPeeringConnection`
+    #
+    # * `ec2:AuthorizeSecurityGroupEgress`
+    #
+    # * `ec2:AuthorizeSecurityGroupIngress`
+    #
+    # * `ec2:CreateRoute`
+    #
+    # * `ec2:DescribeRouteTables`
+    #
+    # * `ec2:DescribeSecurityGroups`
+    #
+    #  </note>
     #
     # **Related actions**
     #
@@ -5027,6 +5081,8 @@ module Aws::GameLift
     #   resp.container_group_definition.game_server_container_definition.port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definition.game_server_container_definition.resolved_image_digest #=> String
     #   resp.container_group_definition.game_server_container_definition.server_sdk_version #=> String
+    #   resp.container_group_definition.game_server_container_definition.linux_capabilities.include #=> Array
+    #   resp.container_group_definition.game_server_container_definition.linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definition.support_container_definitions #=> Array
     #   resp.container_group_definition.support_container_definitions[0].container_name #=> String
     #   resp.container_group_definition.support_container_definitions[0].depends_on #=> Array
@@ -5054,6 +5110,8 @@ module Aws::GameLift
     #   resp.container_group_definition.support_container_definitions[0].port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definition.support_container_definitions[0].resolved_image_digest #=> String
     #   resp.container_group_definition.support_container_definitions[0].vcpu #=> Float
+    #   resp.container_group_definition.support_container_definitions[0].linux_capabilities.include #=> Array
+    #   resp.container_group_definition.support_container_definitions[0].linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definition.version_number #=> Integer
     #   resp.container_group_definition.version_description #=> String
     #   resp.container_group_definition.status #=> String, one of "READY", "COPYING", "FAILED"
@@ -5090,9 +5148,9 @@ module Aws::GameLift
     #
     # **Results**
     #
-    # This operation returns the fleet ID, location, container group
-    # definition ARN, container group type, compute name (for game server
-    # container groups), instance ID, and a list of
+    # This operation returns the fleet ID, fleet ARN, location, container
+    # group definition ARN, container group type, compute name (for game
+    # server container groups), instance ID, and a list of
     # `ContainerGroupPortMapping` objects. Each object contains the
     # container name, runtime ID, and a list of port mappings that show how
     # container ports map to connection ports on the instance.
@@ -5158,6 +5216,7 @@ module Aws::GameLift
     # @return [Types::DescribeContainerGroupPortMappingsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeContainerGroupPortMappingsOutput#fleet_id #fleet_id} => String
+    #   * {Types::DescribeContainerGroupPortMappingsOutput#fleet_arn #fleet_arn} => String
     #   * {Types::DescribeContainerGroupPortMappingsOutput#location #location} => String
     #   * {Types::DescribeContainerGroupPortMappingsOutput#container_group_definition_arn #container_group_definition_arn} => String
     #   * {Types::DescribeContainerGroupPortMappingsOutput#container_group_type #container_group_type} => String
@@ -5178,6 +5237,7 @@ module Aws::GameLift
     # @example Response structure
     #
     #   resp.fleet_id #=> String
+    #   resp.fleet_arn #=> String
     #   resp.location #=> String
     #   resp.container_group_definition_arn #=> String
     #   resp.container_group_type #=> String, one of "GAME_SERVER", "PER_INSTANCE"
@@ -5692,9 +5752,7 @@ module Aws::GameLift
     #
     # If successful, a `LocationAttributes` object is returned for each
     # requested location. If the fleet does not have a requested location,
-    # no information is returned. This operation does not return the home
-    # Region. To get information on a fleet's home Region, call
-    # `DescribeFleetAttributes`.
+    # no information is returned.
     #
     # **Learn more**
     #
@@ -6334,7 +6392,11 @@ module Aws::GameLift
     # @option params [String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to retrieve. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+    #   string>`.
     #
     # @option params [String] :alias_id
     #   A unique identifier for the alias associated with the fleet to
@@ -6630,7 +6692,11 @@ module Aws::GameLift
     # @option params [String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to retrieve. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+    #   string>`.
     #
     # @option params [String] :alias_id
     #   A unique identifier for the alias associated with the fleet to
@@ -7108,8 +7174,11 @@ module Aws::GameLift
     # @option params [String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to retrieve player sessions for. The value is always a full ARN in the
-    #   following format: `arn:aws:gamelift:<location>::gamesession/<fleet
-    #   ID>/<ID string>`.
+    #   following format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+    #   string>`.
     #
     # @option params [String] :player_id
     #   A unique identifier for a player to retrieve player sessions for.
@@ -7694,7 +7763,10 @@ module Aws::GameLift
     # @option params [required, String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to get logs for. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
     #   string>`.
     #
     # @return [Types::GetGameSessionLogUrlOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -7844,8 +7916,11 @@ module Aws::GameLift
     # @option params [required, String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   for which to retrieve player connection details. The value is always a
-    #   full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   full ARN in the following format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+    #   string>`.
     #
     # @option params [required, Array<String>] :player_ids
     #   List of unique identifiers for players. Connection details are
@@ -8375,6 +8450,8 @@ module Aws::GameLift
     #   resp.container_group_definitions[0].game_server_container_definition.port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definitions[0].game_server_container_definition.resolved_image_digest #=> String
     #   resp.container_group_definitions[0].game_server_container_definition.server_sdk_version #=> String
+    #   resp.container_group_definitions[0].game_server_container_definition.linux_capabilities.include #=> Array
+    #   resp.container_group_definitions[0].game_server_container_definition.linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definitions[0].support_container_definitions #=> Array
     #   resp.container_group_definitions[0].support_container_definitions[0].container_name #=> String
     #   resp.container_group_definitions[0].support_container_definitions[0].depends_on #=> Array
@@ -8402,6 +8479,8 @@ module Aws::GameLift
     #   resp.container_group_definitions[0].support_container_definitions[0].port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definitions[0].support_container_definitions[0].resolved_image_digest #=> String
     #   resp.container_group_definitions[0].support_container_definitions[0].vcpu #=> Float
+    #   resp.container_group_definitions[0].support_container_definitions[0].linux_capabilities.include #=> Array
+    #   resp.container_group_definitions[0].support_container_definitions[0].linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definitions[0].version_number #=> Integer
     #   resp.container_group_definitions[0].version_description #=> String
     #   resp.container_group_definitions[0].status #=> String, one of "READY", "COPYING", "FAILED"
@@ -8508,6 +8587,8 @@ module Aws::GameLift
     #   resp.container_group_definitions[0].game_server_container_definition.port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definitions[0].game_server_container_definition.resolved_image_digest #=> String
     #   resp.container_group_definitions[0].game_server_container_definition.server_sdk_version #=> String
+    #   resp.container_group_definitions[0].game_server_container_definition.linux_capabilities.include #=> Array
+    #   resp.container_group_definitions[0].game_server_container_definition.linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definitions[0].support_container_definitions #=> Array
     #   resp.container_group_definitions[0].support_container_definitions[0].container_name #=> String
     #   resp.container_group_definitions[0].support_container_definitions[0].depends_on #=> Array
@@ -8535,6 +8616,8 @@ module Aws::GameLift
     #   resp.container_group_definitions[0].support_container_definitions[0].port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definitions[0].support_container_definitions[0].resolved_image_digest #=> String
     #   resp.container_group_definitions[0].support_container_definitions[0].vcpu #=> Float
+    #   resp.container_group_definitions[0].support_container_definitions[0].linux_capabilities.include #=> Array
+    #   resp.container_group_definitions[0].support_container_definitions[0].linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definitions[0].version_number #=> Integer
     #   resp.container_group_definitions[0].version_description #=> String
     #   resp.container_group_definitions[0].status #=> String, one of "READY", "COPYING", "FAILED"
@@ -10074,10 +10157,11 @@ module Aws::GameLift
     #
     # @option params [Array<Types::PlayerLatency>] :player_latencies
     #   A set of values, expressed in milliseconds, that indicates the amount
-    #   of latency that a player experiences when connected to Amazon Web
-    #   Services Regions. This information is used to try to place the new
-    #   game session where it can offer the best possible gameplay experience
-    #   for the players.
+    #   of latency that a player experiences when connected to a fleet
+    #   location (Amazon Web Services Regions or custom locations for Amazon
+    #   GameLift Servers Anywhere fleets). This information is used to try to
+    #   place the new game session where it can offer the best possible
+    #   gameplay experience for the players.
     #
     # @option params [Array<Types::DesiredPlayerSession>] :desired_player_sessions
     #   Set of information on each player to create a player session for.
@@ -10248,10 +10332,13 @@ module Aws::GameLift
     #
     # @option params [String] :game_session_arn
     #   An identifier for the game session that is unique across all regions.
-    #   The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
-    #   When using FlexMatch as a standalone matchmaking solution, this
-    #   parameter is not needed.
+    #   The value is always a full ARN in the following format: For Home
+    #   Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+    #   string>`. When using FlexMatch as a standalone matchmaking solution,
+    #   this parameter is not needed.
     #
     # @option params [required, Array<Types::Player>] :players
     #   Match information on all players that are currently assigned to the
@@ -10865,7 +10952,10 @@ module Aws::GameLift
     # @option params [required, String] :game_session_id
     #   An identifier for the game session that is unique across all regions
     #   to be terminated. The value is always a full ARN in the following
-    #   format: `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID
+    #   format: For Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
     #   string>`.
     #
     # @option params [required, String] :termination_mode
@@ -11422,8 +11512,8 @@ module Aws::GameLift
     #   updated values for the properties that you want to change only. All
     #   other values remain the same as the source version.
     #
-    # * Change a game server container definition. Provide the updated
-    #   container definition.
+    # * Change a game server container definition. Provide a complete set of
+    #   container definitions, including the updated definition.
     #
     # * Add or change a support container definition. Provide a complete set
     #   of container definitions, including the updated definition.
@@ -11541,6 +11631,9 @@ module Aws::GameLift
     #         ],
     #       },
     #       server_sdk_version: "ServerSdkVersion", # required
+    #       linux_capabilities: {
+    #         include: ["AUDIT_CONTROL"], # accepts AUDIT_CONTROL, AUDIT_WRITE, BLOCK_SUSPEND, CHOWN, DAC_OVERRIDE, DAC_READ_SEARCH, FOWNER, FSETID, IPC_LOCK, IPC_OWNER, KILL, LEASE, LINUX_IMMUTABLE, MAC_ADMIN, MAC_OVERRIDE, MKNOD, NET_ADMIN, NET_BIND_SERVICE, NET_BROADCAST, NET_RAW, SETFCAP, SETGID, SETPCAP, SETUID, SYS_ADMIN, SYS_BOOT, SYS_CHROOT, SYS_MODULE, SYS_NICE, SYS_PACCT, SYS_PTRACE, SYS_RAWIO, SYS_RESOURCE, SYS_TIME, SYS_TTY_CONFIG, SYSLOG, WAKE_ALARM
+    #       },
     #     },
     #     support_container_definitions: [
     #       {
@@ -11584,6 +11677,9 @@ module Aws::GameLift
     #           ],
     #         },
     #         vcpu: 1.0,
+    #         linux_capabilities: {
+    #           include: ["AUDIT_CONTROL"], # accepts AUDIT_CONTROL, AUDIT_WRITE, BLOCK_SUSPEND, CHOWN, DAC_OVERRIDE, DAC_READ_SEARCH, FOWNER, FSETID, IPC_LOCK, IPC_OWNER, KILL, LEASE, LINUX_IMMUTABLE, MAC_ADMIN, MAC_OVERRIDE, MKNOD, NET_ADMIN, NET_BIND_SERVICE, NET_BROADCAST, NET_RAW, SETFCAP, SETGID, SETPCAP, SETUID, SYS_ADMIN, SYS_BOOT, SYS_CHROOT, SYS_MODULE, SYS_NICE, SYS_PACCT, SYS_PTRACE, SYS_RAWIO, SYS_RESOURCE, SYS_TIME, SYS_TTY_CONFIG, SYSLOG, WAKE_ALARM
+    #         },
     #       },
     #     ],
     #     total_memory_limit_mebibytes: 1,
@@ -11620,6 +11716,8 @@ module Aws::GameLift
     #   resp.container_group_definition.game_server_container_definition.port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definition.game_server_container_definition.resolved_image_digest #=> String
     #   resp.container_group_definition.game_server_container_definition.server_sdk_version #=> String
+    #   resp.container_group_definition.game_server_container_definition.linux_capabilities.include #=> Array
+    #   resp.container_group_definition.game_server_container_definition.linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definition.support_container_definitions #=> Array
     #   resp.container_group_definition.support_container_definitions[0].container_name #=> String
     #   resp.container_group_definition.support_container_definitions[0].depends_on #=> Array
@@ -11647,6 +11745,8 @@ module Aws::GameLift
     #   resp.container_group_definition.support_container_definitions[0].port_configuration.container_port_ranges[0].protocol #=> String, one of "TCP", "UDP"
     #   resp.container_group_definition.support_container_definitions[0].resolved_image_digest #=> String
     #   resp.container_group_definition.support_container_definitions[0].vcpu #=> Float
+    #   resp.container_group_definition.support_container_definitions[0].linux_capabilities.include #=> Array
+    #   resp.container_group_definition.support_container_definitions[0].linux_capabilities.include[0] #=> String, one of "AUDIT_CONTROL", "AUDIT_WRITE", "BLOCK_SUSPEND", "CHOWN", "DAC_OVERRIDE", "DAC_READ_SEARCH", "FOWNER", "FSETID", "IPC_LOCK", "IPC_OWNER", "KILL", "LEASE", "LINUX_IMMUTABLE", "MAC_ADMIN", "MAC_OVERRIDE", "MKNOD", "NET_ADMIN", "NET_BIND_SERVICE", "NET_BROADCAST", "NET_RAW", "SETFCAP", "SETGID", "SETPCAP", "SETUID", "SYS_ADMIN", "SYS_BOOT", "SYS_CHROOT", "SYS_MODULE", "SYS_NICE", "SYS_PACCT", "SYS_PTRACE", "SYS_RAWIO", "SYS_RESOURCE", "SYS_TIME", "SYS_TTY_CONFIG", "SYSLOG", "WAKE_ALARM"
     #   resp.container_group_definition.version_number #=> Integer
     #   resp.container_group_definition.version_description #=> String
     #   resp.container_group_definition.status #=> String, one of "READY", "COPYING", "FAILED"
@@ -11914,11 +12014,11 @@ module Aws::GameLift
     # in `InboundPermissionRevocations`. Permissions to be removed must
     # match existing fleet permissions.
     #
-    # If successful, the fleet ID for the updated fleet is returned. For
-    # fleets with remote locations, port setting updates can take time to
-    # propagate across all locations. You can check the status of updates in
-    # each location by calling `DescribeFleetPortSettings` with a location
-    # name.
+    # If successful, the fleet identifiers for the updated fleet are
+    # returned. For fleets with remote locations, port setting updates can
+    # take time to propagate across all locations. You can check the status
+    # of updates in each location by calling `DescribeFleetPortSettings`
+    # with a location name.
     #
     # **Learn more**
     #
@@ -12090,13 +12190,21 @@ module Aws::GameLift
     # can continue to perform instance balancing activity. If successful, a
     # `GameServerGroup` object is returned.
     #
+    # <note markdown="1"> Target tracking Auto Scaling policies on the Auto Scaling group cannot
+    # be updated through the Amazon Web Services Management Console.
+    # Instead, use the Amazon Elastic Compute Cloud Auto Scaling [
+    # `PutScalingPolicy` ][1] API action to update these policies.
+    #
+    #  </note>
+    #
     # **Learn more**
     #
-    # [Amazon GameLift Servers FleetIQ Guide][1]
+    # [Amazon GameLift Servers FleetIQ Guide][2]
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html
+    # [1]: https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutScalingPolicy.html
+    # [2]: https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html
     #
     # @option params [required, String] :game_server_group_name
     #   A unique identifier for the game server group. Use either the name or
@@ -12226,8 +12334,12 @@ module Aws::GameLift
     #
     # @option params [required, String] :game_session_id
     #   An identifier for the game session that is unique across all regions
-    #   to update. The value is always a full ARN in the following format:
-    #   `arn:aws:gamelift:<location>::gamesession/<fleet ID>/<ID string>`.
+    #   to update. The value is always a full ARN in the following format: For
+    #   Home Region game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<ID string>`.
+    #   For Remote Location game session -
+    #   `arn:aws:gamelift:<home_region>::gamesession/<fleet ID>/<location>/<ID
+    #   string>`.
     #
     # @option params [Integer] :maximum_player_session_count
     #   The maximum number of players that can be connected simultaneously to
@@ -12907,7 +13019,7 @@ module Aws::GameLift
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gamelift'
-      context[:gem_version] = '1.130.0'
+      context[:gem_version] = '1.131.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

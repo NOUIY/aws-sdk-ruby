@@ -411,7 +411,13 @@ module Aws::ECS
     ManagedTerminationProtection = Shapes::StringShape.new(name: 'ManagedTerminationProtection')
     MemoryGiBPerVCpuRequest = Shapes::StructureShape.new(name: 'MemoryGiBPerVCpuRequest')
     MemoryMiBRequest = Shapes::StructureShape.new(name: 'MemoryMiBRequest')
+    MetricConfiguration = Shapes::StructureShape.new(name: 'MetricConfiguration')
+    MetricConfigurationList = Shapes::ListShape.new(name: 'MetricConfigurationList')
+    MetricName = Shapes::StringShape.new(name: 'MetricName')
+    MetricNamesList = Shapes::ListShape.new(name: 'MetricNamesList')
+    MetricResolutionSeconds = Shapes::IntegerShape.new(name: 'MetricResolutionSeconds')
     MissingVersionException = Shapes::StructureShape.new(name: 'MissingVersionException')
+    MonitoringConfiguration = Shapes::StructureShape.new(name: 'MonitoringConfiguration')
     MountPoint = Shapes::StructureShape.new(name: 'MountPoint')
     MountPointList = Shapes::ListShape.new(name: 'MountPointList')
     NamespaceNotFoundException = Shapes::StructureShape.new(name: 'NamespaceNotFoundException')
@@ -1053,6 +1059,7 @@ module Aws::ECS
     CreateServiceRequest.add_member(:service_connect_configuration, Shapes::ShapeRef.new(shape: ServiceConnectConfiguration, location_name: "serviceConnectConfiguration"))
     CreateServiceRequest.add_member(:volume_configurations, Shapes::ShapeRef.new(shape: ServiceVolumeConfigurations, location_name: "volumeConfigurations"))
     CreateServiceRequest.add_member(:vpc_lattice_configurations, Shapes::ShapeRef.new(shape: VpcLatticeConfigurations, location_name: "vpcLatticeConfigurations"))
+    CreateServiceRequest.add_member(:monitoring, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "monitoring"))
     CreateServiceRequest.struct_class = Types::CreateServiceRequest
 
     CreateServiceResponse.add_member(:service, Shapes::ShapeRef.new(shape: Service, location_name: "service"))
@@ -2191,8 +2198,19 @@ module Aws::ECS
     MemoryMiBRequest.add_member(:max, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "max"))
     MemoryMiBRequest.struct_class = Types::MemoryMiBRequest
 
+    MetricConfiguration.add_member(:metric_names, Shapes::ShapeRef.new(shape: MetricNamesList, required: true, location_name: "metricNames"))
+    MetricConfiguration.add_member(:resolution_seconds, Shapes::ShapeRef.new(shape: MetricResolutionSeconds, required: true, location_name: "resolutionSeconds"))
+    MetricConfiguration.struct_class = Types::MetricConfiguration
+
+    MetricConfigurationList.member = Shapes::ShapeRef.new(shape: MetricConfiguration)
+
+    MetricNamesList.member = Shapes::ShapeRef.new(shape: MetricName)
+
     MissingVersionException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     MissingVersionException.struct_class = Types::MissingVersionException
+
+    MonitoringConfiguration.add_member(:metric_configurations, Shapes::ShapeRef.new(shape: MetricConfigurationList, location_name: "metricConfigurations"))
+    MonitoringConfiguration.struct_class = Types::MonitoringConfiguration
 
     MountPoint.add_member(:source_volume, Shapes::ShapeRef.new(shape: String, location_name: "sourceVolume"))
     MountPoint.add_member(:container_path, Shapes::ShapeRef.new(shape: String, location_name: "containerPath"))
@@ -2656,6 +2674,7 @@ module Aws::ECS
     ServiceRevision.add_member(:vpc_lattice_configurations, Shapes::ShapeRef.new(shape: VpcLatticeConfigurations, location_name: "vpcLatticeConfigurations"))
     ServiceRevision.add_member(:resolved_configuration, Shapes::ShapeRef.new(shape: ResolvedConfiguration, location_name: "resolvedConfiguration"))
     ServiceRevision.add_member(:ecs_managed_resources, Shapes::ShapeRef.new(shape: ECSManagedResources, location_name: "ecsManagedResources"))
+    ServiceRevision.add_member(:monitoring, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "monitoring"))
     ServiceRevision.struct_class = Types::ServiceRevision
 
     ServiceRevisionLoadBalancer.add_member(:target_group_arn, Shapes::ShapeRef.new(shape: String, location_name: "targetGroupArn"))
@@ -3093,6 +3112,7 @@ module Aws::ECS
     UpdateServiceRequest.add_member(:service_connect_configuration, Shapes::ShapeRef.new(shape: ServiceConnectConfiguration, location_name: "serviceConnectConfiguration"))
     UpdateServiceRequest.add_member(:volume_configurations, Shapes::ShapeRef.new(shape: ServiceVolumeConfigurations, location_name: "volumeConfigurations"))
     UpdateServiceRequest.add_member(:vpc_lattice_configurations, Shapes::ShapeRef.new(shape: VpcLatticeConfigurations, location_name: "vpcLatticeConfigurations"))
+    UpdateServiceRequest.add_member(:monitoring, Shapes::ShapeRef.new(shape: MonitoringConfiguration, location_name: "monitoring"))
     UpdateServiceRequest.struct_class = Types::UpdateServiceRequest
 
     UpdateServiceResponse.add_member(:service, Shapes::ShapeRef.new(shape: Service, location_name: "service"))
