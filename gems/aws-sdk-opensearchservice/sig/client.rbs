@@ -177,6 +177,27 @@ module Aws
                               ) -> _AssociatePackagesResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociatePackagesResponseSuccess
 
+      interface _AttachDataSourceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::AttachDataSourceResponse]
+        def attachment_id: () -> ::String
+        def id: () -> ::String
+        def arn: () -> ::String
+        def data_source_arn: () -> ::String
+        def status: () -> ("PENDING" | "ATTACHED" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#attach_data_source-instance_method
+      def attach_data_source: (
+                                id: ::String,
+                                data_source_arn: ::String,
+                                ?workspace_id: ::String,
+                                ?workspace_configuration: {
+                                  name: ::String,
+                                  workspace_type: ::String
+                                },
+                                ?client_token: ::String
+                              ) -> _AttachDataSourceResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AttachDataSourceResponseSuccess
+
       interface _AuthorizeVpcEndpointAccessResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::AuthorizeVpcEndpointAccessResponse]
         def authorized_principal: () -> Types::AuthorizedPrincipal
@@ -542,6 +563,21 @@ module Aws
                                  ) -> _DeregisterCapabilityResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeregisterCapabilityResponseSuccess
 
+      interface _DescribeDataSourceAttachmentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeDataSourceAttachmentResponse]
+        def attachment_id: () -> ::String
+        def id: () -> ::String
+        def arn: () -> ::String
+        def data_source_arn: () -> ::String
+        def status: () -> ("PENDING" | "ATTACHED" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#describe_data_source_attachment-instance_method
+      def describe_data_source_attachment: (
+                                             id: ::String,
+                                             data_source_arn: ::String
+                                           ) -> _DescribeDataSourceAttachmentResponseSuccess
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeDataSourceAttachmentResponseSuccess
+
       interface _DescribeDomainResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeDomainResponse]
         def domain_status: () -> Types::DomainStatus
@@ -760,6 +796,19 @@ module Aws
                                   ) -> _DescribeVpcEndpointsResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeVpcEndpointsResponseSuccess
 
+      interface _DetachDataSourceResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DetachDataSourceResponse]
+        def id: () -> ::String
+        def arn: () -> ::String
+        def data_source_arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#detach_data_source-instance_method
+      def detach_data_source: (
+                                id: ::String,
+                                data_source_arn: ::String
+                              ) -> _DetachDataSourceResponseSuccess
+                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DetachDataSourceResponseSuccess
+
       interface _DissociatePackageResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DissociatePackageResponse]
         def domain_package_details: () -> Types::DomainPackageDetails
@@ -943,6 +992,19 @@ module Aws
                                ?max_results: ::Integer
                              ) -> _ListApplicationsResponseSuccess
                            | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListApplicationsResponseSuccess
+
+      interface _ListDataSourceAttachmentsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListDataSourceAttachmentsResponse]
+        def attachments: () -> ::Array[Types::DataSourceAttachmentSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/OpenSearchService/Client.html#list_data_source_attachments-instance_method
+      def list_data_source_attachments: (
+                                          id: ::String,
+                                          ?next_token: ::String,
+                                          ?max_results: ::Integer
+                                        ) -> _ListDataSourceAttachmentsResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListDataSourceAttachmentsResponseSuccess
 
       interface _ListDataSourcesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListDataSourcesResponse]

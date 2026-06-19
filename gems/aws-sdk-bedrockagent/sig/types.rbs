@@ -1327,6 +1327,7 @@ module Aws::BedrockAgent
 
     class GetFlowRequest
       attr_accessor flow_identifier: ::String
+      attr_accessor included_data: ("ALL_DATA" | "METADATA_ONLY")
       SENSITIVE: []
     end
 
@@ -1349,6 +1350,7 @@ module Aws::BedrockAgent
     class GetFlowVersionRequest
       attr_accessor flow_identifier: ::String
       attr_accessor flow_version: ::String
+      attr_accessor included_data: ("ALL_DATA" | "METADATA_ONLY")
       SENSITIVE: []
     end
 
@@ -1403,6 +1405,7 @@ module Aws::BedrockAgent
     class GetPromptRequest
       attr_accessor prompt_identifier: ::String
       attr_accessor prompt_version: ::String
+      attr_accessor included_data: ("ALL_DATA" | "METADATA_ONLY")
       SENSITIVE: []
     end
 

@@ -4017,6 +4017,11 @@ module Aws::BedrockAgent
     # @option params [required, String] :flow_identifier
     #   The unique identifier of the flow.
     #
+    # @option params [String] :included_data
+    #   Controls the scope of data returned. Set to `METADATA_ONLY` to return
+    #   only resource metadata. Set to `ALL_DATA` or omit this field to return
+    #   the full response.
+    #
     # @return [Types::GetFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetFlowResponse#name #name} => String
@@ -4036,6 +4041,7 @@ module Aws::BedrockAgent
     #
     #   resp = client.get_flow({
     #     flow_identifier: "FlowIdentifier", # required
+    #     included_data: "ALL_DATA", # accepts ALL_DATA, METADATA_ONLY
     #   })
     #
     # @example Response structure
@@ -4275,6 +4281,11 @@ module Aws::BedrockAgent
     # @option params [required, String] :flow_version
     #   The version of the flow for which to get information.
     #
+    # @option params [String] :included_data
+    #   Controls the scope of data returned. Set to `METADATA_ONLY` to return
+    #   only resource metadata. Set to `ALL_DATA` or omit this field to return
+    #   the full response.
+    #
     # @return [Types::GetFlowVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetFlowVersionResponse#name #name} => String
@@ -4293,6 +4304,7 @@ module Aws::BedrockAgent
     #   resp = client.get_flow_version({
     #     flow_identifier: "FlowIdentifier", # required
     #     flow_version: "NumericalVersion", # required
+    #     included_data: "ALL_DATA", # accepts ALL_DATA, METADATA_ONLY
     #   })
     #
     # @example Response structure
@@ -4680,6 +4692,11 @@ module Aws::BedrockAgent
     #   information. Omit this field to return information about the working
     #   draft of the prompt.
     #
+    # @option params [String] :included_data
+    #   Controls the scope of data returned. Set to `METADATA_ONLY` to return
+    #   only resource metadata. Set to `ALL_DATA` or omit this field to return
+    #   the full response.
+    #
     # @return [Types::GetPromptResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetPromptResponse#name #name} => String
@@ -4698,6 +4715,7 @@ module Aws::BedrockAgent
     #   resp = client.get_prompt({
     #     prompt_identifier: "PromptIdentifier", # required
     #     prompt_version: "Version",
+    #     included_data: "ALL_DATA", # accepts ALL_DATA, METADATA_ONLY
     #   })
     #
     # @example Response structure
@@ -8438,7 +8456,7 @@ module Aws::BedrockAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagent'
-      context[:gem_version] = '1.78.0'
+      context[:gem_version] = '1.79.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

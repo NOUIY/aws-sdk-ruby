@@ -108,6 +108,11 @@ module Aws::AppStream
     #   The image format for agent screen captures.
     #   @return [String]
     #
+    # @!attribute [rw] user_control_mode
+    #   The user control mode for agent sessions. This setting determines
+    #   how users can interact with agent sessions.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AgentAccessConfig AWS API Documentation
     #
     class AgentAccessConfig < Struct.new(
@@ -115,7 +120,8 @@ module Aws::AppStream
       :s3_bucket_arn,
       :screenshots_upload_enabled,
       :screen_resolution,
-      :screen_image_format)
+      :screen_image_format,
+      :user_control_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -147,6 +153,11 @@ module Aws::AppStream
     #   The image format for agent screen captures.
     #   @return [String]
     #
+    # @!attribute [rw] user_control_mode
+    #   The user control mode for agent sessions. This setting determines
+    #   how users can interact with agent sessions.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AgentAccessConfigForUpdate AWS API Documentation
     #
     class AgentAccessConfigForUpdate < Struct.new(
@@ -154,7 +165,8 @@ module Aws::AppStream
       :s3_bucket_arn,
       :screenshots_upload_enabled,
       :screen_resolution,
-      :screen_image_format)
+      :screen_image_format,
+      :user_control_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -163,9 +175,9 @@ module Aws::AppStream
     # agent action and whether it is enabled or disabled.
     #
     # @!attribute [rw] agent_action
-    #   The agent action to configure. Valid values are COMPUTER\_VISION and
-    #   COMPUTER\_INPUT. If you enable COMPUTER\_INPUT, you must also enable
-    #   COMPUTER\_VISION.
+    #   The agent action to configure. Valid values are COMPUTER\_VISION,
+    #   COMPUTER\_INPUT, and FORWARD\_MCP\_TOOLS. If you enable
+    #   COMPUTER\_INPUT, you must also enable COMPUTER\_VISION.
     #   @return [String]
     #
     # @!attribute [rw] permission

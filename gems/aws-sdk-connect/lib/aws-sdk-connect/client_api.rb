@@ -274,6 +274,14 @@ module Aws::Connect
     ContactDetailName = Shapes::StringShape.new(name: 'ContactDetailName')
     ContactDetails = Shapes::StructureShape.new(name: 'ContactDetails')
     ContactEvaluation = Shapes::StructureShape.new(name: 'ContactEvaluation')
+    ContactEvaluationAttributeAndCondition = Shapes::StructureShape.new(name: 'ContactEvaluationAttributeAndCondition')
+    ContactEvaluationAttributeComparisonType = Shapes::StringShape.new(name: 'ContactEvaluationAttributeComparisonType')
+    ContactEvaluationAttributeCondition = Shapes::StructureShape.new(name: 'ContactEvaluationAttributeCondition')
+    ContactEvaluationAttributeConditionList = Shapes::ListShape.new(name: 'ContactEvaluationAttributeConditionList')
+    ContactEvaluationAttributeFilter = Shapes::StructureShape.new(name: 'ContactEvaluationAttributeFilter')
+    ContactEvaluationAttributeKey = Shapes::StringShape.new(name: 'ContactEvaluationAttributeKey')
+    ContactEvaluationAttributeOrConditionList = Shapes::ListShape.new(name: 'ContactEvaluationAttributeOrConditionList')
+    ContactEvaluationAttributeValue = Shapes::StructureShape.new(name: 'ContactEvaluationAttributeValue')
     ContactEvaluations = Shapes::MapShape.new(name: 'ContactEvaluations')
     ContactFilter = Shapes::StructureShape.new(name: 'ContactFilter')
     ContactFlow = Shapes::StructureShape.new(name: 'ContactFlow')
@@ -774,9 +782,12 @@ module Aws::Connect
     EvaluationFormQuestionAutomationAnswerSource = Shapes::StructureShape.new(name: 'EvaluationFormQuestionAutomationAnswerSource')
     EvaluationFormQuestionAutomationAnswerSourceType = Shapes::StringShape.new(name: 'EvaluationFormQuestionAutomationAnswerSourceType')
     EvaluationFormQuestionInstructions = Shapes::StringShape.new(name: 'EvaluationFormQuestionInstructions')
+    EvaluationFormQuestionScoringConfiguration = Shapes::StructureShape.new(name: 'EvaluationFormQuestionScoringConfiguration')
     EvaluationFormQuestionTitle = Shapes::StringShape.new(name: 'EvaluationFormQuestionTitle')
     EvaluationFormQuestionType = Shapes::StringShape.new(name: 'EvaluationFormQuestionType')
     EvaluationFormQuestionTypeProperties = Shapes::UnionShape.new(name: 'EvaluationFormQuestionTypeProperties')
+    EvaluationFormScoreThreshold = Shapes::StructureShape.new(name: 'EvaluationFormScoreThreshold')
+    EvaluationFormScoreThresholdList = Shapes::ListShape.new(name: 'EvaluationFormScoreThresholdList')
     EvaluationFormScoringMode = Shapes::StringShape.new(name: 'EvaluationFormScoringMode')
     EvaluationFormScoringStatus = Shapes::StringShape.new(name: 'EvaluationFormScoringStatus')
     EvaluationFormScoringStrategy = Shapes::StructureShape.new(name: 'EvaluationFormScoringStrategy')
@@ -801,6 +812,17 @@ module Aws::Connect
     EvaluationFormTextQuestionAutomation = Shapes::StructureShape.new(name: 'EvaluationFormTextQuestionAutomation')
     EvaluationFormTextQuestionProperties = Shapes::StructureShape.new(name: 'EvaluationFormTextQuestionProperties')
     EvaluationFormTitle = Shapes::StringShape.new(name: 'EvaluationFormTitle')
+    EvaluationFormValidationFailureReason = Shapes::StringShape.new(name: 'EvaluationFormValidationFailureReason')
+    EvaluationFormValidationFinding = Shapes::StructureShape.new(name: 'EvaluationFormValidationFinding')
+    EvaluationFormValidationFindingDescription = Shapes::StringShape.new(name: 'EvaluationFormValidationFindingDescription')
+    EvaluationFormValidationFindingItem = Shapes::StructureShape.new(name: 'EvaluationFormValidationFindingItem')
+    EvaluationFormValidationFindingItemList = Shapes::ListShape.new(name: 'EvaluationFormValidationFindingItemList')
+    EvaluationFormValidationFindingItemProperty = Shapes::StringShape.new(name: 'EvaluationFormValidationFindingItemProperty')
+    EvaluationFormValidationFindingList = Shapes::ListShape.new(name: 'EvaluationFormValidationFindingList')
+    EvaluationFormValidationFindingSeverity = Shapes::StringShape.new(name: 'EvaluationFormValidationFindingSeverity')
+    EvaluationFormValidationFindingSuggestion = Shapes::StringShape.new(name: 'EvaluationFormValidationFindingSuggestion')
+    EvaluationFormValidationIssueCode = Shapes::StringShape.new(name: 'EvaluationFormValidationIssueCode')
+    EvaluationFormValidationStatus = Shapes::StringShape.new(name: 'EvaluationFormValidationStatus')
     EvaluationFormVersionIsLocked = Shapes::BooleanShape.new(name: 'EvaluationFormVersionIsLocked')
     EvaluationFormVersionStatus = Shapes::StringShape.new(name: 'EvaluationFormVersionStatus')
     EvaluationFormVersionSummary = Shapes::StructureShape.new(name: 'EvaluationFormVersionSummary')
@@ -911,6 +933,8 @@ module Aws::Connect
     GetCurrentUserDataResponse = Shapes::StructureShape.new(name: 'GetCurrentUserDataResponse')
     GetEffectiveHoursOfOperationsRequest = Shapes::StructureShape.new(name: 'GetEffectiveHoursOfOperationsRequest')
     GetEffectiveHoursOfOperationsResponse = Shapes::StructureShape.new(name: 'GetEffectiveHoursOfOperationsResponse')
+    GetEvaluationFormValidationRequest = Shapes::StructureShape.new(name: 'GetEvaluationFormValidationRequest')
+    GetEvaluationFormValidationResponse = Shapes::StructureShape.new(name: 'GetEvaluationFormValidationResponse')
     GetFederationTokenRequest = Shapes::StructureShape.new(name: 'GetFederationTokenRequest')
     GetFederationTokenResponse = Shapes::StructureShape.new(name: 'GetFederationTokenResponse')
     GetFlowAssociationRequest = Shapes::StructureShape.new(name: 'GetFlowAssociationRequest')
@@ -1352,6 +1376,7 @@ module Aws::Connect
     PauseContactRequest = Shapes::StructureShape.new(name: 'PauseContactRequest')
     PauseContactResponse = Shapes::StructureShape.new(name: 'PauseContactResponse')
     Percentage = Shapes::IntegerShape.new(name: 'Percentage')
+    PerformanceCategoryName = Shapes::StringShape.new(name: 'PerformanceCategoryName')
     Permission = Shapes::StringShape.new(name: 'Permission')
     PermissionsList = Shapes::ListShape.new(name: 'PermissionsList')
     PersistentChat = Shapes::StructureShape.new(name: 'PersistentChat')
@@ -1377,6 +1402,7 @@ module Aws::Connect
     PhoneType = Shapes::StringShape.new(name: 'PhoneType')
     PlatformName = Shapes::StringShape.new(name: 'PlatformName')
     PlatformVersion = Shapes::StringShape.new(name: 'PlatformVersion')
+    PointValue = Shapes::IntegerShape.new(name: 'PointValue')
     PositiveAndNegativeDouble = Shapes::FloatShape.new(name: 'PositiveAndNegativeDouble')
     PositiveDouble = Shapes::FloatShape.new(name: 'PositiveDouble')
     PostAcceptPreviewTimeoutDurationInSeconds = Shapes::IntegerShape.new(name: 'PostAcceptPreviewTimeoutDurationInSeconds')
@@ -1436,6 +1462,8 @@ module Aws::Connect
     PutUserStatusRequest = Shapes::StructureShape.new(name: 'PutUserStatusRequest')
     PutUserStatusResponse = Shapes::StructureShape.new(name: 'PutUserStatusResponse')
     QualityMetrics = Shapes::StructureShape.new(name: 'QualityMetrics')
+    QuestionOptionPointsConfiguration = Shapes::StructureShape.new(name: 'QuestionOptionPointsConfiguration')
+    QuestionPointsConfiguration = Shapes::StructureShape.new(name: 'QuestionPointsConfiguration')
     QuestionRuleCategoryAutomationCondition = Shapes::StringShape.new(name: 'QuestionRuleCategoryAutomationCondition')
     QuestionRuleCategoryAutomationLabel = Shapes::StringShape.new(name: 'QuestionRuleCategoryAutomationLabel')
     Queue = Shapes::StructureShape.new(name: 'Queue')
@@ -1764,6 +1792,8 @@ module Aws::Connect
     StartContactStreamingResponse = Shapes::StructureShape.new(name: 'StartContactStreamingResponse')
     StartEmailContactRequest = Shapes::StructureShape.new(name: 'StartEmailContactRequest')
     StartEmailContactResponse = Shapes::StructureShape.new(name: 'StartEmailContactResponse')
+    StartEvaluationFormValidationRequest = Shapes::StructureShape.new(name: 'StartEvaluationFormValidationRequest')
+    StartEvaluationFormValidationResponse = Shapes::StructureShape.new(name: 'StartEvaluationFormValidationResponse')
     StartOutboundChatContactRequest = Shapes::StructureShape.new(name: 'StartOutboundChatContactRequest')
     StartOutboundChatContactResponse = Shapes::StructureShape.new(name: 'StartOutboundChatContactResponse')
     StartOutboundEmailContactRequest = Shapes::StructureShape.new(name: 'StartOutboundEmailContactRequest')
@@ -2975,6 +3005,28 @@ module Aws::Connect
     ContactEvaluation.add_member(:delete_timestamp, Shapes::ShapeRef.new(shape: timestamp, location_name: "DeleteTimestamp"))
     ContactEvaluation.add_member(:export_location, Shapes::ShapeRef.new(shape: ExportLocation, location_name: "ExportLocation"))
     ContactEvaluation.struct_class = Types::ContactEvaluation
+
+    ContactEvaluationAttributeAndCondition.add_member(:tag_conditions, Shapes::ShapeRef.new(shape: TagAndConditionList, location_name: "TagConditions"))
+    ContactEvaluationAttributeAndCondition.add_member(:attribute_conditions, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeConditionList, location_name: "AttributeConditions"))
+    ContactEvaluationAttributeAndCondition.struct_class = Types::ContactEvaluationAttributeAndCondition
+
+    ContactEvaluationAttributeCondition.add_member(:attribute_key, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeKey, location_name: "AttributeKey"))
+    ContactEvaluationAttributeCondition.add_member(:attribute_value, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeValue, location_name: "AttributeValue"))
+    ContactEvaluationAttributeCondition.add_member(:comparison_type, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeComparisonType, location_name: "ComparisonType"))
+    ContactEvaluationAttributeCondition.struct_class = Types::ContactEvaluationAttributeCondition
+
+    ContactEvaluationAttributeConditionList.member = Shapes::ShapeRef.new(shape: ContactEvaluationAttributeCondition)
+
+    ContactEvaluationAttributeFilter.add_member(:or_conditions, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeOrConditionList, location_name: "OrConditions"))
+    ContactEvaluationAttributeFilter.add_member(:and_condition, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeAndCondition, location_name: "AndCondition"))
+    ContactEvaluationAttributeFilter.add_member(:tag_condition, Shapes::ShapeRef.new(shape: TagCondition, location_name: "TagCondition"))
+    ContactEvaluationAttributeFilter.add_member(:contact_evaluation_attribute_condition, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeCondition, location_name: "ContactEvaluationAttributeCondition"))
+    ContactEvaluationAttributeFilter.struct_class = Types::ContactEvaluationAttributeFilter
+
+    ContactEvaluationAttributeOrConditionList.member = Shapes::ShapeRef.new(shape: ContactEvaluationAttributeAndCondition)
+
+    ContactEvaluationAttributeValue.add_member(:string_value, Shapes::ShapeRef.new(shape: String, location_name: "StringValue"))
+    ContactEvaluationAttributeValue.struct_class = Types::ContactEvaluationAttributeValue
 
     ContactEvaluations.key = Shapes::ShapeRef.new(shape: EvaluationId)
     ContactEvaluations.value = Shapes::ShapeRef.new(shape: ContactEvaluation)
@@ -4695,6 +4747,8 @@ module Aws::Connect
     EvaluationForm.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     EvaluationForm.add_member(:target_configuration, Shapes::ShapeRef.new(shape: EvaluationFormTargetConfiguration, location_name: "TargetConfiguration"))
     EvaluationForm.add_member(:language_configuration, Shapes::ShapeRef.new(shape: EvaluationFormLanguageConfiguration, location_name: "LanguageConfiguration"))
+    EvaluationForm.add_member(:latest_validation_status, Shapes::ShapeRef.new(shape: EvaluationFormValidationStatus, location_name: "LatestValidationStatus"))
+    EvaluationForm.add_member(:last_validation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastValidationTime"))
     EvaluationForm.struct_class = Types::EvaluationForm
 
     EvaluationFormAutoEvaluationConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "Enabled"))
@@ -4775,6 +4829,10 @@ module Aws::Connect
 
     EvaluationFormMultiSelectQuestionOption.add_member(:ref_id, Shapes::ShapeRef.new(shape: ReferenceId, required: true, location_name: "RefId"))
     EvaluationFormMultiSelectQuestionOption.add_member(:text, Shapes::ShapeRef.new(shape: EvaluationFormMultiSelectQuestionOptionText, required: true, location_name: "Text"))
+    EvaluationFormMultiSelectQuestionOption.add_member(:score, Shapes::ShapeRef.new(shape: EvaluationFormQuestionAnswerScore, location_name: "Score"))
+    EvaluationFormMultiSelectQuestionOption.add_member(:automatic_fail, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutomaticFail"))
+    EvaluationFormMultiSelectQuestionOption.add_member(:automatic_fail_configuration, Shapes::ShapeRef.new(shape: AutomaticFailConfiguration, location_name: "AutomaticFailConfiguration"))
+    EvaluationFormMultiSelectQuestionOption.add_member(:points_configuration, Shapes::ShapeRef.new(shape: QuestionOptionPointsConfiguration, location_name: "PointsConfiguration"))
     EvaluationFormMultiSelectQuestionOption.struct_class = Types::EvaluationFormMultiSelectQuestionOption
 
     EvaluationFormMultiSelectQuestionOptionList.member = Shapes::ShapeRef.new(shape: EvaluationFormMultiSelectQuestionOption)
@@ -4797,6 +4855,7 @@ module Aws::Connect
     EvaluationFormNumericQuestionOption.add_member(:score, Shapes::ShapeRef.new(shape: EvaluationFormQuestionAnswerScore, location_name: "Score"))
     EvaluationFormNumericQuestionOption.add_member(:automatic_fail, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutomaticFail"))
     EvaluationFormNumericQuestionOption.add_member(:automatic_fail_configuration, Shapes::ShapeRef.new(shape: AutomaticFailConfiguration, location_name: "AutomaticFailConfiguration"))
+    EvaluationFormNumericQuestionOption.add_member(:points_configuration, Shapes::ShapeRef.new(shape: QuestionOptionPointsConfiguration, location_name: "PointsConfiguration"))
     EvaluationFormNumericQuestionOption.struct_class = Types::EvaluationFormNumericQuestionOption
 
     EvaluationFormNumericQuestionOptionList.member = Shapes::ShapeRef.new(shape: EvaluationFormNumericQuestionOption)
@@ -4815,10 +4874,16 @@ module Aws::Connect
     EvaluationFormQuestion.add_member(:question_type_properties, Shapes::ShapeRef.new(shape: EvaluationFormQuestionTypeProperties, location_name: "QuestionTypeProperties"))
     EvaluationFormQuestion.add_member(:enablement, Shapes::ShapeRef.new(shape: EvaluationFormItemEnablementConfiguration, location_name: "Enablement"))
     EvaluationFormQuestion.add_member(:weight, Shapes::ShapeRef.new(shape: EvaluationFormItemWeight, location_name: "Weight"))
+    EvaluationFormQuestion.add_member(:scoring_configuration, Shapes::ShapeRef.new(shape: EvaluationFormQuestionScoringConfiguration, location_name: "ScoringConfiguration"))
     EvaluationFormQuestion.struct_class = Types::EvaluationFormQuestion
 
     EvaluationFormQuestionAutomationAnswerSource.add_member(:source_type, Shapes::ShapeRef.new(shape: EvaluationFormQuestionAutomationAnswerSourceType, required: true, location_name: "SourceType"))
     EvaluationFormQuestionAutomationAnswerSource.struct_class = Types::EvaluationFormQuestionAutomationAnswerSource
+
+    EvaluationFormQuestionScoringConfiguration.add_member(:points_configuration, Shapes::ShapeRef.new(shape: QuestionPointsConfiguration, location_name: "PointsConfiguration"))
+    EvaluationFormQuestionScoringConfiguration.add_member(:is_excluded_from_scoring, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsExcludedFromScoring"))
+    EvaluationFormQuestionScoringConfiguration.add_member(:score_thresholds, Shapes::ShapeRef.new(shape: EvaluationFormScoreThresholdList, location_name: "ScoreThresholds"))
+    EvaluationFormQuestionScoringConfiguration.struct_class = Types::EvaluationFormQuestionScoringConfiguration
 
     EvaluationFormQuestionTypeProperties.add_member(:numeric, Shapes::ShapeRef.new(shape: EvaluationFormNumericQuestionProperties, location_name: "Numeric"))
     EvaluationFormQuestionTypeProperties.add_member(:single_select, Shapes::ShapeRef.new(shape: EvaluationFormSingleSelectQuestionProperties, location_name: "SingleSelect"))
@@ -4832,8 +4897,16 @@ module Aws::Connect
     EvaluationFormQuestionTypeProperties.add_member_subclass(:unknown, Types::EvaluationFormQuestionTypeProperties::Unknown)
     EvaluationFormQuestionTypeProperties.struct_class = Types::EvaluationFormQuestionTypeProperties
 
+    EvaluationFormScoreThreshold.add_member(:performance_category, Shapes::ShapeRef.new(shape: PerformanceCategoryName, required: true, location_name: "PerformanceCategory"))
+    EvaluationFormScoreThreshold.add_member(:min_score_percentage, Shapes::ShapeRef.new(shape: EvaluationScorePercentage, location_name: "MinScorePercentage"))
+    EvaluationFormScoreThreshold.add_member(:max_score_percentage, Shapes::ShapeRef.new(shape: EvaluationScorePercentage, location_name: "MaxScorePercentage"))
+    EvaluationFormScoreThreshold.struct_class = Types::EvaluationFormScoreThreshold
+
+    EvaluationFormScoreThresholdList.member = Shapes::ShapeRef.new(shape: EvaluationFormScoreThreshold)
+
     EvaluationFormScoringStrategy.add_member(:mode, Shapes::ShapeRef.new(shape: EvaluationFormScoringMode, required: true, location_name: "Mode"))
     EvaluationFormScoringStrategy.add_member(:status, Shapes::ShapeRef.new(shape: EvaluationFormScoringStatus, required: true, location_name: "Status"))
+    EvaluationFormScoringStrategy.add_member(:score_thresholds, Shapes::ShapeRef.new(shape: EvaluationFormScoreThresholdList, location_name: "ScoreThresholds"))
     EvaluationFormScoringStrategy.struct_class = Types::EvaluationFormScoringStrategy
 
     EvaluationFormSearchConditionList.member = Shapes::ShapeRef.new(shape: EvaluationFormSearchCriteria)
@@ -4875,6 +4948,8 @@ module Aws::Connect
     EvaluationFormSection.add_member(:instructions, Shapes::ShapeRef.new(shape: EvaluationFormQuestionInstructions, location_name: "Instructions"))
     EvaluationFormSection.add_member(:items, Shapes::ShapeRef.new(shape: EvaluationFormItemsList, required: true, location_name: "Items"))
     EvaluationFormSection.add_member(:weight, Shapes::ShapeRef.new(shape: EvaluationFormItemWeight, location_name: "Weight"))
+    EvaluationFormSection.add_member(:is_excluded_from_scoring, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsExcludedFromScoring"))
+    EvaluationFormSection.add_member(:score_thresholds, Shapes::ShapeRef.new(shape: EvaluationFormScoreThresholdList, location_name: "ScoreThresholds"))
     EvaluationFormSection.struct_class = Types::EvaluationFormSection
 
     EvaluationFormSingleSelectQuestionAutomation.add_member(:options, Shapes::ShapeRef.new(shape: EvaluationFormSingleSelectQuestionAutomationOptionList, location_name: "Options"))
@@ -4895,6 +4970,7 @@ module Aws::Connect
     EvaluationFormSingleSelectQuestionOption.add_member(:score, Shapes::ShapeRef.new(shape: EvaluationFormQuestionAnswerScore, location_name: "Score"))
     EvaluationFormSingleSelectQuestionOption.add_member(:automatic_fail, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutomaticFail"))
     EvaluationFormSingleSelectQuestionOption.add_member(:automatic_fail_configuration, Shapes::ShapeRef.new(shape: AutomaticFailConfiguration, location_name: "AutomaticFailConfiguration"))
+    EvaluationFormSingleSelectQuestionOption.add_member(:points_configuration, Shapes::ShapeRef.new(shape: QuestionOptionPointsConfiguration, location_name: "PointsConfiguration"))
     EvaluationFormSingleSelectQuestionOption.struct_class = Types::EvaluationFormSingleSelectQuestionOption
 
     EvaluationFormSingleSelectQuestionOptionList.member = Shapes::ShapeRef.new(shape: EvaluationFormSingleSelectQuestionOption)
@@ -4927,6 +5003,21 @@ module Aws::Connect
 
     EvaluationFormTextQuestionProperties.add_member(:automation, Shapes::ShapeRef.new(shape: EvaluationFormTextQuestionAutomation, location_name: "Automation"))
     EvaluationFormTextQuestionProperties.struct_class = Types::EvaluationFormTextQuestionProperties
+
+    EvaluationFormValidationFinding.add_member(:issue_code, Shapes::ShapeRef.new(shape: EvaluationFormValidationIssueCode, required: true, location_name: "IssueCode"))
+    EvaluationFormValidationFinding.add_member(:items, Shapes::ShapeRef.new(shape: EvaluationFormValidationFindingItemList, location_name: "Items"))
+    EvaluationFormValidationFinding.add_member(:description, Shapes::ShapeRef.new(shape: EvaluationFormValidationFindingDescription, required: true, location_name: "Description"))
+    EvaluationFormValidationFinding.add_member(:suggestion, Shapes::ShapeRef.new(shape: EvaluationFormValidationFindingSuggestion, location_name: "Suggestion"))
+    EvaluationFormValidationFinding.add_member(:severity, Shapes::ShapeRef.new(shape: EvaluationFormValidationFindingSeverity, required: true, location_name: "Severity"))
+    EvaluationFormValidationFinding.struct_class = Types::EvaluationFormValidationFinding
+
+    EvaluationFormValidationFindingItem.add_member(:ref_id, Shapes::ShapeRef.new(shape: ReferenceId, location_name: "RefId"))
+    EvaluationFormValidationFindingItem.add_member(:property, Shapes::ShapeRef.new(shape: EvaluationFormValidationFindingItemProperty, location_name: "Property"))
+    EvaluationFormValidationFindingItem.struct_class = Types::EvaluationFormValidationFindingItem
+
+    EvaluationFormValidationFindingItemList.member = Shapes::ShapeRef.new(shape: EvaluationFormValidationFindingItem)
+
+    EvaluationFormValidationFindingList.member = Shapes::ShapeRef.new(shape: EvaluationFormValidationFinding)
 
     EvaluationFormVersionSummary.add_member(:evaluation_form_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "EvaluationFormArn"))
     EvaluationFormVersionSummary.add_member(:evaluation_form_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "EvaluationFormId"))
@@ -5006,6 +5097,9 @@ module Aws::Connect
     EvaluationScore.add_member(:not_applicable, Shapes::ShapeRef.new(shape: Boolean, location_name: "NotApplicable"))
     EvaluationScore.add_member(:automatic_fail, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutomaticFail"))
     EvaluationScore.add_member(:applied_weight, Shapes::ShapeRef.new(shape: Double, location_name: "AppliedWeight"))
+    EvaluationScore.add_member(:earned_points, Shapes::ShapeRef.new(shape: Integer, location_name: "EarnedPoints"))
+    EvaluationScore.add_member(:max_base_point, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxBasePoint"))
+    EvaluationScore.add_member(:performance_category, Shapes::ShapeRef.new(shape: PerformanceCategoryName, location_name: "PerformanceCategory"))
     EvaluationScore.struct_class = Types::EvaluationScore
 
     EvaluationScoresMap.key = Shapes::ShapeRef.new(shape: ResourceId)
@@ -5023,6 +5117,7 @@ module Aws::Connect
     EvaluationSearchCriteria.struct_class = Types::EvaluationSearchCriteria
 
     EvaluationSearchFilter.add_member(:attribute_filter, Shapes::ShapeRef.new(shape: ControlPlaneAttributeFilter, location_name: "AttributeFilter"))
+    EvaluationSearchFilter.add_member(:contact_evaluation_attribute_filter, Shapes::ShapeRef.new(shape: ContactEvaluationAttributeFilter, location_name: "ContactEvaluationAttributeFilter"))
     EvaluationSearchFilter.struct_class = Types::EvaluationSearchFilter
 
     EvaluationSearchMetadata.add_member(:contact_id, Shapes::ShapeRef.new(shape: ContactId, required: true, location_name: "ContactId"))
@@ -5041,6 +5136,9 @@ module Aws::Connect
     EvaluationSearchMetadata.add_member(:review_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "ReviewId"))
     EvaluationSearchMetadata.add_member(:contact_participant_role, Shapes::ShapeRef.new(shape: ContactParticipantRole, location_name: "ContactParticipantRole"))
     EvaluationSearchMetadata.add_member(:contact_participant_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "ContactParticipantId"))
+    EvaluationSearchMetadata.add_member(:earned_points, Shapes::ShapeRef.new(shape: Integer, location_name: "EarnedPoints", metadata: {"box" => true}))
+    EvaluationSearchMetadata.add_member(:max_base_point, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxBasePoint", metadata: {"box" => true}))
+    EvaluationSearchMetadata.add_member(:performance_category, Shapes::ShapeRef.new(shape: PerformanceCategoryName, location_name: "PerformanceCategory"))
     EvaluationSearchMetadata.struct_class = Types::EvaluationSearchMetadata
 
     EvaluationSearchSummary.add_member(:evaluation_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "EvaluationId"))
@@ -5270,6 +5368,19 @@ module Aws::Connect
     GetEffectiveHoursOfOperationsResponse.add_member(:effective_override_hours_list, Shapes::ShapeRef.new(shape: EffectiveOverrideHoursList, location_name: "EffectiveOverrideHoursList"))
     GetEffectiveHoursOfOperationsResponse.add_member(:time_zone, Shapes::ShapeRef.new(shape: TimeZone, location_name: "TimeZone"))
     GetEffectiveHoursOfOperationsResponse.struct_class = Types::GetEffectiveHoursOfOperationsResponse
+
+    GetEvaluationFormValidationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    GetEvaluationFormValidationRequest.add_member(:evaluation_form_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "EvaluationFormId"))
+    GetEvaluationFormValidationRequest.add_member(:evaluation_form_version, Shapes::ShapeRef.new(shape: VersionNumber, location: "querystring", location_name: "version", metadata: {"box" => true}))
+    GetEvaluationFormValidationRequest.struct_class = Types::GetEvaluationFormValidationRequest
+
+    GetEvaluationFormValidationResponse.add_member(:status, Shapes::ShapeRef.new(shape: EvaluationFormValidationStatus, required: true, location_name: "Status"))
+    GetEvaluationFormValidationResponse.add_member(:failure_reason, Shapes::ShapeRef.new(shape: EvaluationFormValidationFailureReason, location_name: "FailureReason"))
+    GetEvaluationFormValidationResponse.add_member(:evaluation_form_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "EvaluationFormId"))
+    GetEvaluationFormValidationResponse.add_member(:evaluation_form_version, Shapes::ShapeRef.new(shape: VersionNumber, required: true, location_name: "EvaluationFormVersion"))
+    GetEvaluationFormValidationResponse.add_member(:started_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "StartedTime"))
+    GetEvaluationFormValidationResponse.add_member(:findings, Shapes::ShapeRef.new(shape: EvaluationFormValidationFindingList, location_name: "Findings"))
+    GetEvaluationFormValidationResponse.struct_class = Types::GetEvaluationFormValidationResponse
 
     GetFederationTokenRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     GetFederationTokenRequest.struct_class = Types::GetFederationTokenRequest
@@ -6932,6 +7043,15 @@ module Aws::Connect
     QualityMetrics.add_member(:customer, Shapes::ShapeRef.new(shape: CustomerQualityMetrics, location_name: "Customer"))
     QualityMetrics.struct_class = Types::QualityMetrics
 
+    QuestionOptionPointsConfiguration.add_member(:point_value, Shapes::ShapeRef.new(shape: PointValue, required: true, location_name: "PointValue"))
+    QuestionOptionPointsConfiguration.add_member(:is_bonus, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsBonus"))
+    QuestionOptionPointsConfiguration.struct_class = Types::QuestionOptionPointsConfiguration
+
+    QuestionPointsConfiguration.add_member(:max_point_value, Shapes::ShapeRef.new(shape: PointValue, location_name: "MaxPointValue"))
+    QuestionPointsConfiguration.add_member(:min_point_value, Shapes::ShapeRef.new(shape: PointValue, location_name: "MinPointValue"))
+    QuestionPointsConfiguration.add_member(:is_bonus, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsBonus"))
+    QuestionPointsConfiguration.struct_class = Types::QuestionPointsConfiguration
+
     Queue.add_member(:name, Shapes::ShapeRef.new(shape: CommonNameLength127, location_name: "Name"))
     Queue.add_member(:queue_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "QueueArn"))
     Queue.add_member(:queue_id, Shapes::ShapeRef.new(shape: QueueId, location_name: "QueueId"))
@@ -8068,6 +8188,16 @@ module Aws::Connect
 
     StartEmailContactResponse.add_member(:contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "ContactId"))
     StartEmailContactResponse.struct_class = Types::StartEmailContactResponse
+
+    StartEvaluationFormValidationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    StartEvaluationFormValidationRequest.add_member(:evaluation_form_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "EvaluationFormId"))
+    StartEvaluationFormValidationRequest.add_member(:evaluation_form_version, Shapes::ShapeRef.new(shape: VersionNumber, required: true, location_name: "EvaluationFormVersion"))
+    StartEvaluationFormValidationRequest.struct_class = Types::StartEvaluationFormValidationRequest
+
+    StartEvaluationFormValidationResponse.add_member(:evaluation_form_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "EvaluationFormId"))
+    StartEvaluationFormValidationResponse.add_member(:evaluation_form_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "EvaluationFormArn"))
+    StartEvaluationFormValidationResponse.add_member(:evaluation_form_version, Shapes::ShapeRef.new(shape: VersionNumber, required: true, location_name: "EvaluationFormVersion"))
+    StartEvaluationFormValidationResponse.struct_class = Types::StartEvaluationFormValidationResponse
 
     StartOutboundChatContactRequest.add_member(:source_endpoint, Shapes::ShapeRef.new(shape: Endpoint, required: true, location_name: "SourceEndpoint"))
     StartOutboundChatContactRequest.add_member(:destination_endpoint, Shapes::ShapeRef.new(shape: Endpoint, required: true, location_name: "DestinationEndpoint"))
@@ -11804,6 +11934,18 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
       end)
 
+      api.add_operation(:get_evaluation_form_validation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetEvaluationFormValidation"
+        o.http_method = "GET"
+        o.http_request_uri = "/evaluation-forms/{InstanceId}/{EvaluationFormId}/validation-results"
+        o.input = Shapes::ShapeRef.new(shape: GetEvaluationFormValidationRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetEvaluationFormValidationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+      end)
+
       api.add_operation(:get_federation_token, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetFederationToken"
         o.http_method = "GET"
@@ -13910,6 +14052,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: IdempotencyException)
+      end)
+
+      api.add_operation(:start_evaluation_form_validation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartEvaluationFormValidation"
+        o.http_method = "POST"
+        o.http_request_uri = "/evaluation-forms/{InstanceId}/{EvaluationFormId}/validate"
+        o.input = Shapes::ShapeRef.new(shape: StartEvaluationFormValidationRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartEvaluationFormValidationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceConflictException)
       end)
 
       api.add_operation(:start_outbound_chat_contact, Seahorse::Model::Operation.new.tap do |o|

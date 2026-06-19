@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.260.0 (2026-06-19)
+------------------
+
+* Feature - This is the release for point based scoring system and the evaluation form validation project
+
 1.259.0 (2026-06-03)
 ------------------
 

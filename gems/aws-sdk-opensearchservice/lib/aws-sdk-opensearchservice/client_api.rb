@@ -56,6 +56,8 @@ module Aws::OpenSearchService
     AssociatePackageResponse = Shapes::StructureShape.new(name: 'AssociatePackageResponse')
     AssociatePackagesRequest = Shapes::StructureShape.new(name: 'AssociatePackagesRequest')
     AssociatePackagesResponse = Shapes::StructureShape.new(name: 'AssociatePackagesResponse')
+    AttachDataSourceRequest = Shapes::StructureShape.new(name: 'AttachDataSourceRequest')
+    AttachDataSourceResponse = Shapes::StructureShape.new(name: 'AttachDataSourceResponse')
     AuthorizeVpcEndpointAccessRequest = Shapes::StructureShape.new(name: 'AuthorizeVpcEndpointAccessRequest')
     AuthorizeVpcEndpointAccessResponse = Shapes::StructureShape.new(name: 'AuthorizeVpcEndpointAccessResponse')
     AuthorizedPrincipal = Shapes::StructureShape.new(name: 'AuthorizedPrincipal')
@@ -138,6 +140,9 @@ module Aws::OpenSearchService
     CreatedAt = Shapes::TimestampShape.new(name: 'CreatedAt')
     CrossClusterSearchConnectionProperties = Shapes::StructureShape.new(name: 'CrossClusterSearchConnectionProperties')
     DataSource = Shapes::StructureShape.new(name: 'DataSource')
+    DataSourceAttachmentStatus = Shapes::StringShape.new(name: 'DataSourceAttachmentStatus')
+    DataSourceAttachmentSummary = Shapes::StructureShape.new(name: 'DataSourceAttachmentSummary')
+    DataSourceAttachmentSummaryList = Shapes::ListShape.new(name: 'DataSourceAttachmentSummaryList')
     DataSourceDescription = Shapes::StringShape.new(name: 'DataSourceDescription')
     DataSourceDetails = Shapes::StructureShape.new(name: 'DataSourceDetails')
     DataSourceList = Shapes::ListShape.new(name: 'DataSourceList')
@@ -171,6 +176,8 @@ module Aws::OpenSearchService
     DeploymentType = Shapes::StringShape.new(name: 'DeploymentType')
     DeregisterCapabilityRequest = Shapes::StructureShape.new(name: 'DeregisterCapabilityRequest')
     DeregisterCapabilityResponse = Shapes::StructureShape.new(name: 'DeregisterCapabilityResponse')
+    DescribeDataSourceAttachmentRequest = Shapes::StructureShape.new(name: 'DescribeDataSourceAttachmentRequest')
+    DescribeDataSourceAttachmentResponse = Shapes::StructureShape.new(name: 'DescribeDataSourceAttachmentResponse')
     DescribeDomainAutoTunesRequest = Shapes::StructureShape.new(name: 'DescribeDomainAutoTunesRequest')
     DescribeDomainAutoTunesResponse = Shapes::StructureShape.new(name: 'DescribeDomainAutoTunesResponse')
     DescribeDomainChangeProgressRequest = Shapes::StructureShape.new(name: 'DescribeDomainChangeProgressRequest')
@@ -209,6 +216,8 @@ module Aws::OpenSearchService
     DescribeVpcEndpointsRequest = Shapes::StructureShape.new(name: 'DescribeVpcEndpointsRequest')
     DescribeVpcEndpointsResponse = Shapes::StructureShape.new(name: 'DescribeVpcEndpointsResponse')
     Description = Shapes::StringShape.new(name: 'Description')
+    DetachDataSourceRequest = Shapes::StructureShape.new(name: 'DetachDataSourceRequest')
+    DetachDataSourceResponse = Shapes::StructureShape.new(name: 'DetachDataSourceResponse')
     DirectQueryDataSource = Shapes::StructureShape.new(name: 'DirectQueryDataSource')
     DirectQueryDataSourceDescription = Shapes::StringShape.new(name: 'DirectQueryDataSourceDescription')
     DirectQueryDataSourceList = Shapes::ListShape.new(name: 'DirectQueryDataSourceList')
@@ -361,6 +370,8 @@ module Aws::OpenSearchService
     LimitsByRole = Shapes::MapShape.new(name: 'LimitsByRole')
     ListApplicationsRequest = Shapes::StructureShape.new(name: 'ListApplicationsRequest')
     ListApplicationsResponse = Shapes::StructureShape.new(name: 'ListApplicationsResponse')
+    ListDataSourceAttachmentsRequest = Shapes::StructureShape.new(name: 'ListDataSourceAttachmentsRequest')
+    ListDataSourceAttachmentsResponse = Shapes::StructureShape.new(name: 'ListDataSourceAttachmentsResponse')
     ListDataSourcesRequest = Shapes::StructureShape.new(name: 'ListDataSourcesRequest')
     ListDataSourcesResponse = Shapes::StructureShape.new(name: 'ListDataSourcesResponse')
     ListDirectQueryDataSourcesRequest = Shapes::StructureShape.new(name: 'ListDirectQueryDataSourcesRequest')
@@ -614,6 +625,7 @@ module Aws::OpenSearchService
     VpcEndpointSummaryList = Shapes::ListShape.new(name: 'VpcEndpointSummaryList')
     VpcEndpoints = Shapes::ListShape.new(name: 'VpcEndpoints')
     WindowStartTime = Shapes::StructureShape.new(name: 'WindowStartTime')
+    WorkspaceConfigurationInput = Shapes::StructureShape.new(name: 'WorkspaceConfigurationInput')
     ZoneAwarenessConfig = Shapes::StructureShape.new(name: 'ZoneAwarenessConfig')
     ZoneStatus = Shapes::StringShape.new(name: 'ZoneStatus')
 
@@ -743,6 +755,20 @@ module Aws::OpenSearchService
 
     AssociatePackagesResponse.add_member(:domain_package_details_list, Shapes::ShapeRef.new(shape: DomainPackageDetailsList, location_name: "DomainPackageDetailsList"))
     AssociatePackagesResponse.struct_class = Types::AssociatePackagesResponse
+
+    AttachDataSourceRequest.add_member(:id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "id"))
+    AttachDataSourceRequest.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "dataSourceArn"))
+    AttachDataSourceRequest.add_member(:workspace_id, Shapes::ShapeRef.new(shape: String, location_name: "workspaceId"))
+    AttachDataSourceRequest.add_member(:workspace_configuration, Shapes::ShapeRef.new(shape: WorkspaceConfigurationInput, location_name: "workspaceConfiguration"))
+    AttachDataSourceRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken"))
+    AttachDataSourceRequest.struct_class = Types::AttachDataSourceRequest
+
+    AttachDataSourceResponse.add_member(:attachment_id, Shapes::ShapeRef.new(shape: String, location_name: "attachmentId"))
+    AttachDataSourceResponse.add_member(:id, Shapes::ShapeRef.new(shape: Id, location_name: "id"))
+    AttachDataSourceResponse.add_member(:arn, Shapes::ShapeRef.new(shape: ARN, location_name: "arn"))
+    AttachDataSourceResponse.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "dataSourceArn"))
+    AttachDataSourceResponse.add_member(:status, Shapes::ShapeRef.new(shape: DataSourceAttachmentStatus, location_name: "status"))
+    AttachDataSourceResponse.struct_class = Types::AttachDataSourceResponse
 
     AuthorizeVpcEndpointAccessRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location: "uri", location_name: "DomainName"))
     AuthorizeVpcEndpointAccessRequest.add_member(:account, Shapes::ShapeRef.new(shape: AWSAccount, location_name: "Account"))
@@ -1056,6 +1082,13 @@ module Aws::OpenSearchService
     DataSource.add_member(:iam_role_for_data_source_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "iamRoleForDataSourceArn"))
     DataSource.struct_class = Types::DataSource
 
+    DataSourceAttachmentSummary.add_member(:attachment_id, Shapes::ShapeRef.new(shape: String, location_name: "attachmentId"))
+    DataSourceAttachmentSummary.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "dataSourceArn"))
+    DataSourceAttachmentSummary.add_member(:status, Shapes::ShapeRef.new(shape: DataSourceAttachmentStatus, location_name: "status"))
+    DataSourceAttachmentSummary.struct_class = Types::DataSourceAttachmentSummary
+
+    DataSourceAttachmentSummaryList.member = Shapes::ShapeRef.new(shape: DataSourceAttachmentSummary)
+
     DataSourceDetails.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DataSourceType, location_name: "DataSourceType"))
     DataSourceDetails.add_member(:name, Shapes::ShapeRef.new(shape: DataSourceName, location_name: "Name"))
     DataSourceDetails.add_member(:description, Shapes::ShapeRef.new(shape: DataSourceDescription, location_name: "Description"))
@@ -1139,6 +1172,17 @@ module Aws::OpenSearchService
 
     DeregisterCapabilityResponse.add_member(:status, Shapes::ShapeRef.new(shape: CapabilityStatus, location_name: "status"))
     DeregisterCapabilityResponse.struct_class = Types::DeregisterCapabilityResponse
+
+    DescribeDataSourceAttachmentRequest.add_member(:id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "id"))
+    DescribeDataSourceAttachmentRequest.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "dataSourceArn"))
+    DescribeDataSourceAttachmentRequest.struct_class = Types::DescribeDataSourceAttachmentRequest
+
+    DescribeDataSourceAttachmentResponse.add_member(:attachment_id, Shapes::ShapeRef.new(shape: String, location_name: "attachmentId"))
+    DescribeDataSourceAttachmentResponse.add_member(:id, Shapes::ShapeRef.new(shape: Id, location_name: "id"))
+    DescribeDataSourceAttachmentResponse.add_member(:arn, Shapes::ShapeRef.new(shape: ARN, location_name: "arn"))
+    DescribeDataSourceAttachmentResponse.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "dataSourceArn"))
+    DescribeDataSourceAttachmentResponse.add_member(:status, Shapes::ShapeRef.new(shape: DataSourceAttachmentStatus, location_name: "status"))
+    DescribeDataSourceAttachmentResponse.struct_class = Types::DescribeDataSourceAttachmentResponse
 
     DescribeDomainAutoTunesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location: "uri", location_name: "DomainName"))
     DescribeDomainAutoTunesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
@@ -1283,6 +1327,15 @@ module Aws::OpenSearchService
     DescribeVpcEndpointsResponse.add_member(:vpc_endpoints, Shapes::ShapeRef.new(shape: VpcEndpoints, required: true, location_name: "VpcEndpoints"))
     DescribeVpcEndpointsResponse.add_member(:vpc_endpoint_errors, Shapes::ShapeRef.new(shape: VpcEndpointErrorList, required: true, location_name: "VpcEndpointErrors"))
     DescribeVpcEndpointsResponse.struct_class = Types::DescribeVpcEndpointsResponse
+
+    DetachDataSourceRequest.add_member(:id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "id"))
+    DetachDataSourceRequest.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "dataSourceArn"))
+    DetachDataSourceRequest.struct_class = Types::DetachDataSourceRequest
+
+    DetachDataSourceResponse.add_member(:id, Shapes::ShapeRef.new(shape: Id, location_name: "id"))
+    DetachDataSourceResponse.add_member(:arn, Shapes::ShapeRef.new(shape: ARN, location_name: "arn"))
+    DetachDataSourceResponse.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "dataSourceArn"))
+    DetachDataSourceResponse.struct_class = Types::DetachDataSourceResponse
 
     DirectQueryDataSource.add_member(:data_source_name, Shapes::ShapeRef.new(shape: DirectQueryDataSourceName, location_name: "DataSourceName"))
     DirectQueryDataSource.add_member(:data_source_type, Shapes::ShapeRef.new(shape: DirectQueryDataSourceType, location_name: "DataSourceType"))
@@ -1759,6 +1812,15 @@ module Aws::OpenSearchService
     ListApplicationsResponse.add_member(:application_summaries, Shapes::ShapeRef.new(shape: ApplicationSummaries, location_name: "ApplicationSummaries"))
     ListApplicationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListApplicationsResponse.struct_class = Types::ListApplicationsResponse
+
+    ListDataSourceAttachmentsRequest.add_member(:id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "id"))
+    ListDataSourceAttachmentsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListDataSourceAttachmentsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: Integer, location_name: "maxResults"))
+    ListDataSourceAttachmentsRequest.struct_class = Types::ListDataSourceAttachmentsRequest
+
+    ListDataSourceAttachmentsResponse.add_member(:attachments, Shapes::ShapeRef.new(shape: DataSourceAttachmentSummaryList, location_name: "attachments"))
+    ListDataSourceAttachmentsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListDataSourceAttachmentsResponse.struct_class = Types::ListDataSourceAttachmentsResponse
 
     ListDataSourcesRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: DomainName, required: true, location: "uri", location_name: "DomainName"))
     ListDataSourcesRequest.struct_class = Types::ListDataSourcesRequest
@@ -2459,6 +2521,10 @@ module Aws::OpenSearchService
     WindowStartTime.add_member(:minutes, Shapes::ShapeRef.new(shape: StartTimeMinutes, required: true, location_name: "Minutes"))
     WindowStartTime.struct_class = Types::WindowStartTime
 
+    WorkspaceConfigurationInput.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    WorkspaceConfigurationInput.add_member(:workspace_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "workspaceType"))
+    WorkspaceConfigurationInput.struct_class = Types::WorkspaceConfigurationInput
+
     ZoneAwarenessConfig.add_member(:availability_zone_count, Shapes::ShapeRef.new(shape: IntegerClass, location_name: "AvailabilityZoneCount"))
     ZoneAwarenessConfig.struct_class = Types::ZoneAwarenessConfig
 
@@ -2557,6 +2623,20 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+      end)
+
+      api.add_operation(:attach_data_source, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AttachDataSource"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/application/{id}/attachDataSource"
+        o.input = Shapes::ShapeRef.new(shape: AttachDataSourceRequest)
+        o.output = Shapes::ShapeRef.new(shape: AttachDataSourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
       end)
 
@@ -2814,6 +2894,19 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
       end)
 
+      api.add_operation(:describe_data_source_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeDataSourceAttachment"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/application/{id}/describeDataSourceAttachment"
+        o.input = Shapes::ShapeRef.new(shape: DescribeDataSourceAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeDataSourceAttachmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+      end)
+
       api.add_operation(:describe_domain, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeDomain"
         o.http_method = "GET"
@@ -3046,6 +3139,20 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: BaseException)
       end)
 
+      api.add_operation(:detach_data_source, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DetachDataSource"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/application/{id}/detachDataSource"
+        o.input = Shapes::ShapeRef.new(shape: DetachDataSourceRequest)
+        o.output = Shapes::ShapeRef.new(shape: DetachDataSourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+      end)
+
       api.add_operation(:dissociate_package, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DissociatePackage"
         o.http_method = "POST"
@@ -3250,6 +3357,19 @@ module Aws::OpenSearchService
             "next_token" => "next_token"
           }
         )
+      end)
+
+      api.add_operation(:list_data_source_attachments, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDataSourceAttachments"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/application/{id}/listDataSourceAttachments"
+        o.input = Shapes::ShapeRef.new(shape: ListDataSourceAttachmentsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDataSourceAttachmentsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
       end)
 
       api.add_operation(:list_data_sources, Seahorse::Model::Operation.new.tap do |o|

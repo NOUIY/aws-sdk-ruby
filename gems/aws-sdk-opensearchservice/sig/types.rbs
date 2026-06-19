@@ -172,6 +172,24 @@ module Aws::OpenSearchService
       SENSITIVE: []
     end
 
+    class AttachDataSourceRequest
+      attr_accessor id: ::String
+      attr_accessor data_source_arn: ::String
+      attr_accessor workspace_id: ::String
+      attr_accessor workspace_configuration: Types::WorkspaceConfigurationInput
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class AttachDataSourceResponse
+      attr_accessor attachment_id: ::String
+      attr_accessor id: ::String
+      attr_accessor arn: ::String
+      attr_accessor data_source_arn: ::String
+      attr_accessor status: ("PENDING" | "ATTACHED" | "FAILED")
+      SENSITIVE: []
+    end
+
     class AuthorizeVpcEndpointAccessRequest
       attr_accessor domain_name: ::String
       attr_accessor account: ::String
@@ -576,6 +594,13 @@ module Aws::OpenSearchService
       SENSITIVE: []
     end
 
+    class DataSourceAttachmentSummary
+      attr_accessor attachment_id: ::String
+      attr_accessor data_source_arn: ::String
+      attr_accessor status: ("PENDING" | "ATTACHED" | "FAILED")
+      SENSITIVE: []
+    end
+
     class DataSourceDetails
       attr_accessor data_source_type: Types::DataSourceType
       attr_accessor name: ::String
@@ -702,6 +727,21 @@ module Aws::OpenSearchService
 
     class DeregisterCapabilityResponse
       attr_accessor status: ("creating" | "create_failed" | "active" | "updating" | "update_failed" | "deleting" | "delete_failed")
+      SENSITIVE: []
+    end
+
+    class DescribeDataSourceAttachmentRequest
+      attr_accessor id: ::String
+      attr_accessor data_source_arn: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeDataSourceAttachmentResponse
+      attr_accessor attachment_id: ::String
+      attr_accessor id: ::String
+      attr_accessor arn: ::String
+      attr_accessor data_source_arn: ::String
+      attr_accessor status: ("PENDING" | "ATTACHED" | "FAILED")
       SENSITIVE: []
     end
 
@@ -908,6 +948,19 @@ module Aws::OpenSearchService
     class DescribeVpcEndpointsResponse
       attr_accessor vpc_endpoints: ::Array[Types::VpcEndpoint]
       attr_accessor vpc_endpoint_errors: ::Array[Types::VpcEndpointError]
+      SENSITIVE: []
+    end
+
+    class DetachDataSourceRequest
+      attr_accessor id: ::String
+      attr_accessor data_source_arn: ::String
+      SENSITIVE: []
+    end
+
+    class DetachDataSourceResponse
+      attr_accessor id: ::String
+      attr_accessor arn: ::String
+      attr_accessor data_source_arn: ::String
       SENSITIVE: []
     end
 
@@ -1490,6 +1543,19 @@ module Aws::OpenSearchService
 
     class ListApplicationsResponse
       attr_accessor application_summaries: ::Array[Types::ApplicationSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListDataSourceAttachmentsRequest
+      attr_accessor id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListDataSourceAttachmentsResponse
+      attr_accessor attachments: ::Array[Types::DataSourceAttachmentSummary]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -2387,6 +2453,12 @@ module Aws::OpenSearchService
     class WindowStartTime
       attr_accessor hours: ::Integer
       attr_accessor minutes: ::Integer
+      SENSITIVE: []
+    end
+
+    class WorkspaceConfigurationInput
+      attr_accessor name: ::String
+      attr_accessor workspace_type: ::String
       SENSITIVE: []
     end
 

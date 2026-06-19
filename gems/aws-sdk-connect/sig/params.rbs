@@ -133,7 +133,15 @@ module Aws
       items: Array[
         Params::evaluation_form_item
       ],
-      weight: ::Float?
+      weight: ::Float?,
+      is_excluded_from_scoring: bool?,
+      score_thresholds: Array[
+        {
+          performance_category: ("NEEDS_IMPROVEMENT" | "EXCEEDS_EXPECTATIONS"),
+          min_score_percentage: ::Float?,
+          max_score_percentage: ::Float?
+        }
+      ]?
     }
 
       type evaluation_form_numeric_question_automation = {
@@ -196,10 +204,7 @@ module Aws
 
       type evaluation_form_multi_select_question_properties = {
       options: Array[
-        {
-          ref_id: ::String,
-          text: ::String
-        }
+        Params::evaluation_form_multi_select_question_option
       ],
       display_as: ("DROPDOWN" | "CHECKBOX")?,
       automation: Params::evaluation_form_multi_select_question_automation?
@@ -231,6 +236,22 @@ module Aws
       default_action: ("DISABLE" | "ENABLE")?
     }
 
+      type evaluation_form_question_scoring_configuration = {
+      points_configuration: {
+        max_point_value: ::Integer?,
+        min_point_value: ::Integer?,
+        is_bonus: bool?
+      }?,
+      is_excluded_from_scoring: bool?,
+      score_thresholds: Array[
+        {
+          performance_category: ("NEEDS_IMPROVEMENT" | "EXCEEDS_EXPECTATIONS"),
+          min_score_percentage: ::Float?,
+          max_score_percentage: ::Float?
+        }
+      ]?
+    }
+
       type evaluation_form_question = {
       title: ::String,
       instructions: ::String?,
@@ -239,7 +260,8 @@ module Aws
       question_type: ("TEXT" | "SINGLESELECT" | "NUMERIC" | "MULTISELECT" | "DATETIME"),
       question_type_properties: Params::evaluation_form_question_type_properties?,
       enablement: Params::evaluation_form_item_enablement_configuration?,
-      weight: ::Float?
+      weight: ::Float?,
+      scoring_configuration: Params::evaluation_form_question_scoring_configuration?
     }
 
       type evaluation_form_item = {
@@ -254,6 +276,10 @@ module Aws
       automatic_fail: bool?,
       automatic_fail_configuration: {
         target_section: ::String?
+      }?,
+      points_configuration: {
+        point_value: ::Integer,
+        is_bonus: bool?
       }?
     }
 
@@ -264,6 +290,24 @@ module Aws
       automatic_fail: bool?,
       automatic_fail_configuration: {
         target_section: ::String?
+      }?,
+      points_configuration: {
+        point_value: ::Integer,
+        is_bonus: bool?
+      }?
+    }
+
+      type evaluation_form_multi_select_question_option = {
+      ref_id: ::String,
+      text: ::String,
+      score: ::Integer?,
+      automatic_fail: bool?,
+      automatic_fail_configuration: {
+        target_section: ::String?
+      }?,
+      points_configuration: {
+        point_value: ::Integer,
+        is_bonus: bool?
       }?
     }
 
@@ -284,6 +328,18 @@ module Aws
       type evaluation_form_item_enablement_condition_operand = {
       expression: Params::evaluation_form_item_enablement_expression?,
       condition: Params::evaluation_form_item_enablement_condition?
+    }
+
+      type evaluation_form_scoring_strategy = {
+      mode: ("QUESTION_ONLY" | "SECTION_ONLY" | "POINTS_BASED"),
+      status: ("ENABLED" | "DISABLED"),
+      score_thresholds: Array[
+        {
+          performance_category: ("NEEDS_IMPROVEMENT" | "EXCEEDS_EXPECTATIONS"),
+          min_score_percentage: ::Float?,
+          max_score_percentage: ::Float?
+        }
+      ]?
     }
 
       type evaluation_review_configuration = {
@@ -733,6 +789,24 @@ module Aws
         max_value: ::Float?,
         comparison_type: ("GREATER_OR_EQUAL" | "GREATER" | "LESSER_OR_EQUAL" | "LESSER" | "EQUAL" | "NOT_EQUAL" | "RANGE")?
       }?
+    }
+
+      type contact_evaluation_attribute_and_condition = {
+      tag_conditions: Array[
+        {
+          tag_key: ::String?,
+          tag_value: ::String?
+        }
+      ]?,
+      attribute_conditions: Array[
+        {
+          attribute_key: ("ContactAgentId")?,
+          attribute_value: {
+            string_value: ::String?
+          }?,
+          comparison_type: ("EXACT")?
+        }
+      ]?
     }
 
       type control_plane_tag_filter = {

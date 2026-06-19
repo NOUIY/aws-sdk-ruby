@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.263.0 (2026-06-19)
+------------------
+
+* Feature - Adds the SearchAssets operation for discovering assets in the AWS Glue Data Catalog using full-text search and filters. Minor naming refinements across the Glossary Terms and Attachment APIs for consistency.
+
 1.262.0 (2026-06-17)
 ------------------
 

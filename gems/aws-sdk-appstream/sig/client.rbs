@@ -495,14 +495,15 @@ module Aws
                           ?agent_access_config: {
                             settings: Array[
                               {
-                                agent_action: ("COMPUTER_VISION" | "COMPUTER_INPUT"),
+                                agent_action: ("COMPUTER_VISION" | "COMPUTER_INPUT" | "FORWARD_MCP_TOOLS"),
                                 permission: ("ENABLED" | "DISABLED")
                               }
                             ],
                             s3_bucket_arn: ::String?,
                             screenshots_upload_enabled: bool?,
                             screen_resolution: ("W_1280xH_720"),
-                            screen_image_format: ("PNG" | "JPEG")
+                            screen_image_format: ("PNG" | "JPEG"),
+                            user_control_mode: ("VIEW_ONLY" | "VIEW_STOP" | "DISABLED")?
                           }
                         ) -> _CreateStackResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateStackResponseSuccess
@@ -1418,14 +1419,15 @@ module Aws
                           ?agent_access_config: {
                             settings: Array[
                               {
-                                agent_action: ("COMPUTER_VISION" | "COMPUTER_INPUT"),
+                                agent_action: ("COMPUTER_VISION" | "COMPUTER_INPUT" | "FORWARD_MCP_TOOLS"),
                                 permission: ("ENABLED" | "DISABLED")
                               }
                             ]?,
                             s3_bucket_arn: ::String?,
                             screenshots_upload_enabled: bool?,
                             screen_resolution: ("W_1280xH_720")?,
-                            screen_image_format: ("PNG" | "JPEG")?
+                            screen_image_format: ("PNG" | "JPEG")?,
+                            user_control_mode: ("VIEW_ONLY" | "VIEW_STOP" | "DISABLED")?
                           }
                         ) -> _UpdateStackResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateStackResponseSuccess

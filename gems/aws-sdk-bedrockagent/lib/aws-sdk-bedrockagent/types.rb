@@ -5233,10 +5233,17 @@ module Aws::BedrockAgent
     #   The unique identifier of the flow.
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   Controls the scope of data returned. Set to `METADATA_ONLY` to
+    #   return only resource metadata. Set to `ALL_DATA` or omit this field
+    #   to return the full response.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/GetFlowRequest AWS API Documentation
     #
     class GetFlowRequest < Struct.new(
-      :flow_identifier)
+      :flow_identifier,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5346,11 +5353,18 @@ module Aws::BedrockAgent
     #   The version of the flow for which to get information.
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   Controls the scope of data returned. Set to `METADATA_ONLY` to
+    #   return only resource metadata. Set to `ALL_DATA` or omit this field
+    #   to return the full response.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/GetFlowVersionRequest AWS API Documentation
     #
     class GetFlowVersionRequest < Struct.new(
       :flow_identifier,
-      :flow_version)
+      :flow_version,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5530,11 +5544,18 @@ module Aws::BedrockAgent
     #   draft of the prompt.
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   Controls the scope of data returned. Set to `METADATA_ONLY` to
+    #   return only resource metadata. Set to `ALL_DATA` or omit this field
+    #   to return the full response.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/GetPromptRequest AWS API Documentation
     #
     class GetPromptRequest < Struct.new(
       :prompt_identifier,
-      :prompt_version)
+      :prompt_version,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end

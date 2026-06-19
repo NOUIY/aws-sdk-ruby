@@ -323,6 +323,7 @@ module Aws::BedrockAgent
     Id = Shapes::StringShape.new(name: 'Id')
     ImageExtractionConfiguration = Shapes::StructureShape.new(name: 'ImageExtractionConfiguration')
     IncludeExclude = Shapes::StringShape.new(name: 'IncludeExclude')
+    IncludedData = Shapes::StringShape.new(name: 'IncludedData')
     IncompatibleConnectionDataTypeFlowValidationDetails = Shapes::StructureShape.new(name: 'IncompatibleConnectionDataTypeFlowValidationDetails')
     IncompatibleLoopNodeType = Shapes::StringShape.new(name: 'IncompatibleLoopNodeType')
     IndexArn = Shapes::StringShape.new(name: 'IndexArn')
@@ -1755,6 +1756,7 @@ module Aws::BedrockAgent
     GetFlowAliasResponse.struct_class = Types::GetFlowAliasResponse
 
     GetFlowRequest.add_member(:flow_identifier, Shapes::ShapeRef.new(shape: FlowIdentifier, required: true, location: "uri", location_name: "flowIdentifier"))
+    GetFlowRequest.add_member(:included_data, Shapes::ShapeRef.new(shape: IncludedData, location: "querystring", location_name: "includedData"))
     GetFlowRequest.struct_class = Types::GetFlowRequest
 
     GetFlowResponse.add_member(:name, Shapes::ShapeRef.new(shape: FlowName, required: true, location_name: "name"))
@@ -1773,6 +1775,7 @@ module Aws::BedrockAgent
 
     GetFlowVersionRequest.add_member(:flow_identifier, Shapes::ShapeRef.new(shape: FlowIdentifier, required: true, location: "uri", location_name: "flowIdentifier"))
     GetFlowVersionRequest.add_member(:flow_version, Shapes::ShapeRef.new(shape: NumericalVersion, required: true, location: "uri", location_name: "flowVersion"))
+    GetFlowVersionRequest.add_member(:included_data, Shapes::ShapeRef.new(shape: IncludedData, location: "querystring", location_name: "includedData"))
     GetFlowVersionRequest.struct_class = Types::GetFlowVersionRequest
 
     GetFlowVersionResponse.add_member(:name, Shapes::ShapeRef.new(shape: FlowName, required: true, location_name: "name"))
@@ -1811,6 +1814,7 @@ module Aws::BedrockAgent
 
     GetPromptRequest.add_member(:prompt_identifier, Shapes::ShapeRef.new(shape: PromptIdentifier, required: true, location: "uri", location_name: "promptIdentifier"))
     GetPromptRequest.add_member(:prompt_version, Shapes::ShapeRef.new(shape: Version, location: "querystring", location_name: "promptVersion"))
+    GetPromptRequest.add_member(:included_data, Shapes::ShapeRef.new(shape: IncludedData, location: "querystring", location_name: "includedData"))
     GetPromptRequest.struct_class = Types::GetPromptRequest
 
     GetPromptResponse.add_member(:name, Shapes::ShapeRef.new(shape: PromptName, required: true, location_name: "name"))

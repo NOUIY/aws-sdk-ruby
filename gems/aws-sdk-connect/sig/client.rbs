@@ -719,10 +719,7 @@ module Aws
                                     items: Array[
                                       Params::evaluation_form_item
                                     ],
-                                    ?scoring_strategy: {
-                                      mode: ("QUESTION_ONLY" | "SECTION_ONLY"),
-                                      status: ("ENABLED" | "DISABLED")
-                                    },
+                                    ?scoring_strategy: Params::evaluation_form_scoring_strategy,
                                     ?auto_evaluation_configuration: {
                                       enabled: bool
                                     },
@@ -2353,6 +2350,23 @@ module Aws
                                              ) -> _GetEffectiveHoursOfOperationsResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetEffectiveHoursOfOperationsResponseSuccess
 
+      interface _GetEvaluationFormValidationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetEvaluationFormValidationResponse]
+        def status: () -> ("IN_PROGRESS" | "COMPLETED" | "FAILED")
+        def failure_reason: () -> ::String
+        def evaluation_form_id: () -> ::String
+        def evaluation_form_version: () -> ::Integer
+        def started_time: () -> ::Time
+        def findings: () -> ::Array[Types::EvaluationFormValidationFinding]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#get_evaluation_form_validation-instance_method
+      def get_evaluation_form_validation: (
+                                            instance_id: ::String,
+                                            evaluation_form_id: ::String,
+                                            ?evaluation_form_version: ::Integer
+                                          ) -> _GetEvaluationFormValidationResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetEvaluationFormValidationResponseSuccess
+
       interface _GetFederationTokenResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetFederationTokenResponse]
         def credentials: () -> Types::Credentials
@@ -3666,7 +3680,24 @@ module Aws
                                         ?max_results: ::Integer,
                                         ?search_criteria: Params::evaluation_search_criteria,
                                         ?search_filter: {
-                                          attribute_filter: Params::control_plane_attribute_filter?
+                                          attribute_filter: Params::control_plane_attribute_filter?,
+                                          contact_evaluation_attribute_filter: {
+                                            or_conditions: Array[
+                                              Params::contact_evaluation_attribute_and_condition
+                                            ]?,
+                                            and_condition: Params::contact_evaluation_attribute_and_condition?,
+                                            tag_condition: {
+                                              tag_key: ::String?,
+                                              tag_value: ::String?
+                                            }?,
+                                            contact_evaluation_attribute_condition: {
+                                              attribute_key: ("ContactAgentId")?,
+                                              attribute_value: {
+                                                string_value: ::String?
+                                              }?,
+                                              comparison_type: ("EXACT")?
+                                            }?
+                                          }?
                                         }
                                       ) -> _SearchContactEvaluationsResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchContactEvaluationsResponseSuccess
@@ -4437,6 +4468,20 @@ module Aws
                                ) -> _StartEmailContactResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartEmailContactResponseSuccess
 
+      interface _StartEvaluationFormValidationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartEvaluationFormValidationResponse]
+        def evaluation_form_id: () -> ::String
+        def evaluation_form_arn: () -> ::String
+        def evaluation_form_version: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#start_evaluation_form_validation-instance_method
+      def start_evaluation_form_validation: (
+                                              instance_id: ::String,
+                                              evaluation_form_id: ::String,
+                                              evaluation_form_version: ::Integer
+                                            ) -> _StartEvaluationFormValidationResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartEvaluationFormValidationResponseSuccess
+
       interface _StartOutboundChatContactResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartOutboundChatContactResponse]
         def contact_id: () -> ::String
@@ -5086,10 +5131,7 @@ module Aws
                                     items: Array[
                                       Params::evaluation_form_item
                                     ],
-                                    ?scoring_strategy: {
-                                      mode: ("QUESTION_ONLY" | "SECTION_ONLY"),
-                                      status: ("ENABLED" | "DISABLED")
-                                    },
+                                    ?scoring_strategy: Params::evaluation_form_scoring_strategy,
                                     ?auto_evaluation_configuration: {
                                       enabled: bool
                                     },

@@ -406,6 +406,7 @@ module Aws::AppStream
     UsbDeviceFilterStrings = Shapes::ListShape.new(name: 'UsbDeviceFilterStrings')
     User = Shapes::StructureShape.new(name: 'User')
     UserAttributeValue = Shapes::StringShape.new(name: 'UserAttributeValue')
+    UserControlMode = Shapes::StringShape.new(name: 'UserControlMode')
     UserId = Shapes::StringShape.new(name: 'UserId')
     UserList = Shapes::ListShape.new(name: 'UserList')
     UserSetting = Shapes::StructureShape.new(name: 'UserSetting')
@@ -443,6 +444,7 @@ module Aws::AppStream
     AgentAccessConfig.add_member(:screenshots_upload_enabled, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "ScreenshotsUploadEnabled"))
     AgentAccessConfig.add_member(:screen_resolution, Shapes::ShapeRef.new(shape: ScreenResolution, required: true, location_name: "ScreenResolution"))
     AgentAccessConfig.add_member(:screen_image_format, Shapes::ShapeRef.new(shape: ScreenImageFormat, required: true, location_name: "ScreenImageFormat"))
+    AgentAccessConfig.add_member(:user_control_mode, Shapes::ShapeRef.new(shape: UserControlMode, location_name: "UserControlMode"))
     AgentAccessConfig.struct_class = Types::AgentAccessConfig
 
     AgentAccessConfigForUpdate.add_member(:settings, Shapes::ShapeRef.new(shape: AgentAccessSettingList, location_name: "Settings"))
@@ -450,6 +452,7 @@ module Aws::AppStream
     AgentAccessConfigForUpdate.add_member(:screenshots_upload_enabled, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "ScreenshotsUploadEnabled"))
     AgentAccessConfigForUpdate.add_member(:screen_resolution, Shapes::ShapeRef.new(shape: ScreenResolution, location_name: "ScreenResolution"))
     AgentAccessConfigForUpdate.add_member(:screen_image_format, Shapes::ShapeRef.new(shape: ScreenImageFormat, location_name: "ScreenImageFormat"))
+    AgentAccessConfigForUpdate.add_member(:user_control_mode, Shapes::ShapeRef.new(shape: UserControlMode, location_name: "UserControlMode"))
     AgentAccessConfigForUpdate.struct_class = Types::AgentAccessConfigForUpdate
 
     AgentAccessSetting.add_member(:agent_action, Shapes::ShapeRef.new(shape: AgentAction, required: true, location_name: "AgentAction"))

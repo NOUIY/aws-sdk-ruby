@@ -1477,6 +1477,8 @@ module Aws::Glue
     SchemaVersionNumber = Shapes::StructureShape.new(name: 'SchemaVersionNumber')
     SchemaVersionStatus = Shapes::StringShape.new(name: 'SchemaVersionStatus')
     ScriptLocationString = Shapes::StringShape.new(name: 'ScriptLocationString')
+    SearchAssetsInput = Shapes::StructureShape.new(name: 'SearchAssetsInput')
+    SearchAssetsOutput = Shapes::StructureShape.new(name: 'SearchAssetsOutput')
     SearchAttribute = Shapes::StringShape.new(name: 'SearchAttribute')
     SearchAttributeFilter = Shapes::StructureShape.new(name: 'SearchAttributeFilter')
     SearchFilterClause = Shapes::UnionShape.new(name: 'SearchFilterClause')
@@ -1485,13 +1487,11 @@ module Aws::Glue
     SearchFilterOperator = Shapes::StringShape.new(name: 'SearchFilterOperator')
     SearchFilterStringValue = Shapes::StringShape.new(name: 'SearchFilterStringValue')
     SearchFilterValue = Shapes::UnionShape.new(name: 'SearchFilterValue')
-    SearchInput = Shapes::StructureShape.new(name: 'SearchInput')
     SearchMapFilter = Shapes::StructureShape.new(name: 'SearchMapFilter')
     SearchMapFilterValue = Shapes::UnionShape.new(name: 'SearchMapFilterValue')
     SearchMapKey = Shapes::StringShape.new(name: 'SearchMapKey')
     SearchMaxResults = Shapes::IntegerShape.new(name: 'SearchMaxResults')
     SearchNextToken = Shapes::StringShape.new(name: 'SearchNextToken')
-    SearchOutput = Shapes::StructureShape.new(name: 'SearchOutput')
     SearchPropertyPredicates = Shapes::ListShape.new(name: 'SearchPropertyPredicates')
     SearchResultItem = Shapes::StructureShape.new(name: 'SearchResultItem')
     SearchResultItemList = Shapes::ListShape.new(name: 'SearchResultItemList')
@@ -1960,12 +1960,12 @@ module Aws::Glue
 
     AssetTypeItemList.member = Shapes::ShapeRef.new(shape: AssetTypeItem)
 
-    AssociateGlossaryTermsRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    AssociateGlossaryTermsRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
     AssociateGlossaryTermsRequest.add_member(:glossary_term_identifiers, Shapes::ShapeRef.new(shape: GlossaryTermIdList, required: true, location_name: "GlossaryTermIdentifiers"))
     AssociateGlossaryTermsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     AssociateGlossaryTermsRequest.struct_class = Types::AssociateGlossaryTermsRequest
 
-    AssociateGlossaryTermsResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "Identifier"))
+    AssociateGlossaryTermsResponse.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetIdentifier"))
     AssociateGlossaryTermsResponse.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
     AssociateGlossaryTermsResponse.struct_class = Types::AssociateGlossaryTermsResponse
 
@@ -3729,11 +3729,13 @@ module Aws::Glue
 
     DeleteAssetTypeResponse.struct_class = Types::DeleteAssetTypeResponse
 
-    DeleteAttachmentRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    DeleteAttachmentRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
+    DeleteAttachmentRequest.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    DeleteAttachmentRequest.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     DeleteAttachmentRequest.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, required: true, location_name: "AttachmentName"))
     DeleteAttachmentRequest.struct_class = Types::DeleteAttachmentRequest
 
-    DeleteAttachmentResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "Identifier"))
+    DeleteAttachmentResponse.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetIdentifier"))
     DeleteAttachmentResponse.struct_class = Types::DeleteAttachmentResponse
 
     DeleteBlueprintRequest.add_member(:name, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "Name"))
@@ -4101,12 +4103,12 @@ module Aws::Glue
     DirectSchemaChangePolicy.add_member(:database, Shapes::ShapeRef.new(shape: EnclosedInStringProperty, location_name: "Database"))
     DirectSchemaChangePolicy.struct_class = Types::DirectSchemaChangePolicy
 
-    DisassociateGlossaryTermsRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    DisassociateGlossaryTermsRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
     DisassociateGlossaryTermsRequest.add_member(:glossary_term_identifiers, Shapes::ShapeRef.new(shape: GlossaryTermIdList, required: true, location_name: "GlossaryTermIdentifiers"))
     DisassociateGlossaryTermsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     DisassociateGlossaryTermsRequest.struct_class = Types::DisassociateGlossaryTermsRequest
 
-    DisassociateGlossaryTermsResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "Identifier"))
+    DisassociateGlossaryTermsResponse.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetIdentifier"))
     DisassociateGlossaryTermsResponse.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
     DisassociateGlossaryTermsResponse.struct_class = Types::DisassociateGlossaryTermsResponse
 
@@ -6696,7 +6698,7 @@ module Aws::Glue
     PutAttachmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     PutAttachmentRequest.struct_class = Types::PutAttachmentRequest
 
-    PutAttachmentResponse.add_member(:asset_id, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetId"))
+    PutAttachmentResponse.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetIdentifier"))
     PutAttachmentResponse.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
     PutAttachmentResponse.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     PutAttachmentResponse.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, location_name: "AttachmentName"))
@@ -7265,6 +7267,17 @@ module Aws::Glue
     SchemaVersionNumber.add_member(:version_number, Shapes::ShapeRef.new(shape: VersionLongNumber, location_name: "VersionNumber"))
     SchemaVersionNumber.struct_class = Types::SchemaVersionNumber
 
+    SearchAssetsInput.add_member(:search_text, Shapes::ShapeRef.new(shape: SearchText, location_name: "SearchText"))
+    SearchAssetsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: SearchMaxResults, location_name: "MaxResults"))
+    SearchAssetsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: SearchNextToken, location_name: "NextToken"))
+    SearchAssetsInput.add_member(:sort, Shapes::ShapeRef.new(shape: SearchSort, location_name: "Sort"))
+    SearchAssetsInput.add_member(:filter_clause, Shapes::ShapeRef.new(shape: SearchFilterClause, location_name: "FilterClause"))
+    SearchAssetsInput.struct_class = Types::SearchAssetsInput
+
+    SearchAssetsOutput.add_member(:items, Shapes::ShapeRef.new(shape: SearchResultItemList, location_name: "Items"))
+    SearchAssetsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: SearchNextToken, location_name: "NextToken"))
+    SearchAssetsOutput.struct_class = Types::SearchAssetsOutput
+
     SearchAttributeFilter.add_member(:attribute, Shapes::ShapeRef.new(shape: SearchAttribute, required: true, location_name: "Attribute"))
     SearchAttributeFilter.add_member(:operator, Shapes::ShapeRef.new(shape: SearchFilterOperator, required: true, location_name: "Operator"))
     SearchAttributeFilter.add_member(:value, Shapes::ShapeRef.new(shape: SearchFilterValue, location_name: "Value"))
@@ -7292,13 +7305,6 @@ module Aws::Glue
     SearchFilterValue.add_member_subclass(:unknown, Types::SearchFilterValue::Unknown)
     SearchFilterValue.struct_class = Types::SearchFilterValue
 
-    SearchInput.add_member(:search_text, Shapes::ShapeRef.new(shape: SearchText, location_name: "SearchText"))
-    SearchInput.add_member(:max_results, Shapes::ShapeRef.new(shape: SearchMaxResults, location_name: "MaxResults"))
-    SearchInput.add_member(:next_token, Shapes::ShapeRef.new(shape: SearchNextToken, location_name: "NextToken"))
-    SearchInput.add_member(:sort, Shapes::ShapeRef.new(shape: SearchSort, location_name: "Sort"))
-    SearchInput.add_member(:filter_clause, Shapes::ShapeRef.new(shape: SearchFilterClause, location_name: "FilterClause"))
-    SearchInput.struct_class = Types::SearchInput
-
     SearchMapFilter.add_member(:attribute, Shapes::ShapeRef.new(shape: SearchAttribute, required: true, location_name: "Attribute"))
     SearchMapFilter.add_member(:key, Shapes::ShapeRef.new(shape: SearchMapKey, required: true, location_name: "Key"))
     SearchMapFilter.add_member(:value, Shapes::ShapeRef.new(shape: SearchMapFilterValue, required: true, location_name: "Value"))
@@ -7309,10 +7315,6 @@ module Aws::Glue
     SearchMapFilterValue.add_member_subclass(:string_value, Types::SearchMapFilterValue::StringValue)
     SearchMapFilterValue.add_member_subclass(:unknown, Types::SearchMapFilterValue::Unknown)
     SearchMapFilterValue.struct_class = Types::SearchMapFilterValue
-
-    SearchOutput.add_member(:items, Shapes::ShapeRef.new(shape: SearchResultItemList, location_name: "Items"))
-    SearchOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: SearchNextToken, location_name: "NextToken"))
-    SearchOutput.struct_class = Types::SearchOutput
 
     SearchPropertyPredicates.member = Shapes::ShapeRef.new(shape: PropertyPredicate)
 
@@ -11951,12 +11953,12 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: IllegalSessionStateException)
       end)
 
-      api.add_operation(:search, Seahorse::Model::Operation.new.tap do |o|
-        o.name = "Search"
+      api.add_operation(:search_assets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SearchAssets"
         o.http_method = "POST"
         o.http_request_uri = "/"
-        o.input = Shapes::ShapeRef.new(shape: SearchInput)
-        o.output = Shapes::ShapeRef.new(shape: SearchOutput)
+        o.input = Shapes::ShapeRef.new(shape: SearchAssetsInput)
+        o.output = Shapes::ShapeRef.new(shape: SearchAssetsOutput)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)

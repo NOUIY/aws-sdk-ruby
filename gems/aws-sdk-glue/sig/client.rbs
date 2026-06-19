@@ -81,12 +81,12 @@ module Aws
 
       interface _AssociateGlossaryTermsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::AssociateGlossaryTermsResponse]
-        def identifier: () -> ::String
+        def asset_identifier: () -> ::String
         def glossary_terms: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#associate_glossary_terms-instance_method
       def associate_glossary_terms: (
-                                      identifier: ::String,
+                                      asset_identifier: ::String,
                                       glossary_term_identifiers: Array[::String],
                                       ?client_token: ::String
                                     ) -> _AssociateGlossaryTermsResponseSuccess
@@ -1124,11 +1124,13 @@ module Aws
 
       interface _DeleteAttachmentResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAttachmentResponse]
-        def identifier: () -> ::String
+        def asset_identifier: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_attachment-instance_method
       def delete_attachment: (
-                               identifier: ::String,
+                               asset_identifier: ::String,
+                               ?iterable_form_name: ::String,
+                               ?item_identifier: ::String,
                                attachment_name: ::String
                              ) -> _DeleteAttachmentResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAttachmentResponseSuccess
@@ -1604,12 +1606,12 @@ module Aws
 
       interface _DisassociateGlossaryTermsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DisassociateGlossaryTermsResponse]
-        def identifier: () -> ::String
+        def asset_identifier: () -> ::String
         def glossary_terms: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#disassociate_glossary_terms-instance_method
       def disassociate_glossary_terms: (
-                                         identifier: ::String,
+                                         asset_identifier: ::String,
                                          glossary_term_identifiers: Array[::String],
                                          ?client_token: ::String
                                        ) -> _DisassociateGlossaryTermsResponseSuccess
@@ -3527,7 +3529,7 @@ module Aws
 
       interface _PutAttachmentResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::PutAttachmentResponse]
-        def asset_id: () -> ::String
+        def asset_identifier: () -> ::String
         def iterable_form_name: () -> ::String
         def item_identifier: () -> ::String
         def attachment_name: () -> ::String
@@ -3836,23 +3838,23 @@ module Aws
                          ) -> _RunStatementResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RunStatementResponseSuccess
 
-      interface _SearchResponseSuccess
-        include ::Seahorse::Client::_ResponseSuccess[Types::SearchOutput]
+      interface _SearchAssetsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchAssetsOutput]
         def items: () -> ::Array[Types::SearchResultItem]
         def next_token: () -> ::String
       end
-      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#search-instance_method
-      def search: (
-                    ?search_text: ::String,
-                    ?max_results: ::Integer,
-                    ?next_token: ::String,
-                    ?sort: {
-                      attribute: ::String,
-                      order: ("ASCENDING" | "DESCENDING")?
-                    },
-                    ?filter_clause: Params::search_filter_clause
-                  ) -> _SearchResponseSuccess
-                | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchResponseSuccess
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#search_assets-instance_method
+      def search_assets: (
+                           ?search_text: ::String,
+                           ?max_results: ::Integer,
+                           ?next_token: ::String,
+                           ?sort: {
+                             attribute: ::String,
+                             order: ("ASCENDING" | "DESCENDING")?
+                           },
+                           ?filter_clause: Params::search_filter_clause
+                         ) -> _SearchAssetsResponseSuccess
+                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchAssetsResponseSuccess
 
       interface _SearchTablesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchTablesResponse]

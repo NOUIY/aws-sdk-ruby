@@ -679,6 +679,100 @@ module Aws::OpenSearchService
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The unique identifier or name of the OpenSearch application to
+    #   attach the data source to. This is the same identifier used with
+    #   `UpdateApplication`, `GetApplication`, and `DeleteApplication`.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace_id
+    #   The identifier of an existing workspace to update with the new data
+    #   source. Mutually exclusive with `workspaceConfiguration`.
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace_configuration
+    #   Configuration for creating a new workspace during the attachment. If
+    #   specified, a workspace is created and linked to the data source
+    #   after the attachment completes. Mutually exclusive with
+    #   `workspaceId`.
+    #   @return [Types::WorkspaceConfigurationInput]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. If you retry a request with the same client token and the
+    #   same parameters, the retry succeeds without performing any further
+    #   actions.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AttachDataSourceRequest AWS API Documentation
+    #
+    class AttachDataSourceRequest < Struct.new(
+      :id,
+      :data_source_arn,
+      :workspace_id,
+      :workspace_configuration,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] attachment_id
+    #   The unique identifier assigned to the data source attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the OpenSearch application.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the data source attachment. Valid values are `PENDING`
+    #   (waiting for resources to become active), `ATTACHED` (successfully
+    #   attached), and `FAILED` (attachment timed out or encountered a
+    #   non-retryable error).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AttachDataSourceResponse AWS API Documentation
+    #
+    class AttachDataSourceResponse < Struct.new(
+      :attachment_id,
+      :id,
+      :arn,
+      :data_source_arn,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] domain_name
     #   The name of the OpenSearch Service domain to provide access to.
     #   @return [String]
@@ -2341,6 +2435,38 @@ module Aws::OpenSearchService
       include Aws::Structure
     end
 
+    # Summary information about a data source attachment, including its
+    # identifier, data source ARN, and current status.
+    #
+    # @!attribute [rw] attachment_id
+    #   The unique identifier assigned to the data source attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the data source attachment. Valid values are
+    #   `PENDING`, `ATTACHED`, and `FAILED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DataSourceAttachmentSummary AWS API Documentation
+    #
+    class DataSourceAttachmentSummary < Struct.new(
+      :attachment_id,
+      :data_source_arn,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details about a direct-query data source.
     #
     # @!attribute [rw] data_source_type
@@ -2703,6 +2829,74 @@ module Aws::OpenSearchService
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeregisterCapabilityResponse AWS API Documentation
     #
     class DeregisterCapabilityResponse < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier or name of the OpenSearch application.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDataSourceAttachmentRequest AWS API Documentation
+    #
+    class DescribeDataSourceAttachmentRequest < Struct.new(
+      :id,
+      :data_source_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] attachment_id
+    #   The unique identifier assigned to the data source attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The unique identifier of the OpenSearch application.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the data source attachment. Valid values are
+    #   `PENDING`, `ATTACHED`, and `FAILED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDataSourceAttachmentResponse AWS API Documentation
+    #
+    class DescribeDataSourceAttachmentResponse < Struct.new(
+      :attachment_id,
+      :id,
+      :arn,
+      :data_source_arn,
       :status)
       SENSITIVE = []
       include Aws::Structure
@@ -3479,6 +3673,64 @@ module Aws::OpenSearchService
     class DescribeVpcEndpointsResponse < Struct.new(
       :vpc_endpoints,
       :vpc_endpoint_errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier or name of the OpenSearch application to
+    #   detach the data source from.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DetachDataSourceRequest AWS API Documentation
+    #
+    class DetachDataSourceRequest < Struct.new(
+      :id,
+      :data_source_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the OpenSearch application.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for
+    #   IAM Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DetachDataSourceResponse AWS API Documentation
+    #
+    class DetachDataSourceResponse < Struct.new(
+      :id,
+      :arn,
+      :data_source_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5820,6 +6072,49 @@ module Aws::OpenSearchService
     #
     class ListApplicationsResponse < Struct.new(
       :application_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier or name of the OpenSearch application to list
+    #   attachments for.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from a previous call to retrieve the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page. The default is 50.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListDataSourceAttachmentsRequest AWS API Documentation
+    #
+    class ListDataSourceAttachmentsRequest < Struct.new(
+      :id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] attachments
+    #   A list of data source attachment summaries for the specified
+    #   application.
+    #   @return [Array<Types::DataSourceAttachmentSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token to use in a subsequent call to retrieve the
+    #   next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListDataSourceAttachmentsResponse AWS API Documentation
+    #
+    class ListDataSourceAttachmentsResponse < Struct.new(
+      :attachments,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -9387,6 +9682,31 @@ module Aws::OpenSearchService
     class WindowStartTime < Struct.new(
       :hours,
       :minutes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for creating a new workspace when attaching a data
+    # source to an OpenSearch application. The workspace is created after
+    # the data source is successfully attached.
+    #
+    # @!attribute [rw] name
+    #   The name of the workspace to create. Must be between 1 and 40
+    #   characters and can contain alphanumeric characters, parentheses,
+    #   brackets, hyphens, underscores, and spaces.
+    #   @return [String]
+    #
+    # @!attribute [rw] workspace_type
+    #   The type of workspace to create, which determines the use-case
+    #   features enabled for the workspace. Valid values are
+    #   `OBSERVABILITY`, `SECURITY_ANALYTICS`, and `SEARCH`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/WorkspaceConfigurationInput AWS API Documentation
+    #
+    class WorkspaceConfigurationInput < Struct.new(
+      :name,
+      :workspace_type)
       SENSITIVE = []
       include Aws::Structure
     end

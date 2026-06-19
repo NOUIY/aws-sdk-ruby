@@ -484,7 +484,7 @@ module Aws::Glue
     # Associates one or more glossary terms with an asset in Glue Data
     # Catalog.
     #
-    # @option params [required, String] :identifier
+    # @option params [required, String] :asset_identifier
     #   The unique identifier of the asset to associate glossary terms with.
     #
     # @option params [required, Array<String>] :glossary_term_identifiers
@@ -499,20 +499,20 @@ module Aws::Glue
     #
     # @return [Types::AssociateGlossaryTermsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::AssociateGlossaryTermsResponse#identifier #identifier} => String
+    #   * {Types::AssociateGlossaryTermsResponse#asset_identifier #asset_identifier} => String
     #   * {Types::AssociateGlossaryTermsResponse#glossary_terms #glossary_terms} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.associate_glossary_terms({
-    #     identifier: "AssetId", # required
+    #     asset_identifier: "AssetId", # required
     #     glossary_term_identifiers: ["GlossaryTermId"], # required
     #     client_token: "HashString",
     #   })
     #
     # @example Response structure
     #
-    #   resp.identifier #=> String
+    #   resp.asset_identifier #=> String
     #   resp.glossary_terms #=> Array
     #   resp.glossary_terms[0] #=> String
     #
@@ -5109,27 +5109,38 @@ module Aws::Glue
 
     # Deletes a form attachment from an asset in Glue Data Catalog.
     #
-    # @option params [required, String] :identifier
+    # @option params [required, String] :asset_identifier
     #   The unique identifier of the asset from which to delete the
     #   attachment.
+    #
+    # @option params [String] :iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the attachment is deleted from an item within the
+    #   iterable form rather than from the asset itself.
+    #
+    # @option params [String] :item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
     #
     # @option params [required, String] :attachment_name
     #   The name of the attachment to delete.
     #
     # @return [Types::DeleteAttachmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::DeleteAttachmentResponse#identifier #identifier} => String
+    #   * {Types::DeleteAttachmentResponse#asset_identifier #asset_identifier} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_attachment({
-    #     identifier: "AssetId", # required
+    #     asset_identifier: "AssetId", # required
+    #     iterable_form_name: "IterableFormName",
+    #     item_identifier: "ItemIdentifier",
     #     attachment_name: "AttachmentName", # required
     #   })
     #
     # @example Response structure
     #
-    #   resp.identifier #=> String
+    #   resp.asset_identifier #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachment AWS API Documentation
     #
@@ -6849,7 +6860,7 @@ module Aws::Glue
     # Removes the association of one or more glossary terms from an asset in
     # Glue Data Catalog.
     #
-    # @option params [required, String] :identifier
+    # @option params [required, String] :asset_identifier
     #   The unique identifier of the asset to disassociate glossary terms
     #   from.
     #
@@ -6865,20 +6876,20 @@ module Aws::Glue
     #
     # @return [Types::DisassociateGlossaryTermsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::DisassociateGlossaryTermsResponse#identifier #identifier} => String
+    #   * {Types::DisassociateGlossaryTermsResponse#asset_identifier #asset_identifier} => String
     #   * {Types::DisassociateGlossaryTermsResponse#glossary_terms #glossary_terms} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.disassociate_glossary_terms({
-    #     identifier: "AssetId", # required
+    #     asset_identifier: "AssetId", # required
     #     glossary_term_identifiers: ["GlossaryTermId"], # required
     #     client_token: "HashString",
     #   })
     #
     # @example Response structure
     #
-    #   resp.identifier #=> String
+    #   resp.asset_identifier #=> String
     #   resp.glossary_terms #=> Array
     #   resp.glossary_terms[0] #=> String
     #
@@ -15555,7 +15566,7 @@ module Aws::Glue
     #
     # @return [Types::PutAttachmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::PutAttachmentResponse#asset_id #asset_id} => String
+    #   * {Types::PutAttachmentResponse#asset_identifier #asset_identifier} => String
     #   * {Types::PutAttachmentResponse#iterable_form_name #iterable_form_name} => String
     #   * {Types::PutAttachmentResponse#item_identifier #item_identifier} => String
     #   * {Types::PutAttachmentResponse#attachment_name #attachment_name} => String
@@ -15575,7 +15586,7 @@ module Aws::Glue
     #
     # @example Response structure
     #
-    #   resp.asset_id #=> String
+    #   resp.asset_identifier #=> String
     #   resp.iterable_form_name #=> String
     #   resp.item_identifier #=> String
     #   resp.attachment_name #=> String
@@ -16722,16 +16733,16 @@ module Aws::Glue
     #   The filter clause to apply to the search. Supports nested AND/OR logic
     #   with attribute-level and map-level filters.
     #
-    # @return [Types::SearchOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    # @return [Types::SearchAssetsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::SearchOutput#items #items} => Array&lt;Types::SearchResultItem&gt;
-    #   * {Types::SearchOutput#next_token #next_token} => String
+    #   * {Types::SearchAssetsOutput#items #items} => Array&lt;Types::SearchResultItem&gt;
+    #   * {Types::SearchAssetsOutput#next_token #next_token} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
-    #   resp = client.search({
+    #   resp = client.search_assets({
     #     search_text: "SearchText",
     #     max_results: 1,
     #     next_token: "SearchNextToken",
@@ -16778,12 +16789,12 @@ module Aws::Glue
     #   resp.items[0].asset_type_id #=> String
     #   resp.next_token #=> String
     #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/Search AWS API Documentation
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchAssets AWS API Documentation
     #
-    # @overload search(params = {})
+    # @overload search_assets(params = {})
     # @param [Hash] params ({})
-    def search(params = {}, options = {})
-      req = build_request(:search, params)
+    def search_assets(params = {}, options = {})
+      req = build_request(:search_assets, params)
       req.send_request(options)
     end
 
@@ -20568,7 +20579,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.262.0'
+      context[:gem_version] = '1.263.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

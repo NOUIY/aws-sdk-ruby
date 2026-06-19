@@ -2507,7 +2507,7 @@ module Aws::AppStream
     #     agent_access_config: {
     #       settings: [ # required
     #         {
-    #           agent_action: "COMPUTER_VISION", # required, accepts COMPUTER_VISION, COMPUTER_INPUT
+    #           agent_action: "COMPUTER_VISION", # required, accepts COMPUTER_VISION, COMPUTER_INPUT, FORWARD_MCP_TOOLS
     #           permission: "ENABLED", # required, accepts ENABLED, DISABLED
     #         },
     #       ],
@@ -2515,6 +2515,7 @@ module Aws::AppStream
     #       screenshots_upload_enabled: false,
     #       screen_resolution: "W_1280xH_720", # required, accepts W_1280xH_720
     #       screen_image_format: "PNG", # required, accepts PNG, JPEG
+    #       user_control_mode: "VIEW_ONLY", # accepts VIEW_ONLY, VIEW_STOP, DISABLED
     #     },
     #   })
     #
@@ -2556,12 +2557,13 @@ module Aws::AppStream
     #   resp.stack.content_redirection.host_to_client.denied_urls #=> Array
     #   resp.stack.content_redirection.host_to_client.denied_urls[0] #=> String
     #   resp.stack.agent_access_config.settings #=> Array
-    #   resp.stack.agent_access_config.settings[0].agent_action #=> String, one of "COMPUTER_VISION", "COMPUTER_INPUT"
+    #   resp.stack.agent_access_config.settings[0].agent_action #=> String, one of "COMPUTER_VISION", "COMPUTER_INPUT", "FORWARD_MCP_TOOLS"
     #   resp.stack.agent_access_config.settings[0].permission #=> String, one of "ENABLED", "DISABLED"
     #   resp.stack.agent_access_config.s3_bucket_arn #=> String
     #   resp.stack.agent_access_config.screenshots_upload_enabled #=> Boolean
     #   resp.stack.agent_access_config.screen_resolution #=> String, one of "W_1280xH_720"
     #   resp.stack.agent_access_config.screen_image_format #=> String, one of "PNG", "JPEG"
+    #   resp.stack.agent_access_config.user_control_mode #=> String, one of "VIEW_ONLY", "VIEW_STOP", "DISABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateStack AWS API Documentation
     #
@@ -4255,12 +4257,13 @@ module Aws::AppStream
     #   resp.stacks[0].content_redirection.host_to_client.denied_urls #=> Array
     #   resp.stacks[0].content_redirection.host_to_client.denied_urls[0] #=> String
     #   resp.stacks[0].agent_access_config.settings #=> Array
-    #   resp.stacks[0].agent_access_config.settings[0].agent_action #=> String, one of "COMPUTER_VISION", "COMPUTER_INPUT"
+    #   resp.stacks[0].agent_access_config.settings[0].agent_action #=> String, one of "COMPUTER_VISION", "COMPUTER_INPUT", "FORWARD_MCP_TOOLS"
     #   resp.stacks[0].agent_access_config.settings[0].permission #=> String, one of "ENABLED", "DISABLED"
     #   resp.stacks[0].agent_access_config.s3_bucket_arn #=> String
     #   resp.stacks[0].agent_access_config.screenshots_upload_enabled #=> Boolean
     #   resp.stacks[0].agent_access_config.screen_resolution #=> String, one of "W_1280xH_720"
     #   resp.stacks[0].agent_access_config.screen_image_format #=> String, one of "PNG", "JPEG"
+    #   resp.stacks[0].agent_access_config.user_control_mode #=> String, one of "VIEW_ONLY", "VIEW_STOP", "DISABLED"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeStacks AWS API Documentation
@@ -6301,7 +6304,7 @@ module Aws::AppStream
     #     agent_access_config: {
     #       settings: [
     #         {
-    #           agent_action: "COMPUTER_VISION", # required, accepts COMPUTER_VISION, COMPUTER_INPUT
+    #           agent_action: "COMPUTER_VISION", # required, accepts COMPUTER_VISION, COMPUTER_INPUT, FORWARD_MCP_TOOLS
     #           permission: "ENABLED", # required, accepts ENABLED, DISABLED
     #         },
     #       ],
@@ -6309,6 +6312,7 @@ module Aws::AppStream
     #       screenshots_upload_enabled: false,
     #       screen_resolution: "W_1280xH_720", # accepts W_1280xH_720
     #       screen_image_format: "PNG", # accepts PNG, JPEG
+    #       user_control_mode: "VIEW_ONLY", # accepts VIEW_ONLY, VIEW_STOP, DISABLED
     #     },
     #   })
     #
@@ -6350,12 +6354,13 @@ module Aws::AppStream
     #   resp.stack.content_redirection.host_to_client.denied_urls #=> Array
     #   resp.stack.content_redirection.host_to_client.denied_urls[0] #=> String
     #   resp.stack.agent_access_config.settings #=> Array
-    #   resp.stack.agent_access_config.settings[0].agent_action #=> String, one of "COMPUTER_VISION", "COMPUTER_INPUT"
+    #   resp.stack.agent_access_config.settings[0].agent_action #=> String, one of "COMPUTER_VISION", "COMPUTER_INPUT", "FORWARD_MCP_TOOLS"
     #   resp.stack.agent_access_config.settings[0].permission #=> String, one of "ENABLED", "DISABLED"
     #   resp.stack.agent_access_config.s3_bucket_arn #=> String
     #   resp.stack.agent_access_config.screenshots_upload_enabled #=> Boolean
     #   resp.stack.agent_access_config.screen_resolution #=> String, one of "W_1280xH_720"
     #   resp.stack.agent_access_config.screen_image_format #=> String, one of "PNG", "JPEG"
+    #   resp.stack.agent_access_config.user_control_mode #=> String, one of "VIEW_ONLY", "VIEW_STOP", "DISABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateStack AWS API Documentation
     #
@@ -6471,7 +6476,7 @@ module Aws::AppStream
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-appstream'
-      context[:gem_version] = '1.137.0'
+      context[:gem_version] = '1.138.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

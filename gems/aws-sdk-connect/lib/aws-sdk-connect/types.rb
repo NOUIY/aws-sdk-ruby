@@ -4060,6 +4060,103 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # A list of conditions which would be applied together with an `AND`
+    # condition.
+    #
+    # @!attribute [rw] tag_conditions
+    #   A list of tag conditions to apply.
+    #   @return [Array<Types::TagCondition>]
+    #
+    # @!attribute [rw] attribute_conditions
+    #   A list of attribute conditions to apply.
+    #   @return [Array<Types::ContactEvaluationAttributeCondition>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactEvaluationAttributeAndCondition AWS API Documentation
+    #
+    class ContactEvaluationAttributeAndCondition < Struct.new(
+      :tag_conditions,
+      :attribute_conditions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An attribute condition for contact evaluation filtering.
+    #
+    # @!attribute [rw] attribute_key
+    #   The key of the attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] attribute_value
+    #   The value of the attribute.
+    #   @return [Types::ContactEvaluationAttributeValue]
+    #
+    # @!attribute [rw] comparison_type
+    #   The comparison type for the condition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactEvaluationAttributeCondition AWS API Documentation
+    #
+    class ContactEvaluationAttributeCondition < Struct.new(
+      :attribute_key,
+      :attribute_value,
+      :comparison_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that can be used to specify tag conditions and attribute
+    # conditions inside the `SearchFilter` for contact evaluations. This
+    # accepts an `OR` or `AND` (List of List) input where:
+    #
+    # * The top level list specifies conditions that need to be applied with
+    #   `OR` operator.
+    #
+    # * The inner list specifies conditions that need to be applied with
+    #   `AND` operator.
+    #
+    # @!attribute [rw] or_conditions
+    #   A list of conditions which would be applied together with an `OR`
+    #   condition.
+    #   @return [Array<Types::ContactEvaluationAttributeAndCondition>]
+    #
+    # @!attribute [rw] and_condition
+    #   A list of conditions which would be applied together with an `AND`
+    #   condition.
+    #   @return [Types::ContactEvaluationAttributeAndCondition]
+    #
+    # @!attribute [rw] tag_condition
+    #   A tag condition to apply.
+    #   @return [Types::TagCondition]
+    #
+    # @!attribute [rw] contact_evaluation_attribute_condition
+    #   An attribute condition to apply.
+    #   @return [Types::ContactEvaluationAttributeCondition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactEvaluationAttributeFilter AWS API Documentation
+    #
+    class ContactEvaluationAttributeFilter < Struct.new(
+      :or_conditions,
+      :and_condition,
+      :tag_condition,
+      :contact_evaluation_attribute_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The value of a contact evaluation attribute condition.
+    #
+    # @!attribute [rw] string_value
+    #   A string value for the attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactEvaluationAttributeValue AWS API Documentation
+    #
+    class ContactEvaluationAttributeValue < Struct.new(
+      :string_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Filters user data based on the contact information that is associated
     # to the users. It contains a list of [contact states][1].
     #
@@ -12668,6 +12765,16 @@ module Aws::Connect
     #   Configuration for language settings of this evaluation form.
     #   @return [Types::EvaluationFormLanguageConfiguration]
     #
+    # @!attribute [rw] latest_validation_status
+    #   The status of the most recent validation run for this evaluation
+    #   form. Valid values: `IN_PROGRESS`, `COMPLETED`, `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_validation_time
+    #   The timestamp when the most recent validation was started for this
+    #   evaluation form.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationForm AWS API Documentation
     #
     class EvaluationForm < Struct.new(
@@ -12688,7 +12795,9 @@ module Aws::Connect
       :review_configuration,
       :tags,
       :target_configuration,
-      :language_configuration)
+      :language_configuration,
+      :latest_validation_status,
+      :last_validation_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13012,11 +13121,33 @@ module Aws::Connect
     #   Display text for this option.
     #   @return [String]
     #
+    # @!attribute [rw] score
+    #   The score assigned to the answer option.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] automatic_fail
+    #   The flag to mark the option as automatic fail. If an automatic fail
+    #   answer is provided, the overall evaluation gets a score of 0.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] automatic_fail_configuration
+    #   Information about automatic fail configuration for an evaluation
+    #   form.
+    #   @return [Types::AutomaticFailConfiguration]
+    #
+    # @!attribute [rw] points_configuration
+    #   The points configuration for point-based scoring.
+    #   @return [Types::QuestionOptionPointsConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormMultiSelectQuestionOption AWS API Documentation
     #
     class EvaluationFormMultiSelectQuestionOption < Struct.new(
       :ref_id,
-      :text)
+      :text,
+      :score,
+      :automatic_fail,
+      :automatic_fail_configuration,
+      :points_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13098,6 +13229,10 @@ module Aws::Connect
     #   A configuration for automatic fail.
     #   @return [Types::AutomaticFailConfiguration]
     #
+    # @!attribute [rw] points_configuration
+    #   The points configuration for point-based scoring.
+    #   @return [Types::QuestionOptionPointsConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormNumericQuestionOption AWS API Documentation
     #
     class EvaluationFormNumericQuestionOption < Struct.new(
@@ -13105,7 +13240,8 @@ module Aws::Connect
       :max_value,
       :score,
       :automatic_fail,
-      :automatic_fail_configuration)
+      :automatic_fail_configuration,
+      :points_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13176,6 +13312,10 @@ module Aws::Connect
     #   The scoring weight of the section.
     #   @return [Float]
     #
+    # @!attribute [rw] scoring_configuration
+    #   The scoring configuration of the question.
+    #   @return [Types::EvaluationFormQuestionScoringConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormQuestion AWS API Documentation
     #
     class EvaluationFormQuestion < Struct.new(
@@ -13186,7 +13326,8 @@ module Aws::Connect
       :question_type,
       :question_type_properties,
       :enablement,
-      :weight)
+      :weight,
+      :scoring_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13201,6 +13342,30 @@ module Aws::Connect
     #
     class EvaluationFormQuestionAutomationAnswerSource < Struct.new(
       :source_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Scoring configuration for a question in an evaluation form.
+    #
+    # @!attribute [rw] points_configuration
+    #   The points configuration for point-based scoring.
+    #   @return [Types::QuestionPointsConfiguration]
+    #
+    # @!attribute [rw] is_excluded_from_scoring
+    #   The flag to exclude the question from scoring.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] score_thresholds
+    #   The score thresholds for performance categories.
+    #   @return [Array<Types::EvaluationFormScoreThreshold>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormQuestionScoringConfiguration AWS API Documentation
+    #
+    class EvaluationFormQuestionScoringConfiguration < Struct.new(
+      :points_configuration,
+      :is_excluded_from_scoring,
+      :score_thresholds)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13248,6 +13413,30 @@ module Aws::Connect
       class Unknown < EvaluationFormQuestionTypeProperties; end
     end
 
+    # Information about a score threshold for a performance category.
+    #
+    # @!attribute [rw] performance_category
+    #   The performance category name.
+    #   @return [String]
+    #
+    # @!attribute [rw] min_score_percentage
+    #   The minimum score percentage for the performance category.
+    #   @return [Float]
+    #
+    # @!attribute [rw] max_score_percentage
+    #   The maximum score percentage for the performance category.
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormScoreThreshold AWS API Documentation
+    #
+    class EvaluationFormScoreThreshold < Struct.new(
+      :performance_category,
+      :min_score_percentage,
+      :max_score_percentage)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about scoring strategy for an evaluation form.
     #
     # @!attribute [rw] mode
@@ -13258,11 +13447,16 @@ module Aws::Connect
     #   The scoring status of the evaluation form.
     #   @return [String]
     #
+    # @!attribute [rw] score_thresholds
+    #   The score thresholds for performance categories.
+    #   @return [Array<Types::EvaluationFormScoreThreshold>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormScoringStrategy AWS API Documentation
     #
     class EvaluationFormScoringStrategy < Struct.new(
       :mode,
-      :status)
+      :status,
+      :score_thresholds)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13457,6 +13651,14 @@ module Aws::Connect
     #   The scoring weight of the section.
     #   @return [Float]
     #
+    # @!attribute [rw] is_excluded_from_scoring
+    #   The flag to exclude the section from scoring.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] score_thresholds
+    #   The score thresholds for performance categories.
+    #   @return [Array<Types::EvaluationFormScoreThreshold>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormSection AWS API Documentation
     #
     class EvaluationFormSection < Struct.new(
@@ -13464,7 +13666,9 @@ module Aws::Connect
       :ref_id,
       :instructions,
       :items,
-      :weight)
+      :weight,
+      :is_excluded_from_scoring,
+      :score_thresholds)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13546,6 +13750,10 @@ module Aws::Connect
     #   Whether automatic fail is configured on a single select question.
     #   @return [Types::AutomaticFailConfiguration]
     #
+    # @!attribute [rw] points_configuration
+    #   The points configuration for point-based scoring.
+    #   @return [Types::QuestionOptionPointsConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormSingleSelectQuestionOption AWS API Documentation
     #
     class EvaluationFormSingleSelectQuestionOption < Struct.new(
@@ -13553,7 +13761,8 @@ module Aws::Connect
       :text,
       :score,
       :automatic_fail,
-      :automatic_fail_configuration)
+      :automatic_fail_configuration,
+      :points_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13688,6 +13897,64 @@ module Aws::Connect
     #
     class EvaluationFormTextQuestionProperties < Struct.new(
       :automation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a finding from the evaluation form validation
+    # process. Each finding identifies a structural issue or quality
+    # improvement opportunity for the evaluation form.
+    #
+    # @!attribute [rw] issue_code
+    #   A code that identifies the type of validation issue found.
+    #   @return [String]
+    #
+    # @!attribute [rw] items
+    #   A list of evaluation form items affected by this finding.
+    #   @return [Array<Types::EvaluationFormValidationFindingItem>]
+    #
+    # @!attribute [rw] description
+    #   A description of the validation issue.
+    #   @return [String]
+    #
+    # @!attribute [rw] suggestion
+    #   A suggested fix for the validation issue.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   The severity of the finding. Valid values: `WARNING`, `ERROR`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormValidationFinding AWS API Documentation
+    #
+    class EvaluationFormValidationFinding < Struct.new(
+      :issue_code,
+      :items,
+      :description,
+      :suggestion,
+      :severity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about an evaluation form item affected by a validation
+    # finding.
+    #
+    # @!attribute [rw] ref_id
+    #   The identifier of the evaluation form item (question or section)
+    #   affected by the finding.
+    #   @return [String]
+    #
+    # @!attribute [rw] property
+    #   The specific property of the evaluation form item that the finding
+    #   relates to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationFormValidationFindingItem AWS API Documentation
+    #
+    class EvaluationFormValidationFindingItem < Struct.new(
+      :ref_id,
+      :property)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14031,13 +14298,28 @@ module Aws::Connect
     #   Weight applied to this evaluation score.
     #   @return [Float]
     #
+    # @!attribute [rw] earned_points
+    #   The points earned for the item.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_base_point
+    #   The maximum base points possible for the item.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] performance_category
+    #   The performance category for the score.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationScore AWS API Documentation
     #
     class EvaluationScore < Struct.new(
       :percentage,
       :not_applicable,
       :automatic_fail,
-      :applied_weight)
+      :applied_weight,
+      :earned_points,
+      :max_base_point,
+      :performance_category)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14097,21 +14379,19 @@ module Aws::Connect
     # Filters to be applied to search results.
     #
     # @!attribute [rw] attribute_filter
-    #   An object that can be used to specify Tag conditions inside the
-    #   `SearchFilter`. This accepts an `OR` or `AND` (List of List) input
-    #   where:
-    #
-    #   * The top level list specifies conditions that need to be applied
-    #     with `OR` operator.
-    #
-    #   * The inner list specifies conditions that need to be applied with
-    #     `AND` operator.
+    #   An object that can be used to specify tag conditions.
     #   @return [Types::ControlPlaneAttributeFilter]
+    #
+    # @!attribute [rw] contact_evaluation_attribute_filter
+    #   An object that can be used to specify tag conditions and attribute
+    #   conditions for contact evaluations.
+    #   @return [Types::ContactEvaluationAttributeFilter]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationSearchFilter AWS API Documentation
     #
     class EvaluationSearchFilter < Struct.new(
-      :attribute_filter)
+      :attribute_filter,
+      :contact_evaluation_attribute_filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14184,6 +14464,18 @@ module Aws::Connect
     #   Identifier for a contact participant in the evaluation.
     #   @return [String]
     #
+    # @!attribute [rw] earned_points
+    #   The points earned for the evaluation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_base_point
+    #   The maximum base points possible for the evaluation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] performance_category
+    #   The performance category for the evaluation score.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/EvaluationSearchMetadata AWS API Documentation
     #
     class EvaluationSearchMetadata < Struct.new(
@@ -14202,7 +14494,10 @@ module Aws::Connect
       :sampling_job_id,
       :review_id,
       :contact_participant_role,
-      :contact_participant_id)
+      :contact_participant_id,
+      :earned_points,
+      :max_base_point,
+      :performance_category)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14745,7 +15040,10 @@ module Aws::Connect
     #
     # @!attribute [rw] routing_step_expressions
     #   A list of expressions as a filter, in which an expression is an
-    #   object of a step in a routing criteria.
+    #   object of a step in a routing criteria. Accepts filter values up to
+    #   3,000 characters in length. Filter values are case-sensitive. JSON
+    #   object key order and whitespace may be arbitrary; array order and
+    #   tree structure must be preserved.
     #   @return [Array<String>]
     #
     # @!attribute [rw] agent_statuses
@@ -15481,6 +15779,76 @@ module Aws::Connect
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
     #   @return [String]
     #
+    # @!attribute [rw] evaluation_form_id
+    #   The unique identifier for the evaluation form.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_form_version
+    #   The version of the evaluation form to retrieve validation results
+    #   for.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetEvaluationFormValidationRequest AWS API Documentation
+    #
+    class GetEvaluationFormValidationRequest < Struct.new(
+      :instance_id,
+      :evaluation_form_id,
+      :evaluation_form_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The current status of the validation process. Valid values:
+    #   `IN_PROGRESS`, `COMPLETED`, `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason the validation failed. This field is populated only when
+    #   the status is `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_form_id
+    #   The unique identifier for the evaluation form.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_form_version
+    #   A version of the evaluation form.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] started_time
+    #   The timestamp when the validation process was started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] findings
+    #   A list of findings from the validation process. Each finding
+    #   identifies a structural issue or quality improvement for the
+    #   evaluation form, and may include a suggested fix. This field is
+    #   populated when the status is `COMPLETED`.
+    #   @return [Array<Types::EvaluationFormValidationFinding>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetEvaluationFormValidationResponse AWS API Documentation
+    #
+    class GetEvaluationFormValidationResponse < Struct.new(
+      :status,
+      :failure_reason,
+      :evaluation_form_id,
+      :evaluation_form_version,
+      :started_time,
+      :findings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetFederationTokenRequest AWS API Documentation
     #
     class GetFederationTokenRequest < Struct.new(
@@ -16049,9 +16417,9 @@ module Aws::Connect
     #     for the `contact/segmentAttributes/connect:Subtype` filter key.
     #
     #   * `ROUTING_STEP_EXPRESSION` accepts a filter value up to 3,000
-    #     characters in length. This filter is case-sensitive and
-    #     order-sensitive. JSON string fields must be sorted in ascending
-    #     order, and JSON array order must be preserved.
+    #     characters in length. Filter values are case-sensitive. JSON
+    #     object key order and whitespace may be arbitrary; array order and
+    #     tree structure must be preserved.
     #
     #   * TRUE and FALSE are the only valid filter values for the
     #     `Q_CONNECT_ENABLED` filter key.
@@ -26263,6 +26631,49 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Information about the points configuration for an answer option.
+    #
+    # @!attribute [rw] point_value
+    #   The point value assigned to the answer option.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_bonus
+    #   The flag to mark the option as a bonus option.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/QuestionOptionPointsConfiguration AWS API Documentation
+    #
+    class QuestionOptionPointsConfiguration < Struct.new(
+      :point_value,
+      :is_bonus)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the points configuration for a question.
+    #
+    # @!attribute [rw] max_point_value
+    #   The maximum point value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] min_point_value
+    #   The minimum point value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_bonus
+    #   The flag to mark the question as a bonus question.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/QuestionPointsConfiguration AWS API Documentation
+    #
+    class QuestionPointsConfiguration < Struct.new(
+      :max_point_value,
+      :min_point_value,
+      :is_bonus)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains information about a queue.
     #
     # @!attribute [rw] name
@@ -31883,6 +32294,55 @@ module Aws::Connect
     #
     class StartEmailContactResponse < Struct.new(
       :contact_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_form_id
+    #   The unique identifier for the evaluation form.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_form_version
+    #   The version of the evaluation form to validate.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartEvaluationFormValidationRequest AWS API Documentation
+    #
+    class StartEvaluationFormValidationRequest < Struct.new(
+      :instance_id,
+      :evaluation_form_id,
+      :evaluation_form_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] evaluation_form_id
+    #   The unique identifier for the evaluation form.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_form_arn
+    #   The Amazon Resource Name (ARN) for the evaluation form resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] evaluation_form_version
+    #   A version of the evaluation form.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartEvaluationFormValidationResponse AWS API Documentation
+    #
+    class StartEvaluationFormValidationResponse < Struct.new(
+      :evaluation_form_id,
+      :evaluation_form_arn,
+      :evaluation_form_version)
       SENSITIVE = []
       include Aws::Structure
     end

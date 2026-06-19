@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.79.0 (2026-06-19)
+------------------
+
+* Feature - Add support for metadata-only retrieval on GetFlow, GetFlowVersion, and GetPrompt APIs.
+
 1.78.0 (2026-06-17)
 ------------------
 

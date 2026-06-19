@@ -810,6 +810,85 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Attaches a data source to an OpenSearch application. The data source
+    # can be an Amazon OpenSearch Service domain or an Amazon OpenSearch
+    # Serverless collection. If both the application and data source are in
+    # the `ACTIVE` state, the attachment completes immediately and returns a
+    # status of `ATTACHED`. If either resource is not yet active, the
+    # operation stores the request and returns a status of `PENDING`. A
+    # background process then completes the attachment when both resources
+    # become active. Pending attachments that are not completed within 24
+    # hours are marked as `FAILED`. This operation is idempotent. If a data
+    # source is already attached or pending for the same application, the
+    # existing attachment is returned.
+    #
+    # @option params [required, String] :id
+    #   The unique identifier or name of the OpenSearch application to attach
+    #   the data source to. This is the same identifier used with
+    #   `UpdateApplication`, `GetApplication`, and `DeleteApplication`.
+    #
+    # @option params [required, String] :data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM
+    #   Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #
+    # @option params [String] :workspace_id
+    #   The identifier of an existing workspace to update with the new data
+    #   source. Mutually exclusive with `workspaceConfiguration`.
+    #
+    # @option params [Types::WorkspaceConfigurationInput] :workspace_configuration
+    #   Configuration for creating a new workspace during the attachment. If
+    #   specified, a workspace is created and linked to the data source after
+    #   the attachment completes. Mutually exclusive with `workspaceId`.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. If you retry a request with the same client token and the
+    #   same parameters, the retry succeeds without performing any further
+    #   actions.
+    #
+    # @return [Types::AttachDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AttachDataSourceResponse#attachment_id #attachment_id} => String
+    #   * {Types::AttachDataSourceResponse#id #id} => String
+    #   * {Types::AttachDataSourceResponse#arn #arn} => String
+    #   * {Types::AttachDataSourceResponse#data_source_arn #data_source_arn} => String
+    #   * {Types::AttachDataSourceResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.attach_data_source({
+    #     id: "Id", # required
+    #     data_source_arn: "ARN", # required
+    #     workspace_id: "String",
+    #     workspace_configuration: {
+    #       name: "String", # required
+    #       workspace_type: "String", # required
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.attachment_id #=> String
+    #   resp.id #=> String
+    #   resp.arn #=> String
+    #   resp.data_source_arn #=> String
+    #   resp.status #=> String, one of "PENDING", "ATTACHED", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AttachDataSource AWS API Documentation
+    #
+    # @overload attach_data_source(params = {})
+    # @param [Hash] params ({})
+    def attach_data_source(params = {}, options = {})
+      req = build_request(:attach_data_source, params)
+      req.send_request(options)
+    end
+
     # Provides access to an Amazon OpenSearch Service domain through the use
     # of an interface VPC endpoint.
     #
@@ -2311,6 +2390,55 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Returns the current status and details of a specific data source
+    # attachment for an OpenSearch application. Throws a
+    # `ResourceNotFoundException` if no attachment record exists for the
+    # specified application and data source combination.
+    #
+    # @option params [required, String] :id
+    #   The unique identifier or name of the OpenSearch application.
+    #
+    # @option params [required, String] :data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM
+    #   Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #
+    # @return [Types::DescribeDataSourceAttachmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDataSourceAttachmentResponse#attachment_id #attachment_id} => String
+    #   * {Types::DescribeDataSourceAttachmentResponse#id #id} => String
+    #   * {Types::DescribeDataSourceAttachmentResponse#arn #arn} => String
+    #   * {Types::DescribeDataSourceAttachmentResponse#data_source_arn #data_source_arn} => String
+    #   * {Types::DescribeDataSourceAttachmentResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_data_source_attachment({
+    #     id: "Id", # required
+    #     data_source_arn: "ARN", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.attachment_id #=> String
+    #   resp.id #=> String
+    #   resp.arn #=> String
+    #   resp.data_source_arn #=> String
+    #   resp.status #=> String, one of "PENDING", "ATTACHED", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDataSourceAttachment AWS API Documentation
+    #
+    # @overload describe_data_source_attachment(params = {})
+    # @param [Hash] params ({})
+    def describe_data_source_attachment(params = {}, options = {})
+      req = build_request(:describe_data_source_attachment, params)
+      req.send_request(options)
+    end
+
     # Describes the domain configuration for the specified Amazon OpenSearch
     # Service domain, including the domain ID, domain service endpoint, and
     # domain ARN.
@@ -3744,6 +3872,54 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Removes a data source from an OpenSearch application. The application
+    # must be in the `ACTIVE` state. This operation removes the data source
+    # saved object from the application and deletes the attachment record.
+    # Throws a `ConflictException` if the specified data source has a
+    # `PENDING` attachment, and a `ResourceNotFoundException` if the data
+    # source is not currently attached to the application.
+    #
+    # @option params [required, String] :id
+    #   The unique identifier or name of the OpenSearch application to detach
+    #   the data source from.
+    #
+    # @option params [required, String] :data_source_arn
+    #   The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM
+    #   Entities ][1] in *Using Amazon Web Services Identity and Access
+    #   Management* for more information.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html
+    #
+    # @return [Types::DetachDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DetachDataSourceResponse#id #id} => String
+    #   * {Types::DetachDataSourceResponse#arn #arn} => String
+    #   * {Types::DetachDataSourceResponse#data_source_arn #data_source_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.detach_data_source({
+    #     id: "Id", # required
+    #     data_source_arn: "ARN", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.arn #=> String
+    #   resp.data_source_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DetachDataSource AWS API Documentation
+    #
+    # @overload detach_data_source(params = {})
+    # @param [Hash] params ({})
+    def detach_data_source(params = {}, options = {})
+      req = build_request(:detach_data_source, params)
+      req.send_request(options)
+    end
+
     # Removes a package from the specified Amazon OpenSearch Service domain.
     # The package can't be in use with any OpenSearch index for the
     # dissociation to succeed. The package is still available in OpenSearch
@@ -4361,6 +4537,51 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def list_applications(params = {}, options = {})
       req = build_request(:list_applications, params)
+      req.send_request(options)
+    end
+
+    # Returns a paginated list of all data source attachments for an
+    # OpenSearch application, including attachments in all states
+    # (`PENDING`, `ATTACHED`, and `FAILED`).
+    #
+    # @option params [required, String] :id
+    #   The unique identifier or name of the OpenSearch application to list
+    #   attachments for.
+    #
+    # @option params [String] :next_token
+    #   The pagination token from a previous call to retrieve the next set of
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page. The default is 50.
+    #
+    # @return [Types::ListDataSourceAttachmentsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDataSourceAttachmentsResponse#attachments #attachments} => Array&lt;Types::DataSourceAttachmentSummary&gt;
+    #   * {Types::ListDataSourceAttachmentsResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_data_source_attachments({
+    #     id: "Id", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.attachments #=> Array
+    #   resp.attachments[0].attachment_id #=> String
+    #   resp.attachments[0].data_source_arn #=> String
+    #   resp.attachments[0].status #=> String, one of "PENDING", "ATTACHED", "FAILED"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListDataSourceAttachments AWS API Documentation
+    #
+    # @overload list_data_source_attachments(params = {})
+    # @param [Hash] params ({})
+    def list_data_source_attachments(params = {}, options = {})
+      req = build_request(:list_data_source_attachments, params)
       req.send_request(options)
     end
 
@@ -6600,7 +6821,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.103.0'
+      context[:gem_version] = '1.104.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

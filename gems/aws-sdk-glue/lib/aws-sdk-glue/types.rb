@@ -508,7 +508,7 @@ module Aws::Glue
       include Aws::Structure
     end
 
-    # @!attribute [rw] identifier
+    # @!attribute [rw] asset_identifier
     #   The unique identifier of the asset to associate glossary terms with.
     #   @return [String]
     #
@@ -527,14 +527,14 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssociateGlossaryTermsRequest AWS API Documentation
     #
     class AssociateGlossaryTermsRequest < Struct.new(
-      :identifier,
+      :asset_identifier,
       :glossary_term_identifiers,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] identifier
+    # @!attribute [rw] asset_identifier
     #   The unique identifier of the asset.
     #   @return [String]
     #
@@ -545,7 +545,7 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/AssociateGlossaryTermsResponse AWS API Documentation
     #
     class AssociateGlossaryTermsResponse < Struct.new(
-      :identifier,
+      :asset_identifier,
       :glossary_terms)
       SENSITIVE = []
       include Aws::Structure
@@ -9502,9 +9502,20 @@ module Aws::Glue
     #
     class DeleteAssetTypeResponse < Aws::EmptyStructure; end
 
-    # @!attribute [rw] identifier
+    # @!attribute [rw] asset_identifier
     #   The unique identifier of the asset from which to delete the
     #   attachment.
+    #   @return [String]
+    #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the attachment is deleted from an item within the
+    #   iterable form rather than from the asset itself.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
     #   @return [String]
     #
     # @!attribute [rw] attachment_name
@@ -9514,20 +9525,22 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachmentRequest AWS API Documentation
     #
     class DeleteAttachmentRequest < Struct.new(
-      :identifier,
+      :asset_identifier,
+      :iterable_form_name,
+      :item_identifier,
       :attachment_name)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] identifier
+    # @!attribute [rw] asset_identifier
     #   The unique identifier of the asset.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachmentResponse AWS API Documentation
     #
     class DeleteAttachmentResponse < Struct.new(
-      :identifier)
+      :asset_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11167,7 +11180,7 @@ module Aws::Glue
       include Aws::Structure
     end
 
-    # @!attribute [rw] identifier
+    # @!attribute [rw] asset_identifier
     #   The unique identifier of the asset to disassociate glossary terms
     #   from.
     #   @return [String]
@@ -11188,14 +11201,14 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DisassociateGlossaryTermsRequest AWS API Documentation
     #
     class DisassociateGlossaryTermsRequest < Struct.new(
-      :identifier,
+      :asset_identifier,
       :glossary_term_identifiers,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] identifier
+    # @!attribute [rw] asset_identifier
     #   The unique identifier of the asset.
     #   @return [String]
     #
@@ -11206,7 +11219,7 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DisassociateGlossaryTermsResponse AWS API Documentation
     #
     class DisassociateGlossaryTermsResponse < Struct.new(
-      :identifier,
+      :asset_identifier,
       :glossary_terms)
       SENSITIVE = []
       include Aws::Structure
@@ -24102,7 +24115,7 @@ module Aws::Glue
       include Aws::Structure
     end
 
-    # @!attribute [rw] asset_id
+    # @!attribute [rw] asset_identifier
     #   The unique identifier of the asset.
     #   @return [String]
     #
@@ -24125,7 +24138,7 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutAttachmentResponse AWS API Documentation
     #
     class PutAttachmentResponse < Struct.new(
-      :asset_id,
+      :asset_identifier,
       :iterable_form_name,
       :item_identifier,
       :attachment_name,
@@ -26938,6 +26951,58 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # @!attribute [rw] search_text
+    #   The text to search for. At least one of `searchText` or
+    #   `filterClause` must be provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, if this is a continuation call.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort
+    #   The sort criteria for the search results.
+    #   @return [Types::SearchSort]
+    #
+    # @!attribute [rw] filter_clause
+    #   The filter clause to apply to the search. Supports nested AND/OR
+    #   logic with attribute-level and map-level filters.
+    #   @return [Types::SearchFilterClause]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchAssetsInput AWS API Documentation
+    #
+    class SearchAssetsInput < Struct.new(
+      :search_text,
+      :max_results,
+      :next_token,
+      :sort,
+      :filter_clause)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of assets matching the search criteria.
+    #   @return [Array<Types::SearchResultItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A continuation token, present if the current segment is not the
+    #   last.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchAssetsOutput AWS API Documentation
+    #
+    class SearchAssetsOutput < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A filter that compares an attribute value using an operator.
     #
     # @!attribute [rw] attribute
@@ -27033,40 +27098,6 @@ module Aws::Glue
       class Unknown < SearchFilterValue; end
     end
 
-    # @!attribute [rw] search_text
-    #   The text to search for. At least one of `searchText` or
-    #   `filterClause` must be provided.
-    #   @return [String]
-    #
-    # @!attribute [rw] max_results
-    #   The maximum number of results to return in the response.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] next_token
-    #   A continuation token, if this is a continuation call.
-    #   @return [String]
-    #
-    # @!attribute [rw] sort
-    #   The sort criteria for the search results.
-    #   @return [Types::SearchSort]
-    #
-    # @!attribute [rw] filter_clause
-    #   The filter clause to apply to the search. Supports nested AND/OR
-    #   logic with attribute-level and map-level filters.
-    #   @return [Types::SearchFilterClause]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchInput AWS API Documentation
-    #
-    class SearchInput < Struct.new(
-      :search_text,
-      :max_results,
-      :next_token,
-      :sort,
-      :filter_clause)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
     # A filter on a map attribute's key-value pair.
     #
     # @!attribute [rw] attribute
@@ -27110,24 +27141,6 @@ module Aws::Glue
 
       class StringValue < SearchMapFilterValue; end
       class Unknown < SearchMapFilterValue; end
-    end
-
-    # @!attribute [rw] items
-    #   The list of assets matching the search criteria.
-    #   @return [Array<Types::SearchResultItem>]
-    #
-    # @!attribute [rw] next_token
-    #   A continuation token, present if the current segment is not the
-    #   last.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchOutput AWS API Documentation
-    #
-    class SearchOutput < Struct.new(
-      :items,
-      :next_token)
-      SENSITIVE = []
-      include Aws::Structure
     end
 
     # A single search result item representing a matched asset.

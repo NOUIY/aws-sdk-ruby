@@ -982,6 +982,32 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ContactEvaluationAttributeAndCondition
+      attr_accessor tag_conditions: ::Array[Types::TagCondition]
+      attr_accessor attribute_conditions: ::Array[Types::ContactEvaluationAttributeCondition]
+      SENSITIVE: []
+    end
+
+    class ContactEvaluationAttributeCondition
+      attr_accessor attribute_key: ("ContactAgentId")
+      attr_accessor attribute_value: Types::ContactEvaluationAttributeValue
+      attr_accessor comparison_type: ("EXACT")
+      SENSITIVE: []
+    end
+
+    class ContactEvaluationAttributeFilter
+      attr_accessor or_conditions: ::Array[Types::ContactEvaluationAttributeAndCondition]
+      attr_accessor and_condition: Types::ContactEvaluationAttributeAndCondition
+      attr_accessor tag_condition: Types::TagCondition
+      attr_accessor contact_evaluation_attribute_condition: Types::ContactEvaluationAttributeCondition
+      SENSITIVE: []
+    end
+
+    class ContactEvaluationAttributeValue
+      attr_accessor string_value: ::String
+      SENSITIVE: []
+    end
+
     class ContactFilter
       attr_accessor contact_states: ::Array[("INCOMING" | "PENDING" | "CONNECTING" | "CONNECTED" | "CONNECTED_ONHOLD" | "MISSED" | "ERROR" | "ENDED" | "REJECTED")]
       SENSITIVE: []
@@ -3209,6 +3235,8 @@ module Aws::Connect
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor target_configuration: Types::EvaluationFormTargetConfiguration
       attr_accessor language_configuration: Types::EvaluationFormLanguageConfiguration
+      attr_accessor latest_validation_status: ("IN_PROGRESS" | "COMPLETED" | "FAILED")
+      attr_accessor last_validation_time: ::Time
       SENSITIVE: []
     end
 
@@ -3318,6 +3346,10 @@ module Aws::Connect
     class EvaluationFormMultiSelectQuestionOption
       attr_accessor ref_id: ::String
       attr_accessor text: ::String
+      attr_accessor score: ::Integer
+      attr_accessor automatic_fail: bool
+      attr_accessor automatic_fail_configuration: Types::AutomaticFailConfiguration
+      attr_accessor points_configuration: Types::QuestionOptionPointsConfiguration
       SENSITIVE: []
     end
 
@@ -3348,6 +3380,7 @@ module Aws::Connect
       attr_accessor score: ::Integer
       attr_accessor automatic_fail: bool
       attr_accessor automatic_fail_configuration: Types::AutomaticFailConfiguration
+      attr_accessor points_configuration: Types::QuestionOptionPointsConfiguration
       SENSITIVE: []
     end
 
@@ -3368,11 +3401,19 @@ module Aws::Connect
       attr_accessor question_type_properties: Types::EvaluationFormQuestionTypeProperties
       attr_accessor enablement: Types::EvaluationFormItemEnablementConfiguration
       attr_accessor weight: ::Float
+      attr_accessor scoring_configuration: Types::EvaluationFormQuestionScoringConfiguration
       SENSITIVE: []
     end
 
     class EvaluationFormQuestionAutomationAnswerSource
       attr_accessor source_type: ("CONTACT_LENS_DATA" | "GEN_AI")
+      SENSITIVE: []
+    end
+
+    class EvaluationFormQuestionScoringConfiguration
+      attr_accessor points_configuration: Types::QuestionPointsConfiguration
+      attr_accessor is_excluded_from_scoring: bool
+      attr_accessor score_thresholds: ::Array[Types::EvaluationFormScoreThreshold]
       SENSITIVE: []
     end
 
@@ -3396,9 +3437,17 @@ module Aws::Connect
       end
     end
 
+    class EvaluationFormScoreThreshold
+      attr_accessor performance_category: ("NEEDS_IMPROVEMENT" | "EXCEEDS_EXPECTATIONS")
+      attr_accessor min_score_percentage: ::Float
+      attr_accessor max_score_percentage: ::Float
+      SENSITIVE: []
+    end
+
     class EvaluationFormScoringStrategy
-      attr_accessor mode: ("QUESTION_ONLY" | "SECTION_ONLY")
+      attr_accessor mode: ("QUESTION_ONLY" | "SECTION_ONLY" | "POINTS_BASED")
       attr_accessor status: ("ENABLED" | "DISABLED")
+      attr_accessor score_thresholds: ::Array[Types::EvaluationFormScoreThreshold]
       SENSITIVE: []
     end
 
@@ -3444,6 +3493,8 @@ module Aws::Connect
       attr_accessor instructions: ::String
       attr_accessor items: ::Array[Types::EvaluationFormItem]
       attr_accessor weight: ::Float
+      attr_accessor is_excluded_from_scoring: bool
+      attr_accessor score_thresholds: ::Array[Types::EvaluationFormScoreThreshold]
       SENSITIVE: []
     end
 
@@ -3471,6 +3522,7 @@ module Aws::Connect
       attr_accessor score: ::Integer
       attr_accessor automatic_fail: bool
       attr_accessor automatic_fail_configuration: Types::AutomaticFailConfiguration
+      attr_accessor points_configuration: Types::QuestionOptionPointsConfiguration
       SENSITIVE: []
     end
 
@@ -3508,6 +3560,21 @@ module Aws::Connect
 
     class EvaluationFormTextQuestionProperties
       attr_accessor automation: Types::EvaluationFormTextQuestionAutomation
+      SENSITIVE: []
+    end
+
+    class EvaluationFormValidationFinding
+      attr_accessor issue_code: ::String
+      attr_accessor items: ::Array[Types::EvaluationFormValidationFindingItem]
+      attr_accessor description: ::String
+      attr_accessor suggestion: ::String
+      attr_accessor severity: ("WARNING" | "ERROR")
+      SENSITIVE: []
+    end
+
+    class EvaluationFormValidationFindingItem
+      attr_accessor ref_id: ::String
+      attr_accessor property: ::String
       SENSITIVE: []
     end
 
@@ -3607,6 +3674,9 @@ module Aws::Connect
       attr_accessor not_applicable: bool
       attr_accessor automatic_fail: bool
       attr_accessor applied_weight: ::Float
+      attr_accessor earned_points: ::Integer
+      attr_accessor max_base_point: ::Integer
+      attr_accessor performance_category: ("NEEDS_IMPROVEMENT" | "EXCEEDS_EXPECTATIONS")
       SENSITIVE: []
     end
 
@@ -3623,6 +3693,7 @@ module Aws::Connect
 
     class EvaluationSearchFilter
       attr_accessor attribute_filter: Types::ControlPlaneAttributeFilter
+      attr_accessor contact_evaluation_attribute_filter: Types::ContactEvaluationAttributeFilter
       SENSITIVE: []
     end
 
@@ -3643,6 +3714,9 @@ module Aws::Connect
       attr_accessor review_id: ::String
       attr_accessor contact_participant_role: ("AGENT" | "SYSTEM" | "CUSTOM_BOT" | "CUSTOMER")
       attr_accessor contact_participant_id: ::String
+      attr_accessor earned_points: ::Integer
+      attr_accessor max_base_point: ::Integer
+      attr_accessor performance_category: ("NEEDS_IMPROVEMENT" | "EXCEEDS_EXPECTATIONS")
       SENSITIVE: []
     end
 
@@ -3916,6 +3990,23 @@ module Aws::Connect
       attr_accessor effective_hours_of_operation_list: ::Array[Types::EffectiveHoursOfOperations]
       attr_accessor effective_override_hours_list: ::Array[Types::EffectiveOverrideHours]
       attr_accessor time_zone: ::String
+      SENSITIVE: []
+    end
+
+    class GetEvaluationFormValidationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor evaluation_form_id: ::String
+      attr_accessor evaluation_form_version: ::Integer
+      SENSITIVE: []
+    end
+
+    class GetEvaluationFormValidationResponse
+      attr_accessor status: ("IN_PROGRESS" | "COMPLETED" | "FAILED")
+      attr_accessor failure_reason: ::String
+      attr_accessor evaluation_form_id: ::String
+      attr_accessor evaluation_form_version: ::Integer
+      attr_accessor started_time: ::Time
+      attr_accessor findings: ::Array[Types::EvaluationFormValidationFinding]
       SENSITIVE: []
     end
 
@@ -6047,6 +6138,19 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class QuestionOptionPointsConfiguration
+      attr_accessor point_value: ::Integer
+      attr_accessor is_bonus: bool
+      SENSITIVE: []
+    end
+
+    class QuestionPointsConfiguration
+      attr_accessor max_point_value: ::Integer
+      attr_accessor min_point_value: ::Integer
+      attr_accessor is_bonus: bool
+      SENSITIVE: []
+    end
+
     class Queue
       attr_accessor name: ::String
       attr_accessor queue_arn: ::String
@@ -7413,6 +7517,20 @@ module Aws::Connect
 
     class StartEmailContactResponse
       attr_accessor contact_id: ::String
+      SENSITIVE: []
+    end
+
+    class StartEvaluationFormValidationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor evaluation_form_id: ::String
+      attr_accessor evaluation_form_version: ::Integer
+      SENSITIVE: []
+    end
+
+    class StartEvaluationFormValidationResponse
+      attr_accessor evaluation_form_id: ::String
+      attr_accessor evaluation_form_arn: ::String
+      attr_accessor evaluation_form_version: ::Integer
       SENSITIVE: []
     end
 

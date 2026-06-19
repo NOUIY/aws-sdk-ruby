@@ -3362,6 +3362,14 @@ module Aws::Connect
     #             # recursive EvaluationFormItemsList
     #           },
     #           weight: 1.0,
+    #           is_excluded_from_scoring: false,
+    #           score_thresholds: [
+    #             {
+    #               performance_category: "NEEDS_IMPROVEMENT", # required, accepts NEEDS_IMPROVEMENT, EXCEEDS_EXPECTATIONS
+    #               min_score_percentage: 1.0,
+    #               max_score_percentage: 1.0,
+    #             },
+    #           ],
     #         },
     #         question: {
     #           title: "EvaluationFormQuestionTitle", # required
@@ -3381,6 +3389,10 @@ module Aws::Connect
     #                   automatic_fail: false,
     #                   automatic_fail_configuration: {
     #                     target_section: "ReferenceId",
+    #                   },
+    #                   points_configuration: {
+    #                     point_value: 1, # required
+    #                     is_bonus: false,
     #                   },
     #                 },
     #               ],
@@ -3402,6 +3414,10 @@ module Aws::Connect
     #                   automatic_fail: false,
     #                   automatic_fail_configuration: {
     #                     target_section: "ReferenceId",
+    #                   },
+    #                   points_configuration: {
+    #                     point_value: 1, # required
+    #                     is_bonus: false,
     #                   },
     #                 },
     #               ],
@@ -3434,6 +3450,15 @@ module Aws::Connect
     #                 {
     #                   ref_id: "ReferenceId", # required
     #                   text: "EvaluationFormMultiSelectQuestionOptionText", # required
+    #                   score: 1,
+    #                   automatic_fail: false,
+    #                   automatic_fail_configuration: {
+    #                     target_section: "ReferenceId",
+    #                   },
+    #                   points_configuration: {
+    #                     point_value: 1, # required
+    #                     is_bonus: false,
+    #                   },
     #                 },
     #               ],
     #               display_as: "DROPDOWN", # accepts DROPDOWN, CHECKBOX
@@ -3482,12 +3507,34 @@ module Aws::Connect
     #             default_action: "DISABLE", # accepts DISABLE, ENABLE
     #           },
     #           weight: 1.0,
+    #           scoring_configuration: {
+    #             points_configuration: {
+    #               max_point_value: 1,
+    #               min_point_value: 1,
+    #               is_bonus: false,
+    #             },
+    #             is_excluded_from_scoring: false,
+    #             score_thresholds: [
+    #               {
+    #                 performance_category: "NEEDS_IMPROVEMENT", # required, accepts NEEDS_IMPROVEMENT, EXCEEDS_EXPECTATIONS
+    #                 min_score_percentage: 1.0,
+    #                 max_score_percentage: 1.0,
+    #               },
+    #             ],
+    #           },
     #         },
     #       },
     #     ],
     #     scoring_strategy: {
-    #       mode: "QUESTION_ONLY", # required, accepts QUESTION_ONLY, SECTION_ONLY
+    #       mode: "QUESTION_ONLY", # required, accepts QUESTION_ONLY, SECTION_ONLY, POINTS_BASED
     #       status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       score_thresholds: [
+    #         {
+    #           performance_category: "NEEDS_IMPROVEMENT", # required, accepts NEEDS_IMPROVEMENT, EXCEEDS_EXPECTATIONS
+    #           min_score_percentage: 1.0,
+    #           max_score_percentage: 1.0,
+    #         },
+    #       ],
     #     },
     #     auto_evaluation_configuration: {
     #       enabled: false, # required
@@ -7774,6 +7821,9 @@ module Aws::Connect
     #   resp.evaluation.metadata.score.not_applicable #=> Boolean
     #   resp.evaluation.metadata.score.automatic_fail #=> Boolean
     #   resp.evaluation.metadata.score.applied_weight #=> Float
+    #   resp.evaluation.metadata.score.earned_points #=> Integer
+    #   resp.evaluation.metadata.score.max_base_point #=> Integer
+    #   resp.evaluation.metadata.score.performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
     #   resp.evaluation.metadata.auto_evaluation.auto_evaluation_enabled #=> Boolean
     #   resp.evaluation.metadata.auto_evaluation.auto_evaluation_status #=> String, one of "IN_PROGRESS", "FAILED", "SUCCEEDED"
     #   resp.evaluation.metadata.acknowledgement.acknowledged_time #=> Time
@@ -7832,6 +7882,9 @@ module Aws::Connect
     #   resp.evaluation.scores["ResourceId"].not_applicable #=> Boolean
     #   resp.evaluation.scores["ResourceId"].automatic_fail #=> Boolean
     #   resp.evaluation.scores["ResourceId"].applied_weight #=> Float
+    #   resp.evaluation.scores["ResourceId"].earned_points #=> Integer
+    #   resp.evaluation.scores["ResourceId"].max_base_point #=> Integer
+    #   resp.evaluation.scores["ResourceId"].performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
     #   resp.evaluation.created_time #=> Time
     #   resp.evaluation.last_modified_time #=> Time
     #   resp.evaluation.evaluation_type #=> String, one of "STANDARD", "CALIBRATION"
@@ -7848,6 +7901,11 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].section.instructions #=> String
     #   resp.evaluation_form.items[0].section.items #=> Types::EvaluationFormItemsList
     #   resp.evaluation_form.items[0].section.weight #=> Float
+    #   resp.evaluation_form.items[0].section.is_excluded_from_scoring #=> Boolean
+    #   resp.evaluation_form.items[0].section.score_thresholds #=> Array
+    #   resp.evaluation_form.items[0].section.score_thresholds[0].performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
+    #   resp.evaluation_form.items[0].section.score_thresholds[0].min_score_percentage #=> Float
+    #   resp.evaluation_form.items[0].section.score_thresholds[0].max_score_percentage #=> Float
     #   resp.evaluation_form.items[0].question.title #=> String
     #   resp.evaluation_form.items[0].question.instructions #=> String
     #   resp.evaluation_form.items[0].question.ref_id #=> String
@@ -7861,6 +7919,8 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].score #=> Integer
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].automatic_fail #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].automatic_fail_configuration.target_section #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].points_configuration.point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].points_configuration.is_bonus #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.automation.property_value.label #=> String, one of "OVERALL_CUSTOMER_SENTIMENT_SCORE", "OVERALL_AGENT_SENTIMENT_SCORE", "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT", "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT", "NON_TALK_TIME", "NON_TALK_TIME_PERCENTAGE", "NUMBER_OF_INTERRUPTIONS", "CONTACT_DURATION", "AGENT_INTERACTION_DURATION", "CUSTOMER_HOLD_TIME", "LONGEST_HOLD_DURATION", "NUMBER_OF_HOLDS", "AGENT_INTERACTION_AND_HOLD_DURATION"
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.automation.answer_source.source_type #=> String, one of "CONTACT_LENS_DATA", "GEN_AI"
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options #=> Array
@@ -7869,6 +7929,8 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].score #=> Integer
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].automatic_fail #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].automatic_fail_configuration.target_section #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].points_configuration.point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].points_configuration.is_bonus #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.display_as #=> String, one of "DROPDOWN", "RADIO"
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.automation.options #=> Array
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.automation.options[0].rule_category.category #=> String
@@ -7880,6 +7942,11 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options #=> Array
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].ref_id #=> String
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].text #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].score #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].automatic_fail #=> Boolean
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].automatic_fail_configuration.target_section #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].points_configuration.point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].points_configuration.is_bonus #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.display_as #=> String, one of "DROPDOWN", "CHECKBOX"
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.automation.options #=> Array
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.automation.options[0].rule_category.category #=> String
@@ -7901,8 +7968,20 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.enablement.action #=> String, one of "DISABLE", "ENABLE"
     #   resp.evaluation_form.items[0].question.enablement.default_action #=> String, one of "DISABLE", "ENABLE"
     #   resp.evaluation_form.items[0].question.weight #=> Float
-    #   resp.evaluation_form.scoring_strategy.mode #=> String, one of "QUESTION_ONLY", "SECTION_ONLY"
+    #   resp.evaluation_form.items[0].question.scoring_configuration.points_configuration.max_point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.scoring_configuration.points_configuration.min_point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.scoring_configuration.points_configuration.is_bonus #=> Boolean
+    #   resp.evaluation_form.items[0].question.scoring_configuration.is_excluded_from_scoring #=> Boolean
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds #=> Array
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds[0].performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds[0].min_score_percentage #=> Float
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds[0].max_score_percentage #=> Float
+    #   resp.evaluation_form.scoring_strategy.mode #=> String, one of "QUESTION_ONLY", "SECTION_ONLY", "POINTS_BASED"
     #   resp.evaluation_form.scoring_strategy.status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.evaluation_form.scoring_strategy.score_thresholds #=> Array
+    #   resp.evaluation_form.scoring_strategy.score_thresholds[0].performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
+    #   resp.evaluation_form.scoring_strategy.score_thresholds[0].min_score_percentage #=> Float
+    #   resp.evaluation_form.scoring_strategy.score_thresholds[0].max_score_percentage #=> Float
     #   resp.evaluation_form.auto_evaluation_configuration.enabled #=> Boolean
     #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
     #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
@@ -8311,6 +8390,11 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].section.instructions #=> String
     #   resp.evaluation_form.items[0].section.items #=> Types::EvaluationFormItemsList
     #   resp.evaluation_form.items[0].section.weight #=> Float
+    #   resp.evaluation_form.items[0].section.is_excluded_from_scoring #=> Boolean
+    #   resp.evaluation_form.items[0].section.score_thresholds #=> Array
+    #   resp.evaluation_form.items[0].section.score_thresholds[0].performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
+    #   resp.evaluation_form.items[0].section.score_thresholds[0].min_score_percentage #=> Float
+    #   resp.evaluation_form.items[0].section.score_thresholds[0].max_score_percentage #=> Float
     #   resp.evaluation_form.items[0].question.title #=> String
     #   resp.evaluation_form.items[0].question.instructions #=> String
     #   resp.evaluation_form.items[0].question.ref_id #=> String
@@ -8324,6 +8408,8 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].score #=> Integer
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].automatic_fail #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].automatic_fail_configuration.target_section #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].points_configuration.point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.numeric.options[0].points_configuration.is_bonus #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.automation.property_value.label #=> String, one of "OVERALL_CUSTOMER_SENTIMENT_SCORE", "OVERALL_AGENT_SENTIMENT_SCORE", "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT", "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT", "NON_TALK_TIME", "NON_TALK_TIME_PERCENTAGE", "NUMBER_OF_INTERRUPTIONS", "CONTACT_DURATION", "AGENT_INTERACTION_DURATION", "CUSTOMER_HOLD_TIME", "LONGEST_HOLD_DURATION", "NUMBER_OF_HOLDS", "AGENT_INTERACTION_AND_HOLD_DURATION"
     #   resp.evaluation_form.items[0].question.question_type_properties.numeric.automation.answer_source.source_type #=> String, one of "CONTACT_LENS_DATA", "GEN_AI"
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options #=> Array
@@ -8332,6 +8418,8 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].score #=> Integer
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].automatic_fail #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].automatic_fail_configuration.target_section #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].points_configuration.point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.single_select.options[0].points_configuration.is_bonus #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.display_as #=> String, one of "DROPDOWN", "RADIO"
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.automation.options #=> Array
     #   resp.evaluation_form.items[0].question.question_type_properties.single_select.automation.options[0].rule_category.category #=> String
@@ -8343,6 +8431,11 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options #=> Array
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].ref_id #=> String
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].text #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].score #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].automatic_fail #=> Boolean
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].automatic_fail_configuration.target_section #=> String
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].points_configuration.point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.options[0].points_configuration.is_bonus #=> Boolean
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.display_as #=> String, one of "DROPDOWN", "CHECKBOX"
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.automation.options #=> Array
     #   resp.evaluation_form.items[0].question.question_type_properties.multi_select.automation.options[0].rule_category.category #=> String
@@ -8364,8 +8457,20 @@ module Aws::Connect
     #   resp.evaluation_form.items[0].question.enablement.action #=> String, one of "DISABLE", "ENABLE"
     #   resp.evaluation_form.items[0].question.enablement.default_action #=> String, one of "DISABLE", "ENABLE"
     #   resp.evaluation_form.items[0].question.weight #=> Float
-    #   resp.evaluation_form.scoring_strategy.mode #=> String, one of "QUESTION_ONLY", "SECTION_ONLY"
+    #   resp.evaluation_form.items[0].question.scoring_configuration.points_configuration.max_point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.scoring_configuration.points_configuration.min_point_value #=> Integer
+    #   resp.evaluation_form.items[0].question.scoring_configuration.points_configuration.is_bonus #=> Boolean
+    #   resp.evaluation_form.items[0].question.scoring_configuration.is_excluded_from_scoring #=> Boolean
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds #=> Array
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds[0].performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds[0].min_score_percentage #=> Float
+    #   resp.evaluation_form.items[0].question.scoring_configuration.score_thresholds[0].max_score_percentage #=> Float
+    #   resp.evaluation_form.scoring_strategy.mode #=> String, one of "QUESTION_ONLY", "SECTION_ONLY", "POINTS_BASED"
     #   resp.evaluation_form.scoring_strategy.status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.evaluation_form.scoring_strategy.score_thresholds #=> Array
+    #   resp.evaluation_form.scoring_strategy.score_thresholds[0].performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
+    #   resp.evaluation_form.scoring_strategy.score_thresholds[0].min_score_percentage #=> Float
+    #   resp.evaluation_form.scoring_strategy.score_thresholds[0].max_score_percentage #=> Float
     #   resp.evaluation_form.created_time #=> Time
     #   resp.evaluation_form.created_by #=> String
     #   resp.evaluation_form.last_modified_time #=> Time
@@ -8379,6 +8484,8 @@ module Aws::Connect
     #   resp.evaluation_form.tags["TagKey"] #=> String
     #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
     #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
+    #   resp.evaluation_form.latest_validation_status #=> String, one of "IN_PROGRESS", "COMPLETED", "FAILED"
+    #   resp.evaluation_form.last_validation_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeEvaluationForm AWS API Documentation
     #
@@ -11466,6 +11573,74 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Retrieves the status and results of a validation process started by
+    # [StartEvaluationFormValidation][1]. Returns the current execution
+    # status (`IN_PROGRESS`, `COMPLETED`, or `FAILED`), the validated form
+    # version, and when completed, a list of findings that identify
+    # structural issues and quality improvements for the evaluation form,
+    # and may include suggested fixes. If the validation failed, a reason is
+    # provided indicating the cause of the failure.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_StartEvaluationFormValidation.html
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :evaluation_form_id
+    #   The unique identifier for the evaluation form.
+    #
+    # @option params [Integer] :evaluation_form_version
+    #   The version of the evaluation form to retrieve validation results for.
+    #
+    # @return [Types::GetEvaluationFormValidationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetEvaluationFormValidationResponse#status #status} => String
+    #   * {Types::GetEvaluationFormValidationResponse#failure_reason #failure_reason} => String
+    #   * {Types::GetEvaluationFormValidationResponse#evaluation_form_id #evaluation_form_id} => String
+    #   * {Types::GetEvaluationFormValidationResponse#evaluation_form_version #evaluation_form_version} => Integer
+    #   * {Types::GetEvaluationFormValidationResponse#started_time #started_time} => Time
+    #   * {Types::GetEvaluationFormValidationResponse#findings #findings} => Array&lt;Types::EvaluationFormValidationFinding&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_evaluation_form_validation({
+    #     instance_id: "InstanceId", # required
+    #     evaluation_form_id: "ResourceId", # required
+    #     evaluation_form_version: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "IN_PROGRESS", "COMPLETED", "FAILED"
+    #   resp.failure_reason #=> String
+    #   resp.evaluation_form_id #=> String
+    #   resp.evaluation_form_version #=> Integer
+    #   resp.started_time #=> Time
+    #   resp.findings #=> Array
+    #   resp.findings[0].issue_code #=> String
+    #   resp.findings[0].items #=> Array
+    #   resp.findings[0].items[0].ref_id #=> String
+    #   resp.findings[0].items[0].property #=> String
+    #   resp.findings[0].description #=> String
+    #   resp.findings[0].suggestion #=> String
+    #   resp.findings[0].severity #=> String, one of "WARNING", "ERROR"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetEvaluationFormValidation AWS API Documentation
+    #
+    # @overload get_evaluation_form_validation(params = {})
+    # @param [Hash] params ({})
+    def get_evaluation_form_validation(params = {}, options = {})
+      req = build_request(:get_evaluation_form_validation, params)
+      req.send_request(options)
+    end
+
     # Supports SAML sign-in for Connect Customer. Retrieves a token for
     # federation. The token is for the Connect Customer user which
     # corresponds to the IAM credentials that were used to invoke this
@@ -12140,9 +12315,9 @@ module Aws::Connect
     #     for the `contact/segmentAttributes/connect:Subtype` filter key.
     #
     #   * `ROUTING_STEP_EXPRESSION` accepts a filter value up to 3,000
-    #     characters in length. This filter is case-sensitive and
-    #     order-sensitive. JSON string fields must be sorted in ascending
-    #     order, and JSON array order must be preserved.
+    #     characters in length. Filter values are case-sensitive. JSON object
+    #     key order and whitespace may be arbitrary; array order and tree
+    #     structure must be preserved.
     #
     #   * TRUE and FALSE are the only valid filter values for the
     #     `Q_CONNECT_ENABLED` filter key.
@@ -15222,6 +15397,9 @@ module Aws::Connect
     #   resp.evaluation_summary_list[0].score.not_applicable #=> Boolean
     #   resp.evaluation_summary_list[0].score.automatic_fail #=> Boolean
     #   resp.evaluation_summary_list[0].score.applied_weight #=> Float
+    #   resp.evaluation_summary_list[0].score.earned_points #=> Integer
+    #   resp.evaluation_summary_list[0].score.max_base_point #=> Integer
+    #   resp.evaluation_summary_list[0].score.performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
     #   resp.evaluation_summary_list[0].acknowledgement.acknowledged_time #=> Time
     #   resp.evaluation_summary_list[0].acknowledgement.acknowledged_by #=> String
     #   resp.evaluation_summary_list[0].acknowledgement.acknowledger_comment #=> String
@@ -19588,6 +19766,55 @@ module Aws::Connect
     #           tag_value: "String",
     #         },
     #       },
+    #       contact_evaluation_attribute_filter: {
+    #         or_conditions: [
+    #           {
+    #             tag_conditions: [
+    #               {
+    #                 tag_key: "String",
+    #                 tag_value: "String",
+    #               },
+    #             ],
+    #             attribute_conditions: [
+    #               {
+    #                 attribute_key: "ContactAgentId", # accepts ContactAgentId
+    #                 attribute_value: {
+    #                   string_value: "String",
+    #                 },
+    #                 comparison_type: "EXACT", # accepts EXACT
+    #               },
+    #             ],
+    #           },
+    #         ],
+    #         and_condition: {
+    #           tag_conditions: [
+    #             {
+    #               tag_key: "String",
+    #               tag_value: "String",
+    #             },
+    #           ],
+    #           attribute_conditions: [
+    #             {
+    #               attribute_key: "ContactAgentId", # accepts ContactAgentId
+    #               attribute_value: {
+    #                 string_value: "String",
+    #               },
+    #               comparison_type: "EXACT", # accepts EXACT
+    #             },
+    #           ],
+    #         },
+    #         tag_condition: {
+    #           tag_key: "String",
+    #           tag_value: "String",
+    #         },
+    #         contact_evaluation_attribute_condition: {
+    #           attribute_key: "ContactAgentId", # accepts ContactAgentId
+    #           attribute_value: {
+    #             string_value: "String",
+    #           },
+    #           comparison_type: "EXACT", # accepts EXACT
+    #         },
+    #       },
     #     },
     #   })
     #
@@ -19615,6 +19842,9 @@ module Aws::Connect
     #   resp.evaluation_search_summary_list[0].metadata.review_id #=> String
     #   resp.evaluation_search_summary_list[0].metadata.contact_participant_role #=> String, one of "AGENT", "SYSTEM", "CUSTOM_BOT", "CUSTOMER"
     #   resp.evaluation_search_summary_list[0].metadata.contact_participant_id #=> String
+    #   resp.evaluation_search_summary_list[0].metadata.earned_points #=> Integer
+    #   resp.evaluation_search_summary_list[0].metadata.max_base_point #=> Integer
+    #   resp.evaluation_search_summary_list[0].metadata.performance_category #=> String, one of "NEEDS_IMPROVEMENT", "EXCEEDS_EXPECTATIONS"
     #   resp.evaluation_search_summary_list[0].status #=> String, one of "DRAFT", "SUBMITTED", "REVIEW_REQUESTED", "UNDER_REVIEW"
     #   resp.evaluation_search_summary_list[0].evaluation_type #=> String, one of "STANDARD", "CALIBRATION"
     #   resp.evaluation_search_summary_list[0].created_time #=> Time
@@ -23450,6 +23680,62 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Starts an asynchronous validation process for an evaluation form
+    # version in the specified Connect Customer instance. The validation
+    # first performs structural checks on the form content (such as
+    # verifying required fields, valid scoring configuration, and correct
+    # conditional logic), then asynchronously analyzes questions configured
+    # for generative AI evaluation against a set of best practices. Use
+    # [GetEvaluationFormValidation][1] to retrieve the status and results
+    # once the validation completes.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_GetEvaluationFormValidation.html
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :evaluation_form_id
+    #   The unique identifier for the evaluation form.
+    #
+    # @option params [required, Integer] :evaluation_form_version
+    #   The version of the evaluation form to validate.
+    #
+    # @return [Types::StartEvaluationFormValidationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartEvaluationFormValidationResponse#evaluation_form_id #evaluation_form_id} => String
+    #   * {Types::StartEvaluationFormValidationResponse#evaluation_form_arn #evaluation_form_arn} => String
+    #   * {Types::StartEvaluationFormValidationResponse#evaluation_form_version #evaluation_form_version} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_evaluation_form_validation({
+    #     instance_id: "InstanceId", # required
+    #     evaluation_form_id: "ResourceId", # required
+    #     evaluation_form_version: 1, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.evaluation_form_id #=> String
+    #   resp.evaluation_form_arn #=> String
+    #   resp.evaluation_form_version #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartEvaluationFormValidation AWS API Documentation
+    #
+    # @overload start_evaluation_form_validation(params = {})
+    # @param [Hash] params ({})
+    def start_evaluation_form_validation(params = {}, options = {})
+      req = build_request(:start_evaluation_form_validation, params)
+      req.send_request(options)
+    end
+
     # Initiates a new outbound SMS or WhatsApp contact to a customer.
     # Response of this API provides the `ContactId` of the outbound SMS or
     # WhatsApp contact created.
@@ -26344,6 +26630,14 @@ module Aws::Connect
     #             # recursive EvaluationFormItemsList
     #           },
     #           weight: 1.0,
+    #           is_excluded_from_scoring: false,
+    #           score_thresholds: [
+    #             {
+    #               performance_category: "NEEDS_IMPROVEMENT", # required, accepts NEEDS_IMPROVEMENT, EXCEEDS_EXPECTATIONS
+    #               min_score_percentage: 1.0,
+    #               max_score_percentage: 1.0,
+    #             },
+    #           ],
     #         },
     #         question: {
     #           title: "EvaluationFormQuestionTitle", # required
@@ -26363,6 +26657,10 @@ module Aws::Connect
     #                   automatic_fail: false,
     #                   automatic_fail_configuration: {
     #                     target_section: "ReferenceId",
+    #                   },
+    #                   points_configuration: {
+    #                     point_value: 1, # required
+    #                     is_bonus: false,
     #                   },
     #                 },
     #               ],
@@ -26384,6 +26682,10 @@ module Aws::Connect
     #                   automatic_fail: false,
     #                   automatic_fail_configuration: {
     #                     target_section: "ReferenceId",
+    #                   },
+    #                   points_configuration: {
+    #                     point_value: 1, # required
+    #                     is_bonus: false,
     #                   },
     #                 },
     #               ],
@@ -26416,6 +26718,15 @@ module Aws::Connect
     #                 {
     #                   ref_id: "ReferenceId", # required
     #                   text: "EvaluationFormMultiSelectQuestionOptionText", # required
+    #                   score: 1,
+    #                   automatic_fail: false,
+    #                   automatic_fail_configuration: {
+    #                     target_section: "ReferenceId",
+    #                   },
+    #                   points_configuration: {
+    #                     point_value: 1, # required
+    #                     is_bonus: false,
+    #                   },
     #                 },
     #               ],
     #               display_as: "DROPDOWN", # accepts DROPDOWN, CHECKBOX
@@ -26464,12 +26775,34 @@ module Aws::Connect
     #             default_action: "DISABLE", # accepts DISABLE, ENABLE
     #           },
     #           weight: 1.0,
+    #           scoring_configuration: {
+    #             points_configuration: {
+    #               max_point_value: 1,
+    #               min_point_value: 1,
+    #               is_bonus: false,
+    #             },
+    #             is_excluded_from_scoring: false,
+    #             score_thresholds: [
+    #               {
+    #                 performance_category: "NEEDS_IMPROVEMENT", # required, accepts NEEDS_IMPROVEMENT, EXCEEDS_EXPECTATIONS
+    #                 min_score_percentage: 1.0,
+    #                 max_score_percentage: 1.0,
+    #               },
+    #             ],
+    #           },
     #         },
     #       },
     #     ],
     #     scoring_strategy: {
-    #       mode: "QUESTION_ONLY", # required, accepts QUESTION_ONLY, SECTION_ONLY
+    #       mode: "QUESTION_ONLY", # required, accepts QUESTION_ONLY, SECTION_ONLY, POINTS_BASED
     #       status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       score_thresholds: [
+    #         {
+    #           performance_category: "NEEDS_IMPROVEMENT", # required, accepts NEEDS_IMPROVEMENT, EXCEEDS_EXPECTATIONS
+    #           min_score_percentage: 1.0,
+    #           max_score_percentage: 1.0,
+    #         },
+    #       ],
     #     },
     #     auto_evaluation_configuration: {
     #       enabled: false, # required
@@ -29223,7 +29556,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.259.0'
+      context[:gem_version] = '1.260.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
