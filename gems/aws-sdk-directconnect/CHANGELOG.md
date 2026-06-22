@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.112.0 (2026-06-22)
+------------------
+
+* Feature - Added VIF rate limiting support for AWS Direct Connect, allowing customers to set bandwidth allocations on virtual interfaces to manage traffic on dedicated connections.
+
 1.111.0 (2026-06-16)
 ------------------
 

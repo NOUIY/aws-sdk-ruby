@@ -426,6 +426,12 @@ module Aws::CloudWatchLogs
       SENSITIVE: []
     end
 
+    class DeleteSyslogConfigurationRequest
+      attr_accessor log_group_identifier: ::String
+      attr_accessor vpc_endpoint_id: ::String
+      SENSITIVE: []
+    end
+
     class DeleteTransformerRequest
       attr_accessor log_group_identifier: ::String
       SENSITIVE: []
@@ -1317,6 +1323,20 @@ module Aws::CloudWatchLogs
       SENSITIVE: []
     end
 
+    class ListSyslogConfigurationsRequest
+      attr_accessor log_group_identifier: ::String
+      attr_accessor vpc_endpoint_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListSyslogConfigurationsResponse
+      attr_accessor syslog_configurations: ::Array[Types::SyslogConfiguration]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListTagsForResourceRequest
       attr_accessor resource_arn: ::String
       SENSITIVE: []
@@ -1880,6 +1900,12 @@ module Aws::CloudWatchLogs
       SENSITIVE: []
     end
 
+    class PutSyslogConfigurationRequest
+      attr_accessor log_group_identifier: ::String
+      attr_accessor vpc_endpoint_id: ::String
+      SENSITIVE: []
+    end
+
     class PutTransformerRequest
       attr_accessor log_group_identifier: ::String
       attr_accessor transformer_config: ::Array[Types::Processor]
@@ -2160,6 +2186,14 @@ module Aws::CloudWatchLogs
     class SuppressionPeriod
       attr_accessor value: ::Integer
       attr_accessor suppression_unit: ("SECONDS" | "MINUTES" | "HOURS")
+      SENSITIVE: []
+    end
+
+    class SyslogConfiguration
+      attr_accessor log_group_arn: ::String
+      attr_accessor source_type: ("VPCE")
+      attr_accessor vpc_endpoint_id: ::String
+      attr_accessor created_at: ::Integer
       SENSITIVE: []
     end
 

@@ -66,10 +66,13 @@ module Aws::GuardDuty
     BucketPolicy = Shapes::StructureShape.new(name: 'BucketPolicy')
     City = Shapes::StructureShape.new(name: 'City')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
+    CloudDetails = Shapes::StructureShape.new(name: 'CloudDetails')
+    CloudProvider = Shapes::StringShape.new(name: 'CloudProvider')
     CloudTrailConfigurationResult = Shapes::StructureShape.new(name: 'CloudTrailConfigurationResult')
     CloudformationStack = Shapes::StructureShape.new(name: 'CloudformationStack')
     ClusterStatus = Shapes::StringShape.new(name: 'ClusterStatus')
     Condition = Shapes::StructureShape.new(name: 'Condition')
+    Confidence = Shapes::StringShape.new(name: 'Confidence')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     Container = Shapes::StructureShape.new(name: 'Container')
     ContainerFindingResource = Shapes::StructureShape.new(name: 'ContainerFindingResource')
@@ -106,6 +109,8 @@ module Aws::GuardDuty
     CreateFilterResponse = Shapes::StructureShape.new(name: 'CreateFilterResponse')
     CreateIPSetRequest = Shapes::StructureShape.new(name: 'CreateIPSetRequest')
     CreateIPSetResponse = Shapes::StructureShape.new(name: 'CreateIPSetResponse')
+    CreateInvestigationRequest = Shapes::StructureShape.new(name: 'CreateInvestigationRequest')
+    CreateInvestigationResponse = Shapes::StructureShape.new(name: 'CreateInvestigationResponse')
     CreateMalwareProtectionPlanRequest = Shapes::StructureShape.new(name: 'CreateMalwareProtectionPlanRequest')
     CreateMalwareProtectionPlanResponse = Shapes::StructureShape.new(name: 'CreateMalwareProtectionPlanResponse')
     CreateMembersRequest = Shapes::StructureShape.new(name: 'CreateMembersRequest')
@@ -269,6 +274,8 @@ module Aws::GuardDuty
     GetFindingsStatisticsResponse = Shapes::StructureShape.new(name: 'GetFindingsStatisticsResponse')
     GetIPSetRequest = Shapes::StructureShape.new(name: 'GetIPSetRequest')
     GetIPSetResponse = Shapes::StructureShape.new(name: 'GetIPSetResponse')
+    GetInvestigationRequest = Shapes::StructureShape.new(name: 'GetInvestigationRequest')
+    GetInvestigationResponse = Shapes::StructureShape.new(name: 'GetInvestigationResponse')
     GetInvitationsCountRequest = Shapes::StructureShape.new(name: 'GetInvitationsCountRequest')
     GetInvitationsCountResponse = Shapes::StructureShape.new(name: 'GetInvitationsCountResponse')
     GetMalwareProtectionPlanRequest = Shapes::StructureShape.new(name: 'GetMalwareProtectionPlanRequest')
@@ -320,6 +327,16 @@ module Aws::GuardDuty
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     IntegerValueWithMax = Shapes::IntegerShape.new(name: 'IntegerValueWithMax')
     InternalServerErrorException = Shapes::StructureShape.new(name: 'InternalServerErrorException')
+    Investigation = Shapes::StructureShape.new(name: 'Investigation')
+    InvestigationErrorDetails = Shapes::StringShape.new(name: 'InvestigationErrorDetails')
+    InvestigationId = Shapes::StringShape.new(name: 'InvestigationId')
+    InvestigationMetadata = Shapes::StructureShape.new(name: 'InvestigationMetadata')
+    InvestigationSortCriteria = Shapes::StructureShape.new(name: 'InvestigationSortCriteria')
+    InvestigationSortField = Shapes::StringShape.new(name: 'InvestigationSortField')
+    InvestigationStatus = Shapes::StringShape.new(name: 'InvestigationStatus')
+    InvestigationSummaries = Shapes::ListShape.new(name: 'InvestigationSummaries')
+    InvestigationSummary = Shapes::StructureShape.new(name: 'InvestigationSummary')
+    InvestigationTitle = Shapes::StringShape.new(name: 'InvestigationTitle')
     Invitation = Shapes::StructureShape.new(name: 'Invitation')
     Invitations = Shapes::ListShape.new(name: 'Invitations')
     InviteMembersRequest = Shapes::StructureShape.new(name: 'InviteMembersRequest')
@@ -361,6 +378,8 @@ module Aws::GuardDuty
     ListFindingsResponse = Shapes::StructureShape.new(name: 'ListFindingsResponse')
     ListIPSetsRequest = Shapes::StructureShape.new(name: 'ListIPSetsRequest')
     ListIPSetsResponse = Shapes::StructureShape.new(name: 'ListIPSetsResponse')
+    ListInvestigationsRequest = Shapes::StructureShape.new(name: 'ListInvestigationsRequest')
+    ListInvestigationsResponse = Shapes::StructureShape.new(name: 'ListInvestigationsResponse')
     ListInvitationsRequest = Shapes::StructureShape.new(name: 'ListInvitationsRequest')
     ListInvitationsResponse = Shapes::StructureShape.new(name: 'ListInvitationsResponse')
     ListMalwareProtectionPlansRequest = Shapes::StructureShape.new(name: 'ListMalwareProtectionPlansRequest')
@@ -442,6 +461,7 @@ module Aws::GuardDuty
     NetworkGeoLocation = Shapes::StructureShape.new(name: 'NetworkGeoLocation')
     NetworkInterface = Shapes::StructureShape.new(name: 'NetworkInterface')
     NetworkInterfaces = Shapes::ListShape.new(name: 'NetworkInterfaces')
+    NextToken = Shapes::StringShape.new(name: 'NextToken')
     NonEmptyString = Shapes::StringShape.new(name: 'NonEmptyString')
     NonNegativeInteger = Shapes::IntegerShape.new(name: 'NonNegativeInteger')
     NotEquals = Shapes::ListShape.new(name: 'NotEquals')
@@ -494,6 +514,7 @@ module Aws::GuardDuty
     ProcessName = Shapes::StringShape.new(name: 'ProcessName')
     ProcessPath = Shapes::StringShape.new(name: 'ProcessPath')
     ProcessSha256 = Shapes::StringShape.new(name: 'ProcessSha256')
+    Product = Shapes::StructureShape.new(name: 'Product')
     ProductCode = Shapes::StructureShape.new(name: 'ProductCode')
     ProductCodes = Shapes::ListShape.new(name: 'ProductCodes')
     ProfileSubtype = Shapes::StringShape.new(name: 'ProfileSubtype')
@@ -525,6 +546,8 @@ module Aws::GuardDuty
     ResourceUids = Shapes::ListShape.new(name: 'ResourceUids')
     ResourceV2 = Shapes::StructureShape.new(name: 'ResourceV2')
     Resources = Shapes::ListShape.new(name: 'Resources')
+    RiskDetails = Shapes::StringShape.new(name: 'RiskDetails')
+    RiskLevel = Shapes::StringShape.new(name: 'RiskLevel')
     RuntimeContext = Shapes::StructureShape.new(name: 'RuntimeContext')
     RuntimeDetails = Shapes::StructureShape.new(name: 'RuntimeDetails')
     S3Bucket = Shapes::StructureShape.new(name: 'S3Bucket')
@@ -619,7 +642,9 @@ module Aws::GuardDuty
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     Total = Shapes::StructureShape.new(name: 'Total')
     TriggerDetails = Shapes::StructureShape.new(name: 'TriggerDetails')
+    TriggerPrompt = Shapes::StringShape.new(name: 'TriggerPrompt')
     TriggerType = Shapes::StringShape.new(name: 'TriggerType')
+    TriggeredBy = Shapes::StringShape.new(name: 'TriggeredBy')
     TrustedEntitySetFormat = Shapes::StringShape.new(name: 'TrustedEntitySetFormat')
     TrustedEntitySetIds = Shapes::ListShape.new(name: 'TrustedEntitySetIds')
     TrustedEntitySetStatus = Shapes::StringShape.new(name: 'TrustedEntitySetStatus')
@@ -868,6 +893,11 @@ module Aws::GuardDuty
     City.add_member(:city_name, Shapes::ShapeRef.new(shape: String, location_name: "cityName"))
     City.struct_class = Types::City
 
+    CloudDetails.add_member(:provider, Shapes::ShapeRef.new(shape: CloudProvider, required: true, location_name: "provider"))
+    CloudDetails.add_member(:region, Shapes::ShapeRef.new(shape: String, required: true, location_name: "region"))
+    CloudDetails.add_member(:account, Shapes::ShapeRef.new(shape: String, required: true, location_name: "account"))
+    CloudDetails.struct_class = Types::CloudDetails
+
     CloudTrailConfigurationResult.add_member(:status, Shapes::ShapeRef.new(shape: DataSourceStatus, required: true, location_name: "status"))
     CloudTrailConfigurationResult.struct_class = Types::CloudTrailConfigurationResult
 
@@ -1028,6 +1058,14 @@ module Aws::GuardDuty
 
     CreateIPSetResponse.add_member(:ip_set_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ipSetId"))
     CreateIPSetResponse.struct_class = Types::CreateIPSetResponse
+
+    CreateInvestigationRequest.add_member(:detector_id, Shapes::ShapeRef.new(shape: DetectorId, required: true, location: "uri", location_name: "DetectorId"))
+    CreateInvestigationRequest.add_member(:trigger_prompt, Shapes::ShapeRef.new(shape: TriggerPrompt, required: true, location_name: "triggerPrompt"))
+    CreateInvestigationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateInvestigationRequest.struct_class = Types::CreateInvestigationRequest
+
+    CreateInvestigationResponse.add_member(:investigation_id, Shapes::ShapeRef.new(shape: InvestigationId, required: true, location_name: "investigationId"))
+    CreateInvestigationResponse.struct_class = Types::CreateInvestigationResponse
 
     CreateMalwareProtectionPlanRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateMalwareProtectionPlanRequest.add_member(:role, Shapes::ShapeRef.new(shape: String, required: true, location_name: "role"))
@@ -1597,6 +1635,13 @@ module Aws::GuardDuty
     GetIPSetResponse.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location_name: "expectedBucketOwner"))
     GetIPSetResponse.struct_class = Types::GetIPSetResponse
 
+    GetInvestigationRequest.add_member(:detector_id, Shapes::ShapeRef.new(shape: DetectorId, required: true, location: "uri", location_name: "DetectorId"))
+    GetInvestigationRequest.add_member(:investigation_id, Shapes::ShapeRef.new(shape: InvestigationId, required: true, location: "uri", location_name: "InvestigationId"))
+    GetInvestigationRequest.struct_class = Types::GetInvestigationRequest
+
+    GetInvestigationResponse.add_member(:investigation, Shapes::ShapeRef.new(shape: Investigation, required: true, location_name: "investigation"))
+    GetInvestigationResponse.struct_class = Types::GetInvestigationResponse
+
     GetInvitationsCountRequest.struct_class = Types::GetInvitationsCountRequest
 
     GetInvitationsCountResponse.add_member(:invitations_count, Shapes::ShapeRef.new(shape: Integer, location_name: "invitationsCount"))
@@ -1803,6 +1848,42 @@ module Aws::GuardDuty
     InternalServerErrorException.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "type"))
     InternalServerErrorException.struct_class = Types::InternalServerErrorException
 
+    Investigation.add_member(:investigation_id, Shapes::ShapeRef.new(shape: InvestigationId, required: true, location_name: "investigationId"))
+    Investigation.add_member(:status, Shapes::ShapeRef.new(shape: InvestigationStatus, required: true, location_name: "status"))
+    Investigation.add_member(:trigger_prompt, Shapes::ShapeRef.new(shape: TriggerPrompt, required: true, location_name: "triggerPrompt"))
+    Investigation.add_member(:triggered_by, Shapes::ShapeRef.new(shape: TriggeredBy, required: true, location_name: "triggeredBy"))
+    Investigation.add_member(:metadata, Shapes::ShapeRef.new(shape: InvestigationMetadata, location_name: "metadata"))
+    Investigation.add_member(:cloud, Shapes::ShapeRef.new(shape: CloudDetails, location_name: "cloud"))
+    Investigation.add_member(:risk_level, Shapes::ShapeRef.new(shape: RiskLevel, location_name: "riskLevel"))
+    Investigation.add_member(:risk, Shapes::ShapeRef.new(shape: RiskDetails, location_name: "risk"))
+    Investigation.add_member(:confidence, Shapes::ShapeRef.new(shape: Confidence, location_name: "confidence"))
+    Investigation.add_member(:summary, Shapes::ShapeRef.new(shape: String, location_name: "summary"))
+    Investigation.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startTime"))
+    Investigation.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "endTime"))
+    Investigation.add_member(:error, Shapes::ShapeRef.new(shape: InvestigationErrorDetails, location_name: "error"))
+    Investigation.struct_class = Types::Investigation
+
+    InvestigationMetadata.add_member(:version, Shapes::ShapeRef.new(shape: String, required: true, location_name: "version"))
+    InvestigationMetadata.add_member(:product, Shapes::ShapeRef.new(shape: Product, required: true, location_name: "product"))
+    InvestigationMetadata.struct_class = Types::InvestigationMetadata
+
+    InvestigationSortCriteria.add_member(:attribute_name, Shapes::ShapeRef.new(shape: InvestigationSortField, location_name: "attributeName"))
+    InvestigationSortCriteria.add_member(:order_by, Shapes::ShapeRef.new(shape: OrderBy, location_name: "orderBy"))
+    InvestigationSortCriteria.struct_class = Types::InvestigationSortCriteria
+
+    InvestigationSummaries.member = Shapes::ShapeRef.new(shape: InvestigationSummary)
+
+    InvestigationSummary.add_member(:investigation_id, Shapes::ShapeRef.new(shape: InvestigationId, location_name: "investigationId"))
+    InvestigationSummary.add_member(:status, Shapes::ShapeRef.new(shape: InvestigationStatus, location_name: "status"))
+    InvestigationSummary.add_member(:trigger_prompt, Shapes::ShapeRef.new(shape: TriggerPrompt, location_name: "triggerPrompt"))
+    InvestigationSummary.add_member(:risk_level, Shapes::ShapeRef.new(shape: RiskLevel, location_name: "riskLevel"))
+    InvestigationSummary.add_member(:confidence, Shapes::ShapeRef.new(shape: Confidence, location_name: "confidence"))
+    InvestigationSummary.add_member(:title, Shapes::ShapeRef.new(shape: InvestigationTitle, location_name: "title"))
+    InvestigationSummary.add_member(:account_id, Shapes::ShapeRef.new(shape: String, location_name: "accountId"))
+    InvestigationSummary.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startTime"))
+    InvestigationSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "endTime"))
+    InvestigationSummary.struct_class = Types::InvestigationSummary
+
     Invitation.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "accountId"))
     Invitation.add_member(:invitation_id, Shapes::ShapeRef.new(shape: String, location_name: "invitationId"))
     Invitation.add_member(:relationship_status, Shapes::ShapeRef.new(shape: String, location_name: "relationshipStatus"))
@@ -1985,6 +2066,16 @@ module Aws::GuardDuty
     ListIPSetsResponse.add_member(:ip_set_ids, Shapes::ShapeRef.new(shape: IpSetIds, required: true, location_name: "ipSetIds"))
     ListIPSetsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
     ListIPSetsResponse.struct_class = Types::ListIPSetsResponse
+
+    ListInvestigationsRequest.add_member(:detector_id, Shapes::ShapeRef.new(shape: DetectorId, required: true, location: "uri", location_name: "DetectorId"))
+    ListInvestigationsRequest.add_member(:sort_criteria, Shapes::ShapeRef.new(shape: InvestigationSortCriteria, location_name: "sortCriteria"))
+    ListInvestigationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    ListInvestigationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListInvestigationsRequest.struct_class = Types::ListInvestigationsRequest
+
+    ListInvestigationsResponse.add_member(:investigations, Shapes::ShapeRef.new(shape: InvestigationSummaries, required: true, location_name: "investigations"))
+    ListInvestigationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListInvestigationsResponse.struct_class = Types::ListInvestigationsResponse
 
     ListInvitationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListInvitationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
@@ -2403,6 +2494,10 @@ module Aws::GuardDuty
     ProcessDetails.add_member(:euid, Shapes::ShapeRef.new(shape: Integer, location_name: "euid"))
     ProcessDetails.add_member(:lineage, Shapes::ShapeRef.new(shape: Lineage, location_name: "lineage"))
     ProcessDetails.struct_class = Types::ProcessDetails
+
+    Product.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    Product.add_member(:feature, Shapes::ShapeRef.new(shape: String, location_name: "feature"))
+    Product.struct_class = Types::Product
 
     ProductCode.add_member(:code, Shapes::ShapeRef.new(shape: String, location_name: "productCodeId"))
     ProductCode.add_member(:product_type, Shapes::ShapeRef.new(shape: String, location_name: "productCodeType"))
@@ -3207,6 +3302,17 @@ module Aws::GuardDuty
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
+      api.add_operation(:create_investigation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateInvestigation"
+        o.http_method = "POST"
+        o.http_request_uri = "/detector/{DetectorId}/investigation"
+        o.input = Shapes::ShapeRef.new(shape: CreateInvestigationRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateInvestigationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:create_malware_protection_plan, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateMalwareProtectionPlan"
         o.http_method = "POST"
@@ -3555,6 +3661,18 @@ module Aws::GuardDuty
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
       end)
 
+      api.add_operation(:get_investigation, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetInvestigation"
+        o.http_method = "GET"
+        o.http_request_uri = "/detector/{DetectorId}/investigation/{InvestigationId}"
+        o.input = Shapes::ShapeRef.new(shape: GetInvestigationRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetInvestigationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:get_invitations_count, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetInvitationsCount"
         o.http_method = "GET"
@@ -3777,6 +3895,23 @@ module Aws::GuardDuty
         o.output = Shapes::ShapeRef.new(shape: ListIPSetsResponse)
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_investigations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListInvestigations"
+        o.http_method = "POST"
+        o.http_request_uri = "/detector/{DetectorId}/investigation/list"
+        o.input = Shapes::ShapeRef.new(shape: ListInvestigationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListInvestigationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {

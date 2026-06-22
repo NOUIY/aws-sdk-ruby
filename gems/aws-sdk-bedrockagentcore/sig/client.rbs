@@ -232,7 +232,8 @@ module Aws
                           ?client_token: ::String,
                           ?metadata: Hash[::String, {
                               string_value: ::String?
-                            }]
+                            }],
+                          ?extraction_mode: ("SKIP")
                         ) -> _CreateEventResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEventResponseSuccess
 

@@ -1665,6 +1665,13 @@ module Aws::BedrockAgentCore
     #   The key-value metadata to attach to the event.
     #   @return [Hash<String,Types::MetadataValue>]
     #
+    # @!attribute [rw] extraction_mode
+    #   Controls long-term memory extraction for this event. When set to
+    #   `SKIP`, the event is stored in short-term memory but is excluded
+    #   from long-term memory extraction. If not specified, the event is
+    #   processed for extraction as usual.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CreateEventInput AWS API Documentation
     #
     class CreateEventInput < Struct.new(
@@ -1675,7 +1682,8 @@ module Aws::BedrockAgentCore
       :payload,
       :branch,
       :client_token,
-      :metadata)
+      :metadata,
+      :extraction_mode)
       SENSITIVE = []
       include Aws::Structure
     end

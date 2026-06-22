@@ -209,7 +209,10 @@ module Aws
                                      sasl_scram: {
                                        mechanism: ("SHA256" | "SHA512"),
                                        secret_arn: ::String
-                                     }
+                                     }?,
+                                     mtls: {
+                                       secret_arn: ::String
+                                     }?
                                    }?,
                                    encryption_in_transit: {
                                      encryption_type: ("TLS"),

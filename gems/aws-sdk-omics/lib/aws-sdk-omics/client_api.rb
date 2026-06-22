@@ -509,6 +509,7 @@ module Aws::Omics
     SchemaItem = Shapes::MapShape.new(name: 'SchemaItem')
     SchemaItemKeyString = Shapes::StringShape.new(name: 'SchemaItemKeyString')
     SchemaValueType = Shapes::StringShape.new(name: 'SchemaValueType')
+    ScratchStorageMode = Shapes::StringShape.new(name: 'ScratchStorageMode')
     SecurityGroupId = Shapes::StringShape.new(name: 'SecurityGroupId')
     SecurityGroupIds = Shapes::ListShape.new(name: 'SecurityGroupIds')
     Separator = Shapes::StringShape.new(name: 'Separator')
@@ -1124,6 +1125,7 @@ module Aws::Omics
     DefaultRunSetting.add_member(:networking_mode, Shapes::ShapeRef.new(shape: NetworkingMode, location_name: "networkingMode"))
     DefaultRunSetting.add_member(:configuration_name, Shapes::ShapeRef.new(shape: ConfigurationName, location_name: "configurationName"))
     DefaultRunSetting.add_member(:engine_settings, Shapes::ShapeRef.new(shape: EngineSettings, location_name: "engineSettings"))
+    DefaultRunSetting.add_member(:scratch_storage_mode, Shapes::ShapeRef.new(shape: ScratchStorageMode, location_name: "scratchStorageMode"))
     DefaultRunSetting.struct_class = Types::DefaultRunSetting
 
     DefinitionRepository.add_member(:connection_arn, Shapes::ShapeRef.new(shape: ConnectionArn, required: true, location_name: "connectionArn"))
@@ -1560,6 +1562,7 @@ module Aws::Omics
     GetRunResponse.add_member(:workflow_version_name, Shapes::ShapeRef.new(shape: WorkflowVersionName, location_name: "workflowVersionName"))
     GetRunResponse.add_member(:workflow_uuid, Shapes::ShapeRef.new(shape: WorkflowUuid, location_name: "workflowUuid"))
     GetRunResponse.add_member(:networking_mode, Shapes::ShapeRef.new(shape: NetworkingMode, location_name: "networkingMode"))
+    GetRunResponse.add_member(:scratch_storage_mode, Shapes::ShapeRef.new(shape: ScratchStorageMode, location_name: "scratchStorageMode"))
     GetRunResponse.add_member(:configuration, Shapes::ShapeRef.new(shape: ConfigurationDetails, location_name: "configuration"))
     GetRunResponse.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfigResponse, location_name: "vpcConfig"))
     GetRunResponse.add_member(:engine_settings, Shapes::ShapeRef.new(shape: EngineSettings, location_name: "engineSettings"))
@@ -2521,6 +2524,7 @@ module Aws::Omics
     StartRunRequest.add_member(:workflow_owner_id, Shapes::ShapeRef.new(shape: WorkflowOwnerId, location_name: "workflowOwnerId"))
     StartRunRequest.add_member(:workflow_version_name, Shapes::ShapeRef.new(shape: WorkflowVersionName, location_name: "workflowVersionName"))
     StartRunRequest.add_member(:networking_mode, Shapes::ShapeRef.new(shape: NetworkingMode, location_name: "networkingMode"))
+    StartRunRequest.add_member(:scratch_storage_mode, Shapes::ShapeRef.new(shape: ScratchStorageMode, location_name: "scratchStorageMode"))
     StartRunRequest.add_member(:configuration_name, Shapes::ShapeRef.new(shape: ConfigurationName, location_name: "configurationName"))
     StartRunRequest.add_member(:engine_settings, Shapes::ShapeRef.new(shape: EngineSettings, location_name: "engineSettings"))
     StartRunRequest.struct_class = Types::StartRunRequest

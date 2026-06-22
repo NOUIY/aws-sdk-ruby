@@ -2463,10 +2463,15 @@ module Aws::Kafka
     #   Details for SASL/SCRAM client authentication.
     #   @return [Types::KafkaClusterSaslScramAuthentication]
     #
+    # @!attribute [rw] mtls
+    #   Details for mTLS client authentication.
+    #   @return [Types::KafkaClusterMTLSAuthentication]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/KafkaClusterClientAuthentication AWS API Documentation
     #
     class KafkaClusterClientAuthentication < Struct.new(
-      :sasl_scram)
+      :sasl_scram,
+      :mtls)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2485,6 +2490,20 @@ module Aws::Kafka
     #
     class KafkaClusterSaslScramAuthentication < Struct.new(
       :mechanism,
+      :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details for mTLS client authentication.
+    #
+    # @!attribute [rw] secret_arn
+    #   The Amazon Resource Name (ARN) of the Secrets Manager secret.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/KafkaClusterMTLSAuthentication AWS API Documentation
+    #
+    class KafkaClusterMTLSAuthentication < Struct.new(
       :secret_arn)
       SENSITIVE = []
       include Aws::Structure

@@ -522,6 +522,7 @@ module Aws::Omics
       attr_accessor networking_mode: ("RESTRICTED" | "VPC")
       attr_accessor configuration_name: ::String
       attr_accessor engine_settings: untyped
+      attr_accessor scratch_storage_mode: ("LOCAL" | "SHARED")
       SENSITIVE: []
     end
 
@@ -1082,6 +1083,7 @@ module Aws::Omics
       attr_accessor workflow_version_name: ::String
       attr_accessor workflow_uuid: ::String
       attr_accessor networking_mode: ("RESTRICTED" | "VPC")
+      attr_accessor scratch_storage_mode: ("LOCAL" | "SHARED")
       attr_accessor configuration: Types::ConfigurationDetails
       attr_accessor vpc_config: Types::VpcConfigResponse
       attr_accessor engine_settings: untyped
@@ -2256,6 +2258,7 @@ module Aws::Omics
       attr_accessor workflow_owner_id: ::String
       attr_accessor workflow_version_name: ::String
       attr_accessor networking_mode: ("RESTRICTED" | "VPC")
+      attr_accessor scratch_storage_mode: ("LOCAL" | "SHARED")
       attr_accessor configuration_name: ::String
       attr_accessor engine_settings: untyped
       SENSITIVE: []

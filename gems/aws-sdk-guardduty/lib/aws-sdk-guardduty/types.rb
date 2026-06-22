@@ -827,6 +827,32 @@ module Aws::GuardDuty
       include Aws::Structure
     end
 
+    # Contains details about the cloud environment associated with an
+    # investigation.
+    #
+    # @!attribute [rw] provider
+    #   The cloud provider. Currently, only `AWS` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region in which the investigated resource
+    #   resides.
+    #   @return [String]
+    #
+    # @!attribute [rw] account
+    #   The Amazon Web Services account ID of the investigated resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CloudDetails AWS API Documentation
+    #
+    class CloudDetails < Struct.new(
+      :provider,
+      :region,
+      :account)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains information on the status of CloudTrail as a data source for
     # the detector.
     #
@@ -2992,6 +3018,58 @@ module Aws::GuardDuty
     #
     class CreateIPSetResponse < Struct.new(
       :ip_set_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] detector_id
+    #   The unique ID of the GuardDuty detector for the account in which the
+    #   investigation is created.
+    #
+    #   To find the `detectorId` in the current Region, see the Settings
+    #   page in the GuardDuty console, or run the [ListDetectors][1] API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_prompt
+    #   A natural-language description of what to investigate. For example:
+    #
+    #   * `"Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account
+    #     123456789012"`
+    #
+    #   * `"Analyze findings in account with id 123456789012"`
+    #
+    #   * `"Analyze findings in my organization"`
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   The idempotency token for the create request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateInvestigationRequest AWS API Documentation
+    #
+    class CreateInvestigationRequest < Struct.new(
+      :detector_id,
+      :trigger_prompt,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] investigation_id
+    #   The unique identifier of the newly created investigation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateInvestigationResponse AWS API Documentation
+    #
+    class CreateInvestigationResponse < Struct.new(
+      :investigation_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5819,6 +5897,43 @@ module Aws::GuardDuty
       include Aws::Structure
     end
 
+    # @!attribute [rw] detector_id
+    #   The unique ID of the GuardDuty detector associated with the
+    #   investigation.
+    #
+    #   To find the `detectorId` in the current Region, see the Settings
+    #   page in the GuardDuty console, or run the [ListDetectors][1] API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html
+    #   @return [String]
+    #
+    # @!attribute [rw] investigation_id
+    #   The unique identifier of the investigation to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetInvestigationRequest AWS API Documentation
+    #
+    class GetInvestigationRequest < Struct.new(
+      :detector_id,
+      :investigation_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] investigation
+    #   The details and results of the requested investigation.
+    #   @return [Types::Investigation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetInvestigationResponse AWS API Documentation
+    #
+    class GetInvestigationResponse < Struct.new(
+      :investigation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @api private
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetInvitationsCountRequest AWS API Documentation
@@ -6819,6 +6934,182 @@ module Aws::GuardDuty
     class InternalServerErrorException < Struct.new(
       :message,
       :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the details and results of a GuardDuty investigation.
+    #
+    # @!attribute [rw] investigation_id
+    #   The unique identifier of the investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the investigation. Possible values are
+    #   `RUNNING`, `COMPLETED`, and `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_prompt
+    #   The natural-language prompt that initiated this investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] triggered_by
+    #   The account that initiated the investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] metadata
+    #   Metadata about the product and version that produced the
+    #   investigation.
+    #   @return [Types::InvestigationMetadata]
+    #
+    # @!attribute [rw] cloud
+    #   Details about the cloud environment in which the investigation was
+    #   performed, including the provider, region, and account.
+    #   @return [Types::CloudDetails]
+    #
+    # @!attribute [rw] risk_level
+    #   The assessed risk level of the investigated threat. Possible values
+    #   are `Info`, `Low`, `Medium`, `High`, and `Critical`.
+    #   @return [String]
+    #
+    # @!attribute [rw] risk
+    #   A human-readable description of the assessed risk.
+    #   @return [String]
+    #
+    # @!attribute [rw] confidence
+    #   The confidence level of the investigation's assessment. Possible
+    #   values are `Unknown`, `Low`, `Medium`, and `High`.
+    #   @return [String]
+    #
+    # @!attribute [rw] summary
+    #   A structured summary of the investigation findings, including
+    #   affected resources, threat assessment, and recommended remediation
+    #   steps.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp at which the investigation started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp at which the investigation completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] error
+    #   Details about the error if the investigation status is `FAILED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/Investigation AWS API Documentation
+    #
+    class Investigation < Struct.new(
+      :investigation_id,
+      :status,
+      :trigger_prompt,
+      :triggered_by,
+      :metadata,
+      :cloud,
+      :risk_level,
+      :risk,
+      :confidence,
+      :summary,
+      :start_time,
+      :end_time,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains metadata about the product and version that produced an
+    # investigation.
+    #
+    # @!attribute [rw] version
+    #   The version of the investigation engine that produced the results.
+    #   @return [String]
+    #
+    # @!attribute [rw] product
+    #   Information about the product that produced the investigation.
+    #   @return [Types::Product]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/InvestigationMetadata AWS API Documentation
+    #
+    class InvestigationMetadata < Struct.new(
+      :version,
+      :product)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about the criteria used for sorting
+    # investigations.
+    #
+    # @!attribute [rw] attribute_name
+    #   The attribute by which to sort investigations.
+    #   @return [String]
+    #
+    # @!attribute [rw] order_by
+    #   The order in which the sorted results are to be displayed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/InvestigationSortCriteria AWS API Documentation
+    #
+    class InvestigationSortCriteria < Struct.new(
+      :attribute_name,
+      :order_by)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a GuardDuty investigation.
+    #
+    # @!attribute [rw] investigation_id
+    #   The unique identifier of the investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_prompt
+    #   The natural-language prompt that initiated this investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] risk_level
+    #   The assessed risk level of the investigated threat.
+    #   @return [String]
+    #
+    # @!attribute [rw] confidence
+    #   The confidence level of the investigation's assessment.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   A short title summarizing the investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The Amazon Web Services account ID associated with the
+    #   investigation.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The timestamp at which the investigation started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The timestamp at which the investigation completed.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/InvestigationSummary AWS API Documentation
+    #
+    class InvestigationSummary < Struct.new(
+      :investigation_id,
+      :status,
+      :trigger_prompt,
+      :risk_level,
+      :confidence,
+      :title,
+      :account_id,
+      :start_time,
+      :end_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7828,6 +8119,65 @@ module Aws::GuardDuty
     #
     class ListIPSetsResponse < Struct.new(
       :ip_set_ids,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] detector_id
+    #   The unique ID of the GuardDuty detector whose investigations you
+    #   want to list.
+    #
+    #   To find the `detectorId` in the current Region, see the Settings
+    #   page in the GuardDuty console, or run the [ListDetectors][1] API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_criteria
+    #   Represents the criteria used for sorting investigations.
+    #   @return [Types::InvestigationSortCriteria]
+    #
+    # @!attribute [rw] max_results
+    #   You can use this parameter to indicate the maximum number of items
+    #   you want in the response. The default value is 50.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   You can use this parameter when paginating results. Set the value of
+    #   this parameter to null on your first call to the list action. For
+    #   subsequent calls to the action, fill nextToken in the request with
+    #   the value of NextToken from the previous response to continue
+    #   listing data.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListInvestigationsRequest AWS API Documentation
+    #
+    class ListInvestigationsRequest < Struct.new(
+      :detector_id,
+      :sort_criteria,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] investigations
+    #   A list of investigation summaries associated with the specified
+    #   detector.
+    #   @return [Array<Types::InvestigationSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination parameter to be used on the next list operation to
+    #   retrieve more items.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListInvestigationsResponse AWS API Documentation
+    #
+    class ListInvestigationsResponse < Struct.new(
+      :investigations,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -9804,6 +10154,26 @@ module Aws::GuardDuty
       :user_id,
       :euid,
       :lineage)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about the product that produced an investigation.
+    #
+    # @!attribute [rw] name
+    #   The name of the product.
+    #   @return [String]
+    #
+    # @!attribute [rw] feature
+    #   The specific feature within the product that produced the
+    #   investigation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/Product AWS API Documentation
+    #
+    class Product < Struct.new(
+      :name,
+      :feature)
       SENSITIVE = []
       include Aws::Structure
     end

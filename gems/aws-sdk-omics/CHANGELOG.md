@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.74.0 (2026-06-22)
+------------------
+
+* Feature - Adds support for scratch ephemeral storage mounted at tmp
+
 1.73.0 (2026-06-11)
 ------------------
 

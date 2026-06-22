@@ -13204,7 +13204,15 @@ module Aws
                                                                    }?,
                                                                    creation_date_condition: {
                                                                      maximum_days_since_created: ::Integer?
-                                                                   }?
+                                                                   }?,
+                                                                   image_watermarks: Array[
+                                                                     {
+                                                                       watermark_key: ::String?,
+                                                                       source_image_region: ::String?,
+                                                                       maximum_days_since_source_image_created: ::Integer?,
+                                                                       maximum_days_since_watermark_created: ::Integer?
+                                                                     }
+                                                                   ]?
                                                                  }
                                                                ],
                                                                ?dry_run: bool

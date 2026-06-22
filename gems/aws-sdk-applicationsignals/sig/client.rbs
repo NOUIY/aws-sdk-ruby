@@ -78,6 +78,28 @@ module Aws
                   | (?Hash[Symbol, untyped]) -> instance
 
 
+      interface _BatchDeleteInstrumentationConfigurationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchDeleteInstrumentationConfigurationsResponse]
+        def deleted_count: () -> ::Integer
+        def successful_deletions: () -> ::Array[Types::BatchDeleteSuccessfulDeletion]
+        def errors: () -> ::Array[Types::BatchDeleteError]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ApplicationSignals/Client.html#batch_delete_instrumentation_configurations-instance_method
+      def batch_delete_instrumentation_configurations: (
+                                                         deletion_target: {
+                                                           scope: {
+                                                             service: ::String,
+                                                             environment: ::String,
+                                                             instrumentation_type: ("BREAKPOINT" | "PROBE")
+                                                           }?,
+                                                           resource_arns: {
+                                                             resource_arns: Array[::String],
+                                                             instrumentation_type: ("BREAKPOINT" | "PROBE")
+                                                           }?
+                                                         }
+                                                       ) -> _BatchDeleteInstrumentationConfigurationsResponseSuccess
+                                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchDeleteInstrumentationConfigurationsResponseSuccess
+
       interface _BatchGetServiceLevelObjectiveBudgetReportResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::BatchGetServiceLevelObjectiveBudgetReportOutput]
         def timestamp: () -> ::Time
@@ -107,6 +129,62 @@ module Aws
                                             ]
                                           ) -> _BatchUpdateExclusionWindowsResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchUpdateExclusionWindowsResponseSuccess
+
+      interface _CreateInstrumentationConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateInstrumentationConfigurationResponse]
+        def instrumentation_type: () -> ("BREAKPOINT" | "PROBE")
+        def service: () -> ::String
+        def environment: () -> ::String
+        def signal_type: () -> ("SNAPSHOT")
+        def location: () -> Types::Location
+        def location_hash: () -> ::String
+        def description: () -> ::String
+        def expires_at: () -> ::Time
+        def attribute_filters: () -> ::Array[::Hash[::String, ::String]]
+        def capture_configuration: () -> Types::CaptureConfiguration
+        def created_at: () -> ::Time
+        def arn: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ApplicationSignals/Client.html#create_instrumentation_configuration-instance_method
+      def create_instrumentation_configuration: (
+                                                  instrumentation_type: ("BREAKPOINT" | "PROBE"),
+                                                  service: ::String,
+                                                  environment: ::String,
+                                                  signal_type: ("SNAPSHOT"),
+                                                  location: {
+                                                    code_location: Params::code_location?
+                                                  },
+                                                  ?description: ::String,
+                                                  ?expires_at: ::Time,
+                                                  ?attribute_filters: Array[
+                                                    Hash[::String, ::String]
+                                                  ],
+                                                  capture_configuration: {
+                                                    code_capture: {
+                                                      capture_arguments: Array[::String]?,
+                                                      capture_return: bool?,
+                                                      capture_stack_trace: bool?,
+                                                      capture_locals: Array[::String]?,
+                                                      capture_limits: {
+                                                        max_hits: ::Integer?,
+                                                        max_string_length: ::Integer?,
+                                                        max_collection_width: ::Integer?,
+                                                        max_collection_depth: ::Integer?,
+                                                        max_stack_frames: ::Integer?,
+                                                        max_stack_trace_size: ::Integer?,
+                                                        max_object_depth: ::Integer?,
+                                                        max_fields_per_object: ::Integer?
+                                                      }
+                                                    }?
+                                                  },
+                                                  ?tags: Array[
+                                                    {
+                                                      key: ::String,
+                                                      value: ::String
+                                                    }
+                                                  ]
+                                                ) -> _CreateInstrumentationConfigurationResponseSuccess
+                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateInstrumentationConfigurationResponseSuccess
 
       interface _CreateServiceLevelObjectiveResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateServiceLevelObjectiveOutput]
@@ -142,6 +220,20 @@ module Aws
       def delete_grouping_configuration: () -> _DeleteGroupingConfigurationResponseSuccess
                                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteGroupingConfigurationResponseSuccess
 
+      interface _DeleteInstrumentationConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteInstrumentationConfigurationResponse]
+        def deletion_status: () -> ("DELETED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ApplicationSignals/Client.html#delete_instrumentation_configuration-instance_method
+      def delete_instrumentation_configuration: (
+                                                  instrumentation_type: ("BREAKPOINT" | "PROBE"),
+                                                  service: ::String,
+                                                  environment: ::String,
+                                                  signal_type: ("SNAPSHOT"),
+                                                  location_identifier: Params::location_identifier
+                                                ) -> _DeleteInstrumentationConfigurationResponseSuccess
+                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteInstrumentationConfigurationResponseSuccess
+
       interface _DeleteServiceLevelObjectiveResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteServiceLevelObjectiveOutput]
       end
@@ -150,6 +242,45 @@ module Aws
                                             id: ::String
                                           ) -> _DeleteServiceLevelObjectiveResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteServiceLevelObjectiveResponseSuccess
+
+      interface _GetInstrumentationConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetInstrumentationConfigurationResponse]
+        def configuration: () -> Types::InstrumentationConfiguration
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ApplicationSignals/Client.html#get_instrumentation_configuration-instance_method
+      def get_instrumentation_configuration: (
+                                               instrumentation_type: ("BREAKPOINT" | "PROBE"),
+                                               service: ::String,
+                                               environment: ::String,
+                                               signal_type: ("SNAPSHOT"),
+                                               location_identifier: Params::location_identifier
+                                             ) -> _GetInstrumentationConfigurationResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetInstrumentationConfigurationResponseSuccess
+
+      interface _GetInstrumentationConfigurationStatusResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetInstrumentationConfigurationStatusResponse]
+        def service: () -> ::String
+        def environment: () -> ::String
+        def signal_type: () -> ("SNAPSHOT")
+        def location: () -> Types::Location
+        def status: () -> ("READY" | "ERROR" | "ACTIVE" | "DISABLED")
+        def events: () -> ::Array[Types::InstrumentationStatusEvent]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ApplicationSignals/Client.html#get_instrumentation_configuration_status-instance_method
+      def get_instrumentation_configuration_status: (
+                                                      instrumentation_type: ("BREAKPOINT" | "PROBE"),
+                                                      service: ::String,
+                                                      environment: ::String,
+                                                      signal_type: ("SNAPSHOT"),
+                                                      location_identifier: Params::location_identifier,
+                                                      ?status: ("READY" | "ERROR" | "ACTIVE" | "DISABLED"),
+                                                      ?start_time: ::Time,
+                                                      ?end_time: ::Time,
+                                                      ?max_results: ::Integer,
+                                                      ?next_token: ::String
+                                                    ) -> _GetInstrumentationConfigurationStatusResponseSuccess
+                                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetInstrumentationConfigurationStatusResponseSuccess
 
       interface _GetServiceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetServiceOutput]
@@ -254,6 +385,27 @@ module Aws
                                                  ?include_linked_accounts: bool
                                                ) -> _ListGroupingAttributeDefinitionsResponseSuccess
                                              | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListGroupingAttributeDefinitionsResponseSuccess
+
+      interface _ListInstrumentationConfigurationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::InstrumentationConfigurationsPage]
+        def service: () -> ::String
+        def environment: () -> ::String
+        def changed: () -> bool
+        def latest_configurations: () -> ::Array[Types::InstrumentationConfigurationWithoutServiceEnv]
+        def synced_at: () -> ::Time
+        def sync_interval: () -> ::Integer
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ApplicationSignals/Client.html#list_instrumentation_configurations-instance_method
+      def list_instrumentation_configurations: (
+                                                 service: ::String,
+                                                 environment: ::String,
+                                                 instrumentation_type: ("BREAKPOINT" | "PROBE"),
+                                                 ?synced_at: ::Time,
+                                                 ?max_results: ::Integer,
+                                                 ?next_token: ::String
+                                               ) -> _ListInstrumentationConfigurationsResponseSuccess
+                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListInstrumentationConfigurationsResponseSuccess
 
       interface _ListServiceDependenciesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListServiceDependenciesOutput]
@@ -411,6 +563,29 @@ module Aws
                                         ]
                                       ) -> _PutGroupingConfigurationResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutGroupingConfigurationResponseSuccess
+
+      interface _ReportInstrumentationConfigurationStatusResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ReportInstrumentationConfigurationStatusResponse]
+        def service: () -> ::String
+        def environment: () -> ::String
+        def unprocessed_status_events: () -> ::Array[Types::UnprocessedStatusEvent]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ApplicationSignals/Client.html#report_instrumentation_configuration_status-instance_method
+      def report_instrumentation_configuration_status: (
+                                                         service: ::String,
+                                                         environment: ::String,
+                                                         configurations: Array[
+                                                           {
+                                                             instrumentation_type: ("BREAKPOINT" | "PROBE"),
+                                                             signal_type: ("SNAPSHOT"),
+                                                             location_hash: ::String,
+                                                             status: ("READY" | "ERROR" | "ACTIVE" | "DISABLED"),
+                                                             time: ::Time,
+                                                             error_cause: ("FILE_NOT_FOUND" | "METHOD_NOT_FOUND" | "LINE_NOT_EXECUTABLE" | "OVERLOADED_METHODS" | "LANGUAGE_MISMATCH" | "RUNTIME_ERROR")?
+                                                           }
+                                                         ]
+                                                       ) -> _ReportInstrumentationConfigurationStatusResponseSuccess
+                                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ReportInstrumentationConfigurationStatusResponseSuccess
 
       interface _StartDiscoveryResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartDiscoveryOutput]

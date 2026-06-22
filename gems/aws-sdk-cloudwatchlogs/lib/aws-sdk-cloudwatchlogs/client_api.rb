@@ -118,6 +118,7 @@ module Aws::CloudWatchLogs
     DeleteScheduledQueryRequest = Shapes::StructureShape.new(name: 'DeleteScheduledQueryRequest')
     DeleteScheduledQueryResponse = Shapes::StructureShape.new(name: 'DeleteScheduledQueryResponse')
     DeleteSubscriptionFilterRequest = Shapes::StructureShape.new(name: 'DeleteSubscriptionFilterRequest')
+    DeleteSyslogConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteSyslogConfigurationRequest')
     DeleteTransformerRequest = Shapes::StructureShape.new(name: 'DeleteTransformerRequest')
     DeleteWithKeys = Shapes::ListShape.new(name: 'DeleteWithKeys')
     DeletionProtectionEnabled = Shapes::BooleanShape.new(name: 'DeletionProtectionEnabled')
@@ -375,6 +376,9 @@ module Aws::CloudWatchLogs
     ListSourcesForS3TableIntegrationMaxResults = Shapes::IntegerShape.new(name: 'ListSourcesForS3TableIntegrationMaxResults')
     ListSourcesForS3TableIntegrationRequest = Shapes::StructureShape.new(name: 'ListSourcesForS3TableIntegrationRequest')
     ListSourcesForS3TableIntegrationResponse = Shapes::StructureShape.new(name: 'ListSourcesForS3TableIntegrationResponse')
+    ListSyslogConfigurationsMaxResults = Shapes::IntegerShape.new(name: 'ListSyslogConfigurationsMaxResults')
+    ListSyslogConfigurationsRequest = Shapes::StructureShape.new(name: 'ListSyslogConfigurationsRequest')
+    ListSyslogConfigurationsResponse = Shapes::StructureShape.new(name: 'ListSyslogConfigurationsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     ListTagsLogGroupRequest = Shapes::StructureShape.new(name: 'ListTagsLogGroupRequest')
@@ -520,6 +524,7 @@ module Aws::CloudWatchLogs
     PutResourcePolicyResponse = Shapes::StructureShape.new(name: 'PutResourcePolicyResponse')
     PutRetentionPolicyRequest = Shapes::StructureShape.new(name: 'PutRetentionPolicyRequest')
     PutSubscriptionFilterRequest = Shapes::StructureShape.new(name: 'PutSubscriptionFilterRequest')
+    PutSyslogConfigurationRequest = Shapes::StructureShape.new(name: 'PutSyslogConfigurationRequest')
     PutTransformerRequest = Shapes::StructureShape.new(name: 'PutTransformerRequest')
     QueryCharOffset = Shapes::IntegerShape.new(name: 'QueryCharOffset')
     QueryCompileError = Shapes::StructureShape.new(name: 'QueryCompileError')
@@ -632,6 +637,9 @@ module Aws::CloudWatchLogs
     SuppressionState = Shapes::StringShape.new(name: 'SuppressionState')
     SuppressionType = Shapes::StringShape.new(name: 'SuppressionType')
     SuppressionUnit = Shapes::StringShape.new(name: 'SuppressionUnit')
+    SyslogConfiguration = Shapes::StructureShape.new(name: 'SyslogConfiguration')
+    SyslogConfigurations = Shapes::ListShape.new(name: 'SyslogConfigurations')
+    SyslogSourceType = Shapes::StringShape.new(name: 'SyslogSourceType')
     SystemField = Shapes::StringShape.new(name: 'SystemField')
     TableBody = Shapes::StringShape.new(name: 'TableBody')
     TableFields = Shapes::ListShape.new(name: 'TableFields')
@@ -693,6 +701,7 @@ module Aws::CloudWatchLogs
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     Value = Shapes::StringShape.new(name: 'Value')
     ValueKey = Shapes::StringShape.new(name: 'ValueKey')
+    VpcEndpointId = Shapes::StringShape.new(name: 'VpcEndpointId')
     WithKey = Shapes::StringShape.new(name: 'WithKey')
 
     AccessDeniedException.struct_class = Types::AccessDeniedException
@@ -1021,6 +1030,10 @@ module Aws::CloudWatchLogs
     DeleteSubscriptionFilterRequest.add_member(:log_group_name, Shapes::ShapeRef.new(shape: LogGroupName, required: true, location_name: "logGroupName"))
     DeleteSubscriptionFilterRequest.add_member(:filter_name, Shapes::ShapeRef.new(shape: FilterName, required: true, location_name: "filterName"))
     DeleteSubscriptionFilterRequest.struct_class = Types::DeleteSubscriptionFilterRequest
+
+    DeleteSyslogConfigurationRequest.add_member(:log_group_identifier, Shapes::ShapeRef.new(shape: LogGroupIdentifier, required: true, location_name: "logGroupIdentifier"))
+    DeleteSyslogConfigurationRequest.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, location_name: "vpcEndpointId"))
+    DeleteSyslogConfigurationRequest.struct_class = Types::DeleteSyslogConfigurationRequest
 
     DeleteTransformerRequest.add_member(:log_group_identifier, Shapes::ShapeRef.new(shape: LogGroupIdentifier, required: true, location_name: "logGroupIdentifier"))
     DeleteTransformerRequest.struct_class = Types::DeleteTransformerRequest
@@ -1741,6 +1754,16 @@ module Aws::CloudWatchLogs
     ListSourcesForS3TableIntegrationResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListSourcesForS3TableIntegrationResponse.struct_class = Types::ListSourcesForS3TableIntegrationResponse
 
+    ListSyslogConfigurationsRequest.add_member(:log_group_identifier, Shapes::ShapeRef.new(shape: LogGroupIdentifier, location_name: "logGroupIdentifier"))
+    ListSyslogConfigurationsRequest.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, location_name: "vpcEndpointId"))
+    ListSyslogConfigurationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListSyslogConfigurationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListSyslogConfigurationsMaxResults, location_name: "maxResults"))
+    ListSyslogConfigurationsRequest.struct_class = Types::ListSyslogConfigurationsRequest
+
+    ListSyslogConfigurationsResponse.add_member(:syslog_configurations, Shapes::ShapeRef.new(shape: SyslogConfigurations, location_name: "syslogConfigurations"))
+    ListSyslogConfigurationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ListSyslogConfigurationsResponse.struct_class = Types::ListSyslogConfigurationsResponse
+
     ListTagsForResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, required: true, location_name: "resourceArn"))
     ListTagsForResourceRequest.struct_class = Types::ListTagsForResourceRequest
 
@@ -2198,6 +2221,10 @@ module Aws::CloudWatchLogs
     PutSubscriptionFilterRequest.add_member(:emit_system_fields, Shapes::ShapeRef.new(shape: EmitSystemFields, location_name: "emitSystemFields"))
     PutSubscriptionFilterRequest.struct_class = Types::PutSubscriptionFilterRequest
 
+    PutSyslogConfigurationRequest.add_member(:log_group_identifier, Shapes::ShapeRef.new(shape: LogGroupIdentifier, required: true, location_name: "logGroupIdentifier"))
+    PutSyslogConfigurationRequest.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, location_name: "vpcEndpointId"))
+    PutSyslogConfigurationRequest.struct_class = Types::PutSyslogConfigurationRequest
+
     PutTransformerRequest.add_member(:log_group_identifier, Shapes::ShapeRef.new(shape: LogGroupIdentifier, required: true, location_name: "logGroupIdentifier"))
     PutTransformerRequest.add_member(:transformer_config, Shapes::ShapeRef.new(shape: Processors, required: true, location_name: "transformerConfig"))
     PutTransformerRequest.struct_class = Types::PutTransformerRequest
@@ -2443,6 +2470,14 @@ module Aws::CloudWatchLogs
     SuppressionPeriod.add_member(:value, Shapes::ShapeRef.new(shape: Integer, location_name: "value"))
     SuppressionPeriod.add_member(:suppression_unit, Shapes::ShapeRef.new(shape: SuppressionUnit, location_name: "suppressionUnit"))
     SuppressionPeriod.struct_class = Types::SuppressionPeriod
+
+    SyslogConfiguration.add_member(:log_group_arn, Shapes::ShapeRef.new(shape: LogGroupArn, location_name: "logGroupArn"))
+    SyslogConfiguration.add_member(:source_type, Shapes::ShapeRef.new(shape: SyslogSourceType, location_name: "sourceType"))
+    SyslogConfiguration.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, location_name: "vpcEndpointId"))
+    SyslogConfiguration.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
+    SyslogConfiguration.struct_class = Types::SyslogConfiguration
+
+    SyslogConfigurations.member = Shapes::ShapeRef.new(shape: SyslogConfiguration)
 
     TableFields.member = Shapes::ShapeRef.new(shape: String)
 
@@ -3024,6 +3059,21 @@ module Aws::CloudWatchLogs
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: OperationAbortedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+      end)
+
+      api.add_operation(:delete_syslog_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteSyslogConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteSyslogConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationAbortedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
@@ -3703,6 +3753,20 @@ module Aws::CloudWatchLogs
         )
       end)
 
+      api.add_operation(:list_syslog_configurations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListSyslogConfigurations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListSyslogConfigurationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListSyslogConfigurationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+      end)
+
       api.add_operation(:list_tags_for_resource, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListTagsForResource"
         o.http_method = "POST"
@@ -3942,6 +4006,21 @@ module Aws::CloudWatchLogs
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidOperationException)
+      end)
+
+      api.add_operation(:put_syslog_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutSyslogConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutSyslogConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationAbortedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
       api.add_operation(:put_transformer, Seahorse::Model::Operation.new.tap do |o|

@@ -2073,6 +2073,10 @@ module Aws::EC2
     ImageUsageResourceTypeRequest = Shapes::StructureShape.new(name: 'ImageUsageResourceTypeRequest')
     ImageUsageResourceTypeRequestList = Shapes::ListShape.new(name: 'ImageUsageResourceTypeRequestList')
     ImageWatermark = Shapes::StructureShape.new(name: 'ImageWatermark')
+    ImageWatermarkFilterRequest = Shapes::StructureShape.new(name: 'ImageWatermarkFilterRequest')
+    ImageWatermarkFilterRequestList = Shapes::ListShape.new(name: 'ImageWatermarkFilterRequestList')
+    ImageWatermarkFilterResponse = Shapes::StructureShape.new(name: 'ImageWatermarkFilterResponse')
+    ImageWatermarkFilterResponseList = Shapes::ListShape.new(name: 'ImageWatermarkFilterResponseList')
     ImageWatermarkList = Shapes::ListShape.new(name: 'ImageWatermarkList')
     ImageWatermarkNameRequest = Shapes::StringShape.new(name: 'ImageWatermarkNameRequest')
     ImdsSupportValues = Shapes::StringShape.new(name: 'ImdsSupportValues')
@@ -12348,6 +12352,7 @@ module Aws::EC2
     ImageCriterion.add_member(:image_names, Shapes::ShapeRef.new(shape: ImageNameList, location_name: "imageNameSet"))
     ImageCriterion.add_member(:deprecation_time_condition, Shapes::ShapeRef.new(shape: DeprecationTimeCondition, location_name: "deprecationTimeCondition"))
     ImageCriterion.add_member(:creation_date_condition, Shapes::ShapeRef.new(shape: CreationDateCondition, location_name: "creationDateCondition"))
+    ImageCriterion.add_member(:image_watermarks, Shapes::ShapeRef.new(shape: ImageWatermarkFilterResponseList, location_name: "imageWatermarkSet"))
     ImageCriterion.struct_class = Types::ImageCriterion
 
     ImageCriterionList.member = Shapes::ShapeRef.new(shape: ImageCriterion, location_name: "item")
@@ -12357,6 +12362,7 @@ module Aws::EC2
     ImageCriterionRequest.add_member(:image_names, Shapes::ShapeRef.new(shape: ImageNameCriteriaRequestList, location_name: "ImageName"))
     ImageCriterionRequest.add_member(:deprecation_time_condition, Shapes::ShapeRef.new(shape: DeprecationTimeConditionRequest, location_name: "DeprecationTimeCondition"))
     ImageCriterionRequest.add_member(:creation_date_condition, Shapes::ShapeRef.new(shape: CreationDateConditionRequest, location_name: "CreationDateCondition"))
+    ImageCriterionRequest.add_member(:image_watermarks, Shapes::ShapeRef.new(shape: ImageWatermarkFilterRequestList, location_name: "ImageWatermark"))
     ImageCriterionRequest.struct_class = Types::ImageCriterionRequest
 
     ImageCriterionRequestList.member = Shapes::ShapeRef.new(shape: ImageCriterionRequest, location_name: "ImageCriterion")
@@ -12472,6 +12478,22 @@ module Aws::EC2
     ImageWatermark.add_member(:source_image_creation_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "sourceImageCreationTime"))
     ImageWatermark.add_member(:watermark_creation_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "watermarkCreationTime"))
     ImageWatermark.struct_class = Types::ImageWatermark
+
+    ImageWatermarkFilterRequest.add_member(:watermark_key, Shapes::ShapeRef.new(shape: String, location_name: "WatermarkKey"))
+    ImageWatermarkFilterRequest.add_member(:source_image_region, Shapes::ShapeRef.new(shape: String, location_name: "SourceImageRegion"))
+    ImageWatermarkFilterRequest.add_member(:maximum_days_since_source_image_created, Shapes::ShapeRef.new(shape: Integer, location_name: "MaximumDaysSinceSourceImageCreated"))
+    ImageWatermarkFilterRequest.add_member(:maximum_days_since_watermark_created, Shapes::ShapeRef.new(shape: Integer, location_name: "MaximumDaysSinceWatermarkCreated"))
+    ImageWatermarkFilterRequest.struct_class = Types::ImageWatermarkFilterRequest
+
+    ImageWatermarkFilterRequestList.member = Shapes::ShapeRef.new(shape: ImageWatermarkFilterRequest, location_name: "item")
+
+    ImageWatermarkFilterResponse.add_member(:watermark_key, Shapes::ShapeRef.new(shape: String, location_name: "watermarkKey"))
+    ImageWatermarkFilterResponse.add_member(:source_image_region, Shapes::ShapeRef.new(shape: String, location_name: "sourceImageRegion"))
+    ImageWatermarkFilterResponse.add_member(:maximum_days_since_source_image_created, Shapes::ShapeRef.new(shape: Integer, location_name: "maximumDaysSinceSourceImageCreated"))
+    ImageWatermarkFilterResponse.add_member(:maximum_days_since_watermark_created, Shapes::ShapeRef.new(shape: Integer, location_name: "maximumDaysSinceWatermarkCreated"))
+    ImageWatermarkFilterResponse.struct_class = Types::ImageWatermarkFilterResponse
+
+    ImageWatermarkFilterResponseList.member = Shapes::ShapeRef.new(shape: ImageWatermarkFilterResponse, location_name: "item")
 
     ImageWatermarkList.member = Shapes::ShapeRef.new(shape: ImageWatermark, location_name: "item")
 

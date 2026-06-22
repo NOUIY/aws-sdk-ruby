@@ -1,0 +1,677 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws::LambdaMicrovms
+  module Types
+
+    class AccessDeniedException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class CloudWatchLogging
+      attr_accessor log_group: ::String
+      attr_accessor log_stream: ::String
+      SENSITIVE: []
+    end
+
+    class CodeArtifact
+      attr_accessor uri: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Uri < CodeArtifact
+      end
+      class Unknown < CodeArtifact
+      end
+    end
+
+    class ConflictException
+      attr_accessor message: ::String
+      attr_accessor resource_id: ::String
+      attr_accessor resource_type: ::String
+      SENSITIVE: []
+    end
+
+    class CpuConfiguration
+      attr_accessor architecture: ("ARM_64")
+      SENSITIVE: []
+    end
+
+    class CreateMicrovmAuthTokenRequest
+      attr_accessor microvm_identifier: ::String
+      attr_accessor expiration_in_minutes: ::Integer
+      attr_accessor allowed_ports: ::Array[Types::PortSpecification]
+      SENSITIVE: []
+    end
+
+    class CreateMicrovmAuthTokenResponse
+      attr_accessor auth_token: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateMicrovmImageRequest
+      attr_accessor base_image_arn: ::String
+      attr_accessor base_image_version: ::String
+      attr_accessor build_role_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor code_artifact: Types::CodeArtifact
+      attr_accessor logging: Types::Logging
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor cpu_configurations: ::Array[Types::CpuConfiguration]
+      attr_accessor resources: ::Array[Types::Resources]
+      attr_accessor additional_os_capabilities: ::Array[("ALL")]
+      attr_accessor hooks: Types::Hooks
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor name: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateMicrovmImageResponse
+      attr_accessor image_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor state: ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+      attr_accessor latest_active_image_version: ::String
+      attr_accessor latest_failed_image_version: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor base_image_arn: ::String
+      attr_accessor base_image_version: ::String
+      attr_accessor build_role_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor code_artifact: Types::CodeArtifact
+      attr_accessor logging: Types::Logging
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor cpu_configurations: ::Array[Types::CpuConfiguration]
+      attr_accessor resources: ::Array[Types::Resources]
+      attr_accessor additional_os_capabilities: ::Array[("ALL")]
+      attr_accessor hooks: Types::Hooks
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor updated_at: ::Time
+      attr_accessor image_version: ::String
+      SENSITIVE: []
+    end
+
+    class CreateMicrovmShellAuthTokenRequest
+      attr_accessor microvm_identifier: ::String
+      attr_accessor expiration_in_minutes: ::Integer
+      SENSITIVE: []
+    end
+
+    class CreateMicrovmShellAuthTokenResponse
+      attr_accessor auth_token: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class DeleteMicrovmImageInput
+      attr_accessor image_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteMicrovmImageOutput
+      attr_accessor image_identifier: ::String
+      attr_accessor state: ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+      SENSITIVE: []
+    end
+
+    class DeleteMicrovmImageVersionInput
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteMicrovmImageVersionOutput
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      attr_accessor state: ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "DELETING" | "DELETED" | "DELETE_FAILED")
+      SENSITIVE: []
+    end
+
+    class GetMicrovmImageBuildInput
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      attr_accessor build_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetMicrovmImageBuildOutput
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor build_id: ::String
+      attr_accessor build_state: ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED")
+      attr_accessor architecture: ("ARM_64")
+      attr_accessor chipset: ("GRAVITON")
+      attr_accessor chipset_generation: ::String
+      attr_accessor state_reason: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor snapshot_build: Types::SnapshotBuild
+      SENSITIVE: []
+    end
+
+    class GetMicrovmImageInput
+      attr_accessor image_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class GetMicrovmImageOutput
+      attr_accessor image_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor state: ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+      attr_accessor latest_active_image_version: ::String
+      attr_accessor latest_failed_image_version: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class GetMicrovmImageVersionInput
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      SENSITIVE: []
+    end
+
+    class GetMicrovmImageVersionOutput
+      attr_accessor base_image_arn: ::String
+      attr_accessor base_image_version: ::String
+      attr_accessor build_role_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor code_artifact: Types::CodeArtifact
+      attr_accessor logging: Types::Logging
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor cpu_configurations: ::Array[Types::CpuConfiguration]
+      attr_accessor resources: ::Array[Types::Resources]
+      attr_accessor additional_os_capabilities: ::Array[("ALL")]
+      attr_accessor hooks: Types::Hooks
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor state: ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "DELETING" | "DELETED" | "DELETE_FAILED")
+      attr_accessor status: ("ACTIVE" | "INACTIVE")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor state_reason: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class GetMicrovmRequest
+      attr_accessor microvm_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class GetMicrovmResponse
+      attr_accessor microvm_id: ::String
+      attr_accessor state: ("PENDING" | "RUNNING" | "SUSPENDING" | "SUSPENDED" | "TERMINATING" | "TERMINATED")
+      attr_accessor endpoint: ::String
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor execution_role_arn: ::String
+      attr_accessor idle_policy: Types::IdlePolicy
+      attr_accessor maximum_duration_in_seconds: ::Integer
+      attr_accessor started_at: ::Time
+      attr_accessor terminated_at: ::Time
+      attr_accessor state_reason: ::String
+      attr_accessor ingress_network_connectors: ::Array[::String]
+      attr_accessor egress_network_connectors: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class Hooks
+      attr_accessor port: ::Integer
+      attr_accessor microvm_hooks: Types::MicrovmHooks
+      attr_accessor microvm_image_hooks: Types::MicrovmImageHooks
+      SENSITIVE: []
+    end
+
+    class IdlePolicy
+      attr_accessor max_idle_duration_seconds: ::Integer
+      attr_accessor suspended_duration_seconds: ::Integer
+      attr_accessor auto_resume_enabled: bool
+      SENSITIVE: []
+    end
+
+    class InternalServerException
+      attr_accessor message: ::String
+      attr_accessor retry_after_seconds: ::Integer
+      SENSITIVE: []
+    end
+
+    class InvalidParameterValueException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ListManagedMicrovmImageVersionsInput
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor image_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class ListManagedMicrovmImageVersionsOutput
+      attr_accessor next_token: ::String
+      attr_accessor items: ::Array[Types::ManagedMicrovmImageVersion]
+      SENSITIVE: []
+    end
+
+    class ListManagedMicrovmImagesInput
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListManagedMicrovmImagesOutput
+      attr_accessor next_token: ::String
+      attr_accessor items: ::Array[Types::ManagedMicrovmImageSummary]
+      SENSITIVE: []
+    end
+
+    class ListMicrovmImageBuildsInput
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      attr_accessor architecture: ("ARM_64")
+      attr_accessor chipset: ("GRAVITON")
+      attr_accessor chipset_generation: ::String
+      SENSITIVE: []
+    end
+
+    class ListMicrovmImageBuildsOutput
+      attr_accessor next_token: ::String
+      attr_accessor items: ::Array[Types::MicrovmImageBuildSummary]
+      SENSITIVE: []
+    end
+
+    class ListMicrovmImageVersionsInput
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor image_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class ListMicrovmImageVersionsOutput
+      attr_accessor next_token: ::String
+      attr_accessor items: ::Array[Types::MicrovmImageVersionSummary]
+      SENSITIVE: []
+    end
+
+    class ListMicrovmImagesRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor name_filter: ::String
+      SENSITIVE: []
+    end
+
+    class ListMicrovmImagesResponse
+      attr_accessor next_token: ::String
+      attr_accessor items: ::Array[Types::MicrovmImageSummary]
+      SENSITIVE: []
+    end
+
+    class ListMicrovmsRequest
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      SENSITIVE: []
+    end
+
+    class ListMicrovmsResponse
+      attr_accessor next_token: ::String
+      attr_accessor items: ::Array[Types::MicrovmItem]
+      SENSITIVE: []
+    end
+
+    class ListTagsRequest
+      attr_accessor resource: ::String
+      SENSITIVE: []
+    end
+
+    class ListTagsResponse
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class Logging
+      attr_accessor disabled: Types::LoggingDisabled
+      attr_accessor cloud_watch: Types::CloudWatchLogging
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Disabled < Logging
+      end
+      class CloudWatch < Logging
+      end
+      class Unknown < Logging
+      end
+    end
+
+    class LoggingDisabled < Aws::EmptyStructure
+    end
+
+    class ManagedMicrovmImageSummary
+      attr_accessor image_arn: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class ManagedMicrovmImageVersion
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class MicrovmHooks
+      attr_accessor run: ("DISABLED" | "ENABLED")
+      attr_accessor run_timeout_in_seconds: ::Integer
+      attr_accessor resume: ("DISABLED" | "ENABLED")
+      attr_accessor resume_timeout_in_seconds: ::Integer
+      attr_accessor suspend: ("DISABLED" | "ENABLED")
+      attr_accessor suspend_timeout_in_seconds: ::Integer
+      attr_accessor terminate: ("DISABLED" | "ENABLED")
+      attr_accessor terminate_timeout_in_seconds: ::Integer
+      SENSITIVE: []
+    end
+
+    class MicrovmImageBuildSummary
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor build_id: ::String
+      attr_accessor build_state: ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED")
+      attr_accessor architecture: ("ARM_64")
+      attr_accessor chipset: ("GRAVITON")
+      attr_accessor chipset_generation: ::String
+      attr_accessor state_reason: ::String
+      attr_accessor created_at: ::Time
+      SENSITIVE: []
+    end
+
+    class MicrovmImageHooks
+      attr_accessor ready: ("DISABLED" | "ENABLED")
+      attr_accessor ready_timeout_in_seconds: ::Integer
+      attr_accessor validate: ("DISABLED" | "ENABLED")
+      attr_accessor validate_timeout_in_seconds: ::Integer
+      SENSITIVE: []
+    end
+
+    class MicrovmImageSummary
+      attr_accessor image_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor state: ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+      attr_accessor latest_active_image_version: ::String
+      attr_accessor latest_failed_image_version: ::String
+      attr_accessor created_at: ::Time
+      SENSITIVE: []
+    end
+
+    class MicrovmImageVersionSummary
+      attr_accessor base_image_arn: ::String
+      attr_accessor base_image_version: ::String
+      attr_accessor build_role_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor code_artifact: Types::CodeArtifact
+      attr_accessor logging: Types::Logging
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor cpu_configurations: ::Array[Types::CpuConfiguration]
+      attr_accessor resources: ::Array[Types::Resources]
+      attr_accessor additional_os_capabilities: ::Array[("ALL")]
+      attr_accessor hooks: Types::Hooks
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor state: ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "DELETING" | "DELETED" | "DELETE_FAILED")
+      attr_accessor status: ("ACTIVE" | "INACTIVE")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor state_reason: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class MicrovmItem
+      attr_accessor microvm_id: ::String
+      attr_accessor state: ("PENDING" | "RUNNING" | "SUSPENDING" | "SUSPENDED" | "TERMINATING" | "TERMINATED")
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor started_at: ::Time
+      SENSITIVE: []
+    end
+
+    class PortRange
+      attr_accessor start_port: ::Integer
+      attr_accessor end_port: ::Integer
+      SENSITIVE: []
+    end
+
+    class PortSpecification
+      attr_accessor port: ::Integer
+      attr_accessor range: Types::PortRange
+      attr_accessor all_ports: Types::Unit
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Port < PortSpecification
+      end
+      class Range < PortSpecification
+      end
+      class AllPorts < PortSpecification
+      end
+      class Unknown < PortSpecification
+      end
+    end
+
+    class ResourceConflictException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ResourceNotFoundException
+      attr_accessor message: ::String
+      attr_accessor resource_type: ::String
+      attr_accessor resource_id: ::String
+      SENSITIVE: []
+    end
+
+    class Resources
+      attr_accessor minimum_memory_in_mi_b: ::Integer
+      SENSITIVE: []
+    end
+
+    class ResumeMicrovmRequest
+      attr_accessor microvm_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class ResumeMicrovmResponse < Aws::EmptyStructure
+    end
+
+    class RunMicrovmRequest
+      attr_accessor ingress_network_connectors: ::Array[::String]
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      attr_accessor execution_role_arn: ::String
+      attr_accessor idle_policy: Types::IdlePolicy
+      attr_accessor logging: Types::Logging
+      attr_accessor run_hook_payload: ::String
+      attr_accessor maximum_duration_in_seconds: ::Integer
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class RunMicrovmResponse
+      attr_accessor microvm_id: ::String
+      attr_accessor state: ("PENDING" | "RUNNING" | "SUSPENDING" | "SUSPENDED" | "TERMINATING" | "TERMINATED")
+      attr_accessor endpoint: ::String
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor execution_role_arn: ::String
+      attr_accessor idle_policy: Types::IdlePolicy
+      attr_accessor maximum_duration_in_seconds: ::Integer
+      attr_accessor started_at: ::Time
+      attr_accessor terminated_at: ::Time
+      attr_accessor state_reason: ::String
+      attr_accessor ingress_network_connectors: ::Array[::String]
+      attr_accessor egress_network_connectors: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class ServiceException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ServiceQuotaExceededException
+      attr_accessor message: ::String
+      attr_accessor resource_id: ::String
+      attr_accessor resource_type: ::String
+      attr_accessor service_code: ::String
+      attr_accessor quota_code: ::String
+      SENSITIVE: []
+    end
+
+    class SnapshotBuild
+      attr_accessor memory_snapshot_size_in_bytes: ::Integer
+      attr_accessor code_install_size_in_bytes: ::Integer
+      attr_accessor disk_snapshot_size_in_bytes: ::Integer
+      SENSITIVE: []
+    end
+
+    class SuspendMicrovmRequest
+      attr_accessor microvm_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class SuspendMicrovmResponse < Aws::EmptyStructure
+    end
+
+    class TagResourceRequest
+      attr_accessor resource: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class TerminateMicrovmRequest
+      attr_accessor microvm_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class TerminateMicrovmResponse < Aws::EmptyStructure
+    end
+
+    class ThrottlingException
+      attr_accessor message: ::String
+      attr_accessor service_code: ::String
+      attr_accessor quota_code: ::String
+      attr_accessor retry_after_seconds: ::Integer
+      SENSITIVE: []
+    end
+
+    class TooManyRequestsException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class Unit < Aws::EmptyStructure
+    end
+
+    class UntagResourceRequest
+      attr_accessor resource: ::String
+      attr_accessor tag_keys: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class UpdateMicrovmImageRequest
+      attr_accessor base_image_arn: ::String
+      attr_accessor base_image_version: ::String
+      attr_accessor build_role_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor code_artifact: Types::CodeArtifact
+      attr_accessor logging: Types::Logging
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor cpu_configurations: ::Array[Types::CpuConfiguration]
+      attr_accessor resources: ::Array[Types::Resources]
+      attr_accessor additional_os_capabilities: ::Array[("ALL")]
+      attr_accessor hooks: Types::Hooks
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor image_identifier: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateMicrovmImageResponse
+      attr_accessor image_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor state: ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+      attr_accessor latest_active_image_version: ::String
+      attr_accessor latest_failed_image_version: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor base_image_arn: ::String
+      attr_accessor base_image_version: ::String
+      attr_accessor build_role_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor code_artifact: Types::CodeArtifact
+      attr_accessor logging: Types::Logging
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor cpu_configurations: ::Array[Types::CpuConfiguration]
+      attr_accessor resources: ::Array[Types::Resources]
+      attr_accessor additional_os_capabilities: ::Array[("ALL")]
+      attr_accessor hooks: Types::Hooks
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor updated_at: ::Time
+      attr_accessor image_version: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateMicrovmImageVersionRequest
+      attr_accessor image_identifier: ::String
+      attr_accessor image_version: ::String
+      attr_accessor status: ("ACTIVE" | "INACTIVE")
+      SENSITIVE: []
+    end
+
+    class UpdateMicrovmImageVersionResponse
+      attr_accessor base_image_arn: ::String
+      attr_accessor base_image_version: ::String
+      attr_accessor build_role_arn: ::String
+      attr_accessor description: ::String
+      attr_accessor code_artifact: Types::CodeArtifact
+      attr_accessor logging: Types::Logging
+      attr_accessor egress_network_connectors: ::Array[::String]
+      attr_accessor cpu_configurations: ::Array[Types::CpuConfiguration]
+      attr_accessor resources: ::Array[Types::Resources]
+      attr_accessor additional_os_capabilities: ::Array[("ALL")]
+      attr_accessor hooks: Types::Hooks
+      attr_accessor environment_variables: ::Hash[::String, ::String]
+      attr_accessor image_arn: ::String
+      attr_accessor image_version: ::String
+      attr_accessor state: ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "DELETING" | "DELETED" | "DELETE_FAILED")
+      attr_accessor status: ("ACTIVE" | "INACTIVE")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor state_reason: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class ValidationException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+  end
+end

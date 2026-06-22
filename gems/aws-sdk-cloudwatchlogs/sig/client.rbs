@@ -382,6 +382,13 @@ module Aws
                                       ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#delete_syslog_configuration-instance_method
+      def delete_syslog_configuration: (
+                                         log_group_identifier: ::String,
+                                         ?vpc_endpoint_id: ::String
+                                       ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#delete_transformer-instance_method
       def delete_transformer: (
                                 log_group_identifier: ::String
@@ -1069,6 +1076,20 @@ module Aws
                                                  ) -> _ListSourcesForS3TableIntegrationResponseSuccess
                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSourcesForS3TableIntegrationResponseSuccess
 
+      interface _ListSyslogConfigurationsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListSyslogConfigurationsResponse]
+        def syslog_configurations: () -> ::Array[Types::SyslogConfiguration]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#list_syslog_configurations-instance_method
+      def list_syslog_configurations: (
+                                        ?log_group_identifier: ::String,
+                                        ?vpc_endpoint_id: ::String,
+                                        ?next_token: ::String,
+                                        ?max_results: ::Integer
+                                      ) -> _ListSyslogConfigurationsResponseSuccess
+                                    | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListSyslogConfigurationsResponseSuccess
+
       interface _ListTagsForResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsForResourceResponse]
         def tags: () -> ::Hash[::String, ::String]
@@ -1325,6 +1346,13 @@ module Aws
                                      ?emit_system_fields: Array[::String]
                                    ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#put_syslog_configuration-instance_method
+      def put_syslog_configuration: (
+                                      log_group_identifier: ::String,
+                                      ?vpc_endpoint_id: ::String
+                                    ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CloudWatchLogs/Client.html#put_transformer-instance_method
       def put_transformer: (

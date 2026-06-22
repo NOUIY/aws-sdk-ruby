@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.187.0 (2026-06-22)
+------------------
+
+* Feature - Updated the Amazon Quick Spaces API to remove unsupported SPACE and ARTIFACT values from the SpaceQuickSightResourceType enum.
+
 1.186.0 (2026-06-05)
 ------------------
 

@@ -20,6 +20,15 @@ module Aws
       reason: ::String?
     }
 
+      type code_location = {
+      language: ("Java" | "Python" | "Javascript"),
+      code_unit: ::String?,
+      class_name: ::String?,
+      method_name: ::String?,
+      file_path: ::String,
+      line_number: ::Integer?
+    }
+
       type composite_sli_config = {
       selection_config: {
         type: ("EXPLICIT" | "PREFIX" | "REGEX"),
@@ -138,6 +147,11 @@ module Aws
       interval: Params::interval?,
       attainment_goal: ::Float?,
       warning_threshold: ::Float?
+    }
+
+      type location_identifier = {
+      code_location: Params::code_location?,
+      location_hash: ::String?
     }
 
     end

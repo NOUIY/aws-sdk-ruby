@@ -871,7 +871,7 @@ module Aws::MediaConnect
     # Configures settings for the `BlackFrames` metric.
     #
     # @!attribute [rw] state
-    #   Indicates whether the `BlackFrames` metric is enabled or disabled..
+    #   Indicates whether the `BlackFrames` metric is enabled or disabled.
     #   @return [String]
     #
     # @!attribute [rw] threshold_seconds
@@ -882,6 +882,28 @@ module Aws::MediaConnect
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BlackFrames AWS API Documentation
     #
     class BlackFrames < Struct.new(
+      :state,
+      :threshold_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Detects black frames in the router input's source content and reports
+    # them through a CloudWatch metric, an EventBridge event, and a router
+    # input message.
+    #
+    # @!attribute [rw] state
+    #   Indicates whether black frames detection is enabled or disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] threshold_seconds
+    #   The number of consecutive seconds of black frames that MediaConnect
+    #   must detect before it reports an issue.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BlackFramesConfiguration AWS API Documentation
+    #
+    class BlackFramesConfiguration < Struct.new(
       :state,
       :threshold_seconds)
       SENSITIVE = []
@@ -1146,6 +1168,30 @@ module Aws::MediaConnect
     #
     class ConflictException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configures the content quality analysis features for the router input.
+    #
+    # @!attribute [rw] black_frames
+    #   Settings for black frames detection.
+    #   @return [Types::BlackFramesConfiguration]
+    #
+    # @!attribute [rw] frozen_frames
+    #   Settings for frozen frames detection.
+    #   @return [Types::FrozenFramesConfiguration]
+    #
+    # @!attribute [rw] silent_audio
+    #   Settings for silent audio detection.
+    #   @return [Types::SilentAudioConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ContentQualityAnalysisFeatureConfiguration AWS API Documentation
+    #
+    class ContentQualityAnalysisFeatureConfiguration < Struct.new(
+      :black_frames,
+      :frozen_frames,
+      :silent_audio)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1448,6 +1494,10 @@ module Aws::MediaConnect
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] content_quality_analysis_configuration
+    #   The content quality analysis configuration for the router input.
+    #   @return [Types::RouterContentQualityAnalysisConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateRouterInputRequest AWS API Documentation
     #
     class CreateRouterInputRequest < Struct.new(
@@ -1461,7 +1511,8 @@ module Aws::MediaConnect
       :transit_encryption,
       :maintenance_configuration,
       :tags,
-      :client_token)
+      :client_token,
+      :content_quality_analysis_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2823,6 +2874,28 @@ module Aws::MediaConnect
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/FrozenFrames AWS API Documentation
     #
     class FrozenFrames < Struct.new(
+      :state,
+      :threshold_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Detects frozen video frames in the router input's source content and
+    # reports them through a CloudWatch metric, an EventBridge event, and a
+    # router input message.
+    #
+    # @!attribute [rw] state
+    #   Indicates whether frozen frames detection is enabled or disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] threshold_seconds
+    #   The number of consecutive seconds of a frozen frame that
+    #   MediaConnect must detect before it reports an issue.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/FrozenFramesConfiguration AWS API Documentation
+    #
+    class FrozenFramesConfiguration < Struct.new(
       :state,
       :threshold_seconds)
       SENSITIVE = []
@@ -6014,6 +6087,33 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # The content quality analysis configuration for the router input.
+    #
+    # The content quality analysis feature only monitors the first video
+    # stream and the first audio stream it encounters within the router
+    # input source.
+    #
+    # @note RouterContentQualityAnalysisConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note RouterContentQualityAnalysisConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of RouterContentQualityAnalysisConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] content_level
+    #   The content quality analysis configuration.
+    #   @return [Types::ContentQualityAnalysisFeatureConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/RouterContentQualityAnalysisConfiguration AWS API Documentation
+    #
+    class RouterContentQualityAnalysisConfiguration < Struct.new(
+      :content_level,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ContentLevel < RouterContentQualityAnalysisConfiguration; end
+      class Unknown < RouterContentQualityAnalysisConfiguration; end
+    end
+
     # A router input in AWS Elemental MediaConnect. A router input is a
     # source of media content that can be routed to one or more router
     # outputs.
@@ -6118,6 +6218,14 @@ module Aws::MediaConnect
     #   The current maintenance schedule details for this router input.
     #   @return [Types::MaintenanceSchedule]
     #
+    # @!attribute [rw] content_quality_analysis_type
+    #   The type of content quality analysis applied to the router input.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_quality_analysis_configuration
+    #   The content quality analysis configuration for the router input.
+    #   @return [Types::RouterContentQualityAnalysisConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/RouterInput AWS API Documentation
     #
     class RouterInput < Struct.new(
@@ -6144,7 +6252,9 @@ module Aws::MediaConnect
       :maintenance_type,
       :maintenance_configuration,
       :maintenance_schedule_type,
-      :maintenance_schedule)
+      :maintenance_schedule,
+      :content_quality_analysis_type,
+      :content_quality_analysis_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7294,6 +7404,28 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # Detects silent audio in the router input's source content and reports
+    # it through a CloudWatch metric, an EventBridge event, and a router
+    # input message.
+    #
+    # @!attribute [rw] state
+    #   Indicates whether silent audio detection is enabled or disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] threshold_seconds
+    #   The number of consecutive seconds of silence that MediaConnect must
+    #   detect before it reports an issue.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/SilentAudioConfiguration AWS API Documentation
+    #
+    class SilentAudioConfiguration < Struct.new(
+      :state,
+      :threshold_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The settings for the source of the flow.
     #
     # @!attribute [rw] data_transfer_subscriber_fee_percent
@@ -7337,12 +7469,12 @@ module Aws::MediaConnect
     #   @return [String]
     #
     # @!attribute [rw] sender_control_port
-    #   The IP address that the flow communicates with to initiate
+    #   The port that the flow uses to send outbound requests to initiate
     #   connection with the sender.
     #   @return [Integer]
     #
     # @!attribute [rw] sender_ip_address
-    #   The port that the flow uses to send outbound requests to initiate
+    #   The IP address that the flow communicates with to initiate
     #   connection with the sender.
     #   @return [String]
     #
@@ -9371,6 +9503,10 @@ module Aws::MediaConnect
     #   schedules.
     #   @return [Types::MaintenanceConfiguration]
     #
+    # @!attribute [rw] content_quality_analysis_configuration
+    #   The content quality analysis configuration for the router input.
+    #   @return [Types::RouterContentQualityAnalysisConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateRouterInputRequest AWS API Documentation
     #
     class UpdateRouterInputRequest < Struct.new(
@@ -9381,7 +9517,8 @@ module Aws::MediaConnect
       :routing_scope,
       :tier,
       :transit_encryption,
-      :maintenance_configuration)
+      :maintenance_configuration,
+      :content_quality_analysis_configuration)
       SENSITIVE = []
       include Aws::Structure
     end

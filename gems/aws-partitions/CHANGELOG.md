@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+1.1262.0 (2026-06-22)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::LambdaMicrovms`.
+
+* Feature - Added support for enumerating regions for `Aws::LambdaCore`.
+
 1.1261.0 (2026-06-16)
 ------------------
 

@@ -1,0 +1,44 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module LambdaMicrovms
+    module Params
+      type logging = {
+      disabled: {
+      }?,
+      cloud_watch: {
+        log_group: ::String?,
+        log_stream: ::String?
+      }?
+    }
+
+      type microvm_hooks = {
+      run: ("DISABLED" | "ENABLED")?,
+      run_timeout_in_seconds: ::Integer?,
+      resume: ("DISABLED" | "ENABLED")?,
+      resume_timeout_in_seconds: ::Integer?,
+      suspend: ("DISABLED" | "ENABLED")?,
+      suspend_timeout_in_seconds: ::Integer?,
+      terminate: ("DISABLED" | "ENABLED")?,
+      terminate_timeout_in_seconds: ::Integer?
+    }
+
+      type hooks = {
+      port: ::Integer?,
+      microvm_hooks: Params::microvm_hooks?,
+      microvm_image_hooks: {
+        ready: ("DISABLED" | "ENABLED")?,
+        ready_timeout_in_seconds: ::Integer?,
+        validate: ("DISABLED" | "ENABLED")?,
+        validate_timeout_in_seconds: ::Integer?
+      }?
+    }
+
+    end
+  end
+end

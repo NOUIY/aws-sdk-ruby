@@ -10790,6 +10790,7 @@ module Aws::EC2
       attr_accessor image_names: ::Array[::String]
       attr_accessor deprecation_time_condition: Types::DeprecationTimeCondition
       attr_accessor creation_date_condition: Types::CreationDateCondition
+      attr_accessor image_watermarks: ::Array[Types::ImageWatermarkFilterResponse]
       SENSITIVE: []
     end
 
@@ -10799,6 +10800,7 @@ module Aws::EC2
       attr_accessor image_names: ::Array[::String]
       attr_accessor deprecation_time_condition: Types::DeprecationTimeConditionRequest
       attr_accessor creation_date_condition: Types::CreationDateConditionRequest
+      attr_accessor image_watermarks: ::Array[Types::ImageWatermarkFilterRequest]
       SENSITIVE: []
     end
 
@@ -10895,6 +10897,22 @@ module Aws::EC2
       attr_accessor source_image_id: ::String
       attr_accessor source_image_creation_time: ::Time
       attr_accessor watermark_creation_time: ::Time
+      SENSITIVE: []
+    end
+
+    class ImageWatermarkFilterRequest
+      attr_accessor watermark_key: ::String
+      attr_accessor source_image_region: ::String
+      attr_accessor maximum_days_since_source_image_created: ::Integer
+      attr_accessor maximum_days_since_watermark_created: ::Integer
+      SENSITIVE: []
+    end
+
+    class ImageWatermarkFilterResponse
+      attr_accessor watermark_key: ::String
+      attr_accessor source_image_region: ::String
+      attr_accessor maximum_days_since_source_image_created: ::Integer
+      attr_accessor maximum_days_since_watermark_created: ::Integer
       SENSITIVE: []
     end
 

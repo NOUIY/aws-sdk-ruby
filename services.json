@@ -719,6 +719,12 @@
   "Lambda": {
     "models": "lambda/2015-03-31"
   },
+  "LambdaCore": {
+    "models": "lambda-core/2026-04-30"
+  },
+  "LambdaMicrovms": {
+    "models": "lambda-microvms/2025-09-09"
+  },
   "LaunchWizard": {
     "models": "launch-wizard/2018-05-10"
   },

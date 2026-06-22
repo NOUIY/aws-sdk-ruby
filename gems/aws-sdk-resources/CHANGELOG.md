@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+3.265.0 (2026-06-22)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-lambdamicrovms` gem.
+
+* Feature - Added a dependency on the new `aws-sdk-lambdacore` gem.
+
 3.264.0 (2026-06-02)
 ------------------
 

@@ -23,7 +23,7 @@ Aws::Plugins::GlobalConfiguration.add_identifier(:applicationsignals)
 # structure.
 #
 #     application_signals = Aws::ApplicationSignals::Client.new
-#     resp = application_signals.batch_get_service_level_objective_budget_report(params)
+#     resp = application_signals.batch_delete_instrumentation_configurations(params)
 #
 # See {Client} for more information.
 #
@@ -55,7 +55,7 @@ module Aws::ApplicationSignals
   autoload :EndpointProvider, 'aws-sdk-applicationsignals/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-applicationsignals/endpoints'
 
-  GEM_VERSION = '1.44.0'
+  GEM_VERSION = '1.45.0'
 
 end
 

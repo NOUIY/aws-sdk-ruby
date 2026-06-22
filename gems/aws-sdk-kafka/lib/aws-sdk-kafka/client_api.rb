@@ -127,6 +127,7 @@ module Aws::Kafka
     KafkaClusterDescription = Shapes::StructureShape.new(name: 'KafkaClusterDescription')
     KafkaClusterEncryptionInTransit = Shapes::StructureShape.new(name: 'KafkaClusterEncryptionInTransit')
     KafkaClusterEncryptionInTransitType = Shapes::StringShape.new(name: 'KafkaClusterEncryptionInTransitType')
+    KafkaClusterMTLSAuthentication = Shapes::StructureShape.new(name: 'KafkaClusterMTLSAuthentication')
     KafkaClusterSaslScramAuthentication = Shapes::StructureShape.new(name: 'KafkaClusterSaslScramAuthentication')
     KafkaClusterSaslScramMechanism = Shapes::StringShape.new(name: 'KafkaClusterSaslScramMechanism')
     KafkaClusterSummary = Shapes::StructureShape.new(name: 'KafkaClusterSummary')
@@ -865,7 +866,8 @@ module Aws::Kafka
     KafkaCluster.add_member(:encryption_in_transit, Shapes::ShapeRef.new(shape: KafkaClusterEncryptionInTransit, location_name: "encryptionInTransit"))
     KafkaCluster.struct_class = Types::KafkaCluster
 
-    KafkaClusterClientAuthentication.add_member(:sasl_scram, Shapes::ShapeRef.new(shape: KafkaClusterSaslScramAuthentication, required: true, location_name: "saslScram"))
+    KafkaClusterClientAuthentication.add_member(:sasl_scram, Shapes::ShapeRef.new(shape: KafkaClusterSaslScramAuthentication, location_name: "saslScram"))
+    KafkaClusterClientAuthentication.add_member(:mtls, Shapes::ShapeRef.new(shape: KafkaClusterMTLSAuthentication, location_name: "mTLS"))
     KafkaClusterClientAuthentication.struct_class = Types::KafkaClusterClientAuthentication
 
     KafkaClusterClientVpcConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroupIds"))
@@ -883,6 +885,9 @@ module Aws::Kafka
     KafkaClusterEncryptionInTransit.add_member(:encryption_type, Shapes::ShapeRef.new(shape: KafkaClusterEncryptionInTransitType, required: true, location_name: "encryptionType"))
     KafkaClusterEncryptionInTransit.add_member(:root_ca_certificate, Shapes::ShapeRef.new(shape: __string, location_name: "rootCaCertificate"))
     KafkaClusterEncryptionInTransit.struct_class = Types::KafkaClusterEncryptionInTransit
+
+    KafkaClusterMTLSAuthentication.add_member(:secret_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "secretArn"))
+    KafkaClusterMTLSAuthentication.struct_class = Types::KafkaClusterMTLSAuthentication
 
     KafkaClusterSaslScramAuthentication.add_member(:mechanism, Shapes::ShapeRef.new(shape: KafkaClusterSaslScramMechanism, required: true, location_name: "mechanism"))
     KafkaClusterSaslScramAuthentication.add_member(:secret_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "secretArn"))

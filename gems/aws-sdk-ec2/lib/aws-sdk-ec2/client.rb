@@ -3204,8 +3204,7 @@ module Aws::EC2
 
     # Attaches a watermark to a non-public AMI. The watermark is a
     # structured identifier that automatically propagates to all derivative
-    # images created through [CreateImage][1], [CopyImage][2], and
-    # [CreateRestoreImageTask][3].
+    # images created through [CreateImage][1], and [CopyImage][2].
     #
     # Only the AMI owner can attach watermarks. Watermarks cannot be added
     # to public AMIs.
@@ -3214,7 +3213,6 @@ module Aws::EC2
     #
     # [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html
     # [2]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopyImage.html
-    # [3]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateRestoreImageTask.html
     #
     # @option params [required, String] :image_id
     #   The ID of the AMI.
@@ -4378,28 +4376,25 @@ module Aws::EC2
     #
     # * `assessing`
     #
-    # * `scheduled` — requires a cancellation quote. Use
-    #   `CreateCapacityReservationCancellationQuote` to generate a quote,
-    #   then pass the quote ID with `ApplyCancellationCharges` set to
-    #   `commitment-wind-down`. The cancellation charge depends on how close
-    #   the reservation is to its start date.
+    # * `scheduled`
     #
     # * `active` and there is no commitment duration or the commitment
     #   duration has elapsed.
     #
-    # * `active` during the commitment duration — requires a cancellation
-    #   quote. Use `CreateCapacityReservationCancellationQuote` to generate
-    #   a quote, then pass the quote ID with `ApplyCancellationCharges` set
-    #   to `commitment-wind-down`. The Capacity Reservation transitions to
-    #   `cancelling` while charges are applied.
-    #
-    # * `delayed` — the commitment duration is waived, so no cancellation
-    #   charge applies.
+    # * `active` during the commitment duration, if you provide a
+    #   cancellation quote ID and accept the cancellation charges. Use
+    #   `CreateCapacityReservationCancellationQuote` to generate a quote.
+    #   The Capacity Reservation transitions to `cancelling` while charges
+    #   are applied.
     #
     # <note markdown="1"> You can't modify or cancel a Capacity Block. For more information,
     # see [Capacity Blocks for ML][1].
     #
     #  </note>
+    #
+    # If a future-dated Capacity Reservation enters the `delayed` state, the
+    # commitment duration is waived, and you can cancel it as soon as it
+    # enters the `active` state.
     #
     # Instances running in the reserved capacity continue running until you
     # stop them. Stopped instances that target the Capacity Reservation can
@@ -51782,6 +51777,11 @@ module Aws::EC2
     #   resp.image_criteria[0].image_names[0] #=> String
     #   resp.image_criteria[0].deprecation_time_condition.maximum_days_since_deprecated #=> Integer
     #   resp.image_criteria[0].creation_date_condition.maximum_days_since_created #=> Integer
+    #   resp.image_criteria[0].image_watermarks #=> Array
+    #   resp.image_criteria[0].image_watermarks[0].watermark_key #=> String
+    #   resp.image_criteria[0].image_watermarks[0].source_image_region #=> String
+    #   resp.image_criteria[0].image_watermarks[0].maximum_days_since_source_image_created #=> Integer
+    #   resp.image_criteria[0].image_watermarks[0].maximum_days_since_watermark_created #=> Integer
     #   resp.managed_by #=> String, one of "account", "declarative-policy"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetAllowedImagesSettings AWS API Documentation
@@ -67736,6 +67736,12 @@ module Aws::EC2
 
     # Sets or replaces the criteria for Allowed AMIs.
     #
+    # The `ImageCriteria` can include up to:
+    #
+    # * 10 `ImageCriterion`
+    #
+    # ^
+    #
     # <note markdown="1"> The Allowed AMIs feature does not restrict the AMIs owned by your
     # account. Regardless of the criteria you set, the AMIs created by your
     # account will always be discoverable and usable by users in your
@@ -67779,6 +67785,14 @@ module Aws::EC2
     #         creation_date_condition: {
     #           maximum_days_since_created: 1,
     #         },
+    #         image_watermarks: [
+    #           {
+    #             watermark_key: "String",
+    #             source_image_region: "String",
+    #             maximum_days_since_source_image_created: 1,
+    #             maximum_days_since_watermark_created: 1,
+    #           },
+    #         ],
     #       },
     #     ],
     #     dry_run: false,
@@ -74087,7 +74101,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.624.0'
+      context[:gem_version] = '1.625.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -229,6 +229,13 @@ module Aws::GuardDuty
       SENSITIVE: []
     end
 
+    class CloudDetails
+      attr_accessor provider: ("AWS")
+      attr_accessor region: ::String
+      attr_accessor account: ::String
+      SENSITIVE: []
+    end
+
     class CloudTrailConfigurationResult
       attr_accessor status: ("ENABLED" | "DISABLED")
       SENSITIVE: []
@@ -418,6 +425,18 @@ module Aws::GuardDuty
 
     class CreateIPSetResponse
       attr_accessor ip_set_id: ::String
+      SENSITIVE: []
+    end
+
+    class CreateInvestigationRequest
+      attr_accessor detector_id: ::String
+      attr_accessor trigger_prompt: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateInvestigationResponse
+      attr_accessor investigation_id: ::String
       SENSITIVE: []
     end
 
@@ -1156,6 +1175,17 @@ module Aws::GuardDuty
       SENSITIVE: []
     end
 
+    class GetInvestigationRequest
+      attr_accessor detector_id: ::String
+      attr_accessor investigation_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetInvestigationResponse
+      attr_accessor investigation: Types::Investigation
+      SENSITIVE: []
+    end
+
     class GetInvitationsCountRequest < Aws::EmptyStructure
     end
 
@@ -1415,6 +1445,48 @@ module Aws::GuardDuty
       SENSITIVE: []
     end
 
+    class Investigation
+      attr_accessor investigation_id: ::String
+      attr_accessor status: ("RUNNING" | "COMPLETED" | "FAILED")
+      attr_accessor trigger_prompt: ::String
+      attr_accessor triggered_by: ::String
+      attr_accessor metadata: Types::InvestigationMetadata
+      attr_accessor cloud: Types::CloudDetails
+      attr_accessor risk_level: ("Info" | "Low" | "Medium" | "High" | "Critical")
+      attr_accessor risk: ::String
+      attr_accessor confidence: ("Unknown" | "Low" | "Medium" | "High")
+      attr_accessor summary: ::String
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      attr_accessor error: ::String
+      SENSITIVE: []
+    end
+
+    class InvestigationMetadata
+      attr_accessor version: ::String
+      attr_accessor product: Types::Product
+      SENSITIVE: []
+    end
+
+    class InvestigationSortCriteria
+      attr_accessor attribute_name: ("START_TIME" | "END_TIME" | "STATUS" | "RISK_LEVEL" | "CONFIDENCE")
+      attr_accessor order_by: ("ASC" | "DESC")
+      SENSITIVE: []
+    end
+
+    class InvestigationSummary
+      attr_accessor investigation_id: ::String
+      attr_accessor status: ("RUNNING" | "COMPLETED" | "FAILED")
+      attr_accessor trigger_prompt: ::String
+      attr_accessor risk_level: ("Info" | "Low" | "Medium" | "High" | "Critical")
+      attr_accessor confidence: ("Unknown" | "Low" | "Medium" | "High")
+      attr_accessor title: ::String
+      attr_accessor account_id: ::String
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
+      SENSITIVE: []
+    end
+
     class Invitation
       attr_accessor account_id: ::String
       attr_accessor invitation_id: ::String
@@ -1640,6 +1712,20 @@ module Aws::GuardDuty
 
     class ListIPSetsResponse
       attr_accessor ip_set_ids: ::Array[::String]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListInvestigationsRequest
+      attr_accessor detector_id: ::String
+      attr_accessor sort_criteria: Types::InvestigationSortCriteria
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListInvestigationsResponse
+      attr_accessor investigations: ::Array[Types::InvestigationSummary]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -2155,6 +2241,12 @@ module Aws::GuardDuty
       attr_accessor user_id: ::Integer
       attr_accessor euid: ::Integer
       attr_accessor lineage: ::Array[Types::LineageObject]
+      SENSITIVE: []
+    end
+
+    class Product
+      attr_accessor name: ::String
+      attr_accessor feature: ::String
       SENSITIVE: []
     end
 

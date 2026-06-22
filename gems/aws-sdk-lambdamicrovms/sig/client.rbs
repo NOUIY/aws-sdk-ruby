@@ -1,0 +1,535 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module LambdaMicrovms
+    class Client < ::Seahorse::Client::Base
+      include ::Aws::ClientStubs
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#initialize-instance_method
+      def self.new: (
+                      ?credentials: untyped,
+                      ?region: String,
+                      ?access_key_id: String,
+                      ?account_id: String,
+                      ?active_endpoint_cache: bool,
+                      ?adaptive_retry_wait_to_fill: bool,
+                      ?auth_scheme_preference: Array[String],
+                      ?client_side_monitoring: bool,
+                      ?client_side_monitoring_client_id: String,
+                      ?client_side_monitoring_host: String,
+                      ?client_side_monitoring_port: Integer,
+                      ?client_side_monitoring_publisher: untyped,
+                      ?convert_params: bool,
+                      ?correct_clock_skew: bool,
+                      ?defaults_mode: String,
+                      ?disable_host_prefix_injection: bool,
+                      ?disable_request_compression: bool,
+                      ?endpoint: String,
+                      ?endpoint_cache_max_entries: Integer,
+                      ?endpoint_cache_max_threads: Integer,
+                      ?endpoint_cache_poll_interval: Integer,
+                      ?endpoint_discovery: bool,
+                      ?ignore_configured_endpoint_urls: bool,
+                      ?log_formatter: untyped,
+                      ?log_level: Symbol,
+                      ?logger: untyped,
+                      ?max_attempts: Integer,
+                      ?profile: String,
+                      ?request_checksum_calculation: String,
+                      ?request_min_compression_size_bytes: Integer,
+                      ?response_checksum_validation: String,
+                      ?retry_backoff: Proc,
+                      ?retry_base_delay: Float,
+                      ?retry_jitter: (:none | :equal | :full | ^(Integer) -> Integer),
+                      ?retry_limit: Integer,
+                      ?retry_max_delay: Integer,
+                      ?retry_mode: ("legacy" | "standard" | "adaptive"),
+                      ?sdk_ua_app_id: String,
+                      ?secret_access_key: String,
+                      ?session_token: String,
+                      ?sigv4a_signing_region_set: Array[String],
+                      ?stub_responses: untyped,
+                      ?telemetry_provider: Aws::Telemetry::TelemetryProviderBase,
+                      ?token_provider: untyped,
+                      ?use_dualstack_endpoint: bool,
+                      ?use_fips_endpoint: bool,
+                      ?validate_params: bool,
+                      ?endpoint_provider: untyped,
+                      ?http_proxy: String,
+                      ?http_open_timeout: (Float | Integer),
+                      ?http_read_timeout: (Float | Integer),
+                      ?http_idle_timeout: (Float | Integer),
+                      ?http_continue_timeout: (Float | Integer),
+                      ?ssl_timeout: (Float | Integer | nil),
+                      ?http_wire_trace: bool,
+                      ?ssl_verify_peer: bool,
+                      ?ssl_ca_bundle: String,
+                      ?ssl_ca_directory: String,
+                      ?ssl_ca_store: String,
+                      ?on_chunk_received: Proc,
+                      ?on_chunk_sent: Proc,
+                      ?raise_response_errors: bool
+                    ) -> instance
+                  | (?Hash[Symbol, untyped]) -> instance
+
+
+      interface _CreateMicrovmAuthTokenResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateMicrovmAuthTokenResponse]
+        def auth_token: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#create_microvm_auth_token-instance_method
+      def create_microvm_auth_token: (
+                                       microvm_identifier: ::String,
+                                       expiration_in_minutes: ::Integer,
+                                       allowed_ports: Array[
+                                         {
+                                           port: ::Integer?,
+                                           range: {
+                                             start_port: ::Integer,
+                                             end_port: ::Integer
+                                           }?,
+                                           all_ports: {
+                                           }?
+                                         }
+                                       ]
+                                     ) -> _CreateMicrovmAuthTokenResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateMicrovmAuthTokenResponseSuccess
+
+      interface _CreateMicrovmImageResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateMicrovmImageResponse]
+        def image_arn: () -> ::String
+        def name: () -> ::String
+        def state: () -> ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+        def latest_active_image_version: () -> ::String
+        def latest_failed_image_version: () -> ::String
+        def created_at: () -> ::Time
+        def base_image_arn: () -> ::String
+        def base_image_version: () -> ::String
+        def build_role_arn: () -> ::String
+        def description: () -> ::String
+        def code_artifact: () -> Types::CodeArtifact
+        def logging: () -> Types::Logging
+        def egress_network_connectors: () -> ::Array[::String]
+        def cpu_configurations: () -> ::Array[Types::CpuConfiguration]
+        def resources: () -> ::Array[Types::Resources]
+        def additional_os_capabilities: () -> ::Array[("ALL")]
+        def hooks: () -> Types::Hooks
+        def environment_variables: () -> ::Hash[::String, ::String]
+        def tags: () -> ::Hash[::String, ::String]
+        def updated_at: () -> ::Time
+        def image_version: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#create_microvm_image-instance_method
+      def create_microvm_image: (
+                                  base_image_arn: ::String,
+                                  ?base_image_version: ::String,
+                                  build_role_arn: ::String,
+                                  ?description: ::String,
+                                  code_artifact: {
+                                    uri: ::String?
+                                  },
+                                  ?logging: Params::logging,
+                                  ?egress_network_connectors: Array[::String],
+                                  ?cpu_configurations: Array[
+                                    {
+                                      architecture: ("ARM_64")
+                                    }
+                                  ],
+                                  ?resources: Array[
+                                    {
+                                      minimum_memory_in_mi_b: ::Integer
+                                    }
+                                  ],
+                                  ?additional_os_capabilities: Array[("ALL")],
+                                  ?hooks: Params::hooks,
+                                  ?environment_variables: Hash[::String, ::String],
+                                  name: ::String,
+                                  ?tags: Hash[::String, ::String],
+                                  ?client_token: ::String
+                                ) -> _CreateMicrovmImageResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateMicrovmImageResponseSuccess
+
+      interface _CreateMicrovmShellAuthTokenResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateMicrovmShellAuthTokenResponse]
+        def auth_token: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#create_microvm_shell_auth_token-instance_method
+      def create_microvm_shell_auth_token: (
+                                             microvm_identifier: ::String,
+                                             expiration_in_minutes: ::Integer
+                                           ) -> _CreateMicrovmShellAuthTokenResponseSuccess
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateMicrovmShellAuthTokenResponseSuccess
+
+      interface _DeleteMicrovmImageResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteMicrovmImageOutput]
+        def image_identifier: () -> ::String
+        def state: () -> ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#delete_microvm_image-instance_method
+      def delete_microvm_image: (
+                                  image_identifier: ::String
+                                ) -> _DeleteMicrovmImageResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteMicrovmImageResponseSuccess
+
+      interface _DeleteMicrovmImageVersionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteMicrovmImageVersionOutput]
+        def image_identifier: () -> ::String
+        def image_version: () -> ::String
+        def state: () -> ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "DELETING" | "DELETED" | "DELETE_FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#delete_microvm_image_version-instance_method
+      def delete_microvm_image_version: (
+                                          image_identifier: ::String,
+                                          image_version: ::String
+                                        ) -> _DeleteMicrovmImageVersionResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteMicrovmImageVersionResponseSuccess
+
+      interface _GetMicrovmResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetMicrovmResponse]
+        def microvm_id: () -> ::String
+        def state: () -> ("PENDING" | "RUNNING" | "SUSPENDING" | "SUSPENDED" | "TERMINATING" | "TERMINATED")
+        def endpoint: () -> ::String
+        def image_arn: () -> ::String
+        def image_version: () -> ::String
+        def execution_role_arn: () -> ::String
+        def idle_policy: () -> Types::IdlePolicy
+        def maximum_duration_in_seconds: () -> ::Integer
+        def started_at: () -> ::Time
+        def terminated_at: () -> ::Time
+        def state_reason: () -> ::String
+        def ingress_network_connectors: () -> ::Array[::String]
+        def egress_network_connectors: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#get_microvm-instance_method
+      def get_microvm: (
+                         microvm_identifier: ::String
+                       ) -> _GetMicrovmResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMicrovmResponseSuccess
+
+      interface _GetMicrovmImageResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetMicrovmImageOutput]
+        def image_arn: () -> ::String
+        def name: () -> ::String
+        def state: () -> ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+        def latest_active_image_version: () -> ::String
+        def latest_failed_image_version: () -> ::String
+        def created_at: () -> ::Time
+        def tags: () -> ::Hash[::String, ::String]
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#get_microvm_image-instance_method
+      def get_microvm_image: (
+                               image_identifier: ::String
+                             ) -> _GetMicrovmImageResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMicrovmImageResponseSuccess
+
+      interface _GetMicrovmImageBuildResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetMicrovmImageBuildOutput]
+        def image_arn: () -> ::String
+        def image_version: () -> ::String
+        def build_id: () -> ::String
+        def build_state: () -> ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED")
+        def architecture: () -> ("ARM_64")
+        def chipset: () -> ("GRAVITON")
+        def chipset_generation: () -> ::String
+        def state_reason: () -> ::String
+        def created_at: () -> ::Time
+        def snapshot_build: () -> Types::SnapshotBuild
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#get_microvm_image_build-instance_method
+      def get_microvm_image_build: (
+                                     image_identifier: ::String,
+                                     image_version: ::String,
+                                     build_id: ::String
+                                   ) -> _GetMicrovmImageBuildResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMicrovmImageBuildResponseSuccess
+
+      interface _GetMicrovmImageVersionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetMicrovmImageVersionOutput]
+        def base_image_arn: () -> ::String
+        def base_image_version: () -> ::String
+        def build_role_arn: () -> ::String
+        def description: () -> ::String
+        def code_artifact: () -> Types::CodeArtifact
+        def logging: () -> Types::Logging
+        def egress_network_connectors: () -> ::Array[::String]
+        def cpu_configurations: () -> ::Array[Types::CpuConfiguration]
+        def resources: () -> ::Array[Types::Resources]
+        def additional_os_capabilities: () -> ::Array[("ALL")]
+        def hooks: () -> Types::Hooks
+        def environment_variables: () -> ::Hash[::String, ::String]
+        def image_arn: () -> ::String
+        def image_version: () -> ::String
+        def state: () -> ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "DELETING" | "DELETED" | "DELETE_FAILED")
+        def status: () -> ("ACTIVE" | "INACTIVE")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def state_reason: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#get_microvm_image_version-instance_method
+      def get_microvm_image_version: (
+                                       image_identifier: ::String,
+                                       image_version: ::String
+                                     ) -> _GetMicrovmImageVersionResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetMicrovmImageVersionResponseSuccess
+
+      interface _ListManagedMicrovmImageVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListManagedMicrovmImageVersionsOutput]
+        def next_token: () -> ::String
+        def items: () -> ::Array[Types::ManagedMicrovmImageVersion]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#list_managed_microvm_image_versions-instance_method
+      def list_managed_microvm_image_versions: (
+                                                 ?max_results: ::Integer,
+                                                 ?next_token: ::String,
+                                                 image_identifier: ::String
+                                               ) -> _ListManagedMicrovmImageVersionsResponseSuccess
+                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListManagedMicrovmImageVersionsResponseSuccess
+
+      interface _ListManagedMicrovmImagesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListManagedMicrovmImagesOutput]
+        def next_token: () -> ::String
+        def items: () -> ::Array[Types::ManagedMicrovmImageSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#list_managed_microvm_images-instance_method
+      def list_managed_microvm_images: (
+                                         ?max_results: ::Integer,
+                                         ?next_token: ::String
+                                       ) -> _ListManagedMicrovmImagesResponseSuccess
+                                     | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListManagedMicrovmImagesResponseSuccess
+
+      interface _ListMicrovmImageBuildsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListMicrovmImageBuildsOutput]
+        def next_token: () -> ::String
+        def items: () -> ::Array[Types::MicrovmImageBuildSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#list_microvm_image_builds-instance_method
+      def list_microvm_image_builds: (
+                                       ?max_results: ::Integer,
+                                       ?next_token: ::String,
+                                       image_identifier: ::String,
+                                       image_version: ::String,
+                                       ?architecture: ("ARM_64"),
+                                       ?chipset: ("GRAVITON"),
+                                       ?chipset_generation: ::String
+                                     ) -> _ListMicrovmImageBuildsResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMicrovmImageBuildsResponseSuccess
+
+      interface _ListMicrovmImageVersionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListMicrovmImageVersionsOutput]
+        def next_token: () -> ::String
+        def items: () -> ::Array[Types::MicrovmImageVersionSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#list_microvm_image_versions-instance_method
+      def list_microvm_image_versions: (
+                                         ?max_results: ::Integer,
+                                         ?next_token: ::String,
+                                         image_identifier: ::String
+                                       ) -> _ListMicrovmImageVersionsResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMicrovmImageVersionsResponseSuccess
+
+      interface _ListMicrovmImagesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListMicrovmImagesResponse]
+        def next_token: () -> ::String
+        def items: () -> ::Array[Types::MicrovmImageSummary]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#list_microvm_images-instance_method
+      def list_microvm_images: (
+                                 ?max_results: ::Integer,
+                                 ?next_token: ::String,
+                                 ?name_filter: ::String
+                               ) -> _ListMicrovmImagesResponseSuccess
+                             | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMicrovmImagesResponseSuccess
+
+      interface _ListMicrovmsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListMicrovmsResponse]
+        def next_token: () -> ::String
+        def items: () -> ::Array[Types::MicrovmItem]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#list_microvms-instance_method
+      def list_microvms: (
+                           ?max_results: ::Integer,
+                           ?next_token: ::String,
+                           ?image_identifier: ::String,
+                           ?image_version: ::String
+                         ) -> _ListMicrovmsResponseSuccess
+                       | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMicrovmsResponseSuccess
+
+      interface _ListTagsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListTagsResponse]
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#list_tags-instance_method
+      def list_tags: (
+                       resource: ::String
+                     ) -> _ListTagsResponseSuccess
+                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTagsResponseSuccess
+
+      interface _ResumeMicrovmResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ResumeMicrovmResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#resume_microvm-instance_method
+      def resume_microvm: (
+                            microvm_identifier: ::String
+                          ) -> _ResumeMicrovmResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ResumeMicrovmResponseSuccess
+
+      interface _RunMicrovmResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::RunMicrovmResponse]
+        def microvm_id: () -> ::String
+        def state: () -> ("PENDING" | "RUNNING" | "SUSPENDING" | "SUSPENDED" | "TERMINATING" | "TERMINATED")
+        def endpoint: () -> ::String
+        def image_arn: () -> ::String
+        def image_version: () -> ::String
+        def execution_role_arn: () -> ::String
+        def idle_policy: () -> Types::IdlePolicy
+        def maximum_duration_in_seconds: () -> ::Integer
+        def started_at: () -> ::Time
+        def terminated_at: () -> ::Time
+        def state_reason: () -> ::String
+        def ingress_network_connectors: () -> ::Array[::String]
+        def egress_network_connectors: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#run_microvm-instance_method
+      def run_microvm: (
+                         ?ingress_network_connectors: Array[::String],
+                         ?egress_network_connectors: Array[::String],
+                         image_identifier: ::String,
+                         ?image_version: ::String,
+                         ?execution_role_arn: ::String,
+                         ?idle_policy: {
+                           max_idle_duration_seconds: ::Integer,
+                           suspended_duration_seconds: ::Integer,
+                           auto_resume_enabled: bool
+                         },
+                         ?logging: Params::logging,
+                         ?run_hook_payload: ::String,
+                         ?maximum_duration_in_seconds: ::Integer,
+                         ?client_token: ::String
+                       ) -> _RunMicrovmResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _RunMicrovmResponseSuccess
+
+      interface _SuspendMicrovmResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SuspendMicrovmResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#suspend_microvm-instance_method
+      def suspend_microvm: (
+                             microvm_identifier: ::String
+                           ) -> _SuspendMicrovmResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SuspendMicrovmResponseSuccess
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#tag_resource-instance_method
+      def tag_resource: (
+                          resource: ::String,
+                          tags: Hash[::String, ::String]
+                        ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _TerminateMicrovmResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::TerminateMicrovmResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#terminate_microvm-instance_method
+      def terminate_microvm: (
+                               microvm_identifier: ::String
+                             ) -> _TerminateMicrovmResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _TerminateMicrovmResponseSuccess
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#untag_resource-instance_method
+      def untag_resource: (
+                            resource: ::String,
+                            tag_keys: Array[::String]
+                          ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _UpdateMicrovmImageResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateMicrovmImageResponse]
+        def image_arn: () -> ::String
+        def name: () -> ::String
+        def state: () -> ("CREATING" | "CREATED" | "CREATE_FAILED" | "UPDATING" | "UPDATED" | "UPDATE_FAILED" | "DELETING" | "DELETE_FAILED" | "DELETED")
+        def latest_active_image_version: () -> ::String
+        def latest_failed_image_version: () -> ::String
+        def created_at: () -> ::Time
+        def base_image_arn: () -> ::String
+        def base_image_version: () -> ::String
+        def build_role_arn: () -> ::String
+        def description: () -> ::String
+        def code_artifact: () -> Types::CodeArtifact
+        def logging: () -> Types::Logging
+        def egress_network_connectors: () -> ::Array[::String]
+        def cpu_configurations: () -> ::Array[Types::CpuConfiguration]
+        def resources: () -> ::Array[Types::Resources]
+        def additional_os_capabilities: () -> ::Array[("ALL")]
+        def hooks: () -> Types::Hooks
+        def environment_variables: () -> ::Hash[::String, ::String]
+        def updated_at: () -> ::Time
+        def image_version: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#update_microvm_image-instance_method
+      def update_microvm_image: (
+                                  base_image_arn: ::String,
+                                  ?base_image_version: ::String,
+                                  build_role_arn: ::String,
+                                  ?description: ::String,
+                                  code_artifact: {
+                                    uri: ::String?
+                                  },
+                                  ?logging: Params::logging,
+                                  ?egress_network_connectors: Array[::String],
+                                  ?cpu_configurations: Array[
+                                    {
+                                      architecture: ("ARM_64")
+                                    }
+                                  ],
+                                  ?resources: Array[
+                                    {
+                                      minimum_memory_in_mi_b: ::Integer
+                                    }
+                                  ],
+                                  ?additional_os_capabilities: Array[("ALL")],
+                                  ?hooks: Params::hooks,
+                                  ?environment_variables: Hash[::String, ::String],
+                                  image_identifier: ::String,
+                                  ?client_token: ::String
+                                ) -> _UpdateMicrovmImageResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMicrovmImageResponseSuccess
+
+      interface _UpdateMicrovmImageVersionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateMicrovmImageVersionResponse]
+        def base_image_arn: () -> ::String
+        def base_image_version: () -> ::String
+        def build_role_arn: () -> ::String
+        def description: () -> ::String
+        def code_artifact: () -> Types::CodeArtifact
+        def logging: () -> Types::Logging
+        def egress_network_connectors: () -> ::Array[::String]
+        def cpu_configurations: () -> ::Array[Types::CpuConfiguration]
+        def resources: () -> ::Array[Types::Resources]
+        def additional_os_capabilities: () -> ::Array[("ALL")]
+        def hooks: () -> Types::Hooks
+        def environment_variables: () -> ::Hash[::String, ::String]
+        def image_arn: () -> ::String
+        def image_version: () -> ::String
+        def state: () -> ("PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | "DELETING" | "DELETED" | "DELETE_FAILED")
+        def status: () -> ("ACTIVE" | "INACTIVE")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def state_reason: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaMicrovms/Client.html#update_microvm_image_version-instance_method
+      def update_microvm_image_version: (
+                                          image_identifier: ::String,
+                                          image_version: ::String,
+                                          status: ("ACTIVE" | "INACTIVE")
+                                        ) -> _UpdateMicrovmImageVersionResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMicrovmImageVersionResponseSuccess
+    end
+  end
+end
+

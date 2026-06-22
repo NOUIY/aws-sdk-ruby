@@ -2207,6 +2207,93 @@ module Aws::GuardDuty
       req.send_request(options)
     end
 
+    # This API is currently available as a preview. During the preview, you
+    # can initiate up to 10 investigations per account per day, with a total
+    # limit of 100 investigations per account. This feature is available in
+    # the following Amazon Web Services Regions: US East (N. Virginia), US
+    # East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt),
+    # Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm),
+    # and Asia Pacific (Tokyo).
+    #
+    # Initiates a GuardDuty investigation that automatically analyzes
+    # security findings, correlates related activity, performs account-level
+    # analysis, and produces a structured investigation summary with
+    # recommended next steps.
+    #
+    # Only the administrator account can create an investigation. Member
+    # accounts don't have permission to create investigations from their
+    # accounts.
+    #
+    # To use this operation, the `AI_ANALYST` feature must be enabled on
+    # your detector.
+    #
+    # This feature uses Amazon Bedrock models that leverage Cross-Region
+    # Inference (CRIS), which automatically selects the optimal Amazon Web
+    # Services Region within your geography to process the investigation
+    # analysis and generate the investigation report. This maximizes
+    # available compute resources, model availability, and delivers the best
+    # customer experience. Your data remains stored only in the Region where
+    # the investigation request originates, however, investigation data and
+    # summary results may be processed outside that Region. All data is
+    # transmitted encrypted across Amazon's secure network. For more
+    # information, see [GuardDuty Investigation][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-investigation.html
+    #
+    # @option params [required, String] :detector_id
+    #   The unique ID of the GuardDuty detector for the account in which the
+    #   investigation is created.
+    #
+    #   To find the `detectorId` in the current Region, see the Settings page
+    #   in the GuardDuty console, or run the [ListDetectors][1] API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html
+    #
+    # @option params [required, String] :trigger_prompt
+    #   A natural-language description of what to investigate. For example:
+    #
+    #   * `"Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account
+    #     123456789012"`
+    #
+    #   * `"Analyze findings in account with id 123456789012"`
+    #
+    #   * `"Analyze findings in my organization"`
+    #
+    # @option params [String] :client_token
+    #   The idempotency token for the create request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateInvestigationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateInvestigationResponse#investigation_id #investigation_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_investigation({
+    #     detector_id: "DetectorId", # required
+    #     trigger_prompt: "TriggerPrompt", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.investigation_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateInvestigation AWS API Documentation
+    #
+    # @overload create_investigation(params = {})
+    # @param [Hash] params ({})
+    def create_investigation(params = {}, options = {})
+      req = build_request(:create_investigation, params)
+      req.send_request(options)
+    end
+
     # Creates a new Malware Protection plan for the protected resource.
     #
     # When you create a Malware Protection plan, the Amazon Web Services
@@ -4659,6 +4746,73 @@ module Aws::GuardDuty
       req.send_request(options)
     end
 
+    # This API is currently available as a preview. This feature is
+    # available in the following Amazon Web Services Regions: US East (N.
+    # Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe
+    # (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe
+    # (Stockholm), and Asia Pacific (Tokyo).
+    #
+    # Retrieves the results and status of a specific GuardDuty
+    # investigation.
+    #
+    # An administrator account can retrieve any investigation within the
+    # organization. Member accounts can only retrieve investigations that
+    # belong to them.
+    #
+    # @option params [required, String] :detector_id
+    #   The unique ID of the GuardDuty detector associated with the
+    #   investigation.
+    #
+    #   To find the `detectorId` in the current Region, see the Settings page
+    #   in the GuardDuty console, or run the [ListDetectors][1] API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html
+    #
+    # @option params [required, String] :investigation_id
+    #   The unique identifier of the investigation to retrieve.
+    #
+    # @return [Types::GetInvestigationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetInvestigationResponse#investigation #investigation} => Types::Investigation
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_investigation({
+    #     detector_id: "DetectorId", # required
+    #     investigation_id: "InvestigationId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.investigation.investigation_id #=> String
+    #   resp.investigation.status #=> String, one of "RUNNING", "COMPLETED", "FAILED"
+    #   resp.investigation.trigger_prompt #=> String
+    #   resp.investigation.triggered_by #=> String
+    #   resp.investigation.metadata.version #=> String
+    #   resp.investigation.metadata.product.name #=> String
+    #   resp.investigation.metadata.product.feature #=> String
+    #   resp.investigation.cloud.provider #=> String, one of "AWS"
+    #   resp.investigation.cloud.region #=> String
+    #   resp.investigation.cloud.account #=> String
+    #   resp.investigation.risk_level #=> String, one of "Info", "Low", "Medium", "High", "Critical"
+    #   resp.investigation.risk #=> String
+    #   resp.investigation.confidence #=> String, one of "Unknown", "Low", "Medium", "High"
+    #   resp.investigation.summary #=> String
+    #   resp.investigation.start_time #=> Time
+    #   resp.investigation.end_time #=> Time
+    #   resp.investigation.error #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetInvestigation AWS API Documentation
+    #
+    # @overload get_investigation(params = {})
+    # @param [Hash] params ({})
+    def get_investigation(params = {}, options = {})
+      req = build_request(:get_investigation, params)
+      req.send_request(options)
+    end
+
     # Returns the count of all GuardDuty membership invitations that were
     # sent to the current member account except the currently accepted
     # invitation.
@@ -5959,6 +6113,86 @@ module Aws::GuardDuty
     # @param [Hash] params ({})
     def list_ip_sets(params = {}, options = {})
       req = build_request(:list_ip_sets, params)
+      req.send_request(options)
+    end
+
+    # This API is currently available as a preview. This feature is
+    # available in the following Amazon Web Services Regions: US East (N.
+    # Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe
+    # (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe
+    # (Stockholm), and Asia Pacific (Tokyo).
+    #
+    # Returns a list of investigations associated with the specified
+    # GuardDuty detector.
+    #
+    # An administrator account sees all investigations across the
+    # organization. Member accounts see only the investigations that belong
+    # to them.
+    #
+    # @option params [required, String] :detector_id
+    #   The unique ID of the GuardDuty detector whose investigations you want
+    #   to list.
+    #
+    #   To find the `detectorId` in the current Region, see the Settings page
+    #   in the GuardDuty console, or run the [ListDetectors][1] API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html
+    #
+    # @option params [Types::InvestigationSortCriteria] :sort_criteria
+    #   Represents the criteria used for sorting investigations.
+    #
+    # @option params [Integer] :max_results
+    #   You can use this parameter to indicate the maximum number of items you
+    #   want in the response. The default value is 50.
+    #
+    # @option params [String] :next_token
+    #   You can use this parameter when paginating results. Set the value of
+    #   this parameter to null on your first call to the list action. For
+    #   subsequent calls to the action, fill nextToken in the request with the
+    #   value of NextToken from the previous response to continue listing
+    #   data.
+    #
+    # @return [Types::ListInvestigationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListInvestigationsResponse#investigations #investigations} => Array&lt;Types::InvestigationSummary&gt;
+    #   * {Types::ListInvestigationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_investigations({
+    #     detector_id: "DetectorId", # required
+    #     sort_criteria: {
+    #       attribute_name: "START_TIME", # accepts START_TIME, END_TIME, STATUS, RISK_LEVEL, CONFIDENCE
+    #       order_by: "ASC", # accepts ASC, DESC
+    #     },
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.investigations #=> Array
+    #   resp.investigations[0].investigation_id #=> String
+    #   resp.investigations[0].status #=> String, one of "RUNNING", "COMPLETED", "FAILED"
+    #   resp.investigations[0].trigger_prompt #=> String
+    #   resp.investigations[0].risk_level #=> String, one of "Info", "Low", "Medium", "High", "Critical"
+    #   resp.investigations[0].confidence #=> String, one of "Unknown", "Low", "Medium", "High"
+    #   resp.investigations[0].title #=> String
+    #   resp.investigations[0].account_id #=> String
+    #   resp.investigations[0].start_time #=> Time
+    #   resp.investigations[0].end_time #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListInvestigations AWS API Documentation
+    #
+    # @overload list_investigations(params = {})
+    # @param [Hash] params ({})
+    def list_investigations(params = {}, options = {})
+      req = build_request(:list_investigations, params)
       req.send_request(options)
     end
 
@@ -8944,7 +9178,7 @@ module Aws::GuardDuty
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-guardduty'
-      context[:gem_version] = '1.154.0'
+      context[:gem_version] = '1.155.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

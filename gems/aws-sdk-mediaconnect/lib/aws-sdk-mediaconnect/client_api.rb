@@ -63,6 +63,7 @@ module Aws::MediaConnect
     BatchGetRouterOutputRequestArnsList = Shapes::ListShape.new(name: 'BatchGetRouterOutputRequestArnsList')
     BatchGetRouterOutputResponse = Shapes::StructureShape.new(name: 'BatchGetRouterOutputResponse')
     BlackFrames = Shapes::StructureShape.new(name: 'BlackFrames')
+    BlackFramesConfiguration = Shapes::StructureShape.new(name: 'BlackFramesConfiguration')
     Blob = Shapes::BlobShape.new(name: 'Blob')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     Bridge = Shapes::StructureShape.new(name: 'Bridge')
@@ -75,9 +76,11 @@ module Aws::MediaConnect
     BridgePlacement = Shapes::StringShape.new(name: 'BridgePlacement')
     BridgeSource = Shapes::StructureShape.new(name: 'BridgeSource')
     BridgeState = Shapes::StringShape.new(name: 'BridgeState')
+    ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     Colorimetry = Shapes::StringShape.new(name: 'Colorimetry')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectionStatus = Shapes::StringShape.new(name: 'ConnectionStatus')
+    ContentQualityAnalysisFeatureConfiguration = Shapes::StructureShape.new(name: 'ContentQualityAnalysisFeatureConfiguration')
     ContentQualityAnalysisState = Shapes::StringShape.new(name: 'ContentQualityAnalysisState')
     CreateBridge420Exception = Shapes::StructureShape.new(name: 'CreateBridge420Exception')
     CreateBridgeRequest = Shapes::StructureShape.new(name: 'CreateBridgeRequest')
@@ -175,6 +178,7 @@ module Aws::MediaConnect
     ForwardErrorCorrectionState = Shapes::StringShape.new(name: 'ForwardErrorCorrectionState')
     FrameResolution = Shapes::StructureShape.new(name: 'FrameResolution')
     FrozenFrames = Shapes::StructureShape.new(name: 'FrozenFrames')
+    FrozenFramesConfiguration = Shapes::StructureShape.new(name: 'FrozenFramesConfiguration')
     Gateway = Shapes::StructureShape.new(name: 'Gateway')
     GatewayBridgeSource = Shapes::StructureShape.new(name: 'GatewayBridgeSource')
     GatewayInstance = Shapes::StructureShape.new(name: 'GatewayInstance')
@@ -346,6 +350,9 @@ module Aws::MediaConnect
     RistRouterOutputConfiguration = Shapes::StructureShape.new(name: 'RistRouterOutputConfiguration')
     RistRouterOutputConfigurationDestinationPortInteger = Shapes::IntegerShape.new(name: 'RistRouterOutputConfigurationDestinationPortInteger')
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
+    RouterContentQualityAnalysisConfiguration = Shapes::UnionShape.new(name: 'RouterContentQualityAnalysisConfiguration')
+    RouterContentQualityAnalysisType = Shapes::StringShape.new(name: 'RouterContentQualityAnalysisType')
+    RouterCqaThresholdSeconds = Shapes::IntegerShape.new(name: 'RouterCqaThresholdSeconds')
     RouterInput = Shapes::StructureShape.new(name: 'RouterInput')
     RouterInputArn = Shapes::StringShape.new(name: 'RouterInputArn')
     RouterInputArnList = Shapes::ListShape.new(name: 'RouterInputArnList')
@@ -412,6 +419,7 @@ module Aws::MediaConnect
     SetSourceRequest = Shapes::StructureShape.new(name: 'SetSourceRequest')
     SetSourceRequestEntitlementArnString = Shapes::StringShape.new(name: 'SetSourceRequestEntitlementArnString')
     SilentAudio = Shapes::StructureShape.new(name: 'SilentAudio')
+    SilentAudioConfiguration = Shapes::StructureShape.new(name: 'SilentAudioConfiguration')
     Source = Shapes::StructureShape.new(name: 'Source')
     SourcePriority = Shapes::StructureShape.new(name: 'SourcePriority')
     SourceType = Shapes::StringShape.new(name: 'SourceType')
@@ -753,6 +761,10 @@ module Aws::MediaConnect
     BlackFrames.add_member(:threshold_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "thresholdSeconds"))
     BlackFrames.struct_class = Types::BlackFrames
 
+    BlackFramesConfiguration.add_member(:state, Shapes::ShapeRef.new(shape: ContentQualityAnalysisState, required: true, location_name: "state"))
+    BlackFramesConfiguration.add_member(:threshold_seconds, Shapes::ShapeRef.new(shape: RouterCqaThresholdSeconds, required: true, location_name: "thresholdSeconds"))
+    BlackFramesConfiguration.struct_class = Types::BlackFramesConfiguration
+
     Bridge.add_member(:bridge_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "bridgeArn"))
     Bridge.add_member(:bridge_messages, Shapes::ShapeRef.new(shape: __listOfMessageDetail, location_name: "bridgeMessages"))
     Bridge.add_member(:bridge_state, Shapes::ShapeRef.new(shape: BridgeState, required: true, location_name: "bridgeState"))
@@ -802,6 +814,11 @@ module Aws::MediaConnect
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
+
+    ContentQualityAnalysisFeatureConfiguration.add_member(:black_frames, Shapes::ShapeRef.new(shape: BlackFramesConfiguration, location_name: "blackFrames"))
+    ContentQualityAnalysisFeatureConfiguration.add_member(:frozen_frames, Shapes::ShapeRef.new(shape: FrozenFramesConfiguration, location_name: "frozenFrames"))
+    ContentQualityAnalysisFeatureConfiguration.add_member(:silent_audio, Shapes::ShapeRef.new(shape: SilentAudioConfiguration, location_name: "silentAudio"))
+    ContentQualityAnalysisFeatureConfiguration.struct_class = Types::ContentQualityAnalysisFeatureConfiguration
 
     CreateBridge420Exception.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     CreateBridge420Exception.struct_class = Types::CreateBridge420Exception
@@ -862,7 +879,8 @@ module Aws::MediaConnect
     CreateRouterInputRequest.add_member(:transit_encryption, Shapes::ShapeRef.new(shape: RouterInputTransitEncryption, location_name: "transitEncryption"))
     CreateRouterInputRequest.add_member(:maintenance_configuration, Shapes::ShapeRef.new(shape: MaintenanceConfiguration, location_name: "maintenanceConfiguration"))
     CreateRouterInputRequest.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOfString, location_name: "tags"))
-    CreateRouterInputRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateRouterInputRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateRouterInputRequest.add_member(:content_quality_analysis_configuration, Shapes::ShapeRef.new(shape: RouterContentQualityAnalysisConfiguration, location_name: "contentQualityAnalysisConfiguration"))
     CreateRouterInputRequest.struct_class = Types::CreateRouterInputRequest
 
     CreateRouterInputResponse.add_member(:router_input, Shapes::ShapeRef.new(shape: RouterInput, required: true, location_name: "routerInput"))
@@ -872,7 +890,7 @@ module Aws::MediaConnect
     CreateRouterNetworkInterfaceRequest.add_member(:configuration, Shapes::ShapeRef.new(shape: RouterNetworkInterfaceConfiguration, required: true, location_name: "configuration"))
     CreateRouterNetworkInterfaceRequest.add_member(:region_name, Shapes::ShapeRef.new(shape: String, location_name: "regionName"))
     CreateRouterNetworkInterfaceRequest.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOfString, location_name: "tags"))
-    CreateRouterNetworkInterfaceRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateRouterNetworkInterfaceRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateRouterNetworkInterfaceRequest.struct_class = Types::CreateRouterNetworkInterfaceRequest
 
     CreateRouterNetworkInterfaceResponse.add_member(:router_network_interface, Shapes::ShapeRef.new(shape: RouterNetworkInterface, required: true, location_name: "routerNetworkInterface"))
@@ -887,7 +905,7 @@ module Aws::MediaConnect
     CreateRouterOutputRequest.add_member(:availability_zone, Shapes::ShapeRef.new(shape: String, location_name: "availabilityZone"))
     CreateRouterOutputRequest.add_member(:maintenance_configuration, Shapes::ShapeRef.new(shape: MaintenanceConfiguration, location_name: "maintenanceConfiguration"))
     CreateRouterOutputRequest.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOfString, location_name: "tags"))
-    CreateRouterOutputRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    CreateRouterOutputRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateRouterOutputRequest.struct_class = Types::CreateRouterOutputRequest
 
     CreateRouterOutputResponse.add_member(:router_output, Shapes::ShapeRef.new(shape: RouterOutput, required: true, location_name: "routerOutput"))
@@ -1140,6 +1158,10 @@ module Aws::MediaConnect
     FrozenFrames.add_member(:state, Shapes::ShapeRef.new(shape: State, location_name: "state"))
     FrozenFrames.add_member(:threshold_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "thresholdSeconds"))
     FrozenFrames.struct_class = Types::FrozenFrames
+
+    FrozenFramesConfiguration.add_member(:state, Shapes::ShapeRef.new(shape: ContentQualityAnalysisState, required: true, location_name: "state"))
+    FrozenFramesConfiguration.add_member(:threshold_seconds, Shapes::ShapeRef.new(shape: RouterCqaThresholdSeconds, required: true, location_name: "thresholdSeconds"))
+    FrozenFramesConfiguration.struct_class = Types::FrozenFramesConfiguration
 
     Gateway.add_member(:egress_cidr_blocks, Shapes::ShapeRef.new(shape: __listOfString, required: true, location_name: "egressCidrBlocks"))
     Gateway.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "gatewayArn"))
@@ -1759,6 +1781,12 @@ module Aws::MediaConnect
     RistRouterOutputConfiguration.add_member(:destination_port, Shapes::ShapeRef.new(shape: RistRouterOutputConfigurationDestinationPortInteger, required: true, location_name: "destinationPort"))
     RistRouterOutputConfiguration.struct_class = Types::RistRouterOutputConfiguration
 
+    RouterContentQualityAnalysisConfiguration.add_member(:content_level, Shapes::ShapeRef.new(shape: ContentQualityAnalysisFeatureConfiguration, location_name: "contentLevel"))
+    RouterContentQualityAnalysisConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    RouterContentQualityAnalysisConfiguration.add_member_subclass(:content_level, Types::RouterContentQualityAnalysisConfiguration::ContentLevel)
+    RouterContentQualityAnalysisConfiguration.add_member_subclass(:unknown, Types::RouterContentQualityAnalysisConfiguration::Unknown)
+    RouterContentQualityAnalysisConfiguration.struct_class = Types::RouterContentQualityAnalysisConfiguration
+
     RouterInput.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
     RouterInput.add_member(:arn, Shapes::ShapeRef.new(shape: RouterInputArn, required: true, location_name: "arn"))
     RouterInput.add_member(:id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "id"))
@@ -1783,6 +1811,8 @@ module Aws::MediaConnect
     RouterInput.add_member(:maintenance_configuration, Shapes::ShapeRef.new(shape: MaintenanceConfiguration, required: true, location_name: "maintenanceConfiguration"))
     RouterInput.add_member(:maintenance_schedule_type, Shapes::ShapeRef.new(shape: MaintenanceScheduleType, location_name: "maintenanceScheduleType"))
     RouterInput.add_member(:maintenance_schedule, Shapes::ShapeRef.new(shape: MaintenanceSchedule, location_name: "maintenanceSchedule"))
+    RouterInput.add_member(:content_quality_analysis_type, Shapes::ShapeRef.new(shape: RouterContentQualityAnalysisType, required: true, location_name: "contentQualityAnalysisType"))
+    RouterInput.add_member(:content_quality_analysis_configuration, Shapes::ShapeRef.new(shape: RouterContentQualityAnalysisConfiguration, required: true, location_name: "contentQualityAnalysisConfiguration"))
     RouterInput.struct_class = Types::RouterInput
 
     RouterInputArnList.member = Shapes::ShapeRef.new(shape: RouterInputArn)
@@ -2066,6 +2096,10 @@ module Aws::MediaConnect
     SilentAudio.add_member(:state, Shapes::ShapeRef.new(shape: State, location_name: "state"))
     SilentAudio.add_member(:threshold_seconds, Shapes::ShapeRef.new(shape: Integer, location_name: "thresholdSeconds"))
     SilentAudio.struct_class = Types::SilentAudio
+
+    SilentAudioConfiguration.add_member(:state, Shapes::ShapeRef.new(shape: ContentQualityAnalysisState, required: true, location_name: "state"))
+    SilentAudioConfiguration.add_member(:threshold_seconds, Shapes::ShapeRef.new(shape: RouterCqaThresholdSeconds, required: true, location_name: "thresholdSeconds"))
+    SilentAudioConfiguration.struct_class = Types::SilentAudioConfiguration
 
     Source.add_member(:data_transfer_subscriber_fee_percent, Shapes::ShapeRef.new(shape: Integer, location_name: "dataTransferSubscriberFeePercent"))
     Source.add_member(:decryption, Shapes::ShapeRef.new(shape: Encryption, location_name: "decryption"))
@@ -2463,6 +2497,7 @@ module Aws::MediaConnect
     UpdateRouterInputRequest.add_member(:tier, Shapes::ShapeRef.new(shape: RouterInputTier, location_name: "tier"))
     UpdateRouterInputRequest.add_member(:transit_encryption, Shapes::ShapeRef.new(shape: RouterInputTransitEncryption, location_name: "transitEncryption"))
     UpdateRouterInputRequest.add_member(:maintenance_configuration, Shapes::ShapeRef.new(shape: MaintenanceConfiguration, location_name: "maintenanceConfiguration"))
+    UpdateRouterInputRequest.add_member(:content_quality_analysis_configuration, Shapes::ShapeRef.new(shape: RouterContentQualityAnalysisConfiguration, location_name: "contentQualityAnalysisConfiguration"))
     UpdateRouterInputRequest.struct_class = Types::UpdateRouterInputRequest
 
     UpdateRouterInputResponse.add_member(:router_input, Shapes::ShapeRef.new(shape: RouterInput, required: true, location_name: "routerInput"))

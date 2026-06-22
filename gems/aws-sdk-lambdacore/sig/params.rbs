@@ -1,0 +1,22 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module LambdaCore
+    module Params
+      type network_connector_configuration = {
+      vpc_egress_configuration: {
+        subnet_ids: Array[::String]?,
+        security_group_ids: Array[::String]?,
+        network_protocol: ("IPv4" | "DualStack")?,
+        associated_compute_resource_types: Array[("MicroVm")]?
+      }?
+    }
+
+    end
+  end
+end

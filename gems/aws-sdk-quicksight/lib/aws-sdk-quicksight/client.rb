@@ -11218,7 +11218,7 @@ module Aws::QuickSight
     #   resp.space.name #=> String
     #   resp.space.description #=> String
     #   resp.space.resources #=> Array
-    #   resp.space.resources[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "SPACE", "ACTION_CONNECTOR", "DATA_SET", "ARTIFACT"
+    #   resp.space.resources[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "ACTION_CONNECTOR", "DATA_SET"
     #   resp.space.resources[0].resource_details.resource_arn #=> String
     #   resp.space.created_at #=> Time
     #   resp.space.updated_at #=> Time
@@ -15173,7 +15173,7 @@ module Aws::QuickSight
     #   resp.space_id #=> String
     #   resp.space_arn #=> String
     #   resp.space_resources #=> Array
-    #   resp.space_resources[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "SPACE", "ACTION_CONNECTOR", "DATA_SET", "ARTIFACT"
+    #   resp.space_resources[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "ACTION_CONNECTOR", "DATA_SET"
     #   resp.space_resources[0].resource_details.resource_arn #=> String
     #   resp.space_resources[0].resource_name #=> String
     #   resp.space_resources[0].updated_at #=> Time
@@ -23029,7 +23029,7 @@ module Aws::QuickSight
     #     space_id: "PublicSpaceId", # required
     #     add_resources: [
     #       {
-    #         resource_type: "TOPIC", # required, accepts TOPIC, DASHBOARD, KNOWLEDGE_BASE, SPACE, ACTION_CONNECTOR, DATA_SET, ARTIFACT
+    #         resource_type: "TOPIC", # required, accepts TOPIC, DASHBOARD, KNOWLEDGE_BASE, ACTION_CONNECTOR, DATA_SET
     #         resource_details: { # required
     #           resource_arn: "Arn",
     #         },
@@ -23037,7 +23037,7 @@ module Aws::QuickSight
     #     ],
     #     remove_resources: [
     #       {
-    #         resource_type: "TOPIC", # required, accepts TOPIC, DASHBOARD, KNOWLEDGE_BASE, SPACE, ACTION_CONNECTOR, DATA_SET, ARTIFACT
+    #         resource_type: "TOPIC", # required, accepts TOPIC, DASHBOARD, KNOWLEDGE_BASE, ACTION_CONNECTOR, DATA_SET
     #         resource_details: { # required
     #           resource_arn: "Arn",
     #         },
@@ -23050,7 +23050,7 @@ module Aws::QuickSight
     #   resp.space_id #=> String
     #   resp.space_arn #=> String
     #   resp.failed_resource_operations #=> Array
-    #   resp.failed_resource_operations[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "SPACE", "ACTION_CONNECTOR", "DATA_SET", "ARTIFACT"
+    #   resp.failed_resource_operations[0].resource_type #=> String, one of "TOPIC", "DASHBOARD", "KNOWLEDGE_BASE", "ACTION_CONNECTOR", "DATA_SET"
     #   resp.failed_resource_operations[0].resource_details.resource_arn #=> String
     #   resp.failed_resource_operations[0].error_message #=> String
     #   resp.request_id #=> String
@@ -24315,7 +24315,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.186.0'
+      context[:gem_version] = '1.187.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

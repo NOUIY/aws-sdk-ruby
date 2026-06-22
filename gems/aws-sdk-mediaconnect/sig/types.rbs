@@ -251,6 +251,12 @@ module Aws::MediaConnect
       SENSITIVE: []
     end
 
+    class BlackFramesConfiguration
+      attr_accessor state: ("ENABLED" | "DISABLED")
+      attr_accessor threshold_seconds: ::Integer
+      SENSITIVE: []
+    end
+
     class Bridge
       attr_accessor bridge_arn: ::String
       attr_accessor bridge_messages: ::Array[Types::MessageDetail]
@@ -314,6 +320,13 @@ module Aws::MediaConnect
 
     class ConflictException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ContentQualityAnalysisFeatureConfiguration
+      attr_accessor black_frames: Types::BlackFramesConfiguration
+      attr_accessor frozen_frames: Types::FrozenFramesConfiguration
+      attr_accessor silent_audio: Types::SilentAudioConfiguration
       SENSITIVE: []
     end
 
@@ -396,6 +409,7 @@ module Aws::MediaConnect
       attr_accessor maintenance_configuration: Types::MaintenanceConfiguration
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor client_token: ::String
+      attr_accessor content_quality_analysis_configuration: Types::RouterContentQualityAnalysisConfiguration
       SENSITIVE: []
     end
 
@@ -791,6 +805,12 @@ module Aws::MediaConnect
     end
 
     class FrozenFrames
+      attr_accessor state: ("ENABLED" | "DISABLED")
+      attr_accessor threshold_seconds: ::Integer
+      SENSITIVE: []
+    end
+
+    class FrozenFramesConfiguration
       attr_accessor state: ("ENABLED" | "DISABLED")
       attr_accessor threshold_seconds: ::Integer
       SENSITIVE: []
@@ -1657,6 +1677,17 @@ module Aws::MediaConnect
       SENSITIVE: []
     end
 
+    class RouterContentQualityAnalysisConfiguration
+      attr_accessor content_level: Types::ContentQualityAnalysisFeatureConfiguration
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class ContentLevel < RouterContentQualityAnalysisConfiguration
+      end
+      class Unknown < RouterContentQualityAnalysisConfiguration
+      end
+    end
+
     class RouterInput
       attr_accessor name: ::String
       attr_accessor arn: ::String
@@ -1682,6 +1713,8 @@ module Aws::MediaConnect
       attr_accessor maintenance_configuration: Types::MaintenanceConfiguration
       attr_accessor maintenance_schedule_type: ("WINDOW")
       attr_accessor maintenance_schedule: Types::MaintenanceSchedule
+      attr_accessor content_quality_analysis_type: ("CONTENT_LEVEL")
+      attr_accessor content_quality_analysis_configuration: Types::RouterContentQualityAnalysisConfiguration
       SENSITIVE: []
     end
 
@@ -2059,6 +2092,12 @@ module Aws::MediaConnect
     end
 
     class SilentAudio
+      attr_accessor state: ("ENABLED" | "DISABLED")
+      attr_accessor threshold_seconds: ::Integer
+      SENSITIVE: []
+    end
+
+    class SilentAudioConfiguration
       attr_accessor state: ("ENABLED" | "DISABLED")
       attr_accessor threshold_seconds: ::Integer
       SENSITIVE: []
@@ -2589,6 +2628,7 @@ module Aws::MediaConnect
       attr_accessor tier: ("INPUT_100" | "INPUT_50" | "INPUT_20")
       attr_accessor transit_encryption: Types::RouterInputTransitEncryption
       attr_accessor maintenance_configuration: Types::MaintenanceConfiguration
+      attr_accessor content_quality_analysis_configuration: Types::RouterContentQualityAnalysisConfiguration
       SENSITIVE: []
     end
 

@@ -5225,7 +5225,7 @@ module Aws::QuickSight
     end
 
     class FailedSpaceResourceOperation
-      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "ACTION_CONNECTOR" | "DATA_SET")
       attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
       attr_accessor error_message: ::String
       SENSITIVE: []
@@ -10143,7 +10143,7 @@ module Aws::QuickSight
     end
 
     class SpaceQuickSightResource
-      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "ACTION_CONNECTOR" | "DATA_SET")
       attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
       SENSITIVE: []
     end
@@ -10167,13 +10167,13 @@ module Aws::QuickSight
     end
 
     class SpaceResourceOperation
-      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "ACTION_CONNECTOR" | "DATA_SET")
       attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
       SENSITIVE: []
     end
 
     class SpaceResourceSummary
-      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "SPACE" | "ACTION_CONNECTOR" | "DATA_SET" | "ARTIFACT")
+      attr_accessor resource_type: ("TOPIC" | "DASHBOARD" | "KNOWLEDGE_BASE" | "ACTION_CONNECTOR" | "DATA_SET")
       attr_accessor resource_details: Types::SpaceQuickSightResourceDetails
       attr_accessor resource_name: ::String
       attr_accessor updated_at: ::Time

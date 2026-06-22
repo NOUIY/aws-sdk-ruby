@@ -507,6 +507,7 @@ module Aws::BedrockAgentCore
       attr_accessor branch: Types::Branch
       attr_accessor client_token: ::String
       attr_accessor metadata: ::Hash[::String, Types::MetadataValue]
+      attr_accessor extraction_mode: ("SKIP")
       SENSITIVE: []
     end
 

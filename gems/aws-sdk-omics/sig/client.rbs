@@ -929,6 +929,7 @@ module Aws
         def workflow_version_name: () -> ::String
         def workflow_uuid: () -> ::String
         def networking_mode: () -> ("RESTRICTED" | "VPC")
+        def scratch_storage_mode: () -> ("LOCAL" | "SHARED")
         def configuration: () -> Types::ConfigurationDetails
         def vpc_config: () -> Types::VpcConfigResponse
         def engine_settings: () -> untyped
@@ -1769,6 +1770,7 @@ module Aws
                        ?workflow_owner_id: ::String,
                        ?workflow_version_name: ::String,
                        ?networking_mode: ("RESTRICTED" | "VPC"),
+                       ?scratch_storage_mode: ("LOCAL" | "SHARED"),
                        ?configuration_name: ::String,
                        ?engine_settings: {
                        }
@@ -1811,7 +1813,8 @@ module Aws
                                networking_mode: ("RESTRICTED" | "VPC")?,
                                configuration_name: ::String?,
                                engine_settings: {
-                               }?
+                               }?,
+                               scratch_storage_mode: ("LOCAL" | "SHARED")?
                              },
                              batch_run_settings: {
                                inline_settings: Array[

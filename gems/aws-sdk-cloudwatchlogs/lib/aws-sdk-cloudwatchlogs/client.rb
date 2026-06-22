@@ -2132,6 +2132,35 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Deletes a syslog configuration for a log group. After deletion, syslog
+    # data is no longer ingested through the specified VPC endpoint.
+    #
+    # @option params [required, String] :log_group_identifier
+    #   The name or ARN of the log group to remove the syslog configuration
+    #   from.
+    #
+    # @option params [String] :vpc_endpoint_id
+    #   The ID of the VPC endpoint associated with the syslog configuration to
+    #   delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_syslog_configuration({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #     vpc_endpoint_id: "VpcEndpointId",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteSyslogConfiguration AWS API Documentation
+    #
+    # @overload delete_syslog_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_syslog_configuration(params = {}, options = {})
+      req = build_request(:delete_syslog_configuration, params)
+      req.send_request(options)
+    end
+
     # Deletes the log transformer for the specified log group. As soon as
     # you do this, the transformation of incoming log events according to
     # that transformer stops. If this account has an account-level
@@ -5612,6 +5641,54 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Returns a list of syslog configurations. You can optionally filter the
+    # results by log group or VPC endpoint.
+    #
+    # @option params [String] :log_group_identifier
+    #   The name or ARN of the log group to filter syslog configurations for.
+    #
+    # @option params [String] :vpc_endpoint_id
+    #   The ID of the VPC endpoint to filter syslog configurations for.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. You received this token
+    #   from a previous call.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of syslog configurations to return in the response.
+    #
+    # @return [Types::ListSyslogConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSyslogConfigurationsResponse#syslog_configurations #syslog_configurations} => Array&lt;Types::SyslogConfiguration&gt;
+    #   * {Types::ListSyslogConfigurationsResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_syslog_configurations({
+    #     log_group_identifier: "LogGroupIdentifier",
+    #     vpc_endpoint_id: "VpcEndpointId",
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.syslog_configurations #=> Array
+    #   resp.syslog_configurations[0].log_group_arn #=> String
+    #   resp.syslog_configurations[0].source_type #=> String, one of "VPCE"
+    #   resp.syslog_configurations[0].vpc_endpoint_id #=> String
+    #   resp.syslog_configurations[0].created_at #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListSyslogConfigurations AWS API Documentation
+    #
+    # @overload list_syslog_configurations(params = {})
+    # @param [Hash] params ({})
+    def list_syslog_configurations(params = {}, options = {})
+      req = build_request(:list_syslog_configurations, params)
+      req.send_request(options)
+    end
+
     # Displays the tags associated with a CloudWatch Logs resource.
     # Currently, log groups and destinations support tagging.
     #
@@ -5695,6 +5772,44 @@ module Aws::CloudWatchLogs
     # policy, field index policy, transformer policy, or metric extraction
     # policy that applies to all log groups, a subset of log groups, or a
     # data source name and type combination in the account.
+    #
+    # `PutAccountPolicy` is an account-wide administrative operation
+    # intended for CloudWatch Logs administrators. Because it affects all
+    # log groups (or a broad subset) in the account, you should grant
+    # `logs:PutAccountPolicy` permissions only to administrators who manage
+    # logging configuration across the account, not to application teams or
+    # individual log group owners.
+    #
+    # **Conflict resolution between account-level and log-group-level
+    # policies**
+    #
+    # When both an account-level policy and a log-group-level policy of the
+    # same type apply to a log group, the resolution depends on the policy
+    # type:
+    #
+    # * *Data protection* — The two policies are cumulative. Any sensitive
+    #   term specified in either the account-level or the log-group-level
+    #   policy is masked.
+    #
+    # * *Subscription filters* — Account-level and log-group-level
+    #   subscription filters are additive. A log group can have up to 1
+    #   account-level and up to 2 log-group-level subscription filters.
+    #
+    # * *Transformers* — A log-group-level transformer overrides the
+    #   account-level transformer. If a log group has its own transformer,
+    #   it ignores the account-level transformer policy.
+    #
+    # * *Field index policies* — If a log group has its own field index
+    #   policy (created with `PutIndexPolicy`), any account-level policy
+    #   that uses `LogGroupNamePrefix` selection criteria or has no
+    #   selection criteria is ignored for that log group. However,
+    #   account-level policies that use `DataSourceName` and
+    #   `DataSourceType` selection criteria still apply alongside the
+    #   log-group-level policy.
+    #
+    # * *Metric extraction policies* — Metric extraction policies are
+    #   account-level only and have no log-group-level equivalent, so no
+    #   conflict resolution applies.
     #
     # For field index policies, you can configure indexed fields as *facets*
     # to enable interactive exploration of your logs. Facets provide value
@@ -6693,6 +6808,9 @@ module Aws::CloudWatchLogs
     #   * For Amazon Bedrock AgentCore Gateway, the valid values are
     #     `APPLICATION_LOGS` and `TRACES`.
     #
+    #   * For Amazon Bedrock AgentCore Payments, the valid values are
+    #     `APPLICATION_LOGS` and `TRACES`.
+    #
     #   * For CloudFront, the valid value is `ACCESS_LOGS`.
     #
     #   * For DevOps Agent, the valid value is `APPLICATION_LOGS`.
@@ -6710,6 +6828,13 @@ module Aws::CloudWatchLogs
     #     `AUTO_MODE_BLOCK_STORAGE_LOGS`, `AUTO_MODE_COMPUTE_LOGS`,
     #     `AUTO_MODE_IPAM_LOGS`, and `AUTO_MODE_LOAD_BALANCING_LOGS`.
     #
+    #   * For Amazon EKS Capability Logs, the valid values are
+    #     `EKS_CAPABILITY_ACK_LOGS`, `EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_SERVER_LOGS`, and `EKS_CAPABILITY_KRO_LOGS`.
+    #
     #   * For Entity Resolution, the valid value is `WORKFLOW_LOGS`.
     #
     #   * For IAM Identity Center, the valid value is `ERROR_LOGS`.
@@ -6722,7 +6847,8 @@ module Aws::CloudWatchLogs
     #   * For PCS, the valid values are `PCS_SCHEDULER_LOGS`,
     #     `PCS_JOBCOMP_LOGS`, and `PCS_SCHEDULER_AUDIT_LOGS`.
     #
-    #   * For Quick, the valid values are `CHAT_LOGS` and `FEEDBACK_LOGS`.
+    #   * For Quick, the valid values are `AGENT_HOURS_LOGS`, `CHAT_LOGS`,
+    #     `FEEDBACK_LOGS`, and `INDEX_USAGE_LOGS`.
     #
     #   * For Amazon Web Services RTB Fabric, the valid values is
     #     `APPLICATION_LOGS`.
@@ -7828,6 +7954,35 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def put_subscription_filter(params = {}, options = {})
       req = build_request(:put_subscription_filter, params)
+      req.send_request(options)
+    end
+
+    # Creates or updates a syslog configuration for a log group. This
+    # enables ingestion of syslog data through the specified VPC endpoint
+    # into the log group.
+    #
+    # @option params [required, String] :log_group_identifier
+    #   The name or ARN of the log group to associate with the syslog
+    #   configuration.
+    #
+    # @option params [String] :vpc_endpoint_id
+    #   The ID of the VPC endpoint to use for syslog ingestion.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_syslog_configuration({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #     vpc_endpoint_id: "VpcEndpointId",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSyslogConfiguration AWS API Documentation
+    #
+    # @overload put_syslog_configuration(params = {})
+    # @param [Hash] params ({})
+    def put_syslog_configuration(params = {}, options = {})
+      req = build_request(:put_syslog_configuration, params)
       req.send_request(options)
     end
 
@@ -9347,7 +9502,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.156.0'
+      context[:gem_version] = '1.157.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

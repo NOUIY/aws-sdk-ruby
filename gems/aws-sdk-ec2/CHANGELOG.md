@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.625.0 (2026-06-22)
+------------------
+
+* Feature - This release adds support for AMI Watermark and Allowed AMIs integration
+
 1.624.0 (2026-06-18)
 ------------------
 

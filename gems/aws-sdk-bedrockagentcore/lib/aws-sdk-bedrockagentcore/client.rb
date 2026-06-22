@@ -867,6 +867,12 @@ module Aws::BedrockAgentCore
     # @option params [Hash<String,Types::MetadataValue>] :metadata
     #   The key-value metadata to attach to the event.
     #
+    # @option params [String] :extraction_mode
+    #   Controls long-term memory extraction for this event. When set to
+    #   `SKIP`, the event is stored in short-term memory but is excluded from
+    #   long-term memory extraction. If not specified, the event is processed
+    #   for extraction as usual.
+    #
     # @return [Types::CreateEventOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateEventOutput#event #event} => Types::Event
@@ -900,6 +906,7 @@ module Aws::BedrockAgentCore
     #         string_value: "MetadataValueStringValueString",
     #       },
     #     },
+    #     extraction_mode: "SKIP", # accepts SKIP
     #   })
     #
     # @example Response structure
@@ -6240,7 +6247,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.41.0'
+      context[:gem_version] = '1.42.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

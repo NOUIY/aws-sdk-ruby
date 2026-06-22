@@ -399,6 +399,25 @@ module Aws
       }?
     }
 
+      type content_quality_analysis_feature_configuration = {
+      black_frames: {
+        state: ("ENABLED" | "DISABLED"),
+        threshold_seconds: ::Integer
+      }?,
+      frozen_frames: {
+        state: ("ENABLED" | "DISABLED"),
+        threshold_seconds: ::Integer
+      }?,
+      silent_audio: {
+        state: ("ENABLED" | "DISABLED"),
+        threshold_seconds: ::Integer
+      }?
+    }
+
+      type router_content_quality_analysis_configuration = {
+      content_level: Params::content_quality_analysis_feature_configuration?
+    }
+
       type router_network_interface_configuration = {
       public: {
         allow_rules: Array[

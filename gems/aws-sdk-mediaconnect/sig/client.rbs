@@ -293,7 +293,8 @@ module Aws
                                  ?transit_encryption: Params::router_input_transit_encryption,
                                  ?maintenance_configuration: Params::maintenance_configuration,
                                  ?tags: Hash[::String, ::String],
-                                 ?client_token: ::String
+                                 ?client_token: ::String,
+                                 ?content_quality_analysis_configuration: Params::router_content_quality_analysis_configuration
                                ) -> _CreateRouterInputResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRouterInputResponseSuccess
 
@@ -1204,7 +1205,8 @@ module Aws
                                  ?routing_scope: ("REGIONAL" | "GLOBAL"),
                                  ?tier: ("INPUT_100" | "INPUT_50" | "INPUT_20"),
                                  ?transit_encryption: Params::router_input_transit_encryption,
-                                 ?maintenance_configuration: Params::maintenance_configuration
+                                 ?maintenance_configuration: Params::maintenance_configuration,
+                                 ?content_quality_analysis_configuration: Params::router_content_quality_analysis_configuration
                                ) -> _UpdateRouterInputResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateRouterInputResponseSuccess
 

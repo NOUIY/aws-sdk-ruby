@@ -1790,6 +1790,25 @@ module Aws::CloudWatchLogs
     end
 
     # @!attribute [rw] log_group_identifier
+    #   The name or ARN of the log group to remove the syslog configuration
+    #   from.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_endpoint_id
+    #   The ID of the VPC endpoint associated with the syslog configuration
+    #   to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteSyslogConfigurationRequest AWS API Documentation
+    #
+    class DeleteSyslogConfigurationRequest < Struct.new(
+      :log_group_identifier,
+      :vpc_endpoint_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] log_group_identifier
     #   Specify either the name or ARN of the log group to delete the
     #   transformer for. If the log group is in a source account and you are
     #   using a monitoring account, you must use the log group ARN.
@@ -5465,6 +5484,54 @@ module Aws::CloudWatchLogs
       include Aws::Structure
     end
 
+    # @!attribute [rw] log_group_identifier
+    #   The name or ARN of the log group to filter syslog configurations
+    #   for.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_endpoint_id
+    #   The ID of the VPC endpoint to filter syslog configurations for.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of items to return. You received this
+    #   token from a previous call.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of syslog configurations to return in the
+    #   response.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListSyslogConfigurationsRequest AWS API Documentation
+    #
+    class ListSyslogConfigurationsRequest < Struct.new(
+      :log_group_identifier,
+      :vpc_endpoint_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] syslog_configurations
+    #   The list of syslog configurations.
+    #   @return [Array<Types::SyslogConfiguration>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of items to return. The token expires
+    #   after 24 hours.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListSyslogConfigurationsResponse AWS API Documentation
+    #
+    class ListSyslogConfigurationsResponse < Struct.new(
+      :syslog_configurations,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The ARN of the resource that you want to view tags for.
     #
@@ -7914,6 +7981,9 @@ module Aws::CloudWatchLogs
     #   * For Amazon Bedrock AgentCore Gateway, the valid values are
     #     `APPLICATION_LOGS` and `TRACES`.
     #
+    #   * For Amazon Bedrock AgentCore Payments, the valid values are
+    #     `APPLICATION_LOGS` and `TRACES`.
+    #
     #   * For CloudFront, the valid value is `ACCESS_LOGS`.
     #
     #   * For DevOps Agent, the valid value is `APPLICATION_LOGS`.
@@ -7931,6 +8001,15 @@ module Aws::CloudWatchLogs
     #     `AUTO_MODE_BLOCK_STORAGE_LOGS`, `AUTO_MODE_COMPUTE_LOGS`,
     #     `AUTO_MODE_IPAM_LOGS`, and `AUTO_MODE_LOAD_BALANCING_LOGS`.
     #
+    #   * For Amazon EKS Capability Logs, the valid values are
+    #     `EKS_CAPABILITY_ACK_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS`,
+    #     `EKS_CAPABILITY_ARGOCD_SERVER_LOGS`, and
+    #     `EKS_CAPABILITY_KRO_LOGS`.
+    #
     #   * For Entity Resolution, the valid value is `WORKFLOW_LOGS`.
     #
     #   * For IAM Identity Center, the valid value is `ERROR_LOGS`.
@@ -7943,7 +8022,8 @@ module Aws::CloudWatchLogs
     #   * For PCS, the valid values are `PCS_SCHEDULER_LOGS`,
     #     `PCS_JOBCOMP_LOGS`, and `PCS_SCHEDULER_AUDIT_LOGS`.
     #
-    #   * For Quick, the valid values are `CHAT_LOGS` and `FEEDBACK_LOGS`.
+    #   * For Quick, the valid values are `AGENT_HOURS_LOGS`, `CHAT_LOGS`,
+    #     `FEEDBACK_LOGS`, and `INDEX_USAGE_LOGS`.
     #
     #   * For Amazon Web Services RTB Fabric, the valid values is
     #     `APPLICATION_LOGS`.
@@ -8667,6 +8747,24 @@ module Aws::CloudWatchLogs
       :apply_on_transformed_logs,
       :field_selection_criteria,
       :emit_system_fields)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] log_group_identifier
+    #   The name or ARN of the log group to associate with the syslog
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_endpoint_id
+    #   The ID of the VPC endpoint to use for syslog ingestion.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSyslogConfigurationRequest AWS API Documentation
+    #
+    class PutSyslogConfigurationRequest < Struct.new(
+      :log_group_identifier,
+      :vpc_endpoint_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9895,6 +9993,37 @@ module Aws::CloudWatchLogs
     class SuppressionPeriod < Struct.new(
       :value,
       :suppression_unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a syslog configuration associated with a
+    # log group.
+    #
+    # @!attribute [rw] log_group_arn
+    #   The ARN of the log group associated with this syslog configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_type
+    #   The source type for the syslog configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_endpoint_id
+    #   The ID of the VPC endpoint used for syslog ingestion.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The time when the syslog configuration was created, expressed as the
+    #   number of milliseconds after `Jan 1, 1970 00:00:00 UTC`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/SyslogConfiguration AWS API Documentation
+    #
+    class SyslogConfiguration < Struct.new(
+      :log_group_arn,
+      :source_type,
+      :vpc_endpoint_id,
+      :created_at)
       SENSITIVE = []
       include Aws::Structure
     end

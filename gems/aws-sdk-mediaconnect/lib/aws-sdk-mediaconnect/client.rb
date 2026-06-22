@@ -1147,6 +1147,13 @@ module Aws::MediaConnect
     #   resp.router_inputs[0].maintenance_schedule.window.start #=> Time
     #   resp.router_inputs[0].maintenance_schedule.window.end #=> Time
     #   resp.router_inputs[0].maintenance_schedule.window.scheduled_time #=> Time
+    #   resp.router_inputs[0].content_quality_analysis_type #=> String, one of "CONTENT_LEVEL"
+    #   resp.router_inputs[0].content_quality_analysis_configuration.content_level.black_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_inputs[0].content_quality_analysis_configuration.content_level.black_frames.threshold_seconds #=> Integer
+    #   resp.router_inputs[0].content_quality_analysis_configuration.content_level.frozen_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_inputs[0].content_quality_analysis_configuration.content_level.frozen_frames.threshold_seconds #=> Integer
+    #   resp.router_inputs[0].content_quality_analysis_configuration.content_level.silent_audio.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_inputs[0].content_quality_analysis_configuration.content_level.silent_audio.threshold_seconds #=> Integer
     #   resp.errors #=> Array
     #   resp.errors[0].arn #=> String
     #   resp.errors[0].code #=> String
@@ -2180,6 +2187,9 @@ module Aws::MediaConnect
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    # @option params [Types::RouterContentQualityAnalysisConfiguration] :content_quality_analysis_configuration
+    #   The content quality analysis configuration for the router input.
+    #
     # @return [Types::CreateRouterInputResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateRouterInputResponse#router_input #router_input} => Types::RouterInput
@@ -2339,7 +2349,23 @@ module Aws::MediaConnect
     #     tags: {
     #       "String" => "String",
     #     },
-    #     client_token: "String",
+    #     client_token: "ClientToken",
+    #     content_quality_analysis_configuration: {
+    #       content_level: {
+    #         black_frames: {
+    #           state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           threshold_seconds: 1, # required
+    #         },
+    #         frozen_frames: {
+    #           state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           threshold_seconds: 1, # required
+    #         },
+    #         silent_audio: {
+    #           state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           threshold_seconds: 1, # required
+    #         },
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -2435,6 +2461,13 @@ module Aws::MediaConnect
     #   resp.router_input.maintenance_schedule.window.start #=> Time
     #   resp.router_input.maintenance_schedule.window.end #=> Time
     #   resp.router_input.maintenance_schedule.window.scheduled_time #=> Time
+    #   resp.router_input.content_quality_analysis_type #=> String, one of "CONTENT_LEVEL"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.black_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.black_frames.threshold_seconds #=> Integer
+    #   resp.router_input.content_quality_analysis_configuration.content_level.frozen_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.frozen_frames.threshold_seconds #=> Integer
+    #   resp.router_input.content_quality_analysis_configuration.content_level.silent_audio.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.silent_audio.threshold_seconds #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateRouterInput AWS API Documentation
     #
@@ -2492,7 +2525,7 @@ module Aws::MediaConnect
     #     tags: {
     #       "String" => "String",
     #     },
-    #     client_token: "String",
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -2658,7 +2691,7 @@ module Aws::MediaConnect
     #     tags: {
     #       "String" => "String",
     #     },
-    #     client_token: "String",
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -3678,6 +3711,13 @@ module Aws::MediaConnect
     #   resp.router_input.maintenance_schedule.window.start #=> Time
     #   resp.router_input.maintenance_schedule.window.end #=> Time
     #   resp.router_input.maintenance_schedule.window.scheduled_time #=> Time
+    #   resp.router_input.content_quality_analysis_type #=> String, one of "CONTENT_LEVEL"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.black_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.black_frames.threshold_seconds #=> Integer
+    #   resp.router_input.content_quality_analysis_configuration.content_level.frozen_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.frozen_frames.threshold_seconds #=> Integer
+    #   resp.router_input.content_quality_analysis_configuration.content_level.silent_audio.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.silent_audio.threshold_seconds #=> Integer
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -6789,6 +6829,9 @@ module Aws::MediaConnect
     #   The updated maintenance configuration settings for the router input,
     #   including any changes to preferred maintenance windows and schedules.
     #
+    # @option params [Types::RouterContentQualityAnalysisConfiguration] :content_quality_analysis_configuration
+    #   The content quality analysis configuration for the router input.
+    #
     # @return [Types::UpdateRouterInputResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateRouterInputResponse#router_input #router_input} => Types::RouterInput
@@ -6944,6 +6987,22 @@ module Aws::MediaConnect
     #       default: {
     #       },
     #     },
+    #     content_quality_analysis_configuration: {
+    #       content_level: {
+    #         black_frames: {
+    #           state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           threshold_seconds: 1, # required
+    #         },
+    #         frozen_frames: {
+    #           state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           threshold_seconds: 1, # required
+    #         },
+    #         silent_audio: {
+    #           state: "ENABLED", # required, accepts ENABLED, DISABLED
+    #           threshold_seconds: 1, # required
+    #         },
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -7039,6 +7098,13 @@ module Aws::MediaConnect
     #   resp.router_input.maintenance_schedule.window.start #=> Time
     #   resp.router_input.maintenance_schedule.window.end #=> Time
     #   resp.router_input.maintenance_schedule.window.scheduled_time #=> Time
+    #   resp.router_input.content_quality_analysis_type #=> String, one of "CONTENT_LEVEL"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.black_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.black_frames.threshold_seconds #=> Integer
+    #   resp.router_input.content_quality_analysis_configuration.content_level.frozen_frames.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.frozen_frames.threshold_seconds #=> Integer
+    #   resp.router_input.content_quality_analysis_configuration.content_level.silent_audio.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.router_input.content_quality_analysis_configuration.content_level.silent_audio.threshold_seconds #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateRouterInput AWS API Documentation
     #
@@ -7321,7 +7387,7 @@ module Aws::MediaConnect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediaconnect'
-      context[:gem_version] = '1.102.0'
+      context[:gem_version] = '1.103.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

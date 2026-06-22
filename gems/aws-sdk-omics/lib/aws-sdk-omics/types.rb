@@ -2140,6 +2140,13 @@ module Aws::Omics
     #   engine (for example, Nextflow profiles).
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
+    # @!attribute [rw] scratch_storage_mode
+    #   Optional configuration for enabling scratch ephemeral storage
+    #   mounted at /tmp. If not specified, this will default to SHARED. This
+    #   configuration is applicable only for CPU tasks. For tasks using
+    #   GPUs, scratch storage is always LOCAL.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DefaultRunSetting AWS API Documentation
     #
     class DefaultRunSetting < Struct.new(
@@ -2163,7 +2170,8 @@ module Aws::Omics
       :workflow_version_name,
       :networking_mode,
       :configuration_name,
-      :engine_settings)
+      :engine_settings,
+      :scratch_storage_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4065,6 +4073,13 @@ module Aws::Omics
     #   default to RESTRICTED.
     #   @return [String]
     #
+    # @!attribute [rw] scratch_storage_mode
+    #   Optional configuration for enabling scratch ephemeral storage
+    #   mounted at /tmp. If absent, this will default to SHARED. This
+    #   configuration is applicable only for CPU tasks. For tasks using
+    #   GPUs, scratch storage is always LOCAL.
+    #   @return [String]
+    #
     # @!attribute [rw] configuration
     #   Configuration details for the workflow run.
     #   @return [Types::ConfigurationDetails]
@@ -4118,6 +4133,7 @@ module Aws::Omics
       :workflow_version_name,
       :workflow_uuid,
       :networking_mode,
+      :scratch_storage_mode,
       :configuration,
       :vpc_config,
       :engine_settings)
@@ -8452,6 +8468,13 @@ module Aws::Omics
     #   specified, this will default to RESTRICTED.
     #   @return [String]
     #
+    # @!attribute [rw] scratch_storage_mode
+    #   Optional configuration for enabling scratch ephemeral storage
+    #   mounted at /tmp. If not specified, this will default to SHARED. This
+    #   configuration is applicable only for CPU tasks. For tasks using
+    #   GPUs, scratch storage is always LOCAL.
+    #   @return [String]
+    #
     # @!attribute [rw] configuration_name
     #   Optional configuration name to use for the workflow run.
     #   @return [String]
@@ -8485,6 +8508,7 @@ module Aws::Omics
       :workflow_owner_id,
       :workflow_version_name,
       :networking_mode,
+      :scratch_storage_mode,
       :configuration_name,
       :engine_settings)
       SENSITIVE = []

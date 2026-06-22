@@ -230,6 +230,7 @@ module Aws::BedrockAgentCore
     ExtractionJobMetadata = Shapes::StructureShape.new(name: 'ExtractionJobMetadata')
     ExtractionJobMetadataList = Shapes::ListShape.new(name: 'ExtractionJobMetadataList')
     ExtractionJobStatus = Shapes::StringShape.new(name: 'ExtractionJobStatus')
+    ExtractionMode = Shapes::StringShape.new(name: 'ExtractionMode')
     FailureAnalysisResultContent = Shapes::StructureShape.new(name: 'FailureAnalysisResultContent')
     FailureCategoryCluster = Shapes::StructureShape.new(name: 'FailureCategoryCluster')
     FailureCategoryClusterList = Shapes::ListShape.new(name: 'FailureCategoryClusterList')
@@ -1163,6 +1164,7 @@ module Aws::BedrockAgentCore
     CreateEventInput.add_member(:branch, Shapes::ShapeRef.new(shape: Branch, location_name: "branch"))
     CreateEventInput.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateEventInput.add_member(:metadata, Shapes::ShapeRef.new(shape: MetadataMap, location_name: "metadata"))
+    CreateEventInput.add_member(:extraction_mode, Shapes::ShapeRef.new(shape: ExtractionMode, location_name: "extractionMode"))
     CreateEventInput.struct_class = Types::CreateEventInput
 
     CreateEventOutput.add_member(:event, Shapes::ShapeRef.new(shape: Event, required: true, location_name: "event"))

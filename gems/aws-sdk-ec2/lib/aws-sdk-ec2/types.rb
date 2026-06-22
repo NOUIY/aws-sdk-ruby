@@ -48873,6 +48873,16 @@ module Aws::EC2
     #   The maximum age for allowed images.
     #   @return [Types::CreationDateCondition]
     #
+    # @!attribute [rw] image_watermarks
+    #   The watermark criteria that an AMI must match to be allowed. An AMI
+    #   is allowed if it carries at least one watermark that satisfies an
+    #   ImageWatermarkFilter. A watermark satisfies a filter when all
+    #   specified fields in the ImageWatermarkFilter match the corresponding
+    #   values on the watermark of the AMI.
+    #
+    #   Maximum: 50 values
+    #   @return [Array<Types::ImageWatermarkFilterResponse>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImageCriterion AWS API Documentation
     #
     class ImageCriterion < Struct.new(
@@ -48880,7 +48890,8 @@ module Aws::EC2
       :marketplace_product_codes,
       :image_names,
       :deprecation_time_condition,
-      :creation_date_condition)
+      :creation_date_condition,
+      :image_watermarks)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -48902,6 +48913,8 @@ module Aws::EC2
     # * 50 values for `ImageNames`
     #
     # * 50 values for `MarketplaceProductCodes`
+    #
+    # * 50 values for `ImageWatermarks`
     #
     # For more information, see [How Allowed AMIs works][1] in the *Amazon
     # EC2 User Guide*.
@@ -48970,6 +48983,16 @@ module Aws::EC2
     #   The maximum age for allowed images.
     #   @return [Types::CreationDateConditionRequest]
     #
+    # @!attribute [rw] image_watermarks
+    #   The watermark criteria that an AMI must match to be allowed. An AMI
+    #   is allowed if it carries at least one watermark that satisfies an
+    #   ImageWatermarkFilter. A watermark satisfies a filter when all
+    #   specified fields in the ImageWatermarkFilter match the corresponding
+    #   values on the watermark of the AMI.
+    #
+    #   Maximum: 50 values
+    #   @return [Array<Types::ImageWatermarkFilterRequest>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImageCriterionRequest AWS API Documentation
     #
     class ImageCriterionRequest < Struct.new(
@@ -48977,7 +49000,8 @@ module Aws::EC2
       :marketplace_product_codes,
       :image_names,
       :deprecation_time_condition,
-      :creation_date_condition)
+      :creation_date_condition,
+      :image_watermarks)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -49390,6 +49414,84 @@ module Aws::EC2
       :source_image_id,
       :source_image_creation_time,
       :watermark_creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The watermark filter criteria for an allowed image. Each entry can
+    # specify one or more fields. All specified fields must match the same
+    # watermark on the image.
+    #
+    # @!attribute [rw] watermark_key
+    #   The `accountId:name` of the watermark. Supports wildcards (`*`,
+    #   `?`).
+    #   @return [String]
+    #
+    # @!attribute [rw] source_image_region
+    #   The Region where the watermark was originally created. Supports
+    #   wildcards (`*`, `?`).
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_days_since_source_image_created
+    #   The maximum number of days that have elapsed since the source image
+    #   was created.
+    #
+    #   Constraints: Minimum value of 0. Maximum value of 2147483647.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] maximum_days_since_watermark_created
+    #   The maximum number of days that have elapsed since the watermark was
+    #   attached to the image.
+    #
+    #   Constraints: Minimum value of 0. Maximum value of 2147483647.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImageWatermarkFilterRequest AWS API Documentation
+    #
+    class ImageWatermarkFilterRequest < Struct.new(
+      :watermark_key,
+      :source_image_region,
+      :maximum_days_since_source_image_created,
+      :maximum_days_since_watermark_created)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The watermark filter criteria for an allowed image. Each entry can
+    # specify one or more fields. All specified fields must match the same
+    # watermark on the image.
+    #
+    # @!attribute [rw] watermark_key
+    #   The `accountId:name` of the watermark. Supports wildcards (`*`,
+    #   `?`).
+    #   @return [String]
+    #
+    # @!attribute [rw] source_image_region
+    #   The Region where the watermark was originally created. Supports
+    #   wildcards (`*`, `?`).
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_days_since_source_image_created
+    #   The maximum number of days that have elapsed since the source image
+    #   was created.
+    #
+    #   Constraints: Minimum value of 0. Maximum value of 2147483647.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] maximum_days_since_watermark_created
+    #   The maximum number of days that have elapsed since the watermark was
+    #   attached to the image.
+    #
+    #   Constraints: Minimum value of 0. Maximum value of 2147483647.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImageWatermarkFilterResponse AWS API Documentation
+    #
+    class ImageWatermarkFilterResponse < Struct.new(
+      :watermark_key,
+      :source_image_region,
+      :maximum_days_since_source_image_created,
+      :maximum_days_since_watermark_created)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -64539,6 +64641,10 @@ module Aws::EC2
     #   * Direct Connect Gateway
     #
     #   * Connect
+    #
+    #   * VPN Concentrator
+    #
+    #   * Client VPN
     #
     #   You must first delete all transit gateway attachments configured
     #   prior to modifying the ASN on the transit gateway.

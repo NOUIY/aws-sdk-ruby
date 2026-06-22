@@ -685,11 +685,17 @@ module Aws::Kafka
 
     class KafkaClusterClientAuthentication
       attr_accessor sasl_scram: Types::KafkaClusterSaslScramAuthentication
+      attr_accessor mtls: Types::KafkaClusterMTLSAuthentication
       SENSITIVE: []
     end
 
     class KafkaClusterSaslScramAuthentication
       attr_accessor mechanism: ("SHA256" | "SHA512")
+      attr_accessor secret_arn: ::String
+      SENSITIVE: []
+    end
+
+    class KafkaClusterMTLSAuthentication
       attr_accessor secret_arn: ::String
       SENSITIVE: []
     end

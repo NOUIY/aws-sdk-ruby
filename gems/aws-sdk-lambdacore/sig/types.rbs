@@ -1,0 +1,168 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws::LambdaCore
+  module Types
+
+    class CreateNetworkConnectorRequest
+      attr_accessor name: ::String
+      attr_accessor configuration: Types::NetworkConnectorConfiguration
+      attr_accessor operator_role: ::String
+      attr_accessor client_token: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateNetworkConnectorResponse
+      attr_accessor arn: ::String
+      attr_accessor name: ::String
+      attr_accessor id: ::String
+      attr_accessor configuration: Types::NetworkConnectorConfiguration
+      attr_accessor operator_role: ::String
+      attr_accessor state: ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      SENSITIVE: []
+    end
+
+    class DeleteNetworkConnectorRequest
+      attr_accessor identifier: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteNetworkConnectorResponse
+      attr_accessor arn: ::String
+      attr_accessor name: ::String
+      attr_accessor id: ::String
+      attr_accessor configuration: Types::NetworkConnectorConfiguration
+      attr_accessor operator_role: ::String
+      attr_accessor state: ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      SENSITIVE: []
+    end
+
+    class GetNetworkConnectorRequest
+      attr_accessor identifier: ::String
+      SENSITIVE: []
+    end
+
+    class GetNetworkConnectorResponse
+      attr_accessor arn: ::String
+      attr_accessor name: ::String
+      attr_accessor id: ::String
+      attr_accessor version: ::Integer
+      attr_accessor configuration: Types::NetworkConnectorConfiguration
+      attr_accessor operator_role: ::String
+      attr_accessor state: ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      attr_accessor state_reason: ::String
+      attr_accessor state_reason_code: ("DisallowedByVpcEncryptionControl" | "Ec2RequestLimitExceeded" | "InsufficientRolePermissions" | "InternalError" | "InvalidSecurityGroup" | "InvalidSubnet" | "SubnetOutOfIPAddresses")
+      attr_accessor last_update_status: ("Successful" | "Failed" | "InProgress")
+      attr_accessor last_update_status_reason: ::String
+      attr_accessor last_update_status_reason_code: ("DisallowedByVpcEncryptionControl" | "Ec2RequestLimitExceeded" | "InsufficientRolePermissions" | "InternalError" | "InvalidSecurityGroup" | "InvalidSubnet" | "SubnetOutOfIPAddresses")
+      attr_accessor last_modified: ::Time
+      SENSITIVE: []
+    end
+
+    class InvalidParameterValueException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ListNetworkConnectorsRequest
+      attr_accessor state: ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      attr_accessor marker: ::String
+      attr_accessor max_items: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListNetworkConnectorsResponse
+      attr_accessor network_connectors: ::Array[Types::NetworkConnectorSummary]
+      attr_accessor next_marker: ::String
+      SENSITIVE: []
+    end
+
+    class NetworkConnectorConfiguration
+      attr_accessor vpc_egress_configuration: Types::NetworkConnectorVpcEgressConfiguration
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class VpcEgressConfiguration < NetworkConnectorConfiguration
+      end
+      class Unknown < NetworkConnectorConfiguration
+      end
+    end
+
+    class NetworkConnectorLimitExceededException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class NetworkConnectorSummary
+      attr_accessor arn: ::String
+      attr_accessor name: ::String
+      attr_accessor id: ::String
+      attr_accessor type: ("VPC_EGRESS")
+      attr_accessor state: ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      attr_accessor last_modified: ::Time
+      SENSITIVE: []
+    end
+
+    class NetworkConnectorVpcEgressConfiguration
+      attr_accessor subnet_ids: ::Array[::String]
+      attr_accessor security_group_ids: ::Array[::String]
+      attr_accessor network_protocol: ("IPv4" | "DualStack")
+      attr_accessor associated_compute_resource_types: ::Array[("MicroVm")]
+      SENSITIVE: []
+    end
+
+    class ResourceConflictException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ResourceNotFoundException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ServiceException
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class TooManyRequestsException
+      attr_accessor retry_after_seconds: ::String
+      attr_accessor type: ::String
+      attr_accessor message: ::String
+      attr_accessor reason: ("ConcurrentInvocationLimitExceeded" | "FunctionInvocationRateLimitExceeded" | "ReservedFunctionConcurrentInvocationLimitExceeded" | "ReservedFunctionInvocationRateLimitExceeded" | "CallerRateLimitExceeded" | "ConcurrentSnapshotCreateLimitExceeded")
+      SENSITIVE: []
+    end
+
+    class UpdateNetworkConnectorRequest
+      attr_accessor identifier: ::String
+      attr_accessor configuration: Types::NetworkConnectorConfiguration
+      attr_accessor operator_role: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateNetworkConnectorResponse
+      attr_accessor arn: ::String
+      attr_accessor name: ::String
+      attr_accessor id: ::String
+      attr_accessor operator_role: ::String
+      attr_accessor configuration: Types::NetworkConnectorConfiguration
+      attr_accessor state: ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      attr_accessor last_update_status: ("Successful" | "Failed" | "InProgress")
+      attr_accessor last_update_status_reason: ::String
+      attr_accessor last_modified: ::Time
+      SENSITIVE: []
+    end
+  end
+end

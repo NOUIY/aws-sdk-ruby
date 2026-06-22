@@ -2952,6 +2952,7 @@ module Aws::Omics
     #   resp.default_run_setting.workflow_version_name #=> String
     #   resp.default_run_setting.networking_mode #=> String, one of "RESTRICTED", "VPC"
     #   resp.default_run_setting.configuration_name #=> String
+    #   resp.default_run_setting.scratch_storage_mode #=> String, one of "LOCAL", "SHARED"
     #   resp.submission_summary.successful_start_submission_count #=> Integer
     #   resp.submission_summary.failed_start_submission_count #=> Integer
     #   resp.submission_summary.pending_start_submission_count #=> Integer
@@ -3603,6 +3604,7 @@ module Aws::Omics
     #   * {Types::GetRunResponse#workflow_version_name #workflow_version_name} => String
     #   * {Types::GetRunResponse#workflow_uuid #workflow_uuid} => String
     #   * {Types::GetRunResponse#networking_mode #networking_mode} => String
+    #   * {Types::GetRunResponse#scratch_storage_mode #scratch_storage_mode} => String
     #   * {Types::GetRunResponse#configuration #configuration} => Types::ConfigurationDetails
     #   * {Types::GetRunResponse#vpc_config #vpc_config} => Types::VpcConfigResponse
     #   * {Types::GetRunResponse#engine_settings #engine_settings} => Hash,Array,String,Numeric,Boolean
@@ -3656,6 +3658,7 @@ module Aws::Omics
     #   resp.workflow_version_name #=> String
     #   resp.workflow_uuid #=> String
     #   resp.networking_mode #=> String, one of "RESTRICTED", "VPC"
+    #   resp.scratch_storage_mode #=> String, one of "LOCAL", "SHARED"
     #   resp.configuration.name #=> String
     #   resp.configuration.arn #=> String
     #   resp.configuration.uuid #=> String
@@ -6522,6 +6525,12 @@ module Aws::Omics
     #   Optional configuration for run networking behavior. If not specified,
     #   this will default to RESTRICTED.
     #
+    # @option params [String] :scratch_storage_mode
+    #   Optional configuration for enabling scratch ephemeral storage mounted
+    #   at /tmp. If not specified, this will default to SHARED. This
+    #   configuration is applicable only for CPU tasks. For tasks using GPUs,
+    #   scratch storage is always LOCAL.
+    #
     # @option params [String] :configuration_name
     #   Optional configuration name to use for the workflow run.
     #
@@ -6572,6 +6581,7 @@ module Aws::Omics
     #     workflow_owner_id: "WorkflowOwnerId",
     #     workflow_version_name: "WorkflowVersionName",
     #     networking_mode: "RESTRICTED", # accepts RESTRICTED, VPC
+    #     scratch_storage_mode: "LOCAL", # accepts LOCAL, SHARED
     #     configuration_name: "ConfigurationName",
     #     engine_settings: {
     #     },
@@ -6677,6 +6687,7 @@ module Aws::Omics
     #       configuration_name: "ConfigurationName",
     #       engine_settings: {
     #       },
+    #       scratch_storage_mode: "LOCAL", # accepts LOCAL, SHARED
     #     },
     #     batch_run_settings: { # required
     #       inline_settings: [
@@ -7401,7 +7412,7 @@ module Aws::Omics
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-omics'
-      context[:gem_version] = '1.73.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

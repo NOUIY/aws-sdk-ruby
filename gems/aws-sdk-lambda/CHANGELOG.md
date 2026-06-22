@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.185.0 (2026-06-22)
+------------------
+
+* Feature - Add support for tagging Network Connector resources in AWS Lambda.
+
 1.184.0 (2026-06-18)
 ------------------
 

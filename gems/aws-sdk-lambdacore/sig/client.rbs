@@ -1,0 +1,173 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the contributing guide for more information:
+# https://github.com/aws/aws-sdk-ruby/blob/version-3/CONTRIBUTING.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module LambdaCore
+    class Client < ::Seahorse::Client::Base
+      include ::Aws::ClientStubs
+
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaCore/Client.html#initialize-instance_method
+      def self.new: (
+                      ?credentials: untyped,
+                      ?region: String,
+                      ?access_key_id: String,
+                      ?account_id: String,
+                      ?active_endpoint_cache: bool,
+                      ?adaptive_retry_wait_to_fill: bool,
+                      ?auth_scheme_preference: Array[String],
+                      ?client_side_monitoring: bool,
+                      ?client_side_monitoring_client_id: String,
+                      ?client_side_monitoring_host: String,
+                      ?client_side_monitoring_port: Integer,
+                      ?client_side_monitoring_publisher: untyped,
+                      ?convert_params: bool,
+                      ?correct_clock_skew: bool,
+                      ?defaults_mode: String,
+                      ?disable_host_prefix_injection: bool,
+                      ?disable_request_compression: bool,
+                      ?endpoint: String,
+                      ?endpoint_cache_max_entries: Integer,
+                      ?endpoint_cache_max_threads: Integer,
+                      ?endpoint_cache_poll_interval: Integer,
+                      ?endpoint_discovery: bool,
+                      ?ignore_configured_endpoint_urls: bool,
+                      ?log_formatter: untyped,
+                      ?log_level: Symbol,
+                      ?logger: untyped,
+                      ?max_attempts: Integer,
+                      ?profile: String,
+                      ?request_checksum_calculation: String,
+                      ?request_min_compression_size_bytes: Integer,
+                      ?response_checksum_validation: String,
+                      ?retry_backoff: Proc,
+                      ?retry_base_delay: Float,
+                      ?retry_jitter: (:none | :equal | :full | ^(Integer) -> Integer),
+                      ?retry_limit: Integer,
+                      ?retry_max_delay: Integer,
+                      ?retry_mode: ("legacy" | "standard" | "adaptive"),
+                      ?sdk_ua_app_id: String,
+                      ?secret_access_key: String,
+                      ?session_token: String,
+                      ?sigv4a_signing_region_set: Array[String],
+                      ?stub_responses: untyped,
+                      ?telemetry_provider: Aws::Telemetry::TelemetryProviderBase,
+                      ?token_provider: untyped,
+                      ?use_dualstack_endpoint: bool,
+                      ?use_fips_endpoint: bool,
+                      ?validate_params: bool,
+                      ?endpoint_provider: untyped,
+                      ?http_proxy: String,
+                      ?http_open_timeout: (Float | Integer),
+                      ?http_read_timeout: (Float | Integer),
+                      ?http_idle_timeout: (Float | Integer),
+                      ?http_continue_timeout: (Float | Integer),
+                      ?ssl_timeout: (Float | Integer | nil),
+                      ?http_wire_trace: bool,
+                      ?ssl_verify_peer: bool,
+                      ?ssl_ca_bundle: String,
+                      ?ssl_ca_directory: String,
+                      ?ssl_ca_store: String,
+                      ?on_chunk_received: Proc,
+                      ?on_chunk_sent: Proc,
+                      ?raise_response_errors: bool
+                    ) -> instance
+                  | (?Hash[Symbol, untyped]) -> instance
+
+
+      interface _CreateNetworkConnectorResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateNetworkConnectorResponse]
+        def arn: () -> ::String
+        def name: () -> ::String
+        def id: () -> ::String
+        def configuration: () -> Types::NetworkConnectorConfiguration
+        def operator_role: () -> ::String
+        def state: () -> ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaCore/Client.html#create_network_connector-instance_method
+      def create_network_connector: (
+                                      name: ::String,
+                                      configuration: Params::network_connector_configuration,
+                                      ?operator_role: ::String,
+                                      ?client_token: ::String,
+                                      ?tags: Hash[::String, ::String]
+                                    ) -> _CreateNetworkConnectorResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateNetworkConnectorResponseSuccess
+
+      interface _DeleteNetworkConnectorResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteNetworkConnectorResponse]
+        def arn: () -> ::String
+        def name: () -> ::String
+        def id: () -> ::String
+        def configuration: () -> Types::NetworkConnectorConfiguration
+        def operator_role: () -> ::String
+        def state: () -> ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaCore/Client.html#delete_network_connector-instance_method
+      def delete_network_connector: (
+                                      identifier: ::String
+                                    ) -> _DeleteNetworkConnectorResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteNetworkConnectorResponseSuccess
+
+      interface _GetNetworkConnectorResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetNetworkConnectorResponse]
+        def arn: () -> ::String
+        def name: () -> ::String
+        def id: () -> ::String
+        def version: () -> ::Integer
+        def configuration: () -> Types::NetworkConnectorConfiguration
+        def operator_role: () -> ::String
+        def state: () -> ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+        def state_reason: () -> ::String
+        def state_reason_code: () -> ("DisallowedByVpcEncryptionControl" | "Ec2RequestLimitExceeded" | "InsufficientRolePermissions" | "InternalError" | "InvalidSecurityGroup" | "InvalidSubnet" | "SubnetOutOfIPAddresses")
+        def last_update_status: () -> ("Successful" | "Failed" | "InProgress")
+        def last_update_status_reason: () -> ::String
+        def last_update_status_reason_code: () -> ("DisallowedByVpcEncryptionControl" | "Ec2RequestLimitExceeded" | "InsufficientRolePermissions" | "InternalError" | "InvalidSecurityGroup" | "InvalidSubnet" | "SubnetOutOfIPAddresses")
+        def last_modified: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaCore/Client.html#get_network_connector-instance_method
+      def get_network_connector: (
+                                   identifier: ::String
+                                 ) -> _GetNetworkConnectorResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetNetworkConnectorResponseSuccess
+
+      interface _ListNetworkConnectorsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListNetworkConnectorsResponse]
+        def network_connectors: () -> ::Array[Types::NetworkConnectorSummary]
+        def next_marker: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaCore/Client.html#list_network_connectors-instance_method
+      def list_network_connectors: (
+                                     ?state: ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED"),
+                                     ?marker: ::String,
+                                     ?max_items: ::Integer
+                                   ) -> _ListNetworkConnectorsResponseSuccess
+                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListNetworkConnectorsResponseSuccess
+
+      interface _UpdateNetworkConnectorResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateNetworkConnectorResponse]
+        def arn: () -> ::String
+        def name: () -> ::String
+        def id: () -> ::String
+        def operator_role: () -> ::String
+        def configuration: () -> Types::NetworkConnectorConfiguration
+        def state: () -> ("PENDING" | "ACTIVE" | "INACTIVE" | "FAILED" | "DELETING" | "DELETE_FAILED")
+        def last_update_status: () -> ("Successful" | "Failed" | "InProgress")
+        def last_update_status_reason: () -> ::String
+        def last_modified: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/LambdaCore/Client.html#update_network_connector-instance_method
+      def update_network_connector: (
+                                      identifier: ::String,
+                                      ?configuration: Params::network_connector_configuration,
+                                      ?operator_role: ::String,
+                                      ?client_token: ::String
+                                    ) -> _UpdateNetworkConnectorResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateNetworkConnectorResponseSuccess
+    end
+  end
+end
+

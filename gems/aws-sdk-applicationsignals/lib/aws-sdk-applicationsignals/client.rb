@@ -474,6 +474,60 @@ module Aws::ApplicationSignals
 
     # @!group API Operations
 
+    # Deletes multiple instrumentation configurations in a single request.
+    # Supports two mutually exclusive selection methods:
+    #
+    # * By scope: Delete all configurations matching a Service + Environment
+    #   + InstrumentationType
+    # * By ARN list: Delete specific configurations by providing a list of
+    #   resource ARNs
+    #
+    # @option params [required, Types::BatchDeleteDeletionTarget] :deletion_target
+    #   The deletion target - either bulk by scope or targeted by ARN list.
+    #
+    # @return [Types::BatchDeleteInstrumentationConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDeleteInstrumentationConfigurationsResponse#deleted_count #deleted_count} => Integer
+    #   * {Types::BatchDeleteInstrumentationConfigurationsResponse#successful_deletions #successful_deletions} => Array&lt;Types::BatchDeleteSuccessfulDeletion&gt;
+    #   * {Types::BatchDeleteInstrumentationConfigurationsResponse#errors #errors} => Array&lt;Types::BatchDeleteError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_delete_instrumentation_configurations({
+    #     deletion_target: { # required
+    #       scope: {
+    #         service: "BatchDeleteScopeServiceString", # required
+    #         environment: "BatchDeleteScopeEnvironmentString", # required
+    #         instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #       },
+    #       resource_arns: {
+    #         resource_arns: ["BatchDeleteByResourceArnsResourceArnsListMemberString"], # required
+    #         instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.deleted_count #=> Integer
+    #   resp.successful_deletions #=> Array
+    #   resp.successful_deletions[0].resource_arn #=> String
+    #   resp.successful_deletions[0].signal_type #=> String
+    #   resp.successful_deletions[0].location_hash #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].resource_arn #=> String
+    #   resp.errors[0].code #=> String, one of "ResourceNotFoundException", "AccessDeniedException", "InternalServiceException"
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/BatchDeleteInstrumentationConfigurations AWS API Documentation
+    #
+    # @overload batch_delete_instrumentation_configurations(params = {})
+    # @param [Hash] params ({})
+    def batch_delete_instrumentation_configurations(params = {}, options = {})
+      req = build_request(:batch_delete_instrumentation_configurations, params)
+      req.send_request(options)
+    end
+
     # Use this operation to retrieve one or more *service level objective
     # (SLO) budget reports*.
     #
@@ -709,6 +763,171 @@ module Aws::ApplicationSignals
     # @param [Hash] params ({})
     def batch_update_exclusion_windows(params = {}, options = {})
       req = build_request(:batch_update_exclusion_windows, params)
+      req.send_request(options)
+    end
+
+    # Creates a dynamic instrumentation configuration for a specific code or
+    # endpoint location within a service and environment. Configurations are
+    # immutable after creation.
+    #
+    # For `BREAKPOINT` type configurations, they expire after 24 hours
+    # unless a shorter expiration is provided. For `PROBE` type
+    # configurations, they persist until explicitly deleted; an expiration
+    # cannot be set for `PROBE` configurations.
+    #
+    # If a configuration already exists for the same service, environment,
+    # signal type, and location, this operation returns a conflict instead
+    # of overwriting it. Use attribute filters and capture settings to
+    # control where the instrumentation runs and which data is collected.
+    #
+    # @option params [required, String] :instrumentation_type
+    #   Type of instrumentation: BREAKPOINT (temporary) or PROBE (permanent)
+    #
+    # @option params [required, String] :service
+    #   The name of the service to instrument. This should match the
+    #   `service.name` resource attribute reported by the application.
+    #
+    # @option params [required, String] :environment
+    #   The environment that the service is running in, such as
+    #   `eks:cluster-prod/namespace` or `ec2:production`.
+    #
+    # @option params [required, String] :signal_type
+    #   The telemetry signal type to emit for this instrumentation. The
+    #   supported value is `SNAPSHOT`.
+    #
+    # @option params [required, Types::Location] :location
+    #   The location where instrumentation should be applied. Specify a
+    #   `CodeLocation` for code-level instrumentation.
+    #
+    # @option params [String] :description
+    #   An optional short description (up to 50 characters) that explains the
+    #   purpose of this instrumentation.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :expires_at
+    #   For BREAKPOINT: optional, defaults to 24 hours, must be between 5 min
+    #   and 24 hours. For PROBE: not supported. PROBE configurations are
+    #   permanent and persist until explicitly deleted.
+    #
+    # @option params [Array<Hash>] :attribute_filters
+    #   Client-side filters that target specific instances. Each object in the
+    #   array is AND-matched on its keys, and multiple objects are OR-matched
+    #   to decide where to apply the instrumentation.
+    #
+    # @option params [required, Types::CaptureConfiguration] :capture_configuration
+    #   Specifies what to capture when the instrumentation point is hit.
+    #   Specify `CodeCapture` for code-level capture settings.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   An optional list of key-value pairs to associate with the
+    #   instrumentation configuration. Tags can help you organize and
+    #   categorize your resources.
+    #
+    # @return [Types::CreateInstrumentationConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateInstrumentationConfigurationResponse#instrumentation_type #instrumentation_type} => String
+    #   * {Types::CreateInstrumentationConfigurationResponse#service #service} => String
+    #   * {Types::CreateInstrumentationConfigurationResponse#environment #environment} => String
+    #   * {Types::CreateInstrumentationConfigurationResponse#signal_type #signal_type} => String
+    #   * {Types::CreateInstrumentationConfigurationResponse#location #location} => Types::Location
+    #   * {Types::CreateInstrumentationConfigurationResponse#location_hash #location_hash} => String
+    #   * {Types::CreateInstrumentationConfigurationResponse#description #description} => String
+    #   * {Types::CreateInstrumentationConfigurationResponse#expires_at #expires_at} => Time
+    #   * {Types::CreateInstrumentationConfigurationResponse#attribute_filters #attribute_filters} => Array&lt;Hash&lt;String,String&gt;&gt;
+    #   * {Types::CreateInstrumentationConfigurationResponse#capture_configuration #capture_configuration} => Types::CaptureConfiguration
+    #   * {Types::CreateInstrumentationConfigurationResponse#created_at #created_at} => Time
+    #   * {Types::CreateInstrumentationConfigurationResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_instrumentation_configuration({
+    #     instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #     service: "CreateInstrumentationConfigurationRequestServiceString", # required
+    #     environment: "CreateInstrumentationConfigurationRequestEnvironmentString", # required
+    #     signal_type: "SNAPSHOT", # required, accepts SNAPSHOT
+    #     location: { # required
+    #       code_location: {
+    #         language: "Java", # required, accepts Java, Python, Javascript
+    #         code_unit: "CodeLocationCodeUnitString",
+    #         class_name: "CodeLocationClassNameString",
+    #         method_name: "CodeLocationMethodNameString",
+    #         file_path: "CodeLocationFilePathString", # required
+    #         line_number: 1,
+    #       },
+    #     },
+    #     description: "CreateInstrumentationConfigurationRequestDescriptionString",
+    #     expires_at: Time.now,
+    #     attribute_filters: [
+    #       {
+    #         "DynamicInstrumentationAttributeFilterGroupKeyString" => "DynamicInstrumentationAttributeFilterGroupValueString",
+    #       },
+    #     ],
+    #     capture_configuration: { # required
+    #       code_capture: {
+    #         capture_arguments: ["CodeCaptureConfigurationCaptureArgumentsListMemberString"],
+    #         capture_return: false,
+    #         capture_stack_trace: false,
+    #         capture_locals: ["CodeCaptureConfigurationCaptureLocalsListMemberString"],
+    #         capture_limits: { # required
+    #           max_hits: 1,
+    #           max_string_length: 1,
+    #           max_collection_width: 1,
+    #           max_collection_depth: 1,
+    #           max_stack_frames: 1,
+    #           max_stack_trace_size: 1,
+    #           max_object_depth: 1,
+    #           max_fields_per_object: 1,
+    #         },
+    #       },
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.instrumentation_type #=> String, one of "BREAKPOINT", "PROBE"
+    #   resp.service #=> String
+    #   resp.environment #=> String
+    #   resp.signal_type #=> String, one of "SNAPSHOT"
+    #   resp.location.code_location.language #=> String, one of "Java", "Python", "Javascript"
+    #   resp.location.code_location.code_unit #=> String
+    #   resp.location.code_location.class_name #=> String
+    #   resp.location.code_location.method_name #=> String
+    #   resp.location.code_location.file_path #=> String
+    #   resp.location.code_location.line_number #=> Integer
+    #   resp.location_hash #=> String
+    #   resp.description #=> String
+    #   resp.expires_at #=> Time
+    #   resp.attribute_filters #=> Array
+    #   resp.attribute_filters[0] #=> Hash
+    #   resp.attribute_filters[0]["DynamicInstrumentationAttributeFilterGroupKeyString"] #=> String
+    #   resp.capture_configuration.code_capture.capture_arguments #=> Array
+    #   resp.capture_configuration.code_capture.capture_arguments[0] #=> String
+    #   resp.capture_configuration.code_capture.capture_return #=> Boolean
+    #   resp.capture_configuration.code_capture.capture_stack_trace #=> Boolean
+    #   resp.capture_configuration.code_capture.capture_locals #=> Array
+    #   resp.capture_configuration.code_capture.capture_locals[0] #=> String
+    #   resp.capture_configuration.code_capture.capture_limits.max_hits #=> Integer
+    #   resp.capture_configuration.code_capture.capture_limits.max_string_length #=> Integer
+    #   resp.capture_configuration.code_capture.capture_limits.max_collection_width #=> Integer
+    #   resp.capture_configuration.code_capture.capture_limits.max_collection_depth #=> Integer
+    #   resp.capture_configuration.code_capture.capture_limits.max_stack_frames #=> Integer
+    #   resp.capture_configuration.code_capture.capture_limits.max_stack_trace_size #=> Integer
+    #   resp.capture_configuration.code_capture.capture_limits.max_object_depth #=> Integer
+    #   resp.capture_configuration.code_capture.capture_limits.max_fields_per_object #=> Integer
+    #   resp.created_at #=> Time
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/CreateInstrumentationConfiguration AWS API Documentation
+    #
+    # @overload create_instrumentation_configuration(params = {})
+    # @param [Hash] params ({})
+    def create_instrumentation_configuration(params = {}, options = {})
+      req = build_request(:create_instrumentation_configuration, params)
       req.send_request(options)
     end
 
@@ -1211,6 +1430,64 @@ module Aws::ApplicationSignals
       req.send_request(options)
     end
 
+    # Deletes the specified instrumentation configuration. SDKs remove the
+    # instrumentation during their next sync after the configuration is
+    # deleted or expires.
+    #
+    # @option params [required, String] :instrumentation_type
+    #   Type of instrumentation configuration (BREAKPOINT or PROBE). Required
+    #   to identify the configuration to delete.
+    #
+    # @option params [required, String] :service
+    #   Service name for the instrumentation configuration.
+    #
+    # @option params [required, String] :environment
+    #   Environment name for the instrumentation configuration.
+    #
+    # @option params [required, String] :signal_type
+    #   Signal type for the instrumentation configuration.
+    #
+    # @option params [required, Types::LocationIdentifier] :location_identifier
+    #   Location identifier - either full code location or a pre-computed
+    #   hash.
+    #
+    # @return [Types::DeleteInstrumentationConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteInstrumentationConfigurationResponse#deletion_status #deletion_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_instrumentation_configuration({
+    #     instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #     service: "DeleteInstrumentationConfigurationRequestServiceString", # required
+    #     environment: "DeleteInstrumentationConfigurationRequestEnvironmentString", # required
+    #     signal_type: "SNAPSHOT", # required, accepts SNAPSHOT
+    #     location_identifier: { # required
+    #       code_location: {
+    #         language: "Java", # required, accepts Java, Python, Javascript
+    #         code_unit: "CodeLocationCodeUnitString",
+    #         class_name: "CodeLocationClassNameString",
+    #         method_name: "CodeLocationMethodNameString",
+    #         file_path: "CodeLocationFilePathString", # required
+    #         line_number: 1,
+    #       },
+    #       location_hash: "LocationIdentifierLocationHashString",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.deletion_status #=> String, one of "DELETED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/DeleteInstrumentationConfiguration AWS API Documentation
+    #
+    # @overload delete_instrumentation_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_instrumentation_configuration(params = {}, options = {})
+      req = build_request(:delete_instrumentation_configuration, params)
+      req.send_request(options)
+    end
+
     # Deletes the specified service level objective.
     #
     # @option params [required, String] :id
@@ -1230,6 +1507,204 @@ module Aws::ApplicationSignals
     # @param [Hash] params ({})
     def delete_service_level_objective(params = {}, options = {})
       req = build_request(:delete_service_level_objective, params)
+      req.send_request(options)
+    end
+
+    # Returns the details of a single instrumentation configuration
+    # identified by service, environment, signal type, and location. Use
+    # this to audit or display configuration details.
+    #
+    # @option params [required, String] :instrumentation_type
+    #   Type of instrumentation configuration (BREAKPOINT or PROBE). Required
+    #   to identify the configuration to retrieve.
+    #
+    # @option params [required, String] :service
+    #   Service name for the instrumentation configuration.
+    #
+    # @option params [required, String] :environment
+    #   Environment name for the instrumentation configuration.
+    #
+    # @option params [required, String] :signal_type
+    #   Signal type for the instrumentation configuration.
+    #
+    # @option params [required, Types::LocationIdentifier] :location_identifier
+    #   Location identifier - either full code location or a pre-computed
+    #   hash.
+    #
+    # @return [Types::GetInstrumentationConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetInstrumentationConfigurationResponse#configuration #configuration} => Types::InstrumentationConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_instrumentation_configuration({
+    #     instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #     service: "GetInstrumentationConfigurationRequestServiceString", # required
+    #     environment: "GetInstrumentationConfigurationRequestEnvironmentString", # required
+    #     signal_type: "SNAPSHOT", # required, accepts SNAPSHOT
+    #     location_identifier: { # required
+    #       code_location: {
+    #         language: "Java", # required, accepts Java, Python, Javascript
+    #         code_unit: "CodeLocationCodeUnitString",
+    #         class_name: "CodeLocationClassNameString",
+    #         method_name: "CodeLocationMethodNameString",
+    #         file_path: "CodeLocationFilePathString", # required
+    #         line_number: 1,
+    #       },
+    #       location_hash: "LocationIdentifierLocationHashString",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.configuration.instrumentation_type #=> String, one of "BREAKPOINT", "PROBE"
+    #   resp.configuration.service #=> String
+    #   resp.configuration.environment #=> String
+    #   resp.configuration.signal_type #=> String, one of "SNAPSHOT"
+    #   resp.configuration.location.code_location.language #=> String, one of "Java", "Python", "Javascript"
+    #   resp.configuration.location.code_location.code_unit #=> String
+    #   resp.configuration.location.code_location.class_name #=> String
+    #   resp.configuration.location.code_location.method_name #=> String
+    #   resp.configuration.location.code_location.file_path #=> String
+    #   resp.configuration.location.code_location.line_number #=> Integer
+    #   resp.configuration.location_hash #=> String
+    #   resp.configuration.description #=> String
+    #   resp.configuration.expires_at #=> Time
+    #   resp.configuration.attribute_filters #=> Array
+    #   resp.configuration.attribute_filters[0] #=> Hash
+    #   resp.configuration.attribute_filters[0]["DynamicInstrumentationAttributeFilterGroupKeyString"] #=> String
+    #   resp.configuration.capture_configuration.code_capture.capture_arguments #=> Array
+    #   resp.configuration.capture_configuration.code_capture.capture_arguments[0] #=> String
+    #   resp.configuration.capture_configuration.code_capture.capture_return #=> Boolean
+    #   resp.configuration.capture_configuration.code_capture.capture_stack_trace #=> Boolean
+    #   resp.configuration.capture_configuration.code_capture.capture_locals #=> Array
+    #   resp.configuration.capture_configuration.code_capture.capture_locals[0] #=> String
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_hits #=> Integer
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_string_length #=> Integer
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_collection_width #=> Integer
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_collection_depth #=> Integer
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_stack_frames #=> Integer
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_stack_trace_size #=> Integer
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_object_depth #=> Integer
+    #   resp.configuration.capture_configuration.code_capture.capture_limits.max_fields_per_object #=> Integer
+    #   resp.configuration.created_at #=> Time
+    #   resp.configuration.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/GetInstrumentationConfiguration AWS API Documentation
+    #
+    # @overload get_instrumentation_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_instrumentation_configuration(params = {}, options = {})
+      req = build_request(:get_instrumentation_configuration, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the status history for a single instrumentation
+    # configuration during a specified time range. The response lists when
+    # the configuration was ACTIVE, READY, ERROR, or DISABLED.
+    #
+    # If no status or time window is provided, the operation defaults to
+    # ACTIVE events from the last hour.
+    #
+    # @option params [required, String] :instrumentation_type
+    #   Type of instrumentation configuration (BREAKPOINT or PROBE). Required
+    #   to identify the configuration to retrieve.
+    #
+    # @option params [required, String] :service
+    #   Service name for the instrumentation configuration.
+    #
+    # @option params [required, String] :environment
+    #   Environment name for the instrumentation configuration.
+    #
+    # @option params [required, String] :signal_type
+    #   Signal type for the instrumentation configuration.
+    #
+    # @option params [required, Types::LocationIdentifier] :location_identifier
+    #   Location identifier - either full code location or a pre-computed
+    #   hash.
+    #
+    # @option params [String] :status
+    #   The single status to query for. If omitted, only `ACTIVE` status
+    #   events are returned.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :start_time
+    #   The start of the time range to retrieve status events for. `StartTime`
+    #   and `EndTime` must both be provided together or both be omitted. When
+    #   both are omitted, the time range defaults to the last hour.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :end_time
+    #   The end of the time range to retrieve status events for. `StartTime`
+    #   and `EndTime` must both be provided together or both be omitted. When
+    #   both are omitted, the time range defaults to the last hour.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of status events to return in one call. The default
+    #   is 60.
+    #
+    # @option params [String] :next_token
+    #   Use the token returned by a previous call to retrieve the next page of
+    #   status events.
+    #
+    # @return [Types::GetInstrumentationConfigurationStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetInstrumentationConfigurationStatusResponse#service #service} => String
+    #   * {Types::GetInstrumentationConfigurationStatusResponse#environment #environment} => String
+    #   * {Types::GetInstrumentationConfigurationStatusResponse#signal_type #signal_type} => String
+    #   * {Types::GetInstrumentationConfigurationStatusResponse#location #location} => Types::Location
+    #   * {Types::GetInstrumentationConfigurationStatusResponse#status #status} => String
+    #   * {Types::GetInstrumentationConfigurationStatusResponse#events #events} => Array&lt;Types::InstrumentationStatusEvent&gt;
+    #   * {Types::GetInstrumentationConfigurationStatusResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_instrumentation_configuration_status({
+    #     instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #     service: "GetInstrumentationConfigurationStatusRequestServiceString", # required
+    #     environment: "GetInstrumentationConfigurationStatusRequestEnvironmentString", # required
+    #     signal_type: "SNAPSHOT", # required, accepts SNAPSHOT
+    #     location_identifier: { # required
+    #       code_location: {
+    #         language: "Java", # required, accepts Java, Python, Javascript
+    #         code_unit: "CodeLocationCodeUnitString",
+    #         class_name: "CodeLocationClassNameString",
+    #         method_name: "CodeLocationMethodNameString",
+    #         file_path: "CodeLocationFilePathString", # required
+    #         line_number: 1,
+    #       },
+    #       location_hash: "LocationIdentifierLocationHashString",
+    #     },
+    #     status: "READY", # accepts READY, ERROR, ACTIVE, DISABLED
+    #     start_time: Time.now,
+    #     end_time: Time.now,
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.service #=> String
+    #   resp.environment #=> String
+    #   resp.signal_type #=> String, one of "SNAPSHOT"
+    #   resp.location.code_location.language #=> String, one of "Java", "Python", "Javascript"
+    #   resp.location.code_location.code_unit #=> String
+    #   resp.location.code_location.class_name #=> String
+    #   resp.location.code_location.method_name #=> String
+    #   resp.location.code_location.file_path #=> String
+    #   resp.location.code_location.line_number #=> Integer
+    #   resp.status #=> String, one of "READY", "ERROR", "ACTIVE", "DISABLED"
+    #   resp.events #=> Array
+    #   resp.events[0].time #=> Time
+    #   resp.events[0].error_cause #=> String, one of "FILE_NOT_FOUND", "METHOD_NOT_FOUND", "LINE_NOT_EXECUTABLE", "OVERLOADED_METHODS", "LANGUAGE_MISMATCH", "RUNTIME_ERROR"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/GetInstrumentationConfigurationStatus AWS API Documentation
+    #
+    # @overload get_instrumentation_configuration_status(params = {})
+    # @param [Hash] params ({})
+    def get_instrumentation_configuration_status(params = {}, options = {})
+      req = build_request(:get_instrumentation_configuration_status, params)
       req.send_request(options)
     end
 
@@ -1815,6 +2290,110 @@ module Aws::ApplicationSignals
     # @param [Hash] params ({})
     def list_grouping_attribute_definitions(params = {}, options = {})
       req = build_request(:list_grouping_attribute_definitions, params)
+      req.send_request(options)
+    end
+
+    # Returns all active instrumentation configurations for a service and
+    # environment. SDKs use this operation to sync configurations and apply
+    # client-side filters locally.
+    #
+    # Include the previous `SyncedAt` value to perform incremental syncs.
+    # When no changes are detected, the response sets `Changed` to `false`
+    # and omits configuration details.
+    #
+    # @option params [required, String] :service
+    #   The name of the service to retrieve instrumentation configurations
+    #   for.
+    #
+    # @option params [required, String] :environment
+    #   The environment that the service is running in.
+    #
+    # @option params [required, String] :instrumentation_type
+    #   Type of instrumentation configuration (BREAKPOINT or PROBE). Required
+    #   to determine which backing store to query.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :synced_at
+    #   The timestamp from the last successful sync. When provided, the
+    #   response returns `Changed` as `false` if nothing is new since this
+    #   time, or returns the latest configurations when changes exist.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of configurations to return in one call. The
+    #   default is 50 and the maximum is 100.
+    #
+    # @option params [String] :next_token
+    #   Use the token returned by a previous call to retrieve the next page of
+    #   configurations.
+    #
+    # @return [Types::InstrumentationConfigurationsPage] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::InstrumentationConfigurationsPage#service #service} => String
+    #   * {Types::InstrumentationConfigurationsPage#environment #environment} => String
+    #   * {Types::InstrumentationConfigurationsPage#changed #changed} => Boolean
+    #   * {Types::InstrumentationConfigurationsPage#latest_configurations #latest_configurations} => Array&lt;Types::InstrumentationConfigurationWithoutServiceEnv&gt;
+    #   * {Types::InstrumentationConfigurationsPage#synced_at #synced_at} => Time
+    #   * {Types::InstrumentationConfigurationsPage#sync_interval #sync_interval} => Integer
+    #   * {Types::InstrumentationConfigurationsPage#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_instrumentation_configurations({
+    #     service: "ListInstrumentationConfigurationsRequestServiceString", # required
+    #     environment: "ListInstrumentationConfigurationsRequestEnvironmentString", # required
+    #     instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #     synced_at: Time.now,
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.service #=> String
+    #   resp.environment #=> String
+    #   resp.changed #=> Boolean
+    #   resp.latest_configurations #=> Array
+    #   resp.latest_configurations[0].instrumentation_type #=> String, one of "BREAKPOINT", "PROBE"
+    #   resp.latest_configurations[0].signal_type #=> String, one of "SNAPSHOT"
+    #   resp.latest_configurations[0].location.code_location.language #=> String, one of "Java", "Python", "Javascript"
+    #   resp.latest_configurations[0].location.code_location.code_unit #=> String
+    #   resp.latest_configurations[0].location.code_location.class_name #=> String
+    #   resp.latest_configurations[0].location.code_location.method_name #=> String
+    #   resp.latest_configurations[0].location.code_location.file_path #=> String
+    #   resp.latest_configurations[0].location.code_location.line_number #=> Integer
+    #   resp.latest_configurations[0].location_hash #=> String
+    #   resp.latest_configurations[0].description #=> String
+    #   resp.latest_configurations[0].expires_at #=> Time
+    #   resp.latest_configurations[0].attribute_filters #=> Array
+    #   resp.latest_configurations[0].attribute_filters[0] #=> Hash
+    #   resp.latest_configurations[0].attribute_filters[0]["DynamicInstrumentationAttributeFilterGroupKeyString"] #=> String
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_arguments #=> Array
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_arguments[0] #=> String
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_return #=> Boolean
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_stack_trace #=> Boolean
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_locals #=> Array
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_locals[0] #=> String
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_hits #=> Integer
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_string_length #=> Integer
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_collection_width #=> Integer
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_collection_depth #=> Integer
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_stack_frames #=> Integer
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_stack_trace_size #=> Integer
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_object_depth #=> Integer
+    #   resp.latest_configurations[0].capture_configuration.code_capture.capture_limits.max_fields_per_object #=> Integer
+    #   resp.latest_configurations[0].created_at #=> Time
+    #   resp.latest_configurations[0].arn #=> String
+    #   resp.synced_at #=> Time
+    #   resp.sync_interval #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ListInstrumentationConfigurations AWS API Documentation
+    #
+    # @overload list_instrumentation_configurations(params = {})
+    # @param [Hash] params ({})
+    def list_instrumentation_configurations(params = {}, options = {})
+      req = build_request(:list_instrumentation_configurations, params)
       req.send_request(options)
     end
 
@@ -2572,6 +3151,69 @@ module Aws::ApplicationSignals
       req.send_request(options)
     end
 
+    # Reports the status of one or more instrumentation configurations from
+    # SDK instances. Use this to record when configurations become ready,
+    # hit errors, become active, or are disabled by limits.
+    #
+    # Report `READY`, `ERROR`, and `DISABLED` when the status changes.
+    # Report `ACTIVE` periodically (for example, every minute) while
+    # instrumentation is running.
+    #
+    # @option params [required, String] :service
+    #   The service that the reported configurations belong to.
+    #
+    # @option params [required, String] :environment
+    #   The environment that the service is running in.
+    #
+    # @option params [required, Array<Types::InstrumentationConfigurationStatusReport>] :configurations
+    #   An array of configuration status reports (up to 100) that include the
+    #   instrumentation type, signal type, location hash, status, timestamp,
+    #   and optional error cause.
+    #
+    # @return [Types::ReportInstrumentationConfigurationStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ReportInstrumentationConfigurationStatusResponse#service #service} => String
+    #   * {Types::ReportInstrumentationConfigurationStatusResponse#environment #environment} => String
+    #   * {Types::ReportInstrumentationConfigurationStatusResponse#unprocessed_status_events #unprocessed_status_events} => Array&lt;Types::UnprocessedStatusEvent&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.report_instrumentation_configuration_status({
+    #     service: "ReportInstrumentationConfigurationStatusRequestServiceString", # required
+    #     environment: "ReportInstrumentationConfigurationStatusRequestEnvironmentString", # required
+    #     configurations: [ # required
+    #       {
+    #         instrumentation_type: "BREAKPOINT", # required, accepts BREAKPOINT, PROBE
+    #         signal_type: "SNAPSHOT", # required, accepts SNAPSHOT
+    #         location_hash: "InstrumentationConfigurationStatusReportLocationHashString", # required
+    #         status: "READY", # required, accepts READY, ERROR, ACTIVE, DISABLED
+    #         time: Time.now, # required
+    #         error_cause: "FILE_NOT_FOUND", # accepts FILE_NOT_FOUND, METHOD_NOT_FOUND, LINE_NOT_EXECUTABLE, OVERLOADED_METHODS, LANGUAGE_MISMATCH, RUNTIME_ERROR
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.service #=> String
+    #   resp.environment #=> String
+    #   resp.unprocessed_status_events #=> Array
+    #   resp.unprocessed_status_events[0].instrumentation_type #=> String, one of "BREAKPOINT", "PROBE"
+    #   resp.unprocessed_status_events[0].signal_type #=> String, one of "SNAPSHOT"
+    #   resp.unprocessed_status_events[0].location_hash #=> String
+    #   resp.unprocessed_status_events[0].status #=> String, one of "READY", "ERROR", "ACTIVE", "DISABLED"
+    #   resp.unprocessed_status_events[0].time #=> Time
+    #   resp.unprocessed_status_events[0].failed_reason #=> String, one of "THROTTLED", "INTERNAL_ERROR", "VALIDATION_ERROR"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/application-signals-2024-04-15/ReportInstrumentationConfigurationStatus AWS API Documentation
+    #
+    # @overload report_instrumentation_configuration_status(params = {})
+    # @param [Hash] params ({})
+    def report_instrumentation_configuration_status(params = {}, options = {})
+      req = build_request(:report_instrumentation_configuration_status, params)
+      req.send_request(options)
+    end
+
     # Enables this Amazon Web Services account to be able to use CloudWatch
     # Application Signals by creating the
     # *AWSServiceRoleForCloudWatchApplicationSignals* service-linked role.
@@ -3098,7 +3740,7 @@ module Aws::ApplicationSignals
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-applicationsignals'
-      context[:gem_version] = '1.44.0'
+      context[:gem_version] = '1.45.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

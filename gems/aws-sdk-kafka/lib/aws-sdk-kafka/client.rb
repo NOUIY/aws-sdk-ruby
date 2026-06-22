@@ -952,8 +952,11 @@ module Aws::Kafka
     #           subnet_ids: ["__string"], # required
     #         },
     #         client_authentication: {
-    #           sasl_scram: { # required
+    #           sasl_scram: {
     #             mechanism: "SHA256", # required, accepts SHA256, SHA512
+    #             secret_arn: "__string", # required
+    #           },
+    #           mtls: {
     #             secret_arn: "__string", # required
     #           },
     #         },
@@ -1850,6 +1853,7 @@ module Aws::Kafka
     #   resp.kafka_clusters[0].vpc_config.subnet_ids[0] #=> String
     #   resp.kafka_clusters[0].client_authentication.sasl_scram.mechanism #=> String, one of "SHA256", "SHA512"
     #   resp.kafka_clusters[0].client_authentication.sasl_scram.secret_arn #=> String
+    #   resp.kafka_clusters[0].client_authentication.mtls.secret_arn #=> String
     #   resp.kafka_clusters[0].encryption_in_transit.encryption_type #=> String, one of "TLS"
     #   resp.kafka_clusters[0].encryption_in_transit.root_ca_certificate #=> String
     #   resp.log_delivery.replicator_log_delivery.cloud_watch_logs.enabled #=> Boolean
@@ -3857,7 +3861,7 @@ module Aws::Kafka
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-kafka'
-      context[:gem_version] = '1.113.0'
+      context[:gem_version] = '1.114.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
