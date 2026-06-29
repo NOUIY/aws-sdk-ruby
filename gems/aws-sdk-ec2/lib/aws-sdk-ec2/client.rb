@@ -13499,7 +13499,10 @@ module Aws::EC2
     # network throughput. A `spread` placement group places instances on
     # distinct hardware. A `partition` placement group places groups of
     # instances in different partitions, where instances in one partition do
-    # not share the same hardware with instances in another partition.
+    # not share the same hardware with instances in another partition. A
+    # `precision-time` placement group places instances on supported
+    # hardware with direct access to high-precision time sources in AWS
+    # infrastructure.
     #
     # For more information, see [Placement groups][1] in the *Amazon EC2
     # User Guide*.
@@ -13527,6 +13530,10 @@ module Aws::EC2
     #
     # @option params [Types::OperatorRequest] :operator
     #   Reserved for internal use.
+    #
+    # @option params [String] :parent_group_id
+    #   The ID of a parent placement group. Valid only when **Strategy** is
+    #   set to `cluster`.
     #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
@@ -13581,16 +13588,17 @@ module Aws::EC2
     #     operator: {
     #       principal: "String",
     #     },
+    #     parent_group_id: "PlacementGroupId",
     #     dry_run: false,
     #     group_name: "String",
-    #     strategy: "cluster", # accepts cluster, spread, partition
+    #     strategy: "cluster", # accepts cluster, spread, partition, precision-time
     #   })
     #
     # @example Response structure
     #
     #   resp.placement_group.group_name #=> String
     #   resp.placement_group.state #=> String, one of "pending", "available", "deleting", "deleted"
-    #   resp.placement_group.strategy #=> String, one of "cluster", "spread", "partition"
+    #   resp.placement_group.strategy #=> String, one of "cluster", "spread", "partition", "precision-time"
     #   resp.placement_group.partition_count #=> Integer
     #   resp.placement_group.group_id #=> String
     #   resp.placement_group.tags #=> Array
@@ -13602,6 +13610,7 @@ module Aws::EC2
     #   resp.placement_group.operator.managed #=> Boolean
     #   resp.placement_group.operator.principal #=> String
     #   resp.placement_group.operator.hidden_by_default #=> Boolean
+    #   resp.placement_group.parent_group_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreatePlacementGroup AWS API Documentation
     #
@@ -21819,8 +21828,10 @@ module Aws::EC2
 
     # Deletes the specified placement group. You must terminate all
     # instances in the placement group before you can delete the placement
-    # group. For more information, see [Placement groups][1] in the *Amazon
-    # EC2 User Guide*.
+    # group. You cannot delete a placement group that is a parent of a
+    # cluster placement group. Delete the cluster placement groups first.
+    # For more information, see [Placement groups][1] in the *Amazon EC2
+    # User Guide*.
     #
     #
     #
@@ -38194,7 +38205,7 @@ module Aws::EC2
     #     \| `deleting` \| `deleted`).
     #
     #   * `strategy` - The strategy of the placement group (`cluster` \|
-    #     `spread` \| `partition`).
+    #     `spread` \| `partition` \| `precision-time`).
     #
     #   * `tag:<key>` - The key/value combination of a tag assigned to the
     #     resource. Use the tag key in the filter name and the tag value as
@@ -38229,7 +38240,7 @@ module Aws::EC2
     #   resp.placement_groups #=> Array
     #   resp.placement_groups[0].group_name #=> String
     #   resp.placement_groups[0].state #=> String, one of "pending", "available", "deleting", "deleted"
-    #   resp.placement_groups[0].strategy #=> String, one of "cluster", "spread", "partition"
+    #   resp.placement_groups[0].strategy #=> String, one of "cluster", "spread", "partition", "precision-time"
     #   resp.placement_groups[0].partition_count #=> Integer
     #   resp.placement_groups[0].group_id #=> String
     #   resp.placement_groups[0].tags #=> Array
@@ -38241,6 +38252,7 @@ module Aws::EC2
     #   resp.placement_groups[0].operator.managed #=> Boolean
     #   resp.placement_groups[0].operator.principal #=> String
     #   resp.placement_groups[0].operator.hidden_by_default #=> Boolean
+    #   resp.placement_groups[0].parent_group_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribePlacementGroups AWS API Documentation
     #
@@ -74101,7 +74113,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.625.0'
+      context[:gem_version] = '1.626.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -15579,8 +15579,8 @@ module Aws::Glue
     #     iterable_form_name: "IterableFormName",
     #     item_identifier: "ItemIdentifier",
     #     attachment_name: "AttachmentName", # required
-    #     content: "MetadataFormContent", # required
-    #     form_type_id: "MetadataFormTypeIdentifier", # required
+    #     content: "FormContent", # required
+    #     form_type_id: "FormTypeId", # required
     #     client_token: "HashString",
     #   })
     #
@@ -18301,6 +18301,57 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Updates the name and description of an existing asset in Glue Data
+    # Catalog. Only the fields that you provide are updated.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the asset to update.
+    #
+    # @option params [String] :name
+    #   The new name of the asset.
+    #
+    # @option params [String] :description
+    #   The new description of the asset.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateAssetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAssetResponse#id #id} => String
+    #   * {Types::UpdateAssetResponse#name #name} => String
+    #   * {Types::UpdateAssetResponse#description #description} => String
+    #   * {Types::UpdateAssetResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_asset({
+    #     identifier: "AssetId", # required
+    #     name: "AssetName",
+    #     description: "AssetDescription",
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateAsset AWS API Documentation
+    #
+    # @overload update_asset(params = {})
+    # @param [Hash] params ({})
+    def update_asset(params = {}, options = {})
+      req = build_request(:update_asset, params)
+      req.send_request(options)
+    end
+
     # Updates a registered blueprint.
     #
     # @option params [required, String] :name
@@ -20579,7 +20630,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.263.0'
+      context[:gem_version] = '1.264.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -383,6 +383,7 @@ module Aws
                                s3_bucket: ::String?,
                                s3_key: ::String?,
                                s3_object_version: ::String?,
+                               s3_object_storage_mode: ("COPY" | "REFERENCE")?,
                                image_uri: ::String?,
                                source_kms_key_arn: ::String?
                              },
@@ -1232,6 +1233,7 @@ module Aws
                                      s3_bucket: ::String?,
                                      s3_key: ::String?,
                                      s3_object_version: ::String?,
+                                     s3_object_storage_mode: ("COPY" | "REFERENCE")?,
                                      zip_file: ::String?
                                    },
                                    ?compatible_architectures: Array[("x86_64" | "arm64")],
@@ -1666,6 +1668,7 @@ module Aws
                                   ?s3_bucket: ::String,
                                   ?s3_key: ::String,
                                   ?s3_object_version: ::String,
+                                  ?s3_object_storage_mode: ("COPY" | "REFERENCE"),
                                   ?image_uri: ::String,
                                   ?architectures: Array[("x86_64" | "arm64")],
                                   ?publish: bool,

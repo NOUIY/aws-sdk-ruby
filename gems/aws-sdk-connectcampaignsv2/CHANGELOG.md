@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.29.0 (2026-06-29)
+------------------
+
+* Feature - Adding new attributes to PutProfileOutboundRequest API that will create an outbound request call for the customer's Web Notification outbound campaign.
+
 1.28.0 (2026-05-29)
 ------------------
 

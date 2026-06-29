@@ -5739,11 +5739,30 @@ module Aws::ECS
     #   that completed successfully.
     #   @return [Boolean]
     #
+    # @!attribute [rw] reset_on_healthy_task
+    #   Determines whether the deployment circuit breaker resets its failure
+    #   count when a task reaches a healthy state. When set to `true`, a
+    #   healthy task resets the failure count to `0`; when `false`, it
+    #   doesn't.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] threshold_configuration
+    #   The threshold configuration that controls when the deployment
+    #   circuit breaker triggers. For more information, see
+    #   [ThresholdConfiguration][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ThresholdConfiguration.html
+    #   @return [Types::ThresholdConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DeploymentCircuitBreaker AWS API Documentation
     #
     class DeploymentCircuitBreaker < Struct.new(
       :enable,
-      :rollback)
+      :rollback,
+      :reset_on_healthy_task,
+      :threshold_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -18174,6 +18193,39 @@ module Aws::ECS
       include Aws::Structure
     end
 
+    # Defines the failure threshold that the deployment circuit breaker uses
+    # to monitor a deployment. The `type` and `value` together determine the
+    # number of task failures that are tolerated before the circuit breaker
+    # triggers.
+    #
+    # By default, the threshold configuration uses a `type` of
+    # `BOUNDED_PERCENT` with a `value` of `50`.
+    #
+    # @!attribute [rw] type
+    #   Determines how `value` is used to calculate the failure threshold.
+    #   For the percentage types (`BOUNDED_PERCENT` and
+    #   `UNBOUNDED_PERCENT`), `value` is multiplied by the latest service
+    #   desired count; for `COUNT`, `value` is used directly. The default is
+    #   `BOUNDED_PERCENT`.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The integer used to calculate the failure threshold. When `type` is
+    #   `COUNT`, this is the failure threshold itself. When `type` is a
+    #   percentage type, this is the percentage that Amazon ECS multiplies
+    #   by the latest service desired count to calculate the failure
+    #   threshold.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ThresholdConfiguration AWS API Documentation
+    #
+    class ThresholdConfiguration < Struct.new(
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that represents the timeout configurations for Service
     # Connect.
     #
@@ -18727,7 +18779,8 @@ module Aws::ECS
     #   task definition must also have `FARGATE` compatibility.
     #
     #   If you provide a task definition ARN, you cannot also specify
-    #   `primaryContainer`, `taskRoleArn`, `cpu`, or `memory`.
+    #   `primaryContainer`, `executionRoleArn`, `taskRoleArn`, `cpu`, or
+    #   `memory`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/UpdateExpressGatewayServiceRequest AWS API Documentation

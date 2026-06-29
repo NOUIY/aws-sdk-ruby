@@ -874,6 +874,8 @@ module Aws::ECS
     class DeploymentCircuitBreaker
       attr_accessor enable: bool
       attr_accessor rollback: bool
+      attr_accessor reset_on_healthy_task: bool
+      attr_accessor threshold_configuration: Types::ThresholdConfiguration
       SENSITIVE: []
     end
 
@@ -2759,6 +2761,12 @@ module Aws::ECS
     class TaskVolumeConfiguration
       attr_accessor name: ::String
       attr_accessor managed_ebs_volume: Types::TaskManagedEBSVolumeConfiguration
+      SENSITIVE: []
+    end
+
+    class ThresholdConfiguration
+      attr_accessor type: ("COUNT" | "BOUNDED_PERCENT" | "UNBOUNDED_PERCENT")
+      attr_accessor value: ::Integer
       SENSITIVE: []
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.51.0 (2026-06-29)
+------------------
+
+* Feature - Amazon VPC Lattice now supports mutable idle timeout configuration on VPC Lattice Services
+
 1.50.0 (2026-06-03)
 ------------------
 

@@ -508,6 +508,7 @@ module Aws::PCS
       attr_accessor cluster_identifier: ::String
       attr_accessor client_token: ::String
       attr_accessor slurm_configuration: Types::UpdateClusterSlurmConfigurationRequest
+      attr_accessor scheduler: Types::UpdateSchedulerRequest
       SENSITIVE: []
     end
 
@@ -568,6 +569,11 @@ module Aws::PCS
 
     class UpdateQueueSlurmConfigurationRequest
       attr_accessor slurm_custom_settings: ::Array[Types::SlurmCustomSetting]
+      SENSITIVE: []
+    end
+
+    class UpdateSchedulerRequest
+      attr_accessor version: ::String
       SENSITIVE: []
     end
 

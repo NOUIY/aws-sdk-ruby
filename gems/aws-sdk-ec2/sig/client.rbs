@@ -2621,9 +2621,10 @@ module Aws
                                     ?operator: {
                                       principal: ::String?
                                     },
+                                    ?parent_group_id: ::String,
                                     ?dry_run: bool,
                                     ?group_name: ::String,
-                                    ?strategy: ("cluster" | "spread" | "partition")
+                                    ?strategy: ("cluster" | "spread" | "partition" | "precision-time")
                                   ) -> _CreatePlacementGroupResponseSuccess
                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePlacementGroupResponseSuccess
 

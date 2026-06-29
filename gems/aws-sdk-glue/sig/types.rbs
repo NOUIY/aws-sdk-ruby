@@ -7672,6 +7672,22 @@ module Aws::Glue
     class UntagResourceResponse < Aws::EmptyStructure
     end
 
+    class UpdateAssetRequest
+      attr_accessor identifier: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateAssetResponse
+      attr_accessor id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
     class UpdateBlueprintRequest
       attr_accessor name: ::String
       attr_accessor description: ::String

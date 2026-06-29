@@ -55,7 +55,7 @@ module Aws::ResourceExplorer2
   autoload :EndpointProvider, 'aws-sdk-resourceexplorer2/endpoint_provider'
   autoload :Endpoints, 'aws-sdk-resourceexplorer2/endpoints'
 
-  GEM_VERSION = '1.52.0'
+  GEM_VERSION = '1.53.0'
 
 end
 

@@ -30964,6 +30964,64 @@ module Aws::Glue
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] identifier
+    #   The unique identifier of the asset to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The new name of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The new description of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateAssetRequest AWS API Documentation
+    #
+    class UpdateAssetRequest < Struct.new(
+      :identifier,
+      :name,
+      :description,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The unique identifier of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp at which the asset was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateAssetResponse AWS API Documentation
+    #
+    class UpdateAssetResponse < Struct.new(
+      :id,
+      :name,
+      :description,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the blueprint.
     #   @return [String]

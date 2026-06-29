@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.147.0 (2026-06-29)
+------------------
+
+* Feature - Updated documentation for the ApplyImmediately parameter in ModifyCacheCluster and ModifyReplicationGroup to clarify modification behavior.
+
 1.146.0 (2026-06-02)
 ------------------
 

@@ -209,6 +209,7 @@ module Aws::Lambda
     FunctionArnList = Shapes::ListShape.new(name: 'FunctionArnList')
     FunctionCode = Shapes::StructureShape.new(name: 'FunctionCode')
     FunctionCodeLocation = Shapes::StructureShape.new(name: 'FunctionCodeLocation')
+    FunctionCodeLocationError = Shapes::StructureShape.new(name: 'FunctionCodeLocationError')
     FunctionConfiguration = Shapes::StructureShape.new(name: 'FunctionConfiguration')
     FunctionEventInvokeConfig = Shapes::StructureShape.new(name: 'FunctionEventInvokeConfig')
     FunctionEventInvokeConfigList = Shapes::ListShape.new(name: 'FunctionEventInvokeConfigList')
@@ -459,6 +460,7 @@ module Aws::Lambda
     ReplayChildren = Shapes::BooleanShape.new(name: 'ReplayChildren')
     RequestTooLargeException = Shapes::StructureShape.new(name: 'RequestTooLargeException')
     ReservedConcurrentExecutions = Shapes::IntegerShape.new(name: 'ReservedConcurrentExecutions')
+    ResolvedS3Object = Shapes::StructureShape.new(name: 'ResolvedS3Object')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceConflictException = Shapes::StructureShape.new(name: 'ResourceConflictException')
     ResourceInUseException = Shapes::StructureShape.new(name: 'ResourceInUseException')
@@ -478,6 +480,7 @@ module Aws::Lambda
     S3FilesMountFailureException = Shapes::StructureShape.new(name: 'S3FilesMountFailureException')
     S3FilesMountTimeoutException = Shapes::StructureShape.new(name: 'S3FilesMountTimeoutException')
     S3Key = Shapes::StringShape.new(name: 'S3Key')
+    S3ObjectStorageMode = Shapes::StringShape.new(name: 'S3ObjectStorageMode')
     S3ObjectVersion = Shapes::StringShape.new(name: 'S3ObjectVersion')
     ScalingConfig = Shapes::StructureShape.new(name: 'ScalingConfig')
     SchemaRegistryEventRecordFormat = Shapes::StringShape.new(name: 'SchemaRegistryEventRecordFormat')
@@ -1219,6 +1222,7 @@ module Aws::Lambda
     FunctionCode.add_member(:s3_bucket, Shapes::ShapeRef.new(shape: S3Bucket, location_name: "S3Bucket"))
     FunctionCode.add_member(:s3_key, Shapes::ShapeRef.new(shape: S3Key, location_name: "S3Key"))
     FunctionCode.add_member(:s3_object_version, Shapes::ShapeRef.new(shape: S3ObjectVersion, location_name: "S3ObjectVersion"))
+    FunctionCode.add_member(:s3_object_storage_mode, Shapes::ShapeRef.new(shape: S3ObjectStorageMode, location_name: "S3ObjectStorageMode"))
     FunctionCode.add_member(:image_uri, Shapes::ShapeRef.new(shape: String, location_name: "ImageUri"))
     FunctionCode.add_member(:source_kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArn, location_name: "SourceKMSKeyArn"))
     FunctionCode.struct_class = Types::FunctionCode
@@ -1227,8 +1231,14 @@ module Aws::Lambda
     FunctionCodeLocation.add_member(:location, Shapes::ShapeRef.new(shape: SensitiveStringOnServerOnly, location_name: "Location"))
     FunctionCodeLocation.add_member(:image_uri, Shapes::ShapeRef.new(shape: String, location_name: "ImageUri"))
     FunctionCodeLocation.add_member(:resolved_image_uri, Shapes::ShapeRef.new(shape: String, location_name: "ResolvedImageUri"))
+    FunctionCodeLocation.add_member(:resolved_s3_object, Shapes::ShapeRef.new(shape: ResolvedS3Object, location_name: "ResolvedS3Object"))
     FunctionCodeLocation.add_member(:source_kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArn, location_name: "SourceKMSKeyArn"))
+    FunctionCodeLocation.add_member(:error, Shapes::ShapeRef.new(shape: FunctionCodeLocationError, location_name: "Error"))
     FunctionCodeLocation.struct_class = Types::FunctionCodeLocation
+
+    FunctionCodeLocationError.add_member(:error_code, Shapes::ShapeRef.new(shape: String, location_name: "ErrorCode"))
+    FunctionCodeLocationError.add_member(:message, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Message"))
+    FunctionCodeLocationError.struct_class = Types::FunctionCodeLocationError
 
     FunctionConfiguration.add_member(:function_name, Shapes::ShapeRef.new(shape: NamespacedFunctionName, location_name: "FunctionName"))
     FunctionConfiguration.add_member(:function_arn, Shapes::ShapeRef.new(shape: NameSpacedFunctionArn, location_name: "FunctionArn"))
@@ -1654,6 +1664,7 @@ module Aws::Lambda
     LayerVersionContentInput.add_member(:s3_bucket, Shapes::ShapeRef.new(shape: S3Bucket, location_name: "S3Bucket"))
     LayerVersionContentInput.add_member(:s3_key, Shapes::ShapeRef.new(shape: S3Key, location_name: "S3Key"))
     LayerVersionContentInput.add_member(:s3_object_version, Shapes::ShapeRef.new(shape: S3ObjectVersion, location_name: "S3ObjectVersion"))
+    LayerVersionContentInput.add_member(:s3_object_storage_mode, Shapes::ShapeRef.new(shape: S3ObjectStorageMode, location_name: "S3ObjectStorageMode"))
     LayerVersionContentInput.add_member(:zip_file, Shapes::ShapeRef.new(shape: Blob, location_name: "ZipFile"))
     LayerVersionContentInput.struct_class = Types::LayerVersionContentInput
 
@@ -1662,6 +1673,7 @@ module Aws::Lambda
     LayerVersionContentOutput.add_member(:code_size, Shapes::ShapeRef.new(shape: Long, location_name: "CodeSize"))
     LayerVersionContentOutput.add_member(:signing_profile_version_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "SigningProfileVersionArn"))
     LayerVersionContentOutput.add_member(:signing_job_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "SigningJobArn"))
+    LayerVersionContentOutput.add_member(:resolved_s3_object, Shapes::ShapeRef.new(shape: ResolvedS3Object, location_name: "ResolvedS3Object"))
     LayerVersionContentOutput.struct_class = Types::LayerVersionContentOutput
 
     LayerVersionsList.member = Shapes::ShapeRef.new(shape: LayerVersionsListItem)
@@ -2028,6 +2040,11 @@ module Aws::Lambda
     RequestTooLargeException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     RequestTooLargeException.struct_class = Types::RequestTooLargeException
 
+    ResolvedS3Object.add_member(:s3_bucket, Shapes::ShapeRef.new(shape: S3Bucket, location_name: "S3Bucket"))
+    ResolvedS3Object.add_member(:s3_key, Shapes::ShapeRef.new(shape: S3Key, location_name: "S3Key"))
+    ResolvedS3Object.add_member(:s3_object_version, Shapes::ShapeRef.new(shape: S3ObjectVersion, location_name: "S3ObjectVersion"))
+    ResolvedS3Object.struct_class = Types::ResolvedS3Object
+
     ResourceConflictException.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "Type"))
     ResourceConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     ResourceConflictException.struct_class = Types::ResourceConflictException
@@ -2281,6 +2298,7 @@ module Aws::Lambda
     UpdateFunctionCodeRequest.add_member(:s3_bucket, Shapes::ShapeRef.new(shape: S3Bucket, location_name: "S3Bucket"))
     UpdateFunctionCodeRequest.add_member(:s3_key, Shapes::ShapeRef.new(shape: S3Key, location_name: "S3Key"))
     UpdateFunctionCodeRequest.add_member(:s3_object_version, Shapes::ShapeRef.new(shape: S3ObjectVersion, location_name: "S3ObjectVersion"))
+    UpdateFunctionCodeRequest.add_member(:s3_object_storage_mode, Shapes::ShapeRef.new(shape: S3ObjectStorageMode, location_name: "S3ObjectStorageMode"))
     UpdateFunctionCodeRequest.add_member(:image_uri, Shapes::ShapeRef.new(shape: String, location_name: "ImageUri"))
     UpdateFunctionCodeRequest.add_member(:architectures, Shapes::ShapeRef.new(shape: ArchitecturesList, location_name: "Architectures"))
     UpdateFunctionCodeRequest.add_member(:publish, Shapes::ShapeRef.new(shape: Boolean, location_name: "Publish"))

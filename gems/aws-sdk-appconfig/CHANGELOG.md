@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.83.0 (2026-06-29)
+------------------
+
+* Feature - AWS AppConfig introduces Experimentation tools - enhanced capabilities within AWS AppConfig that enable you to run AB tests, multivariate tests, and gradual feature rollouts across your application stack.
+
 1.82.0 (2026-05-22)
 ------------------
 

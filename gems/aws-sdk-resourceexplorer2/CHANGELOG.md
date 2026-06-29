@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.53.0 (2026-06-29)
+------------------
+
+* Feature - Added CFN resource type fields for Search and ListSupportedResourceTypes responses. Added SLRec field for ServiceView
+
 1.52.0 (2026-05-27)
 ------------------
 

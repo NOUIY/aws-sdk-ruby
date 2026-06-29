@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.264.0 (2026-06-29)
+------------------
+
+* Feature - Added the UpdateAsset operation to set the business name and description for an existing AWS Glue Data Catalog asset.
+
 1.263.0 (2026-06-19)
 ------------------
 

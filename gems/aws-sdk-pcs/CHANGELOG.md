@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.50.0 (2026-06-29)
+------------------
+
+* Feature - Add support for in-place Slurm version upgrades on existing clusters by accepting scheduler.version in UpdateCluster.
+
 1.49.0 (2026-05-29)
 ------------------
 

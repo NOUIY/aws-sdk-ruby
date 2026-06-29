@@ -497,9 +497,10 @@ module Aws
                                     ?operator: {
                                       principal: ::String?
                                     },
+                                    ?parent_group_id: ::String,
                                     ?dry_run: bool,
                                     ?group_name: ::String,
-                                    ?strategy: ("cluster" | "spread" | "partition")
+                                    ?strategy: ("cluster" | "spread" | "partition" | "precision-time")
                                   ) -> PlacementGroup
                                 | (?Hash[Symbol, untyped]) -> PlacementGroup
 

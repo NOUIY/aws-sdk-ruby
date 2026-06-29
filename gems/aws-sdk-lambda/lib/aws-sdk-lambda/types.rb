@@ -3641,6 +3641,13 @@ module Aws::Lambda
     #   to use.
     #   @return [String]
     #
+    # @!attribute [rw] s3_object_storage_mode
+    #   Specifies how the deployment package is stored. Use `COPY` (default)
+    #   to upload a copy of your deployment package to Lambda. Use
+    #   `REFERENCE` to have Lambda reference the deployment package from the
+    #   specified Amazon S3 bucket.
+    #   @return [String]
+    #
     # @!attribute [rw] image_uri
     #   URI of a [container image][1] in the Amazon ECR registry.
     #
@@ -3667,6 +3674,7 @@ module Aws::Lambda
       :s3_bucket,
       :s3_key,
       :s3_object_version,
+      :s3_object_storage_mode,
       :image_uri,
       :source_kms_key_arn)
       SENSITIVE = [:zip_file]
@@ -3691,6 +3699,10 @@ module Aws::Lambda
     #   The resolved URI for the image.
     #   @return [String]
     #
+    # @!attribute [rw] resolved_s3_object
+    #   The resolved Amazon S3 object that contains the deployment package.
+    #   @return [Types::ResolvedS3Object]
+    #
     # @!attribute [rw] source_kms_key_arn
     #   The ARN of the Key Management Service (KMS) customer managed key
     #   that's used to encrypt your function's .zip deployment package. If
@@ -3702,6 +3714,11 @@ module Aws::Lambda
     #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk
     #   @return [String]
     #
+    # @!attribute [rw] error
+    #   An object that contains details about an error related to function
+    #   deployment package retrieval.
+    #   @return [Types::FunctionCodeLocationError]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/FunctionCodeLocation AWS API Documentation
     #
     class FunctionCodeLocation < Struct.new(
@@ -3709,8 +3726,30 @@ module Aws::Lambda
       :location,
       :image_uri,
       :resolved_image_uri,
-      :source_kms_key_arn)
+      :resolved_s3_object,
+      :source_kms_key_arn,
+      :error)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details about an error related to retrieving a function's deployment
+    # package.
+    #
+    # @!attribute [rw] error_code
+    #   The error code for the failed retrieval.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A description of the error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/FunctionCodeLocationError AWS API Documentation
+    #
+    class FunctionCodeLocationError < Struct.new(
+      :error_code,
+      :message)
+      SENSITIVE = [:message]
       include Aws::Structure
     end
 
@@ -6093,6 +6132,10 @@ module Aws::Lambda
     #   use.
     #   @return [String]
     #
+    # @!attribute [rw] s3_object_storage_mode
+    #   The storage mode for a function's deployment package.
+    #   @return [String]
+    #
     # @!attribute [rw] zip_file
     #   The base64-encoded contents of the layer archive. Amazon Web
     #   Services SDK and Amazon Web Services CLI clients handle the encoding
@@ -6105,6 +6148,7 @@ module Aws::Lambda
       :s3_bucket,
       :s3_key,
       :s3_object_version,
+      :s3_object_storage_mode,
       :zip_file)
       SENSITIVE = [:zip_file]
       include Aws::Structure
@@ -6137,6 +6181,11 @@ module Aws::Lambda
     #   The Amazon Resource Name (ARN) of a signing job.
     #   @return [String]
     #
+    # @!attribute [rw] resolved_s3_object
+    #   Details about the resolved Amazon S3 object that contains a
+    #   function's deployment package.
+    #   @return [Types::ResolvedS3Object]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/LayerVersionContentOutput AWS API Documentation
     #
     class LayerVersionContentOutput < Struct.new(
@@ -6144,7 +6193,8 @@ module Aws::Lambda
       :code_sha_256,
       :code_size,
       :signing_profile_version_arn,
-      :signing_job_arn)
+      :signing_job_arn,
+      :resolved_s3_object)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8341,6 +8391,31 @@ module Aws::Lambda
       include Aws::Structure
     end
 
+    # Details about the resolved Amazon S3 object that contains a
+    # function's deployment package.
+    #
+    # @!attribute [rw] s3_bucket
+    #   The Amazon S3 bucket that contains the deployment package.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_key
+    #   The Amazon S3 key of the deployment package.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_object_version
+    #   The version of the deployment package object.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ResolvedS3Object AWS API Documentation
+    #
+    class ResolvedS3Object < Struct.new(
+      :s3_bucket,
+      :s3_key,
+      :s3_object_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The resource already exists, or another operation is in progress.
     #
     # @!attribute [rw] type
@@ -9639,6 +9714,13 @@ module Aws::Lambda
     #   to use.
     #   @return [String]
     #
+    # @!attribute [rw] s3_object_storage_mode
+    #   Specifies how the deployment package is stored. Use `COPY` (default)
+    #   to upload a copy of your deployment package to Lambda. Use
+    #   `REFERENCE` to have Lambda reference the deployment package from the
+    #   specified Amazon S3 bucket.
+    #   @return [String]
+    #
     # @!attribute [rw] image_uri
     #   URI of a container image in the Amazon ECR registry. Do not use for
     #   a function defined with a .zip file archive.
@@ -9686,6 +9768,7 @@ module Aws::Lambda
       :s3_bucket,
       :s3_key,
       :s3_object_version,
+      :s3_object_storage_mode,
       :image_uri,
       :architectures,
       :publish,

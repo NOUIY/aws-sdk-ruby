@@ -156,6 +156,7 @@ module Aws::PCS
     UpdateQueueRequest = Shapes::StructureShape.new(name: 'UpdateQueueRequest')
     UpdateQueueResponse = Shapes::StructureShape.new(name: 'UpdateQueueResponse')
     UpdateQueueSlurmConfigurationRequest = Shapes::StructureShape.new(name: 'UpdateQueueSlurmConfigurationRequest')
+    UpdateSchedulerRequest = Shapes::StructureShape.new(name: 'UpdateSchedulerRequest')
     UpdateSlurmRestRequest = Shapes::StructureShape.new(name: 'UpdateSlurmRestRequest')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
@@ -554,6 +555,7 @@ module Aws::PCS
     UpdateClusterRequest.add_member(:cluster_identifier, Shapes::ShapeRef.new(shape: ClusterIdentifier, required: true, location_name: "clusterIdentifier"))
     UpdateClusterRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: SBClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     UpdateClusterRequest.add_member(:slurm_configuration, Shapes::ShapeRef.new(shape: UpdateClusterSlurmConfigurationRequest, location_name: "slurmConfiguration"))
+    UpdateClusterRequest.add_member(:scheduler, Shapes::ShapeRef.new(shape: UpdateSchedulerRequest, location_name: "scheduler"))
     UpdateClusterRequest.struct_class = Types::UpdateClusterRequest
 
     UpdateClusterResponse.add_member(:cluster, Shapes::ShapeRef.new(shape: Cluster, location_name: "cluster"))
@@ -599,6 +601,9 @@ module Aws::PCS
 
     UpdateQueueSlurmConfigurationRequest.add_member(:slurm_custom_settings, Shapes::ShapeRef.new(shape: SlurmCustomSettings, location_name: "slurmCustomSettings"))
     UpdateQueueSlurmConfigurationRequest.struct_class = Types::UpdateQueueSlurmConfigurationRequest
+
+    UpdateSchedulerRequest.add_member(:version, Shapes::ShapeRef.new(shape: String, required: true, location_name: "version"))
+    UpdateSchedulerRequest.struct_class = Types::UpdateSchedulerRequest
 
     UpdateSlurmRestRequest.add_member(:mode, Shapes::ShapeRef.new(shape: SlurmRestMode, location_name: "mode"))
     UpdateSlurmRestRequest.struct_class = Types::UpdateSlurmRestRequest

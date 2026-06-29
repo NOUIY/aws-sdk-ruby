@@ -807,6 +807,7 @@ module Aws::Lambda
       attr_accessor s3_bucket: ::String
       attr_accessor s3_key: ::String
       attr_accessor s3_object_version: ::String
+      attr_accessor s3_object_storage_mode: ("COPY" | "REFERENCE")
       attr_accessor image_uri: ::String
       attr_accessor source_kms_key_arn: ::String
       SENSITIVE: [:zip_file]
@@ -817,8 +818,16 @@ module Aws::Lambda
       attr_accessor location: ::String
       attr_accessor image_uri: ::String
       attr_accessor resolved_image_uri: ::String
+      attr_accessor resolved_s3_object: Types::ResolvedS3Object
       attr_accessor source_kms_key_arn: ::String
+      attr_accessor error: Types::FunctionCodeLocationError
       SENSITIVE: []
+    end
+
+    class FunctionCodeLocationError
+      attr_accessor error_code: ::String
+      attr_accessor message: ::String
+      SENSITIVE: [:message]
     end
 
     class FunctionConfiguration
@@ -1361,6 +1370,7 @@ module Aws::Lambda
       attr_accessor s3_bucket: ::String
       attr_accessor s3_key: ::String
       attr_accessor s3_object_version: ::String
+      attr_accessor s3_object_storage_mode: ("COPY" | "REFERENCE")
       attr_accessor zip_file: ::String
       SENSITIVE: [:zip_file]
     end
@@ -1371,6 +1381,7 @@ module Aws::Lambda
       attr_accessor code_size: ::Integer
       attr_accessor signing_profile_version_arn: ::String
       attr_accessor signing_job_arn: ::String
+      attr_accessor resolved_s3_object: Types::ResolvedS3Object
       SENSITIVE: []
     end
 
@@ -1851,6 +1862,13 @@ module Aws::Lambda
       SENSITIVE: []
     end
 
+    class ResolvedS3Object
+      attr_accessor s3_bucket: ::String
+      attr_accessor s3_key: ::String
+      attr_accessor s3_object_version: ::String
+      SENSITIVE: []
+    end
+
     class ResourceConflictException
       attr_accessor type: ::String
       attr_accessor message: ::String
@@ -2182,6 +2200,7 @@ module Aws::Lambda
       attr_accessor s3_bucket: ::String
       attr_accessor s3_key: ::String
       attr_accessor s3_object_version: ::String
+      attr_accessor s3_object_storage_mode: ("COPY" | "REFERENCE")
       attr_accessor image_uri: ::String
       attr_accessor architectures: ::Array[("x86_64" | "arm64")]
       attr_accessor publish: bool

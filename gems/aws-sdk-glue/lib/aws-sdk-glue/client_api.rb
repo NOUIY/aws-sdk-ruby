@@ -1187,8 +1187,6 @@ module Aws::Glue
     MessagePrefix = Shapes::StringShape.new(name: 'MessagePrefix')
     MessageString = Shapes::StringShape.new(name: 'MessageString')
     MetadataDescription = Shapes::StringShape.new(name: 'MetadataDescription')
-    MetadataFormContent = Shapes::StringShape.new(name: 'MetadataFormContent')
-    MetadataFormTypeIdentifier = Shapes::StringShape.new(name: 'MetadataFormTypeIdentifier')
     MetadataInfo = Shapes::StructureShape.new(name: 'MetadataInfo')
     MetadataInfoMap = Shapes::MapShape.new(name: 'MetadataInfoMap')
     MetadataKeyString = Shapes::StringShape.new(name: 'MetadataKeyString')
@@ -1712,6 +1710,8 @@ module Aws::Glue
     UnnestSpec = Shapes::StringShape.new(name: 'UnnestSpec')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
+    UpdateAssetRequest = Shapes::StructureShape.new(name: 'UpdateAssetRequest')
+    UpdateAssetResponse = Shapes::StructureShape.new(name: 'UpdateAssetResponse')
     UpdateBehavior = Shapes::StringShape.new(name: 'UpdateBehavior')
     UpdateBlueprintRequest = Shapes::StructureShape.new(name: 'UpdateBlueprintRequest')
     UpdateBlueprintResponse = Shapes::StructureShape.new(name: 'UpdateBlueprintResponse')
@@ -6693,8 +6693,8 @@ module Aws::Glue
     PutAttachmentRequest.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
     PutAttachmentRequest.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     PutAttachmentRequest.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, required: true, location_name: "AttachmentName"))
-    PutAttachmentRequest.add_member(:content, Shapes::ShapeRef.new(shape: MetadataFormContent, required: true, location_name: "Content"))
-    PutAttachmentRequest.add_member(:form_type_id, Shapes::ShapeRef.new(shape: MetadataFormTypeIdentifier, required: true, location_name: "FormTypeId"))
+    PutAttachmentRequest.add_member(:content, Shapes::ShapeRef.new(shape: FormContent, required: true, location_name: "Content"))
+    PutAttachmentRequest.add_member(:form_type_id, Shapes::ShapeRef.new(shape: FormTypeId, required: true, location_name: "FormTypeId"))
     PutAttachmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     PutAttachmentRequest.struct_class = Types::PutAttachmentRequest
 
@@ -6702,7 +6702,7 @@ module Aws::Glue
     PutAttachmentResponse.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
     PutAttachmentResponse.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     PutAttachmentResponse.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, location_name: "AttachmentName"))
-    PutAttachmentResponse.add_member(:form_type_id, Shapes::ShapeRef.new(shape: MetadataFormTypeIdentifier, location_name: "FormTypeId"))
+    PutAttachmentResponse.add_member(:form_type_id, Shapes::ShapeRef.new(shape: FormTypeId, location_name: "FormTypeId"))
     PutAttachmentResponse.struct_class = Types::PutAttachmentResponse
 
     PutDataCatalogEncryptionSettingsRequest.add_member(:catalog_id, Shapes::ShapeRef.new(shape: CatalogIdString, location_name: "CatalogId"))
@@ -8093,6 +8093,18 @@ module Aws::Glue
     UntagResourceRequest.struct_class = Types::UntagResourceRequest
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
+
+    UpdateAssetRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Identifier"))
+    UpdateAssetRequest.add_member(:name, Shapes::ShapeRef.new(shape: AssetName, location_name: "Name"))
+    UpdateAssetRequest.add_member(:description, Shapes::ShapeRef.new(shape: AssetDescription, location_name: "Description"))
+    UpdateAssetRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    UpdateAssetRequest.struct_class = Types::UpdateAssetRequest
+
+    UpdateAssetResponse.add_member(:id, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "Id"))
+    UpdateAssetResponse.add_member(:name, Shapes::ShapeRef.new(shape: AssetName, location_name: "Name"))
+    UpdateAssetResponse.add_member(:description, Shapes::ShapeRef.new(shape: AssetDescription, location_name: "Description"))
+    UpdateAssetResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedAt, location_name: "UpdatedAt"))
+    UpdateAssetResponse.struct_class = Types::UpdateAssetResponse
 
     UpdateBlueprintRequest.add_member(:name, Shapes::ShapeRef.new(shape: OrchestrationNameString, required: true, location_name: "Name"))
     UpdateBlueprintRequest.add_member(:description, Shapes::ShapeRef.new(shape: Generic512CharString, location_name: "Description"))
@@ -12324,6 +12336,20 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: OperationTimeoutException)
         o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+      end)
+
+      api.add_operation(:update_asset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateAsset"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateAssetRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateAssetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:update_blueprint, Seahorse::Model::Operation.new.tap do |o|

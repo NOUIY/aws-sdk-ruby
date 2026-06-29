@@ -1127,9 +1127,10 @@ module Aws::EC2
     #     operator: {
     #       principal: "String",
     #     },
+    #     parent_group_id: "PlacementGroupId",
     #     dry_run: false,
     #     group_name: "String",
-    #     strategy: "cluster", # accepts cluster, spread, partition
+    #     strategy: "cluster", # accepts cluster, spread, partition, precision-time
     #   })
     # @param [Hash] options ({})
     # @option options [Integer] :partition_count
@@ -1147,6 +1148,9 @@ module Aws::EC2
     #   Reserved for future use.
     # @option options [Types::OperatorRequest] :operator
     #   Reserved for internal use.
+    # @option options [String] :parent_group_id
+    #   The ID of a parent placement group. Valid only when **Strategy** is
+    #   set to `cluster`.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -3658,7 +3662,7 @@ module Aws::EC2
     #     \| `deleting` \| `deleted`).
     #
     #   * `strategy` - The strategy of the placement group (`cluster` \|
-    #     `spread` \| `partition`).
+    #     `spread` \| `partition` \| `precision-time`).
     #
     #   * `tag:<key>` - The key/value combination of a tag assigned to the
     #     resource. Use the tag key in the filter name and the tag value as

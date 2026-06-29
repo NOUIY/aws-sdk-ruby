@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.141.0 (2026-06-29)
+------------------
+
+* Feature - This release adds the API (PutLogAlarm) to manage a new CloudWatch resource, Log Based Alarms. Log Based Alarms allows customers to alarm directly on CloudWatch Logs query results.
+
 1.140.0 (2026-06-09)
 ------------------
 

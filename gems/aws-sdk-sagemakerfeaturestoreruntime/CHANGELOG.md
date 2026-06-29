@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.66.0 (2026-06-29)
+------------------
+
+* Feature - Add support for ListRecords and BatchWriteRecord APIs to Feature Store.
+
 1.65.0 (2026-05-27)
 ------------------
 

@@ -2114,6 +2114,7 @@ module Aws::Lambda
     #       s3_bucket: "S3Bucket",
     #       s3_key: "S3Key",
     #       s3_object_version: "S3ObjectVersion",
+    #       s3_object_storage_mode: "COPY", # accepts COPY, REFERENCE
     #       image_uri: "String",
     #       source_kms_key_arn: "KMSKeyArn",
     #     },
@@ -3856,7 +3857,12 @@ module Aws::Lambda
     #   resp.code.location #=> String
     #   resp.code.image_uri #=> String
     #   resp.code.resolved_image_uri #=> String
+    #   resp.code.resolved_s3_object.s3_bucket #=> String
+    #   resp.code.resolved_s3_object.s3_key #=> String
+    #   resp.code.resolved_s3_object.s3_object_version #=> String
     #   resp.code.source_kms_key_arn #=> String
+    #   resp.code.error.error_code #=> String
+    #   resp.code.error.message #=> String
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
     #   resp.tags_error.error_code #=> String
@@ -4477,6 +4483,9 @@ module Aws::Lambda
     #   resp.content.code_size #=> Integer
     #   resp.content.signing_profile_version_arn #=> String
     #   resp.content.signing_job_arn #=> String
+    #   resp.content.resolved_s3_object.s3_bucket #=> String
+    #   resp.content.resolved_s3_object.s3_key #=> String
+    #   resp.content.resolved_s3_object.s3_object_version #=> String
     #   resp.layer_arn #=> String
     #   resp.layer_version_arn #=> String
     #   resp.description #=> String
@@ -4558,6 +4567,9 @@ module Aws::Lambda
     #   resp.content.code_size #=> Integer
     #   resp.content.signing_profile_version_arn #=> String
     #   resp.content.signing_job_arn #=> String
+    #   resp.content.resolved_s3_object.s3_bucket #=> String
+    #   resp.content.resolved_s3_object.s3_key #=> String
+    #   resp.content.resolved_s3_object.s3_object_version #=> String
     #   resp.layer_arn #=> String
     #   resp.layer_version_arn #=> String
     #   resp.description #=> String
@@ -6934,6 +6946,7 @@ module Aws::Lambda
     #       s3_bucket: "S3Bucket",
     #       s3_key: "S3Key",
     #       s3_object_version: "S3ObjectVersion",
+    #       s3_object_storage_mode: "COPY", # accepts COPY, REFERENCE
     #       zip_file: "data",
     #     },
     #     compatible_architectures: ["x86_64"], # accepts x86_64, arm64
@@ -6948,6 +6961,9 @@ module Aws::Lambda
     #   resp.content.code_size #=> Integer
     #   resp.content.signing_profile_version_arn #=> String
     #   resp.content.signing_job_arn #=> String
+    #   resp.content.resolved_s3_object.s3_bucket #=> String
+    #   resp.content.resolved_s3_object.s3_key #=> String
+    #   resp.content.resolved_s3_object.s3_object_version #=> String
     #   resp.layer_arn #=> String
     #   resp.layer_version_arn #=> String
     #   resp.description #=> String
@@ -8883,6 +8899,12 @@ module Aws::Lambda
     #   For versioned objects, the version of the deployment package object to
     #   use.
     #
+    # @option params [String] :s3_object_storage_mode
+    #   Specifies how the deployment package is stored. Use `COPY` (default)
+    #   to upload a copy of your deployment package to Lambda. Use `REFERENCE`
+    #   to have Lambda reference the deployment package from the specified
+    #   Amazon S3 bucket.
+    #
     # @option params [String] :image_uri
     #   URI of a container image in the Amazon ECR registry. Do not use for a
     #   function defined with a .zip file archive.
@@ -8998,6 +9020,7 @@ module Aws::Lambda
     #     s3_bucket: "S3Bucket",
     #     s3_key: "S3Key",
     #     s3_object_version: "S3ObjectVersion",
+    #     s3_object_storage_mode: "COPY", # accepts COPY, REFERENCE
     #     image_uri: "String",
     #     architectures: ["x86_64"], # accepts x86_64, arm64
     #     publish: false,
@@ -9781,7 +9804,7 @@ module Aws::Lambda
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-lambda'
-      context[:gem_version] = '1.185.0'
+      context[:gem_version] = '1.186.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -603,6 +603,8 @@ module Aws::ECS
     TaskVolumeConfigurations = Shapes::ListShape.new(name: 'TaskVolumeConfigurations')
     TaskVolumeStorageGiB = Shapes::IntegerShape.new(name: 'TaskVolumeStorageGiB')
     Tasks = Shapes::ListShape.new(name: 'Tasks')
+    ThresholdConfiguration = Shapes::StructureShape.new(name: 'ThresholdConfiguration')
+    ThresholdType = Shapes::StringShape.new(name: 'ThresholdType')
     TimeoutConfiguration = Shapes::StructureShape.new(name: 'TimeoutConfiguration')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     Tmpfs = Shapes::StructureShape.new(name: 'Tmpfs')
@@ -1391,6 +1393,8 @@ module Aws::ECS
 
     DeploymentCircuitBreaker.add_member(:enable, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "enable"))
     DeploymentCircuitBreaker.add_member(:rollback, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "rollback"))
+    DeploymentCircuitBreaker.add_member(:reset_on_healthy_task, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "resetOnHealthyTask"))
+    DeploymentCircuitBreaker.add_member(:threshold_configuration, Shapes::ShapeRef.new(shape: ThresholdConfiguration, location_name: "thresholdConfiguration"))
     DeploymentCircuitBreaker.struct_class = Types::DeploymentCircuitBreaker
 
     DeploymentConfiguration.add_member(:deployment_circuit_breaker, Shapes::ShapeRef.new(shape: DeploymentCircuitBreaker, location_name: "deploymentCircuitBreaker"))
@@ -2968,6 +2972,10 @@ module Aws::ECS
     TaskVolumeConfigurations.member = Shapes::ShapeRef.new(shape: TaskVolumeConfiguration)
 
     Tasks.member = Shapes::ShapeRef.new(shape: Task)
+
+    ThresholdConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: ThresholdType, required: true, location_name: "type"))
+    ThresholdConfiguration.add_member(:value, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "value"))
+    ThresholdConfiguration.struct_class = Types::ThresholdConfiguration
 
     TimeoutConfiguration.add_member(:idle_timeout_seconds, Shapes::ShapeRef.new(shape: Duration, location_name: "idleTimeoutSeconds"))
     TimeoutConfiguration.add_member(:per_request_timeout_seconds, Shapes::ShapeRef.new(shape: Duration, location_name: "perRequestTimeoutSeconds"))

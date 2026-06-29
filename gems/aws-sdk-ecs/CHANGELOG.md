@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.239.0 (2026-06-29)
+------------------
+
+* Feature - Amazon ECS now supports customizable deployment circuit breaker configurations. Customers can now define the failure threshold or control the failure counting mechanism.
+
 1.238.0 (2026-06-18)
 ------------------
 

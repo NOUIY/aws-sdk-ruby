@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.84.0 (2026-06-29)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
 * Feature - IoT Events has been removed from the SDK because it has been discontinued.
 
 1.83.0 (2026-06-03)

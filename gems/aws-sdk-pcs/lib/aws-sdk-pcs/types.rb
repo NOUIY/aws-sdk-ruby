@@ -1850,14 +1850,17 @@ module Aws::PCS
     #
     # @!attribute [rw] version
     #   The version of the specified scheduling software that PCS uses to
-    #   manage cluster scaling and job scheduling. For more information, see
-    #   [Slurm versions in PCS][1] in the *PCS User Guide*.
+    #   manage cluster scaling and job scheduling. You can upgrade this
+    #   version using the `UpdateCluster` API action. For more information,
+    #   see [Upgrading the Slurm version on a cluster][1] and [Slurm
+    #   versions in PCS][2] in the *PCS User Guide*.
     #
     #   Valid Values: `23.11 | 24.05 | 24.11 | 25.05 | 25.11`
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html
+    #   [1]: https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html
+    #   [2]: https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pcs-2023-02-10/Scheduler AWS API Documentation
@@ -2213,12 +2216,23 @@ module Aws::PCS
     #   Additional options related to the Slurm scheduler.
     #   @return [Types::UpdateClusterSlurmConfigurationRequest]
     #
+    # @!attribute [rw] scheduler
+    #   The scheduler configuration to update for the cluster. Use this to
+    #   upgrade the Slurm version. For more information, see [Upgrading the
+    #   Slurm version on a cluster][1] in the *PCS User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html
+    #   @return [Types::UpdateSchedulerRequest]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pcs-2023-02-10/UpdateClusterRequest AWS API Documentation
     #
     class UpdateClusterRequest < Struct.new(
       :cluster_identifier,
       :client_token,
-      :slurm_configuration)
+      :slurm_configuration,
+      :scheduler)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2485,6 +2499,30 @@ module Aws::PCS
     #
     class UpdateQueueSlurmConfigurationRequest < Struct.new(
       :slurm_custom_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The scheduler configuration for updating a cluster. Use this to
+    # specify the Slurm version to upgrade to.
+    #
+    # @!attribute [rw] version
+    #   The Slurm version to upgrade the cluster to. You can only upgrade to
+    #   a newer version. For more information about supported versions and
+    #   upgrade paths, see [Upgrading the Slurm version on a cluster][1] in
+    #   the *PCS User Guide*.
+    #
+    #   Valid Values: `24.05 | 24.11 | 25.05 | 25.11`
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pcs-2023-02-10/UpdateSchedulerRequest AWS API Documentation
+    #
+    class UpdateSchedulerRequest < Struct.new(
+      :version)
       SENSITIVE = []
       include Aws::Structure
     end

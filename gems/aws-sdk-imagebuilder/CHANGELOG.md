@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.108.0 (2026-06-29)
+------------------
+
+* Feature - Adds support for AMI watermarks in Image Builder.
+
 1.107.0 (2026-05-27)
 ------------------
 

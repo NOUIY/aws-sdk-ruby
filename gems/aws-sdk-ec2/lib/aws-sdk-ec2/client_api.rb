@@ -6451,6 +6451,7 @@ module Aws::EC2
     CreatePlacementGroupRequest.add_member(:spread_level, Shapes::ShapeRef.new(shape: SpreadLevel, location_name: "SpreadLevel"))
     CreatePlacementGroupRequest.add_member(:linked_group_id, Shapes::ShapeRef.new(shape: PlacementGroupId, location_name: "LinkedGroupId"))
     CreatePlacementGroupRequest.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorRequest, location_name: "Operator"))
+    CreatePlacementGroupRequest.add_member(:parent_group_id, Shapes::ShapeRef.new(shape: PlacementGroupId, location_name: "ParentGroupId"))
     CreatePlacementGroupRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     CreatePlacementGroupRequest.add_member(:group_name, Shapes::ShapeRef.new(shape: String, location_name: "groupName"))
     CreatePlacementGroupRequest.add_member(:strategy, Shapes::ShapeRef.new(shape: PlacementStrategy, location_name: "strategy"))
@@ -16104,6 +16105,7 @@ module Aws::EC2
     PlacementGroup.add_member(:spread_level, Shapes::ShapeRef.new(shape: SpreadLevel, location_name: "spreadLevel"))
     PlacementGroup.add_member(:linked_group_id, Shapes::ShapeRef.new(shape: PlacementGroupId, location_name: "linkedGroupId"))
     PlacementGroup.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorResponse, location_name: "operator"))
+    PlacementGroup.add_member(:parent_group_id, Shapes::ShapeRef.new(shape: PlacementGroupId, location_name: "parentGroupId"))
     PlacementGroup.struct_class = Types::PlacementGroup
 
     PlacementGroupIdStringList.member = Shapes::ShapeRef.new(shape: PlacementGroupId, location_name: "GroupId")

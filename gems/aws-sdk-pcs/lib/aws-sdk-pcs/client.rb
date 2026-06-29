@@ -1495,15 +1495,21 @@ module Aws::PCS
       req.send_request(options)
     end
 
-    # Updates a cluster configuration. You can modify Slurm scheduler
-    # settings, accounting configuration, and security groups for an
-    # existing cluster.
+    # Updates a cluster configuration. You can upgrade the Slurm version,
+    # modify scheduler settings, and update accounting configuration for an
+    # existing cluster. For more information about upgrading the Slurm
+    # version, see [Upgrading the Slurm version on a cluster][1] in the *PCS
+    # User Guide*.
     #
     # <note markdown="1"> You can only update clusters that are in `ACTIVE`, `UPDATE_FAILED`, or
     # `SUSPENDED` state. All associated resources (queues and compute node
     # groups) must be in `ACTIVE` state before you can update the cluster.
     #
     #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html
     #
     # @option params [required, String] :cluster_identifier
     #   The name or ID of the cluster to update.
@@ -1522,6 +1528,15 @@ module Aws::PCS
     #
     # @option params [Types::UpdateClusterSlurmConfigurationRequest] :slurm_configuration
     #   Additional options related to the Slurm scheduler.
+    #
+    # @option params [Types::UpdateSchedulerRequest] :scheduler
+    #   The scheduler configuration to update for the cluster. Use this to
+    #   upgrade the Slurm version. For more information, see [Upgrading the
+    #   Slurm version on a cluster][1] in the *PCS User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pcs/latest/userguide/working-with_clusters_upgrade.html
     #
     # @return [Types::UpdateClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1559,6 +1574,9 @@ module Aws::PCS
     #       slurm_rest: {
     #         mode: "STANDARD", # accepts STANDARD, NONE
     #       },
+    #     },
+    #     scheduler: {
+    #       version: "String", # required
     #     },
     #   })
     #
@@ -1865,7 +1883,7 @@ module Aws::PCS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-pcs'
-      context[:gem_version] = '1.49.0'
+      context[:gem_version] = '1.50.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

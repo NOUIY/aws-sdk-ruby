@@ -377,6 +377,9 @@ module Aws
                               slurm_rest: {
                                 mode: ("STANDARD" | "NONE")?
                               }?
+                            },
+                            ?scheduler: {
+                              version: ::String
                             }
                           ) -> _UpdateClusterResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateClusterResponseSuccess

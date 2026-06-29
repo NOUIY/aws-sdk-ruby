@@ -13515,6 +13515,11 @@ module Aws::EC2
     #   Reserved for internal use.
     #   @return [Types::OperatorRequest]
     #
+    # @!attribute [rw] parent_group_id
+    #   The ID of a parent placement group. Valid only when **Strategy** is
+    #   set to `cluster`.
+    #   @return [String]
+    #
     # @!attribute [rw] dry_run
     #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
@@ -13541,6 +13546,7 @@ module Aws::EC2
       :spread_level,
       :linked_group_id,
       :operator,
+      :parent_group_id,
       :dry_run,
       :group_name,
       :strategy)
@@ -30353,7 +30359,7 @@ module Aws::EC2
     #     `available` \| `deleting` \| `deleted`).
     #
     #   * `strategy` - The strategy of the placement group (`cluster` \|
-    #     `spread` \| `partition`).
+    #     `spread` \| `partition` \| `precision-time`).
     #
     #   * `tag:<key>` - The key/value combination of a tag assigned to the
     #     resource. Use the tag key in the filter name and the tag value as
@@ -69794,6 +69800,10 @@ module Aws::EC2
     #   The service provider that manages the Placement Group.
     #   @return [Types::OperatorResponse]
     #
+    # @!attribute [rw] parent_group_id
+    #   The ID of the parent placement group.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/PlacementGroup AWS API Documentation
     #
     class PlacementGroup < Struct.new(
@@ -69806,7 +69816,8 @@ module Aws::EC2
       :group_arn,
       :spread_level,
       :linked_group_id,
-      :operator)
+      :operator,
+      :parent_group_id)
       SENSITIVE = []
       include Aws::Structure
     end
