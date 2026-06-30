@@ -1414,6 +1414,50 @@ module Aws::CloudWatch
       class Unknown < EvaluationCriteria; end
     end
 
+    # The evaluation window that an alarm uses to select the range of metric
+    # data that it evaluates each time it runs. This is a union type. Set
+    # exactly one of its members, `SlidingWindow` or `WallClockWindow`. If
+    # you don't set `EvaluationWindow`, the alarm uses a `SlidingWindow` by
+    # default.
+    #
+    # For more information, see [Alarm evaluation windows][1] in the
+    # *CloudWatch User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html
+    #
+    # @note EvaluationWindow is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note EvaluationWindow is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of EvaluationWindow corresponding to the set member.
+    #
+    # @!attribute [rw] wall_clock_window
+    #   A wall clock window, which aligns the evaluated range to fixed clock
+    #   boundaries that match the alarm's period, such as the top of the
+    #   hour, midnight, or the start of the calendar week.
+    #   @return [Types::WallClockWindow]
+    #
+    # @!attribute [rw] sliding_window
+    #   A sliding window, which advances each time the alarm is evaluated,
+    #   forming a rolling time window. This is the default evaluation
+    #   window.
+    #   @return [Types::SlidingWindow]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/EvaluationWindow AWS API Documentation
+    #
+    class EvaluationWindow < Struct.new(
+      :wall_clock_window,
+      :sliding_window,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class WallClockWindow < EvaluationWindow; end
+      class SlidingWindow < EvaluationWindow; end
+      class Unknown < EvaluationWindow; end
+    end
+
     # @!attribute [rw] alarm_mute_rule_name
     #   The name of the alarm mute rule to retrieve.
     #   @return [String]
@@ -3320,6 +3364,17 @@ module Aws::CloudWatch
     #   changed.
     #   @return [Time]
     #
+    # @!attribute [rw] evaluation_window
+    #   The evaluation window that the alarm uses to select the range of
+    #   metric data that it evaluates. This is either a sliding window or a
+    #   wall clock window. For more information, see [Alarm evaluation
+    #   windows][1] in the *CloudWatch User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html
+    #   @return [Types::EvaluationWindow]
+    #
     # @!attribute [rw] evaluation_criteria
     #   The evaluation criteria for the alarm.
     #   @return [Types::EvaluationCriteria]
@@ -3360,6 +3415,7 @@ module Aws::CloudWatch
       :threshold_metric_id,
       :evaluation_state,
       :state_transitioned_timestamp,
+      :evaluation_window,
       :evaluation_criteria,
       :evaluation_interval)
       SENSITIVE = []
@@ -5146,6 +5202,28 @@ module Aws::CloudWatch
     #   actions.
     #   @return [String]
     #
+    # @!attribute [rw] evaluation_window
+    #   The evaluation window that the alarm uses to select the range of
+    #   metric data that it evaluates. Specify either a sliding window or a
+    #   wall clock window. If you omit this parameter, the alarm uses a
+    #   sliding window.
+    #
+    #   A sliding window advances each time the alarm is evaluated, forming
+    #   a rolling time window. A wall clock window aligns the evaluated
+    #   range to fixed clock boundaries, such as the top of the hour or the
+    #   start of the day.
+    #
+    #   You can use `EvaluationWindow` with any type of metric alarm except
+    #   alarms that are based on a PromQL query.
+    #
+    #   For more information, see [Alarm evaluation windows][1] in the
+    #   *CloudWatch User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html
+    #   @return [Types::EvaluationWindow]
+    #
     # @!attribute [rw] evaluation_criteria
     #   The evaluation criteria for the alarm. For each `PutMetricAlarm`
     #   operation, you must specify either `MetricName`, a `Metrics` array,
@@ -5197,6 +5275,7 @@ module Aws::CloudWatch
       :metrics,
       :tags,
       :threshold_metric_id,
+      :evaluation_window,
       :evaluation_criteria,
       :evaluation_interval)
       SENSITIVE = []
@@ -5773,6 +5852,20 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # An evaluation window that advances each time the alarm is evaluated,
+    # forming a rolling time window. This is the default evaluation window.
+    # A sliding window has no additional configuration options.
+    #
+    # Choose a sliding window when you need the fastest detection and the
+    # calendar boundaries of the data don't matter, such as for continuous
+    # performance, latency, or resource-exhaustion monitoring.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/SlidingWindow AWS API Documentation
+    #
+    class SlidingWindow < Aws::EmptyStructure; end
+
     # @!attribute [rw] names
     #   The array of the names of metric streams to start streaming.
     #
@@ -5969,6 +6062,41 @@ module Aws::CloudWatch
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/UntagResourceOutput AWS API Documentation
     #
     class UntagResourceOutput < Aws::EmptyStructure; end
+
+    # An evaluation window that aligns the evaluated range to fixed clock
+    # boundaries that match the alarm's period, such as the top of the
+    # hour, midnight, or the start of the calendar week, optionally in a
+    # specific time zone.
+    #
+    # When you use a wall clock window, the alarm's period must be 1 minute
+    # (60 seconds), 5 minutes (300 seconds), 1 hour (3,600 seconds), 1 day
+    # (86,400 seconds), or 1 week (604,800 seconds). Other period values
+    # aren't supported with a wall clock window.
+    #
+    # Choose a wall clock window when your monitoring is tied to a business
+    # or calendar period, such as daily reports, batch jobs, or backups, or
+    # when you want alarm evaluations to match the periods shown on a metric
+    # dashboard.
+    #
+    # @!attribute [rw] timezone
+    #   The time zone to use when the alarm aligns the evaluation window to
+    #   clock boundaries. You can specify an IANA time zone name (for
+    #   example, `America/New_York`), a fixed UTC offset (for example,
+    #   `+05:30`), or an offset-prefixed identifier (for example,
+    #   `UTC+05:30`). The offset must be aligned to a multiple of 5 minutes.
+    #   If you don't specify a time zone, CloudWatch uses `UTC`.
+    #
+    #   The time zone affects window alignment for all periods, including
+    #   periods of one hour or shorter.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/WallClockWindow AWS API Documentation
+    #
+    class WallClockWindow < Struct.new(
+      :timezone)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
   end
 end

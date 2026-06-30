@@ -18890,6 +18890,9 @@ module Aws::EC2
     #   resp.vpc_endpoint.service_network_arn #=> String
     #   resp.vpc_endpoint.resource_configuration_arn #=> String
     #   resp.vpc_endpoint.service_region #=> String
+    #   resp.vpc_endpoint.payer_responsibilities #=> Array
+    #   resp.vpc_endpoint.payer_responsibilities[0].scope #=> String, one of "vpc-endpoint-charges"
+    #   resp.vpc_endpoint.payer_responsibilities[0].payer_responsibility_type #=> String, one of "vpc-endpoint-account", "vpc-endpoint-service-account"
     #   resp.client_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateVpcEndpoint AWS API Documentation
@@ -46565,6 +46568,9 @@ module Aws::EC2
     #   resp.vpc_endpoint_connections[0].tags[0].key #=> String
     #   resp.vpc_endpoint_connections[0].tags[0].value #=> String
     #   resp.vpc_endpoint_connections[0].vpc_endpoint_region #=> String
+    #   resp.vpc_endpoint_connections[0].payer_responsibilities #=> Array
+    #   resp.vpc_endpoint_connections[0].payer_responsibilities[0].scope #=> String, one of "vpc-endpoint-charges"
+    #   resp.vpc_endpoint_connections[0].payer_responsibilities[0].payer_responsibility_type #=> String, one of "vpc-endpoint-account", "vpc-endpoint-service-account"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeVpcEndpointConnections AWS API Documentation
@@ -47013,6 +47019,9 @@ module Aws::EC2
     #   resp.vpc_endpoints[0].service_network_arn #=> String
     #   resp.vpc_endpoints[0].resource_configuration_arn #=> String
     #   resp.vpc_endpoints[0].service_region #=> String
+    #   resp.vpc_endpoints[0].payer_responsibilities #=> Array
+    #   resp.vpc_endpoints[0].payer_responsibilities[0].scope #=> String, one of "vpc-endpoint-charges"
+    #   resp.vpc_endpoints[0].payer_responsibilities[0].payer_responsibility_type #=> String, one of "vpc-endpoint-account", "vpc-endpoint-service-account"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeVpcEndpoints AWS API Documentation
@@ -64643,6 +64652,59 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Modifies the billing account for VPC endpoint usage/charges.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @option params [String] :service_id
+    #   The ID of the VPC endpoint service.
+    #
+    # @option params [required, String] :vpc_endpoint_id
+    #   The ID of the VPC endpoint.
+    #
+    # @option params [required, String] :payer_responsibility
+    #   The Amazon Web Services account to which the usage of VPC endpoint is
+    #   charged.
+    #
+    # @option params [required, String] :scope
+    #   The scope of usage/charges for which the billing account is being
+    #   modified.
+    #
+    # @return [Types::ModifyVpcEndpointPayerResponsibilityResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyVpcEndpointPayerResponsibilityResult#vpc_endpoint_id #vpc_endpoint_id} => String
+    #   * {Types::ModifyVpcEndpointPayerResponsibilityResult#payer_responsibilities #payer_responsibilities} => Array&lt;Types::PayerResponsibilityEntry&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_vpc_endpoint_payer_responsibility({
+    #     dry_run: false,
+    #     service_id: "VpcEndpointServiceId",
+    #     vpc_endpoint_id: "VpcEndpointId", # required
+    #     payer_responsibility: "vpc-endpoint-account", # required, accepts vpc-endpoint-account, vpc-endpoint-service-account
+    #     scope: "vpc-endpoint-charges", # required, accepts vpc-endpoint-charges
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.vpc_endpoint_id #=> String
+    #   resp.payer_responsibilities #=> Array
+    #   resp.payer_responsibilities[0].scope #=> String, one of "vpc-endpoint-charges"
+    #   resp.payer_responsibilities[0].payer_responsibility_type #=> String, one of "vpc-endpoint-account", "vpc-endpoint-service-account"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpcEndpointPayerResponsibility AWS API Documentation
+    #
+    # @overload modify_vpc_endpoint_payer_responsibility(params = {})
+    # @param [Hash] params ({})
+    def modify_vpc_endpoint_payer_responsibility(params = {}, options = {})
+      req = build_request(:modify_vpc_endpoint_payer_responsibility, params)
+      req.send_request(options)
+    end
+
     # Modifies the attributes of the specified VPC endpoint service
     # configuration.
     #
@@ -74113,7 +74175,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.626.0'
+      context[:gem_version] = '1.627.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

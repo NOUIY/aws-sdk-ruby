@@ -256,6 +256,19 @@ module Aws::CloudWatch
       data[:state_transitioned_timestamp]
     end
 
+    # The evaluation window that the alarm uses to select the range of
+    # metric data that it evaluates. This is either a sliding window or a
+    # wall clock window. For more information, see [Alarm evaluation
+    # windows][1] in the *CloudWatch User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html
+    # @return [Types::EvaluationWindow]
+    def evaluation_window
+      data[:evaluation_window]
+    end
+
     # The evaluation criteria for the alarm.
     # @return [Types::EvaluationCriteria]
     def evaluation_criteria

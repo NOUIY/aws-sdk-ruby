@@ -5748,12 +5748,7 @@ module Aws::ECS
     #
     # @!attribute [rw] threshold_configuration
     #   The threshold configuration that controls when the deployment
-    #   circuit breaker triggers. For more information, see
-    #   [ThresholdConfiguration][1].
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ThresholdConfiguration.html
+    #   circuit breaker triggers.
     #   @return [Types::ThresholdConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DeploymentCircuitBreaker AWS API Documentation

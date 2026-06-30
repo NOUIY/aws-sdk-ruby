@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.176.0 (2026-06-30)
+------------------
+
+* Feature - Adds support for host kernel selection for on-demand builds.
+
 1.175.0 (2026-05-29)
 ------------------
 

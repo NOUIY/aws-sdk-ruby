@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1263.0 (2026-06-30)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::SupportAuthZ`.
+
 1.1262.0 (2026-06-22)
 ------------------
 

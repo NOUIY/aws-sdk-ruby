@@ -139,6 +139,7 @@ module Aws::CloudWatch
     EvaluationInterval = Shapes::IntegerShape.new(name: 'EvaluationInterval')
     EvaluationPeriods = Shapes::IntegerShape.new(name: 'EvaluationPeriods')
     EvaluationState = Shapes::StringShape.new(name: 'EvaluationState')
+    EvaluationWindow = Shapes::UnionShape.new(name: 'EvaluationWindow')
     ExceptionType = Shapes::StringShape.new(name: 'ExceptionType')
     Expression = Shapes::StringShape.new(name: 'Expression')
     ExtendedStatistic = Shapes::StringShape.new(name: 'ExtendedStatistic')
@@ -327,6 +328,7 @@ module Aws::CloudWatch
     SetAlarmStateInput = Shapes::StructureShape.new(name: 'SetAlarmStateInput')
     SingleMetricAnomalyDetector = Shapes::StructureShape.new(name: 'SingleMetricAnomalyDetector')
     Size = Shapes::IntegerShape.new(name: 'Size')
+    SlidingWindow = Shapes::StructureShape.new(name: 'SlidingWindow')
     StandardUnit = Shapes::StringShape.new(name: 'StandardUnit')
     StartMetricStreamsInput = Shapes::StructureShape.new(name: 'StartMetricStreamsInput')
     StartMetricStreamsOutput = Shapes::StructureShape.new(name: 'StartMetricStreamsOutput')
@@ -365,6 +367,7 @@ module Aws::CloudWatch
     UntagResourceInput = Shapes::StructureShape.new(name: 'UntagResourceInput')
     UntagResourceOutput = Shapes::StructureShape.new(name: 'UntagResourceOutput')
     Values = Shapes::ListShape.new(name: 'Values')
+    WallClockWindow = Shapes::StructureShape.new(name: 'WallClockWindow')
 
     AlarmContributor.add_member(:contributor_id, Shapes::ShapeRef.new(shape: ContributorId, required: true, location_name: "ContributorId"))
     AlarmContributor.add_member(:contributor_attributes, Shapes::ShapeRef.new(shape: ContributorAttributes, required: true, location_name: "ContributorAttributes"))
@@ -668,6 +671,14 @@ module Aws::CloudWatch
     EvaluationCriteria.add_member_subclass(:prom_ql_criteria, Types::EvaluationCriteria::PromQlCriteria)
     EvaluationCriteria.add_member_subclass(:unknown, Types::EvaluationCriteria::Unknown)
     EvaluationCriteria.struct_class = Types::EvaluationCriteria
+
+    EvaluationWindow.add_member(:wall_clock_window, Shapes::ShapeRef.new(shape: WallClockWindow, location_name: "WallClockWindow"))
+    EvaluationWindow.add_member(:sliding_window, Shapes::ShapeRef.new(shape: SlidingWindow, location_name: "SlidingWindow"))
+    EvaluationWindow.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    EvaluationWindow.add_member_subclass(:wall_clock_window, Types::EvaluationWindow::WallClockWindow)
+    EvaluationWindow.add_member_subclass(:sliding_window, Types::EvaluationWindow::SlidingWindow)
+    EvaluationWindow.add_member_subclass(:unknown, Types::EvaluationWindow::Unknown)
+    EvaluationWindow.struct_class = Types::EvaluationWindow
 
     ExtendedStatistics.member = Shapes::ShapeRef.new(shape: ExtendedStatistic)
 
@@ -991,6 +1002,7 @@ module Aws::CloudWatch
     MetricAlarm.add_member(:threshold_metric_id, Shapes::ShapeRef.new(shape: MetricId, location_name: "ThresholdMetricId"))
     MetricAlarm.add_member(:evaluation_state, Shapes::ShapeRef.new(shape: EvaluationState, location_name: "EvaluationState"))
     MetricAlarm.add_member(:state_transitioned_timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "StateTransitionedTimestamp"))
+    MetricAlarm.add_member(:evaluation_window, Shapes::ShapeRef.new(shape: EvaluationWindow, location_name: "EvaluationWindow"))
     MetricAlarm.add_member(:evaluation_criteria, Shapes::ShapeRef.new(shape: EvaluationCriteria, location_name: "EvaluationCriteria"))
     MetricAlarm.add_member(:evaluation_interval, Shapes::ShapeRef.new(shape: EvaluationInterval, location_name: "EvaluationInterval"))
     MetricAlarm.struct_class = Types::MetricAlarm
@@ -1194,6 +1206,7 @@ module Aws::CloudWatch
     PutMetricAlarmInput.add_member(:metrics, Shapes::ShapeRef.new(shape: MetricDataQueries, location_name: "Metrics"))
     PutMetricAlarmInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     PutMetricAlarmInput.add_member(:threshold_metric_id, Shapes::ShapeRef.new(shape: MetricId, location_name: "ThresholdMetricId"))
+    PutMetricAlarmInput.add_member(:evaluation_window, Shapes::ShapeRef.new(shape: EvaluationWindow, location_name: "EvaluationWindow"))
     PutMetricAlarmInput.add_member(:evaluation_criteria, Shapes::ShapeRef.new(shape: EvaluationCriteria, location_name: "EvaluationCriteria"))
     PutMetricAlarmInput.add_member(:evaluation_interval, Shapes::ShapeRef.new(shape: EvaluationInterval, location_name: "EvaluationInterval"))
     PutMetricAlarmInput.struct_class = Types::PutMetricAlarmInput
@@ -1269,6 +1282,8 @@ module Aws::CloudWatch
     SingleMetricAnomalyDetector.add_member(:stat, Shapes::ShapeRef.new(shape: AnomalyDetectorMetricStat, location_name: "Stat"))
     SingleMetricAnomalyDetector.struct_class = Types::SingleMetricAnomalyDetector
 
+    SlidingWindow.struct_class = Types::SlidingWindow
+
     StartMetricStreamsInput.add_member(:names, Shapes::ShapeRef.new(shape: MetricStreamNames, required: true, location_name: "Names"))
     StartMetricStreamsInput.struct_class = Types::StartMetricStreamsInput
 
@@ -1318,6 +1333,9 @@ module Aws::CloudWatch
     UntagResourceOutput.struct_class = Types::UntagResourceOutput
 
     Values.member = Shapes::ShapeRef.new(shape: DatapointValue)
+
+    WallClockWindow.add_member(:timezone, Shapes::ShapeRef.new(shape: Timezone, location_name: "Timezone"))
+    WallClockWindow.struct_class = Types::WallClockWindow
 
 
     # @api private

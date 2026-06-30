@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.240.0 (2026-06-30)
+------------------
+
+* Feature - Updated threshold configuration documentation.
+
 1.239.0 (2026-06-29)
 ------------------
 

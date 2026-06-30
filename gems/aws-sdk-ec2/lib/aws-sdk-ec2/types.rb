@@ -65950,6 +65950,60 @@ module Aws::EC2
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] service_id
+    #   The ID of the VPC endpoint service.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_endpoint_id
+    #   The ID of the VPC endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] payer_responsibility
+    #   The Amazon Web Services account to which the usage of VPC endpoint
+    #   is charged.
+    #   @return [String]
+    #
+    # @!attribute [rw] scope
+    #   The scope of usage/charges for which the billing account is being
+    #   modified.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpcEndpointPayerResponsibilityRequest AWS API Documentation
+    #
+    class ModifyVpcEndpointPayerResponsibilityRequest < Struct.new(
+      :dry_run,
+      :service_id,
+      :vpc_endpoint_id,
+      :payer_responsibility,
+      :scope)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] vpc_endpoint_id
+    #   The ID of the VPC endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] payer_responsibilities
+    #   The payer responsibility settings for the VPC endpoint.
+    #   @return [Array<Types::PayerResponsibilityEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpcEndpointPayerResponsibilityResult AWS API Documentation
+    #
+    class ModifyVpcEndpointPayerResponsibilityResult < Struct.new(
+      :vpc_endpoint_id,
+      :payer_responsibilities)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] vpc_endpoint_id
     #   The ID of the endpoint.
     #   @return [String]
@@ -69182,6 +69236,25 @@ module Aws::EC2
     class PathStatementRequest < Struct.new(
       :packet_header_statement,
       :resource_statement)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes a payer responsibility setting for a VPC endpoint.
+    #
+    # @!attribute [rw] scope
+    #   The scope of usage/charges.
+    #   @return [String]
+    #
+    # @!attribute [rw] payer_responsibility_type
+    #   The Amazon Web Services account to which the usage is charged.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/PayerResponsibilityEntry AWS API Documentation
+    #
+    class PayerResponsibilityEntry < Struct.new(
+      :scope,
+      :payer_responsibility_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -87539,6 +87612,10 @@ module Aws::EC2
     #   The Region where the service is hosted.
     #   @return [String]
     #
+    # @!attribute [rw] payer_responsibilities
+    #   The payer responsibility settings for the endpoint.
+    #   @return [Array<Types::PayerResponsibilityEntry>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/VpcEndpoint AWS API Documentation
     #
     class VpcEndpoint < Struct.new(
@@ -87566,7 +87643,8 @@ module Aws::EC2
       :failure_reason,
       :service_network_arn,
       :resource_configuration_arn,
-      :service_region)
+      :service_region,
+      :payer_responsibilities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -87697,6 +87775,10 @@ module Aws::EC2
     #   The Region of the endpoint.
     #   @return [String]
     #
+    # @!attribute [rw] payer_responsibilities
+    #   The payer responsibility settings for the endpoint.
+    #   @return [Array<Types::PayerResponsibilityEntry>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/VpcEndpointConnection AWS API Documentation
     #
     class VpcEndpointConnection < Struct.new(
@@ -87711,7 +87793,8 @@ module Aws::EC2
       :ip_address_type,
       :vpc_endpoint_connection_id,
       :tags,
-      :vpc_endpoint_region)
+      :vpc_endpoint_region,
+      :payer_responsibilities)
       SENSITIVE = []
       include Aws::Structure
     end

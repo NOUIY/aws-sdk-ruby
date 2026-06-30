@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.162.0 (2026-06-30)
+------------------
+
+* Feature - This release adds support for a new reservations-then-balanced capacity distribution strategy, which first attempts to launch instances into your Capacity Reservations and then balances remaining capacity across healthy Availability Zones.
+
 1.161.0 (2026-05-29)
 ------------------
 

@@ -12556,6 +12556,21 @@ module Aws
                                                        ) -> _ModifyVpcEndpointConnectionNotificationResponseSuccess
                                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyVpcEndpointConnectionNotificationResponseSuccess
 
+      interface _ModifyVpcEndpointPayerResponsibilityResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ModifyVpcEndpointPayerResponsibilityResult]
+        def vpc_endpoint_id: () -> ::String
+        def payer_responsibilities: () -> ::Array[Types::PayerResponsibilityEntry]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#modify_vpc_endpoint_payer_responsibility-instance_method
+      def modify_vpc_endpoint_payer_responsibility: (
+                                                      ?dry_run: bool,
+                                                      ?service_id: ::String,
+                                                      vpc_endpoint_id: ::String,
+                                                      payer_responsibility: ("vpc-endpoint-account" | "vpc-endpoint-service-account"),
+                                                      scope: ("vpc-endpoint-charges")
+                                                    ) -> _ModifyVpcEndpointPayerResponsibilityResponseSuccess
+                                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyVpcEndpointPayerResponsibilityResponseSuccess
+
       interface _ModifyVpcEndpointServiceConfigurationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ModifyVpcEndpointServiceConfigurationResult]
         def return: () -> bool

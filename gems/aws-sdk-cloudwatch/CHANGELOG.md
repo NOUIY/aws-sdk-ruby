@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.142.0 (2026-06-30)
+------------------
+
+* Feature - Customers can configure alarms with wall-clock-aligned evaluation windows instead of sliding windows, with optional timezone support for daily or weekly periods
+
 1.141.0 (2026-06-29)
 ------------------
 

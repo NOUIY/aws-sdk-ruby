@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.33.0 (2026-06-30)
+------------------
+
+* Feature - Organization and account level telemetry rule via Observability Admin and CloudWatch pipelines for metrics
+
 1.32.0 (2026-06-08)
 ------------------
 

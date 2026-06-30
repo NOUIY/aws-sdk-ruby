@@ -2812,6 +2812,8 @@ module Aws::EC2
     ModifyVpcEncryptionControlResult = Shapes::StructureShape.new(name: 'ModifyVpcEncryptionControlResult')
     ModifyVpcEndpointConnectionNotificationRequest = Shapes::StructureShape.new(name: 'ModifyVpcEndpointConnectionNotificationRequest')
     ModifyVpcEndpointConnectionNotificationResult = Shapes::StructureShape.new(name: 'ModifyVpcEndpointConnectionNotificationResult')
+    ModifyVpcEndpointPayerResponsibilityRequest = Shapes::StructureShape.new(name: 'ModifyVpcEndpointPayerResponsibilityRequest')
+    ModifyVpcEndpointPayerResponsibilityResult = Shapes::StructureShape.new(name: 'ModifyVpcEndpointPayerResponsibilityResult')
     ModifyVpcEndpointRequest = Shapes::StructureShape.new(name: 'ModifyVpcEndpointRequest')
     ModifyVpcEndpointResult = Shapes::StructureShape.new(name: 'ModifyVpcEndpointResult')
     ModifyVpcEndpointServiceConfigurationRequest = Shapes::StructureShape.new(name: 'ModifyVpcEndpointServiceConfigurationRequest')
@@ -2977,6 +2979,10 @@ module Aws::EC2
     PathStatement = Shapes::StructureShape.new(name: 'PathStatement')
     PathStatementRequest = Shapes::StructureShape.new(name: 'PathStatementRequest')
     PayerResponsibility = Shapes::StringShape.new(name: 'PayerResponsibility')
+    PayerResponsibilityEntry = Shapes::StructureShape.new(name: 'PayerResponsibilityEntry')
+    PayerResponsibilityScope = Shapes::StringShape.new(name: 'PayerResponsibilityScope')
+    PayerResponsibilitySet = Shapes::ListShape.new(name: 'PayerResponsibilitySet')
+    PayerResponsibilityType = Shapes::StringShape.new(name: 'PayerResponsibilityType')
     PaymentOption = Shapes::StringShape.new(name: 'PaymentOption')
     PciId = Shapes::StructureShape.new(name: 'PciId')
     PeakBandwidthInGbps = Shapes::FloatShape.new(name: 'PeakBandwidthInGbps')
@@ -15341,6 +15347,17 @@ module Aws::EC2
     ModifyVpcEndpointConnectionNotificationResult.add_member(:return_value, Shapes::ShapeRef.new(shape: Boolean, location_name: "return"))
     ModifyVpcEndpointConnectionNotificationResult.struct_class = Types::ModifyVpcEndpointConnectionNotificationResult
 
+    ModifyVpcEndpointPayerResponsibilityRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    ModifyVpcEndpointPayerResponsibilityRequest.add_member(:service_id, Shapes::ShapeRef.new(shape: VpcEndpointServiceId, location_name: "ServiceId"))
+    ModifyVpcEndpointPayerResponsibilityRequest.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, required: true, location_name: "VpcEndpointId"))
+    ModifyVpcEndpointPayerResponsibilityRequest.add_member(:payer_responsibility, Shapes::ShapeRef.new(shape: PayerResponsibilityType, required: true, location_name: "PayerResponsibility"))
+    ModifyVpcEndpointPayerResponsibilityRequest.add_member(:scope, Shapes::ShapeRef.new(shape: PayerResponsibilityScope, required: true, location_name: "Scope"))
+    ModifyVpcEndpointPayerResponsibilityRequest.struct_class = Types::ModifyVpcEndpointPayerResponsibilityRequest
+
+    ModifyVpcEndpointPayerResponsibilityResult.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: String, location_name: "vpcEndpointId"))
+    ModifyVpcEndpointPayerResponsibilityResult.add_member(:payer_responsibilities, Shapes::ShapeRef.new(shape: PayerResponsibilitySet, location_name: "payerResponsibilitySet"))
+    ModifyVpcEndpointPayerResponsibilityResult.struct_class = Types::ModifyVpcEndpointPayerResponsibilityResult
+
     ModifyVpcEndpointRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     ModifyVpcEndpointRequest.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, required: true, location_name: "VpcEndpointId"))
     ModifyVpcEndpointRequest.add_member(:reset_policy, Shapes::ShapeRef.new(shape: Boolean, location_name: "ResetPolicy"))
@@ -15986,6 +16003,12 @@ module Aws::EC2
     PathStatementRequest.add_member(:packet_header_statement, Shapes::ShapeRef.new(shape: PacketHeaderStatementRequest, location_name: "PacketHeaderStatement"))
     PathStatementRequest.add_member(:resource_statement, Shapes::ShapeRef.new(shape: ResourceStatementRequest, location_name: "ResourceStatement"))
     PathStatementRequest.struct_class = Types::PathStatementRequest
+
+    PayerResponsibilityEntry.add_member(:scope, Shapes::ShapeRef.new(shape: PayerResponsibilityScope, location_name: "scope"))
+    PayerResponsibilityEntry.add_member(:payer_responsibility_type, Shapes::ShapeRef.new(shape: PayerResponsibilityType, location_name: "payerResponsibilityType"))
+    PayerResponsibilityEntry.struct_class = Types::PayerResponsibilityEntry
+
+    PayerResponsibilitySet.member = Shapes::ShapeRef.new(shape: PayerResponsibilityEntry, location_name: "item")
 
     PciId.add_member(:device_id, Shapes::ShapeRef.new(shape: String, location_name: "DeviceId"))
     PciId.add_member(:vendor_id, Shapes::ShapeRef.new(shape: String, location_name: "VendorId"))
@@ -19660,6 +19683,7 @@ module Aws::EC2
     VpcEndpoint.add_member(:service_network_arn, Shapes::ShapeRef.new(shape: ServiceNetworkArn, location_name: "serviceNetworkArn"))
     VpcEndpoint.add_member(:resource_configuration_arn, Shapes::ShapeRef.new(shape: ResourceConfigurationArn, location_name: "resourceConfigurationArn"))
     VpcEndpoint.add_member(:service_region, Shapes::ShapeRef.new(shape: String, location_name: "serviceRegion"))
+    VpcEndpoint.add_member(:payer_responsibilities, Shapes::ShapeRef.new(shape: PayerResponsibilitySet, location_name: "payerResponsibilitySet"))
     VpcEndpoint.struct_class = Types::VpcEndpoint
 
     VpcEndpointAssociation.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "id"))
@@ -19690,6 +19714,7 @@ module Aws::EC2
     VpcEndpointConnection.add_member(:vpc_endpoint_connection_id, Shapes::ShapeRef.new(shape: String, location_name: "vpcEndpointConnectionId"))
     VpcEndpointConnection.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tagSet"))
     VpcEndpointConnection.add_member(:vpc_endpoint_region, Shapes::ShapeRef.new(shape: String, location_name: "vpcEndpointRegion"))
+    VpcEndpointConnection.add_member(:payer_responsibilities, Shapes::ShapeRef.new(shape: PayerResponsibilitySet, location_name: "payerResponsibilitySet"))
     VpcEndpointConnection.struct_class = Types::VpcEndpointConnection
 
     VpcEndpointConnectionSet.member = Shapes::ShapeRef.new(shape: VpcEndpointConnection, location_name: "item")
@@ -26338,6 +26363,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ModifyVpcEndpointConnectionNotificationRequest)
         o.output = Shapes::ShapeRef.new(shape: ModifyVpcEndpointConnectionNotificationResult)
+      end)
+
+      api.add_operation(:modify_vpc_endpoint_payer_responsibility, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ModifyVpcEndpointPayerResponsibility"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ModifyVpcEndpointPayerResponsibilityRequest)
+        o.output = Shapes::ShapeRef.new(shape: ModifyVpcEndpointPayerResponsibilityResult)
       end)
 
       api.add_operation(:modify_vpc_endpoint_service_configuration, Seahorse::Model::Operation.new.tap do |o|

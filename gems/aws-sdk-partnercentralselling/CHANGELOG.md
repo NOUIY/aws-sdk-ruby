@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.37.0 (2026-06-30)
+------------------
+
+* Feature - This release adds AwsMarketplaceSolutions and AwsMarketplaceProducts entity types to the Associate and Disassociate APIs, returns them in GetOpportunity, and adds AwsMarketplaceSolutionArn to ListSolutions ,letting partners link Marketplace listings directly to opportunities.
+
 1.36.0 (2026-06-17)
 ------------------
 

@@ -2049,7 +2049,7 @@ module Aws::Connect
     #   resp.files[0].file_status #=> String, one of "APPROVED", "REJECTED", "PROCESSING", "FAILED"
     #   resp.files[0].created_by.connect_user_arn #=> String
     #   resp.files[0].created_by.aws_identity_arn #=> String
-    #   resp.files[0].file_use_case_type #=> String, one of "CONTACT_ANALYSIS", "EMAIL_MESSAGE", "EMAIL_MESSAGE_PLAIN_TEXT", "EMAIL_MESSAGE_REDACTED", "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED", "ATTACHMENT"
+    #   resp.files[0].file_use_case_type #=> String, one of "CONTACT_ANALYSIS", "EMAIL_MESSAGE", "EMAIL_MESSAGE_PLAIN_TEXT", "EMAIL_MESSAGE_REDACTED", "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED", "ATTACHMENT", "VOICE_RECORDING"
     #   resp.files[0].associated_resource_arn #=> String
     #   resp.files[0].tags #=> Hash
     #   resp.files[0].tags["TagKey"] #=> String
@@ -2509,6 +2509,99 @@ module Aws::Connect
     # @param [Hash] params ({})
     def create_agent_status(params = {}, options = {})
       req = build_request(:create_agent_status, params)
+      req.send_request(options)
+    end
+
+    # Creates an attached file for a completed voice contact by copying a
+    # recording from a source S3 URI into Connect Customer managed storage.
+    # Use this API to attach voice recordings to contacts for downstream
+    # processing such as conversational analytics.
+    #
+    # The `AssociatedResourceArn` must be the ARN of a completed voice
+    # contact, `FileUseCaseType` must be set to `VOICE_RECORDING`, and
+    # `FileSourceUri` must be a valid S3 URI.
+    #
+    # <note markdown="1"> For example, you can call `CreateContact`, then `CreateAttachedFile`,
+    # then `StartContactConversationalAnalyticsJob` to create a contact,
+    # attach a recording, and run post-call analytics.
+    #
+    #  </note>
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency, see
+    #   [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :file_use_case_type
+    #   The use case for the file.
+    #
+    #   Only `VOICE_RECORDING` is supported.
+    #
+    # @option params [required, String] :file_source_uri
+    #   The S3 URI of the file to be attached. Only S3 source URIs are
+    #   supported.
+    #
+    # @option params [required, String] :associated_resource_arn
+    #   The ARN of the completed voice contact to attach the file to. Only
+    #   voice contacts with Telephony subtype are supported.
+    #
+    #   <note markdown="1"> This value must be a valid ARN.
+    #
+    #    </note>
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags used to organize, track, or control access for this resource.
+    #   For example, `{ "Tags": {"key1":"value1", "key2":"value2"} }`.
+    #
+    # @return [Types::CreateAttachedFileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAttachedFileResponse#file_arn #file_arn} => String
+    #   * {Types::CreateAttachedFileResponse#file_id #file_id} => String
+    #   * {Types::CreateAttachedFileResponse#creation_time #creation_time} => String
+    #   * {Types::CreateAttachedFileResponse#file_status #file_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_attached_file({
+    #     client_token: "ClientToken",
+    #     instance_id: "InstanceId", # required
+    #     file_use_case_type: "CONTACT_ANALYSIS", # required, accepts CONTACT_ANALYSIS, EMAIL_MESSAGE, EMAIL_MESSAGE_PLAIN_TEXT, EMAIL_MESSAGE_REDACTED, EMAIL_MESSAGE_PLAIN_TEXT_REDACTED, ATTACHMENT, VOICE_RECORDING
+    #     file_source_uri: "FileSourceUri", # required
+    #     associated_resource_arn: "ARN", # required
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.file_arn #=> String
+    #   resp.file_id #=> String
+    #   resp.creation_time #=> String
+    #   resp.file_status #=> String, one of "APPROVED", "REJECTED", "PROCESSING", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateAttachedFile AWS API Documentation
+    #
+    # @overload create_attached_file(params = {})
+    # @param [Hash] params ({})
+    def create_attached_file(params = {}, options = {})
+      req = build_request(:create_attached_file, params)
       req.send_request(options)
     end
 
@@ -10914,7 +11007,7 @@ module Aws::Connect
     #   resp.file_name #=> String
     #   resp.file_size_in_bytes #=> Integer
     #   resp.associated_resource_arn #=> String
-    #   resp.file_use_case_type #=> String, one of "CONTACT_ANALYSIS", "EMAIL_MESSAGE", "EMAIL_MESSAGE_PLAIN_TEXT", "EMAIL_MESSAGE_REDACTED", "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED", "ATTACHMENT"
+    #   resp.file_use_case_type #=> String, one of "CONTACT_ANALYSIS", "EMAIL_MESSAGE", "EMAIL_MESSAGE_PLAIN_TEXT", "EMAIL_MESSAGE_REDACTED", "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED", "ATTACHMENT", "VOICE_RECORDING"
     #   resp.created_by.connect_user_arn #=> String
     #   resp.created_by.aws_identity_arn #=> String
     #   resp.download_url_metadata.url #=> String
@@ -22962,7 +23055,7 @@ module Aws::Connect
     #     file_name: "FileName", # required
     #     file_size_in_bytes: 1, # required
     #     url_expiry_in_seconds: 1,
-    #     file_use_case_type: "CONTACT_ANALYSIS", # required, accepts CONTACT_ANALYSIS, EMAIL_MESSAGE, EMAIL_MESSAGE_PLAIN_TEXT, EMAIL_MESSAGE_REDACTED, EMAIL_MESSAGE_PLAIN_TEXT_REDACTED, ATTACHMENT
+    #     file_use_case_type: "CONTACT_ANALYSIS", # required, accepts CONTACT_ANALYSIS, EMAIL_MESSAGE, EMAIL_MESSAGE_PLAIN_TEXT, EMAIL_MESSAGE_REDACTED, EMAIL_MESSAGE_PLAIN_TEXT_REDACTED, ATTACHMENT, VOICE_RECORDING
     #     associated_resource_arn: "ARN", # required
     #     created_by: {
     #       connect_user_arn: "ARN",
@@ -23222,6 +23315,98 @@ module Aws::Connect
     # @param [Hash] params ({})
     def start_chat_contact(params = {}, options = {})
       req = build_request(:start_chat_contact, params)
+      req.send_request(options)
+    end
+
+    # Starts a Contact Lens post-call analytics job for the specified
+    # contact. This API runs Conversational Analytics post-contact analysis
+    # on a voice recording that is already attached to the contact,
+    # generating transcription, sentiment analysis, redaction, and
+    # summarization results based on the provided configuration.
+    #
+    # A voice recording must already be attached to the contact before
+    # calling this API. Use `CreateAttachedFile` to attach a recording from
+    # an S3 source URI.
+    #
+    # <note markdown="1"> For example, you can call `CreateContact`, then `CreateAttachedFile`,
+    # then `StartContactConversationalAnalyticsJob` to create a contact,
+    # attach a recording, and run post-call analytics.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :contact_id
+    #   The identifier of the contact in this instance of Connect Customer.
+    #
+    # @option params [required, Array<String>] :analytics_modes
+    #   The analytics modes to run for the contact. Valid values:
+    #   `PostContact`.
+    #
+    # @option params [required, Types::AnalyticsConfiguration] :analytics_configuration
+    #   The configuration for the conversational analytics job.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency, see
+    #   [Making retries safe with idempotent APIs][1].
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #
+    # @return [Types::StartContactConversationalAnalyticsJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartContactConversationalAnalyticsJobResponse#instance_id #instance_id} => String
+    #   * {Types::StartContactConversationalAnalyticsJobResponse#contact_id #contact_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_contact_conversational_analytics_job({
+    #     instance_id: "InstanceId", # required
+    #     contact_id: "ContactId", # required
+    #     analytics_modes: ["PostContact"], # required, accepts PostContact, RealTime, ContactLens, AutomatedInteraction
+    #     analytics_configuration: { # required
+    #       language_configuration: { # required
+    #         language_locale: "LanguageLocale",
+    #       },
+    #       redaction_configuration: { # required
+    #         behavior: "Enable", # required, accepts Enable, Disable
+    #         policy: "None", # required, accepts None, RedactedOnly, RedactedAndOriginal
+    #         entities: ["Entity"],
+    #         mask_mode: "PII", # accepts PII, EntityType
+    #       },
+    #       sentiment_configuration: { # required
+    #         behavior: "Enable", # required, accepts Enable, Disable
+    #       },
+    #       summary_configuration: { # required
+    #         summary_modes: ["PostContact"], # required, accepts PostContact, AutomatedInteraction, ContactChain
+    #       },
+    #       rules_configuration: { # required
+    #         behavior: "Enable", # accepts Enable, Disable
+    #       },
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.instance_id #=> String
+    #   resp.contact_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartContactConversationalAnalyticsJob AWS API Documentation
+    #
+    # @overload start_contact_conversational_analytics_job(params = {})
+    # @param [Hash] params ({})
+    def start_contact_conversational_analytics_job(params = {}, options = {})
+      req = build_request(:start_contact_conversational_analytics_job, params)
       req.send_request(options)
     end
 
@@ -29556,7 +29741,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.260.0'
+      context[:gem_version] = '1.261.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

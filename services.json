@@ -1293,6 +1293,9 @@
   "SupportApp": {
     "models": "support-app/2021-08-20"
   },
+  "SupportAuthZ": {
+    "models": "supportauthz/2026-06-30"
+  },
   "Sustainability": {
     "models": "sustainability/2018-05-10"
   },

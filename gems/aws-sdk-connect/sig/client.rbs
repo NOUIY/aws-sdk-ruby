@@ -538,6 +538,24 @@ module Aws
                                ) -> _CreateAgentStatusResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAgentStatusResponseSuccess
 
+      interface _CreateAttachedFileResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAttachedFileResponse]
+        def file_arn: () -> ::String
+        def file_id: () -> ::String
+        def creation_time: () -> ::String
+        def file_status: () -> ("APPROVED" | "REJECTED" | "PROCESSING" | "FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#create_attached_file-instance_method
+      def create_attached_file: (
+                                  ?client_token: ::String,
+                                  instance_id: ::String,
+                                  file_use_case_type: ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT" | "VOICE_RECORDING"),
+                                  file_source_uri: ::String,
+                                  associated_resource_arn: ::String,
+                                  ?tags: Hash[::String, ::String]
+                                ) -> _CreateAttachedFileResponseSuccess
+                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAttachedFileResponseSuccess
+
       interface _CreateContactResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateContactResponse]
         def contact_id: () -> ::String
@@ -2239,7 +2257,7 @@ module Aws
         def file_name: () -> ::String
         def file_size_in_bytes: () -> ::Integer
         def associated_resource_arn: () -> ::String
-        def file_use_case_type: () -> ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT")
+        def file_use_case_type: () -> ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT" | "VOICE_RECORDING")
         def created_by: () -> Types::CreatedByInfo
         def download_url_metadata: () -> Types::DownloadUrlMetadata
         def tags: () -> ::Hash[::String, ::String]
@@ -4304,7 +4322,7 @@ module Aws
                                         file_name: ::String,
                                         file_size_in_bytes: ::Integer,
                                         ?url_expiry_in_seconds: ::Integer,
-                                        file_use_case_type: ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT"),
+                                        file_use_case_type: ("CONTACT_ANALYSIS" | "EMAIL_MESSAGE" | "EMAIL_MESSAGE_PLAIN_TEXT" | "EMAIL_MESSAGE_REDACTED" | "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED" | "ATTACHMENT" | "VOICE_RECORDING"),
                                         associated_resource_arn: ::String,
                                         ?created_by: {
                                           connect_user_arn: ::String?,
@@ -4349,6 +4367,40 @@ module Aws
                                 ?disconnect_on_customer_exit: Array[("AGENT")]
                               ) -> _StartChatContactResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartChatContactResponseSuccess
+
+      interface _StartContactConversationalAnalyticsJobResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartContactConversationalAnalyticsJobResponse]
+        def instance_id: () -> ::String
+        def contact_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#start_contact_conversational_analytics_job-instance_method
+      def start_contact_conversational_analytics_job: (
+                                                        instance_id: ::String,
+                                                        contact_id: ::String,
+                                                        analytics_modes: Array[("PostContact" | "RealTime" | "ContactLens" | "AutomatedInteraction")],
+                                                        analytics_configuration: {
+                                                          language_configuration: {
+                                                            language_locale: ::String?
+                                                          },
+                                                          redaction_configuration: {
+                                                            behavior: ("Enable" | "Disable"),
+                                                            policy: ("None" | "RedactedOnly" | "RedactedAndOriginal"),
+                                                            entities: Array[::String]?,
+                                                            mask_mode: ("PII" | "EntityType")?
+                                                          },
+                                                          sentiment_configuration: {
+                                                            behavior: ("Enable" | "Disable")
+                                                          },
+                                                          summary_configuration: {
+                                                            summary_modes: Array[("PostContact" | "AutomatedInteraction" | "ContactChain")]
+                                                          },
+                                                          rules_configuration: {
+                                                            behavior: ("Enable" | "Disable")?
+                                                          }
+                                                        },
+                                                        ?client_token: ::String
+                                                      ) -> _StartContactConversationalAnalyticsJobResponseSuccess
+                                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartContactConversationalAnalyticsJobResponseSuccess
 
       interface _StartContactEvaluationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartContactEvaluationResponse]

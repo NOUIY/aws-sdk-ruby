@@ -745,6 +745,40 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # The configuration for conversational analytics.
+    #
+    # @!attribute [rw] language_configuration
+    #   The language configuration for conversational analytics.
+    #   @return [Types::LanguageConfiguration]
+    #
+    # @!attribute [rw] redaction_configuration
+    #   The redaction configuration for conversational analytics.
+    #   @return [Types::RedactionConfiguration]
+    #
+    # @!attribute [rw] sentiment_configuration
+    #   The sentiment configuration for conversational analytics.
+    #   @return [Types::SentimentConfiguration]
+    #
+    # @!attribute [rw] summary_configuration
+    #   The summary configuration for conversational analytics.
+    #   @return [Types::SummaryConfiguration]
+    #
+    # @!attribute [rw] rules_configuration
+    #   The rules configuration for conversational analytics.
+    #   @return [Types::RulesConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AnalyticsConfiguration AWS API Documentation
+    #
+    class AnalyticsConfiguration < Struct.new(
+      :language_configuration,
+      :redaction_configuration,
+      :sentiment_configuration,
+      :summary_configuration,
+      :rules_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This API is in preview release for Connect Customer and is subject to
     # change.
     #
@@ -5226,6 +5260,100 @@ module Aws::Connect
     class CreateAgentStatusResponse < Struct.new(
       :agent_status_arn,
       :agent_status_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] file_use_case_type
+    #   The use case for the file.
+    #
+    #   Only `VOICE_RECORDING` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_source_uri
+    #   The S3 URI of the file to be attached. Only S3 source URIs are
+    #   supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] associated_resource_arn
+    #   The ARN of the completed voice contact to attach the file to. Only
+    #   voice contacts with Telephony subtype are supported.
+    #
+    #   <note markdown="1"> This value must be a valid ARN.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource. For example, `{ "Tags": {"key1":"value1", "key2":"value2"}
+    #   }`.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateAttachedFileRequest AWS API Documentation
+    #
+    class CreateAttachedFileRequest < Struct.new(
+      :client_token,
+      :instance_id,
+      :file_use_case_type,
+      :file_source_uri,
+      :associated_resource_arn,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Response from CreateAttachedFile API.
+    #
+    # @!attribute [rw] file_arn
+    #   The unique identifier of the attached file resource (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] file_id
+    #   The unique identifier of the attached file resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The time of Creation of the file resource as an ISO timestamp. It's
+    #   specified in ISO 8601 format: `yyyy-MM-ddThh:mm:ss.SSSZ`. For
+    #   example, `2024-05-03T02:41:28.172Z`.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_status
+    #   The current status of the attached file. Valid values: `PROCESSING`
+    #   \| `APPROVED` \| `REJECTED` \| `FAILED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateAttachedFileResponse AWS API Documentation
+    #
+    class CreateAttachedFileResponse < Struct.new(
+      :file_arn,
+      :file_id,
+      :creation_time,
+      :file_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -20593,6 +20721,20 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # The language configuration for conversational analytics.
+    #
+    # @!attribute [rw] language_locale
+    #   The language locale setting for conversational analytics.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/LanguageConfiguration AWS API Documentation
+    #
+    class LanguageConfiguration < Struct.new(
+      :language_locale)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration information of an Amazon Lex bot.
     #
     # @!attribute [rw] name
@@ -27845,6 +27987,42 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # The redaction configuration for conversational analytics.
+    #
+    # @!attribute [rw] behavior
+    #   Controls whether redaction is applied to the analytics output. Valid
+    #   values: `Enable` \| `Disable`.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The redaction output policy that determines which versions of the
+    #   transcript are stored. Valid values: `None` \| `RedactedOnly` \|
+    #   `RedactedAndOriginal`.
+    #   @return [String]
+    #
+    # @!attribute [rw] entities
+    #   The list of PII entity types to redact from the transcript (for
+    #   example, `NAME`, `ADDRESS`, `CREDIT_DEBIT_NUMBER`).
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] mask_mode
+    #   The masking mode that determines how redacted content is replaced in
+    #   the output. Valid values: `PII` (replaces with the literal string
+    #   \[PII\]) \| `EntityType` (replaces with the entity type name, for
+    #   example \[NAME\]).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RedactionConfiguration AWS API Documentation
+    #
+    class RedactionConfiguration < Struct.new(
+      :behavior,
+      :policy,
+      :entities,
+      :mask_mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Well-formed data on a contact, used by agents to complete a contact
     # request. You can have up to 4,096 UTF-8 bytes across all references
     # for a contact.
@@ -28997,6 +29175,22 @@ module Aws::Connect
     class RuleTriggerEventSource < Struct.new(
       :event_source_name,
       :integration_association_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The rules configuration for conversational analytics. Controls whether
+    # Contact Lens rules are evaluated against the analytics output.
+    #
+    # @!attribute [rw] behavior
+    #   Controls whether Contact Lens rules are evaluated for the contact.
+    #   Valid values: `Enable` \| `Disable`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RulesConfiguration AWS API Documentation
+    #
+    class RulesConfiguration < Struct.new(
+      :behavior)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -31504,6 +31698,21 @@ module Aws::Connect
     #
     class SendOutboundEmailResponse < Aws::EmptyStructure; end
 
+    # The sentiment configuration for conversational analytics.
+    #
+    # @!attribute [rw] behavior
+    #   Controls whether sentiment analysis is applied to the analytics
+    #   output. Valid values: `Enable` \| `Disable`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SentimentConfiguration AWS API Documentation
+    #
+    class SentimentConfiguration < Struct.new(
+      :behavior)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The service quota has been exceeded.
     #
     # @!attribute [rw] message
@@ -31951,6 +32160,68 @@ module Aws::Connect
       :participant_id,
       :participant_token,
       :continued_from_contact_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] contact_id
+    #   The identifier of the contact in this instance of Connect Customer.
+    #   @return [String]
+    #
+    # @!attribute [rw] analytics_modes
+    #   The analytics modes to run for the contact. Valid values:
+    #   `PostContact`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] analytics_configuration
+    #   The configuration for the conversational analytics job.
+    #   @return [Types::AnalyticsConfiguration]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartContactConversationalAnalyticsJobRequest AWS API Documentation
+    #
+    class StartContactConversationalAnalyticsJobRequest < Struct.new(
+      :instance_id,
+      :contact_id,
+      :analytics_modes,
+      :analytics_configuration,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] contact_id
+    #   The identifier of the contact.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartContactConversationalAnalyticsJobResponse AWS API Documentation
+    #
+    class StartContactConversationalAnalyticsJobResponse < Struct.new(
+      :instance_id,
+      :contact_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -33473,6 +33744,22 @@ module Aws::Connect
     class SuccessfulRequest < Struct.new(
       :request_identifier,
       :contact_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The summary configuration for conversational analytics.
+    #
+    # @!attribute [rw] summary_modes
+    #   The summary modes that determine what type of summarization is
+    #   generated. Valid values: `PostContact` \| `AutomatedInteraction` \|
+    #   `ContactChain`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SummaryConfiguration AWS API Documentation
+    #
+    class SummaryConfiguration < Struct.new(
+      :summary_modes)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.75.0 (2026-06-30)
+------------------
+
+* Feature - Adds support for intermediate tables in AWS Clean Rooms collaborations.
+
 1.74.0 (2026-05-26)
 ------------------
 

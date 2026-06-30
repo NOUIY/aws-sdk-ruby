@@ -2069,6 +2069,75 @@ module Aws::DataZone
     #         s3_access_grant_location_id: "S3AccessGrantLocationId",
     #         register_s3_access_grant_location: false,
     #       },
+    #       snowflake_properties: {
+    #         connectivity_properties: {
+    #           connection_properties: {
+    #             "String" => "ConnectionPropertiesValueString",
+    #           },
+    #           physical_connection_requirements: {
+    #             subnet_id: "SubnetId",
+    #             subnet_id_list: ["SubnetId"],
+    #             security_group_id_list: ["SecurityGroupIdListMemberString"],
+    #             availability_zone: "PhysicalConnectionRequirementsAvailabilityZoneString",
+    #           },
+    #           name: "ConnectivityPropertiesNameString",
+    #           description: "ConnectivityPropertiesDescriptionString",
+    #           validate_credentials: false,
+    #           validate_for_compute_environments: ["SPARK"], # accepts SPARK, ATHENA, PYTHON
+    #           spark_properties: {
+    #             "PropertyMapKeyString" => "PropertyMapValueString",
+    #           },
+    #           athena_properties: {
+    #             "PropertyMapKeyString" => "PropertyMapValueString",
+    #           },
+    #           python_properties: {
+    #             "PropertyMapKeyString" => "PropertyMapValueString",
+    #           },
+    #           authentication_configuration: {
+    #             authentication_type: "BASIC", # accepts BASIC, OAUTH2, CUSTOM
+    #             o_auth_2_properties: {
+    #               o_auth_2_grant_type: "AUTHORIZATION_CODE", # accepts AUTHORIZATION_CODE, CLIENT_CREDENTIALS, JWT_BEARER
+    #               o_auth_2_client_application: {
+    #                 user_managed_client_application_client_id: "OAuth2ClientApplicationUserManagedClientApplicationClientIdString",
+    #                 a_ws_managed_client_application_reference: "OAuth2ClientApplicationAWSManagedClientApplicationReferenceString",
+    #               },
+    #               token_url: "OAuth2PropertiesTokenUrlString",
+    #               token_url_parameters_map: {
+    #                 "TokenUrlParametersMapKeyString" => "TokenUrlParametersMapValueString",
+    #               },
+    #               authorization_code_properties: {
+    #                 authorization_code: "AuthorizationCodePropertiesAuthorizationCodeString",
+    #                 redirect_uri: "AuthorizationCodePropertiesRedirectUriString",
+    #               },
+    #               o_auth_2_credentials: {
+    #                 user_managed_client_application_client_secret: "GlueOAuth2CredentialsUserManagedClientApplicationClientSecretString",
+    #                 access_token: "GlueOAuth2CredentialsAccessTokenString",
+    #                 refresh_token: "GlueOAuth2CredentialsRefreshTokenString",
+    #                 jwt_token: "GlueOAuth2CredentialsJwtTokenString",
+    #               },
+    #             },
+    #             secret_arn: "AuthenticationConfigurationInputSecretArnString",
+    #             kms_key_arn: "AuthenticationConfigurationInputKmsKeyArnString",
+    #             basic_authentication_credentials: {
+    #               user_name: "BasicAuthenticationCredentialsUserNameString",
+    #               password: "BasicAuthenticationCredentialsPasswordString",
+    #             },
+    #             custom_authentication_credentials: {
+    #               "CredentialMapKeyString" => "CredentialMapValueString",
+    #             },
+    #           },
+    #         },
+    #         snowflake_role: "SnowflakeRole", # required
+    #         identity_mapping: { # required
+    #           username_attribute: "String", # required
+    #           prefix: "String",
+    #         },
+    #         lineage_sync: {
+    #           timezone: "UTC", # accepts UTC, AFRICA_JOHANNESBURG, AMERICA_MONTREAL, AMERICA_SAO_PAULO, ASIA_BAHRAIN, ASIA_BANGKOK, ASIA_CALCUTTA, ASIA_DUBAI, ASIA_HONG_KONG, ASIA_JAKARTA, ASIA_KUALA_LUMPUR, ASIA_SEOUL, ASIA_SHANGHAI, ASIA_SINGAPORE, ASIA_TAIPEI, ASIA_TOKYO, AUSTRALIA_MELBOURNE, AUSTRALIA_SYDNEY, CANADA_CENTRAL, CET, CST6CDT, ETC_GMT, ETC_GMT0, ETC_GMT_ADD_0, ETC_GMT_ADD_1, ETC_GMT_ADD_10, ETC_GMT_ADD_11, ETC_GMT_ADD_12, ETC_GMT_ADD_2, ETC_GMT_ADD_3, ETC_GMT_ADD_4, ETC_GMT_ADD_5, ETC_GMT_ADD_6, ETC_GMT_ADD_7, ETC_GMT_ADD_8, ETC_GMT_ADD_9, ETC_GMT_NEG_0, ETC_GMT_NEG_1, ETC_GMT_NEG_10, ETC_GMT_NEG_11, ETC_GMT_NEG_12, ETC_GMT_NEG_13, ETC_GMT_NEG_14, ETC_GMT_NEG_2, ETC_GMT_NEG_3, ETC_GMT_NEG_4, ETC_GMT_NEG_5, ETC_GMT_NEG_6, ETC_GMT_NEG_7, ETC_GMT_NEG_8, ETC_GMT_NEG_9, EUROPE_DUBLIN, EUROPE_LONDON, EUROPE_PARIS, EUROPE_STOCKHOLM, EUROPE_ZURICH, ISRAEL, MEXICO_GENERAL, MST7MDT, PACIFIC_AUCKLAND, US_CENTRAL, US_EASTERN, US_MOUNTAIN, US_PACIFIC
+    #           enabled: false, # required
+    #           schedule: "LineageSyncScheduleCronString",
+    #         },
+    #       },
     #       amazon_q_properties: {
     #         is_enabled: false, # required
     #         profile_arn: "AmazonQPropertiesInputProfileArnString",
@@ -2216,6 +2285,15 @@ module Aws::DataZone
     #   resp.props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.props.s3_properties.error_message #=> String
+    #   resp.props.snowflake_properties.snowflake_role #=> String
+    #   resp.props.snowflake_properties.identity_mapping.username_attribute #=> String
+    #   resp.props.snowflake_properties.identity_mapping.prefix #=> String
+    #   resp.props.snowflake_properties.lineage_sync.lineage_job_id #=> String
+    #   resp.props.snowflake_properties.lineage_sync.timezone #=> String, one of "UTC", "AFRICA_JOHANNESBURG", "AMERICA_MONTREAL", "AMERICA_SAO_PAULO", "ASIA_BAHRAIN", "ASIA_BANGKOK", "ASIA_CALCUTTA", "ASIA_DUBAI", "ASIA_HONG_KONG", "ASIA_JAKARTA", "ASIA_KUALA_LUMPUR", "ASIA_SEOUL", "ASIA_SHANGHAI", "ASIA_SINGAPORE", "ASIA_TAIPEI", "ASIA_TOKYO", "AUSTRALIA_MELBOURNE", "AUSTRALIA_SYDNEY", "CANADA_CENTRAL", "CET", "CST6CDT", "ETC_GMT", "ETC_GMT0", "ETC_GMT_ADD_0", "ETC_GMT_ADD_1", "ETC_GMT_ADD_10", "ETC_GMT_ADD_11", "ETC_GMT_ADD_12", "ETC_GMT_ADD_2", "ETC_GMT_ADD_3", "ETC_GMT_ADD_4", "ETC_GMT_ADD_5", "ETC_GMT_ADD_6", "ETC_GMT_ADD_7", "ETC_GMT_ADD_8", "ETC_GMT_ADD_9", "ETC_GMT_NEG_0", "ETC_GMT_NEG_1", "ETC_GMT_NEG_10", "ETC_GMT_NEG_11", "ETC_GMT_NEG_12", "ETC_GMT_NEG_13", "ETC_GMT_NEG_14", "ETC_GMT_NEG_2", "ETC_GMT_NEG_3", "ETC_GMT_NEG_4", "ETC_GMT_NEG_5", "ETC_GMT_NEG_6", "ETC_GMT_NEG_7", "ETC_GMT_NEG_8", "ETC_GMT_NEG_9", "EUROPE_DUBLIN", "EUROPE_LONDON", "EUROPE_PARIS", "EUROPE_STOCKHOLM", "EUROPE_ZURICH", "ISRAEL", "MEXICO_GENERAL", "MST7MDT", "PACIFIC_AUCKLAND", "US_CENTRAL", "US_EASTERN", "US_MOUNTAIN", "US_PACIFIC"
+    #   resp.props.snowflake_properties.lineage_sync.enabled #=> Boolean
+    #   resp.props.snowflake_properties.lineage_sync.schedule #=> String
+    #   resp.props.snowflake_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.props.snowflake_properties.error_message #=> String
     #   resp.props.amazon_q_properties.is_enabled #=> Boolean
     #   resp.props.amazon_q_properties.profile_arn #=> String
     #   resp.props.amazon_q_properties.auth_mode #=> String
@@ -2923,6 +3001,11 @@ module Aws::DataZone
     #
     # @option params [String] :environment_blueprint_identifier
     #   The ID of the blueprint with which the environment is being created.
+    #
+    #   <note markdown="1"> This parameter is only valid for V1 domains. If provided for a V2
+    #   domain, the service returns a ValidationException.
+    #
+    #    </note>
     #
     # @option params [Integer] :deployment_order
     #   The deployment order of the environment.
@@ -6376,6 +6459,15 @@ module Aws::DataZone
     #   resp.props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.props.s3_properties.error_message #=> String
+    #   resp.props.snowflake_properties.snowflake_role #=> String
+    #   resp.props.snowflake_properties.identity_mapping.username_attribute #=> String
+    #   resp.props.snowflake_properties.identity_mapping.prefix #=> String
+    #   resp.props.snowflake_properties.lineage_sync.lineage_job_id #=> String
+    #   resp.props.snowflake_properties.lineage_sync.timezone #=> String, one of "UTC", "AFRICA_JOHANNESBURG", "AMERICA_MONTREAL", "AMERICA_SAO_PAULO", "ASIA_BAHRAIN", "ASIA_BANGKOK", "ASIA_CALCUTTA", "ASIA_DUBAI", "ASIA_HONG_KONG", "ASIA_JAKARTA", "ASIA_KUALA_LUMPUR", "ASIA_SEOUL", "ASIA_SHANGHAI", "ASIA_SINGAPORE", "ASIA_TAIPEI", "ASIA_TOKYO", "AUSTRALIA_MELBOURNE", "AUSTRALIA_SYDNEY", "CANADA_CENTRAL", "CET", "CST6CDT", "ETC_GMT", "ETC_GMT0", "ETC_GMT_ADD_0", "ETC_GMT_ADD_1", "ETC_GMT_ADD_10", "ETC_GMT_ADD_11", "ETC_GMT_ADD_12", "ETC_GMT_ADD_2", "ETC_GMT_ADD_3", "ETC_GMT_ADD_4", "ETC_GMT_ADD_5", "ETC_GMT_ADD_6", "ETC_GMT_ADD_7", "ETC_GMT_ADD_8", "ETC_GMT_ADD_9", "ETC_GMT_NEG_0", "ETC_GMT_NEG_1", "ETC_GMT_NEG_10", "ETC_GMT_NEG_11", "ETC_GMT_NEG_12", "ETC_GMT_NEG_13", "ETC_GMT_NEG_14", "ETC_GMT_NEG_2", "ETC_GMT_NEG_3", "ETC_GMT_NEG_4", "ETC_GMT_NEG_5", "ETC_GMT_NEG_6", "ETC_GMT_NEG_7", "ETC_GMT_NEG_8", "ETC_GMT_NEG_9", "EUROPE_DUBLIN", "EUROPE_LONDON", "EUROPE_PARIS", "EUROPE_STOCKHOLM", "EUROPE_ZURICH", "ISRAEL", "MEXICO_GENERAL", "MST7MDT", "PACIFIC_AUCKLAND", "US_CENTRAL", "US_EASTERN", "US_MOUNTAIN", "US_PACIFIC"
+    #   resp.props.snowflake_properties.lineage_sync.enabled #=> Boolean
+    #   resp.props.snowflake_properties.lineage_sync.schedule #=> String
+    #   resp.props.snowflake_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.props.snowflake_properties.error_message #=> String
     #   resp.props.amazon_q_properties.is_enabled #=> Boolean
     #   resp.props.amazon_q_properties.profile_arn #=> String
     #   resp.props.amazon_q_properties.auth_mode #=> String
@@ -9205,6 +9297,15 @@ module Aws::DataZone
     #   resp.items[0].props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.items[0].props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.items[0].props.s3_properties.error_message #=> String
+    #   resp.items[0].props.snowflake_properties.snowflake_role #=> String
+    #   resp.items[0].props.snowflake_properties.identity_mapping.username_attribute #=> String
+    #   resp.items[0].props.snowflake_properties.identity_mapping.prefix #=> String
+    #   resp.items[0].props.snowflake_properties.lineage_sync.lineage_job_id #=> String
+    #   resp.items[0].props.snowflake_properties.lineage_sync.timezone #=> String, one of "UTC", "AFRICA_JOHANNESBURG", "AMERICA_MONTREAL", "AMERICA_SAO_PAULO", "ASIA_BAHRAIN", "ASIA_BANGKOK", "ASIA_CALCUTTA", "ASIA_DUBAI", "ASIA_HONG_KONG", "ASIA_JAKARTA", "ASIA_KUALA_LUMPUR", "ASIA_SEOUL", "ASIA_SHANGHAI", "ASIA_SINGAPORE", "ASIA_TAIPEI", "ASIA_TOKYO", "AUSTRALIA_MELBOURNE", "AUSTRALIA_SYDNEY", "CANADA_CENTRAL", "CET", "CST6CDT", "ETC_GMT", "ETC_GMT0", "ETC_GMT_ADD_0", "ETC_GMT_ADD_1", "ETC_GMT_ADD_10", "ETC_GMT_ADD_11", "ETC_GMT_ADD_12", "ETC_GMT_ADD_2", "ETC_GMT_ADD_3", "ETC_GMT_ADD_4", "ETC_GMT_ADD_5", "ETC_GMT_ADD_6", "ETC_GMT_ADD_7", "ETC_GMT_ADD_8", "ETC_GMT_ADD_9", "ETC_GMT_NEG_0", "ETC_GMT_NEG_1", "ETC_GMT_NEG_10", "ETC_GMT_NEG_11", "ETC_GMT_NEG_12", "ETC_GMT_NEG_13", "ETC_GMT_NEG_14", "ETC_GMT_NEG_2", "ETC_GMT_NEG_3", "ETC_GMT_NEG_4", "ETC_GMT_NEG_5", "ETC_GMT_NEG_6", "ETC_GMT_NEG_7", "ETC_GMT_NEG_8", "ETC_GMT_NEG_9", "EUROPE_DUBLIN", "EUROPE_LONDON", "EUROPE_PARIS", "EUROPE_STOCKHOLM", "EUROPE_ZURICH", "ISRAEL", "MEXICO_GENERAL", "MST7MDT", "PACIFIC_AUCKLAND", "US_CENTRAL", "US_EASTERN", "US_MOUNTAIN", "US_PACIFIC"
+    #   resp.items[0].props.snowflake_properties.lineage_sync.enabled #=> Boolean
+    #   resp.items[0].props.snowflake_properties.lineage_sync.schedule #=> String
+    #   resp.items[0].props.snowflake_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.items[0].props.snowflake_properties.error_message #=> String
     #   resp.items[0].props.amazon_q_properties.is_enabled #=> Boolean
     #   resp.items[0].props.amazon_q_properties.profile_arn #=> String
     #   resp.items[0].props.amazon_q_properties.auth_mode #=> String
@@ -14238,6 +14339,27 @@ module Aws::DataZone
     #         s3_access_grant_location_id: "S3AccessGrantLocationId",
     #         register_s3_access_grant_location: false,
     #       },
+    #       snowflake_properties: {
+    #         connectivity_properties_patch: {
+    #           description: "ConnectivityPropertiesPatchDescriptionString",
+    #           connection_properties: {
+    #             "String" => "ConnectionPropertiesValueString",
+    #           },
+    #           authentication_configuration: {
+    #             secret_arn: "AuthenticationConfigurationPatchSecretArnString",
+    #             basic_authentication_credentials: {
+    #               user_name: "BasicAuthenticationCredentialsUserNameString",
+    #               password: "BasicAuthenticationCredentialsPasswordString",
+    #             },
+    #           },
+    #         },
+    #         snowflake_role: "SnowflakeRole",
+    #         lineage_sync: {
+    #           timezone: "UTC", # accepts UTC, AFRICA_JOHANNESBURG, AMERICA_MONTREAL, AMERICA_SAO_PAULO, ASIA_BAHRAIN, ASIA_BANGKOK, ASIA_CALCUTTA, ASIA_DUBAI, ASIA_HONG_KONG, ASIA_JAKARTA, ASIA_KUALA_LUMPUR, ASIA_SEOUL, ASIA_SHANGHAI, ASIA_SINGAPORE, ASIA_TAIPEI, ASIA_TOKYO, AUSTRALIA_MELBOURNE, AUSTRALIA_SYDNEY, CANADA_CENTRAL, CET, CST6CDT, ETC_GMT, ETC_GMT0, ETC_GMT_ADD_0, ETC_GMT_ADD_1, ETC_GMT_ADD_10, ETC_GMT_ADD_11, ETC_GMT_ADD_12, ETC_GMT_ADD_2, ETC_GMT_ADD_3, ETC_GMT_ADD_4, ETC_GMT_ADD_5, ETC_GMT_ADD_6, ETC_GMT_ADD_7, ETC_GMT_ADD_8, ETC_GMT_ADD_9, ETC_GMT_NEG_0, ETC_GMT_NEG_1, ETC_GMT_NEG_10, ETC_GMT_NEG_11, ETC_GMT_NEG_12, ETC_GMT_NEG_13, ETC_GMT_NEG_14, ETC_GMT_NEG_2, ETC_GMT_NEG_3, ETC_GMT_NEG_4, ETC_GMT_NEG_5, ETC_GMT_NEG_6, ETC_GMT_NEG_7, ETC_GMT_NEG_8, ETC_GMT_NEG_9, EUROPE_DUBLIN, EUROPE_LONDON, EUROPE_PARIS, EUROPE_STOCKHOLM, EUROPE_ZURICH, ISRAEL, MEXICO_GENERAL, MST7MDT, PACIFIC_AUCKLAND, US_CENTRAL, US_EASTERN, US_MOUNTAIN, US_PACIFIC
+    #           enabled: false, # required
+    #           schedule: "LineageSyncScheduleCronString",
+    #         },
+    #       },
     #       amazon_q_properties: {
     #         is_enabled: false, # required
     #         profile_arn: "AmazonQPropertiesPatchProfileArnString",
@@ -14378,6 +14500,15 @@ module Aws::DataZone
     #   resp.props.s3_properties.register_s3_access_grant_location #=> Boolean
     #   resp.props.s3_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
     #   resp.props.s3_properties.error_message #=> String
+    #   resp.props.snowflake_properties.snowflake_role #=> String
+    #   resp.props.snowflake_properties.identity_mapping.username_attribute #=> String
+    #   resp.props.snowflake_properties.identity_mapping.prefix #=> String
+    #   resp.props.snowflake_properties.lineage_sync.lineage_job_id #=> String
+    #   resp.props.snowflake_properties.lineage_sync.timezone #=> String, one of "UTC", "AFRICA_JOHANNESBURG", "AMERICA_MONTREAL", "AMERICA_SAO_PAULO", "ASIA_BAHRAIN", "ASIA_BANGKOK", "ASIA_CALCUTTA", "ASIA_DUBAI", "ASIA_HONG_KONG", "ASIA_JAKARTA", "ASIA_KUALA_LUMPUR", "ASIA_SEOUL", "ASIA_SHANGHAI", "ASIA_SINGAPORE", "ASIA_TAIPEI", "ASIA_TOKYO", "AUSTRALIA_MELBOURNE", "AUSTRALIA_SYDNEY", "CANADA_CENTRAL", "CET", "CST6CDT", "ETC_GMT", "ETC_GMT0", "ETC_GMT_ADD_0", "ETC_GMT_ADD_1", "ETC_GMT_ADD_10", "ETC_GMT_ADD_11", "ETC_GMT_ADD_12", "ETC_GMT_ADD_2", "ETC_GMT_ADD_3", "ETC_GMT_ADD_4", "ETC_GMT_ADD_5", "ETC_GMT_ADD_6", "ETC_GMT_ADD_7", "ETC_GMT_ADD_8", "ETC_GMT_ADD_9", "ETC_GMT_NEG_0", "ETC_GMT_NEG_1", "ETC_GMT_NEG_10", "ETC_GMT_NEG_11", "ETC_GMT_NEG_12", "ETC_GMT_NEG_13", "ETC_GMT_NEG_14", "ETC_GMT_NEG_2", "ETC_GMT_NEG_3", "ETC_GMT_NEG_4", "ETC_GMT_NEG_5", "ETC_GMT_NEG_6", "ETC_GMT_NEG_7", "ETC_GMT_NEG_8", "ETC_GMT_NEG_9", "EUROPE_DUBLIN", "EUROPE_LONDON", "EUROPE_PARIS", "EUROPE_STOCKHOLM", "EUROPE_ZURICH", "ISRAEL", "MEXICO_GENERAL", "MST7MDT", "PACIFIC_AUCKLAND", "US_CENTRAL", "US_EASTERN", "US_MOUNTAIN", "US_PACIFIC"
+    #   resp.props.snowflake_properties.lineage_sync.enabled #=> Boolean
+    #   resp.props.snowflake_properties.lineage_sync.schedule #=> String
+    #   resp.props.snowflake_properties.status #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "READY", "UPDATING", "UPDATE_FAILED", "DELETED"
+    #   resp.props.snowflake_properties.error_message #=> String
     #   resp.props.amazon_q_properties.is_enabled #=> Boolean
     #   resp.props.amazon_q_properties.profile_arn #=> String
     #   resp.props.amazon_q_properties.auth_mode #=> String
@@ -16335,7 +16466,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.82.0'
+      context[:gem_version] = '1.83.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

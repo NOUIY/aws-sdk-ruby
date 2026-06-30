@@ -358,6 +358,20 @@ module Aws::CloudWatch
       end
     end
 
+    class EvaluationWindow
+      attr_accessor wall_clock_window: Types::WallClockWindow
+      attr_accessor sliding_window: Types::SlidingWindow
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class WallClockWindow < EvaluationWindow
+      end
+      class SlidingWindow < EvaluationWindow
+      end
+      class Unknown < EvaluationWindow
+      end
+    end
+
     class GetAlarmMuteRuleInput
       attr_accessor alarm_mute_rule_name: ::String
       SENSITIVE: []
@@ -755,6 +769,7 @@ module Aws::CloudWatch
       attr_accessor threshold_metric_id: ::String
       attr_accessor evaluation_state: ("PARTIAL_DATA" | "EVALUATION_FAILURE" | "EVALUATION_ERROR")
       attr_accessor state_transitioned_timestamp: ::Time
+      attr_accessor evaluation_window: Types::EvaluationWindow
       attr_accessor evaluation_criteria: Types::EvaluationCriteria
       attr_accessor evaluation_interval: ::Integer
       SENSITIVE: []
@@ -976,6 +991,7 @@ module Aws::CloudWatch
       attr_accessor metrics: ::Array[Types::MetricDataQuery]
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor threshold_metric_id: ::String
+      attr_accessor evaluation_window: Types::EvaluationWindow
       attr_accessor evaluation_criteria: Types::EvaluationCriteria
       attr_accessor evaluation_interval: ::Integer
       SENSITIVE: []
@@ -1076,6 +1092,9 @@ module Aws::CloudWatch
       SENSITIVE: []
     end
 
+    class SlidingWindow < Aws::EmptyStructure
+    end
+
     class StartMetricStreamsInput
       attr_accessor names: ::Array[::String]
       SENSITIVE: []
@@ -1134,6 +1153,11 @@ module Aws::CloudWatch
     end
 
     class UntagResourceOutput < Aws::EmptyStructure
+    end
+
+    class WallClockWindow
+      attr_accessor timezone: ::String
+      SENSITIVE: []
     end
   end
 end

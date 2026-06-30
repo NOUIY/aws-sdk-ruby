@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.627.0 (2026-06-30)
+------------------
+
+* Feature - Adds ModifyVpcEndpointPayerResponsibility API, which enables VPC endpoint service owners to modify the billing account for VPC endpoint usage charges at the individual endpoint level
+
 1.626.0 (2026-06-29)
 ------------------
 

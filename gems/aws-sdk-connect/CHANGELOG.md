@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.261.0 (2026-06-30)
+------------------
+
+* Feature - Amazon Connect - Added CreateAttachedFile and StartContactConversationalAnalyticsJob APIs to import call recordings and run conversational analytics.
+
 1.260.0 (2026-06-19)
 ------------------
 

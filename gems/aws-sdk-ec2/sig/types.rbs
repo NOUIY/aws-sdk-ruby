@@ -14182,6 +14182,21 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class ModifyVpcEndpointPayerResponsibilityRequest
+      attr_accessor dry_run: bool
+      attr_accessor service_id: ::String
+      attr_accessor vpc_endpoint_id: ::String
+      attr_accessor payer_responsibility: ("vpc-endpoint-account" | "vpc-endpoint-service-account")
+      attr_accessor scope: ("vpc-endpoint-charges")
+      SENSITIVE: []
+    end
+
+    class ModifyVpcEndpointPayerResponsibilityResult
+      attr_accessor vpc_endpoint_id: ::String
+      attr_accessor payer_responsibilities: ::Array[Types::PayerResponsibilityEntry]
+      SENSITIVE: []
+    end
+
     class ModifyVpcEndpointRequest
       attr_accessor dry_run: bool
       attr_accessor vpc_endpoint_id: ::String
@@ -14901,6 +14916,12 @@ module Aws::EC2
     class PathStatementRequest
       attr_accessor packet_header_statement: Types::PacketHeaderStatementRequest
       attr_accessor resource_statement: Types::ResourceStatementRequest
+      SENSITIVE: []
+    end
+
+    class PayerResponsibilityEntry
+      attr_accessor scope: ("vpc-endpoint-charges")
+      attr_accessor payer_responsibility_type: ("vpc-endpoint-account" | "vpc-endpoint-service-account")
       SENSITIVE: []
     end
 
@@ -18924,6 +18945,7 @@ module Aws::EC2
       attr_accessor service_network_arn: ::String
       attr_accessor resource_configuration_arn: ::String
       attr_accessor service_region: ::String
+      attr_accessor payer_responsibilities: ::Array[Types::PayerResponsibilityEntry]
       SENSITIVE: []
     end
 
@@ -18956,6 +18978,7 @@ module Aws::EC2
       attr_accessor vpc_endpoint_connection_id: ::String
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor vpc_endpoint_region: ::String
+      attr_accessor payer_responsibilities: ::Array[Types::PayerResponsibilityEntry]
       SENSITIVE: []
     end
 

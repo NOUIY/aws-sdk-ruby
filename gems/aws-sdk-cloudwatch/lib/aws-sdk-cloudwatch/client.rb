@@ -1212,6 +1212,7 @@ module Aws::CloudWatch
     #   resp.metric_alarms[0].threshold_metric_id #=> String
     #   resp.metric_alarms[0].evaluation_state #=> String, one of "PARTIAL_DATA", "EVALUATION_FAILURE", "EVALUATION_ERROR"
     #   resp.metric_alarms[0].state_transitioned_timestamp #=> Time
+    #   resp.metric_alarms[0].evaluation_window.wall_clock_window.timezone #=> String
     #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.query #=> String
     #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.pending_period #=> Integer
     #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.recovery_period #=> Integer
@@ -1376,6 +1377,7 @@ module Aws::CloudWatch
     #   resp.metric_alarms[0].threshold_metric_id #=> String
     #   resp.metric_alarms[0].evaluation_state #=> String, one of "PARTIAL_DATA", "EVALUATION_FAILURE", "EVALUATION_ERROR"
     #   resp.metric_alarms[0].state_transitioned_timestamp #=> Time
+    #   resp.metric_alarms[0].evaluation_window.wall_clock_window.timezone #=> String
     #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.query #=> String
     #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.pending_period #=> Integer
     #   resp.metric_alarms[0].evaluation_criteria.prom_ql_criteria.recovery_period #=> Integer
@@ -4521,6 +4523,27 @@ module Aws::CloudWatch
     #   If your alarm uses this parameter, it cannot have Auto Scaling
     #   actions.
     #
+    # @option params [Types::EvaluationWindow] :evaluation_window
+    #   The evaluation window that the alarm uses to select the range of
+    #   metric data that it evaluates. Specify either a sliding window or a
+    #   wall clock window. If you omit this parameter, the alarm uses a
+    #   sliding window.
+    #
+    #   A sliding window advances each time the alarm is evaluated, forming a
+    #   rolling time window. A wall clock window aligns the evaluated range to
+    #   fixed clock boundaries, such as the top of the hour or the start of
+    #   the day.
+    #
+    #   You can use `EvaluationWindow` with any type of metric alarm except
+    #   alarms that are based on a PromQL query.
+    #
+    #   For more information, see [Alarm evaluation windows][1] in the
+    #   *CloudWatch User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html
+    #
     # @option params [Types::EvaluationCriteria] :evaluation_criteria
     #   The evaluation criteria for the alarm. For each `PutMetricAlarm`
     #   operation, you must specify either `MetricName`, a `Metrics` array, or
@@ -4606,6 +4629,13 @@ module Aws::CloudWatch
     #       },
     #     ],
     #     threshold_metric_id: "MetricId",
+    #     evaluation_window: {
+    #       wall_clock_window: {
+    #         timezone: "Timezone",
+    #       },
+    #       sliding_window: {
+    #       },
+    #     },
     #     evaluation_criteria: {
     #       prom_ql_criteria: {
     #         query: "Query", # required
@@ -5320,7 +5350,7 @@ module Aws::CloudWatch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatch'
-      context[:gem_version] = '1.141.0'
+      context[:gem_version] = '1.142.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
