@@ -535,6 +535,111 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Describes the account-level VPC Encryption Control configuration,
+    # including its mode, state, and exclusions.
+    #
+    # For more information, see [Enforce VPC encryption in transit][1] in
+    # the *Amazon VPC User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html
+    #
+    # @!attribute [rw] state
+    #   The current state of the account-level VPC Encryption Control
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] mode
+    #   The encryption mode for the account-level VPC Encryption Control
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] exclusions
+    #   Information about the traffic exclusions for the account-level VPC
+    #   Encryption Control configuration.
+    #   @return [Types::AccountVpcEncryptionControlExclusions]
+    #
+    # @!attribute [rw] managed_by
+    #   The entity that manages the account-level VPC Encryption Control
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_update_timestamp
+    #   The date and time when the account-level VPC Encryption Control
+    #   configuration was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AccountVpcEncryptionControl AWS API Documentation
+    #
+    class AccountVpcEncryptionControl < Struct.new(
+      :state,
+      :mode,
+      :exclusions,
+      :managed_by,
+      :last_update_timestamp)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the exclusion configurations for the various resource types
+    # in the account-level VPC Encryption Control configuration.
+    #
+    # For more information, see [Enforce VPC encryption in transit][1] in
+    # the *Amazon VPC User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html
+    #
+    # @!attribute [rw] internet_gateway
+    #   The exclusion configuration for internet gateway resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] egress_only_internet_gateway
+    #   The exclusion configuration for egress-only internet gateway
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] nat_gateway
+    #   The exclusion configuration for NAT gateway resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] virtual_private_gateway
+    #   The exclusion configuration for virtual private gateway resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_peering
+    #   The exclusion configuration for VPC peering connection resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] lambda
+    #   The exclusion configuration for Lambda service.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_lattice
+    #   The exclusion configuration for VPC Lattice service.
+    #   @return [String]
+    #
+    # @!attribute [rw] elastic_file_system
+    #   The exclusion configuration for Elastic File System service.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AccountVpcEncryptionControlExclusions AWS API Documentation
+    #
+    class AccountVpcEncryptionControlExclusions < Struct.new(
+      :internet_gateway,
+      :egress_only_internet_gateway,
+      :nat_gateway,
+      :virtual_private_gateway,
+      :vpc_peering,
+      :lambda,
+      :vpc_lattice,
+      :elastic_file_system)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes a running instance in a Spot Fleet.
     #
     # @!attribute [rw] instance_id
@@ -1228,6 +1333,10 @@ module Aws::EC2
     #   The ID of the Availability Zone.
     #   @return [String]
     #
+    # @!attribute [rw] cpu_options
+    #   The CPU configuration options to apply to the Dedicated Host.
+    #   @return [Types::HostCpuOptionsRequest]
+    #
     # @!attribute [rw] auto_placement
     #   Indicates whether the host accepts any untargeted instance launches
     #   that match its instance type configuration, or if it only accepts
@@ -1287,6 +1396,7 @@ module Aws::EC2
       :host_maintenance,
       :asset_ids,
       :availability_zone_id,
+      :cpu_options,
       :auto_placement,
       :client_token,
       :instance_type,
@@ -21723,6 +21833,34 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeAccountVpcEncryptionControlRequest AWS API Documentation
+    #
+    class DescribeAccountVpcEncryptionControlRequest < Struct.new(
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] account_vpc_encryption_control
+    #   Information about the account-level VPC Encryption Control
+    #   configuration.
+    #   @return [Types::AccountVpcEncryptionControl]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeAccountVpcEncryptionControlResult AWS API Documentation
+    #
+    class DescribeAccountVpcEncryptionControlResult < Struct.new(
+      :account_vpc_encryption_control)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] allocation_ids
     #   The allocation IDs of Elastic IP addresses.
     #   @return [Array<String>]
@@ -34996,6 +35134,13 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
     #   @return [Integer]
     #
+    # @!attribute [rw] include_managed_resources
+    #   Indicates whether to include managed resources in the output. If
+    #   this parameter is set to `true`, the output includes resources that
+    #   are managed by Amazon Web Services services, even if managed
+    #   resource visibility is set to hidden.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeVolumesModificationsRequest AWS API Documentation
     #
     class DescribeVolumesModificationsRequest < Struct.new(
@@ -35003,7 +35148,8 @@ module Aws::EC2
       :volume_ids,
       :filters,
       :next_token,
-      :max_results)
+      :max_results,
+      :include_managed_resources)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -48004,6 +48150,12 @@ module Aws::EC2
     #   allocated.
     #   @return [String]
     #
+    # @!attribute [rw] cpu_options
+    #   The CPU options for the Dedicated Host, including AMD Secure
+    #   Encrypted Virtualization-Secure Nested Paging (AMD SEV-SNP)
+    #   settings.
+    #   @return [Types::HostCpuOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/Host AWS API Documentation
     #
     class Host < Struct.new(
@@ -48026,7 +48178,43 @@ module Aws::EC2
       :member_of_service_linked_resource_group,
       :outpost_arn,
       :host_maintenance,
-      :asset_id)
+      :asset_id,
+      :cpu_options)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the CPU options for a Dedicated Host, including AMD Secure
+    # Encrypted Virtualization-Secure Nested Paging (AMD SEV-SNP) settings.
+    #
+    # @!attribute [rw] amd_sev_snp
+    #   Specifies whether AMD Secure Encrypted Virtualization-Secure Nested
+    #   Paging (AMD SEV-SNP) is enabled or disabled for the Dedicated Host.
+    #   If you don't specify a value, AMD SEV-SNP is `disabled`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/HostCpuOptions AWS API Documentation
+    #
+    class HostCpuOptions < Struct.new(
+      :amd_sev_snp)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the CPU configuration options for a Dedicated Host allocation
+    # request. Options include AMD Secure Encrypted Virtualization-Secure
+    # Nested Paging (AMD SEV-SNP) settings.
+    #
+    # @!attribute [rw] amd_sev_snp
+    #   Specifies whether AMD Secure Encrypted Virtualization-Secure Nested
+    #   Paging (AMD SEV-SNP) is enabled or disabled for the Dedicated Host.
+    #   If you don't specify a value, AMD SEV-SNP is `disabled`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/HostCpuOptionsRequest AWS API Documentation
+    #
+    class HostCpuOptionsRequest < Struct.new(
+      :amd_sev_snp)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -60994,6 +61182,88 @@ module Aws::EC2
     class MetricValue < Struct.new(
       :metric,
       :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] mode
+    #   The encryption mode for the account encryption control
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] internet_gateway
+    #   Specifies whether to exclude internet gateway resource from
+    #   account-level encryption enforcement.
+    #   @return [String]
+    #
+    # @!attribute [rw] egress_only_internet_gateway
+    #   Specifies whether to exclude egress-only internet gateway resource
+    #   from account-level encryption enforcement.
+    #   @return [String]
+    #
+    # @!attribute [rw] nat_gateway
+    #   Specifies whether to exclude NAT gateway resource from account-level
+    #   encryption enforcement.
+    #   @return [String]
+    #
+    # @!attribute [rw] virtual_private_gateway
+    #   Specifies whether to exclude virtual private gateway resource from
+    #   account-level encryption enforcement.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_peering
+    #   Specifies whether to exclude VPC peering connection resource from
+    #   account-level encryption enforcement.
+    #   @return [String]
+    #
+    # @!attribute [rw] lambda
+    #   Specifies whether to exclude Lambda service from account-level
+    #   encryption enforcement.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_lattice
+    #   Specifies whether to exclude VPC Lattice service from account-level
+    #   encryption enforcement.
+    #   @return [String]
+    #
+    # @!attribute [rw] elastic_file_system
+    #   Specifies whether to exclude Elastic File System service from
+    #   account-level encryption enforcement.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAccountVpcEncryptionControlRequest AWS API Documentation
+    #
+    class ModifyAccountVpcEncryptionControlRequest < Struct.new(
+      :dry_run,
+      :mode,
+      :internet_gateway,
+      :egress_only_internet_gateway,
+      :nat_gateway,
+      :virtual_private_gateway,
+      :vpc_peering,
+      :lambda,
+      :vpc_lattice,
+      :elastic_file_system)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] account_vpc_encryption_control
+    #   Information about the account-level VPC Encryption Control
+    #   configuration.
+    #   @return [Types::AccountVpcEncryptionControl]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAccountVpcEncryptionControlResult AWS API Documentation
+    #
+    class ModifyAccountVpcEncryptionControlResult < Struct.new(
+      :account_vpc_encryption_control)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -86613,6 +86883,10 @@ module Aws::EC2
     #   The modification completion or failure time.
     #   @return [Time]
     #
+    # @!attribute [rw] operator
+    #   The service provider that manages the resource.
+    #   @return [Types::OperatorResponse]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/VolumeModification AWS API Documentation
     #
     class VolumeModification < Struct.new(
@@ -86631,7 +86905,8 @@ module Aws::EC2
       :original_multi_attach_enabled,
       :progress,
       :start_time,
-      :end_time)
+      :end_time,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end

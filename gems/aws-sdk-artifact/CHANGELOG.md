@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.39.0 (2026-07-01)
+------------------
+
+* Feature - Add support for Assurance Assistant APIs for managing compliance inquiries along with tagging features.
+
 1.38.0 (2026-05-28)
 ------------------
 

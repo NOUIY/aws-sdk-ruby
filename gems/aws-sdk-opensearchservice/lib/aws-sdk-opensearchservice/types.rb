@@ -2119,6 +2119,16 @@ module Aws::OpenSearchService
     #   Maximum suspension duration: 3 days.
     #   @return [Types::AutomatedSnapshotPauseRequestOptions]
     #
+    # @!attribute [rw] use_case
+    #   The primary use case for the domain. For valid values, see
+    #   `DomainUseCase`.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_mode
+    #   The engine mode for the domain. For valid values and requirements,
+    #   see `EngineMode`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CreateDomainRequest AWS API Documentation
     #
     class CreateDomainRequest < Struct.new(
@@ -2144,7 +2154,9 @@ module Aws::OpenSearchService
       :software_update_options,
       :aiml_options,
       :deployment_strategy_options,
-      :automated_snapshot_pause_options)
+      :automated_snapshot_pause_options,
+      :use_case,
+      :engine_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4003,6 +4015,14 @@ module Aws::OpenSearchService
     #   Specifies `AutomatedSnapshotPauseOptions` for the domain.
     #   @return [Types::AutomatedSnapshotPauseOptionsStatus]
     #
+    # @!attribute [rw] use_case
+    #   The use case configured for the domain.
+    #   @return [Types::UseCaseStatus]
+    #
+    # @!attribute [rw] engine_mode
+    #   The engine mode configured for the domain.
+    #   @return [Types::EngineModeStatus]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DomainConfig AWS API Documentation
     #
     class DomainConfig < Struct.new(
@@ -4028,7 +4048,9 @@ module Aws::OpenSearchService
       :modifying_properties,
       :aiml_options,
       :deployment_strategy_options,
-      :automated_snapshot_pause_options)
+      :automated_snapshot_pause_options,
+      :use_case,
+      :engine_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4493,6 +4515,14 @@ module Aws::OpenSearchService
     #   options.
     #   @return [Types::AutomatedSnapshotPauseOptions]
     #
+    # @!attribute [rw] use_case
+    #   The primary use case for the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_mode
+    #   The engine mode for the domain.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DomainStatus AWS API Documentation
     #
     class DomainStatus < Struct.new(
@@ -4531,7 +4561,9 @@ module Aws::OpenSearchService
       :modifying_properties,
       :aiml_options,
       :deployment_strategy_options,
-      :automated_snapshot_pause_options)
+      :automated_snapshot_pause_options,
+      :use_case,
+      :engine_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4722,6 +4754,25 @@ module Aws::OpenSearchService
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/EncryptionAtRestOptionsStatus AWS API Documentation
     #
     class EncryptionAtRestOptionsStatus < Struct.new(
+      :options,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The status of the engine mode for the domain.
+    #
+    # @!attribute [rw] options
+    #   The engine mode configured for the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the engine mode for the domain.
+    #   @return [Types::OptionStatus]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/EngineModeStatus AWS API Documentation
+    #
+    class EngineModeStatus < Struct.new(
       :options,
       :status)
       SENSITIVE = []
@@ -5744,6 +5795,74 @@ module Aws::OpenSearchService
     class InsightEntity < Struct.new(
       :type,
       :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the entity for which to submit insight feedback. An entity
+    # represents an Amazon OpenSearch Service domain.
+    #
+    # @!attribute [rw] type
+    #   The type of the entity. Possible values are `DomainName`.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the entity, such as a domain name.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/InsightFeedbackEntity AWS API Documentation
+    #
+    class InsightFeedbackEntity < Struct.new(
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Container for the parameters to the `InsightFeedback` operation.
+    #
+    # @!attribute [rw] entity
+    #   The entity for which to submit insight feedback. Specifies the type
+    #   and value of the entity, such as a domain name.
+    #   @return [Types::InsightFeedbackEntity]
+    #
+    # @!attribute [rw] insight_id
+    #   The unique identifier of the insight for which to submit feedback.
+    #   @return [String]
+    #
+    # @!attribute [rw] thumbs
+    #   The thumbs up or thumbs down feedback for the insight. Possible
+    #   values are `Up` and `Down`.
+    #   @return [String]
+    #
+    # @!attribute [rw] feedback_text
+    #   Optional text feedback providing additional details about the
+    #   insight. Maximum length is 1000 characters.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/InsightFeedbackRequest AWS API Documentation
+    #
+    class InsightFeedbackRequest < Struct.new(
+      :entity,
+      :insight_id,
+      :thumbs,
+      :feedback_text)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of an `InsightFeedback` request. Contains the status of the
+    # feedback submission.
+    #
+    # @!attribute [rw] status
+    #   The status of the feedback submission. Possible values are `SUCCESS`
+    #   and `ERROR`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/InsightFeedbackResponse AWS API Documentation
+    #
+    class InsightFeedbackResponse < Struct.new(
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8959,6 +9078,16 @@ module Aws::OpenSearchService
     #   Maximum suspension duration: 3 days.
     #   @return [Types::AutomatedSnapshotPauseRequestOptions]
     #
+    # @!attribute [rw] use_case
+    #   The primary use case for the domain. For valid values, see
+    #   `DomainUseCase`.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_mode
+    #   The engine mode for the domain. The engine mode can't be changed
+    #   after the domain is created. For valid values, see `EngineMode`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateDomainConfigRequest AWS API Documentation
     #
     class UpdateDomainConfigRequest < Struct.new(
@@ -8984,7 +9113,9 @@ module Aws::OpenSearchService
       :software_update_options,
       :aiml_options,
       :deployment_strategy_options,
-      :automated_snapshot_pause_options)
+      :automated_snapshot_pause_options,
+      :use_case,
+      :engine_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9410,6 +9541,25 @@ module Aws::OpenSearchService
       :upgrade_step_status,
       :issues,
       :progress_percent)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The status of the use case for the domain.
+    #
+    # @!attribute [rw] options
+    #   The use case configured for the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the use case for the domain.
+    #   @return [Types::OptionStatus]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UseCaseStatus AWS API Documentation
+    #
+    class UseCaseStatus < Struct.new(
+      :options,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end

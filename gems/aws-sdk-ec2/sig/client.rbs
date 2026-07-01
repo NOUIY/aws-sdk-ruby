@@ -267,6 +267,9 @@ module Aws
                             ?host_maintenance: ("on" | "off"),
                             ?asset_ids: Array[::String],
                             ?availability_zone_id: ::String,
+                            ?cpu_options: {
+                              amd_sev_snp: ("enabled" | "disabled")?
+                            },
                             ?auto_placement: ("on" | "off"),
                             ?client_token: ::String,
                             ?instance_type: ::String,
@@ -5232,6 +5235,16 @@ module Aws
                                        ) -> _DescribeAccountAttributesResponseSuccess
                                      | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAccountAttributesResponseSuccess
 
+      interface _DescribeAccountVpcEncryptionControlResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAccountVpcEncryptionControlResult]
+        def account_vpc_encryption_control: () -> Types::AccountVpcEncryptionControl
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#describe_account_vpc_encryption_control-instance_method
+      def describe_account_vpc_encryption_control: (
+                                                     ?dry_run: bool
+                                                   ) -> _DescribeAccountVpcEncryptionControlResponseSuccess
+                                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeAccountVpcEncryptionControlResponseSuccess
+
       interface _DescribeAddressTransfersResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeAddressTransfersResult]
         def address_transfers: () -> ::Array[Types::AddressTransfer]
@@ -8499,7 +8512,8 @@ module Aws
                                               }
                                             ],
                                             ?next_token: ::String,
-                                            ?max_results: ::Integer
+                                            ?max_results: ::Integer,
+                                            ?include_managed_resources: bool
                                           ) -> _DescribeVolumesModificationsResponseSuccess
                                         | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeVolumesModificationsResponseSuccess
 
@@ -11192,6 +11206,25 @@ module Aws
                            ?expiration_date: ::Time
                          ) -> _LockSnapshotResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _LockSnapshotResponseSuccess
+
+      interface _ModifyAccountVpcEncryptionControlResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ModifyAccountVpcEncryptionControlResult]
+        def account_vpc_encryption_control: () -> Types::AccountVpcEncryptionControl
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#modify_account_vpc_encryption_control-instance_method
+      def modify_account_vpc_encryption_control: (
+                                                   ?dry_run: bool,
+                                                   ?mode: ("unmanaged" | "attempt-monitor" | "attempt-enforce"),
+                                                   ?internet_gateway: ("enable" | "disable"),
+                                                   ?egress_only_internet_gateway: ("enable" | "disable"),
+                                                   ?nat_gateway: ("enable" | "disable"),
+                                                   ?virtual_private_gateway: ("enable" | "disable"),
+                                                   ?vpc_peering: ("enable" | "disable"),
+                                                   ?lambda: ("enable" | "disable"),
+                                                   ?vpc_lattice: ("enable" | "disable"),
+                                                   ?elastic_file_system: ("enable" | "disable")
+                                                 ) -> _ModifyAccountVpcEncryptionControlResponseSuccess
+                                               | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyAccountVpcEncryptionControlResponseSuccess
 
       interface _ModifyAddressAttributeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ModifyAddressAttributeResult]

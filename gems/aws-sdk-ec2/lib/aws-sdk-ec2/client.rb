@@ -1253,6 +1253,9 @@ module Aws::EC2
     # @option params [String] :availability_zone_id
     #   The ID of the Availability Zone.
     #
+    # @option params [Types::HostCpuOptionsRequest] :cpu_options
+    #   The CPU configuration options to apply to the Dedicated Host.
+    #
     # @option params [String] :auto_placement
     #   Indicates whether the host accepts any untargeted instance launches
     #   that match its instance type configuration, or if it only accepts Host
@@ -1321,6 +1324,9 @@ module Aws::EC2
     #     host_maintenance: "on", # accepts on, off
     #     asset_ids: ["AssetId"],
     #     availability_zone_id: "AvailabilityZoneId",
+    #     cpu_options: {
+    #       amd_sev_snp: "enabled", # accepts enabled, disabled
+    #     },
     #     auto_placement: "on", # accepts on, off
     #     client_token: "String",
     #     instance_type: "String",
@@ -4376,25 +4382,28 @@ module Aws::EC2
     #
     # * `assessing`
     #
-    # * `scheduled`
+    # * `scheduled` — requires a cancellation quote. Use
+    #   `CreateCapacityReservationCancellationQuote` to generate a quote,
+    #   then pass the quote ID with `ApplyCancellationCharges` set to
+    #   `commitment-wind-down`. The cancellation charge depends on how close
+    #   the reservation is to its start date.
     #
     # * `active` and there is no commitment duration or the commitment
     #   duration has elapsed.
     #
-    # * `active` during the commitment duration, if you provide a
-    #   cancellation quote ID and accept the cancellation charges. Use
-    #   `CreateCapacityReservationCancellationQuote` to generate a quote.
-    #   The Capacity Reservation transitions to `cancelling` while charges
-    #   are applied.
+    # * `active` during the commitment duration — requires a cancellation
+    #   quote. Use `CreateCapacityReservationCancellationQuote` to generate
+    #   a quote, then pass the quote ID with `ApplyCancellationCharges` set
+    #   to `commitment-wind-down`. The Capacity Reservation transitions to
+    #   `cancelling` while charges are applied.
+    #
+    # * `delayed` — the commitment duration is waived, so no cancellation
+    #   charge applies.
     #
     # <note markdown="1"> You can't modify or cancel a Capacity Block. For more information,
     # see [Capacity Blocks for ML][1].
     #
     #  </note>
-    #
-    # If a future-dated Capacity Reservation enters the `delayed` state, the
-    # commitment duration is waived, and you can cancel it as soon as it
-    # enters the `active` state.
     #
     # Instances running in the reserved capacity continue running until you
     # stop them. Stopped instances that target the Capacity Reservation can
@@ -13501,8 +13510,8 @@ module Aws::EC2
     # instances in different partitions, where instances in one partition do
     # not share the same hardware with instances in another partition. A
     # `precision-time` placement group places instances on supported
-    # hardware with direct access to high-precision time sources in AWS
-    # infrastructure.
+    # hardware with direct access to high-precision time sources in Amazon
+    # Web Services infrastructure.
     #
     # For more information, see [Placement groups][1] in the *Amazon EC2
     # User Guide*.
@@ -24991,6 +25000,58 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Describes the account-level VPC Encryption Control configuration for
+    # your account. VPC Encryption Control enables you to enforce encryption
+    # for all data in transit within and between VPCs to meet compliance
+    # requirements.
+    #
+    # For more information, see [Enforce VPC encryption in transit][1] in
+    # the *Amazon VPC User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::DescribeAccountVpcEncryptionControlResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAccountVpcEncryptionControlResult#account_vpc_encryption_control #account_vpc_encryption_control} => Types::AccountVpcEncryptionControl
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_account_vpc_encryption_control({
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.account_vpc_encryption_control.state #=> String, one of "default-state", "transitions-in-progress", "transitions-partially-successful", "transitions-successful", "transitions-failed"
+    #   resp.account_vpc_encryption_control.mode #=> String, one of "unmanaged", "attempt-monitor", "attempt-enforce"
+    #   resp.account_vpc_encryption_control.exclusions.internet_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.egress_only_internet_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.nat_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.virtual_private_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.vpc_peering #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.lambda #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.vpc_lattice #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.elastic_file_system #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.managed_by #=> String, one of "account", "declarative-policy"
+    #   resp.account_vpc_encryption_control.last_update_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeAccountVpcEncryptionControl AWS API Documentation
+    #
+    # @overload describe_account_vpc_encryption_control(params = {})
+    # @param [Hash] params ({})
+    def describe_account_vpc_encryption_control(params = {}, options = {})
+      req = build_request(:describe_account_vpc_encryption_control, params)
+      req.send_request(options)
+    end
+
     # Describes an Elastic IP address transfer. For more information, see
     # [Transfer Elastic IP addresses][1] in the *Amazon VPC User Guide*.
     #
@@ -29449,7 +29510,7 @@ module Aws::EC2
     #   resp.hosts[0].instances[0].instance_id #=> String
     #   resp.hosts[0].instances[0].instance_type #=> String
     #   resp.hosts[0].instances[0].owner_id #=> String
-    #   resp.hosts[0].state #=> String, one of "available", "under-assessment", "permanent-failure", "released", "released-permanent-failure", "pending"
+    #   resp.hosts[0].state #=> String, one of "available", "under-assessment", "permanent-failure", "released", "released-permanent-failure", "pending", "configuring"
     #   resp.hosts[0].allocation_time #=> Time
     #   resp.hosts[0].release_time #=> Time
     #   resp.hosts[0].tags #=> Array
@@ -29463,6 +29524,7 @@ module Aws::EC2
     #   resp.hosts[0].outpost_arn #=> String
     #   resp.hosts[0].host_maintenance #=> String, one of "on", "off"
     #   resp.hosts[0].asset_id #=> String
+    #   resp.hosts[0].cpu_options.amd_sev_snp #=> String, one of "enabled", "disabled"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeHosts AWS API Documentation
@@ -45803,6 +45865,12 @@ module Aws::EC2
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination
     #
+    # @option params [Boolean] :include_managed_resources
+    #   Indicates whether to include managed resources in the output. If this
+    #   parameter is set to `true`, the output includes resources that are
+    #   managed by Amazon Web Services services, even if managed resource
+    #   visibility is set to hidden.
+    #
     # @return [Types::DescribeVolumesModificationsResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeVolumesModificationsResult#next_token #next_token} => String
@@ -45823,6 +45891,7 @@ module Aws::EC2
     #     ],
     #     next_token: "String",
     #     max_results: 1,
+    #     include_managed_resources: false,
     #   })
     #
     # @example Response structure
@@ -45845,6 +45914,9 @@ module Aws::EC2
     #   resp.volumes_modifications[0].progress #=> Integer
     #   resp.volumes_modifications[0].start_time #=> Time
     #   resp.volumes_modifications[0].end_time #=> Time
+    #   resp.volumes_modifications[0].operator.managed #=> Boolean
+    #   resp.volumes_modifications[0].operator.principal #=> String
+    #   resp.volumes_modifications[0].operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeVolumesModifications AWS API Documentation
     #
@@ -58180,6 +58252,103 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Modifies the account-level VPC Encryption Control configuration. This
+    # sets the encryption control mode and resource exclusions that apply to
+    # the VPCs in your account. VPC Encryption Control enables you to
+    # enforce encryption for all data in transit within and between VPCs to
+    # meet compliance requirements.
+    #
+    # For more information, see [Enforce VPC encryption in transit][1] in
+    # the *Amazon VPC User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @option params [String] :mode
+    #   The encryption mode for the account encryption control configuration.
+    #
+    # @option params [String] :internet_gateway
+    #   Specifies whether to exclude internet gateway resource from
+    #   account-level encryption enforcement.
+    #
+    # @option params [String] :egress_only_internet_gateway
+    #   Specifies whether to exclude egress-only internet gateway resource
+    #   from account-level encryption enforcement.
+    #
+    # @option params [String] :nat_gateway
+    #   Specifies whether to exclude NAT gateway resource from account-level
+    #   encryption enforcement.
+    #
+    # @option params [String] :virtual_private_gateway
+    #   Specifies whether to exclude virtual private gateway resource from
+    #   account-level encryption enforcement.
+    #
+    # @option params [String] :vpc_peering
+    #   Specifies whether to exclude VPC peering connection resource from
+    #   account-level encryption enforcement.
+    #
+    # @option params [String] :lambda
+    #   Specifies whether to exclude Lambda service from account-level
+    #   encryption enforcement.
+    #
+    # @option params [String] :vpc_lattice
+    #   Specifies whether to exclude VPC Lattice service from account-level
+    #   encryption enforcement.
+    #
+    # @option params [String] :elastic_file_system
+    #   Specifies whether to exclude Elastic File System service from
+    #   account-level encryption enforcement.
+    #
+    # @return [Types::ModifyAccountVpcEncryptionControlResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyAccountVpcEncryptionControlResult#account_vpc_encryption_control #account_vpc_encryption_control} => Types::AccountVpcEncryptionControl
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_account_vpc_encryption_control({
+    #     dry_run: false,
+    #     mode: "unmanaged", # accepts unmanaged, attempt-monitor, attempt-enforce
+    #     internet_gateway: "enable", # accepts enable, disable
+    #     egress_only_internet_gateway: "enable", # accepts enable, disable
+    #     nat_gateway: "enable", # accepts enable, disable
+    #     virtual_private_gateway: "enable", # accepts enable, disable
+    #     vpc_peering: "enable", # accepts enable, disable
+    #     lambda: "enable", # accepts enable, disable
+    #     vpc_lattice: "enable", # accepts enable, disable
+    #     elastic_file_system: "enable", # accepts enable, disable
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.account_vpc_encryption_control.state #=> String, one of "default-state", "transitions-in-progress", "transitions-partially-successful", "transitions-successful", "transitions-failed"
+    #   resp.account_vpc_encryption_control.mode #=> String, one of "unmanaged", "attempt-monitor", "attempt-enforce"
+    #   resp.account_vpc_encryption_control.exclusions.internet_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.egress_only_internet_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.nat_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.virtual_private_gateway #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.vpc_peering #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.lambda #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.vpc_lattice #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.exclusions.elastic_file_system #=> String, one of "enabling", "enabled", "disabling", "disabled"
+    #   resp.account_vpc_encryption_control.managed_by #=> String, one of "account", "declarative-policy"
+    #   resp.account_vpc_encryption_control.last_update_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAccountVpcEncryptionControl AWS API Documentation
+    #
+    # @overload modify_account_vpc_encryption_control(params = {})
+    # @param [Hash] params ({})
+    def modify_account_vpc_encryption_control(params = {}, options = {})
+      req = build_request(:modify_account_vpc_encryption_control, params)
+      req.send_request(options)
+    end
+
     # Modifies an attribute of the specified Elastic IP address. For
     # requirements, see [Using reverse DNS for email applications][1].
     #
@@ -64102,6 +64271,9 @@ module Aws::EC2
     #   resp.volume_modification.progress #=> Integer
     #   resp.volume_modification.start_time #=> Time
     #   resp.volume_modification.end_time #=> Time
+    #   resp.volume_modification.operator.managed #=> Boolean
+    #   resp.volume_modification.operator.principal #=> String
+    #   resp.volume_modification.operator.hidden_by_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVolume AWS API Documentation
     #
@@ -74175,7 +74347,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.627.0'
+      context[:gem_version] = '1.628.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

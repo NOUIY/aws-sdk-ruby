@@ -1058,6 +1058,7 @@ module Aws::QuickSight
     FieldTooltipItem = Shapes::StructureShape.new(name: 'FieldTooltipItem')
     FieldValue = Shapes::StringShape.new(name: 'FieldValue')
     FileFormat = Shapes::StringShape.new(name: 'FileFormat')
+    FileSource = Shapes::StructureShape.new(name: 'FileSource')
     FilledMapAggregatedFieldWells = Shapes::StructureShape.new(name: 'FilledMapAggregatedFieldWells')
     FilledMapConditionalFormatting = Shapes::StructureShape.new(name: 'FilledMapConditionalFormatting')
     FilledMapConditionalFormattingOption = Shapes::StructureShape.new(name: 'FilledMapConditionalFormattingOption')
@@ -6955,6 +6956,12 @@ module Aws::QuickSight
     FieldTooltipItem.add_member(:tooltip_target, Shapes::ShapeRef.new(shape: TooltipTarget, location_name: "TooltipTarget"))
     FieldTooltipItem.struct_class = Types::FieldTooltipItem
 
+    FileSource.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "DataSourceArn"))
+    FileSource.add_member(:upload_settings, Shapes::ShapeRef.new(shape: UploadSettings, location_name: "UploadSettings"))
+    FileSource.add_member(:sheet_index, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "SheetIndex"))
+    FileSource.add_member(:input_columns, Shapes::ShapeRef.new(shape: InputColumnList, required: true, location_name: "InputColumns"))
+    FileSource.struct_class = Types::FileSource
+
     FilledMapAggregatedFieldWells.add_member(:geospatial, Shapes::ShapeRef.new(shape: FilledMapDimensionFieldList, location_name: "Geospatial"))
     FilledMapAggregatedFieldWells.add_member(:values, Shapes::ShapeRef.new(shape: FilledMapMeasureFieldList, location_name: "Values"))
     FilledMapAggregatedFieldWells.struct_class = Types::FilledMapAggregatedFieldWells
@@ -9394,6 +9401,7 @@ module Aws::QuickSight
     PhysicalTable.add_member(:custom_sql, Shapes::ShapeRef.new(shape: CustomSql, location_name: "CustomSql"))
     PhysicalTable.add_member(:s3_source, Shapes::ShapeRef.new(shape: S3Source, location_name: "S3Source"))
     PhysicalTable.add_member(:saa_s_table, Shapes::ShapeRef.new(shape: SaaSTable, location_name: "SaaSTable"))
+    PhysicalTable.add_member(:file_source, Shapes::ShapeRef.new(shape: FileSource, location_name: "FileSource"))
     PhysicalTable.struct_class = Types::PhysicalTable
 
     PhysicalTableMap.key = Shapes::ShapeRef.new(shape: PhysicalTableId)

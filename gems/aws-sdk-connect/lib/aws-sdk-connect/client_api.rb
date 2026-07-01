@@ -358,6 +358,7 @@ module Aws::Connect
     ContactTagValue = Shapes::StringShape.new(name: 'ContactTagValue')
     Contacts = Shapes::ListShape.new(name: 'Contacts')
     Content = Shapes::StringShape.new(name: 'Content')
+    ContentAttributes = Shapes::StructureShape.new(name: 'ContentAttributes')
     ContentType = Shapes::StringShape.new(name: 'ContentType')
     ControlPlaneAttributeFilter = Shapes::StructureShape.new(name: 'ControlPlaneAttributeFilter')
     ControlPlaneTagFilter = Shapes::StructureShape.new(name: 'ControlPlaneTagFilter')
@@ -457,6 +458,7 @@ module Aws::Connect
     CustomerId = Shapes::StringShape.new(name: 'CustomerId')
     CustomerIdNonEmpty = Shapes::StringShape.new(name: 'CustomerIdNonEmpty')
     CustomerProfileAttributesSerialized = Shapes::StringShape.new(name: 'CustomerProfileAttributesSerialized')
+    CustomerProfileId = Shapes::StringShape.new(name: 'CustomerProfileId')
     CustomerQualityMetrics = Shapes::StructureShape.new(name: 'CustomerQualityMetrics')
     CustomerVoiceActivity = Shapes::StructureShape.new(name: 'CustomerVoiceActivity')
     DataSetId = Shapes::StringShape.new(name: 'DataSetId')
@@ -1320,6 +1322,7 @@ module Aws::Connect
     NotificationSource = Shapes::StringShape.new(name: 'NotificationSource')
     NotificationStatus = Shapes::StringShape.new(name: 'NotificationStatus')
     NotificationSummaryList = Shapes::ListShape.new(name: 'NotificationSummaryList')
+    NotificationType = Shapes::StringShape.new(name: 'NotificationType')
     NullableBoolean = Shapes::BooleanShape.new(name: 'NullableBoolean')
     NullableDouble = Shapes::FloatShape.new(name: 'NullableDouble')
     NullableProficiencyLevel = Shapes::FloatShape.new(name: 'NullableProficiencyLevel')
@@ -1395,6 +1398,7 @@ module Aws::Connect
     PersistentConnection = Shapes::BooleanShape.new(name: 'PersistentConnection')
     PersistentConnectionConfig = Shapes::StructureShape.new(name: 'PersistentConnectionConfig')
     PersistentConnectionConfigs = Shapes::ListShape.new(name: 'PersistentConnectionConfigs')
+    PersonalizeDomainName = Shapes::StringShape.new(name: 'PersonalizeDomainName')
     PhoneNumber = Shapes::StringShape.new(name: 'PhoneNumber')
     PhoneNumberConfig = Shapes::StructureShape.new(name: 'PhoneNumberConfig')
     PhoneNumberConfigs = Shapes::ListShape.new(name: 'PhoneNumberConfigs')
@@ -1560,6 +1564,11 @@ module Aws::Connect
     RealtimeContactAnalysisSegment = Shapes::UnionShape.new(name: 'RealtimeContactAnalysisSegment')
     RealtimeContactAnalysisSegments = Shapes::ListShape.new(name: 'RealtimeContactAnalysisSegments')
     RecipientList = Shapes::ListShape.new(name: 'RecipientList')
+    RecommenderConfig = Shapes::StructureShape.new(name: 'RecommenderConfig')
+    RecommenderContext = Shapes::MapShape.new(name: 'RecommenderContext')
+    RecommenderContextKey = Shapes::StringShape.new(name: 'RecommenderContextKey')
+    RecommenderContextValue = Shapes::StringShape.new(name: 'RecommenderContextValue')
+    RecommenderName = Shapes::StringShape.new(name: 'RecommenderName')
     RecordIds = Shapes::ListShape.new(name: 'RecordIds')
     RecordPrimaryValue = Shapes::StructureShape.new(name: 'RecordPrimaryValue')
     RecordingDeletionReason = Shapes::StringShape.new(name: 'RecordingDeletionReason')
@@ -1770,6 +1779,8 @@ module Aws::Connect
     SendNotificationActionDefinition = Shapes::StructureShape.new(name: 'SendNotificationActionDefinition')
     SendOutboundEmailRequest = Shapes::StructureShape.new(name: 'SendOutboundEmailRequest')
     SendOutboundEmailResponse = Shapes::StructureShape.new(name: 'SendOutboundEmailResponse')
+    SendOutboundWebNotificationRequest = Shapes::StructureShape.new(name: 'SendOutboundWebNotificationRequest')
+    SendOutboundWebNotificationResponse = Shapes::StructureShape.new(name: 'SendOutboundWebNotificationResponse')
     SensitivePhoneNumber = Shapes::StringShape.new(name: 'SensitivePhoneNumber')
     SentimentConfiguration = Shapes::StructureShape.new(name: 'SentimentConfiguration')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
@@ -2126,6 +2137,7 @@ module Aws::Connect
     View = Shapes::StructureShape.new(name: 'View')
     ViewAction = Shapes::StringShape.new(name: 'ViewAction')
     ViewActions = Shapes::ListShape.new(name: 'ViewActions')
+    ViewArn = Shapes::StringShape.new(name: 'ViewArn')
     ViewContent = Shapes::StructureShape.new(name: 'ViewContent')
     ViewContentSha256 = Shapes::StringShape.new(name: 'ViewContentSha256')
     ViewDescription = Shapes::StringShape.new(name: 'ViewDescription')
@@ -2166,8 +2178,14 @@ module Aws::Connect
     VoiceEnhancementMode = Shapes::StringShape.new(name: 'VoiceEnhancementMode')
     VoiceRecordingConfiguration = Shapes::StructureShape.new(name: 'VoiceRecordingConfiguration')
     VoiceRecordingTrack = Shapes::StringShape.new(name: 'VoiceRecordingTrack')
+    WebBrowserId = Shapes::StringShape.new(name: 'WebBrowserId')
+    WebNotificationContent = Shapes::StructureShape.new(name: 'WebNotificationContent')
+    WebNotificationSource = Shapes::StructureShape.new(name: 'WebNotificationSource')
+    WebSessionId = Shapes::StringShape.new(name: 'WebSessionId')
     WeekdayOccurrenceInteger = Shapes::IntegerShape.new(name: 'WeekdayOccurrenceInteger')
     WeekdayOccurrenceList = Shapes::ListShape.new(name: 'WeekdayOccurrenceList')
+    WidgetDestination = Shapes::StructureShape.new(name: 'WidgetDestination')
+    WidgetId = Shapes::StringShape.new(name: 'WidgetId')
     WisdomInfo = Shapes::StructureShape.new(name: 'WisdomInfo')
     Workspace = Shapes::StructureShape.new(name: 'Workspace')
     WorkspaceAssociatedResourceId = Shapes::StringShape.new(name: 'WorkspaceAssociatedResourceId')
@@ -3269,6 +3287,9 @@ module Aws::Connect
     ContactTagMap.value = Shapes::ShapeRef.new(shape: ContactTagValue)
 
     Contacts.member = Shapes::ShapeRef.new(shape: ContactSearchSummary)
+
+    ContentAttributes.add_member(:recommender_config, Shapes::ShapeRef.new(shape: RecommenderConfig, location_name: "RecommenderConfig"))
+    ContentAttributes.struct_class = Types::ContentAttributes
 
     ControlPlaneAttributeFilter.add_member(:or_conditions, Shapes::ShapeRef.new(shape: CommonAttributeOrConditionList, location_name: "OrConditions"))
     ControlPlaneAttributeFilter.add_member(:and_condition, Shapes::ShapeRef.new(shape: CommonAttributeAndCondition, location_name: "AndCondition"))
@@ -7330,6 +7351,14 @@ module Aws::Connect
 
     RecipientList.member = Shapes::ShapeRef.new(shape: ARN)
 
+    RecommenderConfig.add_member(:domain_name, Shapes::ShapeRef.new(shape: PersonalizeDomainName, required: true, location_name: "DomainName"))
+    RecommenderConfig.add_member(:recommender_name, Shapes::ShapeRef.new(shape: RecommenderName, required: true, location_name: "RecommenderName"))
+    RecommenderConfig.add_member(:context, Shapes::ShapeRef.new(shape: RecommenderContext, location_name: "Context"))
+    RecommenderConfig.struct_class = Types::RecommenderConfig
+
+    RecommenderContext.key = Shapes::ShapeRef.new(shape: RecommenderContextKey)
+    RecommenderContext.value = Shapes::ShapeRef.new(shape: RecommenderContextValue)
+
     RecordIds.member = Shapes::ShapeRef.new(shape: DataTableId)
 
     RecordPrimaryValue.add_member(:record_id, Shapes::ShapeRef.new(shape: DataTableId, location_name: "RecordId"))
@@ -8113,6 +8142,18 @@ module Aws::Connect
     SendOutboundEmailRequest.struct_class = Types::SendOutboundEmailRequest
 
     SendOutboundEmailResponse.struct_class = Types::SendOutboundEmailResponse
+
+    SendOutboundWebNotificationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    SendOutboundWebNotificationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    SendOutboundWebNotificationRequest.add_member(:browser_id, Shapes::ShapeRef.new(shape: WebBrowserId, required: true, location_name: "BrowserId"))
+    SendOutboundWebNotificationRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: WebSessionId, required: true, location_name: "SessionId"))
+    SendOutboundWebNotificationRequest.add_member(:expires_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "ExpiresAt"))
+    SendOutboundWebNotificationRequest.add_member(:source, Shapes::ShapeRef.new(shape: WebNotificationSource, required: true, location_name: "Source"))
+    SendOutboundWebNotificationRequest.add_member(:destination, Shapes::ShapeRef.new(shape: WidgetDestination, required: true, location_name: "Destination"))
+    SendOutboundWebNotificationRequest.add_member(:content, Shapes::ShapeRef.new(shape: WebNotificationContent, required: true, location_name: "Content"))
+    SendOutboundWebNotificationRequest.struct_class = Types::SendOutboundWebNotificationRequest
+
+    SendOutboundWebNotificationResponse.struct_class = Types::SendOutboundWebNotificationResponse
 
     SentimentConfiguration.add_member(:behavior, Shapes::ShapeRef.new(shape: Behavior, required: true, location_name: "Behavior"))
     SentimentConfiguration.struct_class = Types::SentimentConfiguration
@@ -9546,7 +9587,19 @@ module Aws::Connect
     VoiceRecordingConfiguration.add_member(:ivr_recording_track, Shapes::ShapeRef.new(shape: IvrRecordingTrack, location_name: "IvrRecordingTrack"))
     VoiceRecordingConfiguration.struct_class = Types::VoiceRecordingConfiguration
 
+    WebNotificationContent.add_member(:type, Shapes::ShapeRef.new(shape: NotificationType, required: true, location_name: "Type"))
+    WebNotificationContent.add_member(:view_arn, Shapes::ShapeRef.new(shape: ViewArn, location_name: "ViewArn"))
+    WebNotificationContent.add_member(:attributes, Shapes::ShapeRef.new(shape: ContentAttributes, location_name: "Attributes"))
+    WebNotificationContent.struct_class = Types::WebNotificationContent
+
+    WebNotificationSource.add_member(:source_campaign, Shapes::ShapeRef.new(shape: SourceCampaign, required: true, location_name: "SourceCampaign"))
+    WebNotificationSource.struct_class = Types::WebNotificationSource
+
     WeekdayOccurrenceList.member = Shapes::ShapeRef.new(shape: WeekdayOccurrenceInteger)
+
+    WidgetDestination.add_member(:widget_id, Shapes::ShapeRef.new(shape: WidgetId, required: true, location_name: "WidgetId"))
+    WidgetDestination.add_member(:profile_id, Shapes::ShapeRef.new(shape: CustomerProfileId, required: true, location_name: "ProfileId"))
+    WidgetDestination.struct_class = Types::WidgetDestination
 
     WisdomInfo.add_member(:session_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "SessionArn"))
     WisdomInfo.add_member(:ai_agents, Shapes::ShapeRef.new(shape: AiAgents, location_name: "AiAgents"))
@@ -14046,6 +14099,19 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: IdempotencyException)
+      end)
+
+      api.add_operation(:send_outbound_web_notification, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SendOutboundWebNotification"
+        o.http_method = "POST"
+        o.http_request_uri = "/instance/{InstanceId}/outbound-web-notification"
+        o.input = Shapes::ShapeRef.new(shape: SendOutboundWebNotificationRequest)
+        o.output = Shapes::ShapeRef.new(shape: SendOutboundWebNotificationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:start_attached_file_upload, Seahorse::Model::Operation.new.tap do |o|

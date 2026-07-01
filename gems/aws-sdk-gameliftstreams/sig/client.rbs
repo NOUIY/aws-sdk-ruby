@@ -165,6 +165,19 @@ module Aws
                                ) -> _CreateStreamGroupResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateStreamGroupResponseSuccess
 
+      interface _CreateStreamSessionAdminShellResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateStreamSessionAdminShellOutput]
+        def session_id: () -> ::String
+        def stream_url: () -> ::String
+        def token_value: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GameLiftStreams/Client.html#create_stream_session_admin_shell-instance_method
+      def create_stream_session_admin_shell: (
+                                               identifier: ::String,
+                                               stream_session_identifier: ::String
+                                             ) -> _CreateStreamSessionAdminShellResponseSuccess
+                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateStreamSessionAdminShellResponseSuccess
+
       interface _CreateStreamSessionConnectionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateStreamSessionConnectionOutput]
         def signal_response: () -> ::String

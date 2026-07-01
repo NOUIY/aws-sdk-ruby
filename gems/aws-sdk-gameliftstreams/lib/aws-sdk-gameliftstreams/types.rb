@@ -1203,6 +1203,68 @@ module Aws::GameLiftStreams
       include Aws::Structure
     end
 
+    # @!attribute [rw] identifier
+    #   The stream group that runs this stream session.
+    #
+    #   This value is an [Amazon Resource Name (ARN)][1] or ID that uniquely
+    #   identifies the stream group resource. Example ARN:
+    #   `arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4`.
+    #   Example ID: `sg-1AB2C3De4`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html
+    #   @return [String]
+    #
+    # @!attribute [rw] stream_session_identifier
+    #   An [Amazon Resource Name (ARN)][1] or ID that uniquely identifies
+    #   the stream session resource. Example ARN:
+    #   `arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567`.
+    #   Example ID: `ABC123def4567`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/CreateStreamSessionAdminShellInput AWS API Documentation
+    #
+    class CreateStreamSessionAdminShellInput < Struct.new(
+      :identifier,
+      :stream_session_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] session_id
+    #   An Amazon Web Services Systems Manager session identifier that
+    #   uniquely identifies the requested terminal session. Use this value
+    #   with the Amazon Web Services Systems Manager Session Manager plugin.
+    #   @return [String]
+    #
+    # @!attribute [rw] stream_url
+    #   An Amazon Web Services Systems Manager WebSocket connection endpoint
+    #   for the requested terminal session.
+    #   @return [String]
+    #
+    # @!attribute [rw] token_value
+    #   An Amazon Web Services Systems Manager authentication token that
+    #   authenticates your access to the session ID and WebSocket URL. This
+    #   token must be treated with the same level of security as other user
+    #   credentials. The token value is only valid for establishing a new
+    #   connection within 60 seconds of generation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/CreateStreamSessionAdminShellOutput AWS API Documentation
+    #
+    class CreateStreamSessionAdminShellOutput < Struct.new(
+      :session_id,
+      :stream_url,
+      :token_value)
+      SENSITIVE = [:token_value]
+      include Aws::Structure
+    end
+
     # @!attribute [rw] client_token
     #   A unique identifier that represents a client request. The request is
     #   idempotent, which ensures that an API request completes only once.
@@ -3678,6 +3740,21 @@ module Aws::GameLiftStreams
       :created_at,
       :last_updated_at,
       :expires_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The terminal connection to the stream session is not yet available.
+    # Wait before retrying the request.
+    #
+    # @!attribute [rw] message
+    #   Description of the error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StreamSessionAccessNotReadyException AWS API Documentation
+    #
+    class StreamSessionAccessNotReadyException < Struct.new(
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end

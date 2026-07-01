@@ -578,7 +578,7 @@ module Aws::MarketplaceMetering
     # @!attribute [rw] timestamp
     #   Timestamp, in UTC, for which the usage is being reported.
     #
-    #   Your application can meter usage for up to six hours in the past.
+    #   Your application can meter usage for up to 24 hours in the past.
     #   Make sure the `timestamp` value is not before the start of the
     #   software usage.
     #   @return [Time]

@@ -5296,6 +5296,14 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class FileSource
+      attr_accessor data_source_arn: ::String
+      attr_accessor upload_settings: Types::UploadSettings
+      attr_accessor sheet_index: ::Integer
+      attr_accessor input_columns: ::Array[Types::InputColumn]
+      SENSITIVE: []
+    end
+
     class FilledMapAggregatedFieldWells
       attr_accessor geospatial: ::Array[Types::DimensionField]
       attr_accessor values: ::Array[Types::MeasureField]
@@ -8395,6 +8403,7 @@ module Aws::QuickSight
       attr_accessor custom_sql: Types::CustomSql
       attr_accessor s3_source: Types::S3Source
       attr_accessor saa_s_table: Types::SaaSTable
+      attr_accessor file_source: Types::FileSource
       SENSITIVE: []
     end
 

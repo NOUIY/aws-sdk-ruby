@@ -498,7 +498,7 @@ module Aws::MarketplaceMetering
     # `BatchMeterUsage` calls.
     #
     # Usage records should be submitted in quick succession following a
-    # recorded event. Usage records aren't accepted 6 hours or more after
+    # recorded event. Usage records aren't accepted 24 hours or more after
     # an event.
     #
     # `BatchMeterUsage` can process up to 25 `UsageRecords` at a time, and
@@ -940,7 +940,7 @@ module Aws::MarketplaceMetering
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-marketplacemetering'
-      context[:gem_version] = '1.98.0'
+      context[:gem_version] = '1.99.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

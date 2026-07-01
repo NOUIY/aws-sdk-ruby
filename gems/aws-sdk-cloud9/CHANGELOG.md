@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.104.0 (2026-07-01)
+------------------
+
+* Feature - Since Amazon Linux 2 (AL2) will reach its end-of-life (EOL) and stop receiving security updates on June 30, 2026, Cloud9 will remove AL2 from AMI options in public API create-environment-ec2.
+
 1.103.0 (2026-05-21)
 ------------------
 

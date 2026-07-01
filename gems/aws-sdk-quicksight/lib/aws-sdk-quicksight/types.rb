@@ -20536,6 +20536,39 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # A physical table type that contains the schema and upload settings for
+    # a file-based data source.
+    #
+    # @!attribute [rw] data_source_arn
+    #   The Amazon Resource Name (ARN) for the data source.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_settings
+    #   Information about the format for the source file.
+    #   @return [Types::UploadSettings]
+    #
+    # @!attribute [rw] sheet_index
+    #   The zero-based index of the sheet to use within the file. For files
+    #   that contain multiple sheets, this identifies which sheet to read.
+    #   Files that contain a single sheet, or that have no concept of
+    #   sheets, use sheet 0.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] input_columns
+    #   The column schema of the file.
+    #   @return [Array<Types::InputColumn>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/FileSource AWS API Documentation
+    #
+    class FileSource < Struct.new(
+      :data_source_arn,
+      :upload_settings,
+      :sheet_index,
+      :input_columns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The aggregated field well of the filled map.
     #
     # @!attribute [rw] geospatial
@@ -32396,12 +32429,16 @@ module Aws::QuickSight
     #   @return [Types::CustomSql]
     #
     # @!attribute [rw] s3_source
-    #   A physical table type for as S3 data source.
+    #   A physical table type for an S3 data source.
     #   @return [Types::S3Source]
     #
     # @!attribute [rw] saa_s_table
     #   A physical table type for Software-as-a-Service (SaaS) sources.
     #   @return [Types::SaaSTable]
+    #
+    # @!attribute [rw] file_source
+    #   A physical table type for a file data source.
+    #   @return [Types::FileSource]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/PhysicalTable AWS API Documentation
     #
@@ -32409,7 +32446,8 @@ module Aws::QuickSight
       :relational_table,
       :custom_sql,
       :s3_source,
-      :saa_s_table)
+      :saa_s_table,
+      :file_source)
       SENSITIVE = []
       include Aws::Structure
     end

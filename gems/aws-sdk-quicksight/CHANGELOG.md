@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.188.0 (2026-07-01)
+------------------
+
+* Feature - Adding support for FileSource PhysicalTables.  This adds support for datasets with file sources.
+
 1.187.0 (2026-06-22)
 ------------------
 

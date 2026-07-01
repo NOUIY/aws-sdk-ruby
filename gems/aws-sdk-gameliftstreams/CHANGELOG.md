@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.30.0 (2026-07-01)
+------------------
+
+* Feature - Added CreateStreamSessionAdminShell API operation to enable customers to establish secure terminal connections to the live runtime environment of streaming sessions for troubleshooting purposes.
+
 1.29.0 (2026-05-22)
 ------------------
 

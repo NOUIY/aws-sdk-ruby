@@ -5380,11 +5380,26 @@ module Aws
       ]
     }
 
+      type file_source = {
+      data_source_arn: ::String,
+      upload_settings: Params::upload_settings?,
+      sheet_index: ::Integer,
+      input_columns: Array[
+        {
+          name: ::String,
+          id: ::String?,
+          type: ("STRING" | "INTEGER" | "DECIMAL" | "DATETIME" | "BIT" | "BOOLEAN" | "JSON" | "SEMISTRUCT"),
+          sub_type: ("FLOAT" | "FIXED")?
+        }
+      ]
+    }
+
       type physical_table = {
       relational_table: Params::relational_table?,
       custom_sql: Params::custom_sql?,
       s3_source: Params::s3_source?,
-      saa_s_table: Params::saa_s_table?
+      saa_s_table: Params::saa_s_table?,
+      file_source: Params::file_source?
     }
 
       type join_instruction = {

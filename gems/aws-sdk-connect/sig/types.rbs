@@ -1238,6 +1238,11 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ContentAttributes
+      attr_accessor recommender_config: Types::RecommenderConfig
+      SENSITIVE: []
+    end
+
     class ControlPlaneAttributeFilter
       attr_accessor or_conditions: ::Array[Types::CommonAttributeAndCondition]
       attr_accessor and_condition: Types::CommonAttributeAndCondition
@@ -6442,6 +6447,13 @@ module Aws::Connect
       end
     end
 
+    class RecommenderConfig
+      attr_accessor domain_name: ::String
+      attr_accessor recommender_name: ::String
+      attr_accessor context: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class RecordPrimaryValue
       attr_accessor record_id: ::String
       attr_accessor primary_values: ::Array[Types::PrimaryValueResponse]
@@ -7393,6 +7405,21 @@ module Aws::Connect
     end
 
     class SendOutboundEmailResponse < Aws::EmptyStructure
+    end
+
+    class SendOutboundWebNotificationRequest
+      attr_accessor instance_id: ::String
+      attr_accessor client_token: ::String
+      attr_accessor browser_id: ::String
+      attr_accessor session_id: ::String
+      attr_accessor expires_at: ::Time
+      attr_accessor source: Types::WebNotificationSource
+      attr_accessor destination: Types::WidgetDestination
+      attr_accessor content: Types::WebNotificationContent
+      SENSITIVE: []
+    end
+
+    class SendOutboundWebNotificationResponse < Aws::EmptyStructure
     end
 
     class SentimentConfiguration
@@ -9159,6 +9186,24 @@ module Aws::Connect
     class VoiceRecordingConfiguration
       attr_accessor voice_recording_track: ("FROM_AGENT" | "TO_AGENT" | "ALL")
       attr_accessor ivr_recording_track: ("ALL")
+      SENSITIVE: []
+    end
+
+    class WebNotificationContent
+      attr_accessor type: ("WIDGET_VIEW" | "WIDGET_ACTION")
+      attr_accessor view_arn: ::String
+      attr_accessor attributes: Types::ContentAttributes
+      SENSITIVE: []
+    end
+
+    class WebNotificationSource
+      attr_accessor source_campaign: Types::SourceCampaign
+      SENSITIVE: []
+    end
+
+    class WidgetDestination
+      attr_accessor widget_id: ::String
+      attr_accessor profile_id: ::String
       SENSITIVE: []
     end
 

@@ -2901,6 +2901,26 @@ module Aws::QuickSight
     #             },
     #           ],
     #         },
+    #         file_source: {
+    #           data_source_arn: "Arn", # required
+    #           upload_settings: {
+    #             format: "CSV", # accepts CSV, TSV, CLF, ELF, XLSX, JSON
+    #             start_from_row: 1,
+    #             contains_header: false,
+    #             text_qualifier: "DOUBLE_QUOTE", # accepts DOUBLE_QUOTE, SINGLE_QUOTE
+    #             delimiter: "Delimiter",
+    #             custom_cell_address_range: "String",
+    #           },
+    #           sheet_index: 1, # required
+    #           input_columns: [ # required
+    #             {
+    #               name: "ColumnName", # required
+    #               id: "ColumnId",
+    #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON, SEMISTRUCT
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
+    #             },
+    #           ],
+    #         },
     #       },
     #     },
     #     logical_table_map: {
@@ -9522,6 +9542,19 @@ module Aws::QuickSight
     #   resp.data_set.physical_table_map["PhysicalTableId"].saa_s_table.input_columns[0].id #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].saa_s_table.input_columns[0].type #=> String, one of "STRING", "INTEGER", "DECIMAL", "DATETIME", "BIT", "BOOLEAN", "JSON", "SEMISTRUCT"
     #   resp.data_set.physical_table_map["PhysicalTableId"].saa_s_table.input_columns[0].sub_type #=> String, one of "FLOAT", "FIXED"
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.data_source_arn #=> String
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.upload_settings.format #=> String, one of "CSV", "TSV", "CLF", "ELF", "XLSX", "JSON"
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.upload_settings.start_from_row #=> Integer
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.upload_settings.contains_header #=> Boolean
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.upload_settings.text_qualifier #=> String, one of "DOUBLE_QUOTE", "SINGLE_QUOTE"
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.upload_settings.delimiter #=> String
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.upload_settings.custom_cell_address_range #=> String
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.sheet_index #=> Integer
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.input_columns #=> Array
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.input_columns[0].name #=> String
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.input_columns[0].id #=> String
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.input_columns[0].type #=> String, one of "STRING", "INTEGER", "DECIMAL", "DATETIME", "BIT", "BOOLEAN", "JSON", "SEMISTRUCT"
+    #   resp.data_set.physical_table_map["PhysicalTableId"].file_source.input_columns[0].sub_type #=> String, one of "FLOAT", "FIXED"
     #   resp.data_set.logical_table_map #=> Hash
     #   resp.data_set.logical_table_map["LogicalTableId"].alias #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms #=> Array
@@ -20549,6 +20582,26 @@ module Aws::QuickSight
     #             },
     #           ],
     #         },
+    #         file_source: {
+    #           data_source_arn: "Arn", # required
+    #           upload_settings: {
+    #             format: "CSV", # accepts CSV, TSV, CLF, ELF, XLSX, JSON
+    #             start_from_row: 1,
+    #             contains_header: false,
+    #             text_qualifier: "DOUBLE_QUOTE", # accepts DOUBLE_QUOTE, SINGLE_QUOTE
+    #             delimiter: "Delimiter",
+    #             custom_cell_address_range: "String",
+    #           },
+    #           sheet_index: 1, # required
+    #           input_columns: [ # required
+    #             {
+    #               name: "ColumnName", # required
+    #               id: "ColumnId",
+    #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON, SEMISTRUCT
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
+    #             },
+    #           ],
+    #         },
     #       },
     #     },
     #     logical_table_map: {
@@ -24315,7 +24368,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.187.0'
+      context[:gem_version] = '1.188.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

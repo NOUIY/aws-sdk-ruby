@@ -169,6 +169,27 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class AccountVpcEncryptionControl
+      attr_accessor state: ("default-state" | "transitions-in-progress" | "transitions-partially-successful" | "transitions-successful" | "transitions-failed")
+      attr_accessor mode: ("unmanaged" | "attempt-monitor" | "attempt-enforce")
+      attr_accessor exclusions: Types::AccountVpcEncryptionControlExclusions
+      attr_accessor managed_by: ("account" | "declarative-policy")
+      attr_accessor last_update_timestamp: ::Time
+      SENSITIVE: []
+    end
+
+    class AccountVpcEncryptionControlExclusions
+      attr_accessor internet_gateway: ("enabling" | "enabled" | "disabling" | "disabled")
+      attr_accessor egress_only_internet_gateway: ("enabling" | "enabled" | "disabling" | "disabled")
+      attr_accessor nat_gateway: ("enabling" | "enabled" | "disabling" | "disabled")
+      attr_accessor virtual_private_gateway: ("enabling" | "enabled" | "disabling" | "disabled")
+      attr_accessor vpc_peering: ("enabling" | "enabled" | "disabling" | "disabled")
+      attr_accessor lambda: ("enabling" | "enabled" | "disabling" | "disabled")
+      attr_accessor vpc_lattice: ("enabling" | "enabled" | "disabling" | "disabled")
+      attr_accessor elastic_file_system: ("enabling" | "enabled" | "disabling" | "disabled")
+      SENSITIVE: []
+    end
+
     class ActiveInstance
       attr_accessor instance_id: ::String
       attr_accessor instance_type: ::String
@@ -309,6 +330,7 @@ module Aws::EC2
       attr_accessor host_maintenance: ("on" | "off")
       attr_accessor asset_ids: ::Array[::String]
       attr_accessor availability_zone_id: ::String
+      attr_accessor cpu_options: Types::HostCpuOptionsRequest
       attr_accessor auto_placement: ("on" | "off")
       attr_accessor client_token: ::String
       attr_accessor instance_type: ::String
@@ -5056,6 +5078,16 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class DescribeAccountVpcEncryptionControlRequest
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class DescribeAccountVpcEncryptionControlResult
+      attr_accessor account_vpc_encryption_control: Types::AccountVpcEncryptionControl
+      SENSITIVE: []
+    end
+
     class DescribeAddressTransfersRequest
       attr_accessor allocation_ids: ::Array[::String]
       attr_accessor next_token: ::String
@@ -7582,6 +7614,7 @@ module Aws::EC2
       attr_accessor filters: ::Array[Types::Filter]
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
+      attr_accessor include_managed_resources: bool
       SENSITIVE: []
     end
 
@@ -10612,7 +10645,7 @@ module Aws::EC2
       attr_accessor host_properties: Types::HostProperties
       attr_accessor host_reservation_id: ::String
       attr_accessor instances: ::Array[Types::HostInstance]
-      attr_accessor state: ("available" | "under-assessment" | "permanent-failure" | "released" | "released-permanent-failure" | "pending")
+      attr_accessor state: ("available" | "under-assessment" | "permanent-failure" | "released" | "released-permanent-failure" | "pending" | "configuring")
       attr_accessor allocation_time: ::Time
       attr_accessor release_time: ::Time
       attr_accessor tags: ::Array[Types::Tag]
@@ -10624,6 +10657,17 @@ module Aws::EC2
       attr_accessor outpost_arn: ::String
       attr_accessor host_maintenance: ("on" | "off")
       attr_accessor asset_id: ::String
+      attr_accessor cpu_options: Types::HostCpuOptions
+      SENSITIVE: []
+    end
+
+    class HostCpuOptions
+      attr_accessor amd_sev_snp: ("enabled" | "disabled")
+      SENSITIVE: []
+    end
+
+    class HostCpuOptionsRequest
+      attr_accessor amd_sev_snp: ("enabled" | "disabled")
       SENSITIVE: []
     end
 
@@ -13095,6 +13139,25 @@ module Aws::EC2
     class MetricValue
       attr_accessor metric: ("reservation-total-capacity-hrs-vcpu" | "reservation-total-capacity-hrs-inst" | "reservation-max-size-vcpu" | "reservation-max-size-inst" | "reservation-min-size-vcpu" | "reservation-min-size-inst" | "reservation-unused-total-capacity-hrs-vcpu" | "reservation-unused-total-capacity-hrs-inst" | "reservation-unused-total-estimated-cost" | "reservation-max-unused-size-vcpu" | "reservation-max-unused-size-inst" | "reservation-min-unused-size-vcpu" | "reservation-min-unused-size-inst" | "reservation-max-utilization" | "reservation-min-utilization" | "reservation-avg-utilization-vcpu" | "reservation-avg-utilization-inst" | "reservation-total-count" | "reservation-total-estimated-cost" | "reservation-avg-future-size-vcpu" | "reservation-avg-future-size-inst" | "reservation-min-future-size-vcpu" | "reservation-min-future-size-inst" | "reservation-max-future-size-vcpu" | "reservation-max-future-size-inst" | "reservation-avg-committed-size-vcpu" | "reservation-avg-committed-size-inst" | "reservation-max-committed-size-vcpu" | "reservation-max-committed-size-inst" | "reservation-min-committed-size-vcpu" | "reservation-min-committed-size-inst" | "reserved-total-usage-hrs-vcpu" | "reserved-total-usage-hrs-inst" | "reserved-total-estimated-cost" | "unreserved-total-usage-hrs-vcpu" | "unreserved-total-usage-hrs-inst" | "unreserved-total-estimated-cost" | "spot-total-usage-hrs-vcpu" | "spot-total-usage-hrs-inst" | "spot-total-estimated-cost" | "spot-avg-run-time-before-interruption-inst" | "spot-max-run-time-before-interruption-inst" | "spot-min-run-time-before-interruption-inst" | "spot-total-interruptions-inst" | "spot-total-interruptions-vcpu" | "spot-total-count-inst" | "spot-total-count-vcpu" | "spot-interruption-rate-inst" | "spot-interruption-rate-vcpu")
       attr_accessor value: ::Float
+      SENSITIVE: []
+    end
+
+    class ModifyAccountVpcEncryptionControlRequest
+      attr_accessor dry_run: bool
+      attr_accessor mode: ("unmanaged" | "attempt-monitor" | "attempt-enforce")
+      attr_accessor internet_gateway: ("enable" | "disable")
+      attr_accessor egress_only_internet_gateway: ("enable" | "disable")
+      attr_accessor nat_gateway: ("enable" | "disable")
+      attr_accessor virtual_private_gateway: ("enable" | "disable")
+      attr_accessor vpc_peering: ("enable" | "disable")
+      attr_accessor lambda: ("enable" | "disable")
+      attr_accessor vpc_lattice: ("enable" | "disable")
+      attr_accessor elastic_file_system: ("enable" | "disable")
+      SENSITIVE: []
+    end
+
+    class ModifyAccountVpcEncryptionControlResult
+      attr_accessor account_vpc_encryption_control: Types::AccountVpcEncryptionControl
       SENSITIVE: []
     end
 
@@ -18730,6 +18793,7 @@ module Aws::EC2
       attr_accessor progress: ::Integer
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
+      attr_accessor operator: Types::OperatorResponse
       SENSITIVE: []
     end
 

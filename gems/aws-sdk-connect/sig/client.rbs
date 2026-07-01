@@ -4306,6 +4306,40 @@ module Aws
                                ) -> _SendOutboundEmailResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SendOutboundEmailResponseSuccess
 
+      interface _SendOutboundWebNotificationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SendOutboundWebNotificationResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#send_outbound_web_notification-instance_method
+      def send_outbound_web_notification: (
+                                            instance_id: ::String,
+                                            ?client_token: ::String,
+                                            browser_id: ::String,
+                                            session_id: ::String,
+                                            expires_at: ::Time,
+                                            source: {
+                                              source_campaign: {
+                                                campaign_id: ::String?,
+                                                outbound_request_id: ::String?
+                                              }
+                                            },
+                                            destination: {
+                                              widget_id: ::String,
+                                              profile_id: ::String
+                                            },
+                                            content: {
+                                              type: ("WIDGET_VIEW" | "WIDGET_ACTION"),
+                                              view_arn: ::String?,
+                                              attributes: {
+                                                recommender_config: {
+                                                  domain_name: ::String,
+                                                  recommender_name: ::String,
+                                                  context: Hash[::String, ::String]?
+                                                }?
+                                              }?
+                                            }
+                                          ) -> _SendOutboundWebNotificationResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SendOutboundWebNotificationResponseSuccess
+
       interface _StartAttachedFileUploadResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartAttachedFileUploadResponse]
         def file_arn: () -> ::String

@@ -1286,6 +1286,14 @@ module Aws::OpenSearchService
     #
     #   Maximum suspension duration: 3 days.
     #
+    # @option params [String] :use_case
+    #   The primary use case for the domain. For valid values, see
+    #   `DomainUseCase`.
+    #
+    # @option params [String] :engine_mode
+    #   The engine mode for the domain. For valid values and requirements, see
+    #   `EngineMode`.
+    #
     # @return [Types::CreateDomainResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDomainResponse#domain_status #domain_status} => Types::DomainStatus
@@ -1462,6 +1470,8 @@ module Aws::OpenSearchService
     #       start_time: Time.now,
     #       end_time: Time.now,
     #     },
+    #     use_case: "SEARCH", # accepts SEARCH, VECTOR, OBSERVABILITY, MIXED
+    #     engine_mode: "GENERAL", # accepts GENERAL, OPTIMIZED
     #   })
     #
     # @example Response structure
@@ -1591,6 +1601,8 @@ module Aws::OpenSearchService
     #   resp.domain_status.automated_snapshot_pause_options.start_time #=> Time
     #   resp.domain_status.automated_snapshot_pause_options.end_time #=> Time
     #   resp.domain_status.automated_snapshot_pause_options.state #=> String, one of "Active", "Completed", "Scheduled", "Disabled"
+    #   resp.domain_status.use_case #=> String, one of "SEARCH", "VECTOR", "OBSERVABILITY", "MIXED"
+    #   resp.domain_status.engine_mode #=> String, one of "GENERAL", "OPTIMIZED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CreateDomain AWS API Documentation
     #
@@ -2130,6 +2142,8 @@ module Aws::OpenSearchService
     #   resp.domain_status.automated_snapshot_pause_options.start_time #=> Time
     #   resp.domain_status.automated_snapshot_pause_options.end_time #=> Time
     #   resp.domain_status.automated_snapshot_pause_options.state #=> String, one of "Active", "Completed", "Scheduled", "Disabled"
+    #   resp.domain_status.use_case #=> String, one of "SEARCH", "VECTOR", "OBSERVABILITY", "MIXED"
+    #   resp.domain_status.engine_mode #=> String, one of "GENERAL", "OPTIMIZED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeleteDomain AWS API Documentation
     #
@@ -2583,6 +2597,8 @@ module Aws::OpenSearchService
     #   resp.domain_status.automated_snapshot_pause_options.start_time #=> Time
     #   resp.domain_status.automated_snapshot_pause_options.end_time #=> Time
     #   resp.domain_status.automated_snapshot_pause_options.state #=> String, one of "Active", "Completed", "Scheduled", "Disabled"
+    #   resp.domain_status.use_case #=> String, one of "SEARCH", "VECTOR", "OBSERVABILITY", "MIXED"
+    #   resp.domain_status.engine_mode #=> String, one of "GENERAL", "OPTIMIZED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomain AWS API Documentation
     #
@@ -2936,6 +2952,18 @@ module Aws::OpenSearchService
     #   resp.domain_config.automated_snapshot_pause_options.status.update_version #=> Integer
     #   resp.domain_config.automated_snapshot_pause_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.automated_snapshot_pause_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.use_case.options #=> String, one of "SEARCH", "VECTOR", "OBSERVABILITY", "MIXED"
+    #   resp.domain_config.use_case.status.creation_date #=> Time
+    #   resp.domain_config.use_case.status.update_date #=> Time
+    #   resp.domain_config.use_case.status.update_version #=> Integer
+    #   resp.domain_config.use_case.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.use_case.status.pending_deletion #=> Boolean
+    #   resp.domain_config.engine_mode.options #=> String, one of "GENERAL", "OPTIMIZED"
+    #   resp.domain_config.engine_mode.status.creation_date #=> Time
+    #   resp.domain_config.engine_mode.status.update_date #=> Time
+    #   resp.domain_config.engine_mode.status.update_version #=> Integer
+    #   resp.domain_config.engine_mode.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.engine_mode.status.pending_deletion #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomainConfig AWS API Documentation
     #
@@ -3190,6 +3218,8 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].automated_snapshot_pause_options.start_time #=> Time
     #   resp.domain_status_list[0].automated_snapshot_pause_options.end_time #=> Time
     #   resp.domain_status_list[0].automated_snapshot_pause_options.state #=> String, one of "Active", "Completed", "Scheduled", "Disabled"
+    #   resp.domain_status_list[0].use_case #=> String, one of "SEARCH", "VECTOR", "OBSERVABILITY", "MIXED"
+    #   resp.domain_status_list[0].engine_mode #=> String, one of "GENERAL", "OPTIMIZED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomains AWS API Documentation
     #
@@ -3367,6 +3397,8 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.automated_snapshot_pause_options.start_time #=> Time
     #   resp.dry_run_config.automated_snapshot_pause_options.end_time #=> Time
     #   resp.dry_run_config.automated_snapshot_pause_options.state #=> String, one of "Active", "Completed", "Scheduled", "Disabled"
+    #   resp.dry_run_config.use_case #=> String, one of "SEARCH", "VECTOR", "OBSERVABILITY", "MIXED"
+    #   resp.dry_run_config.engine_mode #=> String, one of "GENERAL", "OPTIMIZED"
     #   resp.dry_run_results.deployment_type #=> String
     #   resp.dry_run_results.message #=> String
     #
@@ -4485,6 +4517,54 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def get_upgrade_status(params = {}, options = {})
       req = build_request(:get_upgrade_status, params)
+      req.send_request(options)
+    end
+
+    # Submits feedback for an existing insight in an Amazon OpenSearch
+    # Service domain. Allows users to provide a thumbs up or thumbs down
+    # rating and optional text feedback for a specific insight.
+    #
+    # @option params [required, Types::InsightFeedbackEntity] :entity
+    #   The entity for which to submit insight feedback. Specifies the type
+    #   and value of the entity, such as a domain name.
+    #
+    # @option params [required, String] :insight_id
+    #   The unique identifier of the insight for which to submit feedback.
+    #
+    # @option params [required, String] :thumbs
+    #   The thumbs up or thumbs down feedback for the insight. Possible values
+    #   are `Up` and `Down`.
+    #
+    # @option params [String] :feedback_text
+    #   Optional text feedback providing additional details about the insight.
+    #   Maximum length is 1000 characters.
+    #
+    # @return [Types::InsightFeedbackResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::InsightFeedbackResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.insight_feedback({
+    #     entity: { # required
+    #       type: "DomainName", # required, accepts DomainName
+    #       value: "InsightEntityValue", # required
+    #     },
+    #     insight_id: "GUID", # required
+    #     thumbs: "Up", # required, accepts Up, Down
+    #     feedback_text: "InsightFeedbackText",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "SUCCESS", "ERROR"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/InsightFeedback AWS API Documentation
+    #
+    # @overload insight_feedback(params = {})
+    # @param [Hash] params ({})
+    def insight_feedback(params = {}, options = {})
+      req = build_request(:insight_feedback, params)
       req.send_request(options)
     end
 
@@ -6011,6 +6091,14 @@ module Aws::OpenSearchService
     #
     #   Maximum suspension duration: 3 days.
     #
+    # @option params [String] :use_case
+    #   The primary use case for the domain. For valid values, see
+    #   `DomainUseCase`.
+    #
+    # @option params [String] :engine_mode
+    #   The engine mode for the domain. The engine mode can't be changed
+    #   after the domain is created. For valid values, see `EngineMode`.
+    #
     # @return [Types::UpdateDomainConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateDomainConfigResponse#domain_config #domain_config} => Types::DomainConfig
@@ -6185,6 +6273,8 @@ module Aws::OpenSearchService
     #       start_time: Time.now,
     #       end_time: Time.now,
     #     },
+    #     use_case: "SEARCH", # accepts SEARCH, VECTOR, OBSERVABILITY, MIXED
+    #     engine_mode: "GENERAL", # accepts GENERAL, OPTIMIZED
     #   })
     #
     # @example Response structure
@@ -6404,6 +6494,18 @@ module Aws::OpenSearchService
     #   resp.domain_config.automated_snapshot_pause_options.status.update_version #=> Integer
     #   resp.domain_config.automated_snapshot_pause_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.automated_snapshot_pause_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.use_case.options #=> String, one of "SEARCH", "VECTOR", "OBSERVABILITY", "MIXED"
+    #   resp.domain_config.use_case.status.creation_date #=> Time
+    #   resp.domain_config.use_case.status.update_date #=> Time
+    #   resp.domain_config.use_case.status.update_version #=> Integer
+    #   resp.domain_config.use_case.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.use_case.status.pending_deletion #=> Boolean
+    #   resp.domain_config.engine_mode.options #=> String, one of "GENERAL", "OPTIMIZED"
+    #   resp.domain_config.engine_mode.status.creation_date #=> Time
+    #   resp.domain_config.engine_mode.status.update_date #=> Time
+    #   resp.domain_config.engine_mode.status.update_version #=> Integer
+    #   resp.domain_config.engine_mode.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.engine_mode.status.pending_deletion #=> Boolean
     #   resp.dry_run_results.deployment_type #=> String
     #   resp.dry_run_results.message #=> String
     #   resp.dry_run_progress_status.dry_run_id #=> String
@@ -6821,7 +6923,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.104.0'
+      context[:gem_version] = '1.105.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

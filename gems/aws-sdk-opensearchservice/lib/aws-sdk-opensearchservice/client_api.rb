@@ -254,6 +254,7 @@ module Aws::OpenSearchService
     DomainState = Shapes::StringShape.new(name: 'DomainState')
     DomainStatus = Shapes::StructureShape.new(name: 'DomainStatus')
     DomainStatusList = Shapes::ListShape.new(name: 'DomainStatusList')
+    DomainUseCase = Shapes::StringShape.new(name: 'DomainUseCase')
     Double = Shapes::FloatShape.new(name: 'Double')
     DryRun = Shapes::BooleanShape.new(name: 'DryRun')
     DryRunMode = Shapes::StringShape.new(name: 'DryRunMode')
@@ -267,6 +268,8 @@ module Aws::OpenSearchService
     EncryptionAtRestOptionsStatus = Shapes::StructureShape.new(name: 'EncryptionAtRestOptionsStatus')
     Endpoint = Shapes::StringShape.new(name: 'Endpoint')
     EndpointsMap = Shapes::MapShape.new(name: 'EndpointsMap')
+    EngineMode = Shapes::StringShape.new(name: 'EngineMode')
+    EngineModeStatus = Shapes::StructureShape.new(name: 'EngineModeStatus')
     EngineType = Shapes::StringShape.new(name: 'EngineType')
     EngineVersion = Shapes::StringShape.new(name: 'EngineVersion')
     EnvironmentInfo = Shapes::StructureShape.new(name: 'EnvironmentInfo')
@@ -329,12 +332,19 @@ module Aws::OpenSearchService
     InsightEntity = Shapes::StructureShape.new(name: 'InsightEntity')
     InsightEntityType = Shapes::StringShape.new(name: 'InsightEntityType')
     InsightEntityValue = Shapes::StringShape.new(name: 'InsightEntityValue')
+    InsightFeedbackEntity = Shapes::StructureShape.new(name: 'InsightFeedbackEntity')
+    InsightFeedbackEntityType = Shapes::StringShape.new(name: 'InsightFeedbackEntityType')
+    InsightFeedbackRequest = Shapes::StructureShape.new(name: 'InsightFeedbackRequest')
+    InsightFeedbackResponse = Shapes::StructureShape.new(name: 'InsightFeedbackResponse')
+    InsightFeedbackText = Shapes::StringShape.new(name: 'InsightFeedbackText')
+    InsightFeedbackThumbs = Shapes::StringShape.new(name: 'InsightFeedbackThumbs')
     InsightField = Shapes::StructureShape.new(name: 'InsightField')
     InsightFieldList = Shapes::ListShape.new(name: 'InsightFieldList')
     InsightFieldType = Shapes::StringShape.new(name: 'InsightFieldType')
     InsightList = Shapes::ListShape.new(name: 'InsightList')
     InsightPageSize = Shapes::IntegerShape.new(name: 'InsightPageSize')
     InsightPriorityLevel = Shapes::StringShape.new(name: 'InsightPriorityLevel')
+    InsightResponseStatus = Shapes::StringShape.new(name: 'InsightResponseStatus')
     InsightSortOrder = Shapes::StringShape.new(name: 'InsightSortOrder')
     InsightStatus = Shapes::StringShape.new(name: 'InsightStatus')
     InsightTimeRange = Shapes::StructureShape.new(name: 'InsightTimeRange')
@@ -600,6 +610,7 @@ module Aws::OpenSearchService
     UpgradeStep = Shapes::StringShape.new(name: 'UpgradeStep')
     UpgradeStepItem = Shapes::StructureShape.new(name: 'UpgradeStepItem')
     UpgradeStepsList = Shapes::ListShape.new(name: 'UpgradeStepsList')
+    UseCaseStatus = Shapes::StructureShape.new(name: 'UseCaseStatus')
     UserPoolId = Shapes::StringShape.new(name: 'UserPoolId')
     Username = Shapes::StringShape.new(name: 'Username')
     VPCDerivedInfo = Shapes::StructureShape.new(name: 'VPCDerivedInfo')
@@ -1024,6 +1035,8 @@ module Aws::OpenSearchService
     CreateDomainRequest.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsInput, location_name: "AIMLOptions"))
     CreateDomainRequest.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, location_name: "DeploymentStrategyOptions"))
     CreateDomainRequest.add_member(:automated_snapshot_pause_options, Shapes::ShapeRef.new(shape: AutomatedSnapshotPauseRequestOptions, location_name: "AutomatedSnapshotPauseOptions"))
+    CreateDomainRequest.add_member(:use_case, Shapes::ShapeRef.new(shape: DomainUseCase, location_name: "UseCase"))
+    CreateDomainRequest.add_member(:engine_mode, Shapes::ShapeRef.new(shape: EngineMode, location_name: "EngineMode"))
     CreateDomainRequest.struct_class = Types::CreateDomainRequest
 
     CreateDomainResponse.add_member(:domain_status, Shapes::ShapeRef.new(shape: DomainStatus, location_name: "DomainStatus"))
@@ -1398,6 +1411,8 @@ module Aws::OpenSearchService
     DomainConfig.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsStatus, location_name: "AIMLOptions"))
     DomainConfig.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptionsStatus, location_name: "DeploymentStrategyOptions"))
     DomainConfig.add_member(:automated_snapshot_pause_options, Shapes::ShapeRef.new(shape: AutomatedSnapshotPauseOptionsStatus, location_name: "AutomatedSnapshotPauseOptions"))
+    DomainConfig.add_member(:use_case, Shapes::ShapeRef.new(shape: UseCaseStatus, location_name: "UseCase"))
+    DomainConfig.add_member(:engine_mode, Shapes::ShapeRef.new(shape: EngineModeStatus, location_name: "EngineMode"))
     DomainConfig.struct_class = Types::DomainConfig
 
     DomainEndpointOptions.add_member(:enforce_https, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnforceHTTPS"))
@@ -1497,6 +1512,8 @@ module Aws::OpenSearchService
     DomainStatus.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsOutput, location_name: "AIMLOptions"))
     DomainStatus.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, location_name: "DeploymentStrategyOptions"))
     DomainStatus.add_member(:automated_snapshot_pause_options, Shapes::ShapeRef.new(shape: AutomatedSnapshotPauseOptions, location_name: "AutomatedSnapshotPauseOptions"))
+    DomainStatus.add_member(:use_case, Shapes::ShapeRef.new(shape: DomainUseCase, location_name: "UseCase"))
+    DomainStatus.add_member(:engine_mode, Shapes::ShapeRef.new(shape: EngineMode, location_name: "EngineMode"))
     DomainStatus.struct_class = Types::DomainStatus
 
     DomainStatusList.member = Shapes::ShapeRef.new(shape: DomainStatus)
@@ -1537,6 +1554,10 @@ module Aws::OpenSearchService
 
     EndpointsMap.key = Shapes::ShapeRef.new(shape: String)
     EndpointsMap.value = Shapes::ShapeRef.new(shape: ServiceUrl)
+
+    EngineModeStatus.add_member(:options, Shapes::ShapeRef.new(shape: EngineMode, required: true, location_name: "Options"))
+    EngineModeStatus.add_member(:status, Shapes::ShapeRef.new(shape: OptionStatus, required: true, location_name: "Status"))
+    EngineModeStatus.struct_class = Types::EngineModeStatus
 
     EnvironmentInfo.add_member(:availability_zone_information, Shapes::ShapeRef.new(shape: AvailabilityZoneInfoList, location_name: "AvailabilityZoneInformation"))
     EnvironmentInfo.struct_class = Types::EnvironmentInfo
@@ -1731,6 +1752,19 @@ module Aws::OpenSearchService
     InsightEntity.add_member(:type, Shapes::ShapeRef.new(shape: InsightEntityType, required: true, location_name: "Type"))
     InsightEntity.add_member(:value, Shapes::ShapeRef.new(shape: InsightEntityValue, location_name: "Value"))
     InsightEntity.struct_class = Types::InsightEntity
+
+    InsightFeedbackEntity.add_member(:type, Shapes::ShapeRef.new(shape: InsightFeedbackEntityType, required: true, location_name: "Type"))
+    InsightFeedbackEntity.add_member(:value, Shapes::ShapeRef.new(shape: InsightEntityValue, required: true, location_name: "Value"))
+    InsightFeedbackEntity.struct_class = Types::InsightFeedbackEntity
+
+    InsightFeedbackRequest.add_member(:entity, Shapes::ShapeRef.new(shape: InsightFeedbackEntity, required: true, location_name: "Entity"))
+    InsightFeedbackRequest.add_member(:insight_id, Shapes::ShapeRef.new(shape: GUID, required: true, location_name: "InsightId"))
+    InsightFeedbackRequest.add_member(:thumbs, Shapes::ShapeRef.new(shape: InsightFeedbackThumbs, required: true, location_name: "Thumbs"))
+    InsightFeedbackRequest.add_member(:feedback_text, Shapes::ShapeRef.new(shape: InsightFeedbackText, location_name: "FeedbackText"))
+    InsightFeedbackRequest.struct_class = Types::InsightFeedbackRequest
+
+    InsightFeedbackResponse.add_member(:status, Shapes::ShapeRef.new(shape: InsightResponseStatus, location_name: "Status"))
+    InsightFeedbackResponse.struct_class = Types::InsightFeedbackResponse
 
     InsightField.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Name"))
     InsightField.add_member(:type, Shapes::ShapeRef.new(shape: InsightFieldType, required: true, location_name: "Type"))
@@ -2375,6 +2409,8 @@ module Aws::OpenSearchService
     UpdateDomainConfigRequest.add_member(:aiml_options, Shapes::ShapeRef.new(shape: AIMLOptionsInput, location_name: "AIMLOptions"))
     UpdateDomainConfigRequest.add_member(:deployment_strategy_options, Shapes::ShapeRef.new(shape: DeploymentStrategyOptions, location_name: "DeploymentStrategyOptions"))
     UpdateDomainConfigRequest.add_member(:automated_snapshot_pause_options, Shapes::ShapeRef.new(shape: AutomatedSnapshotPauseRequestOptions, location_name: "AutomatedSnapshotPauseOptions"))
+    UpdateDomainConfigRequest.add_member(:use_case, Shapes::ShapeRef.new(shape: DomainUseCase, location_name: "UseCase"))
+    UpdateDomainConfigRequest.add_member(:engine_mode, Shapes::ShapeRef.new(shape: EngineMode, location_name: "EngineMode"))
     UpdateDomainConfigRequest.struct_class = Types::UpdateDomainConfigRequest
 
     UpdateDomainConfigResponse.add_member(:domain_config, Shapes::ShapeRef.new(shape: DomainConfig, required: true, location_name: "DomainConfig"))
@@ -2457,6 +2493,10 @@ module Aws::OpenSearchService
     UpgradeStepItem.struct_class = Types::UpgradeStepItem
 
     UpgradeStepsList.member = Shapes::ShapeRef.new(shape: UpgradeStepItem)
+
+    UseCaseStatus.add_member(:options, Shapes::ShapeRef.new(shape: DomainUseCase, required: true, location_name: "Options"))
+    UseCaseStatus.add_member(:status, Shapes::ShapeRef.new(shape: OptionStatus, required: true, location_name: "Status"))
+    UseCaseStatus.struct_class = Types::UseCaseStatus
 
     VPCDerivedInfo.add_member(:vpc_id, Shapes::ShapeRef.new(shape: String, location_name: "VPCId"))
     VPCDerivedInfo.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: StringList, location_name: "SubnetIds"))
@@ -3337,6 +3377,20 @@ module Aws::OpenSearchService
         o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:insight_feedback, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "InsightFeedback"
+        o.http_method = "POST"
+        o.http_request_uri = "/2021-01-01/opensearch/insight-feedback"
+        o.input = Shapes::ShapeRef.new(shape: InsightFeedbackRequest)
+        o.output = Shapes::ShapeRef.new(shape: InsightFeedbackResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BaseException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: DisabledOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
       end)
 
       api.add_operation(:list_applications, Seahorse::Model::Operation.new.tap do |o|

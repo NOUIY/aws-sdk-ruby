@@ -635,6 +635,13 @@ module Aws::GameLiftStreams
     # version you want to use. If you change the files at a later time, you
     # will need to create a new Amazon GameLift Streams application.
     #
+    # <note markdown="1"> Creating an application is the only time Amazon GameLift Streams
+    # accesses your Amazon S3 bucket. After the application reaches `READY`
+    # status, you can delete the original files from your Amazon S3 bucket
+    # without affecting the application.
+    #
+    #  </note>
+    #
     # If the request is successful, Amazon GameLift Streams begins to create
     # an application and sets the status to `INITIALIZED`. When an
     # application reaches `READY` status, you can use the application to set
@@ -1234,6 +1241,80 @@ module Aws::GameLiftStreams
     # @param [Hash] params ({})
     def create_stream_group(params = {}, options = {})
       req = build_request(:create_stream_group, params)
+      req.send_request(options)
+    end
+
+    # Creates an administrative terminal session with full access to the
+    # live runtime environment of the Amazon GameLift Streams stream
+    # session. Use the returned credentials (`SessionId`, `StreamUrl` and
+    # `TokenValue`) with the Amazon Web Services Systems Manager [Session
+    # Manager plugin][1] for the CLI to access the terminal session.
+    #
+    # The stream session must be in one of the following statuses: `ACTIVE`,
+    # `CONNECTED`, `PENDING_CLIENT_RECONNECTION`, or `RECONNECTING`.
+    #
+    # The `StreamUrl` is valid for 60 seconds. After it expires, call this
+    # operation again to get a new URL.
+    #
+    # The returned credentials grant full access to the live runtime
+    # environment of the Amazon GameLift Streams stream session. The
+    # operator who connects to the terminal session has the same level of
+    # access that your Amazon GameLift Streams applications have, including
+    # potentially user input, screen images, and application data files.
+    # Grant permissions to call this operation only to trusted IAM
+    # identities that require live runtime environment access.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
+    #
+    # @option params [required, String] :identifier
+    #   The stream group that runs this stream session.
+    #
+    #   This value is an [Amazon Resource Name (ARN)][1] or ID that uniquely
+    #   identifies the stream group resource. Example ARN:
+    #   `arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4`.
+    #   Example ID: `sg-1AB2C3De4`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html
+    #
+    # @option params [required, String] :stream_session_identifier
+    #   An [Amazon Resource Name (ARN)][1] or ID that uniquely identifies the
+    #   stream session resource. Example ARN:
+    #   `arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567`.
+    #   Example ID: `ABC123def4567`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html
+    #
+    # @return [Types::CreateStreamSessionAdminShellOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateStreamSessionAdminShellOutput#session_id #session_id} => String
+    #   * {Types::CreateStreamSessionAdminShellOutput#stream_url #stream_url} => String
+    #   * {Types::CreateStreamSessionAdminShellOutput#token_value #token_value} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_stream_session_admin_shell({
+    #     identifier: "Identifier", # required
+    #     stream_session_identifier: "Identifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.session_id #=> String
+    #   resp.stream_url #=> String
+    #   resp.token_value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/CreateStreamSessionAdminShell AWS API Documentation
+    #
+    # @overload create_stream_session_admin_shell(params = {})
+    # @param [Hash] params ({})
+    def create_stream_session_admin_shell(params = {}, options = {})
+      req = build_request(:create_stream_session_admin_shell, params)
       req.send_request(options)
     end
 
@@ -2978,7 +3059,7 @@ module Aws::GameLiftStreams
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gameliftstreams'
-      context[:gem_version] = '1.29.0'
+      context[:gem_version] = '1.30.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

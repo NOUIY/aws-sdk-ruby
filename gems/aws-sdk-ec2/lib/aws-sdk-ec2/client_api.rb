@@ -55,6 +55,10 @@ module Aws::EC2
     AccountAttributeValue = Shapes::StructureShape.new(name: 'AccountAttributeValue')
     AccountAttributeValueList = Shapes::ListShape.new(name: 'AccountAttributeValueList')
     AccountID = Shapes::StringShape.new(name: 'AccountID')
+    AccountVpcEncryptionControl = Shapes::StructureShape.new(name: 'AccountVpcEncryptionControl')
+    AccountVpcEncryptionControlExclusions = Shapes::StructureShape.new(name: 'AccountVpcEncryptionControlExclusions')
+    AccountVpcEncryptionControlMode = Shapes::StringShape.new(name: 'AccountVpcEncryptionControlMode')
+    AccountVpcEncryptionControlState = Shapes::StringShape.new(name: 'AccountVpcEncryptionControlState')
     ActiveInstance = Shapes::StructureShape.new(name: 'ActiveInstance')
     ActiveInstanceSet = Shapes::ListShape.new(name: 'ActiveInstanceSet')
     ActiveVpnTunnelStatus = Shapes::StructureShape.new(name: 'ActiveVpnTunnelStatus')
@@ -104,6 +108,7 @@ module Aws::EC2
     AllowsMultipleInstanceTypes = Shapes::StringShape.new(name: 'AllowsMultipleInstanceTypes')
     AlternatePathHint = Shapes::StructureShape.new(name: 'AlternatePathHint')
     AlternatePathHintList = Shapes::ListShape.new(name: 'AlternatePathHintList')
+    AmdSevSnp = Shapes::StringShape.new(name: 'AmdSevSnp')
     AmdSevSnpSpecification = Shapes::StringShape.new(name: 'AmdSevSnpSpecification')
     AnalysisAclRule = Shapes::StructureShape.new(name: 'AnalysisAclRule')
     AnalysisComponent = Shapes::StructureShape.new(name: 'AnalysisComponent')
@@ -980,6 +985,8 @@ module Aws::EC2
     DeregisterTransitGatewayMulticastGroupSourcesResult = Shapes::StructureShape.new(name: 'DeregisterTransitGatewayMulticastGroupSourcesResult')
     DescribeAccountAttributesRequest = Shapes::StructureShape.new(name: 'DescribeAccountAttributesRequest')
     DescribeAccountAttributesResult = Shapes::StructureShape.new(name: 'DescribeAccountAttributesResult')
+    DescribeAccountVpcEncryptionControlRequest = Shapes::StructureShape.new(name: 'DescribeAccountVpcEncryptionControlRequest')
+    DescribeAccountVpcEncryptionControlResult = Shapes::StructureShape.new(name: 'DescribeAccountVpcEncryptionControlResult')
     DescribeAddressTransfersMaxResults = Shapes::IntegerShape.new(name: 'DescribeAddressTransfersMaxResults')
     DescribeAddressTransfersRequest = Shapes::StructureShape.new(name: 'DescribeAddressTransfersRequest')
     DescribeAddressTransfersResult = Shapes::StructureShape.new(name: 'DescribeAddressTransfersResult')
@@ -1983,6 +1990,8 @@ module Aws::EC2
     HistoryRecordSet = Shapes::ListShape.new(name: 'HistoryRecordSet')
     HistoryRecords = Shapes::ListShape.new(name: 'HistoryRecords')
     Host = Shapes::StructureShape.new(name: 'Host')
+    HostCpuOptions = Shapes::StructureShape.new(name: 'HostCpuOptions')
+    HostCpuOptionsRequest = Shapes::StructureShape.new(name: 'HostCpuOptionsRequest')
     HostInstance = Shapes::StructureShape.new(name: 'HostInstance')
     HostInstanceList = Shapes::ListShape.new(name: 'HostInstanceList')
     HostList = Shapes::ListShape.new(name: 'HostList')
@@ -2668,6 +2677,8 @@ module Aws::EC2
     MetricValue = Shapes::StructureShape.new(name: 'MetricValue')
     MetricValueSet = Shapes::ListShape.new(name: 'MetricValueSet')
     MillisecondDateTime = Shapes::TimestampShape.new(name: 'MillisecondDateTime')
+    ModifyAccountVpcEncryptionControlRequest = Shapes::StructureShape.new(name: 'ModifyAccountVpcEncryptionControlRequest')
+    ModifyAccountVpcEncryptionControlResult = Shapes::StructureShape.new(name: 'ModifyAccountVpcEncryptionControlResult')
     ModifyAddressAttributeRequest = Shapes::StructureShape.new(name: 'ModifyAddressAttributeRequest')
     ModifyAddressAttributeResult = Shapes::StructureShape.new(name: 'ModifyAddressAttributeResult')
     ModifyAvailabilityZoneGroupRequest = Shapes::StructureShape.new(name: 'ModifyAvailabilityZoneGroupRequest')
@@ -4194,6 +4205,23 @@ module Aws::EC2
 
     AccountAttributeValueList.member = Shapes::ShapeRef.new(shape: AccountAttributeValue, location_name: "item")
 
+    AccountVpcEncryptionControl.add_member(:state, Shapes::ShapeRef.new(shape: AccountVpcEncryptionControlState, location_name: "state"))
+    AccountVpcEncryptionControl.add_member(:mode, Shapes::ShapeRef.new(shape: AccountVpcEncryptionControlMode, location_name: "mode"))
+    AccountVpcEncryptionControl.add_member(:exclusions, Shapes::ShapeRef.new(shape: AccountVpcEncryptionControlExclusions, location_name: "exclusions"))
+    AccountVpcEncryptionControl.add_member(:managed_by, Shapes::ShapeRef.new(shape: ManagedBy, location_name: "managedBy"))
+    AccountVpcEncryptionControl.add_member(:last_update_timestamp, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "lastUpdateTimestamp"))
+    AccountVpcEncryptionControl.struct_class = Types::AccountVpcEncryptionControl
+
+    AccountVpcEncryptionControlExclusions.add_member(:internet_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "internetGateway"))
+    AccountVpcEncryptionControlExclusions.add_member(:egress_only_internet_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "egressOnlyInternetGateway"))
+    AccountVpcEncryptionControlExclusions.add_member(:nat_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "natGateway"))
+    AccountVpcEncryptionControlExclusions.add_member(:virtual_private_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "virtualPrivateGateway"))
+    AccountVpcEncryptionControlExclusions.add_member(:vpc_peering, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "vpcPeering"))
+    AccountVpcEncryptionControlExclusions.add_member(:lambda, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "lambda"))
+    AccountVpcEncryptionControlExclusions.add_member(:vpc_lattice, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "vpcLattice"))
+    AccountVpcEncryptionControlExclusions.add_member(:elastic_file_system, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionState, location_name: "elasticFileSystem"))
+    AccountVpcEncryptionControlExclusions.struct_class = Types::AccountVpcEncryptionControlExclusions
+
     ActiveInstance.add_member(:instance_id, Shapes::ShapeRef.new(shape: String, location_name: "instanceId"))
     ActiveInstance.add_member(:instance_type, Shapes::ShapeRef.new(shape: String, location_name: "instanceType"))
     ActiveInstance.add_member(:spot_instance_request_id, Shapes::ShapeRef.new(shape: String, location_name: "spotInstanceRequestId"))
@@ -4323,6 +4351,7 @@ module Aws::EC2
     AllocateHostsRequest.add_member(:host_maintenance, Shapes::ShapeRef.new(shape: HostMaintenance, location_name: "HostMaintenance"))
     AllocateHostsRequest.add_member(:asset_ids, Shapes::ShapeRef.new(shape: AssetIdList, location_name: "AssetId"))
     AllocateHostsRequest.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "AvailabilityZoneId"))
+    AllocateHostsRequest.add_member(:cpu_options, Shapes::ShapeRef.new(shape: HostCpuOptionsRequest, location_name: "CpuOptions"))
     AllocateHostsRequest.add_member(:auto_placement, Shapes::ShapeRef.new(shape: AutoPlacement, location_name: "autoPlacement"))
     AllocateHostsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken"))
     AllocateHostsRequest.add_member(:instance_type, Shapes::ShapeRef.new(shape: String, location_name: "instanceType"))
@@ -7999,6 +8028,12 @@ module Aws::EC2
     DescribeAccountAttributesResult.add_member(:account_attributes, Shapes::ShapeRef.new(shape: AccountAttributeList, location_name: "accountAttributeSet"))
     DescribeAccountAttributesResult.struct_class = Types::DescribeAccountAttributesResult
 
+    DescribeAccountVpcEncryptionControlRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    DescribeAccountVpcEncryptionControlRequest.struct_class = Types::DescribeAccountVpcEncryptionControlRequest
+
+    DescribeAccountVpcEncryptionControlResult.add_member(:account_vpc_encryption_control, Shapes::ShapeRef.new(shape: AccountVpcEncryptionControl, location_name: "accountVpcEncryptionControl"))
+    DescribeAccountVpcEncryptionControlResult.struct_class = Types::DescribeAccountVpcEncryptionControlResult
+
     DescribeAddressTransfersRequest.add_member(:allocation_ids, Shapes::ShapeRef.new(shape: AllocationIdList, location_name: "AllocationId"))
     DescribeAddressTransfersRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     DescribeAddressTransfersRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DescribeAddressTransfersMaxResults, location_name: "MaxResults"))
@@ -9874,6 +9909,7 @@ module Aws::EC2
     DescribeVolumesModificationsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
     DescribeVolumesModificationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     DescribeVolumesModificationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: Integer, location_name: "MaxResults"))
+    DescribeVolumesModificationsRequest.add_member(:include_managed_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeManagedResources"))
     DescribeVolumesModificationsRequest.struct_class = Types::DescribeVolumesModificationsRequest
 
     DescribeVolumesModificationsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
@@ -12202,7 +12238,14 @@ module Aws::EC2
     Host.add_member(:outpost_arn, Shapes::ShapeRef.new(shape: String, location_name: "outpostArn"))
     Host.add_member(:host_maintenance, Shapes::ShapeRef.new(shape: HostMaintenance, location_name: "hostMaintenance"))
     Host.add_member(:asset_id, Shapes::ShapeRef.new(shape: AssetId, location_name: "assetId"))
+    Host.add_member(:cpu_options, Shapes::ShapeRef.new(shape: HostCpuOptions, location_name: "cpuOptions"))
     Host.struct_class = Types::Host
+
+    HostCpuOptions.add_member(:amd_sev_snp, Shapes::ShapeRef.new(shape: AmdSevSnp, location_name: "amdSevSnp"))
+    HostCpuOptions.struct_class = Types::HostCpuOptions
+
+    HostCpuOptionsRequest.add_member(:amd_sev_snp, Shapes::ShapeRef.new(shape: AmdSevSnp, location_name: "AmdSevSnp"))
+    HostCpuOptionsRequest.struct_class = Types::HostCpuOptionsRequest
 
     HostInstance.add_member(:instance_id, Shapes::ShapeRef.new(shape: String, location_name: "instanceId"))
     HostInstance.add_member(:instance_type, Shapes::ShapeRef.new(shape: String, location_name: "instanceType"))
@@ -14538,6 +14581,21 @@ module Aws::EC2
     MetricValue.struct_class = Types::MetricValue
 
     MetricValueSet.member = Shapes::ShapeRef.new(shape: MetricValue, location_name: "item")
+
+    ModifyAccountVpcEncryptionControlRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:mode, Shapes::ShapeRef.new(shape: AccountVpcEncryptionControlMode, location_name: "Mode"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:internet_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "InternetGateway"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:egress_only_internet_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "EgressOnlyInternetGateway"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:nat_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "NatGateway"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:virtual_private_gateway, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "VirtualPrivateGateway"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:vpc_peering, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "VpcPeering"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:lambda, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "Lambda"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:vpc_lattice, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "VpcLattice"))
+    ModifyAccountVpcEncryptionControlRequest.add_member(:elastic_file_system, Shapes::ShapeRef.new(shape: VpcEncryptionControlExclusionStateInput, location_name: "ElasticFileSystem"))
+    ModifyAccountVpcEncryptionControlRequest.struct_class = Types::ModifyAccountVpcEncryptionControlRequest
+
+    ModifyAccountVpcEncryptionControlResult.add_member(:account_vpc_encryption_control, Shapes::ShapeRef.new(shape: AccountVpcEncryptionControl, location_name: "accountVpcEncryptionControl"))
+    ModifyAccountVpcEncryptionControlResult.struct_class = Types::ModifyAccountVpcEncryptionControlResult
 
     ModifyAddressAttributeRequest.add_member(:allocation_id, Shapes::ShapeRef.new(shape: AllocationId, required: true, location_name: "AllocationId"))
     ModifyAddressAttributeRequest.add_member(:domain_name, Shapes::ShapeRef.new(shape: String, location_name: "DomainName"))
@@ -19476,6 +19534,7 @@ module Aws::EC2
     VolumeModification.add_member(:progress, Shapes::ShapeRef.new(shape: Long, location_name: "progress"))
     VolumeModification.add_member(:start_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "startTime"))
     VolumeModification.add_member(:end_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "endTime"))
+    VolumeModification.add_member(:operator, Shapes::ShapeRef.new(shape: OperatorResponse, location_name: "operator"))
     VolumeModification.struct_class = Types::VolumeModification
 
     VolumeModificationList.member = Shapes::ShapeRef.new(shape: VolumeModification, location_name: "item")
@@ -22088,6 +22147,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeAccountAttributesRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeAccountAttributesResult)
+      end)
+
+      api.add_operation(:describe_account_vpc_encryption_control, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeAccountVpcEncryptionControl"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeAccountVpcEncryptionControlRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeAccountVpcEncryptionControlResult)
       end)
 
       api.add_operation(:describe_address_transfers, Seahorse::Model::Operation.new.tap do |o|
@@ -25803,6 +25870,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: LockSnapshotRequest)
         o.output = Shapes::ShapeRef.new(shape: LockSnapshotResult)
+      end)
+
+      api.add_operation(:modify_account_vpc_encryption_control, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ModifyAccountVpcEncryptionControl"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ModifyAccountVpcEncryptionControlRequest)
+        o.output = Shapes::ShapeRef.new(shape: ModifyAccountVpcEncryptionControlResult)
       end)
 
       api.add_operation(:modify_address_attribute, Seahorse::Model::Operation.new.tap do |o|

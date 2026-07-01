@@ -37,6 +37,8 @@ module Aws::GameLiftStreams
     CreateApplicationOutput = Shapes::StructureShape.new(name: 'CreateApplicationOutput')
     CreateStreamGroupInput = Shapes::StructureShape.new(name: 'CreateStreamGroupInput')
     CreateStreamGroupOutput = Shapes::StructureShape.new(name: 'CreateStreamGroupOutput')
+    CreateStreamSessionAdminShellInput = Shapes::StructureShape.new(name: 'CreateStreamSessionAdminShellInput')
+    CreateStreamSessionAdminShellOutput = Shapes::StructureShape.new(name: 'CreateStreamSessionAdminShellOutput')
     CreateStreamSessionConnectionInput = Shapes::StructureShape.new(name: 'CreateStreamSessionConnectionInput')
     CreateStreamSessionConnectionOutput = Shapes::StructureShape.new(name: 'CreateStreamSessionConnectionOutput')
     DefaultApplication = Shapes::StructureShape.new(name: 'DefaultApplication')
@@ -103,6 +105,7 @@ module Aws::GameLiftStreams
     RuntimeEnvironmentType = Shapes::StringShape.new(name: 'RuntimeEnvironmentType')
     RuntimeEnvironmentVersion = Shapes::StringShape.new(name: 'RuntimeEnvironmentVersion')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
+    SessionId = Shapes::StringShape.new(name: 'SessionId')
     SessionLengthSeconds = Shapes::IntegerShape.new(name: 'SessionLengthSeconds')
     SignalRequest = Shapes::StringShape.new(name: 'SignalRequest')
     SignalResponse = Shapes::StringShape.new(name: 'SignalResponse')
@@ -114,10 +117,12 @@ module Aws::GameLiftStreams
     StreamGroupStatusReason = Shapes::StringShape.new(name: 'StreamGroupStatusReason')
     StreamGroupSummary = Shapes::StructureShape.new(name: 'StreamGroupSummary')
     StreamGroupSummaryList = Shapes::ListShape.new(name: 'StreamGroupSummaryList')
+    StreamSessionAccessNotReadyException = Shapes::StructureShape.new(name: 'StreamSessionAccessNotReadyException')
     StreamSessionStatus = Shapes::StringShape.new(name: 'StreamSessionStatus')
     StreamSessionStatusReason = Shapes::StringShape.new(name: 'StreamSessionStatusReason')
     StreamSessionSummary = Shapes::StructureShape.new(name: 'StreamSessionSummary')
     StreamSessionSummaryList = Shapes::ListShape.new(name: 'StreamSessionSummaryList')
+    StreamUrl = Shapes::StringShape.new(name: 'StreamUrl')
     String = Shapes::StringShape.new(name: 'String')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
@@ -129,6 +134,7 @@ module Aws::GameLiftStreams
     TerminateStreamSessionInput = Shapes::StructureShape.new(name: 'TerminateStreamSessionInput')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
+    TokenValue = Shapes::StringShape.new(name: 'TokenValue')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
     UpdateApplicationInput = Shapes::StructureShape.new(name: 'UpdateApplicationInput')
@@ -224,6 +230,15 @@ module Aws::GameLiftStreams
     CreateStreamGroupOutput.add_member(:expires_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "ExpiresAt"))
     CreateStreamGroupOutput.add_member(:associated_applications, Shapes::ShapeRef.new(shape: ArnList, location_name: "AssociatedApplications"))
     CreateStreamGroupOutput.struct_class = Types::CreateStreamGroupOutput
+
+    CreateStreamSessionAdminShellInput.add_member(:identifier, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "Identifier"))
+    CreateStreamSessionAdminShellInput.add_member(:stream_session_identifier, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "StreamSessionIdentifier"))
+    CreateStreamSessionAdminShellInput.struct_class = Types::CreateStreamSessionAdminShellInput
+
+    CreateStreamSessionAdminShellOutput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, location_name: "SessionId"))
+    CreateStreamSessionAdminShellOutput.add_member(:stream_url, Shapes::ShapeRef.new(shape: StreamUrl, location_name: "StreamUrl"))
+    CreateStreamSessionAdminShellOutput.add_member(:token_value, Shapes::ShapeRef.new(shape: TokenValue, location_name: "TokenValue"))
+    CreateStreamSessionAdminShellOutput.struct_class = Types::CreateStreamSessionAdminShellOutput
 
     CreateStreamSessionConnectionInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateStreamSessionConnectionInput.add_member(:identifier, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "Identifier"))
@@ -487,6 +502,9 @@ module Aws::GameLiftStreams
 
     StreamGroupSummaryList.member = Shapes::ShapeRef.new(shape: StreamGroupSummary)
 
+    StreamSessionAccessNotReadyException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
+    StreamSessionAccessNotReadyException.struct_class = Types::StreamSessionAccessNotReadyException
+
     StreamSessionSummary.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
     StreamSessionSummary.add_member(:user_id, Shapes::ShapeRef.new(shape: UserId, location_name: "UserId"))
     StreamSessionSummary.add_member(:status, Shapes::ShapeRef.new(shape: StreamSessionStatus, location_name: "Status"))
@@ -654,6 +672,20 @@ module Aws::GameLiftStreams
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
+      api.add_operation(:create_stream_session_admin_shell, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateStreamSessionAdminShell"
+        o.http_method = "POST"
+        o.http_request_uri = "/streamgroups/{Identifier}/streamsessions/{StreamSessionIdentifier}/access"
+        o.input = Shapes::ShapeRef.new(shape: CreateStreamSessionAdminShellInput)
+        o.output = Shapes::ShapeRef.new(shape: CreateStreamSessionAdminShellOutput)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: StreamSessionAccessNotReadyException)
       end)
 
       api.add_operation(:create_stream_session_connection, Seahorse::Model::Operation.new.tap do |o|

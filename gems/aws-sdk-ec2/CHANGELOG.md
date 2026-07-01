@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.628.0 (2026-07-01)
+------------------
+
+* Feature - Use declarative policies to enable VPC Encryption Controls across your organization or select accounts. Added AMD SEV-SNP support for EC2 Dedicated Hosts. Managed resource visibility settings control whether AWS-provisioned resources in your account appear in console views and API list operations.
+
 1.627.0 (2026-06-30)
 ------------------
 

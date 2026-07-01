@@ -5086,6 +5086,23 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Optional attributes used to populate the content of an outbound web
+    # notification, such as recommender configuration for personalized
+    # content.
+    #
+    # @!attribute [rw] recommender_config
+    #   Configuration for the recommender used to generate personalized
+    #   recommendations for the notification content.
+    #   @return [Types::RecommenderConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContentAttributes AWS API Documentation
+    #
+    class ContentAttributes < Struct.new(
+      :recommender_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that can be used to specify Tag conditions inside the
     # `SearchFilter`. This accepts an `OR` or `AND` (List of List) input
     # where:
@@ -27789,6 +27806,33 @@ module Aws::Connect
       class Unknown < RealtimeContactAnalysisSegment; end
     end
 
+    # Configuration for the recommender used to generate personalized
+    # recommendations included in an outbound web notification.
+    #
+    # @!attribute [rw] domain_name
+    #   The name of the Amazon Personalize domain that hosts the
+    #   recommender.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommender_name
+    #   The name of the recommender used to generate the recommendations.
+    #   @return [String]
+    #
+    # @!attribute [rw] context
+    #   A map of contextual key-value pairs supplied to the recommender to
+    #   influence the recommendations returned.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RecommenderConfig AWS API Documentation
+    #
+    class RecommenderConfig < Struct.new(
+      :domain_name,
+      :recommender_name,
+      :context)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A record primary value.
     #
     # @!attribute [rw] record_id
@@ -31697,6 +31741,82 @@ module Aws::Connect
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SendOutboundEmailResponse AWS API Documentation
     #
     class SendOutboundEmailResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @!attribute [rw] browser_id
+    #   A unique identifier for the customer's web browser instance to
+    #   which the notification is being sent.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   A unique identifier for the customer's web session to which the
+    #   notification is being sent.
+    #   @return [String]
+    #
+    # @!attribute [rw] expires_at
+    #   The timestamp, in Unix epoch time format, at which the web
+    #   notification expires. After this time, the notification is no longer
+    #   delivered to the customer's browser.
+    #   @return [Time]
+    #
+    # @!attribute [rw] source
+    #   The source of the web notification. A `SourceCampaign` object
+    #   identifies the campaign and outbound request that triggered this
+    #   notification.
+    #   @return [Types::WebNotificationSource]
+    #
+    # @!attribute [rw] destination
+    #   The destination for the web notification, specifying the
+    #   communication widget that delivers the notification and the customer
+    #   profile of the recipient.
+    #   @return [Types::WidgetDestination]
+    #
+    # @!attribute [rw] content
+    #   The content of the web notification, including the notification
+    #   type, the view to render, and any optional attributes used to
+    #   populate it.
+    #   @return [Types::WebNotificationContent]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SendOutboundWebNotificationRequest AWS API Documentation
+    #
+    class SendOutboundWebNotificationRequest < Struct.new(
+      :instance_id,
+      :client_token,
+      :browser_id,
+      :session_id,
+      :expires_at,
+      :source,
+      :destination,
+      :content)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SendOutboundWebNotificationResponse AWS API Documentation
+    #
+    class SendOutboundWebNotificationResponse < Aws::EmptyStructure; end
 
     # The sentiment configuration for conversational analytics.
     #
@@ -39224,6 +39344,73 @@ module Aws::Connect
     class VoiceRecordingConfiguration < Struct.new(
       :voice_recording_track,
       :ivr_recording_track)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The content of an outbound web notification, including the
+    # notification type, the view to render, and any optional attributes
+    # used to populate the view.
+    #
+    # @!attribute [rw] type
+    #   The type of web notification to send.
+    #   @return [String]
+    #
+    # @!attribute [rw] view_arn
+    #   The Amazon Resource Name (ARN) of the view to render for the
+    #   notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   Optional attributes used to populate the notification content, such
+    #   as recommender configuration for personalized content.
+    #   @return [Types::ContentAttributes]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/WebNotificationContent AWS API Documentation
+    #
+    class WebNotificationContent < Struct.new(
+      :type,
+      :view_arn,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source of an outbound web notification. Identifies the campaign
+    # and outbound request that triggered the notification.
+    #
+    # @!attribute [rw] source_campaign
+    #   Information about the campaign that triggered the web notification,
+    #   including the campaign identifier and outbound request identifier.
+    #   @return [Types::SourceCampaign]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/WebNotificationSource AWS API Documentation
+    #
+    class WebNotificationSource < Struct.new(
+      :source_campaign)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The destination for an outbound web notification, specifying the
+    # communication widget that delivers the notification and the customer
+    # profile of the recipient.
+    #
+    # @!attribute [rw] widget_id
+    #   The identifier of the communication widget that delivers the
+    #   notification to the customer's browser.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The identifier of the customer profile associated with the browser
+    #   session that should receive the notification.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/WidgetDestination AWS API Documentation
+    #
+    class WidgetDestination < Struct.new(
+      :widget_id,
+      :profile_id)
       SENSITIVE = []
       include Aws::Structure
     end

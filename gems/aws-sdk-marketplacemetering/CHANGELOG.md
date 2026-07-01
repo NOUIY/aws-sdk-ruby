@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.99.0 (2026-07-01)
+------------------
+
+* Feature - The usage reporting window for the BatchMeterUsage API has been extended from 6 hours to 24 hours. Sellers can now submit usage records for up to 24 hours after a metered event occurs.
+
 1.98.0 (2026-06-02)
 ------------------
 

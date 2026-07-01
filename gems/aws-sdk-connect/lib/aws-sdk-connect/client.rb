@@ -22976,6 +22976,111 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Sends an outbound web notification to a customer's web browser for
+    # outbound campaigns. For more information about outbound campaigns, see
+    # [Set up Connect Customer outbound campaigns][1].
+    #
+    # <note markdown="1"> Only the Connect Customer outbound campaigns service principal is
+    # allowed to assume a role in your account and call this API.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/enable-outbound-campaigns.html
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency, see
+    #   [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #
+    # @option params [required, String] :browser_id
+    #   A unique identifier for the customer's web browser instance to which
+    #   the notification is being sent.
+    #
+    # @option params [required, String] :session_id
+    #   A unique identifier for the customer's web session to which the
+    #   notification is being sent.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :expires_at
+    #   The timestamp, in Unix epoch time format, at which the web
+    #   notification expires. After this time, the notification is no longer
+    #   delivered to the customer's browser.
+    #
+    # @option params [required, Types::WebNotificationSource] :source
+    #   The source of the web notification. A `SourceCampaign` object
+    #   identifies the campaign and outbound request that triggered this
+    #   notification.
+    #
+    # @option params [required, Types::WidgetDestination] :destination
+    #   The destination for the web notification, specifying the communication
+    #   widget that delivers the notification and the customer profile of the
+    #   recipient.
+    #
+    # @option params [required, Types::WebNotificationContent] :content
+    #   The content of the web notification, including the notification type,
+    #   the view to render, and any optional attributes used to populate it.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.send_outbound_web_notification({
+    #     instance_id: "InstanceId", # required
+    #     client_token: "ClientToken",
+    #     browser_id: "WebBrowserId", # required
+    #     session_id: "WebSessionId", # required
+    #     expires_at: Time.now, # required
+    #     source: { # required
+    #       source_campaign: { # required
+    #         campaign_id: "CampaignId",
+    #         outbound_request_id: "OutboundRequestId",
+    #       },
+    #     },
+    #     destination: { # required
+    #       widget_id: "WidgetId", # required
+    #       profile_id: "CustomerProfileId", # required
+    #     },
+    #     content: { # required
+    #       type: "WIDGET_VIEW", # required, accepts WIDGET_VIEW, WIDGET_ACTION
+    #       view_arn: "ViewArn",
+    #       attributes: {
+    #         recommender_config: {
+    #           domain_name: "PersonalizeDomainName", # required
+    #           recommender_name: "RecommenderName", # required
+    #           context: {
+    #             "RecommenderContextKey" => "RecommenderContextValue",
+    #           },
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SendOutboundWebNotification AWS API Documentation
+    #
+    # @overload send_outbound_web_notification(params = {})
+    # @param [Hash] params ({})
+    def send_outbound_web_notification(params = {}, options = {})
+      req = build_request(:send_outbound_web_notification, params)
+      req.send_request(options)
+    end
+
     # Provides a pre-signed Amazon S3 URL in response for uploading your
     # content.
     #
@@ -29741,7 +29846,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.261.0'
+      context[:gem_version] = '1.262.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

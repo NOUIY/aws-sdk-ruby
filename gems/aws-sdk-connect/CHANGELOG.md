@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.262.0 (2026-07-01)
+------------------
+
+* Feature - Adds a new Amazon Connect Service API, SendOutboundWebNotification, that delivers web notifications to end-customer chat widget sessions. Callable only by the Amazon Connect Outbound Campaigns service principal.
+
 1.261.0 (2026-06-30)
 ------------------
 

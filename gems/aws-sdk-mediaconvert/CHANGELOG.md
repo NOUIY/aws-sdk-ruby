@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.189.0 (2026-07-01)
+------------------
+
+* Feature - Adds support for integer-second duration normalization and the option to disable explicit weighted prediction.
+
 1.188.0 (2026-06-05)
 ------------------
 
