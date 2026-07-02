@@ -8307,6 +8307,90 @@ module Aws::CognitoIdentityProvider
       req.send_request(options)
     end
 
+    # Returns the current provisioned limit for a specific API category.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, Types::LimitDefinitionType] :limit_definition
+    #   The limit to retrieve. Specify the limit class and the attributes that
+    #   identify the limit.
+    #
+    # @return [Types::GetProvisionedLimitResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetProvisionedLimitResponse#limit #limit} => Types::LimitType
+    #
+    #
+    # @example Example: Example get a provisioned limit
+    #
+    #   # The following example returns the provisioned limit for the UserAuthentication API category.
+    #
+    #   resp = client.get_provisioned_limit({
+    #     limit_definition: {
+    #       attributes: {
+    #         "Category" => "UserAuthentication", 
+    #       }, 
+    #       limit_class: "API_CATEGORY", 
+    #     }, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     limit: {
+    #       free_limit_value: 120, 
+    #       limit_definition: {
+    #         attributes: {
+    #           "Category" => "UserAuthentication", 
+    #         }, 
+    #         limit_class: "API_CATEGORY", 
+    #       }, 
+    #       provisioned_limit_value: 120, 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_provisioned_limit({
+    #     limit_definition: { # required
+    #       limit_class: "API_CATEGORY", # required, accepts API_CATEGORY
+    #       attributes: { # required
+    #         "StringType" => "StringType",
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.limit.limit_definition.limit_class #=> String, one of "API_CATEGORY"
+    #   resp.limit.limit_definition.attributes #=> Hash
+    #   resp.limit.limit_definition.attributes["StringType"] #=> String
+    #   resp.limit.provisioned_limit_value #=> Integer
+    #   resp.limit.free_limit_value #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetProvisionedLimit AWS API Documentation
+    #
+    # @overload get_provisioned_limit(params = {})
+    # @param [Hash] params ({})
+    def get_provisioned_limit(params = {}, options = {})
+      req = build_request(:get_provisioned_limit, params)
+      req.send_request(options)
+    end
+
     # Given a user pool ID, returns the signing certificate for SAML 2.0
     # federation.
     #
@@ -12578,6 +12662,101 @@ module Aws::CognitoIdentityProvider
       req.send_request(options)
     end
 
+    # Sets the provisioned limit for a specific API category. The value must
+    # be between the default limit and your account-level maximum limit in
+    # Service Quotas.
+    #
+    # Managed login user pools don't support adjustments to the
+    # `UserAuthentication` or `UserFederation` categories. To increase these
+    # limits, submit a Service Quotas increase request.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, Types::LimitDefinitionType] :limit_definition
+    #   The limit to update. Specify the limit class and the attributes that
+    #   identify the limit.
+    #
+    # @option params [required, Integer] :requested_limit_value
+    #   The provisioned rate to set, in requests per second (RPS).
+    #
+    # @return [Types::UpdateProvisionedLimitResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateProvisionedLimitResponse#limit #limit} => Types::LimitType
+    #
+    #
+    # @example Example: Example update a provisioned limit
+    #
+    #   # The following example sets the provisioned limit for the UserAuthentication API category to 300 RPS.
+    #
+    #   resp = client.update_provisioned_limit({
+    #     limit_definition: {
+    #       attributes: {
+    #         "Category" => "UserAuthentication", 
+    #       }, 
+    #       limit_class: "API_CATEGORY", 
+    #     }, 
+    #     requested_limit_value: 300, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     limit: {
+    #       free_limit_value: 120, 
+    #       limit_definition: {
+    #         attributes: {
+    #           "Category" => "UserAuthentication", 
+    #         }, 
+    #         limit_class: "API_CATEGORY", 
+    #       }, 
+    #       provisioned_limit_value: 300, 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_provisioned_limit({
+    #     limit_definition: { # required
+    #       limit_class: "API_CATEGORY", # required, accepts API_CATEGORY
+    #       attributes: { # required
+    #         "StringType" => "StringType",
+    #       },
+    #     },
+    #     requested_limit_value: 1, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.limit.limit_definition.limit_class #=> String, one of "API_CATEGORY"
+    #   resp.limit.limit_definition.attributes #=> Hash
+    #   resp.limit.limit_definition.attributes["StringType"] #=> String
+    #   resp.limit.provisioned_limit_value #=> Integer
+    #   resp.limit.free_limit_value #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateProvisionedLimit AWS API Documentation
+    #
+    # @overload update_provisioned_limit(params = {})
+    # @param [Hash] params ({})
+    def update_provisioned_limit(params = {}, options = {})
+      req = build_request(:update_provisioned_limit, params)
+      req.send_request(options)
+    end
+
     # Updates the name and scopes of a resource server. All other fields are
     # read-only. For more information about resource servers, see [Access
     # control with resource servers][1].
@@ -14077,7 +14256,7 @@ module Aws::CognitoIdentityProvider
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cognitoidentityprovider'
-      context[:gem_version] = '1.145.0'
+      context[:gem_version] = '1.146.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

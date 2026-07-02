@@ -6566,6 +6566,31 @@ module Aws::CognitoIdentityProvider
       include Aws::Structure
     end
 
+    # @!attribute [rw] limit_definition
+    #   The limit to retrieve. Specify the limit class and the attributes
+    #   that identify the limit.
+    #   @return [Types::LimitDefinitionType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetProvisionedLimitRequest AWS API Documentation
+    #
+    class GetProvisionedLimitRequest < Struct.new(
+      :limit_definition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] limit
+    #   The provisioned and default limit values for the requested limit.
+    #   @return [Types::LimitType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetProvisionedLimitResponse AWS API Documentation
+    #
+    class GetProvisionedLimitResponse < Struct.new(
+      :limit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Request to get a signing certificate from Amazon Cognito.
     #
     # @!attribute [rw] user_pool_id
@@ -8081,6 +8106,28 @@ module Aws::CognitoIdentityProvider
       include Aws::Structure
     end
 
+    # The class and attributes that identify a specific limit at the account
+    # level.
+    #
+    # @!attribute [rw] limit_class
+    #   The class of the limit. For API rate limits, this is `API_CATEGORY`.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   The attributes that identify the specific limit. For API rate
+    #   limits, specify the `Category` key with a value like
+    #   `UserAuthentication` or `UserCreation`.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/LimitDefinitionType AWS API Documentation
+    #
+    class LimitDefinitionType < Struct.new(
+      :limit_class,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This exception is thrown when a user exceeds the limit for a requested
     # Amazon Web Services resource.
     #
@@ -8093,6 +8140,33 @@ module Aws::CognitoIdentityProvider
     #
     class LimitExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The limit definition and current limit values for a provisioned limit.
+    #
+    # @!attribute [rw] limit_definition
+    #   The definition that identifies this limit, including the class and
+    #   attributes.
+    #   @return [Types::LimitDefinitionType]
+    #
+    # @!attribute [rw] provisioned_limit_value
+    #   The provisioned limit value, in requests per second (RPS). This is
+    #   the rate that Amazon Cognito currently enforces for your account.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] free_limit_value
+    #   The default (free) limit value, in requests per second (RPS). This
+    #   is the rate included at no additional cost.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/LimitType AWS API Documentation
+    #
+    class LimitType < Struct.new(
+      :limit_definition,
+      :provisioned_limit_value,
+      :free_limit_value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10525,6 +10599,20 @@ module Aws::CognitoIdentityProvider
       include Aws::Structure
     end
 
+    # The request exceeded your account's service quota. To increase your
+    # limit, use or submit a Service Quotas increase request.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ServiceQuotaExceededException AWS API Documentation
+    #
+    class ServiceQuotaExceededException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] user_pool_id
     #   The ID of the user pool where you want to configure logging.
     #   @return [String]
@@ -12137,6 +12225,36 @@ module Aws::CognitoIdentityProvider
     #
     class UpdateManagedLoginBrandingResponse < Struct.new(
       :managed_login_branding)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] limit_definition
+    #   The limit to update. Specify the limit class and the attributes that
+    #   identify the limit.
+    #   @return [Types::LimitDefinitionType]
+    #
+    # @!attribute [rw] requested_limit_value
+    #   The provisioned rate to set, in requests per second (RPS).
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateProvisionedLimitRequest AWS API Documentation
+    #
+    class UpdateProvisionedLimitRequest < Struct.new(
+      :limit_definition,
+      :requested_limit_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] limit
+    #   The updated provisioned and default limit values.
+    #   @return [Types::LimitType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateProvisionedLimitResponse AWS API Documentation
+    #
+    class UpdateProvisionedLimitResponse < Struct.new(
+      :limit)
       SENSITIVE = []
       include Aws::Structure
     end

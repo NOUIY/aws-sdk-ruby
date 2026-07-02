@@ -1971,6 +1971,7 @@ module Aws::ConfigService
     PutOrganizationConfigRuleRequest.add_member(:organization_custom_rule_metadata, Shapes::ShapeRef.new(shape: OrganizationCustomRuleMetadata, location_name: "OrganizationCustomRuleMetadata"))
     PutOrganizationConfigRuleRequest.add_member(:excluded_accounts, Shapes::ShapeRef.new(shape: ExcludedAccounts, location_name: "ExcludedAccounts"))
     PutOrganizationConfigRuleRequest.add_member(:organization_custom_policy_rule_metadata, Shapes::ShapeRef.new(shape: OrganizationCustomPolicyRuleMetadata, location_name: "OrganizationCustomPolicyRuleMetadata"))
+    PutOrganizationConfigRuleRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsList, location_name: "Tags"))
     PutOrganizationConfigRuleRequest.struct_class = Types::PutOrganizationConfigRuleRequest
 
     PutOrganizationConfigRuleResponse.add_member(:organization_config_rule_arn, Shapes::ShapeRef.new(shape: StringWithCharLimit256, location_name: "OrganizationConfigRuleArn"))
@@ -1983,6 +1984,7 @@ module Aws::ConfigService
     PutOrganizationConformancePackRequest.add_member(:delivery_s3_key_prefix, Shapes::ShapeRef.new(shape: DeliveryS3KeyPrefix, location_name: "DeliveryS3KeyPrefix"))
     PutOrganizationConformancePackRequest.add_member(:conformance_pack_input_parameters, Shapes::ShapeRef.new(shape: ConformancePackInputParameters, location_name: "ConformancePackInputParameters"))
     PutOrganizationConformancePackRequest.add_member(:excluded_accounts, Shapes::ShapeRef.new(shape: ExcludedAccounts, location_name: "ExcludedAccounts"))
+    PutOrganizationConformancePackRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsList, location_name: "Tags"))
     PutOrganizationConformancePackRequest.struct_class = Types::PutOrganizationConformancePackRequest
 
     PutOrganizationConformancePackResponse.add_member(:organization_conformance_pack_arn, Shapes::ShapeRef.new(shape: StringWithCharLimit256, location_name: "OrganizationConformancePackArn"))

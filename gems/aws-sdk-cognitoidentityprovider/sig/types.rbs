@@ -1161,6 +1161,16 @@ module Aws::CognitoIdentityProvider
       SENSITIVE: []
     end
 
+    class GetProvisionedLimitRequest
+      attr_accessor limit_definition: Types::LimitDefinitionType
+      SENSITIVE: []
+    end
+
+    class GetProvisionedLimitResponse
+      attr_accessor limit: Types::LimitType
+      SENSITIVE: []
+    end
+
     class GetSigningCertificateRequest
       attr_accessor user_pool_id: ::String
       SENSITIVE: []
@@ -1398,8 +1408,21 @@ module Aws::CognitoIdentityProvider
       SENSITIVE: []
     end
 
+    class LimitDefinitionType
+      attr_accessor limit_class: ("API_CATEGORY")
+      attr_accessor attributes: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class LimitExceededException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class LimitType
+      attr_accessor limit_definition: Types::LimitDefinitionType
+      attr_accessor provisioned_limit_value: ::Integer
+      attr_accessor free_limit_value: ::Integer
       SENSITIVE: []
     end
 
@@ -1846,6 +1869,11 @@ module Aws::CognitoIdentityProvider
       SENSITIVE: []
     end
 
+    class ServiceQuotaExceededException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
     class SetLogDeliveryConfigurationRequest
       attr_accessor user_pool_id: ::String
       attr_accessor log_configurations: ::Array[Types::LogConfigurationType]
@@ -2186,6 +2214,17 @@ module Aws::CognitoIdentityProvider
 
     class UpdateManagedLoginBrandingResponse
       attr_accessor managed_login_branding: Types::ManagedLoginBrandingType
+      SENSITIVE: []
+    end
+
+    class UpdateProvisionedLimitRequest
+      attr_accessor limit_definition: Types::LimitDefinitionType
+      attr_accessor requested_limit_value: ::Integer
+      SENSITIVE: []
+    end
+
+    class UpdateProvisionedLimitResponse
+      attr_accessor limit: Types::LimitType
       SENSITIVE: []
     end
 

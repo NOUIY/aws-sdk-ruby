@@ -5435,6 +5435,10 @@ module Aws::ConfigService
     #   organization trigger types that initiate Config to evaluate Amazon Web
     #   Services resources against a rule.
     #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags for the organization Config rule. Each tag consists of a key
+    #   and an optional value, both of which you define.
+    #
     # @return [Types::PutOrganizationConfigRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutOrganizationConfigRuleResponse#organization_config_rule_arn #organization_config_rule_arn} => String
@@ -5478,6 +5482,12 @@ module Aws::ConfigService
     #       policy_text: "PolicyText", # required
     #       debug_log_delivery_accounts: ["AccountId"],
     #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey",
+    #         value: "TagValue",
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -5589,6 +5599,10 @@ module Aws::ConfigService
     #   A list of Amazon Web Services accounts to be excluded from an
     #   organization conformance pack while deploying a conformance pack.
     #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags for the organization conformance pack. Each tag consists of a
+    #   key and an optional value, both of which you define.
+    #
     # @return [Types::PutOrganizationConformancePackResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutOrganizationConformancePackResponse#organization_conformance_pack_arn #organization_conformance_pack_arn} => String
@@ -5608,6 +5622,12 @@ module Aws::ConfigService
     #       },
     #     ],
     #     excluded_accounts: ["AccountId"],
+    #     tags: [
+    #       {
+    #         key: "TagKey",
+    #         value: "TagValue",
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -6642,7 +6662,7 @@ module Aws::ConfigService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-configservice'
-      context[:gem_version] = '1.153.0'
+      context[:gem_version] = '1.154.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

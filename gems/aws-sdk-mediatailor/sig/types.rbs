@@ -311,6 +311,7 @@ module Aws::MediaTailor
 
     class DashConfiguration
       attr_accessor manifest_endpoint_prefix: ::String
+      attr_accessor dual_stack_manifest_endpoint_prefix: ::String
       attr_accessor mpd_location: ::String
       attr_accessor origin_manifest_type: ("SINGLE_PERIOD" | "MULTI_PERIOD")
       SENSITIVE: []
@@ -590,7 +591,9 @@ module Aws::MediaTailor
       attr_accessor personalization_threshold_seconds: ::Integer
       attr_accessor playback_configuration_arn: ::String
       attr_accessor playback_endpoint_prefix: ::String
+      attr_accessor dual_stack_playback_endpoint_prefix: ::String
       attr_accessor session_initialization_endpoint_prefix: ::String
+      attr_accessor dual_stack_session_initialization_endpoint_prefix: ::String
       attr_accessor slate_ad_url: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor transcode_profile_name: ::String
@@ -622,6 +625,7 @@ module Aws::MediaTailor
 
     class HlsConfiguration
       attr_accessor manifest_endpoint_prefix: ::String
+      attr_accessor dual_stack_manifest_endpoint_prefix: ::String
       SENSITIVE: []
     end
 
@@ -837,7 +841,9 @@ module Aws::MediaTailor
       attr_accessor personalization_threshold_seconds: ::Integer
       attr_accessor playback_configuration_arn: ::String
       attr_accessor playback_endpoint_prefix: ::String
+      attr_accessor dual_stack_playback_endpoint_prefix: ::String
       attr_accessor session_initialization_endpoint_prefix: ::String
+      attr_accessor dual_stack_session_initialization_endpoint_prefix: ::String
       attr_accessor slate_ad_url: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor transcode_profile_name: ::String
@@ -948,7 +954,9 @@ module Aws::MediaTailor
       attr_accessor personalization_threshold_seconds: ::Integer
       attr_accessor playback_configuration_arn: ::String
       attr_accessor playback_endpoint_prefix: ::String
+      attr_accessor dual_stack_playback_endpoint_prefix: ::String
       attr_accessor session_initialization_endpoint_prefix: ::String
+      attr_accessor dual_stack_session_initialization_endpoint_prefix: ::String
       attr_accessor slate_ad_url: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor transcode_profile_name: ::String
@@ -995,6 +1003,7 @@ module Aws::MediaTailor
       attr_accessor hls_playlist_settings: Types::HlsPlaylistSettings
       attr_accessor manifest_name: ::String
       attr_accessor playback_url: ::String
+      attr_accessor dual_stack_playback_url: ::String
       attr_accessor source_group: ::String
       SENSITIVE: []
     end

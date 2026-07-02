@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.106.0 (2026-07-02)
+------------------
+
+* Feature - Tighten Outpost site ContactPhoneNumber regex to perform phone number validation.
+
 1.105.0 (2026-06-16)
 ------------------
 

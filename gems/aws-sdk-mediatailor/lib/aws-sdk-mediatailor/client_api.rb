@@ -497,6 +497,7 @@ module Aws::MediaTailor
     CustomOutputConfiguration.struct_class = Types::CustomOutputConfiguration
 
     DashConfiguration.add_member(:manifest_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "ManifestEndpointPrefix"))
+    DashConfiguration.add_member(:dual_stack_manifest_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackManifestEndpointPrefix"))
     DashConfiguration.add_member(:mpd_location, Shapes::ShapeRef.new(shape: __string, location_name: "MpdLocation"))
     DashConfiguration.add_member(:origin_manifest_type, Shapes::ShapeRef.new(shape: OriginManifestType, location_name: "OriginManifestType"))
     DashConfiguration.struct_class = Types::DashConfiguration
@@ -706,7 +707,9 @@ module Aws::MediaTailor
     GetPlaybackConfigurationResponse.add_member(:personalization_threshold_seconds, Shapes::ShapeRef.new(shape: __integerMin1, location_name: "PersonalizationThresholdSeconds"))
     GetPlaybackConfigurationResponse.add_member(:playback_configuration_arn, Shapes::ShapeRef.new(shape: __string, location_name: "PlaybackConfigurationArn"))
     GetPlaybackConfigurationResponse.add_member(:playback_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "PlaybackEndpointPrefix"))
+    GetPlaybackConfigurationResponse.add_member(:dual_stack_playback_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackPlaybackEndpointPrefix"))
     GetPlaybackConfigurationResponse.add_member(:session_initialization_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "SessionInitializationEndpointPrefix"))
+    GetPlaybackConfigurationResponse.add_member(:dual_stack_session_initialization_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackSessionInitializationEndpointPrefix"))
     GetPlaybackConfigurationResponse.add_member(:slate_ad_url, Shapes::ShapeRef.new(shape: __string, location_name: "SlateAdUrl"))
     GetPlaybackConfigurationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     GetPlaybackConfigurationResponse.add_member(:transcode_profile_name, Shapes::ShapeRef.new(shape: __string, location_name: "TranscodeProfileName"))
@@ -732,6 +735,7 @@ module Aws::MediaTailor
     GetPrefetchScheduleResponse.struct_class = Types::GetPrefetchScheduleResponse
 
     HlsConfiguration.add_member(:manifest_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "ManifestEndpointPrefix"))
+    HlsConfiguration.add_member(:dual_stack_manifest_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackManifestEndpointPrefix"))
     HlsConfiguration.struct_class = Types::HlsConfiguration
 
     HlsPlaylistSettings.add_member(:manifest_window_seconds, Shapes::ShapeRef.new(shape: __integer, location_name: "ManifestWindowSeconds"))
@@ -889,7 +893,9 @@ module Aws::MediaTailor
     PlaybackConfiguration.add_member(:personalization_threshold_seconds, Shapes::ShapeRef.new(shape: __integerMin1, location_name: "PersonalizationThresholdSeconds"))
     PlaybackConfiguration.add_member(:playback_configuration_arn, Shapes::ShapeRef.new(shape: __string, location_name: "PlaybackConfigurationArn"))
     PlaybackConfiguration.add_member(:playback_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "PlaybackEndpointPrefix"))
+    PlaybackConfiguration.add_member(:dual_stack_playback_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackPlaybackEndpointPrefix"))
     PlaybackConfiguration.add_member(:session_initialization_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "SessionInitializationEndpointPrefix"))
+    PlaybackConfiguration.add_member(:dual_stack_session_initialization_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackSessionInitializationEndpointPrefix"))
     PlaybackConfiguration.add_member(:slate_ad_url, Shapes::ShapeRef.new(shape: __string, location_name: "SlateAdUrl"))
     PlaybackConfiguration.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     PlaybackConfiguration.add_member(:transcode_profile_name, Shapes::ShapeRef.new(shape: __string, location_name: "TranscodeProfileName"))
@@ -983,7 +989,9 @@ module Aws::MediaTailor
     PutPlaybackConfigurationResponse.add_member(:personalization_threshold_seconds, Shapes::ShapeRef.new(shape: __integerMin1, location_name: "PersonalizationThresholdSeconds"))
     PutPlaybackConfigurationResponse.add_member(:playback_configuration_arn, Shapes::ShapeRef.new(shape: __string, location_name: "PlaybackConfigurationArn"))
     PutPlaybackConfigurationResponse.add_member(:playback_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "PlaybackEndpointPrefix"))
+    PutPlaybackConfigurationResponse.add_member(:dual_stack_playback_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackPlaybackEndpointPrefix"))
     PutPlaybackConfigurationResponse.add_member(:session_initialization_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "SessionInitializationEndpointPrefix"))
+    PutPlaybackConfigurationResponse.add_member(:dual_stack_session_initialization_endpoint_prefix, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackSessionInitializationEndpointPrefix"))
     PutPlaybackConfigurationResponse.add_member(:slate_ad_url, Shapes::ShapeRef.new(shape: __string, location_name: "SlateAdUrl"))
     PutPlaybackConfigurationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     PutPlaybackConfigurationResponse.add_member(:transcode_profile_name, Shapes::ShapeRef.new(shape: __string, location_name: "TranscodeProfileName"))
@@ -1022,6 +1030,7 @@ module Aws::MediaTailor
     ResponseOutputItem.add_member(:hls_playlist_settings, Shapes::ShapeRef.new(shape: HlsPlaylistSettings, location_name: "HlsPlaylistSettings"))
     ResponseOutputItem.add_member(:manifest_name, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "ManifestName"))
     ResponseOutputItem.add_member(:playback_url, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "PlaybackUrl"))
+    ResponseOutputItem.add_member(:dual_stack_playback_url, Shapes::ShapeRef.new(shape: __string, location_name: "DualStackPlaybackUrl"))
     ResponseOutputItem.add_member(:source_group, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "SourceGroup"))
     ResponseOutputItem.struct_class = Types::ResponseOutputItem
 

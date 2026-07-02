@@ -1283,7 +1283,13 @@ module Aws
                                             policy_runtime: ::String,
                                             policy_text: ::String,
                                             debug_log_delivery_accounts: Array[::String]?
-                                          }
+                                          },
+                                          ?tags: Array[
+                                            {
+                                              key: ::String?,
+                                              value: ::String?
+                                            }
+                                          ]
                                         ) -> _PutOrganizationConfigRuleResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutOrganizationConfigRuleResponseSuccess
 
@@ -1304,7 +1310,13 @@ module Aws
                                                    parameter_value: ::String
                                                  }
                                                ],
-                                               ?excluded_accounts: Array[::String]
+                                               ?excluded_accounts: Array[::String],
+                                               ?tags: Array[
+                                                 {
+                                                   key: ::String?,
+                                                   value: ::String?
+                                                 }
+                                               ]
                                              ) -> _PutOrganizationConformancePackResponseSuccess
                                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutOrganizationConformancePackResponseSuccess
 

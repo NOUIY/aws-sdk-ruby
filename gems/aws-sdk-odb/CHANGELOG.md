@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.23.0 (2026-07-02)
+------------------
+
+* Feature - Updated model definitions for ODB service.
+
 1.22.0 (2026-06-09)
 ------------------
 

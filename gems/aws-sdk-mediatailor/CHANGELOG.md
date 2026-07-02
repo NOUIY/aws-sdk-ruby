@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.122.0 (2026-07-02)
+------------------
+
+* Feature - Added dual-stack (IPv4 and IPv6) endpoint fields to SSAI and Channel Assembly API responses.
+
 1.121.0 (2026-05-21)
 ------------------
 

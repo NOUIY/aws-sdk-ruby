@@ -7258,6 +7258,11 @@ module Aws::ConfigService
     #   Amazon Web Services resources against a rule.
     #   @return [Types::OrganizationCustomPolicyRuleMetadata]
     #
+    # @!attribute [rw] tags
+    #   The tags for the organization Config rule. Each tag consists of a
+    #   key and an optional value, both of which you define.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConfigRuleRequest AWS API Documentation
     #
     class PutOrganizationConfigRuleRequest < Struct.new(
@@ -7265,7 +7270,8 @@ module Aws::ConfigService
       :organization_managed_rule_metadata,
       :organization_custom_rule_metadata,
       :excluded_accounts,
-      :organization_custom_policy_rule_metadata)
+      :organization_custom_policy_rule_metadata,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7334,6 +7340,11 @@ module Aws::ConfigService
     #   organization conformance pack while deploying a conformance pack.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] tags
+    #   The tags for the organization conformance pack. Each tag consists of
+    #   a key and an optional value, both of which you define.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConformancePackRequest AWS API Documentation
     #
     class PutOrganizationConformancePackRequest < Struct.new(
@@ -7343,7 +7354,8 @@ module Aws::ConfigService
       :delivery_s3_bucket,
       :delivery_s3_key_prefix,
       :conformance_pack_input_parameters,
-      :excluded_accounts)
+      :excluded_accounts,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end

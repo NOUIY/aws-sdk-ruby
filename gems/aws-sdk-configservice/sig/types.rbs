@@ -1738,6 +1738,7 @@ module Aws::ConfigService
       attr_accessor organization_custom_rule_metadata: Types::OrganizationCustomRuleMetadata
       attr_accessor excluded_accounts: ::Array[::String]
       attr_accessor organization_custom_policy_rule_metadata: Types::OrganizationCustomPolicyRuleMetadata
+      attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
 
@@ -1754,6 +1755,7 @@ module Aws::ConfigService
       attr_accessor delivery_s3_key_prefix: ::String
       attr_accessor conformance_pack_input_parameters: ::Array[Types::ConformancePackInputParameter]
       attr_accessor excluded_accounts: ::Array[::String]
+      attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
 

@@ -1111,6 +1111,19 @@ module Aws
                                           ) -> _GetLogDeliveryConfigurationResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetLogDeliveryConfigurationResponseSuccess
 
+      interface _GetProvisionedLimitResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetProvisionedLimitResponse]
+        def limit: () -> Types::LimitType
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#get_provisioned_limit-instance_method
+      def get_provisioned_limit: (
+                                   limit_definition: {
+                                     limit_class: ("API_CATEGORY"),
+                                     attributes: Hash[::String, ::String]
+                                   }
+                                 ) -> _GetProvisionedLimitResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetProvisionedLimitResponseSuccess
+
       interface _GetSigningCertificateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetSigningCertificateResponse]
         def certificate: () -> ::String
@@ -1799,6 +1812,20 @@ module Aws
                                            ]
                                          ) -> _UpdateManagedLoginBrandingResponseSuccess
                                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateManagedLoginBrandingResponseSuccess
+
+      interface _UpdateProvisionedLimitResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateProvisionedLimitResponse]
+        def limit: () -> Types::LimitType
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/CognitoIdentityProvider/Client.html#update_provisioned_limit-instance_method
+      def update_provisioned_limit: (
+                                      limit_definition: {
+                                        limit_class: ("API_CATEGORY"),
+                                        attributes: Hash[::String, ::String]
+                                      },
+                                      requested_limit_value: ::Integer
+                                    ) -> _UpdateProvisionedLimitResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateProvisionedLimitResponseSuccess
 
       interface _UpdateResourceServerResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateResourceServerResponse]
