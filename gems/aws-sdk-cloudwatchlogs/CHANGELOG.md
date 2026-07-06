@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.158.0 (2026-07-06)
+------------------
+
+* Feature - Added PutStorageTierPolicy and GetStorageTierPolicy APIs to Amazon CloudWatch Logs. Customers can now configure account-level Intelligent Tiering to automatically optimize log storage costs by moving infrequently accessed data to lower-cost storage tiers.
+
 1.157.0 (2026-06-22)
 ------------------
 

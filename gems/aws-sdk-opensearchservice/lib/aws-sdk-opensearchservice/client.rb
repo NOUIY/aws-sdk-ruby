@@ -4368,6 +4368,53 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Retrieves the current status and progress of a migration job,
+    # including the number of exported and imported objects and error
+    # details if the migration failed.
+    #
+    # @option params [required, String] :migration_id
+    #   The unique identifier of the migration job to retrieve.
+    #
+    # @return [Types::GetMigrationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMigrationResponse#migration_id #migration_id} => String
+    #   * {Types::GetMigrationResponse#status #status} => String
+    #   * {Types::GetMigrationResponse#application_id #application_id} => String
+    #   * {Types::GetMigrationResponse#source #source} => Types::MigrationSource
+    #   * {Types::GetMigrationResponse#exported_count #exported_count} => Integer
+    #   * {Types::GetMigrationResponse#imported_count #imported_count} => Integer
+    #   * {Types::GetMigrationResponse#error #error} => Types::MigrationError
+    #   * {Types::GetMigrationResponse#created_at #created_at} => Time
+    #   * {Types::GetMigrationResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_migration({
+    #     migration_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.migration_id #=> String
+    #   resp.status #=> String
+    #   resp.application_id #=> String
+    #   resp.source.datasource_arn #=> String
+    #   resp.exported_count #=> Integer
+    #   resp.imported_count #=> Integer
+    #   resp.error.code #=> String
+    #   resp.error.message #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetMigration AWS API Documentation
+    #
+    # @overload get_migration(params = {})
+    # @param [Hash] params ({})
+    def get_migration(params = {}, options = {})
+      req = build_request(:get_migration, params)
+      req.send_request(options)
+    end
+
     # Returns a list of Amazon OpenSearch Service package versions, along
     # with their creation time, commit message, and plugin properties (if
     # the package is a zip plugin package). For more information, see
@@ -5044,6 +5091,63 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Lists migration jobs for an Amazon OpenSearch Service application. You
+    # can filter results by migration status. Use pagination to ensure that
+    # the operation returns quickly and successfully.
+    #
+    # @option params [required, String] :application_id
+    #   The unique identifier of the OpenSearch application to list migrations
+    #   for.
+    #
+    # @option params [String] :status
+    #   Filters the results by migration status. Valid values are `PENDING`,
+    #   `IN_PROGRESS`, `SUCCEEDED`, and `FAILED`.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @option params [String] :next_token
+    #   The pagination token from a previous call to retrieve the next set of
+    #   results.
+    #
+    # @return [Types::ListMigrationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListMigrationsResponse#migrations #migrations} => Array&lt;Types::MigrationSummary&gt;
+    #   * {Types::ListMigrationsResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_migrations({
+    #     application_id: "ApplicationId", # required
+    #     status: "String",
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.migrations #=> Array
+    #   resp.migrations[0].migration_id #=> String
+    #   resp.migrations[0].status #=> String
+    #   resp.migrations[0].application_id #=> String
+    #   resp.migrations[0].source.datasource_arn #=> String
+    #   resp.migrations[0].exported_count #=> Integer
+    #   resp.migrations[0].imported_count #=> Integer
+    #   resp.migrations[0].error.code #=> String
+    #   resp.migrations[0].error.message #=> String
+    #   resp.migrations[0].created_at #=> Time
+    #   resp.migrations[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListMigrations AWS API Documentation
+    #
+    # @overload list_migrations(params = {})
+    # @param [Hash] params ({})
+    def list_migrations(params = {}, options = {})
+      req = build_request(:list_migrations, params)
+      req.send_request(options)
+    end
+
     # Lists all packages associated with an Amazon OpenSearch Service
     # domain. For more information, see [Custom packages for Amazon
     # OpenSearch Service][1].
@@ -5691,6 +5795,76 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def start_domain_maintenance(params = {}, options = {})
       req = build_request(:start_domain_maintenance, params)
+      req.send_request(options)
+    end
+
+    # Initiates a migration job to migrate saved objects from a data source
+    # to an Amazon OpenSearch Service application workspace. Saved objects
+    # include dashboards, visualizations, index patterns, and searches. You
+    # can specify export filters to control the scope of the migration and a
+    # conflict resolution strategy for handling existing objects in the
+    # target workspace.
+    #
+    # @option params [required, String] :application_id
+    #   The unique identifier of the OpenSearch application to migrate saved
+    #   objects into.
+    #
+    # @option params [required, Types::MigrationOptions] :migration_options
+    #   The configuration options for the migration, including the source data
+    #   source, target workspace, export filters, and conflict resolution
+    #   strategy.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, Amazon OpenSearch Service ignores the request but does not
+    #   return an error.
+    #
+    # @return [Types::StartMigrationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartMigrationResponse#migration_id #migration_id} => String
+    #   * {Types::StartMigrationResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_migration({
+    #     application_id: "ApplicationId", # required
+    #     migration_options: { # required
+    #       source: { # required
+    #         datasource_arn: "ARN", # required
+    #       },
+    #       workspace: { # required
+    #         workspace_id: "String",
+    #         create_workspace: false,
+    #         name: "String",
+    #         type: "String",
+    #       },
+    #       export_options: {
+    #         types: ["String"],
+    #         objects: [
+    #           {
+    #             type: "String", # required
+    #             id: "String", # required
+    #           },
+    #         ],
+    #         include_references_deep: false,
+    #       },
+    #       conflict_resolution: "String",
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.migration_id #=> String
+    #   resp.status #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/StartMigration AWS API Documentation
+    #
+    # @overload start_migration(params = {})
+    # @param [Hash] params ({})
+    def start_migration(params = {}, options = {})
+      req = build_request(:start_migration, params)
       req.send_request(options)
     end
 
@@ -6923,7 +7097,7 @@ module Aws::OpenSearchService
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.105.0'
+      context[:gem_version] = '1.106.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

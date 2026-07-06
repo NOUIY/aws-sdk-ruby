@@ -1219,6 +1219,13 @@ module Aws::OpenSearchService
       SENSITIVE: []
     end
 
+    class ExportOptions
+      attr_accessor types: ::Array[::String]
+      attr_accessor objects: ::Array[Types::SavedObjectIdentifier]
+      attr_accessor include_references_deep: bool
+      SENSITIVE: []
+    end
+
     class Filter
       attr_accessor name: ::String
       attr_accessor values: ::Array[::String]
@@ -1331,6 +1338,24 @@ module Aws::OpenSearchService
 
     class GetIndexResponse
       attr_accessor index_schema: untyped
+      SENSITIVE: []
+    end
+
+    class GetMigrationRequest
+      attr_accessor migration_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetMigrationResponse
+      attr_accessor migration_id: ::String
+      attr_accessor status: ::String
+      attr_accessor application_id: ::String
+      attr_accessor source: Types::MigrationSource
+      attr_accessor exported_count: ::Integer
+      attr_accessor imported_count: ::Integer
+      attr_accessor error: Types::MigrationError
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
 
@@ -1681,6 +1706,20 @@ module Aws::OpenSearchService
       SENSITIVE: []
     end
 
+    class ListMigrationsRequest
+      attr_accessor application_id: ::String
+      attr_accessor status: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListMigrationsResponse
+      attr_accessor migrations: ::Array[Types::MigrationSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListPackagesForDomainRequest
       attr_accessor domain_name: ::String
       attr_accessor max_results: ::Integer
@@ -1781,6 +1820,46 @@ module Aws::OpenSearchService
       attr_accessor master_user_name: ::String
       attr_accessor master_user_password: ::String
       SENSITIVE: [:master_user_name, :master_user_password]
+    end
+
+    class MigrationError
+      attr_accessor code: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class MigrationOptions
+      attr_accessor source: Types::MigrationSource
+      attr_accessor workspace: Types::MigrationWorkspace
+      attr_accessor export_options: Types::ExportOptions
+      attr_accessor conflict_resolution: ::String
+      SENSITIVE: []
+    end
+
+    class MigrationSource
+      attr_accessor datasource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class MigrationSummary
+      attr_accessor migration_id: ::String
+      attr_accessor status: ::String
+      attr_accessor application_id: ::String
+      attr_accessor source: Types::MigrationSource
+      attr_accessor exported_count: ::Integer
+      attr_accessor imported_count: ::Integer
+      attr_accessor error: Types::MigrationError
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class MigrationWorkspace
+      attr_accessor workspace_id: ::String
+      attr_accessor create_workspace: bool
+      attr_accessor name: ::String
+      attr_accessor type: ::String
+      SENSITIVE: []
     end
 
     class ModifyingProperties
@@ -2112,6 +2191,12 @@ module Aws::OpenSearchService
       SENSITIVE: []
     end
 
+    class SavedObjectIdentifier
+      attr_accessor type: ::String
+      attr_accessor id: ::String
+      SENSITIVE: []
+    end
+
     class ScheduledAction
       attr_accessor id: ::String
       attr_accessor type: ("SERVICE_SOFTWARE_UPDATE" | "JVM_HEAP_SIZE_TUNING" | "JVM_YOUNG_GEN_TUNING")
@@ -2200,6 +2285,19 @@ module Aws::OpenSearchService
 
     class StartDomainMaintenanceResponse
       attr_accessor maintenance_id: ::String
+      SENSITIVE: []
+    end
+
+    class StartMigrationRequest
+      attr_accessor application_id: ::String
+      attr_accessor migration_options: Types::MigrationOptions
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class StartMigrationResponse
+      attr_accessor migration_id: ::String
+      attr_accessor status: ::String
       SENSITIVE: []
     end
 

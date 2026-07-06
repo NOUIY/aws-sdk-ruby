@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.28.0 (2026-07-06)
+------------------
+
+* Feature - Adds support for managing AWS account credits and billing preferences, including retrieving credit details, viewing per-month credit allocation history, redeeming promotional codes, and configuring credit sharing and billing preferences.
+
 1.27.0 (2026-05-26)
 ------------------
 
