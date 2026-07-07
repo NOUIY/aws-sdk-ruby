@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1267.0 (2026-07-07)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::PartnerCentralRevenueMeasurement`.
+
 1.1266.0 (2026-07-06)
 ------------------
 

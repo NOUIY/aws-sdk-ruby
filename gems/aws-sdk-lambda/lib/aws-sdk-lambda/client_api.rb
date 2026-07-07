@@ -184,6 +184,7 @@ module Aws::Lambda
     EventType = Shapes::StringShape.new(name: 'EventType')
     Events = Shapes::ListShape.new(name: 'Events')
     Execution = Shapes::StructureShape.new(name: 'Execution')
+    ExecutionDataIncluded = Shapes::BooleanShape.new(name: 'ExecutionDataIncluded')
     ExecutionDetails = Shapes::StructureShape.new(name: 'ExecutionDetails')
     ExecutionEnvironmentMemoryGiBPerVCpu = Shapes::FloatShape.new(name: 'ExecutionEnvironmentMemoryGiBPerVCpu')
     ExecutionFailedDetails = Shapes::StructureShape.new(name: 'ExecutionFailedDetails')
@@ -1002,6 +1003,7 @@ module Aws::Lambda
     DocumentDBEventSourceConfig.add_member(:full_document, Shapes::ShapeRef.new(shape: FullDocument, location_name: "FullDocument"))
     DocumentDBEventSourceConfig.struct_class = Types::DocumentDBEventSourceConfig
 
+    DurableConfig.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArn, location_name: "KMSKeyArn"))
     DurableConfig.add_member(:retention_period_in_days, Shapes::ShapeRef.new(shape: RetentionPeriodInDays, location_name: "RetentionPeriodInDays"))
     DurableConfig.add_member(:execution_timeout, Shapes::ShapeRef.new(shape: ExecutionTimeout, location_name: "ExecutionTimeout"))
     DurableConfig.struct_class = Types::DurableConfig
@@ -1175,6 +1177,7 @@ module Aws::Lambda
     Execution.add_member(:status, Shapes::ShapeRef.new(shape: ExecutionStatus, required: true, location_name: "Status"))
     Execution.add_member(:start_timestamp, Shapes::ShapeRef.new(shape: ExecutionTimestamp, required: true, location_name: "StartTimestamp"))
     Execution.add_member(:end_timestamp, Shapes::ShapeRef.new(shape: ExecutionTimestamp, location_name: "EndTimestamp"))
+    Execution.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArn, location_name: "KMSKeyArn"))
     Execution.struct_class = Types::Execution
 
     ExecutionDetails.add_member(:input_payload, Shapes::ShapeRef.new(shape: InputPayload, location_name: "InputPayload"))
@@ -1354,6 +1357,7 @@ module Aws::Lambda
     GetDurableExecutionHistoryResponse.struct_class = Types::GetDurableExecutionHistoryResponse
 
     GetDurableExecutionRequest.add_member(:durable_execution_arn, Shapes::ShapeRef.new(shape: DurableExecutionArn, required: true, location: "uri", location_name: "DurableExecutionArn"))
+    GetDurableExecutionRequest.add_member(:include_execution_data, Shapes::ShapeRef.new(shape: IncludeExecutionData, location: "querystring", location_name: "IncludeExecutionData"))
     GetDurableExecutionRequest.struct_class = Types::GetDurableExecutionRequest
 
     GetDurableExecutionResponse.add_member(:durable_execution_arn, Shapes::ShapeRef.new(shape: DurableExecutionArn, required: true, location_name: "DurableExecutionArn"))
@@ -1367,6 +1371,8 @@ module Aws::Lambda
     GetDurableExecutionResponse.add_member(:end_timestamp, Shapes::ShapeRef.new(shape: ExecutionTimestamp, location_name: "EndTimestamp"))
     GetDurableExecutionResponse.add_member(:version, Shapes::ShapeRef.new(shape: VersionWithLatestPublished, location_name: "Version"))
     GetDurableExecutionResponse.add_member(:trace_header, Shapes::ShapeRef.new(shape: TraceHeader, location_name: "TraceHeader"))
+    GetDurableExecutionResponse.add_member(:execution_data_included, Shapes::ShapeRef.new(shape: ExecutionDataIncluded, location_name: "ExecutionDataIncluded"))
+    GetDurableExecutionResponse.add_member(:durable_config, Shapes::ShapeRef.new(shape: DurableConfig, location_name: "DurableConfig"))
     GetDurableExecutionResponse.struct_class = Types::GetDurableExecutionResponse
 
     GetDurableExecutionStateRequest.add_member(:durable_execution_arn, Shapes::ShapeRef.new(shape: DurableExecutionArn, required: true, location: "uri", location_name: "DurableExecutionArn"))
@@ -2438,8 +2444,12 @@ module Aws::Lambda
         o.input = Shapes::ShapeRef.new(shape: CheckpointDurableExecutionRequest)
         o.output = Shapes::ShapeRef.new(shape: CheckpointDurableExecutionResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInvalidStateException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSDisabledException)
       end)
 
       api.add_operation(:create_alias, Seahorse::Model::Operation.new.tap do |o|
@@ -2718,9 +2728,13 @@ module Aws::Lambda
         o.input = Shapes::ShapeRef.new(shape: GetDurableExecutionRequest)
         o.output = Shapes::ShapeRef.new(shape: GetDurableExecutionResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInvalidStateException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSDisabledException)
       end)
 
       api.add_operation(:get_durable_execution_history, Seahorse::Model::Operation.new.tap do |o|
@@ -2730,9 +2744,13 @@ module Aws::Lambda
         o.input = Shapes::ShapeRef.new(shape: GetDurableExecutionHistoryRequest)
         o.output = Shapes::ShapeRef.new(shape: GetDurableExecutionHistoryResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInvalidStateException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSDisabledException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_items",
           tokens: {
@@ -2748,8 +2766,12 @@ module Aws::Lambda
         o.input = Shapes::ShapeRef.new(shape: GetDurableExecutionStateRequest)
         o.output = Shapes::ShapeRef.new(shape: GetDurableExecutionStateResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInvalidStateException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSDisabledException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_items",
           tokens: {
@@ -3487,10 +3509,14 @@ module Aws::Lambda
         o.input = Shapes::ShapeRef.new(shape: SendDurableExecutionCallbackFailureRequest)
         o.output = Shapes::ShapeRef.new(shape: SendDurableExecutionCallbackFailureResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInvalidStateException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: CallbackTimeoutException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSDisabledException)
       end)
 
       api.add_operation(:send_durable_execution_callback_heartbeat, Seahorse::Model::Operation.new.tap do |o|
@@ -3513,10 +3539,14 @@ module Aws::Lambda
         o.input = Shapes::ShapeRef.new(shape: SendDurableExecutionCallbackSuccessRequest)
         o.output = Shapes::ShapeRef.new(shape: SendDurableExecutionCallbackSuccessResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInvalidStateException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: CallbackTimeoutException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSDisabledException)
       end)
 
       api.add_operation(:stop_durable_execution, Seahorse::Model::Operation.new.tap do |o|
@@ -3526,9 +3556,13 @@ module Aws::Lambda
         o.input = Shapes::ShapeRef.new(shape: StopDurableExecutionRequest)
         o.output = Shapes::ShapeRef.new(shape: StopDurableExecutionResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSInvalidStateException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSAccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: KMSDisabledException)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|

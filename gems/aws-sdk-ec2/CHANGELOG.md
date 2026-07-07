@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.629.0 (2026-07-07)
+------------------
+
+* Feature - This launch surfaces the public SSM parameter associated with public AMIs in the AMI metadata.
+
 1.628.0 (2026-07-01)
 ------------------
 

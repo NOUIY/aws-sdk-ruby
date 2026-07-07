@@ -167,6 +167,9 @@ module Aws::Connect
     AudioFeatures = Shapes::StructureShape.new(name: 'AudioFeatures')
     AudioQualityMetricsInfo = Shapes::StructureShape.new(name: 'AudioQualityMetricsInfo')
     AudioQualityScore = Shapes::FloatShape.new(name: 'AudioQualityScore')
+    AuthCode = Shapes::StringShape.new(name: 'AuthCode')
+    AuthCodeEntityType = Shapes::StringShape.new(name: 'AuthCodeEntityType')
+    AuthScope = Shapes::StructureShape.new(name: 'AuthScope')
     AuthenticationError = Shapes::StringShape.new(name: 'AuthenticationError')
     AuthenticationErrorDescription = Shapes::StringShape.new(name: 'AuthenticationErrorDescription')
     AuthenticationProfile = Shapes::StructureShape.new(name: 'AuthenticationProfile')
@@ -368,6 +371,8 @@ module Aws::Connect
     CreateAgentStatusResponse = Shapes::StructureShape.new(name: 'CreateAgentStatusResponse')
     CreateAttachedFileRequest = Shapes::StructureShape.new(name: 'CreateAttachedFileRequest')
     CreateAttachedFileResponse = Shapes::StructureShape.new(name: 'CreateAttachedFileResponse')
+    CreateAuthCodeRequest = Shapes::StructureShape.new(name: 'CreateAuthCodeRequest')
+    CreateAuthCodeResponse = Shapes::StructureShape.new(name: 'CreateAuthCodeResponse')
     CreateCaseActionDefinition = Shapes::StructureShape.new(name: 'CreateCaseActionDefinition')
     CreateContactFlowModuleAliasRequest = Shapes::StructureShape.new(name: 'CreateContactFlowModuleAliasRequest')
     CreateContactFlowModuleAliasResponse = Shapes::StructureShape.new(name: 'CreateContactFlowModuleAliasResponse')
@@ -459,6 +464,7 @@ module Aws::Connect
     CustomerIdNonEmpty = Shapes::StringShape.new(name: 'CustomerIdNonEmpty')
     CustomerProfileAttributesSerialized = Shapes::StringShape.new(name: 'CustomerProfileAttributesSerialized')
     CustomerProfileId = Shapes::StringShape.new(name: 'CustomerProfileId')
+    CustomerProfilesDomainName = Shapes::StringShape.new(name: 'CustomerProfilesDomainName')
     CustomerQualityMetrics = Shapes::StructureShape.new(name: 'CustomerQualityMetrics')
     CustomerVoiceActivity = Shapes::StructureShape.new(name: 'CustomerVoiceActivity')
     DataSetId = Shapes::StringShape.new(name: 'DataSetId')
@@ -541,6 +547,8 @@ module Aws::Connect
     DeleteRoutingProfileRequest = Shapes::StructureShape.new(name: 'DeleteRoutingProfileRequest')
     DeleteRuleRequest = Shapes::StructureShape.new(name: 'DeleteRuleRequest')
     DeleteSecurityProfileRequest = Shapes::StructureShape.new(name: 'DeleteSecurityProfileRequest')
+    DeleteSessionRequest = Shapes::StructureShape.new(name: 'DeleteSessionRequest')
+    DeleteSessionResponse = Shapes::StructureShape.new(name: 'DeleteSessionResponse')
     DeleteTaskTemplateRequest = Shapes::StructureShape.new(name: 'DeleteTaskTemplateRequest')
     DeleteTaskTemplateResponse = Shapes::StructureShape.new(name: 'DeleteTaskTemplateResponse')
     DeleteTestCaseRequest = Shapes::StructureShape.new(name: 'DeleteTestCaseRequest')
@@ -727,6 +735,7 @@ module Aws::Connect
     Entities = Shapes::ListShape.new(name: 'Entities')
     Entity = Shapes::StringShape.new(name: 'Entity')
     EntityArn = Shapes::StringShape.new(name: 'EntityArn')
+    EntityId = Shapes::StringShape.new(name: 'EntityId')
     EntityType = Shapes::StringShape.new(name: 'EntityType')
     EpochMilliseconds = Shapes::IntegerShape.new(name: 'EpochMilliseconds')
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
@@ -1253,6 +1262,7 @@ module Aws::Connect
     MaxResult500 = Shapes::IntegerShape.new(name: 'MaxResult500')
     MaxResult7 = Shapes::IntegerShape.new(name: 'MaxResult7')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    MaxSessionDurationMinutes = Shapes::IntegerShape.new(name: 'MaxSessionDurationMinutes')
     MaximumResultReturnedException = Shapes::StructureShape.new(name: 'MaximumResultReturnedException')
     MaximumSizeLimitInBytes = Shapes::IntegerShape.new(name: 'MaximumSizeLimitInBytes')
     MediaConcurrencies = Shapes::ListShape.new(name: 'MediaConcurrencies')
@@ -1785,6 +1795,8 @@ module Aws::Connect
     SentimentConfiguration = Shapes::StructureShape.new(name: 'SentimentConfiguration')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceQuotaExceededExceptionReason = Shapes::UnionShape.new(name: 'ServiceQuotaExceededExceptionReason')
+    SessionId = Shapes::StringShape.new(name: 'SessionId')
+    SessionInactivityDurationMinutes = Shapes::IntegerShape.new(name: 'SessionInactivityDurationMinutes')
     SignInConfig = Shapes::StructureShape.new(name: 'SignInConfig')
     SignInDistribution = Shapes::StructureShape.new(name: 'SignInDistribution')
     SignInDistributionList = Shapes::ListShape.new(name: 'SignInDistributionList')
@@ -2671,6 +2683,12 @@ module Aws::Connect
     AudioQualityMetricsInfo.add_member(:potential_quality_issues, Shapes::ShapeRef.new(shape: PotentialAudioQualityIssues, location_name: "PotentialQualityIssues"))
     AudioQualityMetricsInfo.struct_class = Types::AudioQualityMetricsInfo
 
+    AuthScope.add_member(:security_profile_ids, Shapes::ShapeRef.new(shape: SecurityProfileIds, location_name: "SecurityProfileIds"))
+    AuthScope.add_member(:entity_type, Shapes::ShapeRef.new(shape: AuthCodeEntityType, required: true, location_name: "EntityType"))
+    AuthScope.add_member(:entity_id, Shapes::ShapeRef.new(shape: EntityId, location_name: "EntityId"))
+    AuthScope.add_member(:domain_name, Shapes::ShapeRef.new(shape: CustomerProfilesDomainName, location_name: "DomainName"))
+    AuthScope.struct_class = Types::AuthScope
+
     AuthenticationProfile.add_member(:id, Shapes::ShapeRef.new(shape: AuthenticationProfileId, location_name: "Id"))
     AuthenticationProfile.add_member(:arn, Shapes::ShapeRef.new(shape: ARN, location_name: "Arn"))
     AuthenticationProfile.add_member(:name, Shapes::ShapeRef.new(shape: AuthenticationProfileName, location_name: "Name"))
@@ -3333,6 +3351,18 @@ module Aws::Connect
     CreateAttachedFileResponse.add_member(:file_status, Shapes::ShapeRef.new(shape: FileStatusType, location_name: "FileStatus"))
     CreateAttachedFileResponse.struct_class = Types::CreateAttachedFileResponse
 
+    CreateAuthCodeRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    CreateAuthCodeRequest.add_member(:scope, Shapes::ShapeRef.new(shape: AuthScope, required: true, location_name: "Scope"))
+    CreateAuthCodeRequest.add_member(:max_session_duration_minutes, Shapes::ShapeRef.new(shape: MaxSessionDurationMinutes, location_name: "MaxSessionDurationMinutes", metadata: {"box" => true}))
+    CreateAuthCodeRequest.add_member(:session_inactivity_duration_minutes, Shapes::ShapeRef.new(shape: SessionInactivityDurationMinutes, required: true, location_name: "SessionInactivityDurationMinutes"))
+    CreateAuthCodeRequest.struct_class = Types::CreateAuthCodeRequest
+
+    CreateAuthCodeResponse.add_member(:auth_code, Shapes::ShapeRef.new(shape: AuthCode, location_name: "AuthCode"))
+    CreateAuthCodeResponse.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, location_name: "SessionId"))
+    CreateAuthCodeResponse.add_member(:entity_type, Shapes::ShapeRef.new(shape: AuthCodeEntityType, location_name: "EntityType"))
+    CreateAuthCodeResponse.add_member(:entity_id, Shapes::ShapeRef.new(shape: EntityId, location_name: "EntityId"))
+    CreateAuthCodeResponse.struct_class = Types::CreateAuthCodeResponse
+
     CreateCaseActionDefinition.add_member(:fields, Shapes::ShapeRef.new(shape: FieldValues, required: true, location_name: "Fields"))
     CreateCaseActionDefinition.add_member(:template_id, Shapes::ShapeRef.new(shape: TemplateId, required: true, location_name: "TemplateId"))
     CreateCaseActionDefinition.struct_class = Types::CreateCaseActionDefinition
@@ -3816,9 +3846,9 @@ module Aws::Connect
     CreatedByInfo.struct_class = Types::CreatedByInfo
 
     Credentials.add_member(:access_token, Shapes::ShapeRef.new(shape: SecurityToken, location_name: "AccessToken"))
-    Credentials.add_member(:access_token_expiration, Shapes::ShapeRef.new(shape: timestamp, location_name: "AccessTokenExpiration"))
+    Credentials.add_member(:access_token_expiration, Shapes::ShapeRef.new(shape: Timestamp, location_name: "AccessTokenExpiration"))
     Credentials.add_member(:refresh_token, Shapes::ShapeRef.new(shape: SecurityToken, location_name: "RefreshToken"))
-    Credentials.add_member(:refresh_token_expiration, Shapes::ShapeRef.new(shape: timestamp, location_name: "RefreshTokenExpiration"))
+    Credentials.add_member(:refresh_token_expiration, Shapes::ShapeRef.new(shape: Timestamp, location_name: "RefreshTokenExpiration"))
     Credentials.struct_class = Types::Credentials
 
     CrossChannelBehavior.add_member(:behavior_type, Shapes::ShapeRef.new(shape: BehaviorType, required: true, location_name: "BehaviorType"))
@@ -4140,6 +4170,12 @@ module Aws::Connect
     DeleteSecurityProfileRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     DeleteSecurityProfileRequest.add_member(:security_profile_id, Shapes::ShapeRef.new(shape: SecurityProfileId, required: true, location: "uri", location_name: "SecurityProfileId"))
     DeleteSecurityProfileRequest.struct_class = Types::DeleteSecurityProfileRequest
+
+    DeleteSessionRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    DeleteSessionRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "uri", location_name: "SessionId"))
+    DeleteSessionRequest.struct_class = Types::DeleteSessionRequest
+
+    DeleteSessionResponse.struct_class = Types::DeleteSessionResponse
 
     DeleteTaskTemplateRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     DeleteTaskTemplateRequest.add_member(:task_template_id, Shapes::ShapeRef.new(shape: TaskTemplateId, required: true, location: "uri", location_name: "TaskTemplateId"))
@@ -5452,10 +5488,10 @@ module Aws::Connect
     GetFederationTokenRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     GetFederationTokenRequest.struct_class = Types::GetFederationTokenRequest
 
+    GetFederationTokenResponse.add_member(:user_id, Shapes::ShapeRef.new(shape: AgentResourceId, location_name: "UserId"))
+    GetFederationTokenResponse.add_member(:user_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "UserArn"))
     GetFederationTokenResponse.add_member(:credentials, Shapes::ShapeRef.new(shape: Credentials, location_name: "Credentials"))
     GetFederationTokenResponse.add_member(:sign_in_url, Shapes::ShapeRef.new(shape: Url, location_name: "SignInUrl"))
-    GetFederationTokenResponse.add_member(:user_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "UserArn"))
-    GetFederationTokenResponse.add_member(:user_id, Shapes::ShapeRef.new(shape: AgentResourceId, location_name: "UserId"))
     GetFederationTokenResponse.struct_class = Types::GetFederationTokenResponse
 
     GetFlowAssociationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
@@ -10205,6 +10241,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
       end)
 
+      api.add_operation(:create_auth_code, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateAuthCode"
+        o.http_method = "POST"
+        o.http_request_uri = "/auth/code/{InstanceId}"
+        o.input = Shapes::ShapeRef.new(shape: CreateAuthCodeRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateAuthCodeResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:create_contact, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateContact"
         o.http_method = "PUT"
@@ -11098,6 +11148,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+      end)
+
+      api.add_operation(:delete_session, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteSession"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/auth/sessions/{InstanceId}/{SessionId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteSessionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteSessionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:delete_task_template, Seahorse::Model::Operation.new.tap do |o|
@@ -12102,6 +12166,7 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: UserNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateResourceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:get_flow_association, Seahorse::Model::Operation.new.tap do |o|

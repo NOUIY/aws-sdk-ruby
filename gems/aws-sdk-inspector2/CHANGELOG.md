@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.76.0 (2026-07-07)
+------------------
+
+* Feature - This release extends vulnerability management to Azure VM, container registries and function apps. Adds support for per-member-account scan configuration settings.
+
 1.75.0 (2026-06-03)
 ------------------
 

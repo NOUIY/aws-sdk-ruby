@@ -446,6 +446,7 @@ module Aws
                                }
                              },
                              ?durable_config: {
+                               kms_key_arn: ::String?,
                                retention_period_in_days: ::Integer?,
                                execution_timeout: ::Integer?
                              }
@@ -648,10 +649,13 @@ module Aws
         def end_timestamp: () -> ::Time
         def version: () -> ::String
         def trace_header: () -> Types::TraceHeader
+        def execution_data_included: () -> bool
+        def durable_config: () -> Types::DurableConfig
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lambda/Client.html#get_durable_execution-instance_method
       def get_durable_execution: (
-                                   durable_execution_arn: ::String
+                                   durable_execution_arn: ::String,
+                                   ?include_execution_data: bool
                                  ) -> _GetDurableExecutionResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetDurableExecutionResponseSuccess
 
@@ -1779,6 +1783,7 @@ module Aws
                                              }
                                            },
                                            ?durable_config: {
+                                             kms_key_arn: ::String?,
                                              retention_period_in_days: ::Integer?,
                                              execution_timeout: ::Integer?
                                            }

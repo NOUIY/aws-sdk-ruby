@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.11.0 (2026-07-07)
+------------------
+
+* Feature - Adds ListSharedDNSViews operation to list all DNS Views shared with caller using AWS Resource Access Manager. Also updates ListHostedZoneAssociations operation so that resource ARN param is optional, allowing caller to list all HostedZoneAssociations in account.
+
 1.10.0 (2026-05-26)
 ------------------
 

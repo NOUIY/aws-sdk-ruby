@@ -12357,6 +12357,7 @@ module Aws::EC2
     Image.add_member(:source_image_id, Shapes::ShapeRef.new(shape: String, location_name: "sourceImageId"))
     Image.add_member(:source_image_region, Shapes::ShapeRef.new(shape: String, location_name: "sourceImageRegion"))
     Image.add_member(:free_tier_eligible, Shapes::ShapeRef.new(shape: Boolean, location_name: "freeTierEligible"))
+    Image.add_member(:public_ssm_parameter_name, Shapes::ShapeRef.new(shape: String, location_name: "publicSsmParameterName"))
     Image.add_member(:image_watermarks, Shapes::ShapeRef.new(shape: ImageWatermarkList, location_name: "imageWatermarkSet"))
     Image.add_member(:image_id, Shapes::ShapeRef.new(shape: String, location_name: "imageId"))
     Image.add_member(:image_location, Shapes::ShapeRef.new(shape: String, location_name: "imageLocation"))

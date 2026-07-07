@@ -135,6 +135,17 @@ module Aws::SSM
     AutomationSubtype = Shapes::StringShape.new(name: 'AutomationSubtype')
     AutomationTargetParameterName = Shapes::StringShape.new(name: 'AutomationTargetParameterName')
     AutomationType = Shapes::StringShape.new(name: 'AutomationType')
+    AvailabilityZone = Shapes::StringShape.new(name: 'AvailabilityZone')
+    AvailabilityZoneId = Shapes::StringShape.new(name: 'AvailabilityZoneId')
+    AzureApplicationDisplayName = Shapes::StringShape.new(name: 'AzureApplicationDisplayName')
+    AzureApplicationId = Shapes::StringShape.new(name: 'AzureApplicationId')
+    AzureConfiguration = Shapes::StructureShape.new(name: 'AzureConfiguration')
+    AzureSubscription = Shapes::StructureShape.new(name: 'AzureSubscription')
+    AzureSubscriptionDisplayName = Shapes::StringShape.new(name: 'AzureSubscriptionDisplayName')
+    AzureSubscriptionId = Shapes::StringShape.new(name: 'AzureSubscriptionId')
+    AzureSubscriptionList = Shapes::ListShape.new(name: 'AzureSubscriptionList')
+    AzureTenantDisplayName = Shapes::StringShape.new(name: 'AzureTenantDisplayName')
+    AzureTenantId = Shapes::StringShape.new(name: 'AzureTenantId')
     BaselineDescription = Shapes::StringShape.new(name: 'BaselineDescription')
     BaselineId = Shapes::StringShape.new(name: 'BaselineId')
     BaselineName = Shapes::StringShape.new(name: 'BaselineName')
@@ -154,6 +165,19 @@ module Aws::SSM
     ChangeDetailsValue = Shapes::StringShape.new(name: 'ChangeDetailsValue')
     ChangeRequestName = Shapes::StringShape.new(name: 'ChangeRequestName')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
+    CloudConnectorArn = Shapes::StringShape.new(name: 'CloudConnectorArn')
+    CloudConnectorConfiguration = Shapes::UnionShape.new(name: 'CloudConnectorConfiguration')
+    CloudConnectorDescription = Shapes::StringShape.new(name: 'CloudConnectorDescription')
+    CloudConnectorFilter = Shapes::StructureShape.new(name: 'CloudConnectorFilter')
+    CloudConnectorFilterKey = Shapes::StringShape.new(name: 'CloudConnectorFilterKey')
+    CloudConnectorFilterList = Shapes::ListShape.new(name: 'CloudConnectorFilterList')
+    CloudConnectorFilterValue = Shapes::StringShape.new(name: 'CloudConnectorFilterValue')
+    CloudConnectorFilterValues = Shapes::ListShape.new(name: 'CloudConnectorFilterValues')
+    CloudConnectorIamRoleArn = Shapes::StringShape.new(name: 'CloudConnectorIamRoleArn')
+    CloudConnectorId = Shapes::StringShape.new(name: 'CloudConnectorId')
+    CloudConnectorMaxResults = Shapes::IntegerShape.new(name: 'CloudConnectorMaxResults')
+    CloudConnectorSummary = Shapes::StructureShape.new(name: 'CloudConnectorSummary')
+    CloudConnectorSummaryList = Shapes::ListShape.new(name: 'CloudConnectorSummaryList')
     CloudWatchLogGroupName = Shapes::StringShape.new(name: 'CloudWatchLogGroupName')
     CloudWatchOutputConfig = Shapes::StructureShape.new(name: 'CloudWatchOutputConfig')
     CloudWatchOutputEnabled = Shapes::BooleanShape.new(name: 'CloudWatchOutputEnabled')
@@ -207,6 +231,9 @@ module Aws::SSM
     ComplianceUploadType = Shapes::StringShape.new(name: 'ComplianceUploadType')
     CompliantSummary = Shapes::StructureShape.new(name: 'CompliantSummary')
     ComputerName = Shapes::StringShape.new(name: 'ComputerName')
+    ConfigConnectorArn = Shapes::StringShape.new(name: 'ConfigConnectorArn')
+    ConfigurationTargets = Shapes::UnionShape.new(name: 'ConfigurationTargets')
+    ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectionStatus = Shapes::StringShape.new(name: 'ConnectionStatus')
     ContentLength = Shapes::IntegerShape.new(name: 'ContentLength')
     CreateActivationRequest = Shapes::StructureShape.new(name: 'CreateActivationRequest')
@@ -217,6 +244,8 @@ module Aws::SSM
     CreateAssociationBatchResult = Shapes::StructureShape.new(name: 'CreateAssociationBatchResult')
     CreateAssociationRequest = Shapes::StructureShape.new(name: 'CreateAssociationRequest')
     CreateAssociationResult = Shapes::StructureShape.new(name: 'CreateAssociationResult')
+    CreateCloudConnectorRequest = Shapes::StructureShape.new(name: 'CreateCloudConnectorRequest')
+    CreateCloudConnectorResult = Shapes::StructureShape.new(name: 'CreateCloudConnectorResult')
     CreateDocumentRequest = Shapes::StructureShape.new(name: 'CreateDocumentRequest')
     CreateDocumentResult = Shapes::StructureShape.new(name: 'CreateDocumentResult')
     CreateMaintenanceWindowRequest = Shapes::StructureShape.new(name: 'CreateMaintenanceWindowRequest')
@@ -239,6 +268,8 @@ module Aws::SSM
     DeleteActivationResult = Shapes::StructureShape.new(name: 'DeleteActivationResult')
     DeleteAssociationRequest = Shapes::StructureShape.new(name: 'DeleteAssociationRequest')
     DeleteAssociationResult = Shapes::StructureShape.new(name: 'DeleteAssociationResult')
+    DeleteCloudConnectorRequest = Shapes::StructureShape.new(name: 'DeleteCloudConnectorRequest')
+    DeleteCloudConnectorResult = Shapes::StructureShape.new(name: 'DeleteCloudConnectorResult')
     DeleteDocumentRequest = Shapes::StructureShape.new(name: 'DeleteDocumentRequest')
     DeleteDocumentResult = Shapes::StructureShape.new(name: 'DeleteDocumentResult')
     DeleteInventoryRequest = Shapes::StructureShape.new(name: 'DeleteInventoryRequest')
@@ -341,6 +372,7 @@ module Aws::SSM
     DescriptionInDocument = Shapes::StringShape.new(name: 'DescriptionInDocument')
     DisassociateOpsItemRelatedItemRequest = Shapes::StructureShape.new(name: 'DisassociateOpsItemRelatedItemRequest')
     DisassociateOpsItemRelatedItemResponse = Shapes::StructureShape.new(name: 'DisassociateOpsItemRelatedItemResponse')
+    DisplayName = Shapes::StringShape.new(name: 'DisplayName')
     DocumentARN = Shapes::StringShape.new(name: 'DocumentARN')
     DocumentAlreadyExists = Shapes::StructureShape.new(name: 'DocumentAlreadyExists')
     DocumentAuthor = Shapes::StringShape.new(name: 'DocumentAuthor')
@@ -428,6 +460,8 @@ module Aws::SSM
     GetAutomationExecutionResult = Shapes::StructureShape.new(name: 'GetAutomationExecutionResult')
     GetCalendarStateRequest = Shapes::StructureShape.new(name: 'GetCalendarStateRequest')
     GetCalendarStateResponse = Shapes::StructureShape.new(name: 'GetCalendarStateResponse')
+    GetCloudConnectorRequest = Shapes::StructureShape.new(name: 'GetCloudConnectorRequest')
+    GetCloudConnectorResult = Shapes::StructureShape.new(name: 'GetCloudConnectorResult')
     GetCommandInvocationRequest = Shapes::StructureShape.new(name: 'GetCommandInvocationRequest')
     GetCommandInvocationResult = Shapes::StructureShape.new(name: 'GetCommandInvocationResult')
     GetConnectionStatusRequest = Shapes::StructureShape.new(name: 'GetConnectionStatusRequest')
@@ -656,6 +690,8 @@ module Aws::SSM
     ListAssociationVersionsResult = Shapes::StructureShape.new(name: 'ListAssociationVersionsResult')
     ListAssociationsRequest = Shapes::StructureShape.new(name: 'ListAssociationsRequest')
     ListAssociationsResult = Shapes::StructureShape.new(name: 'ListAssociationsResult')
+    ListCloudConnectorsRequest = Shapes::StructureShape.new(name: 'ListCloudConnectorsRequest')
+    ListCloudConnectorsResult = Shapes::StructureShape.new(name: 'ListCloudConnectorsResult')
     ListCommandInvocationsRequest = Shapes::StructureShape.new(name: 'ListCommandInvocationsRequest')
     ListCommandInvocationsResult = Shapes::StructureShape.new(name: 'ListCommandInvocationsResult')
     ListCommandsRequest = Shapes::StructureShape.new(name: 'ListCommandsRequest')
@@ -788,6 +824,7 @@ module Aws::SSM
     NodeFilterValueList = Shapes::ListShape.new(name: 'NodeFilterValueList')
     NodeId = Shapes::StringShape.new(name: 'NodeId')
     NodeList = Shapes::ListShape.new(name: 'NodeList')
+    NodeName = Shapes::StringShape.new(name: 'NodeName')
     NodeOrganizationalUnitId = Shapes::StringShape.new(name: 'NodeOrganizationalUnitId')
     NodeOrganizationalUnitPath = Shapes::StringShape.new(name: 'NodeOrganizationalUnitPath')
     NodeOwnerInfo = Shapes::StructureShape.new(name: 'NodeOwnerInfo')
@@ -1190,6 +1227,7 @@ module Aws::SSM
     SnapshotDownloadUrl = Shapes::StringShape.new(name: 'SnapshotDownloadUrl')
     SnapshotId = Shapes::StringShape.new(name: 'SnapshotId')
     SourceId = Shapes::StringShape.new(name: 'SourceId')
+    SourceLocation = Shapes::StringShape.new(name: 'SourceLocation')
     SourceType = Shapes::StringShape.new(name: 'SourceType')
     StandardErrorContent = Shapes::StringShape.new(name: 'StandardErrorContent')
     StandardOutputContent = Shapes::StringShape.new(name: 'StandardOutputContent')
@@ -1275,6 +1313,8 @@ module Aws::SSM
     UpdateAssociationResult = Shapes::StructureShape.new(name: 'UpdateAssociationResult')
     UpdateAssociationStatusRequest = Shapes::StructureShape.new(name: 'UpdateAssociationStatusRequest')
     UpdateAssociationStatusResult = Shapes::StructureShape.new(name: 'UpdateAssociationStatusResult')
+    UpdateCloudConnectorRequest = Shapes::StructureShape.new(name: 'UpdateCloudConnectorRequest')
+    UpdateCloudConnectorResult = Shapes::StructureShape.new(name: 'UpdateCloudConnectorResult')
     UpdateDocumentDefaultVersionRequest = Shapes::StructureShape.new(name: 'UpdateDocumentDefaultVersionRequest')
     UpdateDocumentDefaultVersionResult = Shapes::StructureShape.new(name: 'UpdateDocumentDefaultVersionResult')
     UpdateDocumentMetadataRequest = Shapes::StructureShape.new(name: 'UpdateDocumentMetadataRequest')
@@ -1302,7 +1342,16 @@ module Aws::SSM
     Url = Shapes::StringShape.new(name: 'Url')
     ValidNextStep = Shapes::StringShape.new(name: 'ValidNextStep')
     ValidNextStepList = Shapes::ListShape.new(name: 'ValidNextStepList')
+    ValidateCloudConnectorMaxResults = Shapes::IntegerShape.new(name: 'ValidateCloudConnectorMaxResults')
+    ValidateCloudConnectorRequest = Shapes::StructureShape.new(name: 'ValidateCloudConnectorRequest')
+    ValidateCloudConnectorResult = Shapes::StructureShape.new(name: 'ValidateCloudConnectorResult')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
+    ValidationFinding = Shapes::StructureShape.new(name: 'ValidationFinding')
+    ValidationFindingCode = Shapes::StringShape.new(name: 'ValidationFindingCode')
+    ValidationFindingList = Shapes::ListShape.new(name: 'ValidationFindingList')
+    ValidationFindingScope = Shapes::StructureShape.new(name: 'ValidationFindingScope')
+    ValidationFindingScopeType = Shapes::StringShape.new(name: 'ValidationFindingScopeType')
+    ValidationFindingType = Shapes::StringShape.new(name: 'ValidationFindingType')
     Version = Shapes::StringShape.new(name: 'Version')
 
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
@@ -1659,6 +1708,19 @@ module Aws::SSM
     AutomationStepNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     AutomationStepNotFoundException.struct_class = Types::AutomationStepNotFoundException
 
+    AzureConfiguration.add_member(:tenant_id, Shapes::ShapeRef.new(shape: AzureTenantId, required: true, location_name: "TenantId"))
+    AzureConfiguration.add_member(:tenant_display_name, Shapes::ShapeRef.new(shape: AzureTenantDisplayName, location_name: "TenantDisplayName"))
+    AzureConfiguration.add_member(:application_id, Shapes::ShapeRef.new(shape: AzureApplicationId, required: true, location_name: "ApplicationId"))
+    AzureConfiguration.add_member(:application_display_name, Shapes::ShapeRef.new(shape: AzureApplicationDisplayName, location_name: "ApplicationDisplayName"))
+    AzureConfiguration.add_member(:targets, Shapes::ShapeRef.new(shape: ConfigurationTargets, location_name: "Targets"))
+    AzureConfiguration.struct_class = Types::AzureConfiguration
+
+    AzureSubscription.add_member(:id, Shapes::ShapeRef.new(shape: AzureSubscriptionId, required: true, location_name: "Id"))
+    AzureSubscription.add_member(:display_name, Shapes::ShapeRef.new(shape: AzureSubscriptionDisplayName, location_name: "DisplayName"))
+    AzureSubscription.struct_class = Types::AzureSubscription
+
+    AzureSubscriptionList.member = Shapes::ShapeRef.new(shape: AzureSubscription)
+
     BaselineOverride.add_member(:operating_system, Shapes::ShapeRef.new(shape: OperatingSystem, location_name: "OperatingSystem"))
     BaselineOverride.add_member(:global_filters, Shapes::ShapeRef.new(shape: PatchFilterGroup, location_name: "GlobalFilters"))
     BaselineOverride.add_member(:approval_rules, Shapes::ShapeRef.new(shape: PatchRuleGroup, location_name: "ApprovalRules"))
@@ -1688,6 +1750,30 @@ module Aws::SSM
     CategoryEnumList.member = Shapes::ShapeRef.new(shape: Category)
 
     CategoryList.member = Shapes::ShapeRef.new(shape: Category)
+
+    CloudConnectorConfiguration.add_member(:azure_configuration, Shapes::ShapeRef.new(shape: AzureConfiguration, location_name: "AzureConfiguration"))
+    CloudConnectorConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CloudConnectorConfiguration.add_member_subclass(:azure_configuration, Types::CloudConnectorConfiguration::AzureConfiguration)
+    CloudConnectorConfiguration.add_member_subclass(:unknown, Types::CloudConnectorConfiguration::Unknown)
+    CloudConnectorConfiguration.struct_class = Types::CloudConnectorConfiguration
+
+    CloudConnectorFilter.add_member(:filter_key, Shapes::ShapeRef.new(shape: CloudConnectorFilterKey, location_name: "FilterKey"))
+    CloudConnectorFilter.add_member(:filter_values, Shapes::ShapeRef.new(shape: CloudConnectorFilterValues, location_name: "FilterValues"))
+    CloudConnectorFilter.struct_class = Types::CloudConnectorFilter
+
+    CloudConnectorFilterList.member = Shapes::ShapeRef.new(shape: CloudConnectorFilter)
+
+    CloudConnectorFilterValues.member = Shapes::ShapeRef.new(shape: CloudConnectorFilterValue)
+
+    CloudConnectorSummary.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, location_name: "CloudConnectorId"))
+    CloudConnectorSummary.add_member(:display_name, Shapes::ShapeRef.new(shape: DisplayName, location_name: "DisplayName"))
+    CloudConnectorSummary.add_member(:description, Shapes::ShapeRef.new(shape: CloudConnectorDescription, location_name: "Description"))
+    CloudConnectorSummary.add_member(:role_arn, Shapes::ShapeRef.new(shape: CloudConnectorIamRoleArn, location_name: "RoleArn"))
+    CloudConnectorSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CreatedAt"))
+    CloudConnectorSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "UpdatedAt"))
+    CloudConnectorSummary.struct_class = Types::CloudConnectorSummary
+
+    CloudConnectorSummaryList.member = Shapes::ShapeRef.new(shape: CloudConnectorSummary)
 
     CloudWatchOutputConfig.add_member(:cloud_watch_log_group_name, Shapes::ShapeRef.new(shape: CloudWatchLogGroupName, location_name: "CloudWatchLogGroupName"))
     CloudWatchOutputConfig.add_member(:cloud_watch_output_enabled, Shapes::ShapeRef.new(shape: CloudWatchOutputEnabled, location_name: "CloudWatchOutputEnabled"))
@@ -1822,6 +1908,15 @@ module Aws::SSM
     CompliantSummary.add_member(:severity_summary, Shapes::ShapeRef.new(shape: SeveritySummary, location_name: "SeveritySummary"))
     CompliantSummary.struct_class = Types::CompliantSummary
 
+    ConfigurationTargets.add_member(:subscriptions, Shapes::ShapeRef.new(shape: AzureSubscriptionList, location_name: "Subscriptions"))
+    ConfigurationTargets.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ConfigurationTargets.add_member_subclass(:subscriptions, Types::ConfigurationTargets::Subscriptions)
+    ConfigurationTargets.add_member_subclass(:unknown, Types::ConfigurationTargets::Unknown)
+    ConfigurationTargets.struct_class = Types::ConfigurationTargets
+
+    ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
+    ConflictException.struct_class = Types::ConflictException
+
     CreateActivationRequest.add_member(:description, Shapes::ShapeRef.new(shape: ActivationDescription, location_name: "Description"))
     CreateActivationRequest.add_member(:default_instance_name, Shapes::ShapeRef.new(shape: DefaultInstanceName, location_name: "DefaultInstanceName"))
     CreateActivationRequest.add_member(:iam_role, Shapes::ShapeRef.new(shape: IamRole, required: true, location_name: "IamRole"))
@@ -1893,6 +1988,17 @@ module Aws::SSM
 
     CreateAssociationResult.add_member(:association_description, Shapes::ShapeRef.new(shape: AssociationDescription, location_name: "AssociationDescription"))
     CreateAssociationResult.struct_class = Types::CreateAssociationResult
+
+    CreateCloudConnectorRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: DisplayName, required: true, location_name: "DisplayName"))
+    CreateCloudConnectorRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: CloudConnectorIamRoleArn, required: true, location_name: "RoleArn"))
+    CreateCloudConnectorRequest.add_member(:description, Shapes::ShapeRef.new(shape: CloudConnectorDescription, location_name: "Description"))
+    CreateCloudConnectorRequest.add_member(:configuration, Shapes::ShapeRef.new(shape: CloudConnectorConfiguration, required: true, location_name: "Configuration"))
+    CreateCloudConnectorRequest.add_member(:config_connector_arn, Shapes::ShapeRef.new(shape: ConfigConnectorArn, required: true, location_name: "ConfigConnectorArn"))
+    CreateCloudConnectorRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateCloudConnectorRequest.struct_class = Types::CreateCloudConnectorRequest
+
+    CreateCloudConnectorResult.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, location_name: "CloudConnectorId"))
+    CreateCloudConnectorResult.struct_class = Types::CreateCloudConnectorResult
 
     CreateDocumentRequest.add_member(:content, Shapes::ShapeRef.new(shape: DocumentContent, required: true, location_name: "Content"))
     CreateDocumentRequest.add_member(:requires, Shapes::ShapeRef.new(shape: DocumentRequiresList, location_name: "Requires"))
@@ -2003,6 +2109,12 @@ module Aws::SSM
     DeleteAssociationRequest.struct_class = Types::DeleteAssociationRequest
 
     DeleteAssociationResult.struct_class = Types::DeleteAssociationResult
+
+    DeleteCloudConnectorRequest.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, required: true, location_name: "CloudConnectorId"))
+    DeleteCloudConnectorRequest.struct_class = Types::DeleteCloudConnectorRequest
+
+    DeleteCloudConnectorResult.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, location_name: "CloudConnectorId"))
+    DeleteCloudConnectorResult.struct_class = Types::DeleteCloudConnectorResult
 
     DeleteDocumentRequest.add_member(:name, Shapes::ShapeRef.new(shape: DocumentName, required: true, location_name: "Name"))
     DeleteDocumentRequest.add_member(:document_version, Shapes::ShapeRef.new(shape: DocumentVersion, location_name: "DocumentVersion"))
@@ -2645,6 +2757,19 @@ module Aws::SSM
     GetCalendarStateResponse.add_member(:next_transition_time, Shapes::ShapeRef.new(shape: ISO8601String, location_name: "NextTransitionTime"))
     GetCalendarStateResponse.struct_class = Types::GetCalendarStateResponse
 
+    GetCloudConnectorRequest.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, required: true, location_name: "CloudConnectorId"))
+    GetCloudConnectorRequest.struct_class = Types::GetCloudConnectorRequest
+
+    GetCloudConnectorResult.add_member(:cloud_connector_arn, Shapes::ShapeRef.new(shape: CloudConnectorArn, location_name: "CloudConnectorArn"))
+    GetCloudConnectorResult.add_member(:display_name, Shapes::ShapeRef.new(shape: DisplayName, location_name: "DisplayName"))
+    GetCloudConnectorResult.add_member(:description, Shapes::ShapeRef.new(shape: CloudConnectorDescription, location_name: "Description"))
+    GetCloudConnectorResult.add_member(:role_arn, Shapes::ShapeRef.new(shape: CloudConnectorIamRoleArn, location_name: "RoleArn"))
+    GetCloudConnectorResult.add_member(:configuration, Shapes::ShapeRef.new(shape: CloudConnectorConfiguration, location_name: "Configuration"))
+    GetCloudConnectorResult.add_member(:config_connector_arn, Shapes::ShapeRef.new(shape: ConfigConnectorArn, location_name: "ConfigConnectorArn"))
+    GetCloudConnectorResult.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CreatedAt"))
+    GetCloudConnectorResult.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "UpdatedAt"))
+    GetCloudConnectorResult.struct_class = Types::GetCloudConnectorResult
+
     GetCommandInvocationRequest.add_member(:command_id, Shapes::ShapeRef.new(shape: CommandId, required: true, location_name: "CommandId"))
     GetCommandInvocationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
     GetCommandInvocationRequest.add_member(:plugin_name, Shapes::ShapeRef.new(shape: CommandPluginName, location_name: "PluginName"))
@@ -3016,10 +3141,16 @@ module Aws::SSM
     InstanceInfo.add_member(:instance_status, Shapes::ShapeRef.new(shape: InstanceStatus, location_name: "InstanceStatus"))
     InstanceInfo.add_member(:ip_address, Shapes::ShapeRef.new(shape: IpAddress, location_name: "IpAddress"))
     InstanceInfo.add_member(:managed_status, Shapes::ShapeRef.new(shape: ManagedStatus, location_name: "ManagedStatus"))
+    InstanceInfo.add_member(:name, Shapes::ShapeRef.new(shape: NodeName, location_name: "Name"))
     InstanceInfo.add_member(:platform_type, Shapes::ShapeRef.new(shape: PlatformType, location_name: "PlatformType"))
     InstanceInfo.add_member(:platform_name, Shapes::ShapeRef.new(shape: PlatformName, location_name: "PlatformName"))
     InstanceInfo.add_member(:platform_version, Shapes::ShapeRef.new(shape: PlatformVersion, location_name: "PlatformVersion"))
     InstanceInfo.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, location_name: "ResourceType"))
+    InstanceInfo.add_member(:source_type, Shapes::ShapeRef.new(shape: SourceType, location_name: "SourceType"))
+    InstanceInfo.add_member(:source_id, Shapes::ShapeRef.new(shape: SourceId, location_name: "SourceId"))
+    InstanceInfo.add_member(:source_location, Shapes::ShapeRef.new(shape: SourceLocation, location_name: "SourceLocation"))
+    InstanceInfo.add_member(:availability_zone, Shapes::ShapeRef.new(shape: AvailabilityZone, location_name: "AvailabilityZone"))
+    InstanceInfo.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "AvailabilityZoneId"))
     InstanceInfo.struct_class = Types::InstanceInfo
 
     InstanceInformation.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, location_name: "InstanceId"))
@@ -3043,6 +3174,7 @@ module Aws::SSM
     InstanceInformation.add_member(:association_overview, Shapes::ShapeRef.new(shape: InstanceAggregatedAssociationOverview, location_name: "AssociationOverview"))
     InstanceInformation.add_member(:source_id, Shapes::ShapeRef.new(shape: SourceId, location_name: "SourceId"))
     InstanceInformation.add_member(:source_type, Shapes::ShapeRef.new(shape: SourceType, location_name: "SourceType"))
+    InstanceInformation.add_member(:source_location, Shapes::ShapeRef.new(shape: SourceLocation, location_name: "SourceLocation"))
     InstanceInformation.struct_class = Types::InstanceInformation
 
     InstanceInformationFilter.add_member(:key, Shapes::ShapeRef.new(shape: InstanceInformationFilterKey, required: true, location_name: "key"))
@@ -3127,6 +3259,8 @@ module Aws::SSM
     InstanceProperty.add_member(:association_overview, Shapes::ShapeRef.new(shape: InstanceAggregatedAssociationOverview, location_name: "AssociationOverview"))
     InstanceProperty.add_member(:source_id, Shapes::ShapeRef.new(shape: SourceId, location_name: "SourceId"))
     InstanceProperty.add_member(:source_type, Shapes::ShapeRef.new(shape: SourceType, location_name: "SourceType"))
+    InstanceProperty.add_member(:source_location, Shapes::ShapeRef.new(shape: SourceLocation, location_name: "SourceLocation"))
+    InstanceProperty.add_member(:availability_zone, Shapes::ShapeRef.new(shape: AvailabilityZone, location_name: "AvailabilityZone"))
     InstanceProperty.struct_class = Types::InstanceProperty
 
     InstancePropertyFilter.add_member(:key, Shapes::ShapeRef.new(shape: InstancePropertyFilterKey, required: true, location_name: "key"))
@@ -3422,6 +3556,15 @@ module Aws::SSM
     ListAssociationsResult.add_member(:associations, Shapes::ShapeRef.new(shape: AssociationList, location_name: "Associations"))
     ListAssociationsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListAssociationsResult.struct_class = Types::ListAssociationsResult
+
+    ListCloudConnectorsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: CloudConnectorMaxResults, location_name: "MaxResults", metadata: {"box" => true}))
+    ListCloudConnectorsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListCloudConnectorsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: CloudConnectorFilterList, location_name: "Filters"))
+    ListCloudConnectorsRequest.struct_class = Types::ListCloudConnectorsRequest
+
+    ListCloudConnectorsResult.add_member(:cloud_connectors, Shapes::ShapeRef.new(shape: CloudConnectorSummaryList, location_name: "CloudConnectors"))
+    ListCloudConnectorsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListCloudConnectorsResult.struct_class = Types::ListCloudConnectorsResult
 
     ListCommandInvocationsRequest.add_member(:command_id, Shapes::ShapeRef.new(shape: CommandId, location_name: "CommandId"))
     ListCommandInvocationsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, location_name: "InstanceId"))
@@ -4903,6 +5046,15 @@ module Aws::SSM
     UpdateAssociationStatusResult.add_member(:association_description, Shapes::ShapeRef.new(shape: AssociationDescription, location_name: "AssociationDescription"))
     UpdateAssociationStatusResult.struct_class = Types::UpdateAssociationStatusResult
 
+    UpdateCloudConnectorRequest.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, required: true, location_name: "CloudConnectorId"))
+    UpdateCloudConnectorRequest.add_member(:display_name, Shapes::ShapeRef.new(shape: DisplayName, location_name: "DisplayName"))
+    UpdateCloudConnectorRequest.add_member(:configuration, Shapes::ShapeRef.new(shape: CloudConnectorConfiguration, location_name: "Configuration"))
+    UpdateCloudConnectorRequest.add_member(:description, Shapes::ShapeRef.new(shape: CloudConnectorDescription, location_name: "Description"))
+    UpdateCloudConnectorRequest.struct_class = Types::UpdateCloudConnectorRequest
+
+    UpdateCloudConnectorResult.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, location_name: "CloudConnectorId"))
+    UpdateCloudConnectorResult.struct_class = Types::UpdateCloudConnectorResult
+
     UpdateDocumentDefaultVersionRequest.add_member(:name, Shapes::ShapeRef.new(shape: DocumentName, required: true, location_name: "Name"))
     UpdateDocumentDefaultVersionRequest.add_member(:document_version, Shapes::ShapeRef.new(shape: DocumentVersionNumber, required: true, location_name: "DocumentVersion"))
     UpdateDocumentDefaultVersionRequest.struct_class = Types::UpdateDocumentDefaultVersionRequest
@@ -5092,9 +5244,31 @@ module Aws::SSM
 
     ValidNextStepList.member = Shapes::ShapeRef.new(shape: ValidNextStep)
 
+    ValidateCloudConnectorRequest.add_member(:cloud_connector_id, Shapes::ShapeRef.new(shape: CloudConnectorId, required: true, location_name: "CloudConnectorId"))
+    ValidateCloudConnectorRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ValidateCloudConnectorMaxResults, location_name: "MaxResults", metadata: {"box" => true}))
+    ValidateCloudConnectorRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ValidateCloudConnectorRequest.struct_class = Types::ValidateCloudConnectorRequest
+
+    ValidateCloudConnectorResult.add_member(:validation_findings, Shapes::ShapeRef.new(shape: ValidationFindingList, location_name: "ValidationFindings"))
+    ValidateCloudConnectorResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ValidateCloudConnectorResult.struct_class = Types::ValidateCloudConnectorResult
+
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     ValidationException.add_member(:reason_code, Shapes::ShapeRef.new(shape: String, location_name: "ReasonCode"))
     ValidationException.struct_class = Types::ValidationException
+
+    ValidationFinding.add_member(:type, Shapes::ShapeRef.new(shape: ValidationFindingType, location_name: "Type"))
+    ValidationFinding.add_member(:code, Shapes::ShapeRef.new(shape: ValidationFindingCode, location_name: "Code"))
+    ValidationFinding.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
+    ValidationFinding.add_member(:provider_message, Shapes::ShapeRef.new(shape: String, location_name: "ProviderMessage"))
+    ValidationFinding.add_member(:scope, Shapes::ShapeRef.new(shape: ValidationFindingScope, location_name: "Scope"))
+    ValidationFinding.struct_class = Types::ValidationFinding
+
+    ValidationFindingList.member = Shapes::ShapeRef.new(shape: ValidationFinding)
+
+    ValidationFindingScope.add_member(:type, Shapes::ShapeRef.new(shape: ValidationFindingScopeType, location_name: "Type"))
+    ValidationFindingScope.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "Id"))
+    ValidationFindingScope.struct_class = Types::ValidationFindingScope
 
 
     # @api private
@@ -5217,6 +5391,17 @@ module Aws::SSM
         o.errors << Shapes::ShapeRef.new(shape: InvalidTargetMaps)
       end)
 
+      api.add_operation(:create_cloud_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateCloudConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateCloudConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateCloudConnectorResult)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
       api.add_operation(:create_document, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateDocument"
         o.http_method = "POST"
@@ -5316,6 +5501,17 @@ module Aws::SSM
         o.errors << Shapes::ShapeRef.new(shape: InvalidDocument)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInstanceId)
         o.errors << Shapes::ShapeRef.new(shape: TooManyUpdates)
+      end)
+
+      api.add_operation(:delete_cloud_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteCloudConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteCloudConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteCloudConnectorResult)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
       api.add_operation(:delete_document, Seahorse::Model::Operation.new.tap do |o|
@@ -6049,6 +6245,16 @@ module Aws::SSM
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedCalendarException)
       end)
 
+      api.add_operation(:get_cloud_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetCloudConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetCloudConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetCloudConnectorResult)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
       api.add_operation(:get_command_invocation, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetCommandInvocation"
         o.http_method = "POST"
@@ -6387,6 +6593,21 @@ module Aws::SSM
         o.output = Shapes::ShapeRef.new(shape: ListAssociationsResult)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
         o.errors << Shapes::ShapeRef.new(shape: InvalidNextToken)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_cloud_connectors, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListCloudConnectors"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListCloudConnectorsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListCloudConnectorsResult)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -7004,6 +7225,17 @@ module Aws::SSM
         o.errors << Shapes::ShapeRef.new(shape: TooManyUpdates)
       end)
 
+      api.add_operation(:update_cloud_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateCloudConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateCloudConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateCloudConnectorResult)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
       api.add_operation(:update_document, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateDocument"
         o.http_method = "POST"
@@ -7146,6 +7378,22 @@ module Aws::SSM
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
         o.errors << Shapes::ShapeRef.new(shape: ServiceSettingNotFound)
         o.errors << Shapes::ShapeRef.new(shape: TooManyUpdates)
+      end)
+
+      api.add_operation(:validate_cloud_connector, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ValidateCloudConnector"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ValidateCloudConnectorRequest)
+        o.output = Shapes::ShapeRef.new(shape: ValidateCloudConnectorResult)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
     end
 

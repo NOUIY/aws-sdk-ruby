@@ -10786,6 +10786,7 @@ module Aws::EC2
       attr_accessor source_image_id: ::String
       attr_accessor source_image_region: ::String
       attr_accessor free_tier_eligible: bool
+      attr_accessor public_ssm_parameter_name: ::String
       attr_accessor image_watermarks: ::Array[Types::ImageWatermark]
       attr_accessor image_id: ::String
       attr_accessor image_location: ::String

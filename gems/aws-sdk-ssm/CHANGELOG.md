@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.217.0 (2026-07-07)
+------------------
+
+* Feature - Adding SSM Cloud Connector to support Azure Virtual Machines onboarding to AWS Systems Manager
+
 1.216.0 (2026-06-02)
 ------------------
 

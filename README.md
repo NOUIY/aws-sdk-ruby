@@ -710,6 +710,7 @@ RubyGems.org page under "LINKS" section.
 | Partner Central Account API                           | Aws::PartnerCentralAccount               | aws-sdk-partnercentralaccount               | 2025-04-04  |
 | Partner Central Benefits API                          | Aws::PartnerCentralBenefits              | aws-sdk-partnercentralbenefits              | 2018-05-10  |
 | Partner Central Channel API                           | Aws::PartnerCentralChannel               | aws-sdk-partnercentralchannel               | 2024-03-18  |
+| Partner Central Revenue Measurement API               | Aws::PartnerCentralRevenueMeasurement    | aws-sdk-partnercentralrevenuemeasurement    | 2022-07-26  |
 | Partner Central Selling API                           | Aws::PartnerCentralSelling               | aws-sdk-partnercentralselling               | 2022-07-26  |
 | Payment Cryptography Control Plane                    | Aws::PaymentCryptography                 | aws-sdk-paymentcryptography                 | 2021-09-14  |
 | Payment Cryptography Data Plane                       | Aws::PaymentCryptographyData             | aws-sdk-paymentcryptographydata             | 2022-02-03  |

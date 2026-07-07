@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.159.0 (2026-07-07)
+------------------
+
+* Feature - release SecurityHub MultiCloud integration with Azure
+
 1.158.0 (2026-05-21)
 ------------------
 

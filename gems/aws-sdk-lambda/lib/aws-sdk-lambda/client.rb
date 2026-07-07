@@ -2181,6 +2181,7 @@ module Aws::Lambda
     #       },
     #     },
     #     durable_config: {
+    #       kms_key_arn: "KMSKeyArn",
     #       retention_period_in_days: 1,
     #       execution_timeout: 1,
     #     },
@@ -2256,6 +2257,7 @@ module Aws::Lambda
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.config_sha_256 #=> String
+    #   resp.durable_config.kms_key_arn #=> String
     #   resp.durable_config.retention_period_in_days #=> Integer
     #   resp.durable_config.execution_timeout #=> Integer
     #
@@ -3212,6 +3214,12 @@ module Aws::Lambda
     # @option params [required, String] :durable_execution_arn
     #   The Amazon Resource Name (ARN) of the durable execution.
     #
+    # @option params [Boolean] :include_execution_data
+    #   Specifies whether to include execution data such as input payload,
+    #   result, and error information in the response. Set to `false` for a
+    #   more compact response that includes only execution metadata. The
+    #   default value is set to `true`.
+    #
     # @return [Types::GetDurableExecutionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetDurableExecutionResponse#durable_execution_arn #durable_execution_arn} => String
@@ -3225,11 +3233,14 @@ module Aws::Lambda
     #   * {Types::GetDurableExecutionResponse#end_timestamp #end_timestamp} => Time
     #   * {Types::GetDurableExecutionResponse#version #version} => String
     #   * {Types::GetDurableExecutionResponse#trace_header #trace_header} => Types::TraceHeader
+    #   * {Types::GetDurableExecutionResponse#execution_data_included #execution_data_included} => Boolean
+    #   * {Types::GetDurableExecutionResponse#durable_config #durable_config} => Types::DurableConfig
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_durable_execution({
     #     durable_execution_arn: "DurableExecutionArn", # required
+    #     include_execution_data: false,
     #   })
     #
     # @example Response structure
@@ -3249,6 +3260,10 @@ module Aws::Lambda
     #   resp.end_timestamp #=> Time
     #   resp.version #=> String
     #   resp.trace_header.x_amzn_trace_id #=> String
+    #   resp.execution_data_included #=> Boolean
+    #   resp.durable_config.kms_key_arn #=> String
+    #   resp.durable_config.retention_period_in_days #=> Integer
+    #   resp.durable_config.execution_timeout #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetDurableExecution AWS API Documentation
     #
@@ -3851,6 +3866,7 @@ module Aws::Lambda
     #   resp.configuration.capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.configuration.capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.configuration.config_sha_256 #=> String
+    #   resp.configuration.durable_config.kms_key_arn #=> String
     #   resp.configuration.durable_config.retention_period_in_days #=> Integer
     #   resp.configuration.durable_config.execution_timeout #=> Integer
     #   resp.code.repository_type #=> String
@@ -4174,6 +4190,7 @@ module Aws::Lambda
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.config_sha_256 #=> String
+    #   resp.durable_config.kms_key_arn #=> String
     #   resp.durable_config.retention_period_in_days #=> Integer
     #   resp.durable_config.execution_timeout #=> Integer
     #
@@ -4729,9 +4746,9 @@ module Aws::Lambda
     #   * {Types::GetProvisionedConcurrencyConfigResponse#last_modified #last_modified} => Time
     #
     #
-    # @example Example: To get a provisioned concurrency configuration
+    # @example Example: To view a provisioned concurrency configuration
     #
-    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -4748,9 +4765,9 @@ module Aws::Lambda
     #     status: "READY", 
     #   }
     #
-    # @example Example: To view a provisioned concurrency configuration
+    # @example Example: To get a provisioned concurrency configuration
     #
-    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -4953,9 +4970,18 @@ module Aws::Lambda
     #   only.
     #
     # @option params [String] :durable_execution_name
-    #   Optional unique name for the durable execution. When you start your
-    #   special function, you can give it a unique name to identify this
-    #   specific execution. It's like giving a nickname to a task.
+    #   A unique name for the durable execution. If you invoke a durable
+    #   function using a name that already exists with the same payload,
+    #   Lambda returns the existing execution instead of creating a duplicate.
+    #   If the payload differs, Lambda returns a
+    #   `DurableExecutionAlreadyStartedException` error.
+    #
+    #   If not specified, Lambda generates a unique identifier automatically.
+    #   For more information, see [Execution names][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lambda/latest/dg/durable-execution-idempotency.html#durable-idempotency-execution-names
     #
     # @option params [String, StringIO, File] :payload
     #   The JSON that you want to provide to your Lambda function as input.
@@ -5637,6 +5663,7 @@ module Aws::Lambda
     #   resp.durable_executions[0].status #=> String, one of "RUNNING", "SUCCEEDED", "FAILED", "TIMED_OUT", "STOPPED"
     #   resp.durable_executions[0].start_timestamp #=> Time
     #   resp.durable_executions[0].end_timestamp #=> Time
+    #   resp.durable_executions[0].kms_key_arn #=> String
     #   resp.next_marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListDurableExecutionsByFunction AWS API Documentation
@@ -6206,6 +6233,7 @@ module Aws::Lambda
     #   resp.functions[0].capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.functions[0].capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.functions[0].config_sha_256 #=> String
+    #   resp.functions[0].durable_config.kms_key_arn #=> String
     #   resp.functions[0].durable_config.retention_period_in_days #=> Integer
     #   resp.functions[0].durable_config.execution_timeout #=> Integer
     #
@@ -6821,6 +6849,7 @@ module Aws::Lambda
     #   resp.versions[0].capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.versions[0].capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.versions[0].config_sha_256 #=> String
+    #   resp.versions[0].durable_config.kms_key_arn #=> String
     #   resp.versions[0].durable_config.retention_period_in_days #=> Integer
     #   resp.versions[0].durable_config.execution_timeout #=> Integer
     #
@@ -7197,6 +7226,7 @@ module Aws::Lambda
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.config_sha_256 #=> String
+    #   resp.durable_config.kms_key_arn #=> String
     #   resp.durable_config.retention_period_in_days #=> Integer
     #   resp.durable_config.execution_timeout #=> Integer
     #
@@ -9100,6 +9130,7 @@ module Aws::Lambda
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.config_sha_256 #=> String
+    #   resp.durable_config.kms_key_arn #=> String
     #   resp.durable_config.retention_period_in_days #=> Integer
     #   resp.durable_config.execution_timeout #=> Integer
     #
@@ -9318,9 +9349,15 @@ module Aws::Lambda
     #   for Lambda functions.
     #
     # @option params [Types::DurableConfig] :durable_config
-    #   Configuration settings for durable functions. Allows updating
-    #   execution timeout and retention period for functions with durability
-    #   enabled.
+    #   Configuration settings for [durable functions][1], including execution
+    #   timeout, retention period for execution history, and an optional ARN
+    #   of the Key Management Service (KMS) customer managed key that is used
+    #   to encrypt your durable execution's payload data, including input,
+    #   output, and error payloads.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html
     #
     # @return [Types::FunctionConfiguration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -9464,6 +9501,7 @@ module Aws::Lambda
     #       },
     #     },
     #     durable_config: {
+    #       kms_key_arn: "KMSKeyArn",
     #       retention_period_in_days: 1,
     #       execution_timeout: 1,
     #     },
@@ -9539,6 +9577,7 @@ module Aws::Lambda
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.per_execution_environment_max_concurrency #=> Integer
     #   resp.capacity_provider_config.lambda_managed_instances_capacity_provider_config.execution_environment_memory_gi_b_per_v_cpu #=> Float
     #   resp.config_sha_256 #=> String
+    #   resp.durable_config.kms_key_arn #=> String
     #   resp.durable_config.retention_period_in_days #=> Integer
     #   resp.durable_config.execution_timeout #=> Integer
     #
@@ -9804,7 +9843,7 @@ module Aws::Lambda
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-lambda'
-      context[:gem_version] = '1.186.0'
+      context[:gem_version] = '1.187.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

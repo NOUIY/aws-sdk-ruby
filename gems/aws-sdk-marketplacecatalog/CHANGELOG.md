@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.81.0 (2026-07-07)
+------------------
+
+* Feature - This release enhances the ListEntities API to support ResellerRole filter for ResaleAuthorization entity.
+
 1.80.0 (2026-06-01)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.267.0 (2026-07-07)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-partnercentralrevenuemeasurement` gem.
+
 3.266.0 (2026-06-30)
 ------------------
 

@@ -2463,11 +2463,20 @@ module Aws::Lambda
     end
 
     # Configuration settings for [durable functions][1], including execution
-    # timeout and retention period for execution history.
+    # timeout, retention period for execution history, and an optional ARN
+    # of the Key Management Service (KMS) customer managed key that is used
+    # to encrypt your durable execution's payload data, including input,
+    # output, and error payloads.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the Key Management Service (KMS) customer managed key
+    #   that is used to encrypt your durable execution's payload data,
+    #   including input, output, and error payloads.
+    #   @return [String]
     #
     # @!attribute [rw] retention_period_in_days
     #   The number of days to retain execution history after a durable
@@ -2484,6 +2493,7 @@ module Aws::Lambda
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DurableConfig AWS API Documentation
     #
     class DurableConfig < Struct.new(
+      :kms_key_arn,
       :retention_period_in_days,
       :execution_timeout)
       SENSITIVE = []
@@ -3413,6 +3423,12 @@ module Aws::Lambda
     #   [1]: https://www.w3.org/TR/NOTE-datetime
     #   @return [Time]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the Key Management Service (KMS) customer managed key
+    #   that is used to encrypt your durable execution's payload data,
+    #   including input, output, and error payloads.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/Execution AWS API Documentation
     #
     class Execution < Struct.new(
@@ -3421,7 +3437,8 @@ module Aws::Lambda
       :function_arn,
       :status,
       :start_timestamp,
-      :end_timestamp)
+      :end_timestamp,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4422,10 +4439,18 @@ module Aws::Lambda
     #   The Amazon Resource Name (ARN) of the durable execution.
     #   @return [String]
     #
+    # @!attribute [rw] include_execution_data
+    #   Specifies whether to include execution data such as input payload,
+    #   result, and error information in the response. Set to `false` for a
+    #   more compact response that includes only execution metadata. The
+    #   default value is set to `true`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetDurableExecutionRequest AWS API Documentation
     #
     class GetDurableExecutionRequest < Struct.new(
-      :durable_execution_arn)
+      :durable_execution_arn,
+      :include_execution_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4494,6 +4519,20 @@ module Aws::Lambda
     #   The trace headers associated with the durable execution.
     #   @return [Types::TraceHeader]
     #
+    # @!attribute [rw] execution_data_included
+    #   Indicates whether execution data is included in this response.
+    #   Returns `false` when `IncludeExecutionData` is set to `false` in the
+    #   request.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] durable_config
+    #   Configuration settings for the durable execution, including
+    #   execution timeout, retention period for execution history, and an
+    #   optional ARN of the Key Management Service (KMS) customer managed
+    #   key that is used to encrypt your durable execution's payload data,
+    #   including input, output, and error payloads.
+    #   @return [Types::DurableConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetDurableExecutionResponse AWS API Documentation
     #
     class GetDurableExecutionResponse < Struct.new(
@@ -4507,7 +4546,9 @@ module Aws::Lambda
       :status,
       :end_timestamp,
       :version,
-      :trace_header)
+      :trace_header,
+      :execution_data_included,
+      :durable_config)
       SENSITIVE = [:input_payload, :result]
       include Aws::Structure
     end
@@ -5616,9 +5657,18 @@ module Aws::Lambda
     #   @return [String]
     #
     # @!attribute [rw] durable_execution_name
-    #   Optional unique name for the durable execution. When you start your
-    #   special function, you can give it a unique name to identify this
-    #   specific execution. It's like giving a nickname to a task.
+    #   A unique name for the durable execution. If you invoke a durable
+    #   function using a name that already exists with the same payload,
+    #   Lambda returns the existing execution instead of creating a
+    #   duplicate. If the payload differs, Lambda returns a
+    #   `DurableExecutionAlreadyStartedException` error.
+    #
+    #   If not specified, Lambda generates a unique identifier
+    #   automatically. For more information, see [Execution names][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lambda/latest/dg/durable-execution-idempotency.html#durable-idempotency-execution-names
     #   @return [String]
     #
     # @!attribute [rw] payload
@@ -9985,9 +10035,15 @@ module Aws::Lambda
     #   @return [Types::CapacityProviderConfig]
     #
     # @!attribute [rw] durable_config
-    #   Configuration settings for durable functions. Allows updating
-    #   execution timeout and retention period for functions with durability
-    #   enabled.
+    #   Configuration settings for [durable functions][1], including
+    #   execution timeout, retention period for execution history, and an
+    #   optional ARN of the Key Management Service (KMS) customer managed
+    #   key that is used to encrypt your durable execution's payload data,
+    #   including input, output, and error payloads.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html
     #   @return [Types::DurableConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfigurationRequest AWS API Documentation

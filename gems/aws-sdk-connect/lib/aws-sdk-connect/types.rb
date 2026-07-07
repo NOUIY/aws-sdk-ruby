@@ -2103,6 +2103,37 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Contains the scope configuration for an authorization code. Defines
+    # the permissions and access boundaries for the session.
+    #
+    # @!attribute [rw] security_profile_ids
+    #   The list of security profile identifiers to scope the session to.
+    #   Maximum of 10 security profiles.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] entity_type
+    #   The type of entity to scope the session to.
+    #   @return [String]
+    #
+    # @!attribute [rw] entity_id
+    #   The identifier of the entity to scope the session to.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_name
+    #   The name of the Customer Profiles domain to scope the session to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AuthScope AWS API Documentation
+    #
+    class AuthScope < Struct.new(
+      :security_profile_ids,
+      :entity_type,
+      :entity_id,
+      :domain_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This API is in preview release for Connect Customer and is subject to
     # change. To request access to this API, contact Amazon Web Services
     # Support.
@@ -5372,6 +5403,70 @@ module Aws::Connect
       :creation_time,
       :file_status)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] scope
+    #   The scope for the authorization code. Defines the permissions and
+    #   access boundaries for the session.
+    #   @return [Types::AuthScope]
+    #
+    # @!attribute [rw] max_session_duration_minutes
+    #   The maximum duration of the session, in minutes. Minimum value of
+    #   1440 (24 hours). Maximum value of 43200 (30 days). If no value is
+    #   provided, the session will expire after 400 days.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] session_inactivity_duration_minutes
+    #   The duration of inactivity, in minutes, after which the session
+    #   expires. Minimum value of 1440 (24 hours). Maximum value of 20160
+    #   (14 days).
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateAuthCodeRequest AWS API Documentation
+    #
+    class CreateAuthCodeRequest < Struct.new(
+      :instance_id,
+      :scope,
+      :max_session_duration_minutes,
+      :session_inactivity_duration_minutes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] auth_code
+    #   The authorization code to use for establishing a session.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The identifier of the session created with the authorization code.
+    #   @return [String]
+    #
+    # @!attribute [rw] entity_type
+    #   The type of entity associated with the authorization code.
+    #   @return [String]
+    #
+    # @!attribute [rw] entity_id
+    #   The identifier of the entity associated with the authorization code.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateAuthCodeResponse AWS API Documentation
+    #
+    class CreateAuthCodeResponse < Struct.new(
+      :auth_code,
+      :session_id,
+      :entity_type,
+      :entity_id)
+      SENSITIVE = [:auth_code]
       include Aws::Structure
     end
 
@@ -9752,6 +9847,32 @@ module Aws::Connect
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The identifier of the session to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteSessionRequest AWS API Documentation
+    #
+    class DeleteSessionRequest < Struct.new(
+      :instance_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteSessionResponse AWS API Documentation
+    #
+    class DeleteSessionResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] instance_id
     #   The identifier of the Connect Customer instance. You can [find the
@@ -16002,6 +16123,15 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] user_id
+    #   The identifier for the user. This can be the ID or the ARN of the
+    #   user.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_arn
+    #   The Amazon Resource Name (ARN) of the user.
+    #   @return [String]
+    #
     # @!attribute [rw] credentials
     #   The credentials to use for federation.
     #   @return [Types::Credentials]
@@ -16010,22 +16140,13 @@ module Aws::Connect
     #   The URL to sign into the user's instance.
     #   @return [String]
     #
-    # @!attribute [rw] user_arn
-    #   The Amazon Resource Name (ARN) of the user.
-    #   @return [String]
-    #
-    # @!attribute [rw] user_id
-    #   The identifier for the user. This can be the ID or the ARN of the
-    #   user.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetFederationTokenResponse AWS API Documentation
     #
     class GetFederationTokenResponse < Struct.new(
-      :credentials,
-      :sign_in_url,
+      :user_id,
       :user_arn,
-      :user_id)
+      :credentials,
+      :sign_in_url)
       SENSITIVE = [:credentials]
       include Aws::Structure
     end

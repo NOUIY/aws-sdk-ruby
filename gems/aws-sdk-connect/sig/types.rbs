@@ -528,6 +528,14 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class AuthScope
+      attr_accessor security_profile_ids: ::Array[::String]
+      attr_accessor entity_type: ("CUSTOMER_PROFILE")
+      attr_accessor entity_id: ::String
+      attr_accessor domain_name: ::String
+      SENSITIVE: []
+    end
+
     class AuthenticationProfile
       attr_accessor id: ::String
       attr_accessor arn: ::String
@@ -1297,6 +1305,22 @@ module Aws::Connect
       attr_accessor creation_time: ::String
       attr_accessor file_status: ("APPROVED" | "REJECTED" | "PROCESSING" | "FAILED")
       SENSITIVE: []
+    end
+
+    class CreateAuthCodeRequest
+      attr_accessor instance_id: ::String
+      attr_accessor scope: Types::AuthScope
+      attr_accessor max_session_duration_minutes: ::Integer
+      attr_accessor session_inactivity_duration_minutes: ::Integer
+      SENSITIVE: []
+    end
+
+    class CreateAuthCodeResponse
+      attr_accessor auth_code: ::String
+      attr_accessor session_id: ::String
+      attr_accessor entity_type: ("CUSTOMER_PROFILE")
+      attr_accessor entity_id: ::String
+      SENSITIVE: [:auth_code]
     end
 
     class CreateCaseActionDefinition
@@ -2342,6 +2366,15 @@ module Aws::Connect
       attr_accessor instance_id: ::String
       attr_accessor security_profile_id: ::String
       SENSITIVE: []
+    end
+
+    class DeleteSessionRequest
+      attr_accessor instance_id: ::String
+      attr_accessor session_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteSessionResponse < Aws::EmptyStructure
     end
 
     class DeleteTaskTemplateRequest
@@ -4048,10 +4081,10 @@ module Aws::Connect
     end
 
     class GetFederationTokenResponse
+      attr_accessor user_id: ::String
+      attr_accessor user_arn: ::String
       attr_accessor credentials: Types::Credentials
       attr_accessor sign_in_url: ::String
-      attr_accessor user_arn: ::String
-      attr_accessor user_id: ::String
       SENSITIVE: [:credentials]
     end
 

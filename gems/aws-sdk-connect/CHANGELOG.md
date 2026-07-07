@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.263.0 (2026-07-07)
+------------------
+
+* Feature - Adds support for CreateAuthCode and DeleteSession APIs.
+
 1.262.0 (2026-07-01)
 ------------------
 

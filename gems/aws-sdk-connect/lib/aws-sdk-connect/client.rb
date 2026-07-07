@@ -2605,6 +2605,69 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Creates an authorization code for the specified Connect Customer
+    # instance. The authorization code can be used to establish a session
+    # with scoped permissions defined by the specified scope parameters.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, Types::AuthScope] :scope
+    #   The scope for the authorization code. Defines the permissions and
+    #   access boundaries for the session.
+    #
+    # @option params [Integer] :max_session_duration_minutes
+    #   The maximum duration of the session, in minutes. Minimum value of 1440
+    #   (24 hours). Maximum value of 43200 (30 days). If no value is provided,
+    #   the session will expire after 400 days.
+    #
+    # @option params [required, Integer] :session_inactivity_duration_minutes
+    #   The duration of inactivity, in minutes, after which the session
+    #   expires. Minimum value of 1440 (24 hours). Maximum value of 20160 (14
+    #   days).
+    #
+    # @return [Types::CreateAuthCodeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAuthCodeResponse#auth_code #auth_code} => String
+    #   * {Types::CreateAuthCodeResponse#session_id #session_id} => String
+    #   * {Types::CreateAuthCodeResponse#entity_type #entity_type} => String
+    #   * {Types::CreateAuthCodeResponse#entity_id #entity_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_auth_code({
+    #     instance_id: "InstanceId", # required
+    #     scope: { # required
+    #       security_profile_ids: ["SecurityProfileId"],
+    #       entity_type: "CUSTOMER_PROFILE", # required, accepts CUSTOMER_PROFILE
+    #       entity_id: "EntityId",
+    #       domain_name: "CustomerProfilesDomainName",
+    #     },
+    #     max_session_duration_minutes: 1,
+    #     session_inactivity_duration_minutes: 1, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.auth_code #=> String
+    #   resp.session_id #=> String
+    #   resp.entity_type #=> String, one of "CUSTOMER_PROFILE"
+    #   resp.entity_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateAuthCode AWS API Documentation
+    #
+    # @overload create_auth_code(params = {})
+    # @param [Hash] params ({})
+    def create_auth_code(params = {}, options = {})
+      req = build_request(:create_auth_code, params)
+      req.send_request(options)
+    end
+
     # Only the VOICE, EMAIL, and TASK channels are supported.
     #
     #  * For VOICE: The supported initiation method is `TRANSFER`. The
@@ -7048,6 +7111,37 @@ module Aws::Connect
     # @param [Hash] params ({})
     def delete_security_profile(params = {}, options = {})
       req = build_request(:delete_security_profile, params)
+      req.send_request(options)
+    end
+
+    # Deletes a session for the specified Connect Customer instance.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :session_id
+    #   The identifier of the session to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_session({
+    #     instance_id: "InstanceId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteSession AWS API Documentation
+    #
+    # @overload delete_session(params = {})
+    # @param [Hash] params ({})
+    def delete_session(params = {}, options = {})
+      req = build_request(:delete_session, params)
       req.send_request(options)
     end
 
@@ -11766,10 +11860,10 @@ module Aws::Connect
     #
     # @return [Types::GetFederationTokenResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::GetFederationTokenResponse#user_id #user_id} => String
+    #   * {Types::GetFederationTokenResponse#user_arn #user_arn} => String
     #   * {Types::GetFederationTokenResponse#credentials #credentials} => Types::Credentials
     #   * {Types::GetFederationTokenResponse#sign_in_url #sign_in_url} => String
-    #   * {Types::GetFederationTokenResponse#user_arn #user_arn} => String
-    #   * {Types::GetFederationTokenResponse#user_id #user_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -11779,13 +11873,13 @@ module Aws::Connect
     #
     # @example Response structure
     #
+    #   resp.user_id #=> String
+    #   resp.user_arn #=> String
     #   resp.credentials.access_token #=> String
     #   resp.credentials.access_token_expiration #=> Time
     #   resp.credentials.refresh_token #=> String
     #   resp.credentials.refresh_token_expiration #=> Time
     #   resp.sign_in_url #=> String
-    #   resp.user_arn #=> String
-    #   resp.user_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetFederationToken AWS API Documentation
     #
@@ -29846,7 +29940,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.262.0'
+      context[:gem_version] = '1.263.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

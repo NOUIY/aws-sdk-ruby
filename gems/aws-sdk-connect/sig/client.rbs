@@ -556,6 +556,27 @@ module Aws
                                 ) -> _CreateAttachedFileResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAttachedFileResponseSuccess
 
+      interface _CreateAuthCodeResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateAuthCodeResponse]
+        def auth_code: () -> ::String
+        def session_id: () -> ::String
+        def entity_type: () -> ("CUSTOMER_PROFILE")
+        def entity_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#create_auth_code-instance_method
+      def create_auth_code: (
+                              instance_id: ::String,
+                              scope: {
+                                security_profile_ids: Array[::String]?,
+                                entity_type: ("CUSTOMER_PROFILE"),
+                                entity_id: ::String?,
+                                domain_name: ::String?
+                              },
+                              ?max_session_duration_minutes: ::Integer,
+                              session_inactivity_duration_minutes: ::Integer
+                            ) -> _CreateAuthCodeResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAuthCodeResponseSuccess
+
       interface _CreateContactResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateContactResponse]
         def contact_id: () -> ::String
@@ -1518,6 +1539,16 @@ module Aws
                                    ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      interface _DeleteSessionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSessionResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#delete_session-instance_method
+      def delete_session: (
+                            instance_id: ::String,
+                            session_id: ::String
+                          ) -> _DeleteSessionResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteSessionResponseSuccess
+
       interface _DeleteTaskTemplateResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTaskTemplateResponse]
       end
@@ -2387,10 +2418,10 @@ module Aws
 
       interface _GetFederationTokenResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetFederationTokenResponse]
+        def user_id: () -> ::String
+        def user_arn: () -> ::String
         def credentials: () -> Types::Credentials
         def sign_in_url: () -> ::String
-        def user_arn: () -> ::String
-        def user_id: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#get_federation_token-instance_method
       def get_federation_token: (

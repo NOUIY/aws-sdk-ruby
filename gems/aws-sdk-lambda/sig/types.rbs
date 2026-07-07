@@ -543,6 +543,7 @@ module Aws::Lambda
     end
 
     class DurableConfig
+      attr_accessor kms_key_arn: ::String
       attr_accessor retention_period_in_days: ::Integer
       attr_accessor execution_timeout: ::Integer
       SENSITIVE: []
@@ -746,6 +747,7 @@ module Aws::Lambda
       attr_accessor status: ("RUNNING" | "SUCCEEDED" | "FAILED" | "TIMED_OUT" | "STOPPED")
       attr_accessor start_timestamp: ::Time
       attr_accessor end_timestamp: ::Time
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -964,6 +966,7 @@ module Aws::Lambda
 
     class GetDurableExecutionRequest
       attr_accessor durable_execution_arn: ::String
+      attr_accessor include_execution_data: bool
       SENSITIVE: []
     end
 
@@ -979,6 +982,8 @@ module Aws::Lambda
       attr_accessor end_timestamp: ::Time
       attr_accessor version: ::String
       attr_accessor trace_header: Types::TraceHeader
+      attr_accessor execution_data_included: bool
+      attr_accessor durable_config: Types::DurableConfig
       SENSITIVE: [:input_payload, :result]
     end
 
