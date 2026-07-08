@@ -24,7 +24,7 @@ module Aws::AppConfig
     #   @return [Types::DeletionProtectionSettings]
     #
     # @!attribute [rw] vended_metrics
-    #   Configuration for vended metrics in the account.
+    #   The configuration for vended metrics in the account.
     #   @return [Types::VendedMetricsSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/AccountSettings AWS API Documentation
@@ -1375,7 +1375,7 @@ module Aws::AppConfig
       include Aws::Structure
     end
 
-    # Optional deployment parameters for an experiment run, including
+    # The deployment parameters for an experiment run, including dynamic
     # extension parameters and tags.
     #
     # @!attribute [rw] dynamic_extension_parameters
@@ -2288,7 +2288,7 @@ module Aws::AppConfig
     # enabled state and attribute values.
     #
     # @!attribute [rw] enabled
-    #   Whether the feature flag is enabled for this treatment.
+    #   Specifies whether the feature flag is enabled for this treatment.
     #   @return [Boolean]
     #
     # @!attribute [rw] attribute_values
@@ -3296,7 +3296,8 @@ module Aws::AppConfig
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] deployment_parameters
-    #   Optional deployment parameters including a KMS key for encryption.
+    #   The deployment parameters for the experiment run, including a KMS
+    #   key identifier for encryption.
     #   @return [Types::DeploymentParameters]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/StartExperimentRunRequest AWS API Documentation
@@ -3360,7 +3361,7 @@ module Aws::AppConfig
     #   @return [Types::ExperimentRunResult]
     #
     # @!attribute [rw] deployment_parameters
-    #   Optional deployment parameters for the stop operation.
+    #   The deployment parameters for the stop operation.
     #   @return [Types::DeploymentParameters]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/StopExperimentRunRequest AWS API Documentation
@@ -3506,7 +3507,7 @@ module Aws::AppConfig
     #   @return [Types::DeletionProtectionSettings]
     #
     # @!attribute [rw] vended_metrics
-    #   Configuration for vended metrics in the account.
+    #   The configuration for vended metrics in the account.
     #   @return [Types::VendedMetricsSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/UpdateAccountSettingsRequest AWS API Documentation
@@ -3701,7 +3702,8 @@ module Aws::AppConfig
     #   @return [String]
     #
     # @!attribute [rw] treatments
-    #   An updated list of treatments.
+    #   The updated list of treatments to evaluate during the experiment.
+    #   Each treatment defines a distinct variation compared to the control.
     #   @return [Array<Types::TreatmentInput>]
     #
     # @!attribute [rw] control
@@ -3761,11 +3763,12 @@ module Aws::AppConfig
     #   @return [Float]
     #
     # @!attribute [rw] treatment_overrides
-    #   Updated treatment assignment overrides.
+    #   The updated treatment assignment overrides that assign specific
+    #   entity IDs to treatments, bypassing random assignment.
     #   @return [Types::TreatmentOverrides]
     #
     # @!attribute [rw] deployment_parameters
-    #   Updated deployment parameters.
+    #   The updated deployment parameters for the experiment run.
     #   @return [Types::DeploymentParameters]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/UpdateExperimentRunRequest AWS API Documentation
@@ -3884,10 +3887,11 @@ module Aws::AppConfig
       include Aws::Structure
     end
 
-    # Configuration settings for vended metrics.
+    # The configuration settings for vended metrics in your AppConfig
+    # account.
     #
     # @!attribute [rw] enabled
-    #   Whether vended metrics are enabled for the account.
+    #   Specifies whether vended metrics are enabled for the account.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/VendedMetricsSettings AWS API Documentation

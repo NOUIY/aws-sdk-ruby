@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.241.0 (2026-07-08)
+------------------
+
+* Feature - Amazon ECS now automatically detects the correct CPU architecture for Express Mode services.
+
 1.240.0 (2026-06-30)
 ------------------
 

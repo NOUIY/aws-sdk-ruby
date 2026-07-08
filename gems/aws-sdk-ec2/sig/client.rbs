@@ -2676,7 +2676,8 @@ module Aws
                                              ],
                                              ?image_id: ::String,
                                              ?delete_replaced_root_volume: bool,
-                                             ?volume_initialization_rate: ::Integer
+                                             ?volume_initialization_rate: ::Integer,
+                                             ?volume_id: ::String
                                            ) -> _CreateReplaceRootVolumeTaskResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateReplaceRootVolumeTaskResponseSuccess
 

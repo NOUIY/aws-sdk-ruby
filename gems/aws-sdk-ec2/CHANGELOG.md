@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.630.0 (2026-07-08)
+------------------
+
+* Feature - Replace Root Volume now supports a VolumeId parameter. This allows the customer to pass in a pre-prepared volume as the target root volume for an RRV workflow.
+
 1.629.0 (2026-07-07)
 ------------------
 

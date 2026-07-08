@@ -13735,8 +13735,9 @@ module Aws::EC2
     #   previously created from the original root volume.
     #
     #   If you want to restore the replacement root volume to the initial
-    #   launch state, or if you want to restore the replacement root volume
-    #   from an AMI, omit this parameter.
+    #   launch state, if you want to restore the replacement root volume
+    #   from an AMI, or if you want to replace the root volume with a
+    #   specified volume, omit this parameter.
     #   @return [String]
     #
     # @!attribute [rw] client_token
@@ -13770,8 +13771,9 @@ module Aws::EC2
     #   architecture type, and virtualization type as that of the instance.
     #
     #   If you want to restore the replacement volume from a specific
-    #   snapshot, or if you want to restore it to its launch state, omit
-    #   this parameter.
+    #   snapshot, if you want to restore it to its launch state, or if you
+    #   want to replace the root volume with a specified volume, omit this
+    #   parameter.
     #   @return [String]
     #
     # @!attribute [rw] delete_replaced_root_volume
@@ -13816,6 +13818,17 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html
     #   @return [Integer]
     #
+    # @!attribute [rw] volume_id
+    #   The ID of the volume to use as the replacement root volume. The
+    #   specified volume must be in the same Availability Zone as the
+    #   instance, must be in the `available` state, and must not be attached
+    #   to an instance. If the original root volume is encrypted, the
+    #   specified volume must also be encrypted.
+    #
+    #   If you want to restore the replacement root volume from a specific
+    #   snapshot, an AMI, or to its launch state, omit this parameter.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateReplaceRootVolumeTaskRequest AWS API Documentation
     #
     class CreateReplaceRootVolumeTaskRequest < Struct.new(
@@ -13826,7 +13839,8 @@ module Aws::EC2
       :tag_specifications,
       :image_id,
       :delete_replaced_root_volume,
-      :volume_initialization_rate)
+      :volume_initialization_rate,
+      :volume_id)
       SENSITIVE = []
       include Aws::Structure
     end

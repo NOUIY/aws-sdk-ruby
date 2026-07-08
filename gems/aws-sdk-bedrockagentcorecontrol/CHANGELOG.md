@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.55.0 (2026-07-08)
+------------------
+
+* Feature - AgentCore Gateway now supports mapping allowed scopes to separate advertised scopes on the inbound authorizer.
+
 1.54.0 (2026-06-17)
 ------------------
 

@@ -6511,6 +6511,7 @@ module Aws::EC2
     CreateReplaceRootVolumeTaskRequest.add_member(:image_id, Shapes::ShapeRef.new(shape: ImageId, location_name: "ImageId"))
     CreateReplaceRootVolumeTaskRequest.add_member(:delete_replaced_root_volume, Shapes::ShapeRef.new(shape: Boolean, location_name: "DeleteReplacedRootVolume"))
     CreateReplaceRootVolumeTaskRequest.add_member(:volume_initialization_rate, Shapes::ShapeRef.new(shape: Long, location_name: "VolumeInitializationRate"))
+    CreateReplaceRootVolumeTaskRequest.add_member(:volume_id, Shapes::ShapeRef.new(shape: VolumeId, location_name: "VolumeId"))
     CreateReplaceRootVolumeTaskRequest.struct_class = Types::CreateReplaceRootVolumeTaskRequest
 
     CreateReplaceRootVolumeTaskResult.add_member(:replace_root_volume_task, Shapes::ShapeRef.new(shape: ReplaceRootVolumeTask, location_name: "replaceRootVolumeTask"))

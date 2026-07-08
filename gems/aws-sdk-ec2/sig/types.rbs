@@ -2960,6 +2960,7 @@ module Aws::EC2
       attr_accessor image_id: ::String
       attr_accessor delete_replaced_root_volume: bool
       attr_accessor volume_initialization_rate: ::Integer
+      attr_accessor volume_id: ::String
       SENSITIVE: []
     end
 

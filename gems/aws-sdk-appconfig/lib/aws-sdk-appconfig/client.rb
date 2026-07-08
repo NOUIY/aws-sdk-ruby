@@ -3909,6 +3909,16 @@ module Aws::AppConfig
     # metrics. You can start multiple experiment runs from the same
     # experiment definition.
     #
+    # <note markdown="1"> Billing for this experiment begins when you call this operation and
+    # continues until the experiment is stopped. For pricing details, see
+    # [AppConfig pricing][1].
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://aws.amazon.com/systems-manager/pricing/
+    #
     # @option params [required, String] :application_identifier
     #   The application ID or name.
     #
@@ -3930,7 +3940,8 @@ module Aws::AppConfig
     #   The tags to assign to the experiment run.
     #
     # @option params [Types::DeploymentParameters] :deployment_parameters
-    #   Optional deployment parameters including a KMS key for encryption.
+    #   The deployment parameters for the experiment run, including a KMS key
+    #   identifier for encryption.
     #
     # @return [Types::ExperimentRun] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4212,7 +4223,7 @@ module Aws::AppConfig
     #   reasons for or against launching.
     #
     # @option params [Types::DeploymentParameters] :deployment_parameters
-    #   Optional deployment parameters for the stop operation.
+    #   The deployment parameters for the stop operation.
     #
     # @return [Types::ExperimentRun] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4453,7 +4464,7 @@ module Aws::AppConfig
     #   [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html
     #
     # @option params [Types::VendedMetricsSettings] :vended_metrics
-    #   Configuration for vended metrics in the account.
+    #   The configuration for vended metrics in the account.
     #
     # @return [Types::AccountSettings] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4859,7 +4870,8 @@ module Aws::AppConfig
     #   The experiment definition ID or name.
     #
     # @option params [Array<Types::TreatmentInput>] :treatments
-    #   An updated list of treatments.
+    #   The updated list of treatments to evaluate during the experiment. Each
+    #   treatment defines a distinct variation compared to the control.
     #
     # @option params [Types::TreatmentInput] :control
     #   An updated control treatment.
@@ -5032,10 +5044,11 @@ module Aws::AppConfig
     #   current setting.
     #
     # @option params [Types::TreatmentOverrides] :treatment_overrides
-    #   Updated treatment assignment overrides.
+    #   The updated treatment assignment overrides that assign specific entity
+    #   IDs to treatments, bypassing random assignment.
     #
     # @option params [Types::DeploymentParameters] :deployment_parameters
-    #   Updated deployment parameters.
+    #   The updated deployment parameters for the experiment run.
     #
     # @return [Types::ExperimentRun] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5367,7 +5380,7 @@ module Aws::AppConfig
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-appconfig'
-      context[:gem_version] = '1.83.0'
+      context[:gem_version] = '1.84.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

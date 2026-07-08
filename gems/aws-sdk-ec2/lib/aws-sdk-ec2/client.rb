@@ -13702,8 +13702,9 @@ module Aws::EC2
     # Replaces the EBS-backed root volume for a `running` instance with a
     # new volume that is restored to the original root volume's launch
     # state, that is restored to a specific snapshot taken from the original
-    # root volume, or that is restored from an AMI that has the same key
-    # characteristics as that of the instance.
+    # root volume, that is restored from an AMI that has the same key
+    # characteristics as that of the instance, or that is replaced by a
+    # specified volume.
     #
     # For more information, see [Replace a root volume][1] in the *Amazon
     # EC2 User Guide*.
@@ -13721,8 +13722,9 @@ module Aws::EC2
     #   created from the original root volume.
     #
     #   If you want to restore the replacement root volume to the initial
-    #   launch state, or if you want to restore the replacement root volume
-    #   from an AMI, omit this parameter.
+    #   launch state, if you want to restore the replacement root volume from
+    #   an AMI, or if you want to replace the root volume with a specified
+    #   volume, omit this parameter.
     #
     # @option params [String] :client_token
     #   Unique, case-sensitive identifier you provide to ensure the
@@ -13752,7 +13754,8 @@ module Aws::EC2
     #   type, and virtualization type as that of the instance.
     #
     #   If you want to restore the replacement volume from a specific
-    #   snapshot, or if you want to restore it to its launch state, omit this
+    #   snapshot, if you want to restore it to its launch state, or if you
+    #   want to replace the root volume with a specified volume, omit this
     #   parameter.
     #
     # @option params [Boolean] :delete_replaced_root_volume
@@ -13793,6 +13796,16 @@ module Aws::EC2
     #
     #   [1]: https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html
     #
+    # @option params [String] :volume_id
+    #   The ID of the volume to use as the replacement root volume. The
+    #   specified volume must be in the same Availability Zone as the
+    #   instance, must be in the `available` state, and must not be attached
+    #   to an instance. If the original root volume is encrypted, the
+    #   specified volume must also be encrypted.
+    #
+    #   If you want to restore the replacement root volume from a specific
+    #   snapshot, an AMI, or to its launch state, omit this parameter.
+    #
     # @return [Types::CreateReplaceRootVolumeTaskResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateReplaceRootVolumeTaskResult#replace_root_volume_task #replace_root_volume_task} => Types::ReplaceRootVolumeTask
@@ -13818,6 +13831,7 @@ module Aws::EC2
     #     image_id: "ImageId",
     #     delete_replaced_root_volume: false,
     #     volume_initialization_rate: 1,
+    #     volume_id: "VolumeId",
     #   })
     #
     # @example Response structure
@@ -74375,7 +74389,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.629.0'
+      context[:gem_version] = '1.630.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

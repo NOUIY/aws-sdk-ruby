@@ -5740,15 +5740,18 @@ module Aws::ECS
     #   @return [Boolean]
     #
     # @!attribute [rw] reset_on_healthy_task
-    #   Determines whether the deployment circuit breaker resets its failure
+    #   Specifies whether the deployment circuit breaker resets its failure
     #   count when a task reaches a healthy state. When set to `true`, a
-    #   healthy task resets the failure count to `0`; when `false`, it
-    #   doesn't.
+    #   task that reaches a healthy state resets the failure count to `0`.
+    #   When set to `false`, Amazon ECS does not reset the failure count.
+    #   The default is `true`.
     #   @return [Boolean]
     #
     # @!attribute [rw] threshold_configuration
     #   The threshold configuration that controls when the deployment
-    #   circuit breaker triggers.
+    #   circuit breaker triggers. The `type` and `value` together determine
+    #   how many task failures are tolerated before the circuit breaker
+    #   activates.
     #   @return [Types::ThresholdConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/DeploymentCircuitBreaker AWS API Documentation
@@ -14107,6 +14110,32 @@ module Aws::ECS
       include Aws::Structure
     end
 
+    # The runtime platform that Amazon ECS applies to a service revision.
+    # This value overrides the runtime platform specified in the task
+    # definition. You can't set this value.
+    #
+    # @!attribute [rw] cpu_architecture
+    #   The CPU architecture that tasks in this service revision run on.
+    #   This value might differ from the architecture declared in the task
+    #   definition—for example, when Amazon ECS detects an architecture
+    #   mismatch during an Amazon ECS Express deployment and runs tasks on a
+    #   different architecture. You can't set this value.
+    #
+    #   Valid values:
+    #
+    #   * `X86_64` - The x86 64-bit architecture.
+    #
+    #   * `ARM64` - The 64-bit ARM architecture.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/RuntimePlatformOverride AWS API Documentation
+    #
+    class RuntimePlatformOverride < Struct.new(
+      :cpu_architecture)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # This parameter is specified when you're using an Amazon S3 Files file
     # system for task storage. For more information, see [Amazon S3 Files
     # volumes][1] in the *Amazon Elastic Container Service Developer Guide*.
@@ -15914,6 +15943,13 @@ module Aws::ECS
     #   Express service for Amazon ECS.
     #   @return [Types::ECSManagedResources]
     #
+    # @!attribute [rw] overrides
+    #   The effective runtime overrides that Amazon ECS applies to this
+    #   service revision. This value is present only when Amazon ECS detects
+    #   a difference between the task definition and the actual runtime
+    #   configuration.
+    #   @return [Types::ServiceRevisionOverrides]
+    #
     # @!attribute [rw] monitoring
     #   The optional monitoring configuration for the service, which defines
     #   the resolution for the service-level `CPUUtilization` and
@@ -15944,6 +15980,7 @@ module Aws::ECS
       :vpc_lattice_configurations,
       :resolved_configuration,
       :ecs_managed_resources,
+      :overrides,
       :monitoring)
       SENSITIVE = []
       include Aws::Structure
@@ -15969,6 +16006,23 @@ module Aws::ECS
     class ServiceRevisionLoadBalancer < Struct.new(
       :target_group_arn,
       :production_listener_rule)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the runtime overrides that Amazon ECS automatically applies
+    # to a service revision when the effective runtime configuration differs
+    # from the task definition. This value is read-only.
+    #
+    # @!attribute [rw] runtime_platform
+    #   The runtime platform override that Amazon ECS automatically applies
+    #   to the service revision. You can't set this value.
+    #   @return [Types::RuntimePlatformOverride]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ServiceRevisionOverrides AWS API Documentation
+    #
+    class ServiceRevisionOverrides < Struct.new(
+      :runtime_platform)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -18197,19 +18251,19 @@ module Aws::ECS
     # `BOUNDED_PERCENT` with a `value` of `50`.
     #
     # @!attribute [rw] type
-    #   Determines how `value` is used to calculate the failure threshold.
-    #   For the percentage types (`BOUNDED_PERCENT` and
-    #   `UNBOUNDED_PERCENT`), `value` is multiplied by the latest service
-    #   desired count; for `COUNT`, `value` is used directly. The default is
-    #   `BOUNDED_PERCENT`.
+    #   Determines how Amazon ECS uses `value` to calculate the failure
+    #   threshold. For the percentage types (`BOUNDED_PERCENT` and
+    #   `UNBOUNDED_PERCENT`), Amazon ECS multiplies `value` by the latest
+    #   service desired count. For `COUNT`, Amazon ECS uses `value` directly
+    #   as the threshold. The default is `BOUNDED_PERCENT`.
     #   @return [String]
     #
     # @!attribute [rw] value
-    #   The integer used to calculate the failure threshold. When `type` is
-    #   `COUNT`, this is the failure threshold itself. When `type` is a
-    #   percentage type, this is the percentage that Amazon ECS multiplies
-    #   by the latest service desired count to calculate the failure
-    #   threshold.
+    #   Specifies the integer that Amazon ECS uses to calculate the failure
+    #   threshold. When `type` is `COUNT`, this value is the failure
+    #   threshold itself. When `type` is a percentage type, Amazon ECS
+    #   multiplies this value by the latest service desired count to produce
+    #   the failure threshold. The default is `50`.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ecs-2014-11-13/ThresholdConfiguration AWS API Documentation

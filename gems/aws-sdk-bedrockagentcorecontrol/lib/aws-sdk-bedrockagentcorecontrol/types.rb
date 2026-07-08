@@ -4715,6 +4715,18 @@ module Aws::BedrockAgentCoreControl
     #   An array of scopes that are allowed to access the token.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] advertised_scope_mapping
+    #   A map that associates each scope in `allowedScopes` with a
+    #   corresponding advertised scope value. The advertised scope appears
+    #   in OAuth protected resource metadata and `WWW-Authenticate` response
+    #   headers. Use this parameter when the scope that clients request from
+    #   your identity provider differs from the scope in the validated
+    #   token. Each key is a scope from `allowedScopes` that the service
+    #   uses for token validation. Each value is the corresponding scope
+    #   that the service advertises to clients. Scopes without a mapping
+    #   entry appear unchanged to clients.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] custom_claims
     #   An array of objects that define a custom claim validation name,
     #   value, and operation
@@ -4745,6 +4757,7 @@ module Aws::BedrockAgentCoreControl
       :allowed_audience,
       :allowed_clients,
       :allowed_scopes,
+      :advertised_scope_mapping,
       :custom_claims,
       :private_endpoint,
       :private_endpoint_overrides,
@@ -14830,8 +14843,17 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] protocol_type
-    #   The application protocol the passthrough target implements. Required
-    #   for passthrough targets.
+    #   The application protocol that the passthrough target implements.
+    #   This value is required for passthrough targets:
+    #
+    #   * `MCP` - The Model Context Protocol.
+    #
+    #   * `A2A` - The Agent-to-Agent protocol.
+    #
+    #   * `INFERENCE` - The protocol for routing requests to a large
+    #     language model (LLM) provider.
+    #
+    #   * `CUSTOM` - A custom application protocol.
     #   @return [String]
     #
     # @!attribute [rw] schema

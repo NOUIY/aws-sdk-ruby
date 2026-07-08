@@ -6581,6 +6581,7 @@ module Aws::ECS
     #   resp.service_revisions[0].ecs_managed_resources.log_groups[0].status_reason #=> String
     #   resp.service_revisions[0].ecs_managed_resources.log_groups[0].updated_at #=> Time
     #   resp.service_revisions[0].ecs_managed_resources.log_groups[0].log_group_name #=> String
+    #   resp.service_revisions[0].overrides.runtime_platform.cpu_architecture #=> String
     #   resp.service_revisions[0].monitoring.metric_configurations #=> Array
     #   resp.service_revisions[0].monitoring.metric_configurations[0].metric_names #=> Array
     #   resp.service_revisions[0].monitoring.metric_configurations[0].metric_names[0] #=> String
@@ -16246,7 +16247,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.240.0'
+      context[:gem_version] = '1.241.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

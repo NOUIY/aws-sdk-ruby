@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.84.0 (2026-07-08)
+------------------
+
+* Feature - Update ExperimentRun APIs to support ConflictExceptions.
+
 1.83.0 (2026-06-29)
 ------------------
 

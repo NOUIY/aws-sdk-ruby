@@ -69,6 +69,7 @@ module Aws
       allowed_audience: Array[::String]?,
       allowed_clients: Array[::String]?,
       allowed_scopes: Array[::String]?,
+      advertised_scope_mapping: Hash[::String, ::String]?,
       custom_claims: Array[
         Params::custom_claim_validation_type
       ]?,

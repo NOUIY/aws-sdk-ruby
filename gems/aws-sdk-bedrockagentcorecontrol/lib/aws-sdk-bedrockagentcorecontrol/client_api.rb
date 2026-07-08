@@ -22,6 +22,7 @@ module Aws::BedrockAgentCoreControl
     AddDatasetExamplesRequest = Shapes::StructureShape.new(name: 'AddDatasetExamplesRequest')
     AddDatasetExamplesResponse = Shapes::StructureShape.new(name: 'AddDatasetExamplesResponse')
     AdditionalModelRequestFields = Shapes::DocumentShape.new(name: 'AdditionalModelRequestFields', document: true)
+    AdvertisedScopeMappingType = Shapes::MapShape.new(name: 'AdvertisedScopeMappingType')
     AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
     AgentEndpointDescription = Shapes::StringShape.new(name: 'AgentEndpointDescription')
     AgentManagedRuntimeType = Shapes::StringShape.new(name: 'AgentManagedRuntimeType')
@@ -1262,6 +1263,9 @@ module Aws::BedrockAgentCoreControl
     AddDatasetExamplesResponse.add_member(:example_ids, Shapes::ShapeRef.new(shape: ExampleIdList, required: true, location_name: "exampleIds"))
     AddDatasetExamplesResponse.struct_class = Types::AddDatasetExamplesResponse
 
+    AdvertisedScopeMappingType.key = Shapes::ShapeRef.new(shape: AllowedScopeType)
+    AdvertisedScopeMappingType.value = Shapes::ShapeRef.new(shape: AllowedScopeType)
+
     AgentCardDefinition.add_member(:schema_version, Shapes::ShapeRef.new(shape: SchemaVersion, location_name: "schemaVersion"))
     AgentCardDefinition.add_member(:inline_content, Shapes::ShapeRef.new(shape: InlineContent, location_name: "inlineContent"))
     AgentCardDefinition.struct_class = Types::AgentCardDefinition
@@ -2189,6 +2193,7 @@ module Aws::BedrockAgentCoreControl
     CustomJWTAuthorizerConfiguration.add_member(:allowed_audience, Shapes::ShapeRef.new(shape: AllowedAudienceList, location_name: "allowedAudience"))
     CustomJWTAuthorizerConfiguration.add_member(:allowed_clients, Shapes::ShapeRef.new(shape: AllowedClientsList, location_name: "allowedClients"))
     CustomJWTAuthorizerConfiguration.add_member(:allowed_scopes, Shapes::ShapeRef.new(shape: AllowedScopesType, location_name: "allowedScopes"))
+    CustomJWTAuthorizerConfiguration.add_member(:advertised_scope_mapping, Shapes::ShapeRef.new(shape: AdvertisedScopeMappingType, location_name: "advertisedScopeMapping"))
     CustomJWTAuthorizerConfiguration.add_member(:custom_claims, Shapes::ShapeRef.new(shape: CustomClaimValidationsType, location_name: "customClaims"))
     CustomJWTAuthorizerConfiguration.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     CustomJWTAuthorizerConfiguration.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))

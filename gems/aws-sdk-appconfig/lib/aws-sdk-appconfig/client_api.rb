@@ -1595,6 +1595,7 @@ module Aws::AppConfig
         o.output = Shapes::ShapeRef.new(shape: ExperimentRun)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
       end)
 

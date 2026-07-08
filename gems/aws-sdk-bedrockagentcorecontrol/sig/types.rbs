@@ -1227,6 +1227,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor allowed_audience: ::Array[::String]
       attr_accessor allowed_clients: ::Array[::String]
       attr_accessor allowed_scopes: ::Array[::String]
+      attr_accessor advertised_scope_mapping: ::Hash[::String, ::String]
       attr_accessor custom_claims: ::Array[Types::CustomClaimValidationType]
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
