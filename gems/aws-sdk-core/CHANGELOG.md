@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+3.253.0 (2026-07-08)
+------------------
+
+* Feature - Updated Aws::Signin::Client with the latest API changes.
+
+* Feature - Adds support for OAuth 2.0 token operations in AWS Sign-In, CreateOAuth2TokenWithIAM (client credentials flow), IntrospectOAuth2TokenWithIAM (token inspection), and RevokeOAuth2TokenWithIAM (token revocation).
+
 3.252.0 (2026-06-10)
 ------------------
 
