@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.631.0 (2026-07-09)
+------------------
+
+* Feature - Added support for additional override parameters in CreateFleet, including LaunchTemplateSpecificationUserData, KeyName, IamInstanceProfile, and MetadataOptions. The CreateFleet response now also includes SubnetId, AvailabilityZone, and AvailabilityZoneId for launched instances.
+
 1.630.0 (2026-07-08)
 ------------------
 

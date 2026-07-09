@@ -1763,9 +1763,13 @@ module Aws::EC2
     FleetEbsBlockDeviceRequest = Shapes::StructureShape.new(name: 'FleetEbsBlockDeviceRequest')
     FleetEventType = Shapes::StringShape.new(name: 'FleetEventType')
     FleetExcessCapacityTerminationPolicy = Shapes::StringShape.new(name: 'FleetExcessCapacityTerminationPolicy')
+    FleetHttpTokensState = Shapes::StringShape.new(name: 'FleetHttpTokensState')
+    FleetIamInstanceProfileSpecificationRequest = Shapes::StructureShape.new(name: 'FleetIamInstanceProfileSpecificationRequest')
     FleetId = Shapes::StringShape.new(name: 'FleetId')
     FleetIdSet = Shapes::ListShape.new(name: 'FleetIdSet')
     FleetInstanceMatchCriteria = Shapes::StringShape.new(name: 'FleetInstanceMatchCriteria')
+    FleetInstanceMetadataEndpointState = Shapes::StringShape.new(name: 'FleetInstanceMetadataEndpointState')
+    FleetInstanceMetadataOptionsRequest = Shapes::StructureShape.new(name: 'FleetInstanceMetadataOptionsRequest')
     FleetLaunchTemplateConfig = Shapes::StructureShape.new(name: 'FleetLaunchTemplateConfig')
     FleetLaunchTemplateConfigList = Shapes::ListShape.new(name: 'FleetLaunchTemplateConfigList')
     FleetLaunchTemplateConfigListRequest = Shapes::ListShape.new(name: 'FleetLaunchTemplateConfigListRequest')
@@ -6021,6 +6025,9 @@ module Aws::EC2
     CreateFleetInstance.add_member(:instance_ids, Shapes::ShapeRef.new(shape: InstanceIdsSet, location_name: "instanceIds"))
     CreateFleetInstance.add_member(:instance_type, Shapes::ShapeRef.new(shape: InstanceType, location_name: "instanceType"))
     CreateFleetInstance.add_member(:platform, Shapes::ShapeRef.new(shape: PlatformValues, location_name: "platform"))
+    CreateFleetInstance.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "availabilityZoneId"))
+    CreateFleetInstance.add_member(:availability_zone, Shapes::ShapeRef.new(shape: AvailabilityZoneName, location_name: "availabilityZone"))
+    CreateFleetInstance.add_member(:subnet_id, Shapes::ShapeRef.new(shape: SubnetId, location_name: "subnetId"))
     CreateFleetInstance.struct_class = Types::CreateFleetInstance
 
     CreateFleetInstancesSet.member = Shapes::ShapeRef.new(shape: CreateFleetInstance, location_name: "item")
@@ -11292,7 +11299,16 @@ module Aws::EC2
     FleetEbsBlockDeviceRequest.add_member(:volume_type, Shapes::ShapeRef.new(shape: VolumeType, location_name: "VolumeType"))
     FleetEbsBlockDeviceRequest.struct_class = Types::FleetEbsBlockDeviceRequest
 
+    FleetIamInstanceProfileSpecificationRequest.add_member(:arn, Shapes::ShapeRef.new(shape: String, location_name: "Arn"))
+    FleetIamInstanceProfileSpecificationRequest.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "Name"))
+    FleetIamInstanceProfileSpecificationRequest.struct_class = Types::FleetIamInstanceProfileSpecificationRequest
+
     FleetIdSet.member = Shapes::ShapeRef.new(shape: FleetId)
+
+    FleetInstanceMetadataOptionsRequest.add_member(:http_tokens, Shapes::ShapeRef.new(shape: FleetHttpTokensState, location_name: "HttpTokens"))
+    FleetInstanceMetadataOptionsRequest.add_member(:http_put_response_hop_limit, Shapes::ShapeRef.new(shape: Integer, location_name: "HttpPutResponseHopLimit"))
+    FleetInstanceMetadataOptionsRequest.add_member(:http_endpoint, Shapes::ShapeRef.new(shape: FleetInstanceMetadataEndpointState, location_name: "HttpEndpoint"))
+    FleetInstanceMetadataOptionsRequest.struct_class = Types::FleetInstanceMetadataOptionsRequest
 
     FleetLaunchTemplateConfig.add_member(:launch_template_specification, Shapes::ShapeRef.new(shape: FleetLaunchTemplateSpecification, location_name: "launchTemplateSpecification"))
     FleetLaunchTemplateConfig.add_member(:overrides, Shapes::ShapeRef.new(shape: FleetLaunchTemplateOverridesList, location_name: "overrides"))
@@ -11330,7 +11346,10 @@ module Aws::EC2
     FleetLaunchTemplateOverridesRequest.add_member(:weighted_capacity, Shapes::ShapeRef.new(shape: Double, location_name: "WeightedCapacity"))
     FleetLaunchTemplateOverridesRequest.add_member(:priority, Shapes::ShapeRef.new(shape: Double, location_name: "Priority"))
     FleetLaunchTemplateOverridesRequest.add_member(:placement, Shapes::ShapeRef.new(shape: Placement, location_name: "Placement"))
+    FleetLaunchTemplateOverridesRequest.add_member(:key_name, Shapes::ShapeRef.new(shape: String, location_name: "KeyName"))
     FleetLaunchTemplateOverridesRequest.add_member(:block_device_mappings, Shapes::ShapeRef.new(shape: FleetBlockDeviceMappingRequestList, location_name: "BlockDeviceMapping"))
+    FleetLaunchTemplateOverridesRequest.add_member(:iam_instance_profile, Shapes::ShapeRef.new(shape: FleetIamInstanceProfileSpecificationRequest, location_name: "IamInstanceProfile"))
+    FleetLaunchTemplateOverridesRequest.add_member(:metadata_options, Shapes::ShapeRef.new(shape: FleetInstanceMetadataOptionsRequest, location_name: "MetadataOptions"))
     FleetLaunchTemplateOverridesRequest.add_member(:instance_requirements, Shapes::ShapeRef.new(shape: InstanceRequirementsRequest, location_name: "InstanceRequirements"))
     FleetLaunchTemplateOverridesRequest.add_member(:image_id, Shapes::ShapeRef.new(shape: String, location_name: "ImageId"))
     FleetLaunchTemplateOverridesRequest.add_member(:availability_zone_id, Shapes::ShapeRef.new(shape: AvailabilityZoneId, location_name: "AvailabilityZoneId"))
@@ -11344,6 +11363,7 @@ module Aws::EC2
     FleetLaunchTemplateSpecificationRequest.add_member(:launch_template_id, Shapes::ShapeRef.new(shape: LaunchTemplateId, location_name: "LaunchTemplateId"))
     FleetLaunchTemplateSpecificationRequest.add_member(:launch_template_name, Shapes::ShapeRef.new(shape: LaunchTemplateName, location_name: "LaunchTemplateName"))
     FleetLaunchTemplateSpecificationRequest.add_member(:version, Shapes::ShapeRef.new(shape: String, location_name: "Version"))
+    FleetLaunchTemplateSpecificationRequest.add_member(:launch_template_specification_user_data, Shapes::ShapeRef.new(shape: SensitiveUserData, location_name: "LaunchTemplateSpecificationUserData"))
     FleetLaunchTemplateSpecificationRequest.struct_class = Types::FleetLaunchTemplateSpecificationRequest
 
     FleetSet.member = Shapes::ShapeRef.new(shape: FleetData, location_name: "item")

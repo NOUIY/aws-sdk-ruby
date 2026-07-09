@@ -290,6 +290,8 @@ module Aws::Connect
     ContactEvaluationAttributeOrConditionList = Shapes::ListShape.new(name: 'ContactEvaluationAttributeOrConditionList')
     ContactEvaluationAttributeValue = Shapes::StructureShape.new(name: 'ContactEvaluationAttributeValue')
     ContactEvaluations = Shapes::MapShape.new(name: 'ContactEvaluations')
+    ContactField = Shapes::StringShape.new(name: 'ContactField')
+    ContactFields = Shapes::ListShape.new(name: 'ContactFields')
     ContactFilter = Shapes::StructureShape.new(name: 'ContactFilter')
     ContactFlow = Shapes::StructureShape.new(name: 'ContactFlow')
     ContactFlowAttributeAndCondition = Shapes::StructureShape.new(name: 'ContactFlowAttributeAndCondition')
@@ -343,6 +345,7 @@ module Aws::Connect
     ContactMetricValue = Shapes::UnionShape.new(name: 'ContactMetricValue')
     ContactMetrics = Shapes::ListShape.new(name: 'ContactMetrics')
     ContactNotFoundException = Shapes::StructureShape.new(name: 'ContactNotFoundException')
+    ContactNotTerminatedException = Shapes::StructureShape.new(name: 'ContactNotTerminatedException')
     ContactParticipantRole = Shapes::StringShape.new(name: 'ContactParticipantRole')
     ContactRecordingType = Shapes::StringShape.new(name: 'ContactRecordingType')
     ContactReferences = Shapes::MapShape.new(name: 'ContactReferences')
@@ -514,6 +517,8 @@ module Aws::Connect
     Delay = Shapes::IntegerShape.new(name: 'Delay')
     DeleteAttachedFileRequest = Shapes::StructureShape.new(name: 'DeleteAttachedFileRequest')
     DeleteAttachedFileResponse = Shapes::StructureShape.new(name: 'DeleteAttachedFileResponse')
+    DeleteContactDataRequest = Shapes::StructureShape.new(name: 'DeleteContactDataRequest')
+    DeleteContactDataResponse = Shapes::StructureShape.new(name: 'DeleteContactDataResponse')
     DeleteContactEvaluationRequest = Shapes::StructureShape.new(name: 'DeleteContactEvaluationRequest')
     DeleteContactFlowModuleAliasRequest = Shapes::StructureShape.new(name: 'DeleteContactFlowModuleAliasRequest')
     DeleteContactFlowModuleAliasResponse = Shapes::StructureShape.new(name: 'DeleteContactFlowModuleAliasResponse')
@@ -3097,6 +3102,8 @@ module Aws::Connect
     ContactEvaluations.key = Shapes::ShapeRef.new(shape: EvaluationId)
     ContactEvaluations.value = Shapes::ShapeRef.new(shape: ContactEvaluation)
 
+    ContactFields.member = Shapes::ShapeRef.new(shape: ContactField)
+
     ContactFilter.add_member(:contact_states, Shapes::ShapeRef.new(shape: ContactStates, location_name: "ContactStates"))
     ContactFilter.struct_class = Types::ContactFilter
 
@@ -3252,6 +3259,9 @@ module Aws::Connect
 
     ContactNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: Message, location_name: "Message"))
     ContactNotFoundException.struct_class = Types::ContactNotFoundException
+
+    ContactNotTerminatedException.add_member(:message, Shapes::ShapeRef.new(shape: Message, location_name: "Message"))
+    ContactNotTerminatedException.struct_class = Types::ContactNotTerminatedException
 
     ContactReferences.key = Shapes::ShapeRef.new(shape: ReferenceKey)
     ContactReferences.value = Shapes::ShapeRef.new(shape: Reference)
@@ -4050,6 +4060,13 @@ module Aws::Connect
     DeleteAttachedFileRequest.struct_class = Types::DeleteAttachedFileRequest
 
     DeleteAttachedFileResponse.struct_class = Types::DeleteAttachedFileResponse
+
+    DeleteContactDataRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    DeleteContactDataRequest.add_member(:contact_id, Shapes::ShapeRef.new(shape: ContactId, required: true, location: "uri", location_name: "ContactId"))
+    DeleteContactDataRequest.add_member(:contact_fields, Shapes::ShapeRef.new(shape: ContactFields, required: true, location_name: "ContactFields"))
+    DeleteContactDataRequest.struct_class = Types::DeleteContactDataRequest
+
+    DeleteContactDataResponse.struct_class = Types::DeleteContactDataResponse
 
     DeleteContactEvaluationRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     DeleteContactEvaluationRequest.add_member(:evaluation_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "EvaluationId"))
@@ -10834,6 +10851,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+      end)
+
+      api.add_operation(:delete_contact_data, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteContactData"
+        o.http_method = "POST"
+        o.http_request_uri = "/contact/delete/{InstanceId}/{ContactId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteContactDataRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteContactDataResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ContactNotTerminatedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 

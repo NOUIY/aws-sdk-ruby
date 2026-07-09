@@ -678,7 +678,7 @@ module Aws::GuardDuty
     #     },
     #     features: [
     #       {
-    #         name: "S3_DATA_EVENTS", # accepts S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, LAMBDA_NETWORK_LOGS, EKS_RUNTIME_MONITORING, RUNTIME_MONITORING
+    #         name: "S3_DATA_EVENTS", # accepts S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, LAMBDA_NETWORK_LOGS, EKS_RUNTIME_MONITORING, RUNTIME_MONITORING, AI_ANALYST
     #         status: "ENABLED", # accepts ENABLED, DISABLED
     #         additional_configuration: [
     #           {
@@ -3785,7 +3785,7 @@ module Aws::GuardDuty
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
     #   resp.features #=> Array
-    #   resp.features[0].name #=> String, one of "FLOW_LOGS", "CLOUD_TRAIL", "DNS_LOGS", "S3_DATA_EVENTS", "EKS_AUDIT_LOGS", "EBS_MALWARE_PROTECTION", "RDS_LOGIN_EVENTS", "LAMBDA_NETWORK_LOGS", "EKS_RUNTIME_MONITORING", "RUNTIME_MONITORING"
+    #   resp.features[0].name #=> String, one of "FLOW_LOGS", "CLOUD_TRAIL", "DNS_LOGS", "S3_DATA_EVENTS", "EKS_AUDIT_LOGS", "EBS_MALWARE_PROTECTION", "RDS_LOGIN_EVENTS", "LAMBDA_NETWORK_LOGS", "EKS_RUNTIME_MONITORING", "RUNTIME_MONITORING", "AI_ANALYST"
     #   resp.features[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.features[0].updated_at #=> Time
     #   resp.features[0].additional_configuration #=> Array
@@ -7098,7 +7098,7 @@ module Aws::GuardDuty
     #     },
     #     features: [
     #       {
-    #         name: "S3_DATA_EVENTS", # accepts S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, LAMBDA_NETWORK_LOGS, EKS_RUNTIME_MONITORING, RUNTIME_MONITORING
+    #         name: "S3_DATA_EVENTS", # accepts S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, LAMBDA_NETWORK_LOGS, EKS_RUNTIME_MONITORING, RUNTIME_MONITORING, AI_ANALYST
     #         status: "ENABLED", # accepts ENABLED, DISABLED
     #         additional_configuration: [
     #           {
@@ -9178,7 +9178,7 @@ module Aws::GuardDuty
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-guardduty'
-      context[:gem_version] = '1.155.0'
+      context[:gem_version] = '1.156.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

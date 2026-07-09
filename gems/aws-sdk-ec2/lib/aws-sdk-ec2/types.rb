@@ -10537,6 +10537,26 @@ module Aws::EC2
     #   Otherwise, the value is blank.
     #   @return [String]
     #
+    # @!attribute [rw] availability_zone_id
+    #   The ID of the Availability Zone in which the instance was launched.
+    #   For example, `use2-az1`.
+    #
+    #   Supported only for fleets of type `instant`.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone
+    #   The name of the Availability Zone in which the instance was
+    #   launched. For example, `us-east-2a`.
+    #
+    #   Supported only for fleets of type `instant`.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_id
+    #   The ID of the subnet in which the instance was launched.
+    #
+    #   Supported only for fleets of type `instant`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateFleetInstance AWS API Documentation
     #
     class CreateFleetInstance < Struct.new(
@@ -10544,7 +10564,10 @@ module Aws::EC2
       :lifecycle,
       :instance_ids,
       :instance_type,
-      :platform)
+      :platform,
+      :availability_zone_id,
+      :availability_zone,
+      :subnet_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10660,12 +10683,14 @@ module Aws::EC2
     #   For more information, see [Tag your resources][1].
     #
     #   If the fleet type is `instant`, specify a resource type of `fleet`
-    #   to tag the fleet or `instance` to tag the instances at launch.
+    #   to tag the fleet, `instance` to tag the instances at launch,
+    #   `volume` to tag the volumes at launch, or `network-interface` to tag
+    #   the network interfaces at launch.
     #
     #   If the fleet type is `maintain` or `request`, specify a resource
     #   type of `fleet` to tag the fleet. You cannot specify a resource type
-    #   of `instance`. To tag instances at launch, specify the tags in a
-    #   [launch template][2].
+    #   of `instance`, `volume`, or `network-interface`. To tag instances at
+    #   launch, specify the tags in a [launch template][2].
     #
     #
     #
@@ -42932,6 +42957,67 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Describes an IAM instance profile. Supported only for fleets of type
+    # `instant`.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the instance profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/FleetIamInstanceProfileSpecificationRequest AWS API Documentation
+    #
+    class FleetIamInstanceProfileSpecificationRequest < Struct.new(
+      :arn,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the metadata options for the instances. Supported only for
+    # fleets of type `instant`.
+    #
+    # @!attribute [rw] http_tokens
+    #   Indicates whether IMDSv2 is required.
+    #
+    #   * `optional` - IMDSv2 is optional, which means that you can use
+    #     either IMDSv2 or IMDSv1.
+    #
+    #   * `required` - IMDSv2 is required, which means that IMDSv1 is
+    #     disabled, and you must use IMDSv2.
+    #   @return [String]
+    #
+    # @!attribute [rw] http_put_response_hop_limit
+    #   The desired HTTP PUT response hop limit for instance metadata
+    #   requests. The larger the number, the further instance metadata
+    #   requests can travel.
+    #
+    #   Default: `1`
+    #
+    #   Possible values: Integers from 1 to 64
+    #   @return [Integer]
+    #
+    # @!attribute [rw] http_endpoint
+    #   Enables or disables the HTTP metadata endpoint on your instances.
+    #
+    #   * `enabled` - The HTTP metadata endpoint is enabled.
+    #
+    #   * `disabled` - The HTTP metadata endpoint is disabled.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/FleetInstanceMetadataOptionsRequest AWS API Documentation
+    #
+    class FleetInstanceMetadataOptionsRequest < Struct.new(
+      :http_tokens,
+      :http_put_response_hop_limit,
+      :http_endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes a launch template and overrides.
     #
     # @!attribute [rw] launch_template_specification
@@ -43238,6 +43324,19 @@ module Aws::EC2
     #   The location where the instance launched, if applicable.
     #   @return [Types::Placement]
     #
+    # @!attribute [rw] key_name
+    #   The name of the key pair to use for the instances.
+    #
+    #   Supported only for fleets of type `instant`.
+    #
+    #   For more information, see [Amazon EC2 key pairs][1] in the *Amazon
+    #   EC2 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html
+    #   @return [String]
+    #
     # @!attribute [rw] block_device_mappings
     #   The block device mappings, which define the EBS volumes and instance
     #   store volumes to attach to the instance at launch.
@@ -43251,6 +43350,32 @@ module Aws::EC2
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html
     #   @return [Array<Types::FleetBlockDeviceMappingRequest>]
+    #
+    # @!attribute [rw] iam_instance_profile
+    #   The IAM instance profile to associate with the instances.
+    #
+    #   Supported only for fleets of type `instant`.
+    #
+    #   For more information, see [IAM roles for Amazon EC2][1] in the
+    #   *Amazon EC2 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
+    #   @return [Types::FleetIamInstanceProfileSpecificationRequest]
+    #
+    # @!attribute [rw] metadata_options
+    #   The metadata options for the instances.
+    #
+    #   Supported only for fleets of type `instant`.
+    #
+    #   For more information, see [Configure the instance metadata
+    #   service][1] in the *Amazon EC2 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html
+    #   @return [Types::FleetInstanceMetadataOptionsRequest]
     #
     # @!attribute [rw] instance_requirements
     #   The attributes for the instance types. When you specify instance
@@ -43325,7 +43450,10 @@ module Aws::EC2
       :weighted_capacity,
       :priority,
       :placement,
+      :key_name,
       :block_device_mappings,
+      :iam_instance_profile,
+      :metadata_options,
       :instance_requirements,
       :image_id,
       :availability_zone_id)
@@ -43415,13 +43543,22 @@ module Aws::EC2
     #   the launch template.
     #   @return [String]
     #
+    # @!attribute [rw] launch_template_specification_user_data
+    #   The base64-encoded user data for instances launched by the fleet.
+    #   User data is limited to 16 KB, in raw form, before it is
+    #   base64-encoded.
+    #
+    #   Supported only for fleets of type `instant`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/FleetLaunchTemplateSpecificationRequest AWS API Documentation
     #
     class FleetLaunchTemplateSpecificationRequest < Struct.new(
       :launch_template_id,
       :launch_template_name,
-      :version)
-      SENSITIVE = []
+      :version,
+      :launch_template_specification_user_data)
+      SENSITIVE = [:launch_template_specification_user_data]
       include Aws::Structure
     end
 

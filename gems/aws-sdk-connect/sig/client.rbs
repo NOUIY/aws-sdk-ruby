@@ -1340,6 +1340,17 @@ module Aws
                                 ) -> _DeleteAttachedFileResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAttachedFileResponseSuccess
 
+      interface _DeleteContactDataResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteContactDataResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#delete_contact_data-instance_method
+      def delete_contact_data: (
+                                 instance_id: ::String,
+                                 contact_id: ::String,
+                                 contact_fields: Array[("CUSTOMER_ENDPOINT" | "ADDITIONAL_EMAIL_RECIPIENTS" | "EMAIL_SUBJECT")]
+                               ) -> _DeleteContactDataResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteContactDataResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#delete_contact_evaluation-instance_method
       def delete_contact_evaluation: (
                                        instance_id: ::String,

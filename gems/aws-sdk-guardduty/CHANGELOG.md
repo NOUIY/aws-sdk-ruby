@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.156.0 (2026-07-09)
+------------------
+
+* Feature - Adding "AI Analyst" enum value for detector
+
 1.155.0 (2026-06-22)
 ------------------
 

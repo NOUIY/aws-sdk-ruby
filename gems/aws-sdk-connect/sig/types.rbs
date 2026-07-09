@@ -1200,6 +1200,11 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ContactNotTerminatedException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
     class ContactSearchSummary
       attr_accessor arn: ::String
       attr_accessor id: ::String
@@ -2189,6 +2194,16 @@ module Aws::Connect
     end
 
     class DeleteAttachedFileResponse < Aws::EmptyStructure
+    end
+
+    class DeleteContactDataRequest
+      attr_accessor instance_id: ::String
+      attr_accessor contact_id: ::String
+      attr_accessor contact_fields: ::Array[("CUSTOMER_ENDPOINT" | "ADDITIONAL_EMAIL_RECIPIENTS" | "EMAIL_SUBJECT")]
+      SENSITIVE: []
+    end
+
+    class DeleteContactDataResponse < Aws::EmptyStructure
     end
 
     class DeleteContactEvaluationRequest

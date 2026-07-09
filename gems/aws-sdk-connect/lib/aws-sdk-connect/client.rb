@@ -6317,6 +6317,57 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Deletes the specified fields containing personally identifiable
+    # information (PII) from a contact in the specified Connect Customer
+    # instance. This operation redacts PII (such as customer endpoints,
+    # additional email recipients, and the email subject) from the contact
+    # and its associated contact trace record (CTR). The contact must be in
+    # a terminated state.
+    #
+    # This operation performs a hard deletion of the specified PII and
+    # cannot be undone. There is no retention period; after the data is
+    # deleted, it cannot be recovered. Only fields that Connect Customer
+    # identifies and stores as PII are removed. Any PII that you place in
+    # fields outside the scope of this operation remains your responsibility
+    # to remove.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :contact_id
+    #   The identifier of the contact. PII can be deleted only from a contact
+    #   that has been disconnected (is in a terminated state).
+    #
+    # @option params [required, Array<String>] :contact_fields
+    #   The categories of PII to redact from the contact. Valid values are
+    #   `CUSTOMER_ENDPOINT`, `ADDITIONAL_EMAIL_RECIPIENTS`, and
+    #   `EMAIL_SUBJECT`. `ADDITIONAL_EMAIL_RECIPIENTS` and `EMAIL_SUBJECT` are
+    #   supported only for contacts in the email channel.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_contact_data({
+    #     instance_id: "InstanceId", # required
+    #     contact_id: "ContactId", # required
+    #     contact_fields: ["CUSTOMER_ENDPOINT"], # required, accepts CUSTOMER_ENDPOINT, ADDITIONAL_EMAIL_RECIPIENTS, EMAIL_SUBJECT
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteContactData AWS API Documentation
+    #
+    # @overload delete_contact_data(params = {})
+    # @param [Hash] params ({})
+    def delete_contact_data(params = {}, options = {})
+      req = build_request(:delete_contact_data, params)
+      req.send_request(options)
+    end
+
     # Deletes a contact evaluation in the specified Connect Customer
     # instance.
     #
@@ -29940,7 +29991,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.263.0'
+      context[:gem_version] = '1.264.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

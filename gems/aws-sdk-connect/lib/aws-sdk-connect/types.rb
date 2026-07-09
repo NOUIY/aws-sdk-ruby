@@ -4922,6 +4922,21 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # The contact has not been disconnected and is not in a terminated
+    # state. PII can be deleted only from a contact that has been
+    # disconnected. This error is returned with an HTTP 409 status code.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ContactNotTerminatedException AWS API Documentation
+    #
+    class ContactNotTerminatedException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information of returned contact.
     #
     # @!attribute [rw] arn
@@ -9263,6 +9278,41 @@ module Aws::Connect
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteAttachedFileResponse AWS API Documentation
     #
     class DeleteAttachedFileResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] contact_id
+    #   The identifier of the contact. PII can be deleted only from a
+    #   contact that has been disconnected (is in a terminated state).
+    #   @return [String]
+    #
+    # @!attribute [rw] contact_fields
+    #   The categories of PII to redact from the contact. Valid values are
+    #   `CUSTOMER_ENDPOINT`, `ADDITIONAL_EMAIL_RECIPIENTS`, and
+    #   `EMAIL_SUBJECT`. `ADDITIONAL_EMAIL_RECIPIENTS` and `EMAIL_SUBJECT`
+    #   are supported only for contacts in the email channel.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteContactDataRequest AWS API Documentation
+    #
+    class DeleteContactDataRequest < Struct.new(
+      :instance_id,
+      :contact_id,
+      :contact_fields)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteContactDataResponse AWS API Documentation
+    #
+    class DeleteContactDataResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] instance_id
     #   The identifier of the Connect Customer instance. You can [find the

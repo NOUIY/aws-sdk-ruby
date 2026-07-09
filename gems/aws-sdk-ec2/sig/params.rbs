@@ -49,7 +49,8 @@ module Aws
       launch_template_specification: {
         launch_template_id: ::String?,
         launch_template_name: ::String?,
-        version: ::String?
+        version: ::String?,
+        launch_template_specification_user_data: ::String?
       }?,
       overrides: Array[
         Params::fleet_launch_template_overrides_request
@@ -141,9 +142,19 @@ module Aws
       weighted_capacity: ::Float?,
       priority: ::Float?,
       placement: Params::placement?,
+      key_name: ::String?,
       block_device_mappings: Array[
         Params::fleet_block_device_mapping_request
       ]?,
+      iam_instance_profile: {
+        arn: ::String?,
+        name: ::String?
+      }?,
+      metadata_options: {
+        http_tokens: ("optional" | "required")?,
+        http_put_response_hop_limit: ::Integer?,
+        http_endpoint: ("disabled" | "enabled")?
+      }?,
       instance_requirements: Params::instance_requirements_request?,
       image_id: ::String?,
       availability_zone_id: ::String?
