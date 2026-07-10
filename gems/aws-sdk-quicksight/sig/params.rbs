@@ -6161,6 +6161,24 @@ module Aws
       }?,
       q_business_parameters: {
         application_arn: ::String
+      }?,
+      share_point_parameters: {
+        share_point_domain: ::String,
+        tenant_id: ::String?,
+        client_id: ::String?,
+        auth_type: ("THREE_LEGGED_OAUTH" | "TWO_LEGGED_OAUTH" | "SERVICE_ACCOUNT")?
+      }?,
+      google_drive_parameters: {
+        auth_type: ("THREE_LEGGED_OAUTH" | "TWO_LEGGED_OAUTH" | "SERVICE_ACCOUNT")?
+      }?,
+      one_drive_parameters: {
+        tenant_id: ::String?,
+        client_id: ::String?,
+        auth_type: ("THREE_LEGGED_OAUTH" | "TWO_LEGGED_OAUTH" | "SERVICE_ACCOUNT")?
+      }?,
+      fmkb_parameters: {
+        knowledge_base_arn: ::String,
+        linked_data_source_ids: Array[::String]?
       }?
     }
 
@@ -6189,6 +6207,19 @@ module Aws
         client_id: ::String?,
         client_secret: ::String?,
         username: ::String?
+      }?
+    }
+
+      type media_extraction_configuration = {
+      image_extraction_configuration: {
+        image_extraction_status: ("ENABLED" | "DISABLED")
+      }?,
+      audio_extraction_configuration: {
+        audio_extraction_status: ("ENABLED" | "DISABLED")
+      }?,
+      video_extraction_configuration: {
+        video_extraction_status: ("ENABLED" | "DISABLED"),
+        video_extraction_type: ("AUDIO_TRANSCRIPTION_ONLY" | "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION")?
       }?
     }
 

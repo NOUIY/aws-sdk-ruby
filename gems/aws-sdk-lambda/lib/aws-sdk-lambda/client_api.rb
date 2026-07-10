@@ -58,6 +58,7 @@ module Aws::Lambda
     CapacityProviderArn = Shapes::StringShape.new(name: 'CapacityProviderArn')
     CapacityProviderConfig = Shapes::StructureShape.new(name: 'CapacityProviderConfig')
     CapacityProviderLimitExceededException = Shapes::StructureShape.new(name: 'CapacityProviderLimitExceededException')
+    CapacityProviderLoggingConfig = Shapes::StructureShape.new(name: 'CapacityProviderLoggingConfig')
     CapacityProviderMaxVCpuCount = Shapes::IntegerShape.new(name: 'CapacityProviderMaxVCpuCount')
     CapacityProviderName = Shapes::StringShape.new(name: 'CapacityProviderName')
     CapacityProviderPermissionsConfig = Shapes::StructureShape.new(name: 'CapacityProviderPermissionsConfig')
@@ -68,6 +69,7 @@ module Aws::Lambda
     CapacityProviderSecurityGroupIds = Shapes::ListShape.new(name: 'CapacityProviderSecurityGroupIds')
     CapacityProviderState = Shapes::StringShape.new(name: 'CapacityProviderState')
     CapacityProviderSubnetIds = Shapes::ListShape.new(name: 'CapacityProviderSubnetIds')
+    CapacityProviderTelemetryConfig = Shapes::StructureShape.new(name: 'CapacityProviderTelemetryConfig')
     CapacityProviderVpcConfig = Shapes::StructureShape.new(name: 'CapacityProviderVpcConfig')
     CapacityProvidersList = Shapes::ListShape.new(name: 'CapacityProvidersList')
     ChainedInvokeDetails = Shapes::StructureShape.new(name: 'ChainedInvokeDetails')
@@ -702,6 +704,7 @@ module Aws::Lambda
     CapacityProvider.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArn, location_name: "KmsKeyArn"))
     CapacityProvider.add_member(:last_modified, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModified"))
     CapacityProvider.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateTags, location_name: "PropagateTags"))
+    CapacityProvider.add_member(:telemetry_config, Shapes::ShapeRef.new(shape: CapacityProviderTelemetryConfig, location_name: "TelemetryConfig"))
     CapacityProvider.struct_class = Types::CapacityProvider
 
     CapacityProviderConfig.add_member(:lambda_managed_instances_capacity_provider_config, Shapes::ShapeRef.new(shape: LambdaManagedInstancesCapacityProviderConfig, required: true, location_name: "LambdaManagedInstancesCapacityProviderConfig"))
@@ -710,6 +713,10 @@ module Aws::Lambda
     CapacityProviderLimitExceededException.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "Type"))
     CapacityProviderLimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     CapacityProviderLimitExceededException.struct_class = Types::CapacityProviderLimitExceededException
+
+    CapacityProviderLoggingConfig.add_member(:system_log_level, Shapes::ShapeRef.new(shape: SystemLogLevel, location_name: "SystemLogLevel"))
+    CapacityProviderLoggingConfig.add_member(:log_group, Shapes::ShapeRef.new(shape: LogGroup, location_name: "LogGroup"))
+    CapacityProviderLoggingConfig.struct_class = Types::CapacityProviderLoggingConfig
 
     CapacityProviderPermissionsConfig.add_member(:capacity_provider_operator_role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "CapacityProviderOperatorRoleArn"))
     CapacityProviderPermissionsConfig.struct_class = Types::CapacityProviderPermissionsConfig
@@ -724,6 +731,9 @@ module Aws::Lambda
     CapacityProviderSecurityGroupIds.member = Shapes::ShapeRef.new(shape: SecurityGroupId)
 
     CapacityProviderSubnetIds.member = Shapes::ShapeRef.new(shape: SubnetId)
+
+    CapacityProviderTelemetryConfig.add_member(:logging_config, Shapes::ShapeRef.new(shape: CapacityProviderLoggingConfig, location_name: "LoggingConfig"))
+    CapacityProviderTelemetryConfig.struct_class = Types::CapacityProviderTelemetryConfig
 
     CapacityProviderVpcConfig.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: CapacityProviderSubnetIds, required: true, location_name: "SubnetIds"))
     CapacityProviderVpcConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: CapacityProviderSecurityGroupIds, required: true, location_name: "SecurityGroupIds"))
@@ -855,6 +865,7 @@ module Aws::Lambda
     CreateCapacityProviderRequest.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KMSKeyArnNonEmpty, location_name: "KmsKeyArn"))
     CreateCapacityProviderRequest.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "Tags"))
     CreateCapacityProviderRequest.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateTags, location_name: "PropagateTags"))
+    CreateCapacityProviderRequest.add_member(:telemetry_config, Shapes::ShapeRef.new(shape: CapacityProviderTelemetryConfig, location_name: "TelemetryConfig"))
     CreateCapacityProviderRequest.struct_class = Types::CreateCapacityProviderRequest
 
     CreateCapacityProviderResponse.add_member(:capacity_provider, Shapes::ShapeRef.new(shape: CapacityProvider, required: true, location_name: "CapacityProvider"))
@@ -1599,12 +1610,12 @@ module Aws::Lambda
     InvokeWithResponseStreamCompleteEvent.struct_class = Types::InvokeWithResponseStreamCompleteEvent
 
     InvokeWithResponseStreamRequest.add_member(:function_name, Shapes::ShapeRef.new(shape: NamespacedFunctionName, required: true, location: "uri", location_name: "FunctionName"))
-    InvokeWithResponseStreamRequest.add_member(:invocation_type, Shapes::ShapeRef.new(shape: ResponseStreamingInvocationType, location: "header", location_name: "X-Amz-Invocation-Type"))
     InvokeWithResponseStreamRequest.add_member(:log_type, Shapes::ShapeRef.new(shape: LogType, location: "header", location_name: "X-Amz-Log-Type"))
     InvokeWithResponseStreamRequest.add_member(:client_context, Shapes::ShapeRef.new(shape: String, location: "header", location_name: "X-Amz-Client-Context"))
     InvokeWithResponseStreamRequest.add_member(:qualifier, Shapes::ShapeRef.new(shape: NumericLatestPublishedOrAliasQualifier, location: "querystring", location_name: "Qualifier"))
     InvokeWithResponseStreamRequest.add_member(:payload, Shapes::ShapeRef.new(shape: Blob, location_name: "Payload"))
     InvokeWithResponseStreamRequest.add_member(:tenant_id, Shapes::ShapeRef.new(shape: TenantId, location: "header", location_name: "X-Amz-Tenant-Id"))
+    InvokeWithResponseStreamRequest.add_member(:invocation_type, Shapes::ShapeRef.new(shape: ResponseStreamingInvocationType, location: "header", location_name: "X-Amz-Invocation-Type"))
     InvokeWithResponseStreamRequest.struct_class = Types::InvokeWithResponseStreamRequest
     InvokeWithResponseStreamRequest[:payload] = :payload
     InvokeWithResponseStreamRequest[:payload_member] = InvokeWithResponseStreamRequest.member(:payload)
@@ -2261,6 +2272,7 @@ module Aws::Lambda
     UpdateCapacityProviderRequest.add_member(:capacity_provider_name, Shapes::ShapeRef.new(shape: CapacityProviderName, required: true, location: "uri", location_name: "CapacityProviderName"))
     UpdateCapacityProviderRequest.add_member(:capacity_provider_scaling_config, Shapes::ShapeRef.new(shape: CapacityProviderScalingConfig, location_name: "CapacityProviderScalingConfig"))
     UpdateCapacityProviderRequest.add_member(:propagate_tags, Shapes::ShapeRef.new(shape: PropagateTags, location_name: "PropagateTags"))
+    UpdateCapacityProviderRequest.add_member(:telemetry_config, Shapes::ShapeRef.new(shape: CapacityProviderTelemetryConfig, location_name: "TelemetryConfig"))
     UpdateCapacityProviderRequest.struct_class = Types::UpdateCapacityProviderRequest
 
     UpdateCapacityProviderResponse.add_member(:capacity_provider, Shapes::ShapeRef.new(shape: CapacityProvider, required: true, location_name: "CapacityProvider"))

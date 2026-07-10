@@ -16,6 +16,7 @@ module Aws::QuickSight
 
     APIKey = Shapes::StringShape.new(name: 'APIKey')
     APIKeyConnectionMetadata = Shapes::StructureShape.new(name: 'APIKeyConnectionMetadata')
+    AccessControlConfiguration = Shapes::StructureShape.new(name: 'AccessControlConfiguration')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
     AccountCustomization = Shapes::StructureShape.new(name: 'AccountCustomization')
     AccountId = Shapes::StringShape.new(name: 'AccountId')
@@ -246,6 +247,7 @@ module Aws::QuickSight
     AuroraParameters = Shapes::StructureShape.new(name: 'AuroraParameters')
     AuroraPostgreSqlParameters = Shapes::StructureShape.new(name: 'AuroraPostgreSqlParameters')
     AuthConfig = Shapes::StructureShape.new(name: 'AuthConfig')
+    AuthType = Shapes::StringShape.new(name: 'AuthType')
     AuthenticationMetadata = Shapes::UnionShape.new(name: 'AuthenticationMetadata')
     AuthenticationMethodOption = Shapes::StringShape.new(name: 'AuthenticationMethodOption')
     AuthenticationType = Shapes::StringShape.new(name: 'AuthenticationType')
@@ -531,6 +533,8 @@ module Aws::QuickSight
     CreateIAMPolicyAssignmentResponse = Shapes::StructureShape.new(name: 'CreateIAMPolicyAssignmentResponse')
     CreateIngestionRequest = Shapes::StructureShape.new(name: 'CreateIngestionRequest')
     CreateIngestionResponse = Shapes::StructureShape.new(name: 'CreateIngestionResponse')
+    CreateKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'CreateKnowledgeBaseRequest')
+    CreateKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'CreateKnowledgeBaseResponse')
     CreateNamespaceRequest = Shapes::StructureShape.new(name: 'CreateNamespaceRequest')
     CreateNamespaceResponse = Shapes::StructureShape.new(name: 'CreateNamespaceResponse')
     CreateOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'CreateOAuthClientApplicationRequest')
@@ -558,6 +562,7 @@ module Aws::QuickSight
     CreateVPCConnectionRequest = Shapes::StructureShape.new(name: 'CreateVPCConnectionRequest')
     CreateVPCConnectionResponse = Shapes::StructureShape.new(name: 'CreateVPCConnectionResponse')
     CredentialPair = Shapes::StructureShape.new(name: 'CredentialPair')
+    CredentialStatus = Shapes::StringShape.new(name: 'CredentialStatus')
     CrossDatasetTypes = Shapes::StringShape.new(name: 'CrossDatasetTypes')
     CurrencyCode = Shapes::StringShape.new(name: 'CurrencyCode')
     CurrencyDisplayFormatConfiguration = Shapes::StructureShape.new(name: 'CurrencyDisplayFormatConfiguration')
@@ -1034,6 +1039,8 @@ module Aws::QuickSight
     ExportToCSVOption = Shapes::StructureShape.new(name: 'ExportToCSVOption')
     ExportWithHiddenFieldsOption = Shapes::StructureShape.new(name: 'ExportWithHiddenFieldsOption')
     Expression = Shapes::StringShape.new(name: 'Expression')
+    FMKBKnowledgeBaseArn = Shapes::StringShape.new(name: 'FMKBKnowledgeBaseArn')
+    FMKBParameters = Shapes::StructureShape.new(name: 'FMKBParameters')
     FailedKeyRegistrationEntries = Shapes::ListShape.new(name: 'FailedKeyRegistrationEntries')
     FailedKeyRegistrationEntry = Shapes::StructureShape.new(name: 'FailedKeyRegistrationEntry')
     FailedSpaceResourceOperation = Shapes::StructureShape.new(name: 'FailedSpaceResourceOperation')
@@ -1246,6 +1253,7 @@ module Aws::QuickSight
     GetSessionEmbedUrlRequest = Shapes::StructureShape.new(name: 'GetSessionEmbedUrlRequest')
     GetSessionEmbedUrlResponse = Shapes::StructureShape.new(name: 'GetSessionEmbedUrlResponse')
     GlobalTableBorderOptions = Shapes::StructureShape.new(name: 'GlobalTableBorderOptions')
+    GoogleDriveParameters = Shapes::StructureShape.new(name: 'GoogleDriveParameters')
     GradientColor = Shapes::StructureShape.new(name: 'GradientColor')
     GradientStop = Shapes::StructureShape.new(name: 'GradientStop')
     GradientStopList = Shapes::ListShape.new(name: 'GradientStopList')
@@ -1461,6 +1469,8 @@ module Aws::QuickSight
     LinkEntityArn = Shapes::StringShape.new(name: 'LinkEntityArn')
     LinkEntityArnList = Shapes::ListShape.new(name: 'LinkEntityArnList')
     LinkSharingConfiguration = Shapes::StructureShape.new(name: 'LinkSharingConfiguration')
+    LinkedDataSourceId = Shapes::StringShape.new(name: 'LinkedDataSourceId')
+    LinkedDataSourceIds = Shapes::ListShape.new(name: 'LinkedDataSourceIds')
     ListActionConnectorsRequest = Shapes::StructureShape.new(name: 'ListActionConnectorsRequest')
     ListActionConnectorsResponse = Shapes::StructureShape.new(name: 'ListActionConnectorsResponse')
     ListAgentsRequest = Shapes::StructureShape.new(name: 'ListAgentsRequest')
@@ -1662,6 +1672,9 @@ module Aws::QuickSight
     OAuthTokenEndpointUrl = Shapes::StringShape.new(name: 'OAuthTokenEndpointUrl')
     OAuthUsername = Shapes::StringShape.new(name: 'OAuthUsername')
     OnClause = Shapes::StringShape.new(name: 'OnClause')
+    OneDriveClientId = Shapes::StringShape.new(name: 'OneDriveClientId')
+    OneDriveParameters = Shapes::StructureShape.new(name: 'OneDriveParameters')
+    OneDriveTenantId = Shapes::StringShape.new(name: 'OneDriveTenantId')
     Opacity = Shapes::FloatShape.new(name: 'Opacity')
     OperandList = Shapes::ListShape.new(name: 'OperandList')
     OptionalPort = Shapes::IntegerShape.new(name: 'OptionalPort')
@@ -2050,6 +2063,10 @@ module Aws::QuickSight
     SetParameterValueConfiguration = Shapes::StructureShape.new(name: 'SetParameterValueConfiguration')
     SetParameterValueConfigurationList = Shapes::ListShape.new(name: 'SetParameterValueConfigurationList')
     ShapeConditionalFormat = Shapes::StructureShape.new(name: 'ShapeConditionalFormat')
+    SharePointClientId = Shapes::StringShape.new(name: 'SharePointClientId')
+    SharePointDomain = Shapes::StringShape.new(name: 'SharePointDomain')
+    SharePointParameters = Shapes::StructureShape.new(name: 'SharePointParameters')
+    SharePointTenantId = Shapes::StringShape.new(name: 'SharePointTenantId')
     SharedColumnSemanticMetadata = Shapes::StructureShape.new(name: 'SharedColumnSemanticMetadata')
     SharedColumnSemanticMetadataList = Shapes::ListShape.new(name: 'SharedColumnSemanticMetadataList')
     SharedViewConfigurations = Shapes::StructureShape.new(name: 'SharedViewConfigurations')
@@ -2539,6 +2556,8 @@ module Aws::QuickSight
     UpdateKeyRegistrationResponse = Shapes::StructureShape.new(name: 'UpdateKeyRegistrationResponse')
     UpdateKnowledgeBasePermissionsRequest = Shapes::StructureShape.new(name: 'UpdateKnowledgeBasePermissionsRequest')
     UpdateKnowledgeBasePermissionsResponse = Shapes::StructureShape.new(name: 'UpdateKnowledgeBasePermissionsResponse')
+    UpdateKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'UpdateKnowledgeBaseRequest')
+    UpdateKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'UpdateKnowledgeBaseResponse')
     UpdateLinkPermissionList = Shapes::ListShape.new(name: 'UpdateLinkPermissionList')
     UpdateOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationRequest')
     UpdateOAuthClientApplicationResponse = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationResponse')
@@ -2698,6 +2717,9 @@ module Aws::QuickSight
     APIKeyConnectionMetadata.add_member(:api_key, Shapes::ShapeRef.new(shape: APIKey, required: true, location_name: "ApiKey"))
     APIKeyConnectionMetadata.add_member(:email, Shapes::ShapeRef.new(shape: Email, location_name: "Email"))
     APIKeyConnectionMetadata.struct_class = Types::APIKeyConnectionMetadata
+
+    AccessControlConfiguration.add_member(:is_acl_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "isACLEnabled", metadata: {"box" => true}))
+    AccessControlConfiguration.struct_class = Types::AccessControlConfiguration
 
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     AccessDeniedException.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
@@ -4690,6 +4712,26 @@ module Aws::QuickSight
     CreateIngestionResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     CreateIngestionResponse.struct_class = Types::CreateIngestionResponse
 
+    CreateKnowledgeBaseRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    CreateKnowledgeBaseRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    CreateKnowledgeBaseRequest.add_member(:name, Shapes::ShapeRef.new(shape: KnowledgeBaseName, required: true, location_name: "Name"))
+    CreateKnowledgeBaseRequest.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: DataSourceArn, required: true, location_name: "DataSourceArn"))
+    CreateKnowledgeBaseRequest.add_member(:knowledge_base_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseConfiguration, required: true, location_name: "KnowledgeBaseConfiguration"))
+    CreateKnowledgeBaseRequest.add_member(:description, Shapes::ShapeRef.new(shape: KnowledgeBaseDescription, location_name: "Description"))
+    CreateKnowledgeBaseRequest.add_member(:permissions, Shapes::ShapeRef.new(shape: ResourcePermissionList, location_name: "Permissions"))
+    CreateKnowledgeBaseRequest.add_member(:media_extraction_configuration, Shapes::ShapeRef.new(shape: MediaExtractionConfiguration, location_name: "MediaExtractionConfiguration"))
+    CreateKnowledgeBaseRequest.add_member(:access_control_configuration, Shapes::ShapeRef.new(shape: AccessControlConfiguration, location_name: "AccessControlConfiguration"))
+    CreateKnowledgeBaseRequest.add_member(:primary_owner_arn, Shapes::ShapeRef.new(shape: String, location_name: "PrimaryOwnerArn"))
+    CreateKnowledgeBaseRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateKnowledgeBaseRequest.struct_class = Types::CreateKnowledgeBaseRequest
+
+    CreateKnowledgeBaseResponse.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    CreateKnowledgeBaseResponse.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    CreateKnowledgeBaseResponse.add_member(:creation_status, Shapes::ShapeRef.new(shape: DataSetStatus, required: true, location_name: "CreationStatus"))
+    CreateKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    CreateKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    CreateKnowledgeBaseResponse.struct_class = Types::CreateKnowledgeBaseResponse
+
     CreateNamespaceRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     CreateNamespaceRequest.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location_name: "Namespace"))
     CreateNamespaceRequest.add_member(:identity_store, Shapes::ShapeRef.new(shape: IdentityStore, required: true, location_name: "IdentityStore"))
@@ -5405,6 +5447,8 @@ module Aws::QuickSight
     DataSource.add_member(:ssl_properties, Shapes::ShapeRef.new(shape: SslProperties, location_name: "SslProperties"))
     DataSource.add_member(:error_info, Shapes::ShapeRef.new(shape: DataSourceErrorInfo, location_name: "ErrorInfo"))
     DataSource.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretArn, location_name: "SecretArn"))
+    DataSource.add_member(:credential_status, Shapes::ShapeRef.new(shape: CredentialStatus, location_name: "CredentialStatus"))
+    DataSource.add_member(:last_credential_verified_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastCredentialVerifiedAt"))
     DataSource.struct_class = Types::DataSource
 
     DataSourceCredentials.add_member(:credential_pair, Shapes::ShapeRef.new(shape: CredentialPair, location_name: "CredentialPair"))
@@ -5454,6 +5498,10 @@ module Aws::QuickSight
     DataSourceParameters.add_member(:web_crawler_parameters, Shapes::ShapeRef.new(shape: WebCrawlerParameters, location_name: "WebCrawlerParameters"))
     DataSourceParameters.add_member(:confluence_parameters, Shapes::ShapeRef.new(shape: ConfluenceParameters, location_name: "ConfluenceParameters"))
     DataSourceParameters.add_member(:q_business_parameters, Shapes::ShapeRef.new(shape: QBusinessParameters, location_name: "QBusinessParameters"))
+    DataSourceParameters.add_member(:share_point_parameters, Shapes::ShapeRef.new(shape: SharePointParameters, location_name: "SharePointParameters"))
+    DataSourceParameters.add_member(:google_drive_parameters, Shapes::ShapeRef.new(shape: GoogleDriveParameters, location_name: "GoogleDriveParameters"))
+    DataSourceParameters.add_member(:one_drive_parameters, Shapes::ShapeRef.new(shape: OneDriveParameters, location_name: "OneDriveParameters"))
+    DataSourceParameters.add_member(:fmkb_parameters, Shapes::ShapeRef.new(shape: FMKBParameters, location_name: "FMKBParameters"))
     DataSourceParameters.struct_class = Types::DataSourceParameters
 
     DataSourceParametersList.member = Shapes::ShapeRef.new(shape: DataSourceParameters)
@@ -6887,6 +6935,10 @@ module Aws::QuickSight
     ExportWithHiddenFieldsOption.add_member(:availability_status, Shapes::ShapeRef.new(shape: DashboardBehavior, location_name: "AvailabilityStatus"))
     ExportWithHiddenFieldsOption.struct_class = Types::ExportWithHiddenFieldsOption
 
+    FMKBParameters.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: FMKBKnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    FMKBParameters.add_member(:linked_data_source_ids, Shapes::ShapeRef.new(shape: LinkedDataSourceIds, location_name: "LinkedDataSourceIds"))
+    FMKBParameters.struct_class = Types::FMKBParameters
+
     FailedKeyRegistrationEntries.member = Shapes::ShapeRef.new(shape: FailedKeyRegistrationEntry)
 
     FailedKeyRegistrationEntry.add_member(:key_arn, Shapes::ShapeRef.new(shape: String, location_name: "KeyArn"))
@@ -7745,6 +7797,9 @@ module Aws::QuickSight
     GlobalTableBorderOptions.add_member(:side_specific_border, Shapes::ShapeRef.new(shape: TableSideBorderOptions, location_name: "SideSpecificBorder"))
     GlobalTableBorderOptions.struct_class = Types::GlobalTableBorderOptions
 
+    GoogleDriveParameters.add_member(:auth_type, Shapes::ShapeRef.new(shape: AuthType, location_name: "AuthType"))
+    GoogleDriveParameters.struct_class = Types::GoogleDriveParameters
+
     GradientColor.add_member(:stops, Shapes::ShapeRef.new(shape: GradientStopList, location_name: "Stops"))
     GradientColor.struct_class = Types::GradientColor
 
@@ -8241,6 +8296,7 @@ module Aws::QuickSight
     KnowledgeBase.add_member(:data_source_arn, Shapes::ShapeRef.new(shape: DataSourceArn, required: true, location_name: "DataSourceArn"))
     KnowledgeBase.add_member(:knowledge_base_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseConfiguration, required: true, location_name: "KnowledgeBaseConfiguration"))
     KnowledgeBase.add_member(:media_extraction_configuration, Shapes::ShapeRef.new(shape: MediaExtractionConfiguration, location_name: "MediaExtractionConfiguration"))
+    KnowledgeBase.add_member(:access_control_configuration, Shapes::ShapeRef.new(shape: AccessControlConfiguration, location_name: "AccessControlConfiguration"))
     KnowledgeBase.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "Type"))
     KnowledgeBase.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedAt"))
     KnowledgeBase.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "UpdatedAt"))
@@ -8256,7 +8312,6 @@ module Aws::QuickSight
     KnowledgeBase.struct_class = Types::KnowledgeBase
 
     KnowledgeBaseConfiguration.add_member(:template_configuration, Shapes::ShapeRef.new(shape: KbTemplateConfiguration, location_name: "templateConfiguration"))
-    KnowledgeBaseConfiguration.add_member(:event_enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "eventEnabled", metadata: {"box" => true}))
     KnowledgeBaseConfiguration.struct_class = Types::KnowledgeBaseConfiguration
 
     KnowledgeBaseIngestionSummary.add_member(:ingestion_id, Shapes::ShapeRef.new(shape: KbIngestionId, required: true, location_name: "IngestionId"))
@@ -8424,6 +8479,8 @@ module Aws::QuickSight
 
     LinkSharingConfiguration.add_member(:permissions, Shapes::ShapeRef.new(shape: ResourcePermissionList, location_name: "Permissions"))
     LinkSharingConfiguration.struct_class = Types::LinkSharingConfiguration
+
+    LinkedDataSourceIds.member = Shapes::ShapeRef.new(shape: LinkedDataSourceId)
 
     ListActionConnectorsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     ListActionConnectorsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results"))
@@ -9216,6 +9273,11 @@ module Aws::QuickSight
     OAuthParameters.add_member(:identity_provider_resource_uri, Shapes::ShapeRef.new(shape: IdentityProviderResourceUri, location_name: "IdentityProviderResourceUri"))
     OAuthParameters.add_member(:identity_provider_ca_certificates_bundle_s3_uri, Shapes::ShapeRef.new(shape: CACertificatesBundleS3Uri, location_name: "IdentityProviderCACertificatesBundleS3Uri"))
     OAuthParameters.struct_class = Types::OAuthParameters
+
+    OneDriveParameters.add_member(:tenant_id, Shapes::ShapeRef.new(shape: OneDriveTenantId, location_name: "TenantId"))
+    OneDriveParameters.add_member(:client_id, Shapes::ShapeRef.new(shape: OneDriveClientId, location_name: "ClientId"))
+    OneDriveParameters.add_member(:auth_type, Shapes::ShapeRef.new(shape: AuthType, location_name: "AuthType"))
+    OneDriveParameters.struct_class = Types::OneDriveParameters
 
     OperandList.member = Shapes::ShapeRef.new(shape: Identifier)
 
@@ -10517,6 +10579,12 @@ module Aws::QuickSight
 
     ShapeConditionalFormat.add_member(:background_color, Shapes::ShapeRef.new(shape: ConditionalFormattingColor, required: true, location_name: "BackgroundColor"))
     ShapeConditionalFormat.struct_class = Types::ShapeConditionalFormat
+
+    SharePointParameters.add_member(:share_point_domain, Shapes::ShapeRef.new(shape: SharePointDomain, required: true, location_name: "SharePointDomain"))
+    SharePointParameters.add_member(:tenant_id, Shapes::ShapeRef.new(shape: SharePointTenantId, location_name: "TenantId"))
+    SharePointParameters.add_member(:client_id, Shapes::ShapeRef.new(shape: SharePointClientId, location_name: "ClientId"))
+    SharePointParameters.add_member(:auth_type, Shapes::ShapeRef.new(shape: AuthType, location_name: "AuthType"))
+    SharePointParameters.struct_class = Types::SharePointParameters
 
     SharedColumnSemanticMetadata.add_member(:column_names, Shapes::ShapeRef.new(shape: ColumnNameList, location_name: "ColumnNames"))
     SharedColumnSemanticMetadata.add_member(:column_properties, Shapes::ShapeRef.new(shape: ColumnSemanticPropertyList, required: true, location_name: "ColumnProperties"))
@@ -12393,6 +12461,22 @@ module Aws::QuickSight
     UpdateKnowledgeBasePermissionsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
     UpdateKnowledgeBasePermissionsResponse.struct_class = Types::UpdateKnowledgeBasePermissionsResponse
 
+    UpdateKnowledgeBaseRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: KbAwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    UpdateKnowledgeBaseRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location: "uri", location_name: "KnowledgeBaseId"))
+    UpdateKnowledgeBaseRequest.add_member(:name, Shapes::ShapeRef.new(shape: KnowledgeBaseName, location_name: "Name"))
+    UpdateKnowledgeBaseRequest.add_member(:description, Shapes::ShapeRef.new(shape: KnowledgeBaseDescription, location_name: "Description"))
+    UpdateKnowledgeBaseRequest.add_member(:knowledge_base_configuration, Shapes::ShapeRef.new(shape: KnowledgeBaseConfiguration, location_name: "KnowledgeBaseConfiguration"))
+    UpdateKnowledgeBaseRequest.add_member(:media_extraction_configuration, Shapes::ShapeRef.new(shape: MediaExtractionConfiguration, location_name: "MediaExtractionConfiguration"))
+    UpdateKnowledgeBaseRequest.add_member(:is_email_notification_opted_for_ingestion_failures, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsEmailNotificationOptedForIngestionFailures", metadata: {"box" => true}))
+    UpdateKnowledgeBaseRequest.add_member(:access_control_configuration, Shapes::ShapeRef.new(shape: AccessControlConfiguration, location_name: "AccessControlConfiguration"))
+    UpdateKnowledgeBaseRequest.struct_class = Types::UpdateKnowledgeBaseRequest
+
+    UpdateKnowledgeBaseResponse.add_member(:knowledge_base_arn, Shapes::ShapeRef.new(shape: KnowledgeBaseArn, required: true, location_name: "KnowledgeBaseArn"))
+    UpdateKnowledgeBaseResponse.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseId, required: true, location_name: "KnowledgeBaseId"))
+    UpdateKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    UpdateKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
+    UpdateKnowledgeBaseResponse.struct_class = Types::UpdateKnowledgeBaseResponse
+
     UpdateLinkPermissionList.member = Shapes::ShapeRef.new(shape: ResourcePermission)
 
     UpdateOAuthClientApplicationRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
@@ -13354,6 +13438,23 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceExistsException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:create_knowledge_base, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateKnowledgeBase"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases"
+        o.input = Shapes::ShapeRef.new(shape: CreateKnowledgeBaseRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateKnowledgeBaseResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceExistsException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:create_namespace, Seahorse::Model::Operation.new.tap do |o|
@@ -16803,6 +16904,23 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:update_knowledge_base, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateKnowledgeBase"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateKnowledgeBaseRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateKnowledgeBaseResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
       api.add_operation(:update_knowledge_base_permissions, Seahorse::Model::Operation.new.tap do |o|

@@ -1836,8 +1836,8 @@ module Aws
       def update_configuration: (
                                   ?account_id: ::String,
                                   ?ecr_configuration: {
-                                    rescan_duration: ("LIFETIME" | "DAYS_30" | "DAYS_180" | "DAYS_14" | "DAYS_60" | "DAYS_90"),
-                                    pull_date_rescan_duration: ("DAYS_14" | "DAYS_30" | "DAYS_60" | "DAYS_90" | "DAYS_180")?,
+                                    rescan_duration: ("LIFETIME" | "DAYS_30" | "DAYS_180" | "DAYS_14" | "DAYS_60" | "DAYS_90" | "DAYS_3" | "DAYS_7"),
+                                    pull_date_rescan_duration: ("DAYS_14" | "DAYS_30" | "DAYS_60" | "DAYS_90" | "DAYS_180" | "DAYS_3" | "DAYS_7")?,
                                     pull_date_rescan_mode: ("LAST_PULL_DATE" | "LAST_IN_USE_AT")?
                                   },
                                   ?ec2_configuration: {

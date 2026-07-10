@@ -3176,10 +3176,10 @@ module Aws::Inspector2
     #
     # @example Response structure
     #
-    #   resp.ecr_configuration.rescan_duration_state.rescan_duration #=> String, one of "LIFETIME", "DAYS_30", "DAYS_180", "DAYS_14", "DAYS_60", "DAYS_90"
+    #   resp.ecr_configuration.rescan_duration_state.rescan_duration #=> String, one of "LIFETIME", "DAYS_30", "DAYS_180", "DAYS_14", "DAYS_60", "DAYS_90", "DAYS_3", "DAYS_7"
     #   resp.ecr_configuration.rescan_duration_state.status #=> String, one of "SUCCESS", "PENDING", "FAILED"
     #   resp.ecr_configuration.rescan_duration_state.updated_at #=> Time
-    #   resp.ecr_configuration.rescan_duration_state.pull_date_rescan_duration #=> String, one of "DAYS_14", "DAYS_30", "DAYS_60", "DAYS_90", "DAYS_180"
+    #   resp.ecr_configuration.rescan_duration_state.pull_date_rescan_duration #=> String, one of "DAYS_14", "DAYS_30", "DAYS_60", "DAYS_90", "DAYS_180", "DAYS_3", "DAYS_7"
     #   resp.ecr_configuration.rescan_duration_state.pull_date_rescan_mode #=> String, one of "LAST_PULL_DATE", "LAST_IN_USE_AT"
     #   resp.ec2_configuration.scan_mode_state.scan_mode #=> String, one of "EC2_SSM_AGENT_BASED", "EC2_HYBRID"
     #   resp.ec2_configuration.scan_mode_state.scan_mode_status #=> String, one of "SUCCESS", "PENDING"
@@ -7667,8 +7667,8 @@ module Aws::Inspector2
     #   resp = client.update_configuration({
     #     account_id: "AccountId",
     #     ecr_configuration: {
-    #       rescan_duration: "LIFETIME", # required, accepts LIFETIME, DAYS_30, DAYS_180, DAYS_14, DAYS_60, DAYS_90
-    #       pull_date_rescan_duration: "DAYS_14", # accepts DAYS_14, DAYS_30, DAYS_60, DAYS_90, DAYS_180
+    #       rescan_duration: "LIFETIME", # required, accepts LIFETIME, DAYS_30, DAYS_180, DAYS_14, DAYS_60, DAYS_90, DAYS_3, DAYS_7
+    #       pull_date_rescan_duration: "DAYS_14", # accepts DAYS_14, DAYS_30, DAYS_60, DAYS_90, DAYS_180, DAYS_3, DAYS_7
     #       pull_date_rescan_mode: "LAST_PULL_DATE", # accepts LAST_PULL_DATE, LAST_IN_USE_AT
     #     },
     #     ec2_configuration: {
@@ -8450,7 +8450,7 @@ module Aws::Inspector2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-inspector2'
-      context[:gem_version] = '1.77.0'
+      context[:gem_version] = '1.78.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1031,6 +1031,10 @@ module Aws::Lambda
     #   The tag propagation configuration for the capacity provider. Specifies
     #   tags to apply to managed resources at launch.
     #
+    # @option params [Types::CapacityProviderTelemetryConfig] :telemetry_config
+    #   The telemetry configuration for the capacity provider. Specifies
+    #   logging settings for managed resources.
+    #
     # @return [Types::CreateCapacityProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateCapacityProviderResponse#capacity_provider #capacity_provider} => Types::CapacityProvider
@@ -1071,6 +1075,12 @@ module Aws::Lambda
     #         "TagKey" => "TagValue",
     #       },
     #     },
+    #     telemetry_config: {
+    #       logging_config: {
+    #         system_log_level: "DEBUG", # accepts DEBUG, INFO, WARN
+    #         log_group: "LogGroup",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1098,6 +1108,8 @@ module Aws::Lambda
     #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
     #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
     #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
+    #   resp.capacity_provider.telemetry_config.logging_config.system_log_level #=> String, one of "DEBUG", "INFO", "WARN"
+    #   resp.capacity_provider.telemetry_config.logging_config.log_group #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateCapacityProvider AWS API Documentation
     #
@@ -2470,6 +2482,8 @@ module Aws::Lambda
     #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
     #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
     #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
+    #   resp.capacity_provider.telemetry_config.logging_config.system_log_level #=> String, one of "DEBUG", "INFO", "WARN"
+    #   resp.capacity_provider.telemetry_config.logging_config.log_group #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteCapacityProvider AWS API Documentation
     #
@@ -3158,6 +3172,8 @@ module Aws::Lambda
     #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
     #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
     #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
+    #   resp.capacity_provider.telemetry_config.logging_config.system_log_level #=> String, one of "DEBUG", "INFO", "WARN"
+    #   resp.capacity_provider.telemetry_config.logging_config.log_group #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetCapacityProvider AWS API Documentation
     #
@@ -4746,9 +4762,9 @@ module Aws::Lambda
     #   * {Types::GetProvisionedConcurrencyConfigResponse#last_modified #last_modified} => Time
     #
     #
-    # @example Example: To view a provisioned concurrency configuration
+    # @example Example: To get a provisioned concurrency configuration
     #
-    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -4765,9 +4781,9 @@ module Aws::Lambda
     #     status: "READY", 
     #   }
     #
-    # @example Example: To get a provisioned concurrency configuration
+    # @example Example: To view a provisioned concurrency configuration
     #
-    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -5180,17 +5196,6 @@ module Aws::Lambda
     #   The length constraint applies only to the full ARN. If you specify
     #   only the function name, it is limited to 64 characters in length.
     #
-    # @option params [String] :invocation_type
-    #   Use one of the following options:
-    #
-    #   * `RequestResponse` (default) – Invoke the function synchronously.
-    #     Keep the connection open until the function returns a response or
-    #     times out. The API operation response includes the function response
-    #     and additional data.
-    #
-    #   * `DryRun` – Validate parameter values and verify that the IAM user or
-    #     role has permission to invoke the function.
-    #
     # @option params [String] :log_type
     #   Set to `Tail` to include the execution log in the response. Applies to
     #   synchronously invoked functions only.
@@ -5211,6 +5216,17 @@ module Aws::Lambda
     #
     # @option params [String] :tenant_id
     #   The identifier of the tenant in a multi-tenant Lambda function.
+    #
+    # @option params [String] :invocation_type
+    #   Use one of the following options:
+    #
+    #   * `RequestResponse` (default) – Invoke the function synchronously.
+    #     Keep the connection open until the function returns a response or
+    #     times out. The API operation response includes the function response
+    #     and additional data.
+    #
+    #   * `DryRun` – Validate parameter values and verify that the IAM user or
+    #     role has permission to invoke the function.
     #
     # @return [Types::InvokeWithResponseStreamResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5321,12 +5337,12 @@ module Aws::Lambda
     #
     #   resp = client.invoke_with_response_stream({
     #     function_name: "NamespacedFunctionName", # required
-    #     invocation_type: "RequestResponse", # accepts RequestResponse, DryRun
     #     log_type: "None", # accepts None, Tail
     #     client_context: "String",
     #     qualifier: "NumericLatestPublishedOrAliasQualifier",
     #     payload: "data",
     #     tenant_id: "TenantId",
+    #     invocation_type: "RequestResponse", # accepts RequestResponse, DryRun
     #   })
     #
     # @example Response structure
@@ -5530,6 +5546,8 @@ module Aws::Lambda
     #   resp.capacity_providers[0].propagate_tags.mode #=> String, one of "None", "Explicit"
     #   resp.capacity_providers[0].propagate_tags.explicit_tags #=> Hash
     #   resp.capacity_providers[0].propagate_tags.explicit_tags["TagKey"] #=> String
+    #   resp.capacity_providers[0].telemetry_config.logging_config.system_log_level #=> String, one of "DEBUG", "INFO", "WARN"
+    #   resp.capacity_providers[0].telemetry_config.logging_config.log_group #=> String
     #   resp.next_marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListCapacityProviders AWS API Documentation
@@ -8275,6 +8293,9 @@ module Aws::Lambda
     #   Configuration for tag propagation to managed resources launched by the
     #   capacity provider.
     #
+    # @option params [Types::CapacityProviderTelemetryConfig] :telemetry_config
+    #   The updated telemetry configuration for the capacity provider.
+    #
     # @return [Types::UpdateCapacityProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateCapacityProviderResponse#capacity_provider #capacity_provider} => Types::CapacityProvider
@@ -8297,6 +8318,12 @@ module Aws::Lambda
     #       mode: "None", # accepts None, Explicit
     #       explicit_tags: {
     #         "TagKey" => "TagValue",
+    #       },
+    #     },
+    #     telemetry_config: {
+    #       logging_config: {
+    #         system_log_level: "DEBUG", # accepts DEBUG, INFO, WARN
+    #         log_group: "LogGroup",
     #       },
     #     },
     #   })
@@ -8326,6 +8353,8 @@ module Aws::Lambda
     #   resp.capacity_provider.propagate_tags.mode #=> String, one of "None", "Explicit"
     #   resp.capacity_provider.propagate_tags.explicit_tags #=> Hash
     #   resp.capacity_provider.propagate_tags.explicit_tags["TagKey"] #=> String
+    #   resp.capacity_provider.telemetry_config.logging_config.system_log_level #=> String, one of "DEBUG", "INFO", "WARN"
+    #   resp.capacity_provider.telemetry_config.logging_config.log_group #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateCapacityProvider AWS API Documentation
     #
@@ -9843,7 +9872,7 @@ module Aws::Lambda
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-lambda'
-      context[:gem_version] = '1.188.0'
+      context[:gem_version] = '1.189.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

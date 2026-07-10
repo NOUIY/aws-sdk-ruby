@@ -45,6 +45,7 @@ module Aws::CloudWatch
     end
 
     class AnomalyDetector
+      attr_accessor anomaly_detector_id: ::String
       attr_accessor namespace: ::String
       attr_accessor metric_name: ::String
       attr_accessor dimensions: ::Array[Types::Dimension]
@@ -151,6 +152,7 @@ module Aws::CloudWatch
     end
 
     class DeleteAnomalyDetectorInput
+      attr_accessor anomaly_detector_id: ::String
       attr_accessor namespace: ::String
       attr_accessor metric_name: ::String
       attr_accessor dimensions: ::Array[Types::Dimension]
@@ -258,6 +260,7 @@ module Aws::CloudWatch
     end
 
     class DescribeAnomalyDetectorsInput
+      attr_accessor anomaly_detector_ids: ::Array[::String]
       attr_accessor next_token: ::String
       attr_accessor max_results: ::Integer
       attr_accessor namespace: ::String
@@ -897,7 +900,9 @@ module Aws::CloudWatch
       SENSITIVE: []
     end
 
-    class PutAnomalyDetectorOutput < Aws::EmptyStructure
+    class PutAnomalyDetectorOutput
+      attr_accessor anomaly_detector_id: ::String
+      SENSITIVE: []
     end
 
     class PutCompositeAlarmInput

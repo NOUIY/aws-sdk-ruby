@@ -15,6 +15,11 @@ module Aws::QuickSight
       SENSITIVE: [:api_key, :email]
     end
 
+    class AccessControlConfiguration
+      attr_accessor is_acl_enabled: bool
+      SENSITIVE: []
+    end
+
     class AccessDeniedException
       attr_accessor message: ::String
       attr_accessor request_id: ::String
@@ -2328,6 +2333,30 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class CreateKnowledgeBaseRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor name: ::String
+      attr_accessor data_source_arn: ::String
+      attr_accessor knowledge_base_configuration: Types::KnowledgeBaseConfiguration
+      attr_accessor description: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor media_extraction_configuration: Types::MediaExtractionConfiguration
+      attr_accessor access_control_configuration: Types::AccessControlConfiguration
+      attr_accessor primary_owner_arn: ::String
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: [:knowledge_base_configuration]
+    end
+
+    class CreateKnowledgeBaseResponse
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor creation_status: ("CREATING" | "UPDATING" | "ACTIVE" | "FAILED" | "DELETING")
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
     class CreateNamespaceRequest
       attr_accessor aws_account_id: ::String
       attr_accessor namespace: ::String
@@ -3230,6 +3259,8 @@ module Aws::QuickSight
       attr_accessor ssl_properties: Types::SslProperties
       attr_accessor error_info: Types::DataSourceErrorInfo
       attr_accessor secret_arn: ::String
+      attr_accessor credential_status: ("CONNECTED" | "AUTH_FAILED" | "NOT_VERIFIED")
+      attr_accessor last_credential_verified_at: ::Time
       SENSITIVE: []
     end
 
@@ -3283,6 +3314,10 @@ module Aws::QuickSight
       attr_accessor web_crawler_parameters: Types::WebCrawlerParameters
       attr_accessor confluence_parameters: Types::ConfluenceParameters
       attr_accessor q_business_parameters: Types::QBusinessParameters
+      attr_accessor share_point_parameters: Types::SharePointParameters
+      attr_accessor google_drive_parameters: Types::GoogleDriveParameters
+      attr_accessor one_drive_parameters: Types::OneDriveParameters
+      attr_accessor fmkb_parameters: Types::FMKBParameters
       SENSITIVE: []
     end
 
@@ -5216,6 +5251,12 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class FMKBParameters
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor linked_data_source_ids: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class FailedKeyRegistrationEntry
       attr_accessor key_arn: ::String
       attr_accessor message: ::String
@@ -6283,6 +6324,11 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class GoogleDriveParameters
+      attr_accessor auth_type: ("THREE_LEGGED_OAUTH" | "TWO_LEGGED_OAUTH" | "SERVICE_ACCOUNT")
+      SENSITIVE: []
+    end
+
     class GradientColor
       attr_accessor stops: ::Array[Types::GradientStop]
       SENSITIVE: []
@@ -6906,6 +6952,7 @@ module Aws::QuickSight
       attr_accessor data_source_arn: ::String
       attr_accessor knowledge_base_configuration: Types::KnowledgeBaseConfiguration
       attr_accessor media_extraction_configuration: Types::MediaExtractionConfiguration
+      attr_accessor access_control_configuration: Types::AccessControlConfiguration
       attr_accessor type: ::String
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
@@ -6923,7 +6970,6 @@ module Aws::QuickSight
 
     class KnowledgeBaseConfiguration
       attr_accessor template_configuration: Types::KbTemplateConfiguration
-      attr_accessor event_enabled: bool
       SENSITIVE: []
     end
 
@@ -6936,7 +6982,7 @@ module Aws::QuickSight
     end
 
     class KnowledgeBaseSearchFilter
-      attr_accessor name: ("KNOWLEDGE_BASE_ID" | "KNOWLEDGE_BASE_NAME" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "KNOWLEDGE_BASE_SIZE_BYTES" | "PRIMARY_OWNER")
+      attr_accessor name: ("KNOWLEDGE_BASE_ID" | "KNOWLEDGE_BASE_NAME" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "KNOWLEDGE_BASE_SIZE_BYTES" | "PRIMARY_OWNER" | "DATASOURCE_ARN")
       attr_accessor operator: ("STRING_EQUALS" | "STRING_LIKE" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN_OR_EQUALS")
       attr_accessor value: ::String
       SENSITIVE: []
@@ -8179,6 +8225,13 @@ module Aws::QuickSight
       attr_accessor identity_provider_vpc_connection_properties: Types::VpcConnectionProperties
       attr_accessor identity_provider_resource_uri: ::String
       attr_accessor identity_provider_ca_certificates_bundle_s3_uri: ::String
+      SENSITIVE: []
+    end
+
+    class OneDriveParameters
+      attr_accessor tenant_id: ::String
+      attr_accessor client_id: ::String
+      attr_accessor auth_type: ("THREE_LEGGED_OAUTH" | "TWO_LEGGED_OAUTH" | "SERVICE_ACCOUNT")
       SENSITIVE: []
     end
 
@@ -9822,6 +9875,14 @@ module Aws::QuickSight
 
     class ShapeConditionalFormat
       attr_accessor background_color: Types::ConditionalFormattingColor
+      SENSITIVE: []
+    end
+
+    class SharePointParameters
+      attr_accessor share_point_domain: ::String
+      attr_accessor tenant_id: ::String
+      attr_accessor client_id: ::String
+      attr_accessor auth_type: ("THREE_LEGGED_OAUTH" | "TWO_LEGGED_OAUTH" | "SERVICE_ACCOUNT")
       SENSITIVE: []
     end
 
@@ -12085,6 +12146,26 @@ module Aws::QuickSight
       attr_accessor knowledge_base_arn: ::String
       attr_accessor knowledge_base_id: ::String
       attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor request_id: ::String
+      attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class UpdateKnowledgeBaseRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor knowledge_base_configuration: Types::KnowledgeBaseConfiguration
+      attr_accessor media_extraction_configuration: Types::MediaExtractionConfiguration
+      attr_accessor is_email_notification_opted_for_ingestion_failures: bool
+      attr_accessor access_control_configuration: Types::AccessControlConfiguration
+      SENSITIVE: [:knowledge_base_configuration]
+    end
+
+    class UpdateKnowledgeBaseResponse
+      attr_accessor knowledge_base_arn: ::String
+      attr_accessor knowledge_base_id: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
       SENSITIVE: []

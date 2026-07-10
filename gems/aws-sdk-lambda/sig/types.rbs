@@ -144,6 +144,7 @@ module Aws::Lambda
       attr_accessor kms_key_arn: ::String
       attr_accessor last_modified: ::Time
       attr_accessor propagate_tags: Types::PropagateTags
+      attr_accessor telemetry_config: Types::CapacityProviderTelemetryConfig
       SENSITIVE: []
     end
 
@@ -158,6 +159,12 @@ module Aws::Lambda
       SENSITIVE: []
     end
 
+    class CapacityProviderLoggingConfig
+      attr_accessor system_log_level: ("DEBUG" | "INFO" | "WARN")
+      attr_accessor log_group: ::String
+      SENSITIVE: []
+    end
+
     class CapacityProviderPermissionsConfig
       attr_accessor capacity_provider_operator_role_arn: ::String
       SENSITIVE: []
@@ -167,6 +174,11 @@ module Aws::Lambda
       attr_accessor max_v_cpu_count: ::Integer
       attr_accessor scaling_mode: ("Auto" | "Manual")
       attr_accessor scaling_policies: ::Array[Types::TargetTrackingScalingPolicy]
+      SENSITIVE: []
+    end
+
+    class CapacityProviderTelemetryConfig
+      attr_accessor logging_config: Types::CapacityProviderLoggingConfig
       SENSITIVE: []
     end
 
@@ -346,6 +358,7 @@ module Aws::Lambda
       attr_accessor kms_key_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor propagate_tags: Types::PropagateTags
+      attr_accessor telemetry_config: Types::CapacityProviderTelemetryConfig
       SENSITIVE: []
     end
 
@@ -1296,12 +1309,12 @@ module Aws::Lambda
 
     class InvokeWithResponseStreamRequest
       attr_accessor function_name: ::String
-      attr_accessor invocation_type: ("RequestResponse" | "DryRun")
       attr_accessor log_type: ("None" | "Tail")
       attr_accessor client_context: ::String
       attr_accessor qualifier: ::String
       attr_accessor payload: ::String
       attr_accessor tenant_id: ::String
+      attr_accessor invocation_type: ("RequestResponse" | "DryRun")
       SENSITIVE: [:payload]
     end
 
@@ -2152,6 +2165,7 @@ module Aws::Lambda
       attr_accessor capacity_provider_name: ::String
       attr_accessor capacity_provider_scaling_config: Types::CapacityProviderScalingConfig
       attr_accessor propagate_tags: Types::PropagateTags
+      attr_accessor telemetry_config: Types::CapacityProviderTelemetryConfig
       SENSITIVE: []
     end
 

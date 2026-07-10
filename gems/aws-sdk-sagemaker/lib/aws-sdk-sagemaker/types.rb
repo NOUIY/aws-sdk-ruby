@@ -6689,7 +6689,9 @@ module Aws::SageMaker
     #
     #   * `CustomAmiId`: Use your custom AMI
     #
-    #   * `default`: Use the default latest system image
+    #   * `default`: Use the default latest system image. For clusters with
+    #     continuous scaling node provisioning mode, new instance groups
+    #     inherit the AMI from the earliest existing instance group
     #
     #   If you choose to use a custom AMI (`CustomAmiId`), ensure it meets
     #   the following requirements:

@@ -212,6 +212,12 @@ module Aws
                                       ?propagate_tags: {
                                         mode: ("None" | "Explicit")?,
                                         explicit_tags: Hash[::String, ::String]?
+                                      },
+                                      ?telemetry_config: {
+                                        logging_config: {
+                                          system_log_level: ("DEBUG" | "INFO" | "WARN")?,
+                                          log_group: ::String?
+                                        }?
                                       }
                                     ) -> _CreateCapacityProviderResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateCapacityProviderResponseSuccess
@@ -1004,12 +1010,12 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Lambda/Client.html#invoke_with_response_stream-instance_method
       def invoke_with_response_stream: (
                                          function_name: ::String,
-                                         ?invocation_type: ("RequestResponse" | "DryRun"),
                                          ?log_type: ("None" | "Tail"),
                                          ?client_context: ::String,
                                          ?qualifier: ::String,
                                          ?payload: ::String,
-                                         ?tenant_id: ::String
+                                         ?tenant_id: ::String,
+                                         ?invocation_type: ("RequestResponse" | "DryRun")
                                        ) ?{ (*untyped) -> void } -> _InvokeWithResponseStreamResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _InvokeWithResponseStreamResponseSuccess
 
@@ -1513,6 +1519,12 @@ module Aws
                                       ?propagate_tags: {
                                         mode: ("None" | "Explicit")?,
                                         explicit_tags: Hash[::String, ::String]?
+                                      },
+                                      ?telemetry_config: {
+                                        logging_config: {
+                                          system_log_level: ("DEBUG" | "INFO" | "WARN")?,
+                                          log_group: ::String?
+                                        }?
                                       }
                                     ) -> _UpdateCapacityProviderResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCapacityProviderResponseSuccess

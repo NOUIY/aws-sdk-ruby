@@ -573,6 +573,11 @@ module Aws::Lambda
     #   the capacity provider.
     #   @return [Types::PropagateTags]
     #
+    # @!attribute [rw] telemetry_config
+    #   The telemetry configuration for the capacity provider, including
+    #   logging settings.
+    #   @return [Types::CapacityProviderTelemetryConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CapacityProvider AWS API Documentation
     #
     class CapacityProvider < Struct.new(
@@ -584,7 +589,8 @@ module Aws::Lambda
       :capacity_provider_scaling_config,
       :kms_key_arn,
       :last_modified,
-      :propagate_tags)
+      :propagate_tags,
+      :telemetry_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -624,6 +630,33 @@ module Aws::Lambda
     class CapacityProviderLimitExceededException < Struct.new(
       :type,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The capacity provider's Amazon CloudWatch Logs configuration
+    # settings.
+    #
+    # @!attribute [rw] system_log_level
+    #   Set this property to filter the system logs for your capacity
+    #   provider that Lambda sends to CloudWatch. Lambda only sends system
+    #   logs at the selected level of detail and lower, where `DEBUG` is the
+    #   highest level and `WARN` is the lowest.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_group
+    #   The name of the Amazon CloudWatch log group the capacity provider
+    #   sends logs to. By default, Lambda capacity providers send logs to a
+    #   default log group named `/aws/lambda/capacity-provider/<capacity
+    #   provider name>`. To use a different log group, enter an existing log
+    #   group or enter a new log group name.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CapacityProviderLoggingConfig AWS API Documentation
+    #
+    class CapacityProviderLoggingConfig < Struct.new(
+      :system_log_level,
+      :log_group)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -668,6 +701,22 @@ module Aws::Lambda
       :max_v_cpu_count,
       :scaling_mode,
       :scaling_policies)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration that specifies the telemetry collection for the capacity
+    # provider.
+    #
+    # @!attribute [rw] logging_config
+    #   The capacity provider's Amazon CloudWatch Logs configuration
+    #   settings.
+    #   @return [Types::CapacityProviderLoggingConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CapacityProviderTelemetryConfig AWS API Documentation
+    #
+    class CapacityProviderTelemetryConfig < Struct.new(
+      :logging_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1346,6 +1395,11 @@ module Aws::Lambda
     #   Specifies tags to apply to managed resources at launch.
     #   @return [Types::PropagateTags]
     #
+    # @!attribute [rw] telemetry_config
+    #   The telemetry configuration for the capacity provider. Specifies
+    #   logging settings for managed resources.
+    #   @return [Types::CapacityProviderTelemetryConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateCapacityProviderRequest AWS API Documentation
     #
     class CreateCapacityProviderRequest < Struct.new(
@@ -1356,7 +1410,8 @@ module Aws::Lambda
       :capacity_provider_scaling_config,
       :kms_key_arn,
       :tags,
-      :propagate_tags)
+      :propagate_tags,
+      :telemetry_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5851,18 +5906,6 @@ module Aws::Lambda
     #   only the function name, it is limited to 64 characters in length.
     #   @return [String]
     #
-    # @!attribute [rw] invocation_type
-    #   Use one of the following options:
-    #
-    #   * `RequestResponse` (default) – Invoke the function synchronously.
-    #     Keep the connection open until the function returns a response or
-    #     times out. The API operation response includes the function
-    #     response and additional data.
-    #
-    #   * `DryRun` – Validate parameter values and verify that the IAM user
-    #     or role has permission to invoke the function.
-    #   @return [String]
-    #
     # @!attribute [rw] log_type
     #   Set to `Tail` to include the execution log in the response. Applies
     #   to synchronously invoked functions only.
@@ -5889,16 +5932,28 @@ module Aws::Lambda
     #   The identifier of the tenant in a multi-tenant Lambda function.
     #   @return [String]
     #
+    # @!attribute [rw] invocation_type
+    #   Use one of the following options:
+    #
+    #   * `RequestResponse` (default) – Invoke the function synchronously.
+    #     Keep the connection open until the function returns a response or
+    #     times out. The API operation response includes the function
+    #     response and additional data.
+    #
+    #   * `DryRun` – Validate parameter values and verify that the IAM user
+    #     or role has permission to invoke the function.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeWithResponseStreamRequest AWS API Documentation
     #
     class InvokeWithResponseStreamRequest < Struct.new(
       :function_name,
-      :invocation_type,
       :log_type,
       :client_context,
       :qualifier,
       :payload,
-      :tenant_id)
+      :tenant_id,
+      :invocation_type)
       SENSITIVE = [:payload]
       include Aws::Structure
     end
@@ -9443,12 +9498,17 @@ module Aws::Lambda
     #   the capacity provider.
     #   @return [Types::PropagateTags]
     #
+    # @!attribute [rw] telemetry_config
+    #   The updated telemetry configuration for the capacity provider.
+    #   @return [Types::CapacityProviderTelemetryConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateCapacityProviderRequest AWS API Documentation
     #
     class UpdateCapacityProviderRequest < Struct.new(
       :capacity_provider_name,
       :capacity_provider_scaling_config,
-      :propagate_tags)
+      :propagate_tags,
+      :telemetry_config)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1335,8 +1335,8 @@ module Aws::Inspector2
     end
 
     class EcrConfiguration
-      attr_accessor rescan_duration: ("LIFETIME" | "DAYS_30" | "DAYS_180" | "DAYS_14" | "DAYS_60" | "DAYS_90")
-      attr_accessor pull_date_rescan_duration: ("DAYS_14" | "DAYS_30" | "DAYS_60" | "DAYS_90" | "DAYS_180")
+      attr_accessor rescan_duration: ("LIFETIME" | "DAYS_30" | "DAYS_180" | "DAYS_14" | "DAYS_60" | "DAYS_90" | "DAYS_3" | "DAYS_7")
+      attr_accessor pull_date_rescan_duration: ("DAYS_14" | "DAYS_30" | "DAYS_60" | "DAYS_90" | "DAYS_180" | "DAYS_3" | "DAYS_7")
       attr_accessor pull_date_rescan_mode: ("LAST_PULL_DATE" | "LAST_IN_USE_AT")
       SENSITIVE: []
     end
@@ -1361,10 +1361,10 @@ module Aws::Inspector2
     end
 
     class EcrRescanDurationState
-      attr_accessor rescan_duration: ("LIFETIME" | "DAYS_30" | "DAYS_180" | "DAYS_14" | "DAYS_60" | "DAYS_90")
+      attr_accessor rescan_duration: ("LIFETIME" | "DAYS_30" | "DAYS_180" | "DAYS_14" | "DAYS_60" | "DAYS_90" | "DAYS_3" | "DAYS_7")
       attr_accessor status: ("SUCCESS" | "PENDING" | "FAILED")
       attr_accessor updated_at: ::Time
-      attr_accessor pull_date_rescan_duration: ("DAYS_14" | "DAYS_30" | "DAYS_60" | "DAYS_90" | "DAYS_180")
+      attr_accessor pull_date_rescan_duration: ("DAYS_14" | "DAYS_30" | "DAYS_60" | "DAYS_90" | "DAYS_180" | "DAYS_3" | "DAYS_7")
       attr_accessor pull_date_rescan_mode: ("LAST_PULL_DATE" | "LAST_IN_USE_AT")
       SENSITIVE: []
     end

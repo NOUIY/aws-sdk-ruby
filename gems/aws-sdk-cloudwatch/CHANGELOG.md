@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.144.0 (2026-07-10)
+------------------
+
+* Feature - CloudWatch now assigns a unique identifier to each anomaly detector. PutAnomalyDetector and DescribeAnomalyDetectors return this AnomalyDetectorId, which you can use to describe or delete a specific anomaly detector directly.
+
 1.143.0 (2026-07-09)
 ------------------
 

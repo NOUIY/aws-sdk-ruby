@@ -684,6 +684,11 @@ module Aws::CloudWatch
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Anomaly_Detection_Alarm.html#Delete_Anomaly_Detection_Model
     #
+    # @option params [String] :anomaly_detector_id
+    #   Specifies the unique identifier of the anomaly detector to delete. If
+    #   you specify this parameter, you do not need to specify a metric to
+    #   identify the detector.
+    #
     # @option params [String] :namespace
     #   The namespace associated with the anomaly detection model to delete.
     #
@@ -742,6 +747,7 @@ module Aws::CloudWatch
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_anomaly_detector({
+    #     anomaly_detector_id: "AnomalyDetectorId",
     #     namespace: "Namespace",
     #     metric_name: "MetricName",
     #     dimensions: [
@@ -1400,6 +1406,12 @@ module Aws::CloudWatch
     # `METRIC_MATH` to the `AnomalyDetectorTypes` array. This will return
     # all metric math anomaly detectors in your account.
     #
+    # @option params [Array<String>] :anomaly_detector_ids
+    #   Specifies the unique identifiers of the anomaly detectors to describe.
+    #   You can specify up to 50 identifiers. If you specify this parameter,
+    #   you cannot also specify the `Namespace`, `MetricName`, `Dimensions`,
+    #   or `AnomalyDetectorTypes` metric filters.
+    #
     # @option params [String] :next_token
     #   Use the token returned by the previous operation to request the next
     #   page of results.
@@ -1442,6 +1454,7 @@ module Aws::CloudWatch
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_anomaly_detectors({
+    #     anomaly_detector_ids: ["AnomalyDetectorId"],
     #     next_token: "NextToken",
     #     max_results: 1,
     #     namespace: "Namespace",
@@ -1458,6 +1471,7 @@ module Aws::CloudWatch
     # @example Response structure
     #
     #   resp.anomaly_detectors #=> Array
+    #   resp.anomaly_detectors[0].anomaly_detector_id #=> String
     #   resp.anomaly_detectors[0].namespace #=> String
     #   resp.anomaly_detectors[0].metric_name #=> String
     #   resp.anomaly_detectors[0].dimensions #=> Array
@@ -3219,7 +3233,9 @@ module Aws::CloudWatch
     #   Instead, specify the metric math anomaly detector attributes as part
     #   of the property `MetricMathAnomalyDetector`.
     #
-    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    # @return [Types::PutAnomalyDetectorOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutAnomalyDetectorOutput#anomaly_detector_id #anomaly_detector_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -3285,6 +3301,10 @@ module Aws::CloudWatch
     #       ],
     #     },
     #   })
+    #
+    # @example Response structure
+    #
+    #   resp.anomaly_detector_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutAnomalyDetector AWS API Documentation
     #
@@ -5350,7 +5370,7 @@ module Aws::CloudWatch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatch'
-      context[:gem_version] = '1.143.0'
+      context[:gem_version] = '1.144.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.189.0 (2026-07-10)
+------------------
+
+* Feature - Added TelemetryConfig support for Managed Instances Capacity Provider, enabling customers to configure system log level and custom log group for managed instance logging.
+
 1.188.0 (2026-07-09)
 ------------------
 

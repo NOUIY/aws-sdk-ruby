@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.94.0 (2026-07-10)
+------------------
+
+* Feature - Added the ResetUsage field to the CreateLicenseVersion API. When set to true, the entitlement usage counts for the license are reset to 0. If it is false or not specified, entitlement usage is left unchanged.
+
 1.93.0 (2026-07-09)
 ------------------
 

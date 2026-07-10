@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.190.0 (2026-07-10)
+------------------
+
+* Feature - Provides CreateKnowledgeBase and UpdateKnowledgeBase APIs
+
 1.189.0 (2026-07-09)
 ------------------
 

@@ -43,6 +43,8 @@ module Aws::CloudWatch
     AnomalyDetector = Shapes::StructureShape.new(name: 'AnomalyDetector')
     AnomalyDetectorConfiguration = Shapes::StructureShape.new(name: 'AnomalyDetectorConfiguration')
     AnomalyDetectorExcludedTimeRanges = Shapes::ListShape.new(name: 'AnomalyDetectorExcludedTimeRanges')
+    AnomalyDetectorId = Shapes::StringShape.new(name: 'AnomalyDetectorId')
+    AnomalyDetectorIds = Shapes::ListShape.new(name: 'AnomalyDetectorIds')
     AnomalyDetectorMetricStat = Shapes::StringShape.new(name: 'AnomalyDetectorMetricStat')
     AnomalyDetectorMetricTimezone = Shapes::StringShape.new(name: 'AnomalyDetectorMetricTimezone')
     AnomalyDetectorStateValue = Shapes::StringShape.new(name: 'AnomalyDetectorStateValue')
@@ -409,6 +411,7 @@ module Aws::CloudWatch
 
     AlarmTypes.member = Shapes::ShapeRef.new(shape: AlarmType)
 
+    AnomalyDetector.add_member(:anomaly_detector_id, Shapes::ShapeRef.new(shape: AnomalyDetectorId, location_name: "AnomalyDetectorId"))
     AnomalyDetector.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, deprecated: true, location_name: "Namespace", metadata: {"deprecatedMessage" => "Use SingleMetricAnomalyDetector.Namespace property."}))
     AnomalyDetector.add_member(:metric_name, Shapes::ShapeRef.new(shape: MetricName, deprecated: true, location_name: "MetricName", metadata: {"deprecatedMessage" => "Use SingleMetricAnomalyDetector.MetricName property."}))
     AnomalyDetector.add_member(:dimensions, Shapes::ShapeRef.new(shape: Dimensions, deprecated: true, location_name: "Dimensions", metadata: {"deprecatedMessage" => "Use SingleMetricAnomalyDetector.Dimensions property."}))
@@ -425,6 +428,8 @@ module Aws::CloudWatch
     AnomalyDetectorConfiguration.struct_class = Types::AnomalyDetectorConfiguration
 
     AnomalyDetectorExcludedTimeRanges.member = Shapes::ShapeRef.new(shape: Range)
+
+    AnomalyDetectorIds.member = Shapes::ShapeRef.new(shape: AnomalyDetectorId)
 
     AnomalyDetectorTypes.member = Shapes::ShapeRef.new(shape: AnomalyDetectorType)
 
@@ -517,6 +522,7 @@ module Aws::CloudWatch
     DeleteAlarmsInput.add_member(:alarm_names, Shapes::ShapeRef.new(shape: AlarmNames, required: true, location_name: "AlarmNames"))
     DeleteAlarmsInput.struct_class = Types::DeleteAlarmsInput
 
+    DeleteAnomalyDetectorInput.add_member(:anomaly_detector_id, Shapes::ShapeRef.new(shape: AnomalyDetectorId, location_name: "AnomalyDetectorId"))
     DeleteAnomalyDetectorInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, deprecated: true, location_name: "Namespace", metadata: {"deprecatedMessage" => "Use SingleMetricAnomalyDetector."}))
     DeleteAnomalyDetectorInput.add_member(:metric_name, Shapes::ShapeRef.new(shape: MetricName, deprecated: true, location_name: "MetricName", metadata: {"deprecatedMessage" => "Use SingleMetricAnomalyDetector."}))
     DeleteAnomalyDetectorInput.add_member(:dimensions, Shapes::ShapeRef.new(shape: Dimensions, deprecated: true, location_name: "Dimensions", metadata: {"deprecatedMessage" => "Use SingleMetricAnomalyDetector."}))
@@ -595,6 +601,7 @@ module Aws::CloudWatch
     DescribeAlarmsOutput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     DescribeAlarmsOutput.struct_class = Types::DescribeAlarmsOutput
 
+    DescribeAnomalyDetectorsInput.add_member(:anomaly_detector_ids, Shapes::ShapeRef.new(shape: AnomalyDetectorIds, location_name: "AnomalyDetectorIds"))
     DescribeAnomalyDetectorsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     DescribeAnomalyDetectorsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxReturnedResultsCount, location_name: "MaxResults"))
     DescribeAnomalyDetectorsInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location_name: "Namespace"))
@@ -1129,6 +1136,7 @@ module Aws::CloudWatch
     PutAnomalyDetectorInput.add_member(:metric_math_anomaly_detector, Shapes::ShapeRef.new(shape: MetricMathAnomalyDetector, location_name: "MetricMathAnomalyDetector"))
     PutAnomalyDetectorInput.struct_class = Types::PutAnomalyDetectorInput
 
+    PutAnomalyDetectorOutput.add_member(:anomaly_detector_id, Shapes::ShapeRef.new(shape: AnomalyDetectorId, location_name: "AnomalyDetectorId"))
     PutAnomalyDetectorOutput.struct_class = Types::PutAnomalyDetectorOutput
 
     PutCompositeAlarmInput.add_member(:actions_enabled, Shapes::ShapeRef.new(shape: ActionsEnabled, location_name: "ActionsEnabled"))

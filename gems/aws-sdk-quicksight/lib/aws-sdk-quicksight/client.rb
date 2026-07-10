@@ -3849,6 +3849,24 @@ module Aws::QuickSight
     #       q_business_parameters: {
     #         application_arn: "ApplicationArn", # required
     #       },
+    #       share_point_parameters: {
+    #         share_point_domain: "SharePointDomain", # required
+    #         tenant_id: "SharePointTenantId",
+    #         client_id: "SharePointClientId",
+    #         auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #       },
+    #       google_drive_parameters: {
+    #         auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #       },
+    #       one_drive_parameters: {
+    #         tenant_id: "OneDriveTenantId",
+    #         client_id: "OneDriveClientId",
+    #         auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #       },
+    #       fmkb_parameters: {
+    #         knowledge_base_arn: "FMKBKnowledgeBaseArn", # required
+    #         linked_data_source_ids: ["LinkedDataSourceId"],
+    #       },
     #     },
     #     credentials: {
     #       credential_pair: {
@@ -4042,6 +4060,24 @@ module Aws::QuickSight
     #             },
     #             q_business_parameters: {
     #               application_arn: "ApplicationArn", # required
+    #             },
+    #             share_point_parameters: {
+    #               share_point_domain: "SharePointDomain", # required
+    #               tenant_id: "SharePointTenantId",
+    #               client_id: "SharePointClientId",
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             google_drive_parameters: {
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             one_drive_parameters: {
+    #               tenant_id: "OneDriveTenantId",
+    #               client_id: "OneDriveClientId",
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             fmkb_parameters: {
+    #               knowledge_base_arn: "FMKBKnowledgeBaseArn", # required
+    #               linked_data_source_ids: ["LinkedDataSourceId"],
     #             },
     #           },
     #         ],
@@ -4554,6 +4590,136 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def create_ingestion(params = {}, options = {})
       req = build_request(:create_ingestion, params)
+      req.send_request(options)
+    end
+
+    # Creates a knowledge base from a specified data source. Supported data
+    # source connector types include:
+    #
+    # * `S3_KNOWLEDGE_BASE` – Uses an Amazon S3 bucket as the data source.
+    #
+    # * `WEB_CRAWLER` – Uses web pages indexed by the built-in web crawler
+    #   as the data source.
+    #
+    # * `GOOGLE_DRIVE` – Uses Google Drive as the data source. Supports
+    #   service account authentication only.
+    #
+    # * `SHAREPOINT` – Uses SharePoint as the data source. Supports
+    #   two-legged OAuth only.
+    #
+    # * `ONE_DRIVE` – Uses OneDrive as the data source. Supports two-legged
+    #   OAuth only.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #
+    # @option params [required, String] :name
+    #   The name of the knowledge base.
+    #
+    # @option params [required, String] :data_source_arn
+    #   The Amazon Resource Name (ARN) of the data source for the knowledge
+    #   base.
+    #
+    # @option params [required, Types::KnowledgeBaseConfiguration] :knowledge_base_configuration
+    #   The configuration settings for a knowledge base.
+    #
+    # @option params [String] :description
+    #   A description for the knowledge base. If you don't specify a
+    #   description, the knowledge base is created without one.
+    #
+    # @option params [Array<Types::ResourcePermission>] :permissions
+    #   A list of resource permissions on the knowledge base. Each entry
+    #   grants a specified Amazon QuickSight principal either owner or viewer
+    #   access. If you don't specify permissions, only the primary owner (if
+    #   provided) receives owner access.
+    #
+    # @option params [Types::MediaExtractionConfiguration] :media_extraction_configuration
+    #   The configuration for media extraction from knowledge base documents.
+    #
+    # @option params [Types::AccessControlConfiguration] :access_control_configuration
+    #   The access control configuration for the knowledge base. If you don't
+    #   specify this parameter, document-level ACLs are disabled.
+    #
+    # @option params [String] :primary_owner_arn
+    #   The Amazon Resource Name (ARN) of the primary owner for the knowledge
+    #   base. The specified user is always granted owner access, regardless of
+    #   what is specified in the `Permissions` field. If you don't specify a
+    #   primary owner, the knowledge base is created without one.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags to assign to the knowledge base. If you don't specify tags,
+    #   the knowledge base is created without tags.
+    #
+    # @return [Types::CreateKnowledgeBaseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateKnowledgeBaseResponse#knowledge_base_arn #knowledge_base_arn} => String
+    #   * {Types::CreateKnowledgeBaseResponse#knowledge_base_id #knowledge_base_id} => String
+    #   * {Types::CreateKnowledgeBaseResponse#creation_status #creation_status} => String
+    #   * {Types::CreateKnowledgeBaseResponse#request_id #request_id} => String
+    #   * {Types::CreateKnowledgeBaseResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_knowledge_base({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     knowledge_base_id: "KnowledgeBaseId", # required
+    #     name: "KnowledgeBaseName", # required
+    #     data_source_arn: "DataSourceArn", # required
+    #     knowledge_base_configuration: { # required
+    #       template_configuration: {
+    #         template: {
+    #         },
+    #       },
+    #     },
+    #     description: "KnowledgeBaseDescription",
+    #     permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     media_extraction_configuration: {
+    #       image_extraction_configuration: {
+    #         image_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       },
+    #       audio_extraction_configuration: {
+    #         audio_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       },
+    #       video_extraction_configuration: {
+    #         video_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #         video_extraction_type: "AUDIO_TRANSCRIPTION_ONLY", # accepts AUDIO_TRANSCRIPTION_ONLY, VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION
+    #       },
+    #     },
+    #     access_control_configuration: {
+    #       is_acl_enabled: false,
+    #     },
+    #     primary_owner_arn: "String",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base_arn #=> String
+    #   resp.knowledge_base_id #=> String
+    #   resp.creation_status #=> String, one of "CREATING", "UPDATING", "ACTIVE", "FAILED", "DELETING"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateKnowledgeBase AWS API Documentation
+    #
+    # @overload create_knowledge_base(params = {})
+    # @param [Hash] params ({})
+    def create_knowledge_base(params = {}, options = {})
+      req = build_request(:create_knowledge_base, params)
       req.send_request(options)
     end
 
@@ -8290,6 +8456,17 @@ module Aws::QuickSight
     #   resp.override_parameters.data_sources[0].data_source_parameters.web_crawler_parameters.web_proxy_port_number #=> Integer
     #   resp.override_parameters.data_sources[0].data_source_parameters.confluence_parameters.confluence_url #=> String
     #   resp.override_parameters.data_sources[0].data_source_parameters.q_business_parameters.application_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.share_point_parameters.share_point_domain #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.share_point_parameters.tenant_id #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.share_point_parameters.client_id #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.share_point_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.google_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.one_drive_parameters.tenant_id #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.one_drive_parameters.client_id #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.one_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.fmkb_parameters.knowledge_base_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.fmkb_parameters.linked_data_source_ids #=> Array
+    #   resp.override_parameters.data_sources[0].data_source_parameters.fmkb_parameters.linked_data_source_ids[0] #=> String
     #   resp.override_parameters.data_sources[0].vpc_connection_properties.vpc_connection_arn #=> String
     #   resp.override_parameters.data_sources[0].ssl_properties.disable_ssl #=> Boolean
     #   resp.override_parameters.data_sources[0].credentials.credential_pair.username #=> String
@@ -10105,6 +10282,17 @@ module Aws::QuickSight
     #   resp.data_source.data_source_parameters.web_crawler_parameters.web_proxy_port_number #=> Integer
     #   resp.data_source.data_source_parameters.confluence_parameters.confluence_url #=> String
     #   resp.data_source.data_source_parameters.q_business_parameters.application_arn #=> String
+    #   resp.data_source.data_source_parameters.share_point_parameters.share_point_domain #=> String
+    #   resp.data_source.data_source_parameters.share_point_parameters.tenant_id #=> String
+    #   resp.data_source.data_source_parameters.share_point_parameters.client_id #=> String
+    #   resp.data_source.data_source_parameters.share_point_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_source.data_source_parameters.google_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_source.data_source_parameters.one_drive_parameters.tenant_id #=> String
+    #   resp.data_source.data_source_parameters.one_drive_parameters.client_id #=> String
+    #   resp.data_source.data_source_parameters.one_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_source.data_source_parameters.fmkb_parameters.knowledge_base_arn #=> String
+    #   resp.data_source.data_source_parameters.fmkb_parameters.linked_data_source_ids #=> Array
+    #   resp.data_source.data_source_parameters.fmkb_parameters.linked_data_source_ids[0] #=> String
     #   resp.data_source.alternate_data_source_parameters #=> Array
     #   resp.data_source.alternate_data_source_parameters[0].amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_source.alternate_data_source_parameters[0].athena_parameters.work_group #=> String
@@ -10212,11 +10400,24 @@ module Aws::QuickSight
     #   resp.data_source.alternate_data_source_parameters[0].web_crawler_parameters.web_proxy_port_number #=> Integer
     #   resp.data_source.alternate_data_source_parameters[0].confluence_parameters.confluence_url #=> String
     #   resp.data_source.alternate_data_source_parameters[0].q_business_parameters.application_arn #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].share_point_parameters.share_point_domain #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].share_point_parameters.tenant_id #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].share_point_parameters.client_id #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].share_point_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_source.alternate_data_source_parameters[0].google_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_source.alternate_data_source_parameters[0].one_drive_parameters.tenant_id #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].one_drive_parameters.client_id #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].one_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_source.alternate_data_source_parameters[0].fmkb_parameters.knowledge_base_arn #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].fmkb_parameters.linked_data_source_ids #=> Array
+    #   resp.data_source.alternate_data_source_parameters[0].fmkb_parameters.linked_data_source_ids[0] #=> String
     #   resp.data_source.vpc_connection_properties.vpc_connection_arn #=> String
     #   resp.data_source.ssl_properties.disable_ssl #=> Boolean
     #   resp.data_source.error_info.type #=> String, one of "ACCESS_DENIED", "COPY_SOURCE_NOT_FOUND", "TIMEOUT", "ENGINE_VERSION_NOT_SUPPORTED", "UNKNOWN_HOST", "GENERIC_SQL_FAILURE", "CONFLICT", "UNKNOWN"
     #   resp.data_source.error_info.message #=> String
     #   resp.data_source.secret_arn #=> String
+    #   resp.data_source.credential_status #=> String, one of "CONNECTED", "AUTH_FAILED", "NOT_VERIFIED"
+    #   resp.data_source.last_credential_verified_at #=> Time
     #   resp.request_id #=> String
     #   resp.status #=> Integer
     #
@@ -10847,11 +11048,11 @@ module Aws::QuickSight
     #   resp.knowledge_base.name #=> String
     #   resp.knowledge_base.status #=> String, one of "CREATING", "UPDATING", "ACTIVE", "FAILED", "DELETING"
     #   resp.knowledge_base.data_source_arn #=> String
-    #   resp.knowledge_base.knowledge_base_configuration.event_enabled #=> Boolean
     #   resp.knowledge_base.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.knowledge_base.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.knowledge_base.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.knowledge_base.media_extraction_configuration.video_extraction_configuration.video_extraction_type #=> String, one of "AUDIO_TRANSCRIPTION_ONLY", "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION"
+    #   resp.knowledge_base.access_control_configuration.is_acl_enabled #=> Boolean
     #   resp.knowledge_base.type #=> String
     #   resp.knowledge_base.created_at #=> Time
     #   resp.knowledge_base.updated_at #=> Time
@@ -14168,6 +14369,17 @@ module Aws::QuickSight
     #   resp.data_sources[0].data_source_parameters.web_crawler_parameters.web_proxy_port_number #=> Integer
     #   resp.data_sources[0].data_source_parameters.confluence_parameters.confluence_url #=> String
     #   resp.data_sources[0].data_source_parameters.q_business_parameters.application_arn #=> String
+    #   resp.data_sources[0].data_source_parameters.share_point_parameters.share_point_domain #=> String
+    #   resp.data_sources[0].data_source_parameters.share_point_parameters.tenant_id #=> String
+    #   resp.data_sources[0].data_source_parameters.share_point_parameters.client_id #=> String
+    #   resp.data_sources[0].data_source_parameters.share_point_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_sources[0].data_source_parameters.google_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_sources[0].data_source_parameters.one_drive_parameters.tenant_id #=> String
+    #   resp.data_sources[0].data_source_parameters.one_drive_parameters.client_id #=> String
+    #   resp.data_sources[0].data_source_parameters.one_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_sources[0].data_source_parameters.fmkb_parameters.knowledge_base_arn #=> String
+    #   resp.data_sources[0].data_source_parameters.fmkb_parameters.linked_data_source_ids #=> Array
+    #   resp.data_sources[0].data_source_parameters.fmkb_parameters.linked_data_source_ids[0] #=> String
     #   resp.data_sources[0].alternate_data_source_parameters #=> Array
     #   resp.data_sources[0].alternate_data_source_parameters[0].amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].athena_parameters.work_group #=> String
@@ -14275,11 +14487,24 @@ module Aws::QuickSight
     #   resp.data_sources[0].alternate_data_source_parameters[0].web_crawler_parameters.web_proxy_port_number #=> Integer
     #   resp.data_sources[0].alternate_data_source_parameters[0].confluence_parameters.confluence_url #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].q_business_parameters.application_arn #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].share_point_parameters.share_point_domain #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].share_point_parameters.tenant_id #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].share_point_parameters.client_id #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].share_point_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].google_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].one_drive_parameters.tenant_id #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].one_drive_parameters.client_id #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].one_drive_parameters.auth_type #=> String, one of "THREE_LEGGED_OAUTH", "TWO_LEGGED_OAUTH", "SERVICE_ACCOUNT"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].fmkb_parameters.knowledge_base_arn #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].fmkb_parameters.linked_data_source_ids #=> Array
+    #   resp.data_sources[0].alternate_data_source_parameters[0].fmkb_parameters.linked_data_source_ids[0] #=> String
     #   resp.data_sources[0].vpc_connection_properties.vpc_connection_arn #=> String
     #   resp.data_sources[0].ssl_properties.disable_ssl #=> Boolean
     #   resp.data_sources[0].error_info.type #=> String, one of "ACCESS_DENIED", "COPY_SOURCE_NOT_FOUND", "TIMEOUT", "ENGINE_VERSION_NOT_SUPPORTED", "UNKNOWN_HOST", "GENERIC_SQL_FAILURE", "CONFLICT", "UNKNOWN"
     #   resp.data_sources[0].error_info.message #=> String
     #   resp.data_sources[0].secret_arn #=> String
+    #   resp.data_sources[0].credential_status #=> String, one of "CONNECTED", "AUTH_FAILED", "NOT_VERIFIED"
+    #   resp.data_sources[0].last_credential_verified_at #=> Time
     #   resp.next_token #=> String
     #   resp.request_id #=> String
     #   resp.status #=> Integer
@@ -17529,7 +17754,7 @@ module Aws::QuickSight
     #     max_results: 1,
     #     filters: [
     #       {
-    #         name: "KNOWLEDGE_BASE_ID", # required, accepts KNOWLEDGE_BASE_ID, KNOWLEDGE_BASE_NAME, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, KNOWLEDGE_BASE_SIZE_BYTES, PRIMARY_OWNER
+    #         name: "KNOWLEDGE_BASE_ID", # required, accepts KNOWLEDGE_BASE_ID, KNOWLEDGE_BASE_NAME, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, KNOWLEDGE_BASE_SIZE_BYTES, PRIMARY_OWNER, DATASOURCE_ARN
     #         operator: "STRING_EQUALS", # required, accepts STRING_EQUALS, STRING_LIKE, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS
     #         value: "String", # required
     #       },
@@ -18158,6 +18383,24 @@ module Aws::QuickSight
     #             },
     #             q_business_parameters: {
     #               application_arn: "ApplicationArn", # required
+    #             },
+    #             share_point_parameters: {
+    #               share_point_domain: "SharePointDomain", # required
+    #               tenant_id: "SharePointTenantId",
+    #               client_id: "SharePointClientId",
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             google_drive_parameters: {
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             one_drive_parameters: {
+    #               tenant_id: "OneDriveTenantId",
+    #               client_id: "OneDriveClientId",
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             fmkb_parameters: {
+    #               knowledge_base_arn: "FMKBKnowledgeBaseArn", # required
+    #               linked_data_source_ids: ["LinkedDataSourceId"],
     #             },
     #           },
     #           vpc_connection_properties: {
@@ -21559,6 +21802,24 @@ module Aws::QuickSight
     #       q_business_parameters: {
     #         application_arn: "ApplicationArn", # required
     #       },
+    #       share_point_parameters: {
+    #         share_point_domain: "SharePointDomain", # required
+    #         tenant_id: "SharePointTenantId",
+    #         client_id: "SharePointClientId",
+    #         auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #       },
+    #       google_drive_parameters: {
+    #         auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #       },
+    #       one_drive_parameters: {
+    #         tenant_id: "OneDriveTenantId",
+    #         client_id: "OneDriveClientId",
+    #         auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #       },
+    #       fmkb_parameters: {
+    #         knowledge_base_arn: "FMKBKnowledgeBaseArn", # required
+    #         linked_data_source_ids: ["LinkedDataSourceId"],
+    #       },
     #     },
     #     credentials: {
     #       credential_pair: {
@@ -21752,6 +22013,24 @@ module Aws::QuickSight
     #             },
     #             q_business_parameters: {
     #               application_arn: "ApplicationArn", # required
+    #             },
+    #             share_point_parameters: {
+    #               share_point_domain: "SharePointDomain", # required
+    #               tenant_id: "SharePointTenantId",
+    #               client_id: "SharePointClientId",
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             google_drive_parameters: {
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             one_drive_parameters: {
+    #               tenant_id: "OneDriveTenantId",
+    #               client_id: "OneDriveClientId",
+    #               auth_type: "THREE_LEGGED_OAUTH", # accepts THREE_LEGGED_OAUTH, TWO_LEGGED_OAUTH, SERVICE_ACCOUNT
+    #             },
+    #             fmkb_parameters: {
+    #               knowledge_base_arn: "FMKBKnowledgeBaseArn", # required
+    #               linked_data_source_ids: ["LinkedDataSourceId"],
     #             },
     #           },
     #         ],
@@ -22426,6 +22705,91 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_key_registration(params = {}, options = {})
       req = build_request(:update_key_registration, params)
+      req.send_request(options)
+    end
+
+    # Updates the properties of an existing knowledge base.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the knowledge
+    #   base.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier for the knowledge base.
+    #
+    # @option params [String] :name
+    #   The name of the knowledge base. If you don't specify a name, the
+    #   existing name is retained.
+    #
+    # @option params [String] :description
+    #   A description for the knowledge base. If you don't specify a
+    #   description, the existing description is retained.
+    #
+    # @option params [Types::KnowledgeBaseConfiguration] :knowledge_base_configuration
+    #   The configuration settings for a knowledge base.
+    #
+    # @option params [Types::MediaExtractionConfiguration] :media_extraction_configuration
+    #   The configuration for media extraction from knowledge base documents.
+    #
+    # @option params [Boolean] :is_email_notification_opted_for_ingestion_failures
+    #   Specifies whether email notifications are enabled for ingestion
+    #   failures.
+    #
+    # @option params [Types::AccessControlConfiguration] :access_control_configuration
+    #   The access control configuration for the knowledge base. If you don't
+    #   specify this parameter, the existing setting is retained.
+    #
+    # @return [Types::UpdateKnowledgeBaseResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateKnowledgeBaseResponse#knowledge_base_arn #knowledge_base_arn} => String
+    #   * {Types::UpdateKnowledgeBaseResponse#knowledge_base_id #knowledge_base_id} => String
+    #   * {Types::UpdateKnowledgeBaseResponse#request_id #request_id} => String
+    #   * {Types::UpdateKnowledgeBaseResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_knowledge_base({
+    #     aws_account_id: "KbAwsAccountId", # required
+    #     knowledge_base_id: "KnowledgeBaseId", # required
+    #     name: "KnowledgeBaseName",
+    #     description: "KnowledgeBaseDescription",
+    #     knowledge_base_configuration: {
+    #       template_configuration: {
+    #         template: {
+    #         },
+    #       },
+    #     },
+    #     media_extraction_configuration: {
+    #       image_extraction_configuration: {
+    #         image_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       },
+    #       audio_extraction_configuration: {
+    #         audio_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       },
+    #       video_extraction_configuration: {
+    #         video_extraction_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #         video_extraction_type: "AUDIO_TRANSCRIPTION_ONLY", # accepts AUDIO_TRANSCRIPTION_ONLY, VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION
+    #       },
+    #     },
+    #     is_email_notification_opted_for_ingestion_failures: false,
+    #     access_control_configuration: {
+    #       is_acl_enabled: false,
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.knowledge_base_arn #=> String
+    #   resp.knowledge_base_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateKnowledgeBase AWS API Documentation
+    #
+    # @overload update_knowledge_base(params = {})
+    # @param [Hash] params ({})
+    def update_knowledge_base(params = {}, options = {})
+      req = build_request(:update_knowledge_base, params)
       req.send_request(options)
     end
 
@@ -24368,7 +24732,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.189.0'
+      context[:gem_version] = '1.190.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.78.0 (2026-07-10)
+------------------
+
+* Feature - Support for 3 day and 7 day ECR re-scan durations
+
 1.77.0 (2026-07-09)
 ------------------
 

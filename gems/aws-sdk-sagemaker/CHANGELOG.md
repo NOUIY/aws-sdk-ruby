@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.377.0 (2026-07-10)
+------------------
+
+* Feature - Release support for g4d, c6g, c7g, c8g instance types for SageMaker HyperPod
+
 1.376.0 (2026-07-09)
 ------------------
 

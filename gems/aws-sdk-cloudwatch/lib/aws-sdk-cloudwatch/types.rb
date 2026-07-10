@@ -173,6 +173,16 @@ module Aws::CloudWatch
     # account is a monitoring account, the metric can be in the same account
     # or a source account.
     #
+    # @!attribute [rw] anomaly_detector_id
+    #   The unique identifier of the anomaly detector.
+    #
+    #   <note markdown="1"> The identifier does not restrict access to a specific anomaly
+    #   detector in an IAM policy. Permissions for anomaly detector
+    #   operations apply to all anomaly detectors in the account.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @!attribute [rw] namespace
     #   The namespace of the metric associated with the anomaly detection
     #   model.
@@ -218,6 +228,7 @@ module Aws::CloudWatch
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/AnomalyDetector AWS API Documentation
     #
     class AnomalyDetector < Struct.new(
+      :anomaly_detector_id,
       :namespace,
       :metric_name,
       :dimensions,
@@ -612,6 +623,12 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # @!attribute [rw] anomaly_detector_id
+    #   Specifies the unique identifier of the anomaly detector to delete.
+    #   If you specify this parameter, you do not need to specify a metric
+    #   to identify the detector.
+    #   @return [String]
+    #
     # @!attribute [rw] namespace
     #   The namespace associated with the anomaly detection model to delete.
     #   @return [String]
@@ -675,6 +692,7 @@ module Aws::CloudWatch
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteAnomalyDetectorInput AWS API Documentation
     #
     class DeleteAnomalyDetectorInput < Struct.new(
+      :anomaly_detector_id,
       :namespace,
       :metric_name,
       :dimensions,
@@ -1063,6 +1081,13 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # @!attribute [rw] anomaly_detector_ids
+    #   Specifies the unique identifiers of the anomaly detectors to
+    #   describe. You can specify up to 50 identifiers. If you specify this
+    #   parameter, you cannot also specify the `Namespace`, `MetricName`,
+    #   `Dimensions`, or `AnomalyDetectorTypes` metric filters.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] next_token
     #   Use the token returned by the previous operation to request the next
     #   page of results.
@@ -1104,6 +1129,7 @@ module Aws::CloudWatch
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeAnomalyDetectorsInput AWS API Documentation
     #
     class DescribeAnomalyDetectorsInput < Struct.new(
+      :anomaly_detector_ids,
       :next_token,
       :max_results,
       :namespace,
@@ -4183,9 +4209,18 @@ module Aws::CloudWatch
       include Aws::Structure
     end
 
+    # @!attribute [rw] anomaly_detector_id
+    #   The unique identifier of the anomaly detector that you created or
+    #   updated.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutAnomalyDetectorOutput AWS API Documentation
     #
-    class PutAnomalyDetectorOutput < Aws::EmptyStructure; end
+    class PutAnomalyDetectorOutput < Struct.new(
+      :anomaly_detector_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] actions_enabled
     #   Indicates whether actions should be executed during any changes to
