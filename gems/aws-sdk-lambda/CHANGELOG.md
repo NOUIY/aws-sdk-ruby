@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.190.0 (2026-07-13)
+------------------
+
+* Feature - Add Java 8, 11 and 17 on AL2023 (java8.al2023, java11.al2023, java17.al2023) support to AWS Lambda.
+
 1.189.0 (2026-07-10)
 ------------------
 

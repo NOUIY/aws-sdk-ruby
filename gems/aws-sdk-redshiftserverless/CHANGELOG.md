@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.71.0 (2026-07-13)
+------------------
+
+* Feature - Add support for preserving datasharing, zero-ETL and S3 event integrations on snapshot restore to serverless namespace.
+
 1.70.0 (2026-07-09)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.124.0 (2026-07-13)
+------------------
+
+* Feature - Adds support for the EngineMode and UseCase parameters on Amazon Elasticsearch Service domains, enabling GENERAL or OPTIMIZED engine modes and SEARCH, VECTOR, OBSERVABILITY, or MIXED usecases when creating and updating domain configurations.
+
 1.123.0 (2026-07-09)
 ------------------
 
