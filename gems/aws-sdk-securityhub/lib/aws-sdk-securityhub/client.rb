@@ -3260,11 +3260,10 @@ module Aws::SecurityHub
       req.send_request(options)
     end
 
-    # Creates a cloud service provider management (CSPM) connector in
-    # Security Hub CSPM. A connector establishes a connection between
-    # Security Hub CSPM and a third-party cloud provider, enabling Security
-    # Hub CSPM to ingest security findings and resource data from the
-    # connected environment.
+    # Creates a connector to a third-party cloud provider in Security Hub
+    # CSPM. A connector establishes a connection between Security Hub CSPM
+    # and a third-party cloud provider, enabling Security Hub CSPM to ingest
+    # security findings and resource data from the connected environment.
     #
     # @option params [required, String] :name
     #   The name of the connector. Must be unique within the account.
@@ -8920,6 +8919,12 @@ module Aws::SecurityHub
     # organizational units. Only the delegated administrator account can use
     # `Scopes`.
     #
+    # If you set `GroupByField` to `ResourceSubCategory`,
+    # `ResourceInfo.AIDetails.HostResourceType`, or
+    # `ResourceInfo.AIDetails.CanonicalId`, you must include a
+    # `ResourceCategory` string filter with comparison set to `EQUALS` and
+    # value `AI/ML` in the corresponding `ResourceGroupByRule`.
+    #
     # @option params [required, Array<Types::ResourceGroupByRule>] :group_by_rules
     #   How resource statistics should be aggregated and organized in the
     #   response.
@@ -8954,13 +8959,13 @@ module Aws::SecurityHub
     #   resp = client.get_resources_statistics_v2({
     #     group_by_rules: [ # required
     #       {
-    #         group_by_field: "AccountId", # required, accepts AccountId, AccountName, Region, ResourceProvider, ResourceOwnerAccountId, ResourceOwnerOrgId, ResourceCloudPartition, ResourceRegion, ResourceCategory, ResourceType, ResourceName, FindingsSummary.FindingType
+    #         group_by_field: "AccountId", # required, accepts AccountId, AccountName, Region, ResourceProvider, ResourceOwnerAccountId, ResourceOwnerOrgId, ResourceCloudPartition, ResourceRegion, ResourceCategory, ResourceType, ResourceName, FindingsSummary.FindingType, ResourceSubCategory, DiscoveryType, ResourceInfo.AIDetails.HostResourceType, ResourceInfo.AIDetails.CanonicalId
     #         filters: {
     #           composite_filters: [
     #             {
     #               string_filters: [
     #                 {
-    #                   field_name: "ResourceGuid", # accepts ResourceGuid, ResourceId, AccountId, AccountName, Region, ResourceProvider, ResourceOwnerAccountId, ResourceOwnerOrgId, ResourceCloudPartition, ResourceRegion, ResourceCategory, ResourceType, ResourceName, FindingsSummary.FindingType, FindingsSummary.ProductName
+    #                   field_name: "ResourceGuid", # accepts ResourceGuid, ResourceId, AccountId, AccountName, Region, ResourceProvider, ResourceOwnerAccountId, ResourceOwnerOrgId, ResourceCloudPartition, ResourceRegion, ResourceCategory, ResourceType, ResourceName, FindingsSummary.FindingType, FindingsSummary.ProductName, ResourceSubCategory, DiscoveryType, ResourceInfo.AIDetails.HostResourceGuid, ResourceInfo.AIDetails.HostResourceType, ResourceInfo.AIDetails.CanonicalId
     #                   filter: {
     #                     value: "NonEmptyString",
     #                     comparison: "EQUALS", # accepts EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS, CONTAINS_WORD
@@ -8983,7 +8988,7 @@ module Aws::SecurityHub
     #               ],
     #               number_filters: [
     #                 {
-    #                   field_name: "FindingsSummary.TotalFindings", # accepts FindingsSummary.TotalFindings, FindingsSummary.Severities.Other, FindingsSummary.Severities.Fatal, FindingsSummary.Severities.Critical, FindingsSummary.Severities.High, FindingsSummary.Severities.Medium, FindingsSummary.Severities.Low, FindingsSummary.Severities.Informational, FindingsSummary.Severities.Unknown
+    #                   field_name: "FindingsSummary.TotalFindings", # accepts FindingsSummary.TotalFindings, FindingsSummary.Severities.Other, FindingsSummary.Severities.Fatal, FindingsSummary.Severities.Critical, FindingsSummary.Severities.High, FindingsSummary.Severities.Medium, FindingsSummary.Severities.Low, FindingsSummary.Severities.Informational, FindingsSummary.Severities.Unknown, ResourceInfo.AIDetails.SelfHostedAIModelResourceCount, ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount, ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount, ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount, ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount, ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount, ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount, ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount
     #                   filter: {
     #                     gte: 1.0,
     #                     lte: 1.0,
@@ -9132,6 +9137,18 @@ module Aws::SecurityHub
     # or together. When both are provided, `Scopes` narrows the data set
     # first, and then `Filters` refines results within that scoped data set.
     #
+    # For AI/ML resources, the response includes the `ResourceSubCategory`
+    # field. For self-hosted AI resources and their host resources, the
+    # response also includes `ResourceInfo` with AI-specific details.
+    # Self-hosted AI resources use a `ResourceType` with the
+    # `SelfHosted::AI::` prefix, such as `SelfHosted::AI::Model`,
+    # `SelfHosted::AI::Agent`, `SelfHosted::AI::InferenceEndpoint`, and
+    # `SelfHosted::AI::ExternalEndpoint`.
+    #
+    # If you filter by `ResourceSubCategory`, you must also include a
+    # `ResourceCategory` string filter with comparison set to `EQUALS` and
+    # value `AI/ML` in the same request.
+    #
     # @option params [Types::ResourcesFilters] :filters
     #   Filters resources based on a set of criteria.
     #
@@ -9176,7 +9193,7 @@ module Aws::SecurityHub
     #         {
     #           string_filters: [
     #             {
-    #               field_name: "ResourceGuid", # accepts ResourceGuid, ResourceId, AccountId, AccountName, Region, ResourceProvider, ResourceOwnerAccountId, ResourceOwnerOrgId, ResourceCloudPartition, ResourceRegion, ResourceCategory, ResourceType, ResourceName, FindingsSummary.FindingType, FindingsSummary.ProductName
+    #               field_name: "ResourceGuid", # accepts ResourceGuid, ResourceId, AccountId, AccountName, Region, ResourceProvider, ResourceOwnerAccountId, ResourceOwnerOrgId, ResourceCloudPartition, ResourceRegion, ResourceCategory, ResourceType, ResourceName, FindingsSummary.FindingType, FindingsSummary.ProductName, ResourceSubCategory, DiscoveryType, ResourceInfo.AIDetails.HostResourceGuid, ResourceInfo.AIDetails.HostResourceType, ResourceInfo.AIDetails.CanonicalId
     #               filter: {
     #                 value: "NonEmptyString",
     #                 comparison: "EQUALS", # accepts EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS, CONTAINS_WORD
@@ -9199,7 +9216,7 @@ module Aws::SecurityHub
     #           ],
     #           number_filters: [
     #             {
-    #               field_name: "FindingsSummary.TotalFindings", # accepts FindingsSummary.TotalFindings, FindingsSummary.Severities.Other, FindingsSummary.Severities.Fatal, FindingsSummary.Severities.Critical, FindingsSummary.Severities.High, FindingsSummary.Severities.Medium, FindingsSummary.Severities.Low, FindingsSummary.Severities.Informational, FindingsSummary.Severities.Unknown
+    #               field_name: "FindingsSummary.TotalFindings", # accepts FindingsSummary.TotalFindings, FindingsSummary.Severities.Other, FindingsSummary.Severities.Fatal, FindingsSummary.Severities.Critical, FindingsSummary.Severities.High, FindingsSummary.Severities.Medium, FindingsSummary.Severities.Low, FindingsSummary.Severities.Informational, FindingsSummary.Severities.Unknown, ResourceInfo.AIDetails.SelfHostedAIModelResourceCount, ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount, ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount, ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount, ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount, ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount, ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount, ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount
     #               filter: {
     #                 gte: 1.0,
     #                 lte: 1.0,
@@ -9278,6 +9295,19 @@ module Aws::SecurityHub
     #   resp.resources[0].resource_tags #=> Array
     #   resp.resources[0].resource_tags[0].key #=> String
     #   resp.resources[0].resource_tags[0].value #=> String
+    #   resp.resources[0].resource_sub_category #=> String, one of "Model", "ModelServing", "Agent", "AgentFramework", "AgentToolsAndIdentity", "SafetyAndGuardrail", "KnowledgeAndData", "OrchestrationAndPipeline", "ExternalEndpoint", "Development", "Other"
+    #   resp.resources[0].discovery_type #=> String, one of "Managed", "SelfHosted"
+    #   resp.resources[0].resource_info.ai_details.host_resource_guid #=> String
+    #   resp.resources[0].resource_info.ai_details.host_resource_type #=> String
+    #   resp.resources[0].resource_info.ai_details.canonical_id #=> String
+    #   resp.resources[0].resource_info.ai_details.self_hosted_ai_model_resource_count #=> Integer
+    #   resp.resources[0].resource_info.ai_details.self_hosted_ai_agent_resource_count #=> Integer
+    #   resp.resources[0].resource_info.ai_details.self_hosted_ai_model_serving_resource_count #=> Integer
+    #   resp.resources[0].resource_info.ai_details.self_hosted_ai_external_endpoint_resource_count #=> Integer
+    #   resp.resources[0].resource_info.ai_details.self_hosted_ai_development_resource_count #=> Integer
+    #   resp.resources[0].resource_info.ai_details.self_hosted_ai_agent_framework_resource_count #=> Integer
+    #   resp.resources[0].resource_info.ai_details.self_hosted_ai_agent_tools_and_identity_resource_count #=> Integer
+    #   resp.resources[0].resource_info.ai_details.self_hosted_total_ai_resource_count #=> Integer
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/GetResourcesV2 AWS API Documentation
@@ -13386,7 +13416,7 @@ module Aws::SecurityHub
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-securityhub'
-      context[:gem_version] = '1.160.0'
+      context[:gem_version] = '1.161.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

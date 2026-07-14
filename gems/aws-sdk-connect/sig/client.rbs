@@ -4132,6 +4132,47 @@ module Aws
                                    ) -> _SearchRoutingProfilesResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchRoutingProfilesResponseSuccess
 
+      interface _SearchRulesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchRulesResponse]
+        def rules: () -> ::Array[Types::RuleSearchSummary]
+        def approximate_total_count: () -> ::Integer
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#search_rules-instance_method
+      def search_rules: (
+                          instance_id: ::String,
+                          ?max_results: ::Integer,
+                          ?next_token: ::String,
+                          ?search_criteria: Params::rules_search_criteria,
+                          ?search_filter: {
+                            attribute_filter: {
+                              or_conditions: Array[
+                                {
+                                  tag_conditions: Array[
+                                    {
+                                      tag_key: ::String?,
+                                      tag_value: ::String?
+                                    }
+                                  ]?
+                                }
+                              ]?,
+                              and_condition: {
+                                tag_conditions: Array[
+                                  {
+                                    tag_key: ::String?,
+                                    tag_value: ::String?
+                                  }
+                                ]?
+                              }?,
+                              tag_condition: {
+                                tag_key: ::String?,
+                                tag_value: ::String?
+                              }?
+                            }?
+                          }
+                        ) -> _SearchRulesResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchRulesResponseSuccess
+
       interface _SearchSecurityProfilesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchSecurityProfilesResponse]
         def security_profiles: () -> ::Array[Types::SecurityProfileSearchSummary]

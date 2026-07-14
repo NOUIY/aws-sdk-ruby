@@ -10,6 +10,107 @@
 module Aws::SecurityHub
   module Types
 
+    # Contains information about self-hosted AI resources and their host
+    # resources. The fields that are present depend on the role of the
+    # resource.
+    #
+    # On a self-hosted AI resource (a resource with a `SelfHosted::AI::`
+    # resource type, such as `SelfHosted::AI::Model` or
+    # `SelfHosted::AI::Agent`), the `HostResourceGuid` and
+    # `HostResourceType` fields link the resource to its host. The
+    # `CanonicalId` field identifies what the resource is, enabling
+    # aggregation of identical resources across multiple hosts.
+    #
+    # On a host resource (such as an Amazon EC2 instance), the
+    # `SelfHostedAI*ResourceCount` fields contain the count for each
+    # `ResourceSubCategory` and the total count of self-hosted AI resources
+    # detected on the host.
+    #
+    # @!attribute [rw] host_resource_guid
+    #   The identifier of the host resource that hosts the self-hosted AI
+    #   resource. Present only on self-hosted AI resources.
+    #   @return [String]
+    #
+    # @!attribute [rw] host_resource_type
+    #   The `ResourceType` of the host resource that hosts the self-hosted
+    #   AI resource, such as `AWS::EC2::Instance`. Present only on
+    #   self-hosted AI resources.
+    #   @return [String]
+    #
+    # @!attribute [rw] canonical_id
+    #   The canonical identifier for the AI resource, independent of where
+    #   it is deployed. Multiple occurrences of the same resource on
+    #   different hosts share the same `CanonicalId`. For model resources,
+    #   the value follows the format `model/<purl>`, such as
+    #   `model/pkg:huggingface/meta-llama/llama-3-8b`. Present only on
+    #   self-hosted AI resources.
+    #   @return [String]
+    #
+    # @!attribute [rw] self_hosted_ai_model_resource_count
+    #   The number of self-hosted AI resources of `ResourceSubCategory`
+    #   `Model` detected on the host resource. Present only on host
+    #   resources.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] self_hosted_ai_agent_resource_count
+    #   The number of self-hosted AI resources of `ResourceSubCategory`
+    #   `Agent` detected on the host resource. Present only on host
+    #   resources.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] self_hosted_ai_model_serving_resource_count
+    #   The number of self-hosted AI resources of `ResourceSubCategory`
+    #   `ModelServing` detected on the host resource. Present only on host
+    #   resources.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] self_hosted_ai_external_endpoint_resource_count
+    #   The number of self-hosted AI resources of `ResourceSubCategory`
+    #   `ExternalEndpoint` detected on the host resource. Present only on
+    #   host resources.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] self_hosted_ai_development_resource_count
+    #   The number of self-hosted AI resources of `ResourceSubCategory`
+    #   `Development` detected on the host resource. Present only on host
+    #   resources.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] self_hosted_ai_agent_framework_resource_count
+    #   The number of self-hosted AI resources of `ResourceSubCategory`
+    #   `AgentFramework` detected on the host resource. Present only on host
+    #   resources.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] self_hosted_ai_agent_tools_and_identity_resource_count
+    #   The number of self-hosted AI resources of `ResourceSubCategory`
+    #   `AgentToolsAndIdentity` detected on the host resource. Present only
+    #   on host resources.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] self_hosted_total_ai_resource_count
+    #   The total number of all self-hosted AI resources detected on the
+    #   host resource. Present only on host resources.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/AIDetails AWS API Documentation
+    #
+    class AIDetails < Struct.new(
+      :host_resource_guid,
+      :host_resource_type,
+      :canonical_id,
+      :self_hosted_ai_model_resource_count,
+      :self_hosted_ai_agent_resource_count,
+      :self_hosted_ai_model_serving_resource_count,
+      :self_hosted_ai_external_endpoint_resource_count,
+      :self_hosted_ai_development_resource_count,
+      :self_hosted_ai_agent_framework_resource_count,
+      :self_hosted_ai_agent_tools_and_identity_resource_count,
+      :self_hosted_total_ai_resource_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] administrator_id
     #   The account ID of the Security Hub CSPM administrator account that
     #   sent the invitation.
@@ -21704,8 +21805,8 @@ module Aws::SecurityHub
     # The detailed Azure configuration for a connector.
     #
     # @!attribute [rw] aws_config_connector_arn
-    #   The ARN of the AWS Config connector used to establish the connection
-    #   to Azure.
+    #   The ARN of the multi-cloud configuration connector used to establish
+    #   the connection to Azure.
     #   @return [String]
     #
     # @!attribute [rw] scope_configuration
@@ -21730,8 +21831,8 @@ module Aws::SecurityHub
     # The configuration for connecting to an Azure environment.
     #
     # @!attribute [rw] aws_config_connector_arn
-    #   The ARN of the AWS Config connector used to establish the connection
-    #   to Azure.
+    #   The ARN of the multi-cloud configuration connector used to establish
+    #   the connection to Azure.
     #   @return [String]
     #
     # @!attribute [rw] scope_configuration
@@ -31033,6 +31134,23 @@ module Aws::SecurityHub
       include Aws::Structure
     end
 
+    # Additional details about a resource that are specific to its category.
+    # For AI/ML resources and their host resources, this structure contains
+    # `AIDetails`.
+    #
+    # @!attribute [rw] ai_details
+    #   Details that are specific to self-hosted AI resources and their host
+    #   resources.
+    #   @return [Types::AIDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/ResourceInfo AWS API Documentation
+    #
+    class ResourceInfo < Struct.new(
+      :ai_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request was rejected because we can't find the specified
     # resource.
     #
@@ -31194,6 +31312,25 @@ module Aws::SecurityHub
     #   The configuration details of a resource.
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
+    # @!attribute [rw] resource_sub_category
+    #   The AI/ML sub-grouping of the resource. Present only when
+    #   `ResourceCategory` is `AI/ML`.
+    #   @return [String]
+    #
+    # @!attribute [rw] discovery_type
+    #   Specifies how the resource was discovered. If the value is
+    #   `Managed`, the resource is natively provided by a cloud service
+    #   provider. If the value is `SelfHosted`, the resource is hosted on
+    #   customer-managed infrastructure, such as a compute instance or
+    #   container image.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_info
+    #   Additional resource-type-specific details. For self-hosted AI
+    #   resources and their host resources, contains an `AIDetails`
+    #   structure.
+    #   @return [Types::ResourceInfo]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityhub-2018-10-26/ResourceResult AWS API Documentation
     #
     class ResourceResult < Struct.new(
@@ -31214,7 +31351,10 @@ module Aws::SecurityHub
       :resource_detail_capture_time_dt,
       :findings_summary,
       :resource_tags,
-      :resource_config)
+      :resource_config,
+      :resource_sub_category,
+      :discovery_type,
+      :resource_info)
       SENSITIVE = []
       include Aws::Structure
     end

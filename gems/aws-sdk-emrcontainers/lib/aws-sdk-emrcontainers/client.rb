@@ -650,6 +650,9 @@ module Aws::EMRContainers
     # @option params [Hash<String,String>] :tags
     #   The tags of the managed endpoint.
     #
+    # @option params [Integer] :session_idle_timeout_in_minutes
+    #   The idle timeout in minutes for the managed endpoint session.
+    #
     # @return [Types::CreateManagedEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateManagedEndpointResponse#id #id} => String
@@ -690,6 +693,7 @@ module Aws::EMRContainers
     #         },
     #         s3_monitoring_configuration: {
     #           log_uri: "UriString", # required
+    #           encryption_key_arn: "KmsKeyArn",
     #         },
     #         container_log_rotation_configuration: {
     #           rotation_size: "RotationSize", # required
@@ -701,6 +705,7 @@ module Aws::EMRContainers
     #     tags: {
     #       "String128" => "StringEmpty256",
     #     },
+    #     session_idle_timeout_in_minutes: 1,
     #   })
     #
     # @example Response structure
@@ -761,7 +766,7 @@ module Aws::EMRContainers
     #       info: {
     #         eks_info: {
     #           namespace: "KubernetesNamespace",
-    #           node_label: "ResourceNameString",
+    #           node_label: "NodeLabelString",
     #         },
     #       },
     #     },
@@ -831,6 +836,9 @@ module Aws::EMRContainers
     # @option params [String] :security_configuration_id
     #   The ID of the security configuration.
     #
+    # @option params [Boolean] :session_enabled
+    #   Indicates whether the virtual cluster has session support enabled.
+    #
     # @return [Types::CreateVirtualClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateVirtualClusterResponse#id #id} => String
@@ -847,7 +855,7 @@ module Aws::EMRContainers
     #       info: {
     #         eks_info: {
     #           namespace: "KubernetesNamespace",
-    #           node_label: "ResourceNameString",
+    #           node_label: "NodeLabelString",
     #         },
     #       },
     #     },
@@ -856,6 +864,7 @@ module Aws::EMRContainers
     #       "String128" => "StringEmpty256",
     #     },
     #     security_configuration_id: "ResourceIdString",
+    #     session_enabled: false,
     #   })
     #
     # @example Response structure
@@ -1015,6 +1024,7 @@ module Aws::EMRContainers
     #   resp.job_run.configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_group_name #=> String
     #   resp.job_run.configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_stream_name_prefix #=> String
     #   resp.job_run.configuration_overrides.monitoring_configuration.s3_monitoring_configuration.log_uri #=> String
+    #   resp.job_run.configuration_overrides.monitoring_configuration.s3_monitoring_configuration.encryption_key_arn #=> String
     #   resp.job_run.configuration_overrides.monitoring_configuration.container_log_rotation_configuration.rotation_size #=> String
     #   resp.job_run.configuration_overrides.monitoring_configuration.container_log_rotation_configuration.max_files_to_keep #=> Integer
     #   resp.job_run.job_driver.spark_submit_job_driver.entry_point #=> String
@@ -1150,9 +1160,11 @@ module Aws::EMRContainers
     #   resp.endpoint.configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_group_name #=> String
     #   resp.endpoint.configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_stream_name_prefix #=> String
     #   resp.endpoint.configuration_overrides.monitoring_configuration.s3_monitoring_configuration.log_uri #=> String
+    #   resp.endpoint.configuration_overrides.monitoring_configuration.s3_monitoring_configuration.encryption_key_arn #=> String
     #   resp.endpoint.configuration_overrides.monitoring_configuration.container_log_rotation_configuration.rotation_size #=> String
     #   resp.endpoint.configuration_overrides.monitoring_configuration.container_log_rotation_configuration.max_files_to_keep #=> Integer
     #   resp.endpoint.server_url #=> String
+    #   resp.endpoint.auth_proxy_url #=> String
     #   resp.endpoint.created_at #=> Time
     #   resp.endpoint.security_group #=> String
     #   resp.endpoint.subnet_ids #=> Array
@@ -1252,6 +1264,7 @@ module Aws::EMRContainers
     #   resp.virtual_cluster.tags #=> Hash
     #   resp.virtual_cluster.tags["String128"] #=> String
     #   resp.virtual_cluster.security_configuration_id #=> String
+    #   resp.virtual_cluster.session_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/DescribeVirtualCluster AWS API Documentation
     #
@@ -1295,6 +1308,7 @@ module Aws::EMRContainers
     #
     #   * {Types::GetManagedEndpointSessionCredentialsResponse#id #id} => String
     #   * {Types::GetManagedEndpointSessionCredentialsResponse#credentials #credentials} => Types::Credentials
+    #   * {Types::GetManagedEndpointSessionCredentialsResponse#endpoint_credentials #endpoint_credentials} => Types::Credentials
     #   * {Types::GetManagedEndpointSessionCredentialsResponse#expires_at #expires_at} => Time
     #
     # @example Request syntax with placeholder values
@@ -1313,6 +1327,7 @@ module Aws::EMRContainers
     #
     #   resp.id #=> String
     #   resp.credentials.token #=> String
+    #   resp.endpoint_credentials.token #=> String
     #   resp.expires_at #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/GetManagedEndpointSessionCredentials AWS API Documentation
@@ -1390,6 +1405,7 @@ module Aws::EMRContainers
     #   resp.job_runs[0].configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_group_name #=> String
     #   resp.job_runs[0].configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_stream_name_prefix #=> String
     #   resp.job_runs[0].configuration_overrides.monitoring_configuration.s3_monitoring_configuration.log_uri #=> String
+    #   resp.job_runs[0].configuration_overrides.monitoring_configuration.s3_monitoring_configuration.encryption_key_arn #=> String
     #   resp.job_runs[0].configuration_overrides.monitoring_configuration.container_log_rotation_configuration.rotation_size #=> String
     #   resp.job_runs[0].configuration_overrides.monitoring_configuration.container_log_rotation_configuration.max_files_to_keep #=> Integer
     #   resp.job_runs[0].job_driver.spark_submit_job_driver.entry_point #=> String
@@ -1567,9 +1583,11 @@ module Aws::EMRContainers
     #   resp.endpoints[0].configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_group_name #=> String
     #   resp.endpoints[0].configuration_overrides.monitoring_configuration.cloud_watch_monitoring_configuration.log_stream_name_prefix #=> String
     #   resp.endpoints[0].configuration_overrides.monitoring_configuration.s3_monitoring_configuration.log_uri #=> String
+    #   resp.endpoints[0].configuration_overrides.monitoring_configuration.s3_monitoring_configuration.encryption_key_arn #=> String
     #   resp.endpoints[0].configuration_overrides.monitoring_configuration.container_log_rotation_configuration.rotation_size #=> String
     #   resp.endpoints[0].configuration_overrides.monitoring_configuration.container_log_rotation_configuration.max_files_to_keep #=> Integer
     #   resp.endpoints[0].server_url #=> String
+    #   resp.endpoints[0].auth_proxy_url #=> String
     #   resp.endpoints[0].created_at #=> Time
     #   resp.endpoints[0].security_group #=> String
     #   resp.endpoints[0].subnet_ids #=> Array
@@ -1752,6 +1770,7 @@ module Aws::EMRContainers
     #   resp.virtual_clusters[0].tags #=> Hash
     #   resp.virtual_clusters[0].tags["String128"] #=> String
     #   resp.virtual_clusters[0].security_configuration_id #=> String
+    #   resp.virtual_clusters[0].session_enabled #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/ListVirtualClusters AWS API Documentation
@@ -1853,6 +1872,7 @@ module Aws::EMRContainers
     #         },
     #         s3_monitoring_configuration: {
     #           log_uri: "UriString", # required
+    #           encryption_key_arn: "KmsKeyArn",
     #         },
     #         container_log_rotation_configuration: {
     #           rotation_size: "RotationSize", # required
@@ -1970,7 +1990,7 @@ module Aws::EMRContainers
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-emrcontainers'
-      context[:gem_version] = '1.73.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

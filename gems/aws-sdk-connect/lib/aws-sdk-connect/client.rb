@@ -973,8 +973,9 @@ module Aws::Connect
     end
 
     # Associates a set of hours of operations with another hours of
-    # operation. Refer to Administrator Guide [ here ][1] for more
-    # information on inheriting overrides from parent hours of operation(s).
+    # operation. For more information about inheriting overrides from parent
+    # hours of operation, see [Hours of operation overrides][1] in the
+    # Administrator Guide.
     #
     #
     #
@@ -3765,7 +3766,7 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #
     # @option params [Hash<String,String>] :tags
     #   The tags used to organize, track, or control access for this resource.
@@ -3858,7 +3859,7 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #
     # @return [Types::CreateHoursOfOperationOverrideResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -9418,6 +9419,8 @@ module Aws::Connect
     #   resp.rule.rule_arn #=> String
     #   resp.rule.trigger_event_source.event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
     #   resp.rule.trigger_event_source.integration_association_id #=> String
+    #   resp.rule.rule_capability_tiers #=> Array
+    #   resp.rule.rule_capability_tiers[0] #=> String, one of "GenerativeAI"
     #   resp.rule.function #=> String
     #   resp.rule.actions #=> Array
     #   resp.rule.actions[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION"
@@ -10362,8 +10365,9 @@ module Aws::Connect
     end
 
     # Disassociates a set of hours of operations with another hours of
-    # operation. Refer to Administrator Guide [ here ][1] for more
-    # information on inheriting overrides from parent hours of operation(s).
+    # operation. For more information about inheriting overrides from parent
+    # hours of operation, see [Hours of operation overrides][1] in the
+    # Administrator Guide.
     #
     #
     #
@@ -12503,24 +12507,25 @@ module Aws::Connect
     #   `AGENT_HIERARCHY_LEVEL_TWO` \| `AGENT_HIERARCHY_LEVEL_THREE` \|
     #   `AGENT_HIERARCHY_LEVEL_FOUR` \| `AGENT_HIERARCHY_LEVEL_FIVE` \|
     #   `ANSWERING_MACHINE_DETECTION_STATUS` \| `BOT_ALIAS` \| `BOT_ID` \|
-    #   `BOT_INTENT_NAME` \| `BOT_LOCALE` \| `BOT_VERSION` \| `CAMPAIGN` \|
-    #   `CAMPAIGN_DELIVERY_EVENT_TYPE` \| `CAMPAIGN_EXCLUDED_EVENT_TYPE` \|
-    #   `CASE_STATUS` \| `CASE_TEMPLATE_ARN` \| `CHANNEL` \|
-    #   `contact/segmentAttributes/connect:Subtype` \|
+    #   `BOT_INTENT_NAME` \| `BOT_LOCALE` \| `BOT_VERSION` \| `BROWSER_NAME`
+    #   \| `CAMPAIGN` \| `CAMPAIGN_DELIVERY_EVENT_TYPE` \|
+    #   `CAMPAIGN_EXCLUDED_EVENT_TYPE` \| `CASE_STATUS` \| `CASE_TEMPLATE_ARN`
+    #   \| `CHANNEL` \| `contact/segmentAttributes/connect:Subtype` \|
     #   `contact/segmentAttributes/connect:ValidationTestType` \|
-    #   `DISCONNECT_REASON` \| `EVALUATION_FORM` \| `EVALUATION_QUESTION` \|
-    #   `EVALUATION_SECTION` \| `EVALUATION_SOURCE` \| `EVALUATOR_ID` \|
-    #   `FEATURE` \| `FLOW_ACTION_ID` \| `FLOW_TYPE` \|
-    #   `FLOWS_MODULE_RESOURCE_ID` \| `FLOWS_NEXT_RESOURCE_ID` \|
-    #   `FLOWS_NEXT_RESOURCE_QUEUE_ID` \| `FLOWS_OUTCOME_TYPE` \|
-    #   `FLOWS_RESOURCE_ID` \| `FORM_VERSION` \| `INITIATING_FLOW` \|
-    #   `INITIATION_METHOD` \| `INVOKING_RESOURCE_PUBLISHED_TIMESTAMP` \|
-    #   `INVOKING_RESOURCE_TYPE` \| `KNOWLEDGE_BASE_NAME` \|
-    #   `PARENT_FLOWS_RESOURCE_ID` \| `Q_CONNECT_ENABLED` \| `QUEUE` \|
-    #   `RESOURCE_PUBLISHED_TIMESTAMP` \| `ROUTING_PROFILE` \|
-    #   `ROUTING_STEP_EXPRESSION` \| `SESSION_ID` \| `TEST_CASE` \|
-    #   `TEST_CASE_EXECUTION_FAILURE_REASON` \| `TEST_CASE_EXECUTION_RESULT`
-    #   \| `TEST_CASE_EXECUTION_STATE`
+    #   `DEVICE_MODEL` \| `DEVICE_TYPE` \| `DISCONNECT_REASON` \|
+    #   `EVALUATION_FORM` \| `EVALUATION_QUESTION` \| `EVALUATION_SECTION` \|
+    #   `EVALUATION_SOURCE` \| `EVALUATOR_ID` \| `FEATURE` \| `FLOW_ACTION_ID`
+    #   \| `FLOW_TYPE` \| `FLOWS_MODULE_RESOURCE_ID` \|
+    #   `FLOWS_NEXT_RESOURCE_ID` \| `FLOWS_NEXT_RESOURCE_QUEUE_ID` \|
+    #   `FLOWS_OUTCOME_TYPE` \| `FLOWS_RESOURCE_ID` \| `FORM_VERSION` \|
+    #   `INITIATING_FLOW` \| `INITIATION_METHOD` \|
+    #   `INVOKING_RESOURCE_PUBLISHED_TIMESTAMP` \| `INVOKING_RESOURCE_TYPE` \|
+    #   `KNOWLEDGE_BASE_NAME` \| `PARENT_FLOWS_RESOURCE_ID` \|
+    #   `Q_CONNECT_ENABLED` \| `QUEUE` \| `RESOURCE_PUBLISHED_TIMESTAMP` \|
+    #   `ROUTING_PROFILE` \| `ROUTING_STEP_EXPRESSION` \| `SESSION_ID` \|
+    #   `TEST_CASE` \| `TEST_CASE_EXECUTION_FAILURE_REASON` \|
+    #   `TEST_CASE_EXECUTION_RESULT` \| `TEST_CASE_EXECUTION_STATE` \|
+    #   `WEB_NOTIFICATION_TYPE`
     #
     #   <note markdown="1"> The following filter keys correspond to Connect Customer resources and
     #   are used for authorizing requests. A `GetMetricDataV2` request
@@ -12598,10 +12603,11 @@ module Aws::Connect
     #   `AGENT_HIERARCHY_LEVEL_THREE` \| `AGENT_HIERARCHY_LEVEL_FOUR` \|
     #   `AGENT_HIERARCHY_LEVEL_FIVE` \| `ANSWERING_MACHINE_DETECTION_STATUS`
     #   \| `BOT_ID` \| `BOT_ALIAS` \| `BOT_VERSION` \| `BOT_LOCALE` \|
-    #   `BOT_INTENT_NAME` \| `CAMPAIGN` \| `CAMPAIGN_DELIVERY_EVENT_TYPE` \|
-    #   `CAMPAIGN_EXCLUDED_EVENT_TYPE` \| `CAMPAIGN_EXECUTION_TIMESTAMP` \|
-    #   `CASE_TEMPLATE_ARN` \| `CASE_STATUS` \| `CHANNEL` \|
-    #   `contact/segmentAttributes/connect:Subtype` \| `DISCONNECT_REASON` \|
+    #   `BOT_INTENT_NAME` \| `BROWSER_NAME` \| `CAMPAIGN` \|
+    #   `CAMPAIGN_DELIVERY_EVENT_TYPE` \| `CAMPAIGN_EXCLUDED_EVENT_TYPE` \|
+    #   `CAMPAIGN_EXECUTION_TIMESTAMP` \| `CASE_TEMPLATE_ARN` \| `CASE_STATUS`
+    #   \| `CHANNEL` \| `contact/segmentAttributes/connect:Subtype` \|
+    #   `DEVICE_MODEL` \| `DEVICE_TYPE` \| `DISCONNECT_REASON` \|
     #   `EVALUATION_FORM` \| `EVALUATION_SECTION` \| `EVALUATION_QUESTION` \|
     #   `EVALUATION_SOURCE` \| `EVALUATOR_ID` \| `FLOWS_RESOURCE_ID` \|
     #   `FLOWS_MODULE_RESOURCE_ID` \| `FLOW_ACTION_ID` \| `FLOW_TYPE` \|
@@ -12612,6 +12618,7 @@ module Aws::Connect
     #   `RESOURCE_PUBLISHED_TIMESTAMP` \| `ROUTING_PROFILE` \|
     #   `ROUTING_STEP_EXPRESSION` \| `SESSION_ID` \| `TEST_CASE` \|
     #   `TEST_CASE_EXECUTION_FAILURE_REASON` \| `TEST_CASE_INVOCATION_METHOD`
+    #   \| `WEB_NOTIFICATION_TYPE`
     #
     #   <note markdown="1"> `AI_AGENT_NAME_VERSION`, `AI_PROMPT_NAME_VERSION`, and
     #   `KNOWLEDGE_ARTICLE_NAME` are valid groupings but not valid filters.
@@ -13692,14 +13699,16 @@ module Aws::Connect
     #
     #   CAMPAIGN\_INTERACTIONS
     #
-    #   : This metric is available only for outbound campaigns using the email
-    #     delivery mode.
+    #   : This metric is available only for outbound campaigns using the
+    #     email, WhatsApp, and web notification delivery modes.
     #
     #     Unit: Count
     #
     #     Valid metric filter key: CAMPAIGN\_INTERACTION\_EVENT\_TYPE
     #
-    #     Valid groupings and filters: Campaign
+    #     Valid groupings and filters: Browser Name, Campaign, Channel,
+    #     contact/segmentAttributes/connect:Subtype, Device Model, Device
+    #     Type, Web Notification Type
     #
     #     UI name: [Campaign interactions][93]
     #
@@ -13956,17 +13965,18 @@ module Aws::Connect
     #     `CAMPAIGN_DELIVERY_EVENT_TYPE`, `DISCONNECT_REASON`
     #
     #     Valid groupings and filters: Agent, Answering Machine Detection
-    #     Status, Campaign, Campaign Delivery EventType, Channel,
-    #     contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue,
-    #     Routing Profile
+    #     Status, Browser Name, Campaign, Campaign Delivery EventType,
+    #     Channel, contact/segmentAttributes/connect:Subtype, Device Model,
+    #     Device Type, Disconnect Reason, Queue, Routing Profile, Web
+    #     Notification Type
     #
     #     UI name: [Delivery attempts][116]
     #
     #     <note markdown="1"> Campaign Delivery EventType filter and grouping are only available
-    #     for SMS and Email campaign delivery modes. Agent, Queue, Routing
-    #     Profile, Answering Machine Detection Status and Disconnect Reason
-    #     are only available for agent assisted voice and automated voice
-    #     delivery modes.
+    #     for SMS, Email, WhatsApp, and web notification campaign delivery
+    #     modes. Agent, Queue, Routing Profile, Answering Machine Detection
+    #     Status and Disconnect Reason are only available for agent assisted
+    #     voice and automated voice delivery modes.
     #
     #      </note>
     #
@@ -13982,17 +13992,18 @@ module Aws::Connect
     #     `CAMPAIGN_DELIVERY_EVENT_TYPE`, `DISCONNECT_REASON`
     #
     #     Valid groupings and filters: Agent, Answering Machine Detection
-    #     Status, Campaign, Channel,
-    #     contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue,
-    #     Routing Profile
+    #     Status, Browser Name, Campaign, Channel,
+    #     contact/segmentAttributes/connect:Subtype, Device Model, Device
+    #     Type, Disconnect Reason, Queue, Routing Profile, Web Notification
+    #     Type
     #
     #     UI name: [Delivery attempt disposition rate][117]
     #
     #     <note markdown="1"> Campaign Delivery Event Type filter and grouping are only available
-    #     for SMS and Email campaign delivery modes. Agent, Queue, Routing
-    #     Profile, Answering Machine Detection Status and Disconnect Reason
-    #     are only available for agent assisted voice and automated voice
-    #     delivery modes.
+    #     for SMS, Email, WhatsApp, and web notification campaign delivery
+    #     modes. Agent, Queue, Routing Profile, Answering Machine Detection
+    #     Status and Disconnect Reason are only available for agent assisted
+    #     voice and automated voice delivery modes.
     #
     #      </note>
     #
@@ -15524,7 +15535,7 @@ module Aws::Connect
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #
     # @option params [required, String] :instance_id
     #   The identifier of the Amazon Connect instance. You can [find the
@@ -18100,6 +18111,8 @@ module Aws::Connect
     #   resp.rule_summary_list[0].rule_arn #=> String
     #   resp.rule_summary_list[0].event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
     #   resp.rule_summary_list[0].publish_status #=> String, one of "DRAFT", "PUBLISHED"
+    #   resp.rule_summary_list[0].rule_capability_tiers #=> Array
+    #   resp.rule_summary_list[0].rule_capability_tiers[0] #=> String, one of "GenerativeAI"
     #   resp.rule_summary_list[0].action_summaries #=> Array
     #   resp.rule_summary_list[0].action_summaries[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION"
     #   resp.rule_summary_list[0].created_time #=> Time
@@ -21955,6 +21968,163 @@ module Aws::Connect
     # @param [Hash] params ({})
     def search_routing_profiles(params = {}, options = {})
       req = build_request(:search_routing_profiles, params)
+      req.send_request(options)
+    end
+
+    # Searches rules in an Connect Customer instance, with optional
+    # filtering.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @option params [Types::RulesSearchCriteria] :search_criteria
+    #   The search criteria to be used to return rules.
+    #
+    # @option params [Types::RulesSearchFilter] :search_filter
+    #   Filters to be applied to search results, such as tag-based filters.
+    #
+    # @return [Types::SearchRulesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchRulesResponse#rules #rules} => Array&lt;Types::RuleSearchSummary&gt;
+    #   * {Types::SearchRulesResponse#approximate_total_count #approximate_total_count} => Integer
+    #   * {Types::SearchRulesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: SearchRules
+    #
+    #   # Searches for published rules in an Amazon Connect instance.
+    #
+    #   resp = client.search_rules({
+    #     instance_id: "12345678-1234-1234-1234-123456789012", 
+    #     max_results: 10, 
+    #     search_criteria: {
+    #       string_condition: {
+    #         comparison_type: "EXACT", 
+    #         field_name: "PublishStatus", 
+    #         value: "PUBLISHED", 
+    #       }, 
+    #     }, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     approximate_total_count: 1, 
+    #     rules: [
+    #       {
+    #         action_summaries: [
+    #           {
+    #             action_type: "CREATE_TASK", 
+    #           }, 
+    #         ], 
+    #         created_time: Time.parse("2026-01-15T10:00:00Z"), 
+    #         last_updated_by: "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/agent/agent-id", 
+    #         last_updated_time: Time.parse("2026-03-20T14:30:00Z"), 
+    #         name: "MyRule", 
+    #         publish_status: "PUBLISHED", 
+    #         rule_arn: "arn:aws:connect:us-west-2:123456789012:instance/12345678-1234-1234-1234-123456789012/rule/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", 
+    #         rule_capability_tiers: [
+    #         ], 
+    #         rule_id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", 
+    #         trigger_event_source: {
+    #           event_source_name: "OnPostCallAnalysisAvailable", 
+    #         }, 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_rules({
+    #     instance_id: "InstanceId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken2500",
+    #     search_criteria: {
+    #       or_conditions: [
+    #         {
+    #           # recursive RulesSearchCriteria
+    #         },
+    #       ],
+    #       and_conditions: [
+    #         {
+    #           # recursive RulesSearchCriteria
+    #         },
+    #       ],
+    #       string_condition: {
+    #         field_name: "String",
+    #         value: "String",
+    #         comparison_type: "STARTS_WITH", # accepts STARTS_WITH, CONTAINS, EXACT
+    #       },
+    #     },
+    #     search_filter: {
+    #       attribute_filter: {
+    #         or_conditions: [
+    #           {
+    #             tag_conditions: [
+    #               {
+    #                 tag_key: "String",
+    #                 tag_value: "String",
+    #               },
+    #             ],
+    #           },
+    #         ],
+    #         and_condition: {
+    #           tag_conditions: [
+    #             {
+    #               tag_key: "String",
+    #               tag_value: "String",
+    #             },
+    #           ],
+    #         },
+    #         tag_condition: {
+    #           tag_key: "String",
+    #           tag_value: "String",
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rules #=> Array
+    #   resp.rules[0].name #=> String
+    #   resp.rules[0].rule_id #=> String
+    #   resp.rules[0].rule_arn #=> String
+    #   resp.rules[0].trigger_event_source.event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
+    #   resp.rules[0].trigger_event_source.integration_association_id #=> String
+    #   resp.rules[0].action_summaries #=> Array
+    #   resp.rules[0].action_summaries[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION"
+    #   resp.rules[0].rule_capability_tiers #=> Array
+    #   resp.rules[0].rule_capability_tiers[0] #=> String, one of "GenerativeAI"
+    #   resp.rules[0].publish_status #=> String, one of "DRAFT", "PUBLISHED"
+    #   resp.rules[0].created_time #=> Time
+    #   resp.rules[0].last_updated_time #=> Time
+    #   resp.rules[0].last_updated_by #=> String
+    #   resp.rules[0].tags #=> Hash
+    #   resp.rules[0].tags["TagKey"] #=> String
+    #   resp.approximate_total_count #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchRules AWS API Documentation
+    #
+    # @overload search_rules(params = {})
+    # @param [Hash] params ({})
+    def search_rules(params = {}, options = {})
+      req = build_request(:search_rules, params)
       req.send_request(options)
     end
 
@@ -27376,7 +27546,7 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -29991,7 +30161,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.264.0'
+      context[:gem_version] = '1.265.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.265.0 (2026-07-14)
+------------------
+
+* Feature - This release adds SearchRules API which can be used to search for rules within an Amazon Connect instance.
+
 1.264.0 (2026-07-09)
 ------------------
 

@@ -6377,7 +6377,7 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateHoursOfOperationOverrideRequest AWS API Documentation
@@ -6443,7 +6443,7 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #   @return [Array<Types::ParentHoursOfOperationConfig>]
     #
     # @!attribute [rw] tags
@@ -16069,7 +16069,7 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #   @return [Array<Types::EffectiveOverrideHours>]
     #
     # @!attribute [rw] time_zone
@@ -16683,24 +16683,26 @@ module Aws::Connect
     #   `AGENT_HIERARCHY_LEVEL_TWO` \| `AGENT_HIERARCHY_LEVEL_THREE` \|
     #   `AGENT_HIERARCHY_LEVEL_FOUR` \| `AGENT_HIERARCHY_LEVEL_FIVE` \|
     #   `ANSWERING_MACHINE_DETECTION_STATUS` \| `BOT_ALIAS` \| `BOT_ID` \|
-    #   `BOT_INTENT_NAME` \| `BOT_LOCALE` \| `BOT_VERSION` \| `CAMPAIGN` \|
-    #   `CAMPAIGN_DELIVERY_EVENT_TYPE` \| `CAMPAIGN_EXCLUDED_EVENT_TYPE` \|
-    #   `CASE_STATUS` \| `CASE_TEMPLATE_ARN` \| `CHANNEL` \|
+    #   `BOT_INTENT_NAME` \| `BOT_LOCALE` \| `BOT_VERSION` \| `BROWSER_NAME`
+    #   \| `CAMPAIGN` \| `CAMPAIGN_DELIVERY_EVENT_TYPE` \|
+    #   `CAMPAIGN_EXCLUDED_EVENT_TYPE` \| `CASE_STATUS` \|
+    #   `CASE_TEMPLATE_ARN` \| `CHANNEL` \|
     #   `contact/segmentAttributes/connect:Subtype` \|
     #   `contact/segmentAttributes/connect:ValidationTestType` \|
-    #   `DISCONNECT_REASON` \| `EVALUATION_FORM` \| `EVALUATION_QUESTION` \|
-    #   `EVALUATION_SECTION` \| `EVALUATION_SOURCE` \| `EVALUATOR_ID` \|
-    #   `FEATURE` \| `FLOW_ACTION_ID` \| `FLOW_TYPE` \|
-    #   `FLOWS_MODULE_RESOURCE_ID` \| `FLOWS_NEXT_RESOURCE_ID` \|
-    #   `FLOWS_NEXT_RESOURCE_QUEUE_ID` \| `FLOWS_OUTCOME_TYPE` \|
-    #   `FLOWS_RESOURCE_ID` \| `FORM_VERSION` \| `INITIATING_FLOW` \|
-    #   `INITIATION_METHOD` \| `INVOKING_RESOURCE_PUBLISHED_TIMESTAMP` \|
-    #   `INVOKING_RESOURCE_TYPE` \| `KNOWLEDGE_BASE_NAME` \|
-    #   `PARENT_FLOWS_RESOURCE_ID` \| `Q_CONNECT_ENABLED` \| `QUEUE` \|
-    #   `RESOURCE_PUBLISHED_TIMESTAMP` \| `ROUTING_PROFILE` \|
-    #   `ROUTING_STEP_EXPRESSION` \| `SESSION_ID` \| `TEST_CASE` \|
-    #   `TEST_CASE_EXECUTION_FAILURE_REASON` \| `TEST_CASE_EXECUTION_RESULT`
-    #   \| `TEST_CASE_EXECUTION_STATE`
+    #   `DEVICE_MODEL` \| `DEVICE_TYPE` \| `DISCONNECT_REASON` \|
+    #   `EVALUATION_FORM` \| `EVALUATION_QUESTION` \| `EVALUATION_SECTION`
+    #   \| `EVALUATION_SOURCE` \| `EVALUATOR_ID` \| `FEATURE` \|
+    #   `FLOW_ACTION_ID` \| `FLOW_TYPE` \| `FLOWS_MODULE_RESOURCE_ID` \|
+    #   `FLOWS_NEXT_RESOURCE_ID` \| `FLOWS_NEXT_RESOURCE_QUEUE_ID` \|
+    #   `FLOWS_OUTCOME_TYPE` \| `FLOWS_RESOURCE_ID` \| `FORM_VERSION` \|
+    #   `INITIATING_FLOW` \| `INITIATION_METHOD` \|
+    #   `INVOKING_RESOURCE_PUBLISHED_TIMESTAMP` \| `INVOKING_RESOURCE_TYPE`
+    #   \| `KNOWLEDGE_BASE_NAME` \| `PARENT_FLOWS_RESOURCE_ID` \|
+    #   `Q_CONNECT_ENABLED` \| `QUEUE` \| `RESOURCE_PUBLISHED_TIMESTAMP` \|
+    #   `ROUTING_PROFILE` \| `ROUTING_STEP_EXPRESSION` \| `SESSION_ID` \|
+    #   `TEST_CASE` \| `TEST_CASE_EXECUTION_FAILURE_REASON` \|
+    #   `TEST_CASE_EXECUTION_RESULT` \| `TEST_CASE_EXECUTION_STATE` \|
+    #   `WEB_NOTIFICATION_TYPE`
     #
     #   <note markdown="1"> The following filter keys correspond to Connect Customer resources
     #   and are used for authorizing requests. A `GetMetricDataV2` request
@@ -16779,22 +16781,23 @@ module Aws::Connect
     #   `AGENT_HIERARCHY_LEVEL_THREE` \| `AGENT_HIERARCHY_LEVEL_FOUR` \|
     #   `AGENT_HIERARCHY_LEVEL_FIVE` \| `ANSWERING_MACHINE_DETECTION_STATUS`
     #   \| `BOT_ID` \| `BOT_ALIAS` \| `BOT_VERSION` \| `BOT_LOCALE` \|
-    #   `BOT_INTENT_NAME` \| `CAMPAIGN` \| `CAMPAIGN_DELIVERY_EVENT_TYPE` \|
-    #   `CAMPAIGN_EXCLUDED_EVENT_TYPE` \| `CAMPAIGN_EXECUTION_TIMESTAMP` \|
-    #   `CASE_TEMPLATE_ARN` \| `CASE_STATUS` \| `CHANNEL` \|
-    #   `contact/segmentAttributes/connect:Subtype` \| `DISCONNECT_REASON`
-    #   \| `EVALUATION_FORM` \| `EVALUATION_SECTION` \|
-    #   `EVALUATION_QUESTION` \| `EVALUATION_SOURCE` \| `EVALUATOR_ID` \|
-    #   `FLOWS_RESOURCE_ID` \| `FLOWS_MODULE_RESOURCE_ID` \|
-    #   `FLOW_ACTION_ID` \| `FLOW_TYPE` \| `FLOWS_OUTCOME_TYPE` \|
-    #   `FORM_VERSION` \| `INITIATION_METHOD` \|
+    #   `BOT_INTENT_NAME` \| `BROWSER_NAME` \| `CAMPAIGN` \|
+    #   `CAMPAIGN_DELIVERY_EVENT_TYPE` \| `CAMPAIGN_EXCLUDED_EVENT_TYPE` \|
+    #   `CAMPAIGN_EXECUTION_TIMESTAMP` \| `CASE_TEMPLATE_ARN` \|
+    #   `CASE_STATUS` \| `CHANNEL` \|
+    #   `contact/segmentAttributes/connect:Subtype` \| `DEVICE_MODEL` \|
+    #   `DEVICE_TYPE` \| `DISCONNECT_REASON` \| `EVALUATION_FORM` \|
+    #   `EVALUATION_SECTION` \| `EVALUATION_QUESTION` \| `EVALUATION_SOURCE`
+    #   \| `EVALUATOR_ID` \| `FLOWS_RESOURCE_ID` \|
+    #   `FLOWS_MODULE_RESOURCE_ID` \| `FLOW_ACTION_ID` \| `FLOW_TYPE` \|
+    #   `FLOWS_OUTCOME_TYPE` \| `FORM_VERSION` \| `INITIATION_METHOD` \|
     #   `INVOKING_RESOURCE_PUBLISHED_TIMESTAMP` \| `INVOKING_RESOURCE_TYPE`
     #   \| `KNOWLEDGE_ARTICLE_NAME` \| `KNOWLEDGE_BASE_NAME` \|
     #   `PARENT_FLOWS_RESOURCE_ID` \| `Q_CONNECT_ENABLED` \| `QUEUE` \|
     #   `RESOURCE_PUBLISHED_TIMESTAMP` \| `ROUTING_PROFILE` \|
     #   `ROUTING_STEP_EXPRESSION` \| `SESSION_ID` \| `TEST_CASE` \|
     #   `TEST_CASE_EXECUTION_FAILURE_REASON` \|
-    #   `TEST_CASE_INVOCATION_METHOD`
+    #   `TEST_CASE_INVOCATION_METHOD` \| `WEB_NOTIFICATION_TYPE`
     #
     #   <note markdown="1"> `AI_AGENT_NAME_VERSION`, `AI_PROMPT_NAME_VERSION`, and
     #   `KNOWLEDGE_ARTICLE_NAME` are valid groupings but not valid filters.
@@ -17888,13 +17891,15 @@ module Aws::Connect
     #   CAMPAIGN\_INTERACTIONS
     #
     #   : This metric is available only for outbound campaigns using the
-    #     email delivery mode.
+    #     email, WhatsApp, and web notification delivery modes.
     #
     #     Unit: Count
     #
     #     Valid metric filter key: CAMPAIGN\_INTERACTION\_EVENT\_TYPE
     #
-    #     Valid groupings and filters: Campaign
+    #     Valid groupings and filters: Browser Name, Campaign, Channel,
+    #     contact/segmentAttributes/connect:Subtype, Device Model, Device
+    #     Type, Web Notification Type
     #
     #     UI name: [Campaign interactions][93]
     #
@@ -18153,17 +18158,18 @@ module Aws::Connect
     #     `CAMPAIGN_DELIVERY_EVENT_TYPE`, `DISCONNECT_REASON`
     #
     #     Valid groupings and filters: Agent, Answering Machine Detection
-    #     Status, Campaign, Campaign Delivery EventType, Channel,
-    #     contact/segmentAttributes/connect:Subtype, Disconnect Reason,
-    #     Queue, Routing Profile
+    #     Status, Browser Name, Campaign, Campaign Delivery EventType,
+    #     Channel, contact/segmentAttributes/connect:Subtype, Device Model,
+    #     Device Type, Disconnect Reason, Queue, Routing Profile, Web
+    #     Notification Type
     #
     #     UI name: [Delivery attempts][116]
     #
     #     <note markdown="1"> Campaign Delivery EventType filter and grouping are only available
-    #     for SMS and Email campaign delivery modes. Agent, Queue, Routing
-    #     Profile, Answering Machine Detection Status and Disconnect Reason
-    #     are only available for agent assisted voice and automated voice
-    #     delivery modes.
+    #     for SMS, Email, WhatsApp, and web notification campaign delivery
+    #     modes. Agent, Queue, Routing Profile, Answering Machine Detection
+    #     Status and Disconnect Reason are only available for agent assisted
+    #     voice and automated voice delivery modes.
     #
     #      </note>
     #
@@ -18179,17 +18185,18 @@ module Aws::Connect
     #     `CAMPAIGN_DELIVERY_EVENT_TYPE`, `DISCONNECT_REASON`
     #
     #     Valid groupings and filters: Agent, Answering Machine Detection
-    #     Status, Campaign, Channel,
-    #     contact/segmentAttributes/connect:Subtype, Disconnect Reason,
-    #     Queue, Routing Profile
+    #     Status, Browser Name, Campaign, Channel,
+    #     contact/segmentAttributes/connect:Subtype, Device Model, Device
+    #     Type, Disconnect Reason, Queue, Routing Profile, Web Notification
+    #     Type
     #
     #     UI name: [Delivery attempt disposition rate][117]
     #
     #     <note markdown="1"> Campaign Delivery Event Type filter and grouping are only
-    #     available for SMS and Email campaign delivery modes. Agent, Queue,
-    #     Routing Profile, Answering Machine Detection Status and Disconnect
-    #     Reason are only available for agent assisted voice and automated
-    #     voice delivery modes.
+    #     available for SMS, Email, WhatsApp, and web notification campaign
+    #     delivery modes. Agent, Queue, Routing Profile, Answering Machine
+    #     Detection Status and Disconnect Reason are only available for
+    #     agent assisted voice and automated voice delivery modes.
     #
     #      </note>
     #
@@ -29185,6 +29192,11 @@ module Aws::Connect
     #   The event source to trigger the rule.
     #   @return [Types::RuleTriggerEventSource]
     #
+    # @!attribute [rw] rule_capability_tiers
+    #   The list of capability tiers associated with the rule. Used for
+    #   categorizing rules by capability (for example, `GenerativeAI`).
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] function
     #   The conditions of the rule.
     #   @return [String]
@@ -29223,6 +29235,7 @@ module Aws::Connect
       :rule_id,
       :rule_arn,
       :trigger_event_source,
+      :rule_capability_tiers,
       :function,
       :actions,
       :publish_status,
@@ -29322,6 +29335,126 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # A list of conditions which would be applied together with an `AND`
+    # condition.
+    #
+    # @!attribute [rw] tag_conditions
+    #   A list of tag conditions that need to be applied with `AND`
+    #   condition.
+    #   @return [Array<Types::TagCondition>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RuleAttributeAndCondition AWS API Documentation
+    #
+    class RuleAttributeAndCondition < Struct.new(
+      :tag_conditions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that can be used to specify tag conditions inside the
+    # `SearchFilter`. This accepts an `OR` of `AND` (List of List) input
+    # where:
+    #
+    # * The top level list specifies conditions that need to be applied with
+    #   `OR` operator.
+    #
+    # * The inner list specifies conditions that need to be applied with
+    #   `AND` operator.
+    #
+    # @!attribute [rw] or_conditions
+    #   A list of conditions which would be applied together with an `OR`
+    #   condition.
+    #   @return [Array<Types::RuleAttributeAndCondition>]
+    #
+    # @!attribute [rw] and_condition
+    #   A list of conditions which would be applied together with an `AND`
+    #   condition.
+    #   @return [Types::RuleAttributeAndCondition]
+    #
+    # @!attribute [rw] tag_condition
+    #   A leaf node condition which can be used to specify a tag condition,
+    #   for example, `HAVE BPO = 123`.
+    #   @return [Types::TagCondition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RuleAttributeFilter AWS API Documentation
+    #
+    class RuleAttributeFilter < Struct.new(
+      :or_conditions,
+      :and_condition,
+      :tag_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of information about a rule, returned as part of the
+    # response to a `SearchRules` operation.
+    #
+    # @!attribute [rw] name
+    #   The name of the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_id
+    #   A unique identifier for the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_arn
+    #   The Amazon Resource Name (ARN) of the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] trigger_event_source
+    #   The event source to trigger the rule.
+    #   @return [Types::RuleTriggerEventSource]
+    #
+    # @!attribute [rw] action_summaries
+    #   A list of `ActionTypes` associated with a rule.
+    #   @return [Array<Types::ActionSummary>]
+    #
+    # @!attribute [rw] rule_capability_tiers
+    #   The list of capability tiers associated with the rule. Used for
+    #   categorizing rules by capability (for example, `GenerativeAI`).
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] publish_status
+    #   The publish status of the rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The timestamp for when the rule was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The timestamp for when the rule was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_by
+    #   The Amazon Resource Name (ARN) of the user who last updated the
+    #   rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource. For example, \{ "Tags": \{"key1":"value1",
+    #   "key2":"value2"} }.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RuleSearchSummary AWS API Documentation
+    #
+    class RuleSearchSummary < Struct.new(
+      :name,
+      :rule_id,
+      :rule_arn,
+      :trigger_event_source,
+      :action_summaries,
+      :rule_capability_tiers,
+      :publish_status,
+      :created_time,
+      :last_updated_time,
+      :last_updated_by,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A list of `ActionTypes` associated with a rule.
     #
     # @!attribute [rw] name
@@ -29344,6 +29477,11 @@ module Aws::Connect
     #   The publish status of the rule.
     #   @return [String]
     #
+    # @!attribute [rw] rule_capability_tiers
+    #   The list of capability tiers associated with the rule. Used for
+    #   categorizing rules by capability (for example, `GenerativeAI`).
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] action_summaries
     #   A list of ActionTypes associated with a rule.
     #   @return [Array<Types::ActionSummary>]
@@ -29364,6 +29502,7 @@ module Aws::Connect
       :rule_arn,
       :event_source_name,
       :publish_status,
+      :rule_capability_tiers,
       :action_summaries,
       :created_time,
       :last_updated_time)
@@ -29406,6 +29545,55 @@ module Aws::Connect
     #
     class RulesConfiguration < Struct.new(
       :behavior)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The search criteria to be used to return rules.
+    #
+    # @!attribute [rw] or_conditions
+    #   A list of conditions which would be applied together with an OR
+    #   condition.
+    #   @return [Array<Types::RulesSearchCriteria>]
+    #
+    # @!attribute [rw] and_conditions
+    #   A list of conditions which would be applied together with an AND
+    #   condition.
+    #   @return [Array<Types::RulesSearchCriteria>]
+    #
+    # @!attribute [rw] string_condition
+    #   A leaf node condition which can be used to specify a string
+    #   condition.
+    #
+    #   <note markdown="1"> The currently supported values for `FieldName` are `Name`,
+    #   `PublishStatus`, `EventSourceName`, `RuleId`,
+    #   `IntegrationAssociationId`, `ActionSummaries`, and
+    #   `RuleCapabilityTiers`.
+    #
+    #    </note>
+    #   @return [Types::StringCondition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RulesSearchCriteria AWS API Documentation
+    #
+    class RulesSearchCriteria < Struct.new(
+      :or_conditions,
+      :and_conditions,
+      :string_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filters to be applied to search results.
+    #
+    # @!attribute [rw] attribute_filter
+    #   An object that can be used to specify tag conditions inside the
+    #   `SearchFilter`.
+    #   @return [Types::RuleAttributeFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RulesSearchFilter AWS API Documentation
+    #
+    class RulesSearchFilter < Struct.new(
+      :attribute_filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -30784,6 +30972,68 @@ module Aws::Connect
       :routing_profiles,
       :next_token,
       :approximate_total_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] search_criteria
+    #   The search criteria to be used to return rules.
+    #   @return [Types::RulesSearchCriteria]
+    #
+    # @!attribute [rw] search_filter
+    #   Filters to be applied to search results, such as tag-based filters.
+    #   @return [Types::RulesSearchFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchRulesRequest AWS API Documentation
+    #
+    class SearchRulesRequest < Struct.new(
+      :instance_id,
+      :max_results,
+      :next_token,
+      :search_criteria,
+      :search_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] rules
+    #   Information about the rules.
+    #   @return [Array<Types::RuleSearchSummary>]
+    #
+    # @!attribute [rw] approximate_total_count
+    #   The total number of rules which matched your search query.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchRulesResponse AWS API Documentation
+    #
+    class SearchRulesResponse < Struct.new(
+      :rules,
+      :approximate_total_count,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -36307,7 +36557,7 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateHoursOfOperationOverrideRequest AWS API Documentation

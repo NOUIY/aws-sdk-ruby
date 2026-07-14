@@ -6793,6 +6793,7 @@ module Aws::Connect
       attr_accessor rule_id: ::String
       attr_accessor rule_arn: ::String
       attr_accessor trigger_event_source: Types::RuleTriggerEventSource
+      attr_accessor rule_capability_tiers: ::Array[("GenerativeAI")]
       attr_accessor function: ::String
       attr_accessor actions: ::Array[Types::RuleAction]
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
@@ -6817,12 +6818,40 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class RuleAttributeAndCondition
+      attr_accessor tag_conditions: ::Array[Types::TagCondition]
+      SENSITIVE: []
+    end
+
+    class RuleAttributeFilter
+      attr_accessor or_conditions: ::Array[Types::RuleAttributeAndCondition]
+      attr_accessor and_condition: Types::RuleAttributeAndCondition
+      attr_accessor tag_condition: Types::TagCondition
+      SENSITIVE: []
+    end
+
+    class RuleSearchSummary
+      attr_accessor name: ::String
+      attr_accessor rule_id: ::String
+      attr_accessor rule_arn: ::String
+      attr_accessor trigger_event_source: Types::RuleTriggerEventSource
+      attr_accessor action_summaries: ::Array[Types::ActionSummary]
+      attr_accessor rule_capability_tiers: ::Array[("GenerativeAI")]
+      attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
+      attr_accessor created_time: ::Time
+      attr_accessor last_updated_time: ::Time
+      attr_accessor last_updated_by: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class RuleSummary
       attr_accessor name: ::String
       attr_accessor rule_id: ::String
       attr_accessor rule_arn: ::String
       attr_accessor event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity")
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
+      attr_accessor rule_capability_tiers: ::Array[("GenerativeAI")]
       attr_accessor action_summaries: ::Array[Types::ActionSummary]
       attr_accessor created_time: ::Time
       attr_accessor last_updated_time: ::Time
@@ -6837,6 +6866,18 @@ module Aws::Connect
 
     class RulesConfiguration
       attr_accessor behavior: ("Enable" | "Disable")
+      SENSITIVE: []
+    end
+
+    class RulesSearchCriteria
+      attr_accessor or_conditions: ::Array[Types::RulesSearchCriteria]
+      attr_accessor and_conditions: ::Array[Types::RulesSearchCriteria]
+      attr_accessor string_condition: Types::StringCondition
+      SENSITIVE: []
+    end
+
+    class RulesSearchFilter
+      attr_accessor attribute_filter: Types::RuleAttributeFilter
       SENSITIVE: []
     end
 
@@ -7175,6 +7216,22 @@ module Aws::Connect
       attr_accessor routing_profiles: ::Array[Types::RoutingProfile]
       attr_accessor next_token: ::String
       attr_accessor approximate_total_count: ::Integer
+      SENSITIVE: []
+    end
+
+    class SearchRulesRequest
+      attr_accessor instance_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      attr_accessor search_criteria: Types::RulesSearchCriteria
+      attr_accessor search_filter: Types::RulesSearchFilter
+      SENSITIVE: []
+    end
+
+    class SearchRulesResponse
+      attr_accessor rules: ::Array[Types::RuleSearchSummary]
+      attr_accessor approximate_total_count: ::Integer
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.68.0 (2026-07-14)
+------------------
+
+* Feature - Fast recovery of EC2 based drs workloads by skipping the conversion step
+
 1.67.0 (2026-07-09)
 ------------------
 

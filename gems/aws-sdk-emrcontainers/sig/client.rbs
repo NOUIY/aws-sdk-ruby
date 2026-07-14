@@ -152,7 +152,8 @@ module Aws
                                      ?certificate_arn: ::String,
                                      ?configuration_overrides: Params::configuration_overrides,
                                      client_token: ::String,
-                                     ?tags: Hash[::String, ::String]
+                                     ?tags: Hash[::String, ::String],
+                                     ?session_idle_timeout_in_minutes: ::Integer
                                    ) -> _CreateManagedEndpointResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateManagedEndpointResponseSuccess
 
@@ -204,7 +205,8 @@ module Aws
                                     container_provider: Params::container_provider,
                                     client_token: ::String,
                                     ?tags: Hash[::String, ::String],
-                                    ?security_configuration_id: ::String
+                                    ?security_configuration_id: ::String,
+                                    ?session_enabled: bool
                                   ) -> _CreateVirtualClusterResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateVirtualClusterResponseSuccess
 
@@ -296,6 +298,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::GetManagedEndpointSessionCredentialsResponse]
         def id: () -> ::String
         def credentials: () -> Types::Credentials
+        def endpoint_credentials: () -> Types::Credentials
         def expires_at: () -> ::Time
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRContainers/Client.html#get_managed_endpoint_session_credentials-instance_method

@@ -4962,7 +4962,7 @@ module Aws
       def get_resources_statistics_v2: (
                                          group_by_rules: Array[
                                            {
-                                             group_by_field: ("AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType"),
+                                             group_by_field: ("AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "ResourceSubCategory" | "DiscoveryType" | "ResourceInfo.AIDetails.HostResourceType" | "ResourceInfo.AIDetails.CanonicalId"),
                                              filters: Params::resources_filters?
                                            }
                                          ],

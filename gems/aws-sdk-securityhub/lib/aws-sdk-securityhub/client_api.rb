@@ -14,6 +14,7 @@ module Aws::SecurityHub
 
     include Seahorse::Model
 
+    AIDetails = Shapes::StructureShape.new(name: 'AIDetails')
     AcceptAdministratorInvitationRequest = Shapes::StructureShape.new(name: 'AcceptAdministratorInvitationRequest')
     AcceptAdministratorInvitationResponse = Shapes::StructureShape.new(name: 'AcceptAdministratorInvitationResponse')
     AcceptInvitationRequest = Shapes::StructureShape.new(name: 'AcceptInvitationRequest')
@@ -907,6 +908,7 @@ module Aws::SecurityHub
     DisassociateFromMasterAccountResponse = Shapes::StructureShape.new(name: 'DisassociateFromMasterAccountResponse')
     DisassociateMembersRequest = Shapes::StructureShape.new(name: 'DisassociateMembersRequest')
     DisassociateMembersResponse = Shapes::StructureShape.new(name: 'DisassociateMembersResponse')
+    DiscoveryType = Shapes::StringShape.new(name: 'DiscoveryType')
     DnsRequestAction = Shapes::StructureShape.new(name: 'DnsRequestAction')
     Double = Shapes::FloatShape.new(name: 'Double')
     DoubleConfigurationOptions = Shapes::StructureShape.new(name: 'DoubleConfigurationOptions')
@@ -1212,6 +1214,7 @@ module Aws::SecurityHub
     ResourceGroupByRule = Shapes::StructureShape.new(name: 'ResourceGroupByRule')
     ResourceGroupByRules = Shapes::ListShape.new(name: 'ResourceGroupByRules')
     ResourceInUseException = Shapes::StructureShape.new(name: 'ResourceInUseException')
+    ResourceInfo = Shapes::StructureShape.new(name: 'ResourceInfo')
     ResourceList = Shapes::ListShape.new(name: 'ResourceList')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceOwner = Shapes::StructureShape.new(name: 'ResourceOwner')
@@ -1220,6 +1223,7 @@ module Aws::SecurityHub
     ResourceResult = Shapes::StructureShape.new(name: 'ResourceResult')
     ResourceScopes = Shapes::StructureShape.new(name: 'ResourceScopes')
     ResourceSeverityBreakdown = Shapes::StructureShape.new(name: 'ResourceSeverityBreakdown')
+    ResourceSubCategory = Shapes::StringShape.new(name: 'ResourceSubCategory')
     ResourceTag = Shapes::StructureShape.new(name: 'ResourceTag')
     ResourceTagList = Shapes::ListShape.new(name: 'ResourceTagList')
     Resources = Shapes::ListShape.new(name: 'Resources')
@@ -1457,6 +1461,19 @@ module Aws::SecurityHub
     WorkflowState = Shapes::StringShape.new(name: 'WorkflowState')
     WorkflowStatus = Shapes::StringShape.new(name: 'WorkflowStatus')
     WorkflowUpdate = Shapes::StructureShape.new(name: 'WorkflowUpdate')
+
+    AIDetails.add_member(:host_resource_guid, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "HostResourceGuid"))
+    AIDetails.add_member(:host_resource_type, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "HostResourceType"))
+    AIDetails.add_member(:canonical_id, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "CanonicalId"))
+    AIDetails.add_member(:self_hosted_ai_model_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedAIModelResourceCount"))
+    AIDetails.add_member(:self_hosted_ai_agent_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedAIAgentResourceCount"))
+    AIDetails.add_member(:self_hosted_ai_model_serving_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedAIModelServingResourceCount"))
+    AIDetails.add_member(:self_hosted_ai_external_endpoint_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedAIExternalEndpointResourceCount"))
+    AIDetails.add_member(:self_hosted_ai_development_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedAIDevelopmentResourceCount"))
+    AIDetails.add_member(:self_hosted_ai_agent_framework_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedAIAgentFrameworkResourceCount"))
+    AIDetails.add_member(:self_hosted_ai_agent_tools_and_identity_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedAIAgentToolsAndIdentityResourceCount"))
+    AIDetails.add_member(:self_hosted_total_ai_resource_count, Shapes::ShapeRef.new(shape: Integer, location_name: "SelfHostedTotalAIResourceCount"))
+    AIDetails.struct_class = Types::AIDetails
 
     AcceptAdministratorInvitationRequest.add_member(:administrator_id, Shapes::ShapeRef.new(shape: NonEmptyString, required: true, location_name: "AdministratorId"))
     AcceptAdministratorInvitationRequest.add_member(:invitation_id, Shapes::ShapeRef.new(shape: NonEmptyString, required: true, location_name: "InvitationId"))
@@ -7321,6 +7338,9 @@ module Aws::SecurityHub
     ResourceInUseException.add_member(:code, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "Code"))
     ResourceInUseException.struct_class = Types::ResourceInUseException
 
+    ResourceInfo.add_member(:ai_details, Shapes::ShapeRef.new(shape: AIDetails, location_name: "AIDetails"))
+    ResourceInfo.struct_class = Types::ResourceInfo
+
     ResourceList.member = Shapes::ShapeRef.new(shape: Resource)
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "Message"))
@@ -7355,6 +7375,9 @@ module Aws::SecurityHub
     ResourceResult.add_member(:findings_summary, Shapes::ShapeRef.new(shape: ResourceFindingsSummaryList, location_name: "FindingsSummary"))
     ResourceResult.add_member(:resource_tags, Shapes::ShapeRef.new(shape: ResourceTagList, location_name: "ResourceTags"))
     ResourceResult.add_member(:resource_config, Shapes::ShapeRef.new(shape: ResourceConfig, required: true, location_name: "ResourceConfig"))
+    ResourceResult.add_member(:resource_sub_category, Shapes::ShapeRef.new(shape: ResourceSubCategory, location_name: "ResourceSubCategory"))
+    ResourceResult.add_member(:discovery_type, Shapes::ShapeRef.new(shape: DiscoveryType, location_name: "DiscoveryType"))
+    ResourceResult.add_member(:resource_info, Shapes::ShapeRef.new(shape: ResourceInfo, location_name: "ResourceInfo"))
     ResourceResult.struct_class = Types::ResourceResult
 
     ResourceScopes.add_member(:aws_organizations, Shapes::ShapeRef.new(shape: AwsOrganizationScopeList, location_name: "AwsOrganizations"))

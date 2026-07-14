@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.191.0 (2026-07-14)
+------------------
+
+* Feature - AWS Lambda now returns a new DependencyError value in StateReasonCode and LastUpdateStatusReasonCode to provide more actionable information when a function reaches a failed state due to an error from an upstream dependency or service.
+
 1.190.0 (2026-07-13)
 ------------------
 

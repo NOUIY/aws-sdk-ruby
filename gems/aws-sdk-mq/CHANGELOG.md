@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.100.0 (2026-07-14)
+------------------
+
+* Feature - This release adds storage size parameter for Amazon MQ for RabbitMQ cluster deployment broker on engine version RabbitMQ 4.2. You can now set a configurable storage size within a range of sizes dependent on broker instance size.
+
 1.99.0 (2026-07-09)
 ------------------
 

@@ -1670,14 +1670,24 @@ module Aws::Connect
     Rule = Shapes::StructureShape.new(name: 'Rule')
     RuleAction = Shapes::StructureShape.new(name: 'RuleAction')
     RuleActions = Shapes::ListShape.new(name: 'RuleActions')
+    RuleAttributeAndCondition = Shapes::StructureShape.new(name: 'RuleAttributeAndCondition')
+    RuleAttributeFilter = Shapes::StructureShape.new(name: 'RuleAttributeFilter')
+    RuleAttributeOrConditionList = Shapes::ListShape.new(name: 'RuleAttributeOrConditionList')
+    RuleCapabilityTier = Shapes::StringShape.new(name: 'RuleCapabilityTier')
+    RuleCapabilityTiers = Shapes::ListShape.new(name: 'RuleCapabilityTiers')
     RuleFunction = Shapes::StringShape.new(name: 'RuleFunction')
     RuleId = Shapes::StringShape.new(name: 'RuleId')
     RuleName = Shapes::StringShape.new(name: 'RuleName')
     RulePublishStatus = Shapes::StringShape.new(name: 'RulePublishStatus')
+    RuleSearchSummary = Shapes::StructureShape.new(name: 'RuleSearchSummary')
+    RuleSearchSummaryList = Shapes::ListShape.new(name: 'RuleSearchSummaryList')
     RuleSummary = Shapes::StructureShape.new(name: 'RuleSummary')
     RuleSummaryList = Shapes::ListShape.new(name: 'RuleSummaryList')
     RuleTriggerEventSource = Shapes::StructureShape.new(name: 'RuleTriggerEventSource')
     RulesConfiguration = Shapes::StructureShape.new(name: 'RulesConfiguration')
+    RulesSearchConditionList = Shapes::ListShape.new(name: 'RulesSearchConditionList')
+    RulesSearchCriteria = Shapes::StructureShape.new(name: 'RulesSearchCriteria')
+    RulesSearchFilter = Shapes::StructureShape.new(name: 'RulesSearchFilter')
     S3Config = Shapes::StructureShape.new(name: 'S3Config')
     S3Uri = Shapes::StringShape.new(name: 'S3Uri')
     ScreenShareCapability = Shapes::StringShape.new(name: 'ScreenShareCapability')
@@ -1726,6 +1736,8 @@ module Aws::Connect
     SearchResourceTagsResponse = Shapes::StructureShape.new(name: 'SearchResourceTagsResponse')
     SearchRoutingProfilesRequest = Shapes::StructureShape.new(name: 'SearchRoutingProfilesRequest')
     SearchRoutingProfilesResponse = Shapes::StructureShape.new(name: 'SearchRoutingProfilesResponse')
+    SearchRulesRequest = Shapes::StructureShape.new(name: 'SearchRulesRequest')
+    SearchRulesResponse = Shapes::StructureShape.new(name: 'SearchRulesResponse')
     SearchSecurityProfilesRequest = Shapes::StructureShape.new(name: 'SearchSecurityProfilesRequest')
     SearchSecurityProfilesResponse = Shapes::StructureShape.new(name: 'SearchSecurityProfilesResponse')
     SearchTestCasesRequest = Shapes::StructureShape.new(name: 'SearchTestCasesRequest')
@@ -7658,6 +7670,7 @@ module Aws::Connect
     Rule.add_member(:rule_id, Shapes::ShapeRef.new(shape: RuleId, required: true, location_name: "RuleId"))
     Rule.add_member(:rule_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "RuleArn"))
     Rule.add_member(:trigger_event_source, Shapes::ShapeRef.new(shape: RuleTriggerEventSource, required: true, location_name: "TriggerEventSource"))
+    Rule.add_member(:rule_capability_tiers, Shapes::ShapeRef.new(shape: RuleCapabilityTiers, location_name: "RuleCapabilityTiers"))
     Rule.add_member(:function, Shapes::ShapeRef.new(shape: RuleFunction, required: true, location_name: "Function"))
     Rule.add_member(:actions, Shapes::ShapeRef.new(shape: RuleActions, required: true, location_name: "Actions"))
     Rule.add_member(:publish_status, Shapes::ShapeRef.new(shape: RulePublishStatus, required: true, location_name: "PublishStatus"))
@@ -7681,11 +7694,39 @@ module Aws::Connect
 
     RuleActions.member = Shapes::ShapeRef.new(shape: RuleAction)
 
+    RuleAttributeAndCondition.add_member(:tag_conditions, Shapes::ShapeRef.new(shape: TagAndConditionList, location_name: "TagConditions"))
+    RuleAttributeAndCondition.struct_class = Types::RuleAttributeAndCondition
+
+    RuleAttributeFilter.add_member(:or_conditions, Shapes::ShapeRef.new(shape: RuleAttributeOrConditionList, location_name: "OrConditions"))
+    RuleAttributeFilter.add_member(:and_condition, Shapes::ShapeRef.new(shape: RuleAttributeAndCondition, location_name: "AndCondition"))
+    RuleAttributeFilter.add_member(:tag_condition, Shapes::ShapeRef.new(shape: TagCondition, location_name: "TagCondition"))
+    RuleAttributeFilter.struct_class = Types::RuleAttributeFilter
+
+    RuleAttributeOrConditionList.member = Shapes::ShapeRef.new(shape: RuleAttributeAndCondition)
+
+    RuleCapabilityTiers.member = Shapes::ShapeRef.new(shape: RuleCapabilityTier)
+
+    RuleSearchSummary.add_member(:name, Shapes::ShapeRef.new(shape: RuleName, required: true, location_name: "Name"))
+    RuleSearchSummary.add_member(:rule_id, Shapes::ShapeRef.new(shape: RuleId, required: true, location_name: "RuleId"))
+    RuleSearchSummary.add_member(:rule_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "RuleArn"))
+    RuleSearchSummary.add_member(:trigger_event_source, Shapes::ShapeRef.new(shape: RuleTriggerEventSource, required: true, location_name: "TriggerEventSource"))
+    RuleSearchSummary.add_member(:action_summaries, Shapes::ShapeRef.new(shape: ActionSummaries, required: true, location_name: "ActionSummaries"))
+    RuleSearchSummary.add_member(:rule_capability_tiers, Shapes::ShapeRef.new(shape: RuleCapabilityTiers, location_name: "RuleCapabilityTiers"))
+    RuleSearchSummary.add_member(:publish_status, Shapes::ShapeRef.new(shape: RulePublishStatus, required: true, location_name: "PublishStatus"))
+    RuleSearchSummary.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedTime"))
+    RuleSearchSummary.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastUpdatedTime"))
+    RuleSearchSummary.add_member(:last_updated_by, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "LastUpdatedBy"))
+    RuleSearchSummary.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
+    RuleSearchSummary.struct_class = Types::RuleSearchSummary
+
+    RuleSearchSummaryList.member = Shapes::ShapeRef.new(shape: RuleSearchSummary)
+
     RuleSummary.add_member(:name, Shapes::ShapeRef.new(shape: RuleName, required: true, location_name: "Name"))
     RuleSummary.add_member(:rule_id, Shapes::ShapeRef.new(shape: RuleId, required: true, location_name: "RuleId"))
     RuleSummary.add_member(:rule_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "RuleArn"))
     RuleSummary.add_member(:event_source_name, Shapes::ShapeRef.new(shape: EventSourceName, required: true, location_name: "EventSourceName"))
     RuleSummary.add_member(:publish_status, Shapes::ShapeRef.new(shape: RulePublishStatus, required: true, location_name: "PublishStatus"))
+    RuleSummary.add_member(:rule_capability_tiers, Shapes::ShapeRef.new(shape: RuleCapabilityTiers, location_name: "RuleCapabilityTiers"))
     RuleSummary.add_member(:action_summaries, Shapes::ShapeRef.new(shape: ActionSummaries, required: true, location_name: "ActionSummaries"))
     RuleSummary.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedTime"))
     RuleSummary.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastUpdatedTime"))
@@ -7699,6 +7740,16 @@ module Aws::Connect
 
     RulesConfiguration.add_member(:behavior, Shapes::ShapeRef.new(shape: Behavior, location_name: "Behavior"))
     RulesConfiguration.struct_class = Types::RulesConfiguration
+
+    RulesSearchConditionList.member = Shapes::ShapeRef.new(shape: RulesSearchCriteria)
+
+    RulesSearchCriteria.add_member(:or_conditions, Shapes::ShapeRef.new(shape: RulesSearchConditionList, location_name: "OrConditions"))
+    RulesSearchCriteria.add_member(:and_conditions, Shapes::ShapeRef.new(shape: RulesSearchConditionList, location_name: "AndConditions"))
+    RulesSearchCriteria.add_member(:string_condition, Shapes::ShapeRef.new(shape: StringCondition, location_name: "StringCondition"))
+    RulesSearchCriteria.struct_class = Types::RulesSearchCriteria
+
+    RulesSearchFilter.add_member(:attribute_filter, Shapes::ShapeRef.new(shape: RuleAttributeFilter, location_name: "AttributeFilter"))
+    RulesSearchFilter.struct_class = Types::RulesSearchFilter
 
     S3Config.add_member(:bucket_name, Shapes::ShapeRef.new(shape: BucketName, required: true, location_name: "BucketName"))
     S3Config.add_member(:bucket_prefix, Shapes::ShapeRef.new(shape: Prefix, required: true, location_name: "BucketPrefix"))
@@ -7955,6 +8006,18 @@ module Aws::Connect
     SearchRoutingProfilesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken2500, location_name: "NextToken"))
     SearchRoutingProfilesResponse.add_member(:approximate_total_count, Shapes::ShapeRef.new(shape: ApproximateTotalCount, location_name: "ApproximateTotalCount"))
     SearchRoutingProfilesResponse.struct_class = Types::SearchRoutingProfilesResponse
+
+    SearchRulesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
+    SearchRulesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResult200, location_name: "MaxResults", metadata: {"box" => true}))
+    SearchRulesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken2500, location_name: "NextToken"))
+    SearchRulesRequest.add_member(:search_criteria, Shapes::ShapeRef.new(shape: RulesSearchCriteria, location_name: "SearchCriteria"))
+    SearchRulesRequest.add_member(:search_filter, Shapes::ShapeRef.new(shape: RulesSearchFilter, location_name: "SearchFilter"))
+    SearchRulesRequest.struct_class = Types::SearchRulesRequest
+
+    SearchRulesResponse.add_member(:rules, Shapes::ShapeRef.new(shape: RuleSearchSummaryList, required: true, location_name: "Rules"))
+    SearchRulesResponse.add_member(:approximate_total_count, Shapes::ShapeRef.new(shape: ApproximateTotalCount, location_name: "ApproximateTotalCount"))
+    SearchRulesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken2500, location_name: "NextToken"))
+    SearchRulesResponse.struct_class = Types::SearchRulesResponse
 
     SearchSecurityProfilesRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
     SearchSecurityProfilesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken2500, location_name: "NextToken"))
@@ -14006,6 +14069,26 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:search_rules, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SearchRules"
+        o.http_method = "POST"
+        o.http_request_uri = "/search-rules"
+        o.input = Shapes::ShapeRef.new(shape: SearchRulesRequest)
+        o.output = Shapes::ShapeRef.new(shape: SearchRulesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {

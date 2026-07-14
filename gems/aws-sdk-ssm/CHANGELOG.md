@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.219.0 (2026-07-14)
+------------------
+
+* Feature - Update AWS Systems Manager Automation Targets to be correct max value.
+
 1.218.0 (2026-07-09)
 ------------------
 

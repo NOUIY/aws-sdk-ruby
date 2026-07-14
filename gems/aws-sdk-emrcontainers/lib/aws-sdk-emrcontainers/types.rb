@@ -333,6 +333,10 @@ module Aws::EMRContainers
     #   The tags of the managed endpoint.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] session_idle_timeout_in_minutes
+    #   The idle timeout in minutes for the managed endpoint session.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/CreateManagedEndpointRequest AWS API Documentation
     #
     class CreateManagedEndpointRequest < Struct.new(
@@ -344,7 +348,8 @@ module Aws::EMRContainers
       :certificate_arn,
       :configuration_overrides,
       :client_token,
-      :tags)
+      :tags,
+      :session_idle_timeout_in_minutes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -457,6 +462,10 @@ module Aws::EMRContainers
     #   The ID of the security configuration.
     #   @return [String]
     #
+    # @!attribute [rw] session_enabled
+    #   Indicates whether the virtual cluster has session support enabled.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/CreateVirtualClusterRequest AWS API Documentation
     #
     class CreateVirtualClusterRequest < Struct.new(
@@ -464,7 +473,8 @@ module Aws::EMRContainers
       :container_provider,
       :client_token,
       :tags,
-      :security_configuration_id)
+      :security_configuration_id,
+      :session_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -828,6 +838,10 @@ module Aws::EMRContainers
     #   The server URL of the endpoint.
     #   @return [String]
     #
+    # @!attribute [rw] auth_proxy_url
+    #   The auth proxy URL of the endpoint.
+    #   @return [String]
+    #
     # @!attribute [rw] created_at
     #   The date and time when the endpoint was created.
     #   @return [Time]
@@ -867,6 +881,7 @@ module Aws::EMRContainers
       :certificate_authority,
       :configuration_overrides,
       :server_url,
+      :auth_proxy_url,
       :created_at,
       :security_group,
       :subnet_ids,
@@ -934,6 +949,10 @@ module Aws::EMRContainers
     #   The structure containing the session credentials.
     #   @return [Types::Credentials]
     #
+    # @!attribute [rw] endpoint_credentials
+    #   The structure containing the session token being returned.
+    #   @return [Types::Credentials]
+    #
     # @!attribute [rw] expires_at
     #   The date and time when the session token will expire.
     #   @return [Time]
@@ -943,6 +962,7 @@ module Aws::EMRContainers
     class GetManagedEndpointSessionCredentialsResponse < Struct.new(
       :id,
       :credentials,
+      :endpoint_credentials,
       :expires_at)
       SENSITIVE = []
       include Aws::Structure
@@ -1727,10 +1747,15 @@ module Aws::EMRContainers
     #   Amazon S3 destination URI for log publishing.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_key_arn
+    #   The Amazon resource name (ARN) of the encryption key for logs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/S3MonitoringConfiguration AWS API Documentation
     #
     class S3MonitoringConfiguration < Struct.new(
-      :log_uri)
+      :log_uri,
+      :encryption_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2097,6 +2122,10 @@ module Aws::EMRContainers
     #   The ID of the security configuration.
     #   @return [String]
     #
+    # @!attribute [rw] session_enabled
+    #   Indicates whether the virtual cluster has session support enabled.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/VirtualCluster AWS API Documentation
     #
     class VirtualCluster < Struct.new(
@@ -2107,7 +2136,8 @@ module Aws::EMRContainers
       :container_provider,
       :created_at,
       :tags,
-      :security_configuration_id)
+      :security_configuration_id,
+      :session_enabled)
       SENSITIVE = []
       include Aws::Structure
     end

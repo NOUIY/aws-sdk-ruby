@@ -1392,7 +1392,7 @@ module Aws
       type resources_composite_filter = {
       string_filters: Array[
         {
-          field_name: ("ResourceGuid" | "ResourceId" | "AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "FindingsSummary.ProductName")?,
+          field_name: ("ResourceGuid" | "ResourceId" | "AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "FindingsSummary.ProductName" | "ResourceSubCategory" | "DiscoveryType" | "ResourceInfo.AIDetails.HostResourceGuid" | "ResourceInfo.AIDetails.HostResourceType" | "ResourceInfo.AIDetails.CanonicalId")?,
           filter: {
             value: ::String?,
             comparison: ("EQUALS" | "PREFIX" | "NOT_EQUALS" | "PREFIX_NOT_EQUALS" | "CONTAINS" | "NOT_CONTAINS" | "CONTAINS_WORD")?
@@ -1412,7 +1412,7 @@ module Aws
         {
           string_filters: Array[
             {
-              field_name: ("ResourceGuid" | "ResourceId" | "AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "FindingsSummary.ProductName")?,
+              field_name: ("ResourceGuid" | "ResourceId" | "AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "FindingsSummary.ProductName" | "ResourceSubCategory" | "DiscoveryType" | "ResourceInfo.AIDetails.HostResourceGuid" | "ResourceInfo.AIDetails.HostResourceType" | "ResourceInfo.AIDetails.CanonicalId")?,
               filter: {
                 value: ::String?,
                 comparison: ("EQUALS" | "PREFIX" | "NOT_EQUALS" | "PREFIX_NOT_EQUALS" | "CONTAINS" | "NOT_CONTAINS" | "CONTAINS_WORD")?
@@ -1441,7 +1441,7 @@ module Aws
     }
 
       type resources_number_filter = {
-      field_name: ("FindingsSummary.TotalFindings" | "FindingsSummary.Severities.Other" | "FindingsSummary.Severities.Fatal" | "FindingsSummary.Severities.Critical" | "FindingsSummary.Severities.High" | "FindingsSummary.Severities.Medium" | "FindingsSummary.Severities.Low" | "FindingsSummary.Severities.Informational" | "FindingsSummary.Severities.Unknown")?,
+      field_name: ("FindingsSummary.TotalFindings" | "FindingsSummary.Severities.Other" | "FindingsSummary.Severities.Fatal" | "FindingsSummary.Severities.Critical" | "FindingsSummary.Severities.High" | "FindingsSummary.Severities.Medium" | "FindingsSummary.Severities.Low" | "FindingsSummary.Severities.Informational" | "FindingsSummary.Severities.Unknown" | "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount" | "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount")?,
       filter: {
         gte: ::Float?,
         lte: ::Float?,

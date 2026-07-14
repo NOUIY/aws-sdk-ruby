@@ -134,6 +134,7 @@ module Aws::SSM
     AutomationStepNotFoundException = Shapes::StructureShape.new(name: 'AutomationStepNotFoundException')
     AutomationSubtype = Shapes::StringShape.new(name: 'AutomationSubtype')
     AutomationTargetParameterName = Shapes::StringShape.new(name: 'AutomationTargetParameterName')
+    AutomationTargets = Shapes::ListShape.new(name: 'AutomationTargets')
     AutomationType = Shapes::StringShape.new(name: 'AutomationType')
     AvailabilityZone = Shapes::StringShape.new(name: 'AvailabilityZone')
     AvailabilityZoneId = Shapes::StringShape.new(name: 'AvailabilityZoneId')
@@ -1647,7 +1648,7 @@ module Aws::SSM
 
     AutomationExecutionInputs.add_member(:parameters, Shapes::ShapeRef.new(shape: AutomationParameterMap, location_name: "Parameters"))
     AutomationExecutionInputs.add_member(:target_parameter_name, Shapes::ShapeRef.new(shape: AutomationParameterKey, location_name: "TargetParameterName"))
-    AutomationExecutionInputs.add_member(:targets, Shapes::ShapeRef.new(shape: Targets, location_name: "Targets"))
+    AutomationExecutionInputs.add_member(:targets, Shapes::ShapeRef.new(shape: AutomationTargets, location_name: "Targets"))
     AutomationExecutionInputs.add_member(:target_maps, Shapes::ShapeRef.new(shape: TargetMaps, location_name: "TargetMaps"))
     AutomationExecutionInputs.add_member(:target_locations, Shapes::ShapeRef.new(shape: TargetLocations, location_name: "TargetLocations"))
     AutomationExecutionInputs.add_member(:target_locations_url, Shapes::ShapeRef.new(shape: TargetLocationsURL, location_name: "TargetLocationsURL"))
@@ -1707,6 +1708,8 @@ module Aws::SSM
 
     AutomationStepNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     AutomationStepNotFoundException.struct_class = Types::AutomationStepNotFoundException
+
+    AutomationTargets.member = Shapes::ShapeRef.new(shape: Target)
 
     AzureConfiguration.add_member(:tenant_id, Shapes::ShapeRef.new(shape: AzureTenantId, required: true, location_name: "TenantId"))
     AzureConfiguration.add_member(:tenant_display_name, Shapes::ShapeRef.new(shape: AzureTenantDisplayName, location_name: "TenantDisplayName"))
@@ -4808,7 +4811,7 @@ module Aws::SSM
     StartAutomationExecutionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: IdempotencyToken, location_name: "ClientToken"))
     StartAutomationExecutionRequest.add_member(:mode, Shapes::ShapeRef.new(shape: ExecutionMode, location_name: "Mode"))
     StartAutomationExecutionRequest.add_member(:target_parameter_name, Shapes::ShapeRef.new(shape: AutomationParameterKey, location_name: "TargetParameterName"))
-    StartAutomationExecutionRequest.add_member(:targets, Shapes::ShapeRef.new(shape: Targets, location_name: "Targets"))
+    StartAutomationExecutionRequest.add_member(:targets, Shapes::ShapeRef.new(shape: AutomationTargets, location_name: "Targets"))
     StartAutomationExecutionRequest.add_member(:target_maps, Shapes::ShapeRef.new(shape: TargetMaps, location_name: "TargetMaps"))
     StartAutomationExecutionRequest.add_member(:max_concurrency, Shapes::ShapeRef.new(shape: MaxConcurrency, location_name: "MaxConcurrency"))
     StartAutomationExecutionRequest.add_member(:max_errors, Shapes::ShapeRef.new(shape: MaxErrors, location_name: "MaxErrors"))
@@ -4929,7 +4932,7 @@ module Aws::SSM
     TargetLocation.add_member(:target_location_alarm_configuration, Shapes::ShapeRef.new(shape: AlarmConfiguration, location_name: "TargetLocationAlarmConfiguration", metadata: {"box" => true}))
     TargetLocation.add_member(:include_child_organization_units, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeChildOrganizationUnits"))
     TargetLocation.add_member(:exclude_accounts, Shapes::ShapeRef.new(shape: ExcludeAccounts, location_name: "ExcludeAccounts"))
-    TargetLocation.add_member(:targets, Shapes::ShapeRef.new(shape: Targets, location_name: "Targets"))
+    TargetLocation.add_member(:targets, Shapes::ShapeRef.new(shape: AutomationTargets, location_name: "Targets"))
     TargetLocation.add_member(:targets_max_concurrency, Shapes::ShapeRef.new(shape: MaxConcurrency, location_name: "TargetsMaxConcurrency"))
     TargetLocation.add_member(:targets_max_errors, Shapes::ShapeRef.new(shape: MaxErrors, location_name: "TargetsMaxErrors"))
     TargetLocation.struct_class = Types::TargetLocation

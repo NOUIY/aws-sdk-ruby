@@ -8,6 +8,21 @@
 module Aws::SecurityHub
   module Types
 
+    class AIDetails
+      attr_accessor host_resource_guid: ::String
+      attr_accessor host_resource_type: ::String
+      attr_accessor canonical_id: ::String
+      attr_accessor self_hosted_ai_model_resource_count: ::Integer
+      attr_accessor self_hosted_ai_agent_resource_count: ::Integer
+      attr_accessor self_hosted_ai_model_serving_resource_count: ::Integer
+      attr_accessor self_hosted_ai_external_endpoint_resource_count: ::Integer
+      attr_accessor self_hosted_ai_development_resource_count: ::Integer
+      attr_accessor self_hosted_ai_agent_framework_resource_count: ::Integer
+      attr_accessor self_hosted_ai_agent_tools_and_identity_resource_count: ::Integer
+      attr_accessor self_hosted_total_ai_resource_count: ::Integer
+      SENSITIVE: []
+    end
+
     class AcceptAdministratorInvitationRequest
       attr_accessor administrator_id: ::String
       attr_accessor invitation_id: ::String
@@ -7129,7 +7144,7 @@ module Aws::SecurityHub
     end
 
     class ResourceGroupByRule
-      attr_accessor group_by_field: ("AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType")
+      attr_accessor group_by_field: ("AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "ResourceSubCategory" | "DiscoveryType" | "ResourceInfo.AIDetails.HostResourceType" | "ResourceInfo.AIDetails.CanonicalId")
       attr_accessor filters: Types::ResourcesFilters
       SENSITIVE: []
     end
@@ -7137,6 +7152,11 @@ module Aws::SecurityHub
     class ResourceInUseException
       attr_accessor message: ::String
       attr_accessor code: ::String
+      SENSITIVE: []
+    end
+
+    class ResourceInfo
+      attr_accessor ai_details: Types::AIDetails
       SENSITIVE: []
     end
 
@@ -7181,6 +7201,9 @@ module Aws::SecurityHub
       attr_accessor findings_summary: ::Array[Types::ResourceFindingsSummary]
       attr_accessor resource_tags: ::Array[Types::ResourceTag]
       attr_accessor resource_config: untyped
+      attr_accessor resource_sub_category: ("Model" | "ModelServing" | "Agent" | "AgentFramework" | "AgentToolsAndIdentity" | "SafetyAndGuardrail" | "KnowledgeAndData" | "OrchestrationAndPipeline" | "ExternalEndpoint" | "Development" | "Other")
+      attr_accessor discovery_type: ("Managed" | "SelfHosted")
+      attr_accessor resource_info: Types::ResourceInfo
       SENSITIVE: []
     end
 
@@ -7241,13 +7264,13 @@ module Aws::SecurityHub
     end
 
     class ResourcesNumberFilter
-      attr_accessor field_name: ("FindingsSummary.TotalFindings" | "FindingsSummary.Severities.Other" | "FindingsSummary.Severities.Fatal" | "FindingsSummary.Severities.Critical" | "FindingsSummary.Severities.High" | "FindingsSummary.Severities.Medium" | "FindingsSummary.Severities.Low" | "FindingsSummary.Severities.Informational" | "FindingsSummary.Severities.Unknown")
+      attr_accessor field_name: ("FindingsSummary.TotalFindings" | "FindingsSummary.Severities.Other" | "FindingsSummary.Severities.Fatal" | "FindingsSummary.Severities.Critical" | "FindingsSummary.Severities.High" | "FindingsSummary.Severities.Medium" | "FindingsSummary.Severities.Low" | "FindingsSummary.Severities.Informational" | "FindingsSummary.Severities.Unknown" | "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount" | "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount" | "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount")
       attr_accessor filter: Types::NumberFilter
       SENSITIVE: []
     end
 
     class ResourcesStringFilter
-      attr_accessor field_name: ("ResourceGuid" | "ResourceId" | "AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "FindingsSummary.ProductName")
+      attr_accessor field_name: ("ResourceGuid" | "ResourceId" | "AccountId" | "AccountName" | "Region" | "ResourceProvider" | "ResourceOwnerAccountId" | "ResourceOwnerOrgId" | "ResourceCloudPartition" | "ResourceRegion" | "ResourceCategory" | "ResourceType" | "ResourceName" | "FindingsSummary.FindingType" | "FindingsSummary.ProductName" | "ResourceSubCategory" | "DiscoveryType" | "ResourceInfo.AIDetails.HostResourceGuid" | "ResourceInfo.AIDetails.HostResourceType" | "ResourceInfo.AIDetails.CanonicalId")
       attr_accessor filter: Types::StringFilter
       SENSITIVE: []
     end

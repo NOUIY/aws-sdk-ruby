@@ -102,6 +102,7 @@ module Aws::EMRContainers
       attr_accessor configuration_overrides: Types::ConfigurationOverrides
       attr_accessor client_token: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor session_idle_timeout_in_minutes: ::Integer
       SENSITIVE: []
     end
 
@@ -135,6 +136,7 @@ module Aws::EMRContainers
       attr_accessor client_token: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor security_configuration_id: ::String
+      attr_accessor session_enabled: bool
       SENSITIVE: []
     end
 
@@ -269,6 +271,7 @@ module Aws::EMRContainers
       attr_accessor certificate_authority: Types::Certificate
       attr_accessor configuration_overrides: Types::ConfigurationOverrides
       attr_accessor server_url: ::String
+      attr_accessor auth_proxy_url: ::String
       attr_accessor created_at: ::Time
       attr_accessor security_group: ::String
       attr_accessor subnet_ids: ::Array[::String]
@@ -292,6 +295,7 @@ module Aws::EMRContainers
     class GetManagedEndpointSessionCredentialsResponse
       attr_accessor id: ::String
       attr_accessor credentials: Types::Credentials
+      attr_accessor endpoint_credentials: Types::Credentials
       attr_accessor expires_at: ::Time
       SENSITIVE: []
     end
@@ -515,6 +519,7 @@ module Aws::EMRContainers
 
     class S3MonitoringConfiguration
       attr_accessor log_uri: ::String
+      attr_accessor encryption_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -621,6 +626,7 @@ module Aws::EMRContainers
       attr_accessor created_at: ::Time
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor security_configuration_id: ::String
+      attr_accessor session_enabled: bool
       SENSITIVE: []
     end
   end

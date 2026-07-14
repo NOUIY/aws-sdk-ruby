@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.74.0 (2026-07-14)
+------------------
+
+* Feature - Introduced 5 new fields across 3 APIs as part of Spark Connect server launch for EMR on EKS. The fields added are sessionIdleTimeoutInMinutes, sessionEnabled, endpointToken, authProxyUrl and encryptionKeyArn.
+
 1.73.0 (2026-07-09)
 ------------------
 
