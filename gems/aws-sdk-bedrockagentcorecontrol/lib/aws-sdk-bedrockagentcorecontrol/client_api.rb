@@ -3382,6 +3382,7 @@ module Aws::BedrockAgentCoreControl
     HarnessGeminiModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
     HarnessGeminiModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
     HarnessGeminiModelConfig.add_member(:top_k, Shapes::ShapeRef.new(shape: TopK, location_name: "topK"))
+    HarnessGeminiModelConfig.add_member(:additional_params, Shapes::ShapeRef.new(shape: Document, location_name: "additionalParams"))
     HarnessGeminiModelConfig.struct_class = Types::HarnessGeminiModelConfig
 
     HarnessInlineFunctionConfig.add_member(:description, Shapes::ShapeRef.new(shape: HarnessInlineFunctionDescription, required: true, location_name: "description"))
@@ -7963,6 +7964,7 @@ module Aws::BedrockAgentCoreControl
         o.http_request_uri = "/policy-engines/{policyEngineId}/policies/{policyId}"
         o.input = Shapes::ShapeRef.new(shape: UpdatePolicyRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdatePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)

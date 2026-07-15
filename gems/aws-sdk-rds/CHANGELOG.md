@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.318.0 (2026-07-15)
+------------------
+
+* Feature - Adds support for modifying EngineLifecycleSupport on DB instances and DB clusters through ModifyDBInstance and ModifyDBCluster.
+
 1.317.0 (2026-07-09)
 ------------------
 

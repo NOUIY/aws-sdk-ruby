@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.155.0 (2026-07-15)
+------------------
+
+* Feature - This release adds support for the IpAddressType field on SourceIpConfig, enabling Network Load Balancer listener rules to match traffic based on whether the source IP is IPv4 or IPv6.
+
 1.154.0 (2026-07-09)
 ------------------
 

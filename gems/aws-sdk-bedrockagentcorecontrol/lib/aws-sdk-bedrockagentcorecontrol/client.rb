@@ -2643,6 +2643,8 @@ module Aws::BedrockAgentCoreControl
     #         temperature: 1.0,
     #         top_p: 1.0,
     #         top_k: 1,
+    #         additional_params: {
+    #         },
     #       },
     #       lite_llm_model_config: {
     #         model_id: "ModelId", # required
@@ -12607,6 +12609,8 @@ module Aws::BedrockAgentCoreControl
     #         temperature: 1.0,
     #         top_p: 1.0,
     #         top_k: 1,
+    #         additional_params: {
+    #         },
     #       },
     #       lite_llm_model_config: {
     #         model_id: "ModelId", # required
@@ -15011,7 +15015,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.56.0'
+      context[:gem_version] = '1.57.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

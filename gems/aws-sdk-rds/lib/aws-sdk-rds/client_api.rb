@@ -3276,6 +3276,7 @@ module Aws::RDS
     ModifyDBClusterMessage.add_member(:enable_limitless_database, Shapes::ShapeRef.new(shape: BooleanOptional, location_name: "EnableLimitlessDatabase"))
     ModifyDBClusterMessage.add_member(:ca_certificate_identifier, Shapes::ShapeRef.new(shape: String, location_name: "CACertificateIdentifier"))
     ModifyDBClusterMessage.add_member(:master_user_authentication_type, Shapes::ShapeRef.new(shape: MasterUserAuthenticationType, location_name: "MasterUserAuthenticationType"))
+    ModifyDBClusterMessage.add_member(:engine_lifecycle_support, Shapes::ShapeRef.new(shape: String, location_name: "EngineLifecycleSupport"))
     ModifyDBClusterMessage.struct_class = Types::ModifyDBClusterMessage
 
     ModifyDBClusterParameterGroupMessage.add_member(:db_cluster_parameter_group_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DBClusterParameterGroupName"))
@@ -3358,6 +3359,7 @@ module Aws::RDS
     ModifyDBInstanceMessage.add_member(:additional_storage_volumes, Shapes::ShapeRef.new(shape: ModifyAdditionalStorageVolumesList, location_name: "AdditionalStorageVolumes"))
     ModifyDBInstanceMessage.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecifications"))
     ModifyDBInstanceMessage.add_member(:master_user_authentication_type, Shapes::ShapeRef.new(shape: MasterUserAuthenticationType, location_name: "MasterUserAuthenticationType"))
+    ModifyDBInstanceMessage.add_member(:engine_lifecycle_support, Shapes::ShapeRef.new(shape: String, location_name: "EngineLifecycleSupport"))
     ModifyDBInstanceMessage.struct_class = Types::ModifyDBInstanceMessage
 
     ModifyDBInstanceResult.add_member(:db_instance, Shapes::ShapeRef.new(shape: DBInstance, location_name: "DBInstance"))

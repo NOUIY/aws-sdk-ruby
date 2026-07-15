@@ -4141,10 +4141,21 @@ module Aws::ElasticLoadBalancingV2
     #   [1]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#http-header-conditions
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ip_address_type
+    #   The IP address type for Network Load Balancers.
+    #
+    #   The valid values are:
+    #
+    #   * `ipv4` – IPv4 addresses only.
+    #
+    #   * `ipv6` – IPv6 addresses only.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SourceIpConditionConfig AWS API Documentation
     #
     class SourceIpConditionConfig < Struct.new(
-      :values)
+      :values,
+      :ip_address_type)
       SENSITIVE = []
       include Aws::Structure
     end

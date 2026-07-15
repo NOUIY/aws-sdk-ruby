@@ -10346,6 +10346,11 @@ module Aws::BedrockAgentCoreControl
     #   The topK set when calling the model.
     #   @return [Integer]
     #
+    # @!attribute [rw] additional_params
+    #   Provider-specific parameters passed through to the Gemini model
+    #   provider unchanged.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HarnessGeminiModelConfig AWS API Documentation
     #
     class HarnessGeminiModelConfig < Struct.new(
@@ -10354,7 +10359,8 @@ module Aws::BedrockAgentCoreControl
       :max_tokens,
       :temperature,
       :top_p,
-      :top_k)
+      :top_k,
+      :additional_params)
       SENSITIVE = []
       include Aws::Structure
     end

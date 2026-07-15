@@ -2402,7 +2402,8 @@ module Aws
                                ?aws_backup_recovery_point_arn: ::String,
                                ?enable_limitless_database: bool,
                                ?ca_certificate_identifier: ::String,
-                               ?master_user_authentication_type: ("password" | "iam-db-auth")
+                               ?master_user_authentication_type: ("password" | "iam-db-auth"),
+                               ?engine_lifecycle_support: ::String
                              ) -> _ModifyDBClusterResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyDBClusterResponseSuccess
 
@@ -2551,7 +2552,8 @@ module Aws
                                     ]?
                                   }
                                 ],
-                                ?master_user_authentication_type: ("password" | "iam-db-auth")
+                                ?master_user_authentication_type: ("password" | "iam-db-auth"),
+                                ?engine_lifecycle_support: ::String
                               ) -> _ModifyDBInstanceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyDBInstanceResponseSuccess
 

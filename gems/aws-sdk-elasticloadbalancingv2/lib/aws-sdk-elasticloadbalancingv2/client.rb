@@ -1395,6 +1395,7 @@ module Aws::ElasticLoadBalancingV2
     #         },
     #         source_ip_config: {
     #           values: ["StringValue"],
+    #           ip_address_type: "ipv4", # accepts ipv4, ipv6
     #         },
     #         regex_values: ["StringValue"],
     #       },
@@ -1529,6 +1530,7 @@ module Aws::ElasticLoadBalancingV2
     #   resp.rules[0].conditions[0].http_request_method_config.values[0] #=> String
     #   resp.rules[0].conditions[0].source_ip_config.values #=> Array
     #   resp.rules[0].conditions[0].source_ip_config.values[0] #=> String
+    #   resp.rules[0].conditions[0].source_ip_config.ip_address_type #=> String, one of "ipv4", "ipv6"
     #   resp.rules[0].conditions[0].regex_values #=> Array
     #   resp.rules[0].conditions[0].regex_values[0] #=> String
     #   resp.rules[0].actions #=> Array
@@ -2833,6 +2835,7 @@ module Aws::ElasticLoadBalancingV2
     #   resp.rules[0].conditions[0].http_request_method_config.values[0] #=> String
     #   resp.rules[0].conditions[0].source_ip_config.values #=> Array
     #   resp.rules[0].conditions[0].source_ip_config.values[0] #=> String
+    #   resp.rules[0].conditions[0].source_ip_config.ip_address_type #=> String, one of "ipv4", "ipv6"
     #   resp.rules[0].conditions[0].regex_values #=> Array
     #   resp.rules[0].conditions[0].regex_values[0] #=> String
     #   resp.rules[0].actions #=> Array
@@ -4421,6 +4424,7 @@ module Aws::ElasticLoadBalancingV2
     #         },
     #         source_ip_config: {
     #           values: ["StringValue"],
+    #           ip_address_type: "ipv4", # accepts ipv4, ipv6
     #         },
     #         regex_values: ["StringValue"],
     #       },
@@ -4549,6 +4553,7 @@ module Aws::ElasticLoadBalancingV2
     #   resp.rules[0].conditions[0].http_request_method_config.values[0] #=> String
     #   resp.rules[0].conditions[0].source_ip_config.values #=> Array
     #   resp.rules[0].conditions[0].source_ip_config.values[0] #=> String
+    #   resp.rules[0].conditions[0].source_ip_config.ip_address_type #=> String, one of "ipv4", "ipv6"
     #   resp.rules[0].conditions[0].regex_values #=> Array
     #   resp.rules[0].conditions[0].regex_values[0] #=> String
     #   resp.rules[0].actions #=> Array
@@ -5226,6 +5231,7 @@ module Aws::ElasticLoadBalancingV2
     #   resp.rules[0].conditions[0].http_request_method_config.values[0] #=> String
     #   resp.rules[0].conditions[0].source_ip_config.values #=> Array
     #   resp.rules[0].conditions[0].source_ip_config.values[0] #=> String
+    #   resp.rules[0].conditions[0].source_ip_config.ip_address_type #=> String, one of "ipv4", "ipv6"
     #   resp.rules[0].conditions[0].regex_values #=> Array
     #   resp.rules[0].conditions[0].regex_values[0] #=> String
     #   resp.rules[0].actions #=> Array
@@ -5528,7 +5534,7 @@ module Aws::ElasticLoadBalancingV2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-elasticloadbalancingv2'
-      context[:gem_version] = '1.154.0'
+      context[:gem_version] = '1.155.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

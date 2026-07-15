@@ -531,7 +531,9 @@ module Aws
       max_tokens: ::Integer?,
       temperature: ::Float?,
       top_p: ::Float?,
-      top_k: ::Integer?
+      top_k: ::Integer?,
+      additional_params: {
+      }?
     }
 
       type harness_lite_llm_model_config = {

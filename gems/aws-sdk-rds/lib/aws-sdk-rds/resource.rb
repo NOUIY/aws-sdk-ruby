@@ -960,7 +960,7 @@ module Aws::RDS
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html
     # @option options [String] :engine_lifecycle_support
-    #   The life cycle type for this DB cluster.
+    #   The lifecycle type for this DB cluster.
     #
     #   <note markdown="1"> By default, this value is set to `open-source-rds-extended-support`,
     #   which enrolls your DB cluster into Amazon RDS Extended Support. At the
@@ -2446,7 +2446,7 @@ module Aws::RDS
     #   Indicates whether the DB instance has a dedicated log volume (DLV)
     #   enabled.
     # @option options [String] :engine_lifecycle_support
-    #   The life cycle type for this DB instance.
+    #   The lifecycle type for this DB instance.
     #
     #   <note markdown="1"> By default, this value is set to `open-source-rds-extended-support`,
     #   which enrolls your DB instance into Amazon RDS Extended Support. At
@@ -2459,8 +2459,8 @@ module Aws::RDS
     #    </note>
     #
     #   This setting applies only to RDS for MySQL and RDS for PostgreSQL. For
-    #   Amazon Aurora DB instances, the life cycle type is managed by the DB
-    #   cluster.
+    #   Amazon Aurora DB instances, the engine lifecycle support is managed by
+    #   the DB cluster.
     #
     #   You can use this setting to enroll your DB instance into Amazon RDS
     #   Extended Support. With RDS Extended Support, you can run the selected
