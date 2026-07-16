@@ -1357,9 +1357,9 @@ module Aws::Redshift
     #   node types, go to [ Working with Clusters][1] in the *Amazon Redshift
     #   Cluster Management Guide*.
     #
-    #   Valid Values: `dc2.large` \| `dc2.8xlarge`\| `rg.xlarge` \|
-    #   `rg.4xlarge` \| `ra3.large` \| `ra3.xlplus` \| `ra3.4xlarge` \|
-    #   `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `rg.large` \|
+    #   `rg.xlarge` \| `rg.4xlarge` \| `rg.12xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #
@@ -9103,9 +9103,9 @@ module Aws::Redshift
     #   in Amazon Redshift][1] in the *Amazon Redshift Cluster Management
     #   Guide*.
     #
-    #   Valid Values: `dc2.large` \| `dc2.8xlarge`\| `rg.xlarge` \|
-    #   `rg.4xlarge` \| `ra3.large` \| `ra3.xlplus` \| `ra3.4xlarge` \|
-    #   `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `rg.large` \|
+    #   `rg.xlarge` \| `rg.4xlarge` \| `rg.12xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #
@@ -11818,9 +11818,13 @@ module Aws::Redshift
     #
     #   * dc2.8xlarge
     #
+    #   * rg.large
+    #
     #   * rg.xlarge
     #
     #   * rg.4xlarge
+    #
+    #   * rg.12xlarge
     #
     #   * ra3.large
     #
@@ -13279,7 +13283,7 @@ module Aws::Redshift
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-redshift'
-      context[:gem_version] = '1.162.0'
+      context[:gem_version] = '1.163.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

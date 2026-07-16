@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.228.0 (2026-07-16)
+------------------
+
+* Feature - Documentation update for removing the 30 day minimum restriction for transition to Standard-IA or OneZone-IA storage classes
+
 1.227.0 (2026-07-09)
 ------------------
 

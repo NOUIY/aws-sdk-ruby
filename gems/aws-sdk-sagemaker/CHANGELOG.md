@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.378.0 (2026-07-16)
+------------------
+
+* Feature - Release support for g7 instance type for SageMaker inference endpoints.
+
 1.377.0 (2026-07-10)
 ------------------
 

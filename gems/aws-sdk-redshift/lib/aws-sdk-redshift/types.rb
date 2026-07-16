@@ -2014,9 +2014,9 @@ module Aws::Redshift
     #   about node types, go to [ Working with Clusters][1] in the *Amazon
     #   Redshift Cluster Management Guide*.
     #
-    #   Valid Values: `dc2.large` \| `dc2.8xlarge`\| `rg.xlarge` \|
-    #   `rg.4xlarge` \| `ra3.large` \| `ra3.xlplus` \| `ra3.4xlarge` \|
-    #   `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `rg.large` \|
+    #   `rg.xlarge` \| `rg.4xlarge` \| `rg.12xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #
@@ -8374,9 +8374,9 @@ module Aws::Redshift
     #   Clusters in Amazon Redshift][1] in the *Amazon Redshift Cluster
     #   Management Guide*.
     #
-    #   Valid Values: `dc2.large` \| `dc2.8xlarge`\| `rg.xlarge` \|
-    #   `rg.4xlarge` \| `ra3.large` \| `ra3.xlplus` \| `ra3.4xlarge` \|
-    #   `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `rg.large` \|
+    #   `rg.xlarge` \| `rg.4xlarge` \| `rg.12xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #

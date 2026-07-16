@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.135.0 (2026-07-16)
+------------------
+
+* Feature - Amazon EMR updates the Session object returned by GetSession API
+
 1.134.0 (2026-07-09)
 ------------------
 

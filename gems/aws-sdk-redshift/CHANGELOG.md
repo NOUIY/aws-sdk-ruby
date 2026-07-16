@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.163.0 (2026-07-16)
+------------------
+
+* Feature - Amazon Redshift - Added support for rg.large and rg.12xlarge node types in CreateCluster, ModifyCluster, and ResizeCluster API operations.
+
 1.162.0 (2026-07-09)
 ------------------
 
