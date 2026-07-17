@@ -508,7 +508,7 @@ module Aws::RDS
     #
     #   resp = client.add_role_to_db_cluster({
     #     db_cluster_identifier: "String", # required
-    #     role_arn: "String", # required
+    #     role_arn: "IAMRoleArn", # required
     #     feature_name: "String",
     #   })
     #
@@ -2754,6 +2754,13 @@ module Aws::RDS
     # instance and feature specific values set to all other input parameters
     # of this API.
     #
+    # You can use the `AssociatedRoles` parameter to associate one or more
+    # Amazon Web Services Identity and Access Management (IAM) roles with an
+    # Aurora DB cluster. Each associated role lets the DB cluster access
+    # other Amazon Web Services on your behalf, such as Amazon S3 for data
+    # import and export, or Amazon Web Services Lambda for invoking
+    # functions.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html
@@ -3713,6 +3720,15 @@ module Aws::RDS
     #
     #   Valid for Cluster Type: Aurora DB clusters
     #
+    # @option params [Array<Types::DBClusterAssociatedRole>] :associated_roles
+    #   A list of Amazon Web Services Identity and Access Management (IAM)
+    #   roles to associate with the DB cluster. Each role grants the DB
+    #   cluster permission to access other Amazon Web Services on your behalf.
+    #   For each role, specify a role ARN and, optionally, the feature name
+    #   (such as `s3Import`, `s3Export`, or `Lambda`).
+    #
+    #   Valid for Cluster Type: Aurora DB clusters only
+    #
     # @option params [String] :source_region
     #   The source region of the snapshot. This is only needed when the
     #   shapshot is encrypted and in a different region.
@@ -3921,6 +3937,73 @@ module Aws::RDS
     #     }, 
     #   }
     #
+    # @example Example: To create an Aurora DB cluster with an associated IAM role for Amazon S3 import
+    #
+    #   # The following example creates an Aurora PostgreSQL-compatible DB cluster and associates an IAM role for Amazon S3 import
+    #   # in a single call.
+    #
+    #   resp = client.create_db_cluster({
+    #     associated_roles: [
+    #       {
+    #         feature_name: "s3Import", 
+    #         role_arn: "arn:aws:iam::123456789012:role/RDSLoadFromS3", 
+    #       }, 
+    #     ], 
+    #     db_cluster_identifier: "sample-cluster", 
+    #     engine: "aurora-postgresql", 
+    #     master_user_password: "mypassword", 
+    #     master_username: "admin", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     db_cluster: {
+    #       allocated_storage: 1, 
+    #       associated_roles: [
+    #         {
+    #           feature_name: "s3Import", 
+    #           role_arn: "arn:aws:iam::123456789012:role/RDSLoadFromS3", 
+    #           status: "ACTIVE", 
+    #         }, 
+    #       ], 
+    #       availability_zones: [
+    #         "us-east-1a", 
+    #         "us-east-1b", 
+    #         "us-east-1c", 
+    #       ], 
+    #       backup_retention_period: 1, 
+    #       cluster_create_time: Time.parse("2024-06-07T23:26:08.371Z"), 
+    #       copy_tags_to_snapshot: false, 
+    #       db_cluster_arn: "arn:aws:rds:us-east-1:123456789012:cluster:sample-cluster", 
+    #       db_cluster_identifier: "sample-cluster", 
+    #       db_cluster_members: [
+    #       ], 
+    #       db_cluster_parameter_group: "default.aurora-postgresql17", 
+    #       db_subnet_group: "default", 
+    #       db_cluster_resource_id: "cluster-ANPAJ4AE5446DAEXAMPLE", 
+    #       deletion_protection: false, 
+    #       endpoint: "sample-cluster.cluster-cnpexample.us-east-1.rds.amazonaws.com", 
+    #       engine: "aurora-postgresql", 
+    #       engine_mode: "provisioned", 
+    #       engine_version: "17.7", 
+    #       hosted_zone_id: "Z2R2ITUGPM61AM", 
+    #       http_endpoint_enabled: false, 
+    #       iam_database_authentication_enabled: false, 
+    #       master_username: "admin", 
+    #       multi_az: false, 
+    #       port: 5432, 
+    #       preferred_backup_window: "09:56-10:26", 
+    #       preferred_maintenance_window: "wed:03:33-wed:04:03", 
+    #       read_replica_identifiers: [
+    #       ], 
+    #       reader_endpoint: "sample-cluster.cluster-ro-cnpexample.us-east-1.rds.amazonaws.com", 
+    #       status: "creating", 
+    #       storage_encrypted: false, 
+    #       vpc_security_groups: [
+    #       ], 
+    #     }, 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_db_cluster({
@@ -4013,6 +4096,12 @@ module Aws::RDS
     #     ],
     #     master_user_authentication_type: "password", # accepts password, iam-db-auth
     #     with_express_configuration: false,
+    #     associated_roles: [
+    #       {
+    #         role_arn: "IAMRoleArn", # required
+    #         feature_name: "String",
+    #       },
+    #     ],
     #     source_region: "String",
     #   })
     #
@@ -25908,7 +25997,7 @@ module Aws::RDS
     #
     #   resp = client.remove_role_from_db_cluster({
     #     db_cluster_identifier: "String", # required
-    #     role_arn: "String", # required
+    #     role_arn: "IAMRoleArn", # required
     #     feature_name: "String",
     #   })
     #
@@ -26306,6 +26395,10 @@ module Aws::RDS
     # engine must be MySQL.
     #
     #  </note>
+    #
+    # You can use the `AssociatedRoles` parameter to associate one or more
+    # Amazon Web Services Identity and Access Management (IAM) roles with
+    # the Aurora DB cluster when you restore it from Amazon S3.
     #
     #
     #
@@ -26740,6 +26833,14 @@ module Aws::RDS
     #
     #   ^
     #
+    # @option params [Array<Types::DBClusterAssociatedRole>] :associated_roles
+    #   A list of Amazon Web Services Identity and Access Management (IAM)
+    #   roles to associate with the DB cluster when it's restored from Amazon
+    #   S3. Each role grants the DB cluster permission to access other Amazon
+    #   Web Services on your behalf. For each role, specify a role ARN and,
+    #   optionally, the feature name (such as `s3Import`, `s3Export`, or
+    #   `Lambda`).
+    #
     # @return [Types::RestoreDBClusterFromS3Result] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RestoreDBClusterFromS3Result#db_cluster #db_cluster} => Types::DBCluster
@@ -26871,6 +26972,12 @@ module Aws::RDS
     #             value: "String",
     #           },
     #         ],
+    #       },
+    #     ],
+    #     associated_roles: [
+    #       {
+    #         role_arn: "IAMRoleArn", # required
+    #         feature_name: "String",
     #       },
     #     ],
     #   })
@@ -27050,6 +27157,10 @@ module Aws::RDS
     # `EnableIAMDatabaseAuthentication`. Once the cluster is restored, you
     # need to modify the DB cluster to update `MasterUserAuthenticationType`
     # to `iam-db-auth`.
+    #
+    # You can use the `AssociatedRoles` parameter to associate one or more
+    # Amazon Web Services Identity and Access Management (IAM) roles with an
+    # Aurora DB cluster when you restore it from a snapshot.
     #
     # <note markdown="1"> This operation only restores the DB cluster, not the DB instances for
     # that DB cluster. You must invoke the `CreateDBInstance` operation to
@@ -27660,6 +27771,16 @@ module Aws::RDS
     #
     #   Valid for Cluster Type: Aurora PostgreSQL clusters
     #
+    # @option params [Array<Types::DBClusterAssociatedRole>] :associated_roles
+    #   A list of Amazon Web Services Identity and Access Management (IAM)
+    #   roles to associate with the DB cluster when it's restored from a
+    #   snapshot. Each role grants the DB cluster permission to access other
+    #   Amazon Web Services on your behalf. For each role, specify a role ARN
+    #   and, optionally, the feature name (such as `s3Import`, `s3Export`, or
+    #   `Lambda`).
+    #
+    #   Valid for Cluster Type: Aurora DB clusters only
+    #
     # @return [Types::RestoreDBClusterFromSnapshotResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RestoreDBClusterFromSnapshotResult#db_cluster #db_cluster} => Types::DBCluster
@@ -27790,6 +27911,65 @@ module Aws::RDS
     #     }, 
     #   }
     #
+    # @example Example: To restore a DB cluster from a snapshot with an associated IAM role
+    #
+    #   # The following example restores an Aurora PostgreSQL DB cluster from a snapshot and associates an IAM role for Amazon S3
+    #   # import in a single call.
+    #
+    #   resp = client.restore_db_cluster_from_snapshot({
+    #     associated_roles: [
+    #       {
+    #         feature_name: "s3Import", 
+    #         role_arn: "arn:aws:iam::123456789012:role/RDSLoadFromS3", 
+    #       }, 
+    #     ], 
+    #     db_cluster_identifier: "restored-cluster", 
+    #     engine: "aurora-postgresql", 
+    #     snapshot_identifier: "test-instance-snapshot", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     db_cluster: {
+    #       associated_roles: [
+    #         {
+    #           feature_name: "s3Import", 
+    #           role_arn: "arn:aws:iam::123456789012:role/RDSLoadFromS3", 
+    #           status: "ACTIVE", 
+    #         }, 
+    #       ], 
+    #       cluster_create_time: Time.parse("2024-06-05T15:06:58.634Z"), 
+    #       copy_tags_to_snapshot: false, 
+    #       cross_account_clone: false, 
+    #       db_cluster_arn: "arn:aws:rds:us-west-2:123456789012:cluster:restored-cluster", 
+    #       db_cluster_identifier: "restored-cluster", 
+    #       db_cluster_members: [
+    #       ], 
+    #       db_cluster_parameter_group: "default.aurora-postgresql17", 
+    #       database_name: "", 
+    #       db_cluster_resource_id: "cluster-5DSB5IFQDDUVAWOUWM1EXAMPLE", 
+    #       deletion_protection: false, 
+    #       domain_memberships: [
+    #       ], 
+    #       engine: "aurora-postgresql", 
+    #       engine_mode: "provisioned", 
+    #       engine_version: "17.7", 
+    #       http_endpoint_enabled: false, 
+    #       iam_database_authentication_enabled: true, 
+    #       master_username: "postgres", 
+    #       multi_az: false, 
+    #       port: 5432, 
+    #       preferred_backup_window: "09:33-10:03", 
+    #       preferred_maintenance_window: "sun:12:22-sun:12:52", 
+    #       read_replica_identifiers: [
+    #       ], 
+    #       status: "creating", 
+    #       storage_encrypted: false, 
+    #       vpc_security_groups: [
+    #       ], 
+    #     }, 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.restore_db_cluster_from_snapshot({
@@ -27863,6 +28043,12 @@ module Aws::RDS
     #     ],
     #     enable_vpc_networking: false,
     #     enable_internet_access_gateway: false,
+    #     associated_roles: [
+    #       {
+    #         role_arn: "IAMRoleArn", # required
+    #         feature_name: "String",
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -28044,6 +28230,10 @@ module Aws::RDS
     # `EnableIAMDatabaseAuthentication`. Once the cluster is restored, you
     # need to modify the DB cluster to update `MasterUserAuthenticationType`
     # to `iam-db-auth`.
+    #
+    # You can use the `AssociatedRoles` parameter to associate one or more
+    # Amazon Web Services Identity and Access Management (IAM) roles with an
+    # Aurora DB cluster when you restore it to a point in time.
     #
     # <note markdown="1"> For Aurora, this operation only restores the DB cluster, not the DB
     # instances for that DB cluster. You must invoke the `CreateDBInstance`
@@ -28634,6 +28824,16 @@ module Aws::RDS
     #
     #   Valid for Cluster Type: Aurora PostgreSQL clusters
     #
+    # @option params [Array<Types::DBClusterAssociatedRole>] :associated_roles
+    #   A list of Amazon Web Services Identity and Access Management (IAM)
+    #   roles to associate with the DB cluster when it's restored to a point
+    #   in time. Each role grants the DB cluster permission to access other
+    #   Amazon Web Services on your behalf. For each role, specify a role ARN
+    #   and, optionally, the feature name (such as `s3Import`, `s3Export`, or
+    #   `Lambda`).
+    #
+    #   Valid for Cluster Type: Aurora DB clusters only
+    #
     # @return [Types::RestoreDBClusterToPointInTimeResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RestoreDBClusterToPointInTimeResult#db_cluster #db_cluster} => Types::DBCluster
@@ -28835,6 +29035,12 @@ module Aws::RDS
     #     ],
     #     enable_vpc_networking: false,
     #     enable_internet_access_gateway: false,
+    #     associated_roles: [
+    #       {
+    #         role_arn: "IAMRoleArn", # required
+    #         feature_name: "String",
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -34237,7 +34443,7 @@ module Aws::RDS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-rds'
-      context[:gem_version] = '1.318.0'
+      context[:gem_version] = '1.319.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

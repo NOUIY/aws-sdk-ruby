@@ -640,6 +640,7 @@ module Aws::CognitoIdentityProvider
       attr_accessor job_name: ::String
       attr_accessor user_pool_id: ::String
       attr_accessor cloud_watch_logs_role_arn: ::String
+      attr_accessor password_hashing_algorithm: ("BCRYPT" | "SCRYPT" | "ARGON2ID" | "PBKDF2_SHA256")
       SENSITIVE: []
     end
 
@@ -1034,6 +1035,17 @@ module Aws::CognitoIdentityProvider
 
     class EnableSoftwareTokenMFAException
       attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class EumsSmsConfigurationType
+      attr_accessor caller_arn: ::String
+      attr_accessor external_id: ::String
+      attr_accessor origination_identity: ::String
+      attr_accessor configuration_set_name: ::String
+      attr_accessor in_entity_id: ::String
+      attr_accessor in_template_id: ::String
+      attr_accessor region: ::String
       SENSITIVE: []
     end
 
@@ -1982,6 +1994,7 @@ module Aws::CognitoIdentityProvider
       attr_accessor sns_caller_arn: ::String
       attr_accessor external_id: ::String
       attr_accessor sns_region: ::String
+      attr_accessor eums_sms: Types::EumsSmsConfigurationType
       SENSITIVE: []
     end
 
@@ -2388,6 +2401,7 @@ module Aws::CognitoIdentityProvider
       attr_accessor skipped_users: ::Integer
       attr_accessor failed_users: ::Integer
       attr_accessor completion_message: ::String
+      attr_accessor password_hashing_algorithm: ("BCRYPT" | "SCRYPT" | "ARGON2ID" | "PBKDF2_SHA256")
       SENSITIVE: []
     end
 

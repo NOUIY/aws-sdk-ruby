@@ -1905,6 +1905,7 @@ module Aws::GameLiftStreams
     #   * {Types::GetStreamSessionOutput#created_at #created_at} => Time
     #   * {Types::GetStreamSessionOutput#application_arn #application_arn} => String
     #   * {Types::GetStreamSessionOutput#export_files_metadata #export_files_metadata} => Types::ExportFilesMetadata
+    #   * {Types::GetStreamSessionOutput#role_arn #role_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1920,7 +1921,7 @@ module Aws::GameLiftStreams
     #   resp.stream_group_id #=> String
     #   resp.user_id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "ACTIVE", "CONNECTED", "PENDING_CLIENT_RECONNECTION", "RECONNECTING", "TERMINATING", "TERMINATED", "ERROR"
-    #   resp.status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
+    #   resp.status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "assumeRoleFailed", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
     #   resp.protocol #=> String, one of "WebRTC"
     #   resp.location #=> String
     #   resp.signal_request #=> String
@@ -1940,6 +1941,7 @@ module Aws::GameLiftStreams
     #   resp.export_files_metadata.status #=> String, one of "SUCCEEDED", "FAILED", "PENDING"
     #   resp.export_files_metadata.status_reason #=> String
     #   resp.export_files_metadata.output_uri #=> String
+    #   resp.role_arn #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -2132,7 +2134,7 @@ module Aws::GameLiftStreams
     #   resp.items[0].arn #=> String
     #   resp.items[0].user_id #=> String
     #   resp.items[0].status #=> String, one of "ACTIVATING", "ACTIVE", "CONNECTED", "PENDING_CLIENT_RECONNECTION", "RECONNECTING", "TERMINATING", "TERMINATED", "ERROR"
-    #   resp.items[0].status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
+    #   resp.items[0].status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "assumeRoleFailed", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
     #   resp.items[0].protocol #=> String, one of "WebRTC"
     #   resp.items[0].last_updated_at #=> Time
     #   resp.items[0].created_at #=> Time
@@ -2141,6 +2143,7 @@ module Aws::GameLiftStreams
     #   resp.items[0].export_files_metadata.status_reason #=> String
     #   resp.items[0].export_files_metadata.output_uri #=> String
     #   resp.items[0].location #=> String
+    #   resp.items[0].role_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/ListStreamSessions AWS API Documentation
@@ -2209,7 +2212,7 @@ module Aws::GameLiftStreams
     #   resp.items[0].arn #=> String
     #   resp.items[0].user_id #=> String
     #   resp.items[0].status #=> String, one of "ACTIVATING", "ACTIVE", "CONNECTED", "PENDING_CLIENT_RECONNECTION", "RECONNECTING", "TERMINATING", "TERMINATED", "ERROR"
-    #   resp.items[0].status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
+    #   resp.items[0].status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "assumeRoleFailed", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
     #   resp.items[0].protocol #=> String, one of "WebRTC"
     #   resp.items[0].last_updated_at #=> Time
     #   resp.items[0].created_at #=> Time
@@ -2218,6 +2221,7 @@ module Aws::GameLiftStreams
     #   resp.items[0].export_files_metadata.status_reason #=> String
     #   resp.items[0].export_files_metadata.output_uri #=> String
     #   resp.items[0].location #=> String
+    #   resp.items[0].role_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/ListStreamSessionsByAccount AWS API Documentation
@@ -2551,6 +2555,14 @@ module Aws::GameLiftStreams
     #   Configuration settings for sharing the stream session's performance
     #   stats with the client
     #
+    # @option params [String] :role_arn
+    #   The ARN of an AWS Identity and Access Management (IAM) role that
+    #   Amazon GameLift Streams assumes on your behalf during the stream
+    #   session. The role grants Amazon GameLift Streams permission to obtain
+    #   temporary credentials for your application. The role's trust policy
+    #   must allow the `gameliftstreams.amazonaws.com` service principal to
+    #   assume it. The role name must start with `GameLiftStreams-`.
+    #
     # @return [Types::StartStreamSessionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartStreamSessionOutput#arn #arn} => String
@@ -2574,6 +2586,7 @@ module Aws::GameLiftStreams
     #   * {Types::StartStreamSessionOutput#created_at #created_at} => Time
     #   * {Types::StartStreamSessionOutput#application_arn #application_arn} => String
     #   * {Types::StartStreamSessionOutput#export_files_metadata #export_files_metadata} => Types::ExportFilesMetadata
+    #   * {Types::StartStreamSessionOutput#role_arn #role_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2595,6 +2608,7 @@ module Aws::GameLiftStreams
     #     performance_stats_configuration: {
     #       shared_with_client: false,
     #     },
+    #     role_arn: "IamRoleArn",
     #   })
     #
     # @example Response structure
@@ -2604,7 +2618,7 @@ module Aws::GameLiftStreams
     #   resp.stream_group_id #=> String
     #   resp.user_id #=> String
     #   resp.status #=> String, one of "ACTIVATING", "ACTIVE", "CONNECTED", "PENDING_CLIENT_RECONNECTION", "RECONNECTING", "TERMINATING", "TERMINATED", "ERROR"
-    #   resp.status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
+    #   resp.status_reason #=> String, one of "internalError", "invalidSignalRequest", "placementTimeout", "applicationLogS3DestinationError", "assumeRoleFailed", "applicationExit", "connectionTimeout", "reconnectionTimeout", "maxSessionLengthTimeout", "idleTimeout", "apiTerminated"
     #   resp.protocol #=> String, one of "WebRTC"
     #   resp.location #=> String
     #   resp.signal_request #=> String
@@ -2624,6 +2638,7 @@ module Aws::GameLiftStreams
     #   resp.export_files_metadata.status #=> String, one of "SUCCEEDED", "FAILED", "PENDING"
     #   resp.export_files_metadata.status_reason #=> String
     #   resp.export_files_metadata.output_uri #=> String
+    #   resp.role_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StartStreamSession AWS API Documentation
     #
@@ -3059,7 +3074,7 @@ module Aws::GameLiftStreams
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gameliftstreams'
-      context[:gem_version] = '1.31.0'
+      context[:gem_version] = '1.32.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -66,6 +66,7 @@ module Aws::GameLiftStreams
     GetStreamGroupOutput = Shapes::StructureShape.new(name: 'GetStreamGroupOutput')
     GetStreamSessionInput = Shapes::StructureShape.new(name: 'GetStreamSessionInput')
     GetStreamSessionOutput = Shapes::StructureShape.new(name: 'GetStreamSessionOutput')
+    IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
     Id = Shapes::StringShape.new(name: 'Id')
     Identifier = Shapes::StringShape.new(name: 'Identifier')
     Identifiers = Shapes::ListShape.new(name: 'Identifiers')
@@ -347,6 +348,7 @@ module Aws::GameLiftStreams
     GetStreamSessionOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedAt"))
     GetStreamSessionOutput.add_member(:application_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "ApplicationArn"))
     GetStreamSessionOutput.add_member(:export_files_metadata, Shapes::ShapeRef.new(shape: ExportFilesMetadata, location_name: "ExportFilesMetadata"))
+    GetStreamSessionOutput.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "RoleArn"))
     GetStreamSessionOutput.struct_class = Types::GetStreamSessionOutput
 
     Identifiers.member = Shapes::ShapeRef.new(shape: Identifier)
@@ -464,6 +466,7 @@ module Aws::GameLiftStreams
     StartStreamSessionInput.add_member(:additional_launch_args, Shapes::ShapeRef.new(shape: GameLaunchArgList, location_name: "AdditionalLaunchArgs"))
     StartStreamSessionInput.add_member(:additional_environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariables, location_name: "AdditionalEnvironmentVariables"))
     StartStreamSessionInput.add_member(:performance_stats_configuration, Shapes::ShapeRef.new(shape: PerformanceStatsConfiguration, location_name: "PerformanceStatsConfiguration"))
+    StartStreamSessionInput.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "RoleArn"))
     StartStreamSessionInput.struct_class = Types::StartStreamSessionInput
 
     StartStreamSessionOutput.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
@@ -487,6 +490,7 @@ module Aws::GameLiftStreams
     StartStreamSessionOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreatedAt"))
     StartStreamSessionOutput.add_member(:application_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "ApplicationArn"))
     StartStreamSessionOutput.add_member(:export_files_metadata, Shapes::ShapeRef.new(shape: ExportFilesMetadata, location_name: "ExportFilesMetadata"))
+    StartStreamSessionOutput.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "RoleArn"))
     StartStreamSessionOutput.struct_class = Types::StartStreamSessionOutput
 
     StreamGroupSummary.add_member(:arn, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "Arn"))
@@ -515,6 +519,7 @@ module Aws::GameLiftStreams
     StreamSessionSummary.add_member(:application_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "ApplicationArn"))
     StreamSessionSummary.add_member(:export_files_metadata, Shapes::ShapeRef.new(shape: ExportFilesMetadata, location_name: "ExportFilesMetadata"))
     StreamSessionSummary.add_member(:location, Shapes::ShapeRef.new(shape: LocationName, location_name: "Location"))
+    StreamSessionSummary.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "RoleArn"))
     StreamSessionSummary.struct_class = Types::StreamSessionSummary
 
     StreamSessionSummaryList.member = Shapes::ShapeRef.new(shape: StreamSessionSummary)

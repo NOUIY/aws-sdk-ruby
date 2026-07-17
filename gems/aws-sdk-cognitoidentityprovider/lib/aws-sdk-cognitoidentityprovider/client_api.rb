@@ -258,6 +258,7 @@ module Aws::CognitoIdentityProvider
     EnableSoftwareTokenMFAException = Shapes::StructureShape.new(name: 'EnableSoftwareTokenMFAException')
     EncryptionKeyArnType = Shapes::StringShape.new(name: 'EncryptionKeyArnType')
     EncryptionKeyType = Shapes::StringShape.new(name: 'EncryptionKeyType')
+    EumsSmsConfigurationType = Shapes::StructureShape.new(name: 'EumsSmsConfigurationType')
     EventContextDataType = Shapes::StructureShape.new(name: 'EventContextDataType')
     EventFeedbackType = Shapes::StructureShape.new(name: 'EventFeedbackType')
     EventFilterType = Shapes::StringShape.new(name: 'EventFilterType')
@@ -406,8 +407,10 @@ module Aws::CognitoIdentityProvider
     OAuthFlowType = Shapes::StringShape.new(name: 'OAuthFlowType')
     OAuthFlowsType = Shapes::ListShape.new(name: 'OAuthFlowsType')
     OperationNotEnabledException = Shapes::StructureShape.new(name: 'OperationNotEnabledException')
+    OptionalArnType = Shapes::StringShape.new(name: 'OptionalArnType')
     PaginationKey = Shapes::StringShape.new(name: 'PaginationKey')
     PaginationKeyType = Shapes::StringShape.new(name: 'PaginationKeyType')
+    PasswordHashingAlgorithmType = Shapes::StringShape.new(name: 'PasswordHashingAlgorithmType')
     PasswordHistoryPolicyViolationException = Shapes::StructureShape.new(name: 'PasswordHistoryPolicyViolationException')
     PasswordHistorySizeType = Shapes::IntegerShape.new(name: 'PasswordHistorySizeType')
     PasswordPolicyMinLengthType = Shapes::IntegerShape.new(name: 'PasswordPolicyMinLengthType')
@@ -1137,6 +1140,7 @@ module Aws::CognitoIdentityProvider
     CreateUserImportJobRequest.add_member(:job_name, Shapes::ShapeRef.new(shape: UserImportJobNameType, required: true, location_name: "JobName"))
     CreateUserImportJobRequest.add_member(:user_pool_id, Shapes::ShapeRef.new(shape: UserPoolIdType, required: true, location_name: "UserPoolId"))
     CreateUserImportJobRequest.add_member(:cloud_watch_logs_role_arn, Shapes::ShapeRef.new(shape: ArnType, required: true, location_name: "CloudWatchLogsRoleArn"))
+    CreateUserImportJobRequest.add_member(:password_hashing_algorithm, Shapes::ShapeRef.new(shape: PasswordHashingAlgorithmType, location_name: "PasswordHashingAlgorithm"))
     CreateUserImportJobRequest.struct_class = Types::CreateUserImportJobRequest
 
     CreateUserImportJobResponse.add_member(:user_import_job, Shapes::ShapeRef.new(shape: UserImportJobType, location_name: "UserImportJob"))
@@ -1422,6 +1426,15 @@ module Aws::CognitoIdentityProvider
 
     EnableSoftwareTokenMFAException.add_member(:message, Shapes::ShapeRef.new(shape: MessageType, location_name: "message"))
     EnableSoftwareTokenMFAException.struct_class = Types::EnableSoftwareTokenMFAException
+
+    EumsSmsConfigurationType.add_member(:caller_arn, Shapes::ShapeRef.new(shape: ArnType, required: true, location_name: "CallerArn"))
+    EumsSmsConfigurationType.add_member(:external_id, Shapes::ShapeRef.new(shape: StringType, location_name: "ExternalId"))
+    EumsSmsConfigurationType.add_member(:origination_identity, Shapes::ShapeRef.new(shape: StringType, location_name: "OriginationIdentity"))
+    EumsSmsConfigurationType.add_member(:configuration_set_name, Shapes::ShapeRef.new(shape: StringType, location_name: "ConfigurationSetName"))
+    EumsSmsConfigurationType.add_member(:in_entity_id, Shapes::ShapeRef.new(shape: StringType, location_name: "InEntityId"))
+    EumsSmsConfigurationType.add_member(:in_template_id, Shapes::ShapeRef.new(shape: StringType, location_name: "InTemplateId"))
+    EumsSmsConfigurationType.add_member(:region, Shapes::ShapeRef.new(shape: RegionCodeType, location_name: "Region"))
+    EumsSmsConfigurationType.struct_class = Types::EumsSmsConfigurationType
 
     EventContextDataType.add_member(:ip_address, Shapes::ShapeRef.new(shape: StringType, location_name: "IpAddress"))
     EventContextDataType.add_member(:device_name, Shapes::ShapeRef.new(shape: StringType, location_name: "DeviceName"))
@@ -2122,9 +2135,10 @@ module Aws::CognitoIdentityProvider
 
     SkippedIPRangeListType.member = Shapes::ShapeRef.new(shape: StringType)
 
-    SmsConfigurationType.add_member(:sns_caller_arn, Shapes::ShapeRef.new(shape: ArnType, required: true, location_name: "SnsCallerArn"))
+    SmsConfigurationType.add_member(:sns_caller_arn, Shapes::ShapeRef.new(shape: OptionalArnType, location_name: "SnsCallerArn"))
     SmsConfigurationType.add_member(:external_id, Shapes::ShapeRef.new(shape: StringType, location_name: "ExternalId"))
     SmsConfigurationType.add_member(:sns_region, Shapes::ShapeRef.new(shape: RegionCodeType, location_name: "SnsRegion"))
+    SmsConfigurationType.add_member(:eums_sms, Shapes::ShapeRef.new(shape: EumsSmsConfigurationType, location_name: "EumsSms"))
     SmsConfigurationType.struct_class = Types::SmsConfigurationType
 
     SmsMfaConfigType.add_member(:sms_authentication_message, Shapes::ShapeRef.new(shape: SmsVerificationMessageType, location_name: "SmsAuthenticationMessage"))
@@ -2425,6 +2439,7 @@ module Aws::CognitoIdentityProvider
     UserImportJobType.add_member(:skipped_users, Shapes::ShapeRef.new(shape: LongType, location_name: "SkippedUsers"))
     UserImportJobType.add_member(:failed_users, Shapes::ShapeRef.new(shape: LongType, location_name: "FailedUsers"))
     UserImportJobType.add_member(:completion_message, Shapes::ShapeRef.new(shape: CompletionMessageType, location_name: "CompletionMessage"))
+    UserImportJobType.add_member(:password_hashing_algorithm, Shapes::ShapeRef.new(shape: PasswordHashingAlgorithmType, location_name: "PasswordHashingAlgorithm"))
     UserImportJobType.struct_class = Types::UserImportJobType
 
     UserImportJobsListType.member = Shapes::ShapeRef.new(shape: UserImportJobType)

@@ -4703,6 +4703,12 @@ module Aws::CognitoIdentityProvider
     #   results to Amazon CloudWatch Logs. This parameter is the ARN of that
     #   role.
     #
+    # @option params [String] :password_hashing_algorithm
+    #   The password hashing algorithm used to generate the hashes in the CSV
+    #   file for this import job.
+    #
+    #   Valid values: `BCRYPT` \| `SCRYPT` \| `ARGON2ID` \| `PBKDF2_SHA256`
+    #
     # @return [Types::CreateUserImportJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateUserImportJobResponse#user_import_job #user_import_job} => Types::UserImportJobType
@@ -4713,6 +4719,7 @@ module Aws::CognitoIdentityProvider
     #     job_name: "UserImportJobNameType", # required
     #     user_pool_id: "UserPoolIdType", # required
     #     cloud_watch_logs_role_arn: "ArnType", # required
+    #     password_hashing_algorithm: "BCRYPT", # accepts BCRYPT, SCRYPT, ARGON2ID, PBKDF2_SHA256
     #   })
     #
     # @example Response structure
@@ -4730,6 +4737,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_import_job.skipped_users #=> Integer
     #   resp.user_import_job.failed_users #=> Integer
     #   resp.user_import_job.completion_message #=> String
+    #   resp.user_import_job.password_hashing_algorithm #=> String, one of "BCRYPT", "SCRYPT", "ARGON2ID", "PBKDF2_SHA256"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/CreateUserImportJob AWS API Documentation
     #
@@ -5560,9 +5568,18 @@ module Aws::CognitoIdentityProvider
     #       configuration_set: "SESConfigurationSet",
     #     },
     #     sms_configuration: {
-    #       sns_caller_arn: "ArnType", # required
+    #       sns_caller_arn: "OptionalArnType",
     #       external_id: "StringType",
     #       sns_region: "RegionCodeType",
+    #       eums_sms: {
+    #         caller_arn: "ArnType", # required
+    #         external_id: "StringType",
+    #         origination_identity: "StringType",
+    #         configuration_set_name: "StringType",
+    #         in_entity_id: "StringType",
+    #         in_template_id: "StringType",
+    #         region: "RegionCodeType",
+    #       },
     #     },
     #     user_pool_tags: {
     #       "TagKeysType" => "TagValueType",
@@ -5696,6 +5713,13 @@ module Aws::CognitoIdentityProvider
     #   resp.user_pool.sms_configuration.sns_caller_arn #=> String
     #   resp.user_pool.sms_configuration.external_id #=> String
     #   resp.user_pool.sms_configuration.sns_region #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.caller_arn #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.external_id #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.origination_identity #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.configuration_set_name #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.in_entity_id #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.in_template_id #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.region #=> String
     #   resp.user_pool.user_pool_tags #=> Hash
     #   resp.user_pool.user_pool_tags["TagKeysType"] #=> String
     #   resp.user_pool.sms_configuration_failure #=> String
@@ -7503,6 +7527,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_import_job.skipped_users #=> Integer
     #   resp.user_import_job.failed_users #=> Integer
     #   resp.user_import_job.completion_message #=> String
+    #   resp.user_import_job.password_hashing_algorithm #=> String, one of "BCRYPT", "SCRYPT", "ARGON2ID", "PBKDF2_SHA256"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DescribeUserImportJob AWS API Documentation
     #
@@ -7624,6 +7649,13 @@ module Aws::CognitoIdentityProvider
     #   resp.user_pool.sms_configuration.sns_caller_arn #=> String
     #   resp.user_pool.sms_configuration.external_id #=> String
     #   resp.user_pool.sms_configuration.sns_region #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.caller_arn #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.external_id #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.origination_identity #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.configuration_set_name #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.in_entity_id #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.in_template_id #=> String
+    #   resp.user_pool.sms_configuration.eums_sms.region #=> String
     #   resp.user_pool.user_pool_tags #=> Hash
     #   resp.user_pool.user_pool_tags["TagKeysType"] #=> String
     #   resp.user_pool.sms_configuration_failure #=> String
@@ -8894,6 +8926,13 @@ module Aws::CognitoIdentityProvider
     #   resp.sms_mfa_configuration.sms_configuration.sns_caller_arn #=> String
     #   resp.sms_mfa_configuration.sms_configuration.external_id #=> String
     #   resp.sms_mfa_configuration.sms_configuration.sns_region #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.caller_arn #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.external_id #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.origination_identity #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.configuration_set_name #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.in_entity_id #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.in_template_id #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.region #=> String
     #   resp.software_token_mfa_configuration.enabled #=> Boolean
     #   resp.email_mfa_configuration.message #=> String
     #   resp.email_mfa_configuration.subject #=> String
@@ -9767,6 +9806,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_import_jobs[0].skipped_users #=> Integer
     #   resp.user_import_jobs[0].failed_users #=> Integer
     #   resp.user_import_jobs[0].completion_message #=> String
+    #   resp.user_import_jobs[0].password_hashing_algorithm #=> String, one of "BCRYPT", "SCRYPT", "ARGON2ID", "PBKDF2_SHA256"
     #   resp.pagination_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListUserImportJobs AWS API Documentation
@@ -11576,9 +11616,18 @@ module Aws::CognitoIdentityProvider
     #     sms_mfa_configuration: {
     #       sms_authentication_message: "SmsVerificationMessageType",
     #       sms_configuration: {
-    #         sns_caller_arn: "ArnType", # required
+    #         sns_caller_arn: "OptionalArnType",
     #         external_id: "StringType",
     #         sns_region: "RegionCodeType",
+    #         eums_sms: {
+    #           caller_arn: "ArnType", # required
+    #           external_id: "StringType",
+    #           origination_identity: "StringType",
+    #           configuration_set_name: "StringType",
+    #           in_entity_id: "StringType",
+    #           in_template_id: "StringType",
+    #           region: "RegionCodeType",
+    #         },
     #       },
     #     },
     #     software_token_mfa_configuration: {
@@ -11602,6 +11651,13 @@ module Aws::CognitoIdentityProvider
     #   resp.sms_mfa_configuration.sms_configuration.sns_caller_arn #=> String
     #   resp.sms_mfa_configuration.sms_configuration.external_id #=> String
     #   resp.sms_mfa_configuration.sms_configuration.sns_region #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.caller_arn #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.external_id #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.origination_identity #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.configuration_set_name #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.in_entity_id #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.in_template_id #=> String
+    #   resp.sms_mfa_configuration.sms_configuration.eums_sms.region #=> String
     #   resp.software_token_mfa_configuration.enabled #=> Boolean
     #   resp.email_mfa_configuration.message #=> String
     #   resp.email_mfa_configuration.subject #=> String
@@ -11922,6 +11978,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_import_job.skipped_users #=> Integer
     #   resp.user_import_job.failed_users #=> Integer
     #   resp.user_import_job.completion_message #=> String
+    #   resp.user_import_job.password_hashing_algorithm #=> String, one of "BCRYPT", "SCRYPT", "ARGON2ID", "PBKDF2_SHA256"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/StartUserImportJob AWS API Documentation
     #
@@ -12010,6 +12067,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_import_job.skipped_users #=> Integer
     #   resp.user_import_job.failed_users #=> Integer
     #   resp.user_import_job.completion_message #=> String
+    #   resp.user_import_job.password_hashing_algorithm #=> String, one of "BCRYPT", "SCRYPT", "ARGON2ID", "PBKDF2_SHA256"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/StopUserImportJob AWS API Documentation
     #
@@ -13393,9 +13451,18 @@ module Aws::CognitoIdentityProvider
     #       configuration_set: "SESConfigurationSet",
     #     },
     #     sms_configuration: {
-    #       sns_caller_arn: "ArnType", # required
+    #       sns_caller_arn: "OptionalArnType",
     #       external_id: "StringType",
     #       sns_region: "RegionCodeType",
+    #       eums_sms: {
+    #         caller_arn: "ArnType", # required
+    #         external_id: "StringType",
+    #         origination_identity: "StringType",
+    #         configuration_set_name: "StringType",
+    #         in_entity_id: "StringType",
+    #         in_template_id: "StringType",
+    #         region: "RegionCodeType",
+    #       },
     #     },
     #     user_pool_tags: {
     #       "TagKeysType" => "TagValueType",
@@ -14256,7 +14323,7 @@ module Aws::CognitoIdentityProvider
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cognitoidentityprovider'
-      context[:gem_version] = '1.147.0'
+      context[:gem_version] = '1.148.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

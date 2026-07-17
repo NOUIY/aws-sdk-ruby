@@ -2368,6 +2368,12 @@ module Aws::GameLiftStreams
     #   Provides details about the stream session's exported files.
     #   @return [Types::ExportFilesMetadata]
     #
+    # @!attribute [rw] role_arn
+    #   The ARN of the AWS Identity and Access Management (IAM) role that
+    #   Amazon GameLift Streams assumes on behalf of your application during
+    #   the stream session.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/GetStreamSessionOutput AWS API Documentation
     #
     class GetStreamSessionOutput < Struct.new(
@@ -2391,8 +2397,9 @@ module Aws::GameLiftStreams
       :last_updated_at,
       :created_at,
       :application_arn,
-      :export_files_metadata)
-      SENSITIVE = [:signal_request, :signal_response]
+      :export_files_metadata,
+      :role_arn)
+      SENSITIVE = [:signal_request, :signal_response, :role_arn]
       include Aws::Structure
     end
 
@@ -3156,6 +3163,16 @@ module Aws::GameLiftStreams
     #   stats with the client
     #   @return [Types::PerformanceStatsConfiguration]
     #
+    # @!attribute [rw] role_arn
+    #   The ARN of an AWS Identity and Access Management (IAM) role that
+    #   Amazon GameLift Streams assumes on your behalf during the stream
+    #   session. The role grants Amazon GameLift Streams permission to
+    #   obtain temporary credentials for your application. The role's trust
+    #   policy must allow the `gameliftstreams.amazonaws.com` service
+    #   principal to assume it. The role name must start with
+    #   `GameLiftStreams-`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StartStreamSessionInput AWS API Documentation
     #
     class StartStreamSessionInput < Struct.new(
@@ -3171,8 +3188,9 @@ module Aws::GameLiftStreams
       :session_length_seconds,
       :additional_launch_args,
       :additional_environment_variables,
-      :performance_stats_configuration)
-      SENSITIVE = [:signal_request]
+      :performance_stats_configuration,
+      :role_arn)
+      SENSITIVE = [:signal_request, :role_arn]
       include Aws::Structure
     end
 
@@ -3409,6 +3427,12 @@ module Aws::GameLiftStreams
     #   Provides details about the stream session's exported files.
     #   @return [Types::ExportFilesMetadata]
     #
+    # @!attribute [rw] role_arn
+    #   The ARN of the AWS Identity and Access Management (IAM) role that
+    #   Amazon GameLift Streams assumes on behalf of your application during
+    #   the stream session.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StartStreamSessionOutput AWS API Documentation
     #
     class StartStreamSessionOutput < Struct.new(
@@ -3432,8 +3456,9 @@ module Aws::GameLiftStreams
       :last_updated_at,
       :created_at,
       :application_arn,
-      :export_files_metadata)
-      SENSITIVE = [:signal_request, :signal_response]
+      :export_files_metadata,
+      :role_arn)
+      SENSITIVE = [:signal_request, :signal_response, :role_arn]
       include Aws::Structure
     end
 
@@ -3910,6 +3935,12 @@ module Aws::GameLiftStreams
     #   [1]: https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html
     #   @return [String]
     #
+    # @!attribute [rw] role_arn
+    #   The ARN of the AWS Identity and Access Management (IAM) role that
+    #   Amazon GameLift Streams assumes on behalf of your application during
+    #   the stream session.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StreamSessionSummary AWS API Documentation
     #
     class StreamSessionSummary < Struct.new(
@@ -3922,8 +3953,9 @@ module Aws::GameLiftStreams
       :created_at,
       :application_arn,
       :export_files_metadata,
-      :location)
-      SENSITIVE = []
+      :location,
+      :role_arn)
+      SENSITIVE = [:role_arn]
       include Aws::Structure
     end
 

@@ -650,6 +650,12 @@ module Aws::RDS
     #     ],
     #     enable_vpc_networking: false,
     #     enable_internet_access_gateway: false,
+    #     associated_roles: [
+    #       {
+    #         role_arn: "IAMRoleArn", # required
+    #         feature_name: "String",
+    #       },
+    #     ],
     #   })
     # @param [Hash] options ({})
     # @option options [Array<String>] :availability_zones
@@ -1186,6 +1192,15 @@ module Aws::RDS
     #   `EnableIAMDatabaseAuthentication`.
     #
     #   Valid for Cluster Type: Aurora PostgreSQL clusters
+    # @option options [Array<Types::DBClusterAssociatedRole>] :associated_roles
+    #   A list of Amazon Web Services Identity and Access Management (IAM)
+    #   roles to associate with the DB cluster when it's restored from a
+    #   snapshot. Each role grants the DB cluster permission to access other
+    #   Amazon Web Services on your behalf. For each role, specify a role ARN
+    #   and, optionally, the feature name (such as `s3Import`, `s3Export`, or
+    #   `Lambda`).
+    #
+    #   Valid for Cluster Type: Aurora DB clusters only
     # @return [DBCluster]
     def restore(options = {})
       options = options.merge(snapshot_identifier: @snapshot_id)

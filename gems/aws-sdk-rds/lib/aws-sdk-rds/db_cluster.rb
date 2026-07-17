@@ -1054,6 +1054,12 @@ module Aws::RDS
     #     ],
     #     master_user_authentication_type: "password", # accepts password, iam-db-auth
     #     with_express_configuration: false,
+    #     associated_roles: [
+    #       {
+    #         role_arn: "IAMRoleArn", # required
+    #         feature_name: "String",
+    #       },
+    #     ],
     #     source_region: "String",
     #   })
     # @param [Hash] options ({})
@@ -1935,6 +1941,14 @@ module Aws::RDS
     #   of this API.
     #
     #   Valid for Cluster Type: Aurora DB clusters
+    # @option options [Array<Types::DBClusterAssociatedRole>] :associated_roles
+    #   A list of Amazon Web Services Identity and Access Management (IAM)
+    #   roles to associate with the DB cluster. Each role grants the DB
+    #   cluster permission to access other Amazon Web Services on your behalf.
+    #   For each role, specify a role ARN and, optionally, the feature name
+    #   (such as `s3Import`, `s3Export`, or `Lambda`).
+    #
+    #   Valid for Cluster Type: Aurora DB clusters only
     # @option options [String] :source_region
     #   The source region of the snapshot. This is only needed when the
     #   shapshot is encrypted and in a different region.
@@ -2932,6 +2946,12 @@ module Aws::RDS
     #     ],
     #     enable_vpc_networking: false,
     #     enable_internet_access_gateway: false,
+    #     associated_roles: [
+    #       {
+    #         role_arn: "IAMRoleArn", # required
+    #         feature_name: "String",
+    #       },
+    #     ],
     #   })
     # @param [Hash] options ({})
     # @option options [required, String] :db_cluster_identifier
@@ -3452,6 +3472,15 @@ module Aws::RDS
     #   `EnableIAMDatabaseAuthentication`.
     #
     #   Valid for Cluster Type: Aurora PostgreSQL clusters
+    # @option options [Array<Types::DBClusterAssociatedRole>] :associated_roles
+    #   A list of Amazon Web Services Identity and Access Management (IAM)
+    #   roles to associate with the DB cluster when it's restored to a point
+    #   in time. Each role grants the DB cluster permission to access other
+    #   Amazon Web Services on your behalf. For each role, specify a role ARN
+    #   and, optionally, the feature name (such as `s3Import`, `s3Export`, or
+    #   `Lambda`).
+    #
+    #   Valid for Cluster Type: Aurora DB clusters only
     # @return [DBCluster]
     def restore(options = {})
       options = options.merge(source_db_cluster_identifier: @id)

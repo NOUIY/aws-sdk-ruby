@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.319.0 (2026-07-17)
+------------------
+
+* Feature - Adds the AssociatedRoles parameter to CreateDBCluster, RestoreDBClusterFromSnapshot, RestoreDBClusterToPointInTime, and RestoreDBClusterFromS3, letting customers associate IAM roles with an Aurora DB cluster at create or restore time instead of calling AddRoleToDBCluster afterward.
+
 1.318.0 (2026-07-15)
 ------------------
 

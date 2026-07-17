@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.25.0 (2026-07-17)
+------------------
+
+* Feature - Adds support for sourcing Autonomous Database admin and wallet passwords from customer-managed AWS Secrets Manager secrets, including password source configuration and summaries, and enabling or disabling the OCI IAM service role for Secrets Manager integration via InitializeService.
+
 1.24.0 (2026-07-09)
 ------------------
 

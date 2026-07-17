@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.148.0 (2026-07-17)
+------------------
+
+* Feature - Amazon Cognito user pools now support sending SMS via AWS End User Messaging. A new EumsSms object in SmsConfigurationType lets you deliver MFA and verification texts through AWS End User Messaging, alongside the existing Amazon SNS option.
+
 1.147.0 (2026-07-09)
 ------------------
 

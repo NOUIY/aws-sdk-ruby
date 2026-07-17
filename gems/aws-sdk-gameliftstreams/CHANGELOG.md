@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.32.0 (2026-07-17)
+------------------
+
+* Feature - Amazon GameLift Streams now supports assigning an IAM role to a stream session, enabling your application to securely access resources in your AWS account, such as Amazon S3 buckets and DynamoDB tables.
+
 1.31.0 (2026-07-09)
 ------------------
 

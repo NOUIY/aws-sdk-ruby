@@ -657,7 +657,8 @@ module Aws
       def create_user_import_job: (
                                     job_name: ::String,
                                     user_pool_id: ::String,
-                                    cloud_watch_logs_role_arn: ::String
+                                    cloud_watch_logs_role_arn: ::String,
+                                    ?password_hashing_algorithm: ("BCRYPT" | "SCRYPT" | "ARGON2ID" | "PBKDF2_SHA256")
                                   ) -> _CreateUserImportJobResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateUserImportJobResponseSuccess
 
@@ -694,11 +695,7 @@ module Aws
                                 from: ::String?,
                                 configuration_set: ::String?
                               },
-                              ?sms_configuration: {
-                                sns_caller_arn: ::String,
-                                external_id: ::String?,
-                                sns_region: ::String?
-                              },
+                              ?sms_configuration: Params::sms_configuration_type,
                               ?user_pool_tags: Hash[::String, ::String],
                               ?admin_create_user_config: Params::admin_create_user_config_type,
                               ?schema: Array[
@@ -1613,11 +1610,7 @@ module Aws
                                       user_pool_id: ::String,
                                       ?sms_mfa_configuration: {
                                         sms_authentication_message: ::String?,
-                                        sms_configuration: {
-                                          sns_caller_arn: ::String,
-                                          external_id: ::String?,
-                                          sns_region: ::String?
-                                        }?
+                                        sms_configuration: Params::sms_configuration_type?
                                       },
                                       ?software_token_mfa_configuration: {
                                         enabled: bool?
@@ -1907,11 +1900,7 @@ module Aws
                                 from: ::String?,
                                 configuration_set: ::String?
                               },
-                              ?sms_configuration: {
-                                sns_caller_arn: ::String,
-                                external_id: ::String?,
-                                sns_region: ::String?
-                              },
+                              ?sms_configuration: Params::sms_configuration_type,
                               ?user_pool_tags: Hash[::String, ::String],
                               ?admin_create_user_config: Params::admin_create_user_config_type,
                               ?user_pool_add_ons: {
