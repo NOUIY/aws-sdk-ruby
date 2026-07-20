@@ -4377,6 +4377,10 @@ module Aws::BedrockAgentCore
     #   A reasoning content delta.
     #   @return [Types::HarnessReasoningContentBlockDelta]
     #
+    # @!attribute [rw] tool_result_metadata
+    #   A tool result metadata delta.
+    #   @return [Types::HarnessToolResultMetadataBlockDelta]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessContentBlockDelta AWS API Documentation
     #
     class HarnessContentBlockDelta < Struct.new(
@@ -4384,6 +4388,7 @@ module Aws::BedrockAgentCore
       :tool_use,
       :tool_result,
       :reasoning_content,
+      :tool_result_metadata,
       :unknown)
       SENSITIVE = [:text, :reasoning_content]
       include Aws::Structure
@@ -4393,6 +4398,7 @@ module Aws::BedrockAgentCore
       class ToolUse < HarnessContentBlockDelta; end
       class ToolResult < HarnessContentBlockDelta; end
       class ReasoningContent < HarnessContentBlockDelta; end
+      class ToolResultMetadata < HarnessContentBlockDelta; end
       class Unknown < HarnessContentBlockDelta; end
     end
 
@@ -4539,6 +4545,11 @@ module Aws::BedrockAgentCore
     #   The topK set when calling the model.
     #   @return [Integer]
     #
+    # @!attribute [rw] additional_params
+    #   Provider-specific parameters passed through to the Gemini model
+    #   provider unchanged.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessGeminiModelConfig AWS API Documentation
     #
     class HarnessGeminiModelConfig < Struct.new(
@@ -4547,7 +4558,8 @@ module Aws::BedrockAgentCore
       :max_tokens,
       :temperature,
       :top_p,
-      :top_k)
+      :top_k,
+      :additional_params)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5229,6 +5241,20 @@ module Aws::BedrockAgentCore
       class Unknown < HarnessToolResultContentBlock; end
     end
 
+    # Delta payload for a tool result metadata.
+    #
+    # @!attribute [rw] metadata
+    #   The partial JSON-string fragment of the tool result metadata.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/HarnessToolResultMetadataBlockDelta AWS API Documentation
+    #
+    class HarnessToolResultMetadataBlockDelta < Struct.new(
+      :metadata)
+      SENSITIVE = [:metadata]
+      include Aws::Structure
+    end
+
     # A tool use request from the model.
     #
     # @!attribute [rw] name
@@ -5618,6 +5644,22 @@ module Aws::BedrockAgentCore
     #   The version of the MCP protocol being used.
     #   @return [String]
     #
+    # @!attribute [rw] mcp_method
+    #   The MCP method being invoked. For example, `tools/call`,
+    #   `resources/read`, or `prompts/get`.
+    #   @return [String]
+    #
+    # @!attribute [rw] mcp_name
+    #   The name of the MCP resource, tool, or prompt being accessed. The
+    #   value depends on the method:
+    #
+    #   * `tools/call` – The tool name.
+    #
+    #   * `resources/read` – The resource URI.
+    #
+    #   * `prompts/get` – The prompt name.
+    #   @return [String]
+    #
     # @!attribute [rw] runtime_user_id
     #   The identifier of the runtime user.
     #   @return [String]
@@ -5672,6 +5714,8 @@ module Aws::BedrockAgentCore
       :mcp_session_id,
       :runtime_session_id,
       :mcp_protocol_version,
+      :mcp_method,
+      :mcp_name,
       :runtime_user_id,
       :trace_id,
       :trace_parent,
@@ -5882,6 +5926,25 @@ module Aws::BedrockAgentCore
     #   passed through to the runtime container.
     #   @return [String]
     #
+    # @!attribute [rw] trace_parent
+    #   W3C trace context parent header containing version, trace ID, parent
+    #   span ID, and trace flags.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_state
+    #   W3C trace context state header for vendor-specific trace
+    #   information.
+    #   @return [String]
+    #
+    # @!attribute [rw] trace_id
+    #   Trace ID for maintaining observability through the operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] baggage
+    #   W3C Baggage header for user-defined context propagation. Format:
+    #   key1=value1,key2=value2
+    #   @return [String]
+    #
     # @!attribute [rw] messages
     #   The messages to send to the agent.
     #   @return [Array<Types::HarnessMessage>]
@@ -5938,6 +6001,10 @@ module Aws::BedrockAgentCore
       :qualifier,
       :runtime_session_id,
       :runtime_user_id,
+      :trace_parent,
+      :trace_state,
+      :trace_id,
+      :baggage,
       :messages,
       :model,
       :system_prompt,

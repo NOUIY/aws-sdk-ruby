@@ -821,7 +821,7 @@ module Aws::QuickSight
     end
 
     class AuthorizedTargetsByService
-      attr_accessor service: ("REDSHIFT" | "QBUSINESS" | "ATHENA")
+      attr_accessor service: ("REDSHIFT" | "QBUSINESS" | "ATHENA" | "GLUE_DATA_CATALOG")
       attr_accessor authorized_targets: ::Array[::String]
       SENSITIVE: []
     end
@@ -1493,6 +1493,10 @@ module Aws::QuickSight
       attr_accessor generate_analyses: ("DENY")
       attr_accessor story: ("DENY")
       attr_accessor scenario: ("DENY")
+      attr_accessor trigger: ("DENY")
+      attr_accessor schedule_trigger: ("DENY")
+      attr_accessor inbound_email_trigger: ("DENY")
+      attr_accessor quick_event_trigger: ("DENY")
       SENSITIVE: []
     end
 
@@ -3887,7 +3891,7 @@ module Aws::QuickSight
 
     class DeleteIdentityPropagationConfigRequest
       attr_accessor aws_account_id: ::String
-      attr_accessor service: ("REDSHIFT" | "QBUSINESS" | "ATHENA")
+      attr_accessor service: ("REDSHIFT" | "QBUSINESS" | "ATHENA" | "GLUE_DATA_CATALOG")
       SENSITIVE: []
     end
 
@@ -12094,7 +12098,7 @@ module Aws::QuickSight
 
     class UpdateIdentityPropagationConfigRequest
       attr_accessor aws_account_id: ::String
-      attr_accessor service: ("REDSHIFT" | "QBUSINESS" | "ATHENA")
+      attr_accessor service: ("REDSHIFT" | "QBUSINESS" | "ATHENA" | "GLUE_DATA_CATALOG")
       attr_accessor authorized_targets: ::Array[::String]
       SENSITIVE: []
     end

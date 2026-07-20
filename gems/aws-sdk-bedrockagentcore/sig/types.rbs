@@ -1302,6 +1302,7 @@ module Aws::BedrockAgentCore
       attr_accessor tool_use: Types::HarnessToolUseBlockDelta
       attr_accessor tool_result: ::Array[Types::HarnessToolResultBlockDelta]
       attr_accessor reasoning_content: Types::HarnessReasoningContentBlockDelta
+      attr_accessor tool_result_metadata: Types::HarnessToolResultMetadataBlockDelta
       attr_accessor unknown: untyped
       SENSITIVE: [:text, :reasoning_content]
 
@@ -1312,6 +1313,8 @@ module Aws::BedrockAgentCore
       class ToolResult < HarnessContentBlockDelta
       end
       class ReasoningContent < HarnessContentBlockDelta
+      end
+      class ToolResultMetadata < HarnessContentBlockDelta
       end
       class Unknown < HarnessContentBlockDelta
       end
@@ -1375,6 +1378,7 @@ module Aws::BedrockAgentCore
       attr_accessor temperature: ::Float
       attr_accessor top_p: ::Float
       attr_accessor top_k: ::Integer
+      attr_accessor additional_params: untyped
       SENSITIVE: []
     end
 
@@ -1634,6 +1638,11 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class HarnessToolResultMetadataBlockDelta
+      attr_accessor metadata: ::String
+      SENSITIVE: [:metadata]
+    end
+
     class HarnessToolUseBlock
       attr_accessor name: ::String
       attr_accessor tool_use_id: ::String
@@ -1732,6 +1741,8 @@ module Aws::BedrockAgentCore
       attr_accessor mcp_session_id: ::String
       attr_accessor runtime_session_id: ::String
       attr_accessor mcp_protocol_version: ::String
+      attr_accessor mcp_method: ::String
+      attr_accessor mcp_name: ::String
       attr_accessor runtime_user_id: ::String
       attr_accessor trace_id: ::String
       attr_accessor trace_parent: ::String
@@ -1792,6 +1803,10 @@ module Aws::BedrockAgentCore
       attr_accessor qualifier: ::String
       attr_accessor runtime_session_id: ::String
       attr_accessor runtime_user_id: ::String
+      attr_accessor trace_parent: ::String
+      attr_accessor trace_state: ::String
+      attr_accessor trace_id: ::String
+      attr_accessor baggage: ::String
       attr_accessor messages: ::Array[Types::HarnessMessage]
       attr_accessor model: Types::HarnessModelConfiguration
       attr_accessor system_prompt: ::Array[Types::HarnessSystemContentBlock]

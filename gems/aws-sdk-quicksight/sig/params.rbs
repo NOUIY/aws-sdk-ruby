@@ -5210,7 +5210,11 @@ module Aws
       manage_shared_folders: ("DENY")?,
       generate_analyses: ("DENY")?,
       story: ("DENY")?,
-      scenario: ("DENY")?
+      scenario: ("DENY")?,
+      trigger: ("DENY")?,
+      schedule_trigger: ("DENY")?,
+      inbound_email_trigger: ("DENY")?,
+      quick_event_trigger: ("DENY")?
     }
 
       type dashboard_source_entity = {

@@ -473,6 +473,7 @@ module Aws::BedrockAgentCoreControl
 
     class ConnectorSource
       attr_accessor connector_id: ::String
+      attr_accessor version: ::String
       SENSITIVE: []
     end
 

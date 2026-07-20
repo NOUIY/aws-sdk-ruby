@@ -1596,10 +1596,17 @@ module Aws::BedrockAgentCoreControl
     #   `bedrock-knowledge-bases`).
     #   @return [String]
     #
+    # @!attribute [rw] version
+    #   The version of the connector to use (for example, `1.1.0`). If you
+    #   don't specify a version, the service uses the latest available
+    #   version.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConnectorSource AWS API Documentation
     #
     class ConnectorSource < Struct.new(
-      :connector_id)
+      :connector_id,
+      :version)
       SENSITIVE = []
       include Aws::Structure
     end

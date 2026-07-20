@@ -437,6 +437,12 @@ module Aws::MarketplaceMetering
     #   registration token is resolved to obtain a `CustomerIdentifier`
     #   along with the `CustomerAWSAccountId`, `ProductCode`, and
     #   `LicenseArn`.
+    #
+    #   <note markdown="1"> For new SaaS product integrations, the `CustomerIdentifier` field is
+    #   not populated. Use `CustomerAWSAccountId` and `LicenseArn` for
+    #   customer identification.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/meteringmarketplace-2016-01-14/ResolveCustomerRequest AWS API Documentation
@@ -454,6 +460,10 @@ module Aws::MarketplaceMetering
     # @!attribute [rw] customer_identifier
     #   The `CustomerIdentifier` is used to identify an individual customer
     #   in your application.
+    #
+    #   For new SaaS product integrations, this field is not populated. Use
+    #   `CustomerAWSAccountId` and `LicenseArn` to identify customers
+    #   instead.
     #   @return [String]
     #
     # @!attribute [rw] product_code
@@ -590,6 +600,9 @@ module Aws::MarketplaceMetering
     # @!attribute [rw] customer_identifier
     #   The `CustomerIdentifier` is obtained through the `ResolveCustomer`
     #   operation and represents an individual buyer in your application.
+    #
+    #   `CustomerIdentifier` is not supported for new SaaS product
+    #   integrations. Use `CustomerAWSAccountId` to identify the buyer.
     #   @return [String]
     #
     # @!attribute [rw] dimension

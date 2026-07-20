@@ -560,6 +560,7 @@ module Aws
         def suppression_attributes: () -> Types::SuppressionAttributes
         def details: () -> Types::AccountDetails
         def vdm_attributes: () -> Types::VdmAttributes
+        def pricing_attributes: () -> Types::PricingAttributes
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#get_account-instance_method
       def get_account: (
@@ -1155,6 +1156,15 @@ module Aws
                                  ?production_access_enabled: bool
                                ) -> _PutAccountDetailsResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAccountDetailsResponseSuccess
+
+      interface _PutAccountPricingAttributesResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::PutAccountPricingAttributesResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SESV2/Client.html#put_account_pricing_attributes-instance_method
+      def put_account_pricing_attributes: (
+                                            plan: ("NONE" | "ESSENTIALS" | "PRO" | "ENTERPRISE")
+                                          ) -> _PutAccountPricingAttributesResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAccountPricingAttributesResponseSuccess
 
       interface _PutAccountSendingAttributesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::PutAccountSendingAttributesResponse]

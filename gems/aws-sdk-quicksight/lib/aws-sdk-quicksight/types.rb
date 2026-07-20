@@ -5786,6 +5786,26 @@ module Aws::QuickSight
     #   The ability to perform Scenario-related actions.
     #   @return [String]
     #
+    # @!attribute [rw] trigger
+    #   The ability to manage trigger-related settings for flows and
+    #   automations.
+    #   @return [String]
+    #
+    # @!attribute [rw] schedule_trigger
+    #   The ability to create, view, edit, delete, and run schedule triggers
+    #   for flows and automations.
+    #   @return [String]
+    #
+    # @!attribute [rw] inbound_email_trigger
+    #   The ability to create, view, edit, delete, and run inbound email
+    #   triggers for flows and automations.
+    #   @return [String]
+    #
+    # @!attribute [rw] quick_event_trigger
+    #   The ability to create, view, edit, delete, and run Quick event
+    #   triggers for flows and automations.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/Capabilities AWS API Documentation
     #
     class Capabilities < Struct.new(
@@ -6016,7 +6036,11 @@ module Aws::QuickSight
       :manage_shared_folders,
       :generate_analyses,
       :story,
-      :scenario)
+      :scenario,
+      :trigger,
+      :schedule_trigger,
+      :inbound_email_trigger,
+      :quick_event_trigger)
       SENSITIVE = []
       include Aws::Structure
     end

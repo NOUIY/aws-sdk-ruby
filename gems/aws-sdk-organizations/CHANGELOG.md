@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.144.0 (2026-07-20)
+------------------
+
+* Feature - Updated InvalidInputException error documentation to clarify that the service validates free-text field values against common cross-site scripting (XSS) patterns.
+
 1.143.0 (2026-07-09)
 ------------------
 

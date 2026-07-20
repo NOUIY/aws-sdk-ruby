@@ -2657,6 +2657,20 @@ module Aws::BedrockAgentCore
     # @option params [String] :mcp_protocol_version
     #   The version of the MCP protocol being used.
     #
+    # @option params [String] :mcp_method
+    #   The MCP method being invoked. For example, `tools/call`,
+    #   `resources/read`, or `prompts/get`.
+    #
+    # @option params [String] :mcp_name
+    #   The name of the MCP resource, tool, or prompt being accessed. The
+    #   value depends on the method:
+    #
+    #   * `tools/call` – The tool name.
+    #
+    #   * `resources/read` – The resource URI.
+    #
+    #   * `prompts/get` – The prompt name.
+    #
     # @option params [String] :runtime_user_id
     #   The identifier of the runtime user.
     #
@@ -2715,6 +2729,8 @@ module Aws::BedrockAgentCore
     #     mcp_session_id: "StringType",
     #     runtime_session_id: "SessionType",
     #     mcp_protocol_version: "StringType",
+    #     mcp_method: "StringType",
+    #     mcp_name: "StringType",
     #     runtime_user_id: "StringType",
     #     trace_id: "InvokeAgentRuntimeRequestTraceIdString",
     #     trace_parent: "InvokeAgentRuntimeRequestTraceParentString",
@@ -3515,6 +3531,20 @@ module Aws::BedrockAgentCore
     #   An identifier for the end user making the request. This value is
     #   passed through to the runtime container.
     #
+    # @option params [String] :trace_parent
+    #   W3C trace context parent header containing version, trace ID, parent
+    #   span ID, and trace flags.
+    #
+    # @option params [String] :trace_state
+    #   W3C trace context state header for vendor-specific trace information.
+    #
+    # @option params [String] :trace_id
+    #   Trace ID for maintaining observability through the operation.
+    #
+    # @option params [String] :baggage
+    #   W3C Baggage header for user-defined context propagation. Format:
+    #   key1=value1,key2=value2
+    #
     # @option params [required, Array<Types::HarnessMessage>] :messages
     #   The messages to send to the agent.
     #
@@ -3726,6 +3756,10 @@ module Aws::BedrockAgentCore
     #     qualifier: "HarnessEndpointName",
     #     runtime_session_id: "InvokeHarnessRequestRuntimeSessionIdString", # required
     #     runtime_user_id: "String",
+    #     trace_parent: "InvokeHarnessRequestTraceParentString",
+    #     trace_state: "InvokeHarnessRequestTraceStateString",
+    #     trace_id: "InvokeHarnessRequestTraceIdString",
+    #     baggage: "InvokeHarnessRequestBaggageString",
     #     messages: [ # required
     #       {
     #         role: "user", # required, accepts user, assistant
@@ -3790,6 +3824,8 @@ module Aws::BedrockAgentCore
     #         temperature: 1.0,
     #         top_p: 1.0,
     #         top_k: 1,
+    #         additional_params: {
+    #         },
     #       },
     #       lite_llm_model_config: {
     #         model_id: "ModelId", # required
@@ -3903,6 +3939,7 @@ module Aws::BedrockAgentCore
     #   event.delta.reasoning_content.text #=> String
     #   event.delta.reasoning_content.redacted_content #=> String
     #   event.delta.reasoning_content.signature #=> String
+    #   event.delta.tool_result_metadata.metadata #=> String
     #
     #   # For :content_block_stop event available at #on_content_block_stop_event callback and response eventstream enumerator:
     #   event.content_block_index #=> Integer
@@ -6247,7 +6284,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.43.0'
+      context[:gem_version] = '1.44.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

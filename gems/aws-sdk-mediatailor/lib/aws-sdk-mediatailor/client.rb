@@ -2223,6 +2223,8 @@ module Aws::MediaTailor
     #   * {Types::GetPlaybackConfigurationResponse#ad_conditioning_configuration #ad_conditioning_configuration} => Types::AdConditioningConfiguration
     #   * {Types::GetPlaybackConfigurationResponse#ad_decision_server_configuration #ad_decision_server_configuration} => Types::AdDecisionServerConfiguration
     #   * {Types::GetPlaybackConfigurationResponse#function_mapping #function_mapping} => Hash&lt;String,String&gt;
+    #   * {Types::GetPlaybackConfigurationResponse#ads_personalization_timeouts #ads_personalization_timeouts} => Types::AdsPersonalizationTimeouts
+    #   * {Types::GetPlaybackConfigurationResponse#ads_personalization_concurrency #ads_personalization_concurrency} => Types::AdsPersonalizationConcurrency
     #
     # @example Request syntax with placeholder values
     #
@@ -2284,6 +2286,13 @@ module Aws::MediaTailor
     #   resp.ad_decision_server_configuration.http_request.compress_request #=> String, one of "NONE", "GZIP"
     #   resp.function_mapping #=> Hash
     #   resp.function_mapping["EventName"] #=> String
+    #   resp.ads_personalization_timeouts.ads_request_timeout_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.live_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.vod_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.prefetch_ads_request_timeout_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.prefetch_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.ads_personalization_concurrency.max_concurrent_ads_requests #=> Integer
+    #   resp.ads_personalization_concurrency.enable_vod_vast_parallelization #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/GetPlaybackConfiguration AWS API Documentation
     #
@@ -2781,6 +2790,13 @@ module Aws::MediaTailor
     #   resp.items[0].ad_decision_server_configuration.http_request.compress_request #=> String, one of "NONE", "GZIP"
     #   resp.items[0].function_mapping #=> Hash
     #   resp.items[0].function_mapping["EventName"] #=> String
+    #   resp.items[0].ads_personalization_timeouts.ads_request_timeout_milliseconds #=> Integer
+    #   resp.items[0].ads_personalization_timeouts.live_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.items[0].ads_personalization_timeouts.vod_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.items[0].ads_personalization_timeouts.prefetch_ads_request_timeout_milliseconds #=> Integer
+    #   resp.items[0].ads_personalization_timeouts.prefetch_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.items[0].ads_personalization_concurrency.max_concurrent_ads_requests #=> Integer
+    #   resp.items[0].ads_personalization_concurrency.enable_vod_vast_parallelization #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/ListPlaybackConfigurations AWS API Documentation
@@ -3380,6 +3396,17 @@ module Aws::MediaTailor
     #
     #   [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html
     #
+    # @option params [Types::AdsPersonalizationTimeouts] :ads_personalization_timeouts
+    #   The timeout settings for ad decision server interactions. These
+    #   settings control how long MediaTailor waits for ADS responses and the
+    #   total time budget for ad personalization across live, VOD, and
+    #   prefetch workflows.
+    #
+    # @option params [Types::AdsPersonalizationConcurrency] :ads_personalization_concurrency
+    #   The concurrency settings for ad decision server interactions. These
+    #   settings control how many simultaneous ADS requests MediaTailor makes
+    #   per manifest request.
+    #
     # @return [Types::PutPlaybackConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutPlaybackConfigurationResponse#ad_decision_server_url #ad_decision_server_url} => String
@@ -3407,6 +3434,8 @@ module Aws::MediaTailor
     #   * {Types::PutPlaybackConfigurationResponse#ad_conditioning_configuration #ad_conditioning_configuration} => Types::AdConditioningConfiguration
     #   * {Types::PutPlaybackConfigurationResponse#ad_decision_server_configuration #ad_decision_server_configuration} => Types::AdDecisionServerConfiguration
     #   * {Types::PutPlaybackConfigurationResponse#function_mapping #function_mapping} => Hash&lt;String,String&gt;
+    #   * {Types::PutPlaybackConfigurationResponse#ads_personalization_timeouts #ads_personalization_timeouts} => Types::AdsPersonalizationTimeouts
+    #   * {Types::PutPlaybackConfigurationResponse#ads_personalization_concurrency #ads_personalization_concurrency} => Types::AdsPersonalizationConcurrency
     #
     # @example Request syntax with placeholder values
     #
@@ -3468,6 +3497,17 @@ module Aws::MediaTailor
     #     function_mapping: {
     #       "PRE_SESSION_INITIALIZATION" => "__string",
     #     },
+    #     ads_personalization_timeouts: {
+    #       ads_request_timeout_milliseconds: 1,
+    #       live_maximum_ads_personalization_time_milliseconds: 1,
+    #       vod_maximum_ads_personalization_time_milliseconds: 1,
+    #       prefetch_ads_request_timeout_milliseconds: 1,
+    #       prefetch_maximum_ads_personalization_time_milliseconds: 1,
+    #     },
+    #     ads_personalization_concurrency: {
+    #       max_concurrent_ads_requests: 1,
+    #       enable_vod_vast_parallelization: false,
+    #     },
     #   })
     #
     # @example Response structure
@@ -3524,6 +3564,13 @@ module Aws::MediaTailor
     #   resp.ad_decision_server_configuration.http_request.compress_request #=> String, one of "NONE", "GZIP"
     #   resp.function_mapping #=> Hash
     #   resp.function_mapping["EventName"] #=> String
+    #   resp.ads_personalization_timeouts.ads_request_timeout_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.live_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.vod_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.prefetch_ads_request_timeout_milliseconds #=> Integer
+    #   resp.ads_personalization_timeouts.prefetch_maximum_ads_personalization_time_milliseconds #=> Integer
+    #   resp.ads_personalization_concurrency.max_concurrent_ads_requests #=> Integer
+    #   resp.ads_personalization_concurrency.enable_vod_vast_parallelization #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/PutPlaybackConfiguration AWS API Documentation
     #
@@ -4208,7 +4255,7 @@ module Aws::MediaTailor
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediatailor'
-      context[:gem_version] = '1.123.0'
+      context[:gem_version] = '1.124.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

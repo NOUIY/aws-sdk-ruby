@@ -708,6 +708,7 @@ module Aws::SESV2
       attr_accessor suppression_attributes: Types::SuppressionAttributes
       attr_accessor details: Types::AccountDetails
       attr_accessor vdm_attributes: Types::VdmAttributes
+      attr_accessor pricing_attributes: Types::PricingAttributes
       SENSITIVE: []
     end
 
@@ -1472,6 +1473,12 @@ module Aws::SESV2
       SENSITIVE: []
     end
 
+    class PricingAttributes
+      attr_accessor current_plan: ("NONE" | "ESSENTIALS" | "PRO" | "ENTERPRISE")
+      attr_accessor next_plan: ("NONE" | "ESSENTIALS" | "PRO" | "ENTERPRISE")
+      SENSITIVE: []
+    end
+
     class PutAccountDedicatedIpWarmupAttributesRequest
       attr_accessor auto_warmup_enabled: bool
       SENSITIVE: []
@@ -1491,6 +1498,14 @@ module Aws::SESV2
     end
 
     class PutAccountDetailsResponse < Aws::EmptyStructure
+    end
+
+    class PutAccountPricingAttributesRequest
+      attr_accessor plan: ("NONE" | "ESSENTIALS" | "PRO" | "ENTERPRISE")
+      SENSITIVE: []
+    end
+
+    class PutAccountPricingAttributesResponse < Aws::EmptyStructure
     end
 
     class PutAccountSendingAttributesRequest

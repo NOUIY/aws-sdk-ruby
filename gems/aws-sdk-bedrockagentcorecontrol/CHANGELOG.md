@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.58.0 (2026-07-20)
+------------------
+
+* Feature - This release adds support for specifying a connector version on Gateway targets to pin the connector's tool schema. It also introduces web-search connector version 1.2.0, which adds agent-side domain filtering, published date range filtering, and admin-side domain allowlisting.
+
 1.57.0 (2026-07-15)
 ------------------
 

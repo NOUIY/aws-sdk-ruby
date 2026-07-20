@@ -2162,6 +2162,7 @@ module Aws::BedrockAgentCoreControl
     #         connector: {
     #           source: { # required
     #             connector_id: "ConnectorId", # required
+    #             version: "ConnectorVersion",
     #           },
     #           enabled: ["String"],
     #           configurations: [
@@ -2344,6 +2345,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
     #   resp.target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.target_configuration.mcp.connector.source.version #=> String
     #   resp.target_configuration.mcp.connector.enabled #=> Array
     #   resp.target_configuration.mcp.connector.enabled[0] #=> String
     #   resp.target_configuration.mcp.connector.configurations #=> Array
@@ -7008,6 +7010,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
     #   resp.target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.target_configuration.mcp.connector.source.version #=> String
     #   resp.target_configuration.mcp.connector.enabled #=> Array
     #   resp.target_configuration.mcp.connector.enabled[0] #=> String
     #   resp.target_configuration.mcp.connector.configurations #=> Array
@@ -10707,6 +10710,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.targets[0].target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
     #   resp.targets[0].target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.targets[0].target_configuration.mcp.connector.source.version #=> String
     #   resp.targets[0].target_configuration.mcp.connector.enabled #=> Array
     #   resp.targets[0].target_configuration.mcp.connector.enabled[0] #=> String
     #   resp.targets[0].target_configuration.mcp.connector.configurations #=> Array
@@ -12121,6 +12125,7 @@ module Aws::BedrockAgentCoreControl
     #         connector: {
     #           source: { # required
     #             connector_id: "ConnectorId", # required
+    #             version: "ConnectorVersion",
     #           },
     #           enabled: ["String"],
     #           configurations: [
@@ -12303,6 +12308,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods #=> Array
     #   resp.target_configuration.mcp.api_gateway.api_gateway_tool_configuration.tool_filters[0].methods[0] #=> String, one of "GET", "DELETE", "HEAD", "OPTIONS", "PATCH", "PUT", "POST"
     #   resp.target_configuration.mcp.connector.source.connector_id #=> String
+    #   resp.target_configuration.mcp.connector.source.version #=> String
     #   resp.target_configuration.mcp.connector.enabled #=> Array
     #   resp.target_configuration.mcp.connector.enabled[0] #=> String
     #   resp.target_configuration.mcp.connector.configurations #=> Array
@@ -15015,7 +15021,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.57.0'
+      context[:gem_version] = '1.58.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

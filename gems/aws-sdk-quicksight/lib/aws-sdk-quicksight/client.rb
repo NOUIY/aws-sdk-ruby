@@ -2562,6 +2562,10 @@ module Aws::QuickSight
     #       generate_analyses: "DENY", # accepts DENY
     #       story: "DENY", # accepts DENY
     #       scenario: "DENY", # accepts DENY
+    #       trigger: "DENY", # accepts DENY
+    #       schedule_trigger: "DENY", # accepts DENY
+    #       inbound_email_trigger: "DENY", # accepts DENY
+    #       quick_event_trigger: "DENY", # accepts DENY
     #     },
     #     tags: [
     #       {
@@ -6806,7 +6810,7 @@ module Aws::QuickSight
     #
     #   resp = client.delete_identity_propagation_config({
     #     aws_account_id: "AwsAccountId", # required
-    #     service: "REDSHIFT", # required, accepts REDSHIFT, QBUSINESS, ATHENA
+    #     service: "REDSHIFT", # required, accepts REDSHIFT, QBUSINESS, ATHENA, GLUE_DATA_CATALOG
     #   })
     #
     # @example Response structure
@@ -9155,6 +9159,10 @@ module Aws::QuickSight
     #   resp.custom_permissions.capabilities.generate_analyses #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.story #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.scenario #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.trigger #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.schedule_trigger #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.inbound_email_trigger #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.quick_event_trigger #=> String, one of "DENY"
     #   resp.request_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeCustomPermissions AWS API Documentation
@@ -14032,6 +14040,10 @@ module Aws::QuickSight
     #   resp.custom_permissions_list[0].capabilities.generate_analyses #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.story #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.scenario #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.trigger #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.schedule_trigger #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.inbound_email_trigger #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.quick_event_trigger #=> String, one of "DENY"
     #   resp.next_token #=> String
     #   resp.request_id #=> String
     #
@@ -14991,7 +15003,7 @@ module Aws::QuickSight
     # @example Response structure
     #
     #   resp.services #=> Array
-    #   resp.services[0].service #=> String, one of "REDSHIFT", "QBUSINESS", "ATHENA"
+    #   resp.services[0].service #=> String, one of "REDSHIFT", "QBUSINESS", "ATHENA", "GLUE_DATA_CATALOG"
     #   resp.services[0].authorized_targets #=> Array
     #   resp.services[0].authorized_targets[0] #=> String
     #   resp.next_token #=> String
@@ -20327,6 +20339,10 @@ module Aws::QuickSight
     #       generate_analyses: "DENY", # accepts DENY
     #       story: "DENY", # accepts DENY
     #       scenario: "DENY", # accepts DENY
+    #       trigger: "DENY", # accepts DENY
+    #       schedule_trigger: "DENY", # accepts DENY
+    #       inbound_email_trigger: "DENY", # accepts DENY
+    #       quick_event_trigger: "DENY", # accepts DENY
     #     },
     #   })
     #
@@ -22579,7 +22595,7 @@ module Aws::QuickSight
     #
     #   resp = client.update_identity_propagation_config({
     #     aws_account_id: "AwsAccountId", # required
-    #     service: "REDSHIFT", # required, accepts REDSHIFT, QBUSINESS, ATHENA
+    #     service: "REDSHIFT", # required, accepts REDSHIFT, QBUSINESS, ATHENA, GLUE_DATA_CATALOG
     #     authorized_targets: ["String"],
     #   })
     #
@@ -24732,7 +24748,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.190.0'
+      context[:gem_version] = '1.191.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -327,7 +327,8 @@ module Aws
 
       type connector_target_configuration = {
       source: {
-        connector_id: ::String
+        connector_id: ::String,
+        version: ::String?
       },
       enabled: Array[::String]?,
       configurations: Array[

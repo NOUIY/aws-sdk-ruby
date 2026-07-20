@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.191.0 (2026-07-20)
+------------------
+
+* Feature - Adds support for custom permissions for Triggers, allowing administrators to control user access to Schedule, Inbound Email and Quick Event triggers.
+
 1.190.0 (2026-07-10)
 ------------------
 

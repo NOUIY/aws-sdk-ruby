@@ -50,6 +50,21 @@ module Aws::MediaTailor
       SENSITIVE: []
     end
 
+    class AdsPersonalizationConcurrency
+      attr_accessor max_concurrent_ads_requests: ::Integer
+      attr_accessor enable_vod_vast_parallelization: bool
+      SENSITIVE: []
+    end
+
+    class AdsPersonalizationTimeouts
+      attr_accessor ads_request_timeout_milliseconds: ::Integer
+      attr_accessor live_maximum_ads_personalization_time_milliseconds: ::Integer
+      attr_accessor vod_maximum_ads_personalization_time_milliseconds: ::Integer
+      attr_accessor prefetch_ads_request_timeout_milliseconds: ::Integer
+      attr_accessor prefetch_maximum_ads_personalization_time_milliseconds: ::Integer
+      SENSITIVE: []
+    end
+
     class Alert
       attr_accessor alert_code: ::String
       attr_accessor alert_message: ::String
@@ -601,6 +616,8 @@ module Aws::MediaTailor
       attr_accessor ad_conditioning_configuration: Types::AdConditioningConfiguration
       attr_accessor ad_decision_server_configuration: Types::AdDecisionServerConfiguration
       attr_accessor function_mapping: ::Hash[("PRE_SESSION_INITIALIZATION" | "PRE_ADS_REQUEST"), ::String]
+      attr_accessor ads_personalization_timeouts: Types::AdsPersonalizationTimeouts
+      attr_accessor ads_personalization_concurrency: Types::AdsPersonalizationConcurrency
       SENSITIVE: []
     end
 
@@ -851,6 +868,8 @@ module Aws::MediaTailor
       attr_accessor ad_conditioning_configuration: Types::AdConditioningConfiguration
       attr_accessor ad_decision_server_configuration: Types::AdDecisionServerConfiguration
       attr_accessor function_mapping: ::Hash[("PRE_SESSION_INITIALIZATION" | "PRE_ADS_REQUEST"), ::String]
+      attr_accessor ads_personalization_timeouts: Types::AdsPersonalizationTimeouts
+      attr_accessor ads_personalization_concurrency: Types::AdsPersonalizationConcurrency
       SENSITIVE: []
     end
 
@@ -935,6 +954,8 @@ module Aws::MediaTailor
       attr_accessor ad_conditioning_configuration: Types::AdConditioningConfiguration
       attr_accessor ad_decision_server_configuration: Types::AdDecisionServerConfiguration
       attr_accessor function_mapping: ::Hash[("PRE_SESSION_INITIALIZATION" | "PRE_ADS_REQUEST"), ::String]
+      attr_accessor ads_personalization_timeouts: Types::AdsPersonalizationTimeouts
+      attr_accessor ads_personalization_concurrency: Types::AdsPersonalizationConcurrency
       SENSITIVE: []
     end
 
@@ -964,6 +985,8 @@ module Aws::MediaTailor
       attr_accessor ad_conditioning_configuration: Types::AdConditioningConfiguration
       attr_accessor ad_decision_server_configuration: Types::AdDecisionServerConfiguration
       attr_accessor function_mapping: ::Hash[("PRE_SESSION_INITIALIZATION" | "PRE_ADS_REQUEST"), ::String]
+      attr_accessor ads_personalization_timeouts: Types::AdsPersonalizationTimeouts
+      attr_accessor ads_personalization_concurrency: Types::AdsPersonalizationConcurrency
       SENSITIVE: []
     end
 

@@ -1221,7 +1221,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#delete_identity_propagation_config-instance_method
       def delete_identity_propagation_config: (
                                                 aws_account_id: ::String,
-                                                service: ("REDSHIFT" | "QBUSINESS" | "ATHENA")
+                                                service: ("REDSHIFT" | "QBUSINESS" | "ATHENA" | "GLUE_DATA_CATALOG")
                                               ) -> _DeleteIdentityPropagationConfigResponseSuccess
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteIdentityPropagationConfigResponseSuccess
 
@@ -4705,7 +4705,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_identity_propagation_config-instance_method
       def update_identity_propagation_config: (
                                                 aws_account_id: ::String,
-                                                service: ("REDSHIFT" | "QBUSINESS" | "ATHENA"),
+                                                service: ("REDSHIFT" | "QBUSINESS" | "ATHENA" | "GLUE_DATA_CATALOG"),
                                                 ?authorized_targets: Array[::String]
                                               ) -> _UpdateIdentityPropagationConfigResponseSuccess
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateIdentityPropagationConfigResponseSuccess

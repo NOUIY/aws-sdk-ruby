@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.124.0 (2026-07-20)
+------------------
+
+* Feature - This change adds api support for configuring ad decision server timeouts and concurrency fields on MediaTailor playback configurations
+
 1.123.0 (2026-07-09)
 ------------------
 

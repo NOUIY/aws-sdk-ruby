@@ -166,6 +166,7 @@ module Aws::BedrockAgentCoreControl
     ConnectorParameterOverrides = Shapes::ListShape.new(name: 'ConnectorParameterOverrides')
     ConnectorSource = Shapes::StructureShape.new(name: 'ConnectorSource')
     ConnectorTargetConfiguration = Shapes::StructureShape.new(name: 'ConnectorTargetConfiguration')
+    ConnectorVersion = Shapes::StringShape.new(name: 'ConnectorVersion')
     ConsolidationConfiguration = Shapes::UnionShape.new(name: 'ConsolidationConfiguration')
     ContainerConfiguration = Shapes::StructureShape.new(name: 'ContainerConfiguration')
     Content = Shapes::UnionShape.new(name: 'Content')
@@ -1613,6 +1614,7 @@ module Aws::BedrockAgentCoreControl
     ConnectorParameterOverrides.member = Shapes::ShapeRef.new(shape: ConnectorParameterOverride)
 
     ConnectorSource.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, required: true, location_name: "connectorId"))
+    ConnectorSource.add_member(:version, Shapes::ShapeRef.new(shape: ConnectorVersion, location_name: "version"))
     ConnectorSource.struct_class = Types::ConnectorSource
 
     ConnectorTargetConfiguration.add_member(:source, Shapes::ShapeRef.new(shape: ConnectorSource, required: true, location_name: "source"))

@@ -349,6 +349,7 @@ module Aws::BedrockAgentCore
     HarnessToolResultBlocksDelta = Shapes::ListShape.new(name: 'HarnessToolResultBlocksDelta')
     HarnessToolResultContentBlock = Shapes::UnionShape.new(name: 'HarnessToolResultContentBlock')
     HarnessToolResultContentBlocks = Shapes::ListShape.new(name: 'HarnessToolResultContentBlocks')
+    HarnessToolResultMetadataBlockDelta = Shapes::StructureShape.new(name: 'HarnessToolResultMetadataBlockDelta')
     HarnessToolType = Shapes::StringShape.new(name: 'HarnessToolType')
     HarnessToolUseBlock = Shapes::StructureShape.new(name: 'HarnessToolUseBlock')
     HarnessToolUseBlockDelta = Shapes::StructureShape.new(name: 'HarnessToolUseBlockDelta')
@@ -403,7 +404,11 @@ module Aws::BedrockAgentCore
     InvokeCodeInterpreterRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeCodeInterpreterRequestTraceParentString')
     InvokeCodeInterpreterResponse = Shapes::StructureShape.new(name: 'InvokeCodeInterpreterResponse')
     InvokeHarnessRequest = Shapes::StructureShape.new(name: 'InvokeHarnessRequest')
+    InvokeHarnessRequestBaggageString = Shapes::StringShape.new(name: 'InvokeHarnessRequestBaggageString')
     InvokeHarnessRequestRuntimeSessionIdString = Shapes::StringShape.new(name: 'InvokeHarnessRequestRuntimeSessionIdString')
+    InvokeHarnessRequestTraceIdString = Shapes::StringShape.new(name: 'InvokeHarnessRequestTraceIdString')
+    InvokeHarnessRequestTraceParentString = Shapes::StringShape.new(name: 'InvokeHarnessRequestTraceParentString')
+    InvokeHarnessRequestTraceStateString = Shapes::StringShape.new(name: 'InvokeHarnessRequestTraceStateString')
     InvokeHarnessResponse = Shapes::StructureShape.new(name: 'InvokeHarnessResponse')
     InvokeHarnessStreamOutput = Shapes::StructureShape.new(name: 'InvokeHarnessStreamOutput')
     JwtKeyId = Shapes::StringShape.new(name: 'JwtKeyId')
@@ -1765,11 +1770,13 @@ module Aws::BedrockAgentCore
     HarnessContentBlockDelta.add_member(:tool_use, Shapes::ShapeRef.new(shape: HarnessToolUseBlockDelta, location_name: "toolUse"))
     HarnessContentBlockDelta.add_member(:tool_result, Shapes::ShapeRef.new(shape: HarnessToolResultBlocksDelta, location_name: "toolResult"))
     HarnessContentBlockDelta.add_member(:reasoning_content, Shapes::ShapeRef.new(shape: HarnessReasoningContentBlockDelta, location_name: "reasoningContent"))
+    HarnessContentBlockDelta.add_member(:tool_result_metadata, Shapes::ShapeRef.new(shape: HarnessToolResultMetadataBlockDelta, location_name: "toolResultMetadata"))
     HarnessContentBlockDelta.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     HarnessContentBlockDelta.add_member_subclass(:text, Types::HarnessContentBlockDelta::Text)
     HarnessContentBlockDelta.add_member_subclass(:tool_use, Types::HarnessContentBlockDelta::ToolUse)
     HarnessContentBlockDelta.add_member_subclass(:tool_result, Types::HarnessContentBlockDelta::ToolResult)
     HarnessContentBlockDelta.add_member_subclass(:reasoning_content, Types::HarnessContentBlockDelta::ReasoningContent)
+    HarnessContentBlockDelta.add_member_subclass(:tool_result_metadata, Types::HarnessContentBlockDelta::ToolResultMetadata)
     HarnessContentBlockDelta.add_member_subclass(:unknown, Types::HarnessContentBlockDelta::Unknown)
     HarnessContentBlockDelta.struct_class = Types::HarnessContentBlockDelta
 
@@ -1810,6 +1817,7 @@ module Aws::BedrockAgentCore
     HarnessGeminiModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: Temperature, location_name: "temperature"))
     HarnessGeminiModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: TopP, location_name: "topP"))
     HarnessGeminiModelConfig.add_member(:top_k, Shapes::ShapeRef.new(shape: TopK, location_name: "topK"))
+    HarnessGeminiModelConfig.add_member(:additional_params, Shapes::ShapeRef.new(shape: Document, location_name: "additionalParams"))
     HarnessGeminiModelConfig.struct_class = Types::HarnessGeminiModelConfig
 
     HarnessInlineFunctionConfig.add_member(:description, Shapes::ShapeRef.new(shape: HarnessInlineFunctionDescription, required: true, location_name: "description"))
@@ -1984,6 +1992,9 @@ module Aws::BedrockAgentCore
 
     HarnessToolResultContentBlocks.member = Shapes::ShapeRef.new(shape: HarnessToolResultContentBlock)
 
+    HarnessToolResultMetadataBlockDelta.add_member(:metadata, Shapes::ShapeRef.new(shape: SensitiveText, required: true, location_name: "metadata"))
+    HarnessToolResultMetadataBlockDelta.struct_class = Types::HarnessToolResultMetadataBlockDelta
+
     HarnessToolUseBlock.add_member(:name, Shapes::ShapeRef.new(shape: HarnessToolName, required: true, location_name: "name"))
     HarnessToolUseBlock.add_member(:tool_use_id, Shapes::ShapeRef.new(shape: HarnessToolUseId, required: true, location_name: "toolUseId"))
     HarnessToolUseBlock.add_member(:input, Shapes::ShapeRef.new(shape: SensitiveJson, required: true, location_name: "input"))
@@ -2085,6 +2096,8 @@ module Aws::BedrockAgentCore
     InvokeAgentRuntimeRequest.add_member(:mcp_session_id, Shapes::ShapeRef.new(shape: StringType, location: "header", location_name: "Mcp-Session-Id"))
     InvokeAgentRuntimeRequest.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: SessionType, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id", metadata: {"idempotencyToken" => true}))
     InvokeAgentRuntimeRequest.add_member(:mcp_protocol_version, Shapes::ShapeRef.new(shape: StringType, location: "header", location_name: "Mcp-Protocol-Version"))
+    InvokeAgentRuntimeRequest.add_member(:mcp_method, Shapes::ShapeRef.new(shape: StringType, location: "header", location_name: "Mcp-Method"))
+    InvokeAgentRuntimeRequest.add_member(:mcp_name, Shapes::ShapeRef.new(shape: StringType, location: "header", location_name: "Mcp-Name"))
     InvokeAgentRuntimeRequest.add_member(:runtime_user_id, Shapes::ShapeRef.new(shape: StringType, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-User-Id"))
     InvokeAgentRuntimeRequest.add_member(:trace_id, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeRequestTraceIdString, location: "header", location_name: "X-Amzn-Trace-Id"))
     InvokeAgentRuntimeRequest.add_member(:trace_parent, Shapes::ShapeRef.new(shape: InvokeAgentRuntimeRequestTraceParentString, location: "header", location_name: "traceparent"))
@@ -2139,6 +2152,10 @@ module Aws::BedrockAgentCore
     InvokeHarnessRequest.add_member(:qualifier, Shapes::ShapeRef.new(shape: HarnessEndpointName, location: "querystring", location_name: "qualifier"))
     InvokeHarnessRequest.add_member(:runtime_session_id, Shapes::ShapeRef.new(shape: InvokeHarnessRequestRuntimeSessionIdString, required: true, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id"))
     InvokeHarnessRequest.add_member(:runtime_user_id, Shapes::ShapeRef.new(shape: String, location: "header", location_name: "X-Amzn-Bedrock-AgentCore-Runtime-User-Id"))
+    InvokeHarnessRequest.add_member(:trace_parent, Shapes::ShapeRef.new(shape: InvokeHarnessRequestTraceParentString, location: "header", location_name: "traceparent"))
+    InvokeHarnessRequest.add_member(:trace_state, Shapes::ShapeRef.new(shape: InvokeHarnessRequestTraceStateString, location: "header", location_name: "tracestate"))
+    InvokeHarnessRequest.add_member(:trace_id, Shapes::ShapeRef.new(shape: InvokeHarnessRequestTraceIdString, location: "header", location_name: "X-Amzn-Trace-Id"))
+    InvokeHarnessRequest.add_member(:baggage, Shapes::ShapeRef.new(shape: InvokeHarnessRequestBaggageString, location: "header", location_name: "baggage"))
     InvokeHarnessRequest.add_member(:messages, Shapes::ShapeRef.new(shape: HarnessMessages, required: true, location_name: "messages"))
     InvokeHarnessRequest.add_member(:model, Shapes::ShapeRef.new(shape: HarnessModelConfiguration, location_name: "model"))
     InvokeHarnessRequest.add_member(:system_prompt, Shapes::ShapeRef.new(shape: HarnessSystemPrompt, location_name: "systemPrompt"))

@@ -1469,9 +1469,9 @@ module Aws::SESV2
     # The primary region is going to be the AWS-Region where the operation
     # is executed. The secondary region has to be provided in request's
     # parameters. From the data flow standpoint there is no difference
-    # between primary and secondary regions - sending traffic will be split
-    # equally between the two. The primary region is the region where the
-    # resource has been created and where it can be managed.
+    # between primary and secondary regions - sending traffic is divided
+    # between the two. The primary region is the region where the resource
+    # has been created and where it can be managed.
     #
     # @option params [required, String] :endpoint_name
     #   The name of the multi-region endpoint (global-endpoint).
@@ -2025,6 +2025,7 @@ module Aws::SESV2
     #   * {Types::GetAccountResponse#suppression_attributes #suppression_attributes} => Types::SuppressionAttributes
     #   * {Types::GetAccountResponse#details #details} => Types::AccountDetails
     #   * {Types::GetAccountResponse#vdm_attributes #vdm_attributes} => Types::VdmAttributes
+    #   * {Types::GetAccountResponse#pricing_attributes #pricing_attributes} => Types::PricingAttributes
     #
     # @example Response structure
     #
@@ -2050,6 +2051,8 @@ module Aws::SESV2
     #   resp.vdm_attributes.vdm_enabled #=> String, one of "ENABLED", "DISABLED"
     #   resp.vdm_attributes.dashboard_attributes.engagement_metrics #=> String, one of "ENABLED", "DISABLED"
     #   resp.vdm_attributes.guardian_attributes.optimized_shared_delivery #=> String, one of "ENABLED", "DISABLED"
+    #   resp.pricing_attributes.current_plan #=> String, one of "NONE", "ESSENTIALS", "PRO", "ENTERPRISE"
+    #   resp.pricing_attributes.next_plan #=> String, one of "NONE", "ESSENTIALS", "PRO", "ENTERPRISE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetAccount AWS API Documentation
     #
@@ -4531,6 +4534,43 @@ module Aws::SESV2
       req.send_request(options)
     end
 
+    # Set the pricing plan for your Amazon SES account. Use this operation
+    # to choose a billing plan that packages multiple Amazon SES features at
+    # a single rate.
+    #
+    # @option params [required, String] :plan
+    #   The pricing plan to apply to your Amazon SES account. Can be one of
+    #   the following:
+    #
+    #   * `NONE` – No pricing plan is applied; billing follows per-feature
+    #     pricing.
+    #
+    #   * `ESSENTIALS` – Baseline Amazon SES capabilities and select premium
+    #     features.
+    #
+    #   * `PRO` – Includes everything in `ESSENTIALS`, plus additional premium
+    #     features for growing senders.
+    #
+    #   * `ENTERPRISE` – Includes everything in `PRO`, plus features intended
+    #     for large-scale senders.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_account_pricing_attributes({
+    #     plan: "NONE", # required, accepts NONE, ESSENTIALS, PRO, ENTERPRISE
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/PutAccountPricingAttributes AWS API Documentation
+    #
+    # @overload put_account_pricing_attributes(params = {})
+    # @param [Hash] params ({})
+    def put_account_pricing_attributes(params = {}, options = {})
+      req = build_request(:put_account_pricing_attributes, params)
+      req.send_request(options)
+    end
+
     # Enable or disable the ability of your account to send email.
     #
     # @option params [Boolean] :sending_enabled
@@ -6384,7 +6424,7 @@ module Aws::SESV2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sesv2'
-      context[:gem_version] = '1.103.0'
+      context[:gem_version] = '1.104.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

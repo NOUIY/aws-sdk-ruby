@@ -615,7 +615,7 @@ module Aws::SESV2
 
     context "Valid EndpointId with dualstack and FIPS disabled. i.e, IPv4 Only stack with no FIPS" do
       let(:expected) do
-        {"endpoint" => {"properties" => {"authSchemes" => [{"signingName" => "ses", "name" => "sigv4a", "signingRegionSet" => ["*"]}]}, "url" => "https://abc123.456def.endpoints.email.amazonaws.com"}}
+        {"endpoint" => {"url" => "https://abc123.456def.endpoints.email.amazonaws.com", "properties" => {"authSchemes" => [{"signingName" => "ses", "name" => "sigv4a", "signingRegionSet" => ["*"]}]}}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
@@ -629,7 +629,7 @@ module Aws::SESV2
 
     context "Valid EndpointId with dualstack enabled" do
       let(:expected) do
-        {"endpoint" => {"properties" => {"authSchemes" => [{"signingName" => "ses", "name" => "sigv4a", "signingRegionSet" => ["*"]}]}, "url" => "https://abc123.456def.endpoints.email.global.api.aws"}}
+        {"endpoint" => {"url" => "https://abc123.456def.endpoints.email.global.api.aws", "properties" => {"authSchemes" => [{"signingName" => "ses", "name" => "sigv4a", "signingRegionSet" => ["*"]}]}}}
       end
 
       it 'produces the expected output from the EndpointProvider' do
@@ -709,7 +709,7 @@ module Aws::SESV2
 
     context "Valid EndpointId with custom sdk endpoint" do
       let(:expected) do
-        {"endpoint" => {"properties" => {"authSchemes" => [{"signingName" => "ses", "name" => "sigv4a", "signingRegionSet" => ["*"]}]}, "url" => "https://example.com"}}
+        {"endpoint" => {"url" => "https://example.com", "properties" => {"authSchemes" => [{"signingName" => "ses", "name" => "sigv4a", "signingRegionSet" => ["*"]}]}}}
       end
 
       it 'produces the expected output from the EndpointProvider' do

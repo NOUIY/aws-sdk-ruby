@@ -4026,6 +4026,10 @@ module Aws::QuickSight
     Capabilities.add_member(:generate_analyses, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "GenerateAnalyses"))
     Capabilities.add_member(:story, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Story"))
     Capabilities.add_member(:scenario, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Scenario"))
+    Capabilities.add_member(:trigger, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "Trigger"))
+    Capabilities.add_member(:schedule_trigger, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "ScheduleTrigger"))
+    Capabilities.add_member(:inbound_email_trigger, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "InboundEmailTrigger"))
+    Capabilities.add_member(:quick_event_trigger, Shapes::ShapeRef.new(shape: CapabilityState, location_name: "QuickEventTrigger"))
     Capabilities.struct_class = Types::Capabilities
 
     CapacityBytesRangeFilter.add_member(:min_bytes, Shapes::ShapeRef.new(shape: CapacityBytesRangeFilterMinBytesLong, location_name: "minBytes"))

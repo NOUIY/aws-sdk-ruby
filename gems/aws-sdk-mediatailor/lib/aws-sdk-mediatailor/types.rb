@@ -257,6 +257,76 @@ module Aws::MediaTailor
       include Aws::Structure
     end
 
+    # The concurrency settings for ad decision server interactions during ad
+    # personalization.
+    #
+    # @!attribute [rw] max_concurrent_ads_requests
+    #   The maximum number of simultaneous requests that MediaTailor makes
+    #   to the ad decision server per manifest request. The default is 1.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] enable_vod_vast_parallelization
+    #   Enables parallel processing of ad decision server requests in VOD
+    #   workflows when the ADS returns VAST responses. The default is false.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/AdsPersonalizationConcurrency AWS API Documentation
+    #
+    class AdsPersonalizationConcurrency < Struct.new(
+      :max_concurrent_ads_requests,
+      :enable_vod_vast_parallelization)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The timeout settings for ad decision server interactions during ad
+    # personalization.
+    #
+    # @!attribute [rw] ads_request_timeout_milliseconds
+    #   The maximum time, in milliseconds, that MediaTailor waits for a
+    #   single ad decision server response during live or VOD playback. The
+    #   default is 3000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] live_maximum_ads_personalization_time_milliseconds
+    #   The maximum total time, in milliseconds, that MediaTailor spends on
+    #   ad decision server activity for live manifests, including making
+    #   requests, waiting for responses, and following VAST wrapper
+    #   redirects. The default is 10000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] vod_maximum_ads_personalization_time_milliseconds
+    #   The maximum total time, in milliseconds, that MediaTailor spends on
+    #   ad decision server activity for VOD manifests, including making
+    #   requests, waiting for responses, and following VAST wrapper
+    #   redirects. The default is 10000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefetch_ads_request_timeout_milliseconds
+    #   The maximum time, in milliseconds, that MediaTailor waits for a
+    #   single ad decision server response during prefetch retrieval. If not
+    #   set, the value of AdsRequestTimeoutMilliseconds is used.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefetch_maximum_ads_personalization_time_milliseconds
+    #   The maximum total time, in milliseconds, that MediaTailor spends on
+    #   ad decision server activity during prefetch retrieval, including
+    #   making requests, waiting for responses, and following VAST wrapper
+    #   redirects.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/AdsPersonalizationTimeouts AWS API Documentation
+    #
+    class AdsPersonalizationTimeouts < Struct.new(
+      :ads_request_timeout_milliseconds,
+      :live_maximum_ads_personalization_time_milliseconds,
+      :vod_maximum_ads_personalization_time_milliseconds,
+      :prefetch_ads_request_timeout_milliseconds,
+      :prefetch_maximum_ads_personalization_time_milliseconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Alert configuration parameters.
     #
     # @!attribute [rw] alert_code
@@ -2224,7 +2294,14 @@ module Aws::MediaTailor
       include Aws::Structure
     end
 
-    # -- Define Mixin --
+    # Defines reusable logic that MediaTailor executes at lifecycle hooks
+    # during ad insertion. The `FunctionType` determines the function's
+    # runtime behavior. For more information about functions, see [Working
+    # with functions][1] in the *MediaTailor User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions.html
     #
     # @!attribute [rw] function_id
     #   The identifier of the function.
@@ -2655,6 +2732,19 @@ module Aws::MediaTailor
     #   [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] ads_personalization_timeouts
+    #   The timeout settings for ad decision server interactions. These
+    #   settings control how long MediaTailor waits for ADS responses and
+    #   the total time budget for ad personalization across live, VOD, and
+    #   prefetch workflows.
+    #   @return [Types::AdsPersonalizationTimeouts]
+    #
+    # @!attribute [rw] ads_personalization_concurrency
+    #   The concurrency settings for ad decision server interactions. These
+    #   settings control how many simultaneous ADS requests MediaTailor
+    #   makes per manifest request.
+    #   @return [Types::AdsPersonalizationConcurrency]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/GetPlaybackConfigurationResponse AWS API Documentation
     #
     class GetPlaybackConfigurationResponse < Struct.new(
@@ -2682,7 +2772,9 @@ module Aws::MediaTailor
       :video_content_source_url,
       :ad_conditioning_configuration,
       :ad_decision_server_configuration,
-      :function_mapping)
+      :function_mapping,
+      :ads_personalization_timeouts,
+      :ads_personalization_concurrency)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2909,7 +3001,14 @@ module Aws::MediaTailor
       include Aws::Structure
     end
 
-    # -- Function Configuration DataStructure
+    # The configuration for an `HTTP_REQUEST` function. Specifies the HTTP
+    # method, URL, headers, body, timeout, and output expressions for the
+    # request. For more information, see [HTTP\_REQUEST][1] in the
+    # *MediaTailor User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-types-http-request.html
     #
     # @!attribute [rw] runtime
     #   The expression language used to evaluate expressions in the function
@@ -3902,6 +4001,19 @@ module Aws::MediaTailor
     #   [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] ads_personalization_timeouts
+    #   The timeout settings for ad decision server interactions. These
+    #   settings control how long MediaTailor waits for ADS responses and
+    #   the total time budget for ad personalization across live, VOD, and
+    #   prefetch workflows.
+    #   @return [Types::AdsPersonalizationTimeouts]
+    #
+    # @!attribute [rw] ads_personalization_concurrency
+    #   The concurrency settings for ad decision server interactions. These
+    #   settings control how many simultaneous ADS requests MediaTailor
+    #   makes per manifest request.
+    #   @return [Types::AdsPersonalizationConcurrency]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/PlaybackConfiguration AWS API Documentation
     #
     class PlaybackConfiguration < Struct.new(
@@ -3929,7 +4041,9 @@ module Aws::MediaTailor
       :video_content_source_url,
       :ad_conditioning_configuration,
       :ad_decision_server_configuration,
-      :function_mapping)
+      :function_mapping,
+      :ads_personalization_timeouts,
+      :ads_personalization_concurrency)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4413,6 +4527,19 @@ module Aws::MediaTailor
     #   [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] ads_personalization_timeouts
+    #   The timeout settings for ad decision server interactions. These
+    #   settings control how long MediaTailor waits for ADS responses and
+    #   the total time budget for ad personalization across live, VOD, and
+    #   prefetch workflows.
+    #   @return [Types::AdsPersonalizationTimeouts]
+    #
+    # @!attribute [rw] ads_personalization_concurrency
+    #   The concurrency settings for ad decision server interactions. These
+    #   settings control how many simultaneous ADS requests MediaTailor
+    #   makes per manifest request.
+    #   @return [Types::AdsPersonalizationConcurrency]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/PutPlaybackConfigurationRequest AWS API Documentation
     #
     class PutPlaybackConfigurationRequest < Struct.new(
@@ -4433,7 +4560,9 @@ module Aws::MediaTailor
       :video_content_source_url,
       :ad_conditioning_configuration,
       :ad_decision_server_configuration,
-      :function_mapping)
+      :function_mapping,
+      :ads_personalization_timeouts,
+      :ads_personalization_concurrency)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4617,6 +4746,19 @@ module Aws::MediaTailor
     #   [1]: https://docs.aws.amazon.com/mediatailor/latest/ug/monetization-functions-hooks.html
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] ads_personalization_timeouts
+    #   The timeout settings for ad decision server interactions. These
+    #   settings control how long MediaTailor waits for ADS responses and
+    #   the total time budget for ad personalization across live, VOD, and
+    #   prefetch workflows.
+    #   @return [Types::AdsPersonalizationTimeouts]
+    #
+    # @!attribute [rw] ads_personalization_concurrency
+    #   The concurrency settings for ad decision server interactions. These
+    #   settings control how many simultaneous ADS requests MediaTailor
+    #   makes per manifest request.
+    #   @return [Types::AdsPersonalizationConcurrency]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/PutPlaybackConfigurationResponse AWS API Documentation
     #
     class PutPlaybackConfigurationResponse < Struct.new(
@@ -4644,7 +4786,9 @@ module Aws::MediaTailor
       :video_content_source_url,
       :ad_conditioning_configuration,
       :ad_decision_server_configuration,
-      :function_mapping)
+      :function_mapping,
+      :ads_personalization_timeouts,
+      :ads_personalization_concurrency)
       SENSITIVE = []
       include Aws::Structure
     end
