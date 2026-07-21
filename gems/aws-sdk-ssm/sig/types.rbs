@@ -287,6 +287,7 @@ module Aws::SSM
       attr_accessor parameters: ::Hash[::String, ::Array[::String]]
       attr_accessor outputs: ::Hash[::String, ::Array[::String]]
       attr_accessor failure_message: ::String
+      attr_accessor warning_message: ::String
       attr_accessor mode: ("Auto" | "Interactive")
       attr_accessor parent_automation_execution_id: ::String
       attr_accessor executed_by: ::String
@@ -350,6 +351,7 @@ module Aws::SSM
       attr_accessor current_step_name: ::String
       attr_accessor current_action: ::String
       attr_accessor failure_message: ::String
+      attr_accessor warning_message: ::String
       attr_accessor target_parameter_name: ::String
       attr_accessor targets: ::Array[Types::Target]
       attr_accessor target_maps: ::Array[::Hash[::String, ::Array[::String]]]
@@ -4238,6 +4240,7 @@ module Aws::SSM
       attr_accessor outputs: ::Hash[::String, ::Array[::String]]
       attr_accessor response: ::String
       attr_accessor failure_message: ::String
+      attr_accessor warning_message: ::String
       attr_accessor failure_details: Types::FailureDetails
       attr_accessor step_execution_id: ::String
       attr_accessor overridden_parameters: ::Hash[::String, ::Array[::String]]

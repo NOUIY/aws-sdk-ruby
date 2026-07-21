@@ -707,7 +707,6 @@ module Aws::Inspector2
       attr_accessor status_reason: ::String
       attr_accessor created_on: ::Time
       attr_accessor last_update_on: ::Time
-      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -743,7 +742,6 @@ module Aws::Inspector2
       attr_accessor continuous_integration_scan_supported_events: ::Array[("PULL_REQUEST" | "PUSH")]
       attr_accessor rule_set_categories: ::Array[("SAST" | "IAC" | "SCA")]
       attr_accessor scope_settings: Types::ScopeSettings
-      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -1675,8 +1673,8 @@ module Aws::Inspector2
       attr_accessor status_reason: ::String
       attr_accessor created_on: ::Time
       attr_accessor last_update_on: ::Time
-      attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor authorization_url: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: [:authorization_url]
     end
 

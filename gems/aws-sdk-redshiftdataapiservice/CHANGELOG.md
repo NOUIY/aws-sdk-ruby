@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.77.0 (2026-07-21)
+------------------
+
+* Feature - update the workgroupArn to include EUSC partition, tests in THF Gamma and Prod no issue
+
 1.76.0 (2026-07-09)
 ------------------
 

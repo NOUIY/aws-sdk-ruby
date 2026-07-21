@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.80.0 (2026-07-21)
+------------------
+
+* Feature - GA date - July 21st 2026, remove Tags field from ListCodeSecurityIntegration and ListCodeSecurityScanConfiguration.
+
 1.79.0 (2026-07-20)
 ------------------
 

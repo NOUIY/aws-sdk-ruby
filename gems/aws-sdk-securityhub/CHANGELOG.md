@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.162.0 (2026-07-21)
+------------------
+
+* Feature - Security Hub standard and control multicloud API documentation updates
+
 1.161.0 (2026-07-14)
 ------------------
 

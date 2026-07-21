@@ -10,6 +10,26 @@
 module Aws::EMRContainers
   module Types
 
+    # Authentication configuration for the security configuration.
+    #
+    # @!attribute [rw] identity_center_configuration
+    #   Identity Center configuration for authentication in the security
+    #   configuration.
+    #   @return [Types::IdentityCenterConfiguration]
+    #
+    # @!attribute [rw] iam_configuration
+    #   IAM configuration for authentication in the security configuration.
+    #   @return [Types::IAMConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/AuthenticationConfiguration AWS API Documentation
+    #
+    class AuthenticationConfiguration < Struct.new(
+      :identity_center_configuration,
+      :iam_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Authorization-related configuration inputs for the security
     # configuration.
     #
@@ -581,6 +601,30 @@ module Aws::EMRContainers
     end
 
     # @!attribute [rw] id
+    #   The ID of the security configuration to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/DeleteSecurityConfigurationRequest AWS API Documentation
+    #
+    class DeleteSecurityConfigurationRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the security configuration that was deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/DeleteSecurityConfigurationResponse AWS API Documentation
+    #
+    class DeleteSecurityConfigurationResponse < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
     #   The ID of the virtual cluster that will be deleted.
     #   @return [String]
     #
@@ -964,6 +1008,51 @@ module Aws::EMRContainers
       :credentials,
       :endpoint_credentials,
       :expires_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # IAM configuration for the security configuration.
+    #
+    # @!attribute [rw] system_role
+    #   The ARN of the system role used by the security configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/IAMConfiguration AWS API Documentation
+    #
+    class IAMConfiguration < Struct.new(
+      :system_role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Identity Center related configuration for the security configuration.
+    #
+    # @!attribute [rw] enable_identity_center
+    #   Determines whether Identity Center is enabled for the security
+    #   configuration.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] identity_center_application_assignment_required
+    #   Determines whether user assignment is required for the Identity
+    #   Center application.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] identity_center_instance_arn
+    #   The ARN of the Identity Center instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] emr_identity_center_application_arn
+    #   The ARN of the EMR Identity Center application.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/IdentityCenterConfiguration AWS API Documentation
+    #
+    class IdentityCenterConfiguration < Struct.new(
+      :enable_identity_center,
+      :identity_center_application_assignment_required,
+      :identity_center_instance_arn,
+      :emr_identity_center_application_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1834,10 +1923,16 @@ module Aws::EMRContainers
     #   configuration.
     #   @return [Types::AuthorizationConfiguration]
     #
+    # @!attribute [rw] authentication_configuration
+    #   Authentication-related configuration input for the security
+    #   configuration.
+    #   @return [Types::AuthenticationConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/SecurityConfigurationData AWS API Documentation
     #
     class SecurityConfigurationData < Struct.new(
-      :authorization_configuration)
+      :authorization_configuration,
+      :authentication_configuration)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -790,6 +790,17 @@ module Aws::EMRContainers
     #           },
     #         },
     #       },
+    #       authentication_configuration: {
+    #         identity_center_configuration: {
+    #           enable_identity_center: false,
+    #           identity_center_application_assignment_required: false,
+    #           identity_center_instance_arn: "IdentityCenterInstanceARN",
+    #           emr_identity_center_application_arn: "EmrIdentityCenterApplicationARN",
+    #         },
+    #         iam_configuration: {
+    #           system_role: "IAMRoleArn",
+    #         },
+    #       },
     #     },
     #     tags: {
     #       "String128" => "StringEmpty256",
@@ -946,6 +957,34 @@ module Aws::EMRContainers
     # @param [Hash] params ({})
     def delete_managed_endpoint(params = {}, options = {})
       req = build_request(:delete_managed_endpoint, params)
+      req.send_request(options)
+    end
+
+    # Deletes a security configuration.
+    #
+    # @option params [required, String] :id
+    #   The ID of the security configuration to delete.
+    #
+    # @return [Types::DeleteSecurityConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteSecurityConfigurationResponse#id #id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_security_configuration({
+    #     id: "ResourceIdString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/DeleteSecurityConfiguration AWS API Documentation
+    #
+    # @overload delete_security_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_security_configuration(params = {}, options = {})
+      req = build_request(:delete_security_configuration, params)
       req.send_request(options)
     end
 
@@ -1217,6 +1256,11 @@ module Aws::EMRContainers
     #   resp.security_configuration.security_configuration_data.authorization_configuration.encryption_configuration.in_transit_encryption_configuration.tls_certificate_configuration.certificate_provider_type #=> String, one of "PEM"
     #   resp.security_configuration.security_configuration_data.authorization_configuration.encryption_configuration.in_transit_encryption_configuration.tls_certificate_configuration.public_certificate_secret_arn #=> String
     #   resp.security_configuration.security_configuration_data.authorization_configuration.encryption_configuration.in_transit_encryption_configuration.tls_certificate_configuration.private_certificate_secret_arn #=> String
+    #   resp.security_configuration.security_configuration_data.authentication_configuration.identity_center_configuration.enable_identity_center #=> Boolean
+    #   resp.security_configuration.security_configuration_data.authentication_configuration.identity_center_configuration.identity_center_application_assignment_required #=> Boolean
+    #   resp.security_configuration.security_configuration_data.authentication_configuration.identity_center_configuration.identity_center_instance_arn #=> String
+    #   resp.security_configuration.security_configuration_data.authentication_configuration.identity_center_configuration.emr_identity_center_application_arn #=> String
+    #   resp.security_configuration.security_configuration_data.authentication_configuration.iam_configuration.system_role #=> String
     #   resp.security_configuration.tags #=> Hash
     #   resp.security_configuration.tags["String128"] #=> String
     #
@@ -1657,6 +1701,11 @@ module Aws::EMRContainers
     #   resp.security_configurations[0].security_configuration_data.authorization_configuration.encryption_configuration.in_transit_encryption_configuration.tls_certificate_configuration.certificate_provider_type #=> String, one of "PEM"
     #   resp.security_configurations[0].security_configuration_data.authorization_configuration.encryption_configuration.in_transit_encryption_configuration.tls_certificate_configuration.public_certificate_secret_arn #=> String
     #   resp.security_configurations[0].security_configuration_data.authorization_configuration.encryption_configuration.in_transit_encryption_configuration.tls_certificate_configuration.private_certificate_secret_arn #=> String
+    #   resp.security_configurations[0].security_configuration_data.authentication_configuration.identity_center_configuration.enable_identity_center #=> Boolean
+    #   resp.security_configurations[0].security_configuration_data.authentication_configuration.identity_center_configuration.identity_center_application_assignment_required #=> Boolean
+    #   resp.security_configurations[0].security_configuration_data.authentication_configuration.identity_center_configuration.identity_center_instance_arn #=> String
+    #   resp.security_configurations[0].security_configuration_data.authentication_configuration.identity_center_configuration.emr_identity_center_application_arn #=> String
+    #   resp.security_configurations[0].security_configuration_data.authentication_configuration.iam_configuration.system_role #=> String
     #   resp.security_configurations[0].tags #=> Hash
     #   resp.security_configurations[0].tags["String128"] #=> String
     #   resp.next_token #=> String
@@ -1990,7 +2039,7 @@ module Aws::EMRContainers
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-emrcontainers'
-      context[:gem_version] = '1.74.0'
+      context[:gem_version] = '1.75.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

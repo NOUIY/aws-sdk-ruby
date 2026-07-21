@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.75.0 (2026-07-21)
+------------------
+
+* Feature - Added support for the DeleteSecurityConfiguration API, which allows customers to delete security configurations in Amazon EMR on EKS. Also added authenticationConfiguration in securityConfigurationdata structure.
+
 1.74.0 (2026-07-14)
 ------------------
 

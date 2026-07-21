@@ -3549,6 +3549,7 @@ module Aws::SSM
     #   resp.automation_execution_metadata_list[0].current_step_name #=> String
     #   resp.automation_execution_metadata_list[0].current_action #=> String
     #   resp.automation_execution_metadata_list[0].failure_message #=> String
+    #   resp.automation_execution_metadata_list[0].warning_message #=> String
     #   resp.automation_execution_metadata_list[0].target_parameter_name #=> String
     #   resp.automation_execution_metadata_list[0].targets #=> Array
     #   resp.automation_execution_metadata_list[0].targets[0].key #=> String
@@ -3690,6 +3691,7 @@ module Aws::SSM
     #   resp.step_executions[0].outputs["AutomationParameterKey"][0] #=> String
     #   resp.step_executions[0].response #=> String
     #   resp.step_executions[0].failure_message #=> String
+    #   resp.step_executions[0].warning_message #=> String
     #   resp.step_executions[0].failure_details.failure_stage #=> String
     #   resp.step_executions[0].failure_details.failure_type #=> String
     #   resp.step_executions[0].failure_details.details #=> Hash
@@ -6002,6 +6004,7 @@ module Aws::SSM
     #   resp.automation_execution.step_executions[0].outputs["AutomationParameterKey"][0] #=> String
     #   resp.automation_execution.step_executions[0].response #=> String
     #   resp.automation_execution.step_executions[0].failure_message #=> String
+    #   resp.automation_execution.step_executions[0].warning_message #=> String
     #   resp.automation_execution.step_executions[0].failure_details.failure_stage #=> String
     #   resp.automation_execution.step_executions[0].failure_details.failure_type #=> String
     #   resp.automation_execution.step_executions[0].failure_details.details #=> Hash
@@ -6055,6 +6058,7 @@ module Aws::SSM
     #   resp.automation_execution.outputs["AutomationParameterKey"] #=> Array
     #   resp.automation_execution.outputs["AutomationParameterKey"][0] #=> String
     #   resp.automation_execution.failure_message #=> String
+    #   resp.automation_execution.warning_message #=> String
     #   resp.automation_execution.mode #=> String, one of "Auto", "Interactive"
     #   resp.automation_execution.parent_automation_execution_id #=> String
     #   resp.automation_execution.executed_by #=> String
@@ -14036,7 +14040,7 @@ module Aws::SSM
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ssm'
-      context[:gem_version] = '1.219.0'
+      context[:gem_version] = '1.220.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

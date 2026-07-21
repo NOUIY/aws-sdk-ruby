@@ -187,6 +187,17 @@ module Aws
                                                    }?
                                                  }?
                                                }?
+                                             }?,
+                                             authentication_configuration: {
+                                               identity_center_configuration: {
+                                                 enable_identity_center: bool?,
+                                                 identity_center_application_assignment_required: bool?,
+                                                 identity_center_instance_arn: ::String?,
+                                                 emr_identity_center_application_arn: ::String?
+                                               }?,
+                                               iam_configuration: {
+                                                 system_role: ::String?
+                                               }?
                                              }?
                                            },
                                            ?tags: Hash[::String, ::String]
@@ -231,6 +242,16 @@ module Aws
                                      virtual_cluster_id: ::String
                                    ) -> _DeleteManagedEndpointResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteManagedEndpointResponseSuccess
+
+      interface _DeleteSecurityConfigurationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteSecurityConfigurationResponse]
+        def id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EMRContainers/Client.html#delete_security_configuration-instance_method
+      def delete_security_configuration: (
+                                           id: ::String
+                                         ) -> _DeleteSecurityConfigurationResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteSecurityConfigurationResponseSuccess
 
       interface _DeleteVirtualClusterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteVirtualClusterResponse]

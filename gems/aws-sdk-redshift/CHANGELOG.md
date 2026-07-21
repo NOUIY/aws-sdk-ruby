@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.164.0 (2026-07-21)
+------------------
+
+* Feature - Amazon Redshift - Added support for managing Query Editor V2 IAM Identity Center applications via new CreateQev2IdcApplication, DescribeQev2IdcApplications, ModifyQev2IdcApplication, and DeleteQev2IdcApplication API operations.
+
 1.163.0 (2026-07-16)
 ------------------
 

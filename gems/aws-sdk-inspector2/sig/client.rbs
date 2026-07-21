@@ -589,8 +589,8 @@ module Aws
         def status_reason: () -> ::String
         def created_on: () -> ::Time
         def last_update_on: () -> ::Time
-        def tags: () -> ::Hash[::String, ::String]
         def authorization_url: () -> ::String
+        def tags: () -> ::Hash[::String, ::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Inspector2/Client.html#get_code_security_integration-instance_method
       def get_code_security_integration: (

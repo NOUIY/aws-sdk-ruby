@@ -16,6 +16,7 @@ module Aws::EMRContainers
 
     ACMCertArn = Shapes::StringShape.new(name: 'ACMCertArn')
     AllowAWSToRetainLogs = Shapes::StringShape.new(name: 'AllowAWSToRetainLogs')
+    AuthenticationConfiguration = Shapes::StructureShape.new(name: 'AuthenticationConfiguration')
     AuthorizationConfiguration = Shapes::StructureShape.new(name: 'AuthorizationConfiguration')
     Base64Encoded = Shapes::StringShape.new(name: 'Base64Encoded')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
@@ -48,6 +49,8 @@ module Aws::EMRContainers
     DeleteJobTemplateResponse = Shapes::StructureShape.new(name: 'DeleteJobTemplateResponse')
     DeleteManagedEndpointRequest = Shapes::StructureShape.new(name: 'DeleteManagedEndpointRequest')
     DeleteManagedEndpointResponse = Shapes::StructureShape.new(name: 'DeleteManagedEndpointResponse')
+    DeleteSecurityConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteSecurityConfigurationRequest')
+    DeleteSecurityConfigurationResponse = Shapes::StructureShape.new(name: 'DeleteSecurityConfigurationResponse')
     DeleteVirtualClusterRequest = Shapes::StructureShape.new(name: 'DeleteVirtualClusterRequest')
     DeleteVirtualClusterResponse = Shapes::StructureShape.new(name: 'DeleteVirtualClusterResponse')
     DescribeJobRunRequest = Shapes::StructureShape.new(name: 'DescribeJobRunRequest')
@@ -62,6 +65,7 @@ module Aws::EMRContainers
     DescribeVirtualClusterResponse = Shapes::StructureShape.new(name: 'DescribeVirtualClusterResponse')
     EKSRequestThrottledException = Shapes::StructureShape.new(name: 'EKSRequestThrottledException')
     EksInfo = Shapes::StructureShape.new(name: 'EksInfo')
+    EmrIdentityCenterApplicationARN = Shapes::StringShape.new(name: 'EmrIdentityCenterApplicationARN')
     EncryptionConfiguration = Shapes::StructureShape.new(name: 'EncryptionConfiguration')
     Endpoint = Shapes::StructureShape.new(name: 'Endpoint')
     EndpointArn = Shapes::StringShape.new(name: 'EndpointArn')
@@ -76,7 +80,10 @@ module Aws::EMRContainers
     FailureReason = Shapes::StringShape.new(name: 'FailureReason')
     GetManagedEndpointSessionCredentialsRequest = Shapes::StructureShape.new(name: 'GetManagedEndpointSessionCredentialsRequest')
     GetManagedEndpointSessionCredentialsResponse = Shapes::StructureShape.new(name: 'GetManagedEndpointSessionCredentialsResponse')
+    IAMConfiguration = Shapes::StructureShape.new(name: 'IAMConfiguration')
     IAMRoleArn = Shapes::StringShape.new(name: 'IAMRoleArn')
+    IdentityCenterConfiguration = Shapes::StructureShape.new(name: 'IdentityCenterConfiguration')
+    IdentityCenterInstanceARN = Shapes::StringShape.new(name: 'IdentityCenterInstanceARN')
     InTransitEncryptionConfiguration = Shapes::StructureShape.new(name: 'InTransitEncryptionConfiguration')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     JavaInteger = Shapes::IntegerShape.new(name: 'JavaInteger')
@@ -172,6 +179,10 @@ module Aws::EMRContainers
     VirtualClusterState = Shapes::StringShape.new(name: 'VirtualClusterState')
     VirtualClusterStates = Shapes::ListShape.new(name: 'VirtualClusterStates')
     VirtualClusters = Shapes::ListShape.new(name: 'VirtualClusters')
+
+    AuthenticationConfiguration.add_member(:identity_center_configuration, Shapes::ShapeRef.new(shape: IdentityCenterConfiguration, location_name: "identityCenterConfiguration"))
+    AuthenticationConfiguration.add_member(:iam_configuration, Shapes::ShapeRef.new(shape: IAMConfiguration, location_name: "iamConfiguration"))
+    AuthenticationConfiguration.struct_class = Types::AuthenticationConfiguration
 
     AuthorizationConfiguration.add_member(:lake_formation_configuration, Shapes::ShapeRef.new(shape: LakeFormationConfiguration, location_name: "lakeFormationConfiguration"))
     AuthorizationConfiguration.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfiguration, location_name: "encryptionConfiguration"))
@@ -295,6 +306,12 @@ module Aws::EMRContainers
     DeleteManagedEndpointResponse.add_member(:virtual_cluster_id, Shapes::ShapeRef.new(shape: ResourceIdString, location_name: "virtualClusterId"))
     DeleteManagedEndpointResponse.struct_class = Types::DeleteManagedEndpointResponse
 
+    DeleteSecurityConfigurationRequest.add_member(:id, Shapes::ShapeRef.new(shape: ResourceIdString, required: true, location: "uri", location_name: "securityConfigurationId"))
+    DeleteSecurityConfigurationRequest.struct_class = Types::DeleteSecurityConfigurationRequest
+
+    DeleteSecurityConfigurationResponse.add_member(:id, Shapes::ShapeRef.new(shape: ResourceIdString, location_name: "id"))
+    DeleteSecurityConfigurationResponse.struct_class = Types::DeleteSecurityConfigurationResponse
+
     DeleteVirtualClusterRequest.add_member(:id, Shapes::ShapeRef.new(shape: ResourceIdString, required: true, location: "uri", location_name: "virtualClusterId"))
     DeleteVirtualClusterRequest.struct_class = Types::DeleteVirtualClusterRequest
 
@@ -386,6 +403,15 @@ module Aws::EMRContainers
     GetManagedEndpointSessionCredentialsResponse.add_member(:endpoint_credentials, Shapes::ShapeRef.new(shape: Credentials, location_name: "endpointCredentials"))
     GetManagedEndpointSessionCredentialsResponse.add_member(:expires_at, Shapes::ShapeRef.new(shape: Date, location_name: "expiresAt"))
     GetManagedEndpointSessionCredentialsResponse.struct_class = Types::GetManagedEndpointSessionCredentialsResponse
+
+    IAMConfiguration.add_member(:system_role, Shapes::ShapeRef.new(shape: IAMRoleArn, location_name: "systemRole"))
+    IAMConfiguration.struct_class = Types::IAMConfiguration
+
+    IdentityCenterConfiguration.add_member(:enable_identity_center, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableIdentityCenter"))
+    IdentityCenterConfiguration.add_member(:identity_center_application_assignment_required, Shapes::ShapeRef.new(shape: Boolean, location_name: "identityCenterApplicationAssignmentRequired"))
+    IdentityCenterConfiguration.add_member(:identity_center_instance_arn, Shapes::ShapeRef.new(shape: IdentityCenterInstanceARN, location_name: "identityCenterInstanceARN"))
+    IdentityCenterConfiguration.add_member(:emr_identity_center_application_arn, Shapes::ShapeRef.new(shape: EmrIdentityCenterApplicationARN, location_name: "emrIdentityCenterApplicationARN"))
+    IdentityCenterConfiguration.struct_class = Types::IdentityCenterConfiguration
 
     InTransitEncryptionConfiguration.add_member(:tls_certificate_configuration, Shapes::ShapeRef.new(shape: TLSCertificateConfiguration, location_name: "tlsCertificateConfiguration"))
     InTransitEncryptionConfiguration.struct_class = Types::InTransitEncryptionConfiguration
@@ -570,6 +596,7 @@ module Aws::EMRContainers
     SecurityConfiguration.struct_class = Types::SecurityConfiguration
 
     SecurityConfigurationData.add_member(:authorization_configuration, Shapes::ShapeRef.new(shape: AuthorizationConfiguration, location_name: "authorizationConfiguration"))
+    SecurityConfigurationData.add_member(:authentication_configuration, Shapes::ShapeRef.new(shape: AuthenticationConfiguration, location_name: "authenticationConfiguration"))
     SecurityConfigurationData.struct_class = Types::SecurityConfigurationData
 
     SecurityConfigurations.member = Shapes::ShapeRef.new(shape: SecurityConfiguration)
@@ -747,6 +774,16 @@ module Aws::EMRContainers
         o.http_request_uri = "/virtualclusters/{virtualClusterId}/endpoints/{endpointId}"
         o.input = Shapes::ShapeRef.new(shape: DeleteManagedEndpointRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteManagedEndpointResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:delete_security_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteSecurityConfiguration"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/securityconfigurations/{securityConfigurationId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteSecurityConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteSecurityConfigurationResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)

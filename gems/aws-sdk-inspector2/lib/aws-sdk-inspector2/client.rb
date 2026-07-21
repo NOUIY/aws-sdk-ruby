@@ -3021,8 +3021,8 @@ module Aws::Inspector2
     #   * {Types::GetCodeSecurityIntegrationResponse#status_reason #status_reason} => String
     #   * {Types::GetCodeSecurityIntegrationResponse#created_on #created_on} => Time
     #   * {Types::GetCodeSecurityIntegrationResponse#last_update_on #last_update_on} => Time
-    #   * {Types::GetCodeSecurityIntegrationResponse#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::GetCodeSecurityIntegrationResponse#authorization_url #authorization_url} => String
+    #   * {Types::GetCodeSecurityIntegrationResponse#tags #tags} => Hash&lt;String,String&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -3042,9 +3042,9 @@ module Aws::Inspector2
     #   resp.status_reason #=> String
     #   resp.created_on #=> Time
     #   resp.last_update_on #=> Time
+    #   resp.authorization_url #=> String
     #   resp.tags #=> Hash
     #   resp.tags["MapKey"] #=> String
-    #   resp.authorization_url #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/GetCodeSecurityIntegration AWS API Documentation
     #
@@ -4279,8 +4279,6 @@ module Aws::Inspector2
     #   resp.integrations[0].status_reason #=> String
     #   resp.integrations[0].created_on #=> Time
     #   resp.integrations[0].last_update_on #=> Time
-    #   resp.integrations[0].tags #=> Hash
-    #   resp.integrations[0].tags["MapKey"] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/ListCodeSecurityIntegrations AWS API Documentation
@@ -4376,8 +4374,6 @@ module Aws::Inspector2
     #   resp.configurations[0].rule_set_categories #=> Array
     #   resp.configurations[0].rule_set_categories[0] #=> String, one of "SAST", "IAC", "SCA"
     #   resp.configurations[0].scope_settings.project_selection_scope #=> String, one of "ALL"
-    #   resp.configurations[0].tags #=> Hash
-    #   resp.configurations[0].tags["MapKey"] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/ListCodeSecurityScanConfigurations AWS API Documentation
@@ -8450,7 +8446,7 @@ module Aws::Inspector2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-inspector2'
-      context[:gem_version] = '1.79.0'
+      context[:gem_version] = '1.80.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

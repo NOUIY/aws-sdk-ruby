@@ -2406,10 +2406,6 @@ module Aws::Inspector2
     #   The timestamp when the code security integration was last updated.
     #   @return [Time]
     #
-    # @!attribute [rw] tags
-    #   The tags associated with the code security integration.
-    #   @return [Hash<String,String>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/CodeSecurityIntegrationSummary AWS API Documentation
     #
     class CodeSecurityIntegrationSummary < Struct.new(
@@ -2419,8 +2415,7 @@ module Aws::Inspector2
       :status,
       :status_reason,
       :created_on,
-      :last_update_on,
-      :tags)
+      :last_update_on)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2528,10 +2523,6 @@ module Aws::Inspector2
     #   Inspector.
     #   @return [Types::ScopeSettings]
     #
-    # @!attribute [rw] tags
-    #   The tags associated with the scan configuration.
-    #   @return [Hash<String,String>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/CodeSecurityScanConfigurationSummary AWS API Documentation
     #
     class CodeSecurityScanConfigurationSummary < Struct.new(
@@ -2542,8 +2533,7 @@ module Aws::Inspector2
       :frequency_expression,
       :continuous_integration_scan_supported_events,
       :rule_set_categories,
-      :scope_settings,
-      :tags)
+      :scope_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6171,15 +6161,15 @@ module Aws::Inspector2
     #   The timestamp when the code security integration was last updated.
     #   @return [Time]
     #
-    # @!attribute [rw] tags
-    #   The tags associated with the code security integration.
-    #   @return [Hash<String,String>]
-    #
     # @!attribute [rw] authorization_url
     #   The URL used to authorize the integration with the repository
     #   provider. This is only returned if reauthorization is required to
     #   fix a connection issue. Otherwise, it is null.
     #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the code security integration.
+    #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/inspector2-2020-06-08/GetCodeSecurityIntegrationResponse AWS API Documentation
     #
@@ -6191,8 +6181,8 @@ module Aws::Inspector2
       :status_reason,
       :created_on,
       :last_update_on,
-      :tags,
-      :authorization_url)
+      :authorization_url,
+      :tags)
       SENSITIVE = [:authorization_url]
       include Aws::Structure
     end

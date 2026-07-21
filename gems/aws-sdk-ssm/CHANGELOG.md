@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.220.0 (2026-07-21)
+------------------
+
+* Feature - Added a WarningMessage field to Automation along with corresponding public documentation.
+
 1.219.0 (2026-07-14)
 ------------------
 

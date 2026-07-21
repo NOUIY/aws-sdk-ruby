@@ -1296,6 +1296,11 @@ module Aws::SSM
     #   set to Failed.
     #   @return [String]
     #
+    # @!attribute [rw] warning_message
+    #   A message that describes a non-critical issue that occurred during
+    #   the automation execution.
+    #   @return [String]
+    #
     # @!attribute [rw] mode
     #   The automation execution mode.
     #   @return [String]
@@ -1424,6 +1429,7 @@ module Aws::SSM
       :parameters,
       :outputs,
       :failure_message,
+      :warning_message,
       :mode,
       :parent_automation_execution_id,
       :executed_by,
@@ -1592,7 +1598,13 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] failure_message
-    #   The list of execution outputs as defined in the Automation runbook.
+    #   A message that describes a failure that occurred during the
+    #   automation execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] warning_message
+    #   A message that describes a non-critical issue that occurred during
+    #   the automation execution.
     #   @return [String]
     #
     # @!attribute [rw] target_parameter_name
@@ -1704,6 +1716,7 @@ module Aws::SSM
       :current_step_name,
       :current_action,
       :failure_message,
+      :warning_message,
       :target_parameter_name,
       :targets,
       :target_maps,
@@ -19332,6 +19345,12 @@ module Aws::SSM
     #   If a step failed, this message explains why the execution failed.
     #   @return [String]
     #
+    # @!attribute [rw] warning_message
+    #   A message that describes a non-critical issue that occurred during
+    #   the step execution. Present only if the step status includes a
+    #   warning.
+    #   @return [String]
+    #
     # @!attribute [rw] failure_details
     #   Information about the Automation failure.
     #   @return [Types::FailureDetails]
@@ -19399,6 +19418,7 @@ module Aws::SSM
       :outputs,
       :response,
       :failure_message,
+      :warning_message,
       :failure_details,
       :step_execution_id,
       :overridden_parameters,

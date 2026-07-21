@@ -1420,7 +1420,6 @@ module Aws::Inspector2
     CodeSecurityIntegrationSummary.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, required: true, location_name: "statusReason"))
     CodeSecurityIntegrationSummary.add_member(:created_on, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdOn"))
     CodeSecurityIntegrationSummary.add_member(:last_update_on, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "lastUpdateOn"))
-    CodeSecurityIntegrationSummary.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     CodeSecurityIntegrationSummary.struct_class = Types::CodeSecurityIntegrationSummary
 
     CodeSecurityResource.add_member(:project_id, Shapes::ShapeRef.new(shape: ProjectId, location_name: "projectId"))
@@ -1449,7 +1448,6 @@ module Aws::Inspector2
     CodeSecurityScanConfigurationSummary.add_member(:continuous_integration_scan_supported_events, Shapes::ShapeRef.new(shape: ContinuousIntegrationScanSupportedEvents, location_name: "continuousIntegrationScanSupportedEvents"))
     CodeSecurityScanConfigurationSummary.add_member(:rule_set_categories, Shapes::ShapeRef.new(shape: RuleSetCategories, required: true, location_name: "ruleSetCategories"))
     CodeSecurityScanConfigurationSummary.add_member(:scope_settings, Shapes::ShapeRef.new(shape: ScopeSettings, location_name: "scopeSettings"))
-    CodeSecurityScanConfigurationSummary.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     CodeSecurityScanConfigurationSummary.struct_class = Types::CodeSecurityScanConfigurationSummary
 
     CodeSnippetError.add_member(:finding_arn, Shapes::ShapeRef.new(shape: FindingArn, required: true, location_name: "findingArn"))
@@ -2233,8 +2231,8 @@ module Aws::Inspector2
     GetCodeSecurityIntegrationResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, required: true, location_name: "statusReason"))
     GetCodeSecurityIntegrationResponse.add_member(:created_on, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdOn"))
     GetCodeSecurityIntegrationResponse.add_member(:last_update_on, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "lastUpdateOn"))
-    GetCodeSecurityIntegrationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     GetCodeSecurityIntegrationResponse.add_member(:authorization_url, Shapes::ShapeRef.new(shape: AuthorizationUrl, location_name: "authorizationUrl"))
+    GetCodeSecurityIntegrationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     GetCodeSecurityIntegrationResponse.struct_class = Types::GetCodeSecurityIntegrationResponse
 
     GetCodeSecurityScanConfigurationRequest.add_member(:scan_configuration_arn, Shapes::ShapeRef.new(shape: ScanConfigurationArn, required: true, location_name: "scanConfigurationArn"))

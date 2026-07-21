@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.28.0 (2026-07-21)
+------------------
+
+* Feature - Added the SendProcurementPortalValidation and VerifyProcurementPortalValidation APIs. You can use the AWS SDKs to self-service activate your Procurement Portal Preferences created on the Billing Preferences page with a one-time-passcode (OTP) delivered to your portal.
+
 1.27.0 (2026-07-09)
 ------------------
 

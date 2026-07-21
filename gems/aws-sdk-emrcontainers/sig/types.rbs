@@ -8,6 +8,12 @@
 module Aws::EMRContainers
   module Types
 
+    class AuthenticationConfiguration
+      attr_accessor identity_center_configuration: Types::IdentityCenterConfiguration
+      attr_accessor iam_configuration: Types::IAMConfiguration
+      SENSITIVE: []
+    end
+
     class AuthorizationConfiguration
       attr_accessor lake_formation_configuration: Types::LakeFormationConfiguration
       attr_accessor encryption_configuration: Types::EncryptionConfiguration
@@ -180,6 +186,16 @@ module Aws::EMRContainers
       SENSITIVE: []
     end
 
+    class DeleteSecurityConfigurationRequest
+      attr_accessor id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteSecurityConfigurationResponse
+      attr_accessor id: ::String
+      SENSITIVE: []
+    end
+
     class DeleteVirtualClusterRequest
       attr_accessor id: ::String
       SENSITIVE: []
@@ -297,6 +313,19 @@ module Aws::EMRContainers
       attr_accessor credentials: Types::Credentials
       attr_accessor endpoint_credentials: Types::Credentials
       attr_accessor expires_at: ::Time
+      SENSITIVE: []
+    end
+
+    class IAMConfiguration
+      attr_accessor system_role: ::String
+      SENSITIVE: []
+    end
+
+    class IdentityCenterConfiguration
+      attr_accessor enable_identity_center: bool
+      attr_accessor identity_center_application_assignment_required: bool
+      attr_accessor identity_center_instance_arn: ::String
+      attr_accessor emr_identity_center_application_arn: ::String
       SENSITIVE: []
     end
 
@@ -542,6 +571,7 @@ module Aws::EMRContainers
 
     class SecurityConfigurationData
       attr_accessor authorization_configuration: Types::AuthorizationConfiguration
+      attr_accessor authentication_configuration: Types::AuthenticationConfiguration
       SENSITIVE: []
     end
 
