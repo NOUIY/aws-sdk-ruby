@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.145.0 (2026-07-22)
+------------------
+
+* Feature - Adds documented value constraints for CloudWatch Log Alarm scheduled query configuration fields, and makes LogGroupIdentifiers optional for log alarms.
+
 1.144.0 (2026-07-10)
 ------------------
 

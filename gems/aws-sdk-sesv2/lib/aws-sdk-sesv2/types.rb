@@ -2362,6 +2362,16 @@ module Aws::SESV2
     #     identity by replicating signing attributes from a parent identity
     #     in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
     #
+    #   * `AWS_SES_US_GOV_EAST_1` – Indicates that DKIM was configured for
+    #     the identity by replicating signing attributes from a parent
+    #     identity in AWS GovCloud (US-East) region using Deterministic
+    #     Easy-DKIM (DEED).
+    #
+    #   * `AWS_SES_US_GOV_WEST_1` – Indicates that DKIM was configured for
+    #     the identity by replicating signing attributes from a parent
+    #     identity in AWS GovCloud (US-West) region using Deterministic
+    #     Easy-DKIM (DEED).
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html
@@ -2546,6 +2556,14 @@ module Aws::SESV2
     #   * `AWS_SES_US_WEST_2` – Configure DKIM for the identity by
     #     replicating from a parent identity in US West (Oregon) region
     #     using Deterministic Easy-DKIM (DEED).
+    #
+    #   * `AWS_SES_US_GOV_EAST_1` – Configure DKIM for the identity by
+    #     replicating from a parent identity in AWS GovCloud (US-East)
+    #     region using Deterministic Easy-DKIM (DEED).
+    #
+    #   * `AWS_SES_US_GOV_WEST_1` – Configure DKIM for the identity by
+    #     replicating from a parent identity in AWS GovCloud (US-West)
+    #     region using Deterministic Easy-DKIM (DEED).
     #
     #
     #

@@ -253,6 +253,7 @@ module Aws::GuardDuty
     FilterName = Shapes::StringShape.new(name: 'FilterName')
     FilterNames = Shapes::ListShape.new(name: 'FilterNames')
     FilterRank = Shapes::IntegerShape.new(name: 'FilterRank')
+    FilterVersion = Shapes::IntegerShape.new(name: 'FilterVersion')
     Finding = Shapes::StructureShape.new(name: 'Finding')
     FindingCriteria = Shapes::StructureShape.new(name: 'FindingCriteria')
     FindingId = Shapes::StringShape.new(name: 'FindingId')
@@ -1640,6 +1641,9 @@ module Aws::GuardDuty
     GetFilterResponse.add_member(:rank, Shapes::ShapeRef.new(shape: FilterRank, location_name: "rank"))
     GetFilterResponse.add_member(:finding_criteria, Shapes::ShapeRef.new(shape: FindingCriteria, required: true, location_name: "findingCriteria"))
     GetFilterResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
+    GetFilterResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
+    GetFilterResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "updatedAt"))
+    GetFilterResponse.add_member(:version, Shapes::ShapeRef.new(shape: FilterVersion, location_name: "version"))
     GetFilterResponse.struct_class = Types::GetFilterResponse
 
     GetFindingsRequest.add_member(:detector_id, Shapes::ShapeRef.new(shape: DetectorId, required: true, location: "uri", location_name: "DetectorId"))

@@ -3825,6 +3825,9 @@ module Aws::GuardDuty
     #   * {Types::GetFilterResponse#rank #rank} => Integer
     #   * {Types::GetFilterResponse#finding_criteria #finding_criteria} => Types::FindingCriteria
     #   * {Types::GetFilterResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::GetFilterResponse#created_at #created_at} => Time
+    #   * {Types::GetFilterResponse#updated_at #updated_at} => Time
+    #   * {Types::GetFilterResponse#version #version} => Integer
     #
     # @example Request syntax with placeholder values
     #
@@ -3862,6 +3865,9 @@ module Aws::GuardDuty
     #   resp.finding_criteria.criterion["String"].not_matches[0] #=> String
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #   resp.version #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetFilter AWS API Documentation
     #
@@ -9197,7 +9203,7 @@ module Aws::GuardDuty
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-guardduty'
-      context[:gem_version] = '1.157.0'
+      context[:gem_version] = '1.158.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

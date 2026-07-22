@@ -1486,6 +1486,224 @@ module Aws::PartnerCentralAccount
       include Aws::Structure
     end
 
+    # @!attribute [rw] catalog
+    #   The catalog in which to look up the qualifications association.
+    #   Valid values: `AWS`, `Sandbox`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   Your partner identifier. You can provide either a partner ID (for
+    #   example, `partner-abc123`) or a partner ARN. You must own this
+    #   identifier.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/GetQualificationsAssociationDetailsRequest AWS API Documentation
+    #
+    class GetQualificationsAssociationDetailsRequest < Struct.new(
+      :catalog,
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog identifier echoed from the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies your partner
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   Your unique partner identifier in the AWS Partner Network.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current qualifications association status. Valid values:
+    #   `ASSOCIATED` (the partner is associated with a primary),
+    #   `NOT_ASSOCIATED` (the partner has no active association).
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_partner
+    #   The primary partner's profile and account identifiers. This field
+    #   is null when the status is `NOT_ASSOCIATED`.
+    #   @return [Types::QualificationsAssociationPartner]
+    #
+    # @!attribute [rw] associated_partners
+    #   The list of all partner profile and account identifiers currently
+    #   associated under the primary partner. This field is null when the
+    #   status is `NOT_ASSOCIATED`.
+    #   @return [Array<Types::QualificationsAssociationPartner>]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the qualifications association was last updated,
+    #   in ISO 8601 format. This field is null when the status is
+    #   `NOT_ASSOCIATED`.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/GetQualificationsAssociationDetailsResponse AWS API Documentation
+    #
+    class GetQualificationsAssociationDetailsResponse < Struct.new(
+      :catalog,
+      :arn,
+      :id,
+      :status,
+      :primary_partner,
+      :associated_partners,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog in which to look up the qualifications association task.
+    #   Valid values: `AWS`, `Sandbox`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   Your partner identifier. You can provide either a partner ID (for
+    #   example, `partner-abc123`) or a partner ARN. You must own this
+    #   identifier.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/GetQualificationsAssociationTaskRequest AWS API Documentation
+    #
+    class GetQualificationsAssociationTaskRequest < Struct.new(
+      :catalog,
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog identifier echoed from the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies your partner
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   Your unique partner identifier in the AWS Partner Network.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the qualifications association task, in the
+    #   format `pqatask-[a-z2-7]{13}`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the qualifications association task. Valid
+    #   values: `IN_PROGRESS`, `SUCCEEDED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_partner
+    #   The primary partner's profile and account identifiers that the task
+    #   is associating qualifications with.
+    #   @return [Types::QualificationsAssociationPartner]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp when the qualifications association task started, in
+    #   ISO 8601 format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The timestamp when the qualifications association task ended, in ISO
+    #   8601 format. This field is present only when the status is
+    #   `SUCCEEDED`.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/GetQualificationsAssociationTaskResponse AWS API Documentation
+    #
+    class GetQualificationsAssociationTaskResponse < Struct.new(
+      :catalog,
+      :arn,
+      :id,
+      :task_id,
+      :status,
+      :primary_partner,
+      :started_at,
+      :ended_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog in which to look up the qualifications disassociation
+    #   task. Valid values: `AWS`, `Sandbox`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   Your partner identifier. You can provide either a partner ID (for
+    #   example, `partner-abc123`) or a partner ARN. You must own this
+    #   identifier.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/GetQualificationsDisassociationTaskRequest AWS API Documentation
+    #
+    class GetQualificationsDisassociationTaskRequest < Struct.new(
+      :catalog,
+      :identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog identifier echoed from the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies your partner
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   Your unique partner identifier in the AWS Partner Network.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the qualifications disassociation task, in
+    #   the format `pqdtask-[a-z2-7]{13}`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the qualifications disassociation task. Valid
+    #   values: `IN_PROGRESS`, `SUCCEEDED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] associated_partner
+    #   The primary partner's profile and account identifiers that the task
+    #   is disassociating qualifications from.
+    #   @return [Types::QualificationsAssociationPartner]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp when the qualifications disassociation task started,
+    #   in ISO 8601 format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ended_at
+    #   The timestamp when the qualifications disassociation task ended, in
+    #   ISO 8601 format. This field is present only when the status is
+    #   `SUCCEEDED`.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/GetQualificationsDisassociationTaskResponse AWS API Documentation
+    #
+    class GetQualificationsDisassociationTaskResponse < Struct.new(
+      :catalog,
+      :arn,
+      :id,
+      :task_id,
+      :status,
+      :associated_partner,
+      :started_at,
+      :ended_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] verification_type
     #   The type of verification to retrieve information for. Valid values
     #   include business verification for company registration details and
@@ -2051,6 +2269,30 @@ module Aws::PartnerCentralAccount
       include Aws::Structure
     end
 
+    # Identifies a partner in a qualifications association group. Contains
+    # the partner's profile identifier and AWS account identifier. In
+    # requests, provide at least one of `ProfileId` or `AccountId`. In
+    # responses, both fields are populated.
+    #
+    # @!attribute [rw] profile_id
+    #   The unique identifier for the partner profile, in the format
+    #   `pprofile-*`. Required in requests if `AccountId` is not provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The 12-digit AWS account ID linked to the partner profile. Required
+    #   in requests if `ProfileId` is not provided.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/QualificationsAssociationPartner AWS API Documentation
+    #
+    class QualificationsAssociationPartner < Struct.new(
+      :profile_id,
+      :account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the personal information required for verifying an
     # individual's identity as part of the partner registration process in
     # AWS Partner Central.
@@ -2359,6 +2601,174 @@ module Aws::PartnerCentralAccount
       :status,
       :ended_at,
       :error_detail_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog in which to perform the qualifications association.
+    #   Valid values: `AWS`, `Sandbox`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   Your partner identifier. You can provide either a partner ID (for
+    #   example, `partner-abc123`) or a partner ARN. You must own this
+    #   identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_partner
+    #   The primary (acquiring) partner's profile and account identifier to
+    #   associate qualifications with. You must provide at least one of
+    #   `ProfileId` or `AccountId`. You cannot specify yourself as the
+    #   primary partner.
+    #   @return [Types::QualificationsAssociationPartner]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/StartQualificationsAssociationTaskRequest AWS API Documentation
+    #
+    class StartQualificationsAssociationTaskRequest < Struct.new(
+      :catalog,
+      :identifier,
+      :client_token,
+      :primary_partner)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog identifier echoed from the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies your partner
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   Your unique partner identifier in the AWS Partner Network.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the started qualifications association
+    #   task, in the format `pqatask-[a-z2-7]{13}`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the qualifications association task. The
+    #   initial value is `IN_PROGRESS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_partner
+    #   The resolved primary partner's profile and account identifiers,
+    #   including both `ProfileId` and `AccountId`.
+    #   @return [Types::QualificationsAssociationPartner]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp when the qualifications association task started, in
+    #   ISO 8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/StartQualificationsAssociationTaskResponse AWS API Documentation
+    #
+    class StartQualificationsAssociationTaskResponse < Struct.new(
+      :catalog,
+      :arn,
+      :id,
+      :task_id,
+      :status,
+      :primary_partner,
+      :started_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog in which to perform the qualifications disassociation.
+    #   Valid values: `AWS`, `Sandbox`.
+    #   @return [String]
+    #
+    # @!attribute [rw] identifier
+    #   Your partner identifier. You can provide either a partner ID (for
+    #   example, `partner-abc123`) or a partner ARN. You must own this
+    #   identifier.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] associated_partner
+    #   The primary partner's profile and account identifier that you are
+    #   currently associated with and will disassociate from. You must
+    #   provide at least one of `ProfileId` or `AccountId`. The specified
+    #   partner must match your current primary association.
+    #   @return [Types::QualificationsAssociationPartner]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/StartQualificationsDisassociationTaskRequest AWS API Documentation
+    #
+    class StartQualificationsDisassociationTaskRequest < Struct.new(
+      :catalog,
+      :identifier,
+      :client_token,
+      :associated_partner)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] catalog
+    #   The catalog identifier echoed from the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies your partner
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   Your unique partner identifier in the AWS Partner Network.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_id
+    #   The unique identifier of the started qualifications disassociation
+    #   task, in the format `pqdtask-[a-z2-7]{13}`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the qualifications disassociation task. The
+    #   initial value is `IN_PROGRESS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] associated_partner
+    #   The resolved primary partner's profile and account identifiers that
+    #   the task is disassociating qualifications from.
+    #   @return [Types::QualificationsAssociationPartner]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp when the qualifications disassociation task started,
+    #   in ISO 8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/StartQualificationsDisassociationTaskResponse AWS API Documentation
+    #
+    class StartQualificationsDisassociationTaskResponse < Struct.new(
+      :catalog,
+      :arn,
+      :id,
+      :task_id,
+      :status,
+      :associated_partner,
+      :started_at)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -3722,6 +3722,10 @@ module Aws::ElasticLoadBalancingV2
     # of the following conditions: `http-header` and `query-string`. Note
     # that the value for a condition can't be empty.
     #
+    # For Network Load Balancer listener rules, the only supported condition
+    # is `source-ip`. Use `SourceIpConfig` with `IpAddressType` to match on
+    # the IP address type of the source traffic (`ipv4` or `ipv6`).
+    #
     # For more information, see [Quotas for your Application Load
     # Balancers][1].
     #
@@ -3730,20 +3734,23 @@ module Aws::ElasticLoadBalancingV2
     # [1]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html
     #
     # @!attribute [rw] field
-    #   The field in the HTTP request. The following are the possible
-    #   values:
+    #   The name of the field. The possible values are:
     #
-    #   * `http-header`
+    #   * `http-header` – \[ALB\] Matches on an HTTP header field.
     #
-    #   * `http-request-method`
+    #   * `http-request-method` – \[ALB\] Matches on the HTTP request
+    #     method.
     #
-    #   * `host-header`
+    #   * `host-header` – \[ALB\] Matches on the host header.
     #
-    #   * `path-pattern`
+    #   * `path-pattern` – \[ALB\] Matches on the URL path of the request.
     #
-    #   * `query-string`
+    #   * `query-string` – \[ALB\] Matches on a query string parameter.
     #
-    #   * `source-ip`
+    #   * `source-ip` – \[ALB, NLB\] Matches on the source IP address. For
+    #     ALB, use `SourceIpConfig` with `Values` to specify CIDR ranges.
+    #     For NLB, use `SourceIpConfig` with `IpAddressType` to match the IP
+    #     address type (`ipv4` or `ipv6`).
     #   @return [String]
     #
     # @!attribute [rw] values
@@ -4123,6 +4130,10 @@ module Aws::ElasticLoadBalancingV2
     # source that connects to the load balancer. If a client is behind a
     # proxy, this is the IP address of the proxy not the IP address of the
     # client.
+    #
+    # For Application Load Balancers, use `Values` to specify CIDR ranges.
+    # For Network Load Balancers, use `IpAddressType` to match on the IP
+    # address type of the source traffic.
     #
     # @!attribute [rw] values
     #   The source IP addresses, in CIDR format. You can use both IPv4 and

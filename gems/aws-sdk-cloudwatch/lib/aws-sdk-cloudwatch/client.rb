@@ -3962,7 +3962,7 @@ module Aws::CloudWatch
     #       scheduled_query_role_arn: "AmazonResourceName", # required
     #       schedule_configuration: { # required
     #         schedule_expression: "ScheduleExpression", # required
-    #         start_time_offset: 1,
+    #         start_time_offset: 1, # required
     #         end_time_offset: 1,
     #       },
     #       aggregation_expression: "AggregationExpression", # required
@@ -5370,7 +5370,7 @@ module Aws::CloudWatch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatch'
-      context[:gem_version] = '1.144.0'
+      context[:gem_version] = '1.145.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

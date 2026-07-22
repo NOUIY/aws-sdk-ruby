@@ -553,6 +553,9 @@ module Aws
         def rank: () -> ::Integer
         def finding_criteria: () -> Types::FindingCriteria
         def tags: () -> ::Hash[::String, ::String]
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+        def version: () -> ::Integer
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GuardDuty/Client.html#get_filter-instance_method
       def get_filter: (

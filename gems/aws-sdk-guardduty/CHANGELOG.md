@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.158.0 (2026-07-22)
+------------------
+
+* Feature - Amazon GuardDuty now returns filter lifecycle metadata in GetFilter responses. The response includes createdAt and updatedAt timestamps and a version number that increments on each update, giving you visibility into when a filter was created and last modified.
+
 1.157.0 (2026-07-13)
 ------------------
 

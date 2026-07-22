@@ -1151,6 +1151,9 @@ module Aws::GuardDuty
       attr_accessor rank: ::Integer
       attr_accessor finding_criteria: Types::FindingCriteria
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      attr_accessor version: ::Integer
       SENSITIVE: []
     end
 

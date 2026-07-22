@@ -1264,7 +1264,7 @@ module Aws::CloudWatch
     Schedule.struct_class = Types::Schedule
 
     ScheduleConfiguration.add_member(:schedule_expression, Shapes::ShapeRef.new(shape: ScheduleExpression, required: true, location_name: "ScheduleExpression"))
-    ScheduleConfiguration.add_member(:start_time_offset, Shapes::ShapeRef.new(shape: StartTimeOffset, location_name: "StartTimeOffset"))
+    ScheduleConfiguration.add_member(:start_time_offset, Shapes::ShapeRef.new(shape: StartTimeOffset, required: true, location_name: "StartTimeOffset"))
     ScheduleConfiguration.add_member(:end_time_offset, Shapes::ShapeRef.new(shape: EndTimeOffset, location_name: "EndTimeOffset"))
     ScheduleConfiguration.struct_class = Types::ScheduleConfiguration
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.52.0 (2026-07-22)
+------------------
+
+* Feature - AWS PCS Node Lifecycle Actions provides a structured way to run custom scripts at defined points in a compute node's lifecycle directly through the AWS PCS compute node group API.
+
 1.51.0 (2026-07-09)
 ------------------
 

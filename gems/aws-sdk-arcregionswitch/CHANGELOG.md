@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.21.0 (2026-07-22)
+------------------
+
+* Feature - Adds support for a client token in StartPlanExecution to make plan execution requests idempotent for safe retries.
+
 1.20.0 (2026-07-09)
 ------------------
 

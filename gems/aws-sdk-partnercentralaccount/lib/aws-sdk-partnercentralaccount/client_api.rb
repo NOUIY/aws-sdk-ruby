@@ -23,6 +23,7 @@ module Aws::PartnerCentralAccount
     AllianceLeadContact = Shapes::StructureShape.new(name: 'AllianceLeadContact')
     AssociateAwsTrainingCertificationEmailDomainRequest = Shapes::StructureShape.new(name: 'AssociateAwsTrainingCertificationEmailDomainRequest')
     AssociateAwsTrainingCertificationEmailDomainResponse = Shapes::StructureShape.new(name: 'AssociateAwsTrainingCertificationEmailDomainResponse')
+    AssociatedPartnerList = Shapes::ListShape.new(name: 'AssociatedPartnerList')
     AwsAccountId = Shapes::StringShape.new(name: 'AwsAccountId')
     BusinessValidationCode = Shapes::StringShape.new(name: 'BusinessValidationCode')
     BusinessValidationError = Shapes::StructureShape.new(name: 'BusinessValidationError')
@@ -90,6 +91,12 @@ module Aws::PartnerCentralAccount
     GetProfileUpdateTaskResponse = Shapes::StructureShape.new(name: 'GetProfileUpdateTaskResponse')
     GetProfileVisibilityRequest = Shapes::StructureShape.new(name: 'GetProfileVisibilityRequest')
     GetProfileVisibilityResponse = Shapes::StructureShape.new(name: 'GetProfileVisibilityResponse')
+    GetQualificationsAssociationDetailsRequest = Shapes::StructureShape.new(name: 'GetQualificationsAssociationDetailsRequest')
+    GetQualificationsAssociationDetailsResponse = Shapes::StructureShape.new(name: 'GetQualificationsAssociationDetailsResponse')
+    GetQualificationsAssociationTaskRequest = Shapes::StructureShape.new(name: 'GetQualificationsAssociationTaskRequest')
+    GetQualificationsAssociationTaskResponse = Shapes::StructureShape.new(name: 'GetQualificationsAssociationTaskResponse')
+    GetQualificationsDisassociationTaskRequest = Shapes::StructureShape.new(name: 'GetQualificationsDisassociationTaskRequest')
+    GetQualificationsDisassociationTaskResponse = Shapes::StructureShape.new(name: 'GetQualificationsDisassociationTaskResponse')
     GetVerificationRequest = Shapes::StructureShape.new(name: 'GetVerificationRequest')
     GetVerificationResponse = Shapes::StructureShape.new(name: 'GetVerificationResponse')
     IndustrySegment = Shapes::StringShape.new(name: 'IndustrySegment')
@@ -138,6 +145,12 @@ module Aws::PartnerCentralAccount
     PutAllianceLeadContactResponse = Shapes::StructureShape.new(name: 'PutAllianceLeadContactResponse')
     PutProfileVisibilityRequest = Shapes::StructureShape.new(name: 'PutProfileVisibilityRequest')
     PutProfileVisibilityResponse = Shapes::StructureShape.new(name: 'PutProfileVisibilityResponse')
+    QualificationsAssociationPartner = Shapes::StructureShape.new(name: 'QualificationsAssociationPartner')
+    QualificationsAssociationStatus = Shapes::StringShape.new(name: 'QualificationsAssociationStatus')
+    QualificationsAssociationTaskId = Shapes::StringShape.new(name: 'QualificationsAssociationTaskId')
+    QualificationsAssociationTaskStatus = Shapes::StringShape.new(name: 'QualificationsAssociationTaskStatus')
+    QualificationsDisassociationTaskId = Shapes::StringShape.new(name: 'QualificationsDisassociationTaskId')
+    QualificationsDisassociationTaskStatus = Shapes::StringShape.new(name: 'QualificationsDisassociationTaskStatus')
     RegistrantVerificationDetails = Shapes::StructureShape.new(name: 'RegistrantVerificationDetails')
     RegistrantVerificationResponse = Shapes::StructureShape.new(name: 'RegistrantVerificationResponse')
     RegistrationId = Shapes::StringShape.new(name: 'RegistrationId')
@@ -157,6 +170,10 @@ module Aws::PartnerCentralAccount
     ServiceQuotaExceededExceptionReason = Shapes::StringShape.new(name: 'ServiceQuotaExceededExceptionReason')
     StartProfileUpdateTaskRequest = Shapes::StructureShape.new(name: 'StartProfileUpdateTaskRequest')
     StartProfileUpdateTaskResponse = Shapes::StructureShape.new(name: 'StartProfileUpdateTaskResponse')
+    StartQualificationsAssociationTaskRequest = Shapes::StructureShape.new(name: 'StartQualificationsAssociationTaskRequest')
+    StartQualificationsAssociationTaskResponse = Shapes::StructureShape.new(name: 'StartQualificationsAssociationTaskResponse')
+    StartQualificationsDisassociationTaskRequest = Shapes::StructureShape.new(name: 'StartQualificationsDisassociationTaskRequest')
+    StartQualificationsDisassociationTaskResponse = Shapes::StructureShape.new(name: 'StartQualificationsDisassociationTaskResponse')
     StartVerificationRequest = Shapes::StructureShape.new(name: 'StartVerificationRequest')
     StartVerificationResponse = Shapes::StructureShape.new(name: 'StartVerificationResponse')
     String = Shapes::StringShape.new(name: 'String')
@@ -217,6 +234,8 @@ module Aws::PartnerCentralAccount
     AssociateAwsTrainingCertificationEmailDomainRequest.struct_class = Types::AssociateAwsTrainingCertificationEmailDomainRequest
 
     AssociateAwsTrainingCertificationEmailDomainResponse.struct_class = Types::AssociateAwsTrainingCertificationEmailDomainResponse
+
+    AssociatedPartnerList.member = Shapes::ShapeRef.new(shape: QualificationsAssociationPartner)
 
     BusinessValidationError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
     BusinessValidationError.add_member(:code, Shapes::ShapeRef.new(shape: BusinessValidationCode, required: true, location_name: "Code"))
@@ -498,6 +517,47 @@ module Aws::PartnerCentralAccount
     GetProfileVisibilityResponse.add_member(:profile_id, Shapes::ShapeRef.new(shape: PartnerProfileId, required: true, location_name: "ProfileId"))
     GetProfileVisibilityResponse.struct_class = Types::GetProfileVisibilityResponse
 
+    GetQualificationsAssociationDetailsRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    GetQualificationsAssociationDetailsRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: PartnerIdentifier, required: true, location_name: "Identifier"))
+    GetQualificationsAssociationDetailsRequest.struct_class = Types::GetQualificationsAssociationDetailsRequest
+
+    GetQualificationsAssociationDetailsResponse.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    GetQualificationsAssociationDetailsResponse.add_member(:arn, Shapes::ShapeRef.new(shape: PartnerArn, required: true, location_name: "Arn"))
+    GetQualificationsAssociationDetailsResponse.add_member(:id, Shapes::ShapeRef.new(shape: PartnerId, required: true, location_name: "Id"))
+    GetQualificationsAssociationDetailsResponse.add_member(:status, Shapes::ShapeRef.new(shape: QualificationsAssociationStatus, required: true, location_name: "Status"))
+    GetQualificationsAssociationDetailsResponse.add_member(:primary_partner, Shapes::ShapeRef.new(shape: QualificationsAssociationPartner, location_name: "PrimaryPartner"))
+    GetQualificationsAssociationDetailsResponse.add_member(:associated_partners, Shapes::ShapeRef.new(shape: AssociatedPartnerList, location_name: "AssociatedPartners"))
+    GetQualificationsAssociationDetailsResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "UpdatedAt"))
+    GetQualificationsAssociationDetailsResponse.struct_class = Types::GetQualificationsAssociationDetailsResponse
+
+    GetQualificationsAssociationTaskRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    GetQualificationsAssociationTaskRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: PartnerIdentifier, required: true, location_name: "Identifier"))
+    GetQualificationsAssociationTaskRequest.struct_class = Types::GetQualificationsAssociationTaskRequest
+
+    GetQualificationsAssociationTaskResponse.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    GetQualificationsAssociationTaskResponse.add_member(:arn, Shapes::ShapeRef.new(shape: PartnerArn, required: true, location_name: "Arn"))
+    GetQualificationsAssociationTaskResponse.add_member(:id, Shapes::ShapeRef.new(shape: PartnerId, required: true, location_name: "Id"))
+    GetQualificationsAssociationTaskResponse.add_member(:task_id, Shapes::ShapeRef.new(shape: QualificationsAssociationTaskId, required: true, location_name: "TaskId"))
+    GetQualificationsAssociationTaskResponse.add_member(:status, Shapes::ShapeRef.new(shape: QualificationsAssociationTaskStatus, required: true, location_name: "Status"))
+    GetQualificationsAssociationTaskResponse.add_member(:primary_partner, Shapes::ShapeRef.new(shape: QualificationsAssociationPartner, required: true, location_name: "PrimaryPartner"))
+    GetQualificationsAssociationTaskResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "StartedAt"))
+    GetQualificationsAssociationTaskResponse.add_member(:ended_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "EndedAt"))
+    GetQualificationsAssociationTaskResponse.struct_class = Types::GetQualificationsAssociationTaskResponse
+
+    GetQualificationsDisassociationTaskRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    GetQualificationsDisassociationTaskRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: PartnerIdentifier, required: true, location_name: "Identifier"))
+    GetQualificationsDisassociationTaskRequest.struct_class = Types::GetQualificationsDisassociationTaskRequest
+
+    GetQualificationsDisassociationTaskResponse.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    GetQualificationsDisassociationTaskResponse.add_member(:arn, Shapes::ShapeRef.new(shape: PartnerArn, required: true, location_name: "Arn"))
+    GetQualificationsDisassociationTaskResponse.add_member(:id, Shapes::ShapeRef.new(shape: PartnerId, required: true, location_name: "Id"))
+    GetQualificationsDisassociationTaskResponse.add_member(:task_id, Shapes::ShapeRef.new(shape: QualificationsDisassociationTaskId, required: true, location_name: "TaskId"))
+    GetQualificationsDisassociationTaskResponse.add_member(:status, Shapes::ShapeRef.new(shape: QualificationsDisassociationTaskStatus, required: true, location_name: "Status"))
+    GetQualificationsDisassociationTaskResponse.add_member(:associated_partner, Shapes::ShapeRef.new(shape: QualificationsAssociationPartner, required: true, location_name: "AssociatedPartner"))
+    GetQualificationsDisassociationTaskResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "StartedAt"))
+    GetQualificationsDisassociationTaskResponse.add_member(:ended_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "EndedAt"))
+    GetQualificationsDisassociationTaskResponse.struct_class = Types::GetQualificationsDisassociationTaskResponse
+
     GetVerificationRequest.add_member(:verification_type, Shapes::ShapeRef.new(shape: VerificationType, required: true, location_name: "VerificationType"))
     GetVerificationRequest.struct_class = Types::GetVerificationRequest
 
@@ -632,6 +692,10 @@ module Aws::PartnerCentralAccount
     PutProfileVisibilityResponse.add_member(:profile_id, Shapes::ShapeRef.new(shape: PartnerProfileId, required: true, location_name: "ProfileId"))
     PutProfileVisibilityResponse.struct_class = Types::PutProfileVisibilityResponse
 
+    QualificationsAssociationPartner.add_member(:profile_id, Shapes::ShapeRef.new(shape: PartnerProfileId, location_name: "ProfileId"))
+    QualificationsAssociationPartner.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, location_name: "AccountId"))
+    QualificationsAssociationPartner.struct_class = Types::QualificationsAssociationPartner
+
     RegistrantVerificationDetails.struct_class = Types::RegistrantVerificationDetails
 
     RegistrantVerificationResponse.add_member(:completion_url, Shapes::ShapeRef.new(shape: CompletionUrl, required: true, location_name: "CompletionUrl"))
@@ -694,6 +758,36 @@ module Aws::PartnerCentralAccount
     StartProfileUpdateTaskResponse.add_member(:ended_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "EndedAt"))
     StartProfileUpdateTaskResponse.add_member(:error_detail_list, Shapes::ShapeRef.new(shape: ErrorDetailList, location_name: "ErrorDetailList"))
     StartProfileUpdateTaskResponse.struct_class = Types::StartProfileUpdateTaskResponse
+
+    StartQualificationsAssociationTaskRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    StartQualificationsAssociationTaskRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: PartnerIdentifier, required: true, location_name: "Identifier"))
+    StartQualificationsAssociationTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    StartQualificationsAssociationTaskRequest.add_member(:primary_partner, Shapes::ShapeRef.new(shape: QualificationsAssociationPartner, required: true, location_name: "PrimaryPartner"))
+    StartQualificationsAssociationTaskRequest.struct_class = Types::StartQualificationsAssociationTaskRequest
+
+    StartQualificationsAssociationTaskResponse.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    StartQualificationsAssociationTaskResponse.add_member(:arn, Shapes::ShapeRef.new(shape: PartnerArn, required: true, location_name: "Arn"))
+    StartQualificationsAssociationTaskResponse.add_member(:id, Shapes::ShapeRef.new(shape: PartnerId, required: true, location_name: "Id"))
+    StartQualificationsAssociationTaskResponse.add_member(:task_id, Shapes::ShapeRef.new(shape: QualificationsAssociationTaskId, required: true, location_name: "TaskId"))
+    StartQualificationsAssociationTaskResponse.add_member(:status, Shapes::ShapeRef.new(shape: QualificationsAssociationTaskStatus, required: true, location_name: "Status"))
+    StartQualificationsAssociationTaskResponse.add_member(:primary_partner, Shapes::ShapeRef.new(shape: QualificationsAssociationPartner, required: true, location_name: "PrimaryPartner"))
+    StartQualificationsAssociationTaskResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "StartedAt"))
+    StartQualificationsAssociationTaskResponse.struct_class = Types::StartQualificationsAssociationTaskResponse
+
+    StartQualificationsDisassociationTaskRequest.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    StartQualificationsDisassociationTaskRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: PartnerIdentifier, required: true, location_name: "Identifier"))
+    StartQualificationsDisassociationTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    StartQualificationsDisassociationTaskRequest.add_member(:associated_partner, Shapes::ShapeRef.new(shape: QualificationsAssociationPartner, required: true, location_name: "AssociatedPartner"))
+    StartQualificationsDisassociationTaskRequest.struct_class = Types::StartQualificationsDisassociationTaskRequest
+
+    StartQualificationsDisassociationTaskResponse.add_member(:catalog, Shapes::ShapeRef.new(shape: Catalog, required: true, location_name: "Catalog"))
+    StartQualificationsDisassociationTaskResponse.add_member(:arn, Shapes::ShapeRef.new(shape: PartnerArn, required: true, location_name: "Arn"))
+    StartQualificationsDisassociationTaskResponse.add_member(:id, Shapes::ShapeRef.new(shape: PartnerId, required: true, location_name: "Id"))
+    StartQualificationsDisassociationTaskResponse.add_member(:task_id, Shapes::ShapeRef.new(shape: QualificationsDisassociationTaskId, required: true, location_name: "TaskId"))
+    StartQualificationsDisassociationTaskResponse.add_member(:status, Shapes::ShapeRef.new(shape: QualificationsDisassociationTaskStatus, required: true, location_name: "Status"))
+    StartQualificationsDisassociationTaskResponse.add_member(:associated_partner, Shapes::ShapeRef.new(shape: QualificationsAssociationPartner, required: true, location_name: "AssociatedPartner"))
+    StartQualificationsDisassociationTaskResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: DateTime, required: true, location_name: "StartedAt"))
+    StartQualificationsDisassociationTaskResponse.struct_class = Types::StartQualificationsDisassociationTaskResponse
 
     StartVerificationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     StartVerificationRequest.add_member(:verification_details, Shapes::ShapeRef.new(shape: VerificationDetails, location_name: "VerificationDetails"))
@@ -1012,6 +1106,45 @@ module Aws::PartnerCentralAccount
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:get_qualifications_association_details, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetQualificationsAssociationDetails"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetQualificationsAssociationDetailsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetQualificationsAssociationDetailsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:get_qualifications_association_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetQualificationsAssociationTask"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetQualificationsAssociationTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetQualificationsAssociationTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:get_qualifications_disassociation_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetQualificationsDisassociationTask"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetQualificationsDisassociationTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetQualificationsDisassociationTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:get_verification, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetVerification"
         o.http_method = "POST"
@@ -1158,6 +1291,34 @@ module Aws::PartnerCentralAccount
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
+      api.add_operation(:start_qualifications_association_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartQualificationsAssociationTask"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartQualificationsAssociationTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartQualificationsAssociationTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:start_qualifications_disassociation_task, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartQualificationsDisassociationTask"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartQualificationsDisassociationTaskRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartQualificationsDisassociationTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:start_verification, Seahorse::Model::Operation.new.tap do |o|

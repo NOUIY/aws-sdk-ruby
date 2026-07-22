@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.12.0 (2026-07-22)
+------------------
+
+* Feature - Adds Qualifications Association APIs that enable partners to associate a subsidiary account's qualifications with a primary account. Once associated, qualifications are shared across all connected accounts and scorecards are consolidated. Partners can start and track association and disassociation.
+
 1.11.0 (2026-07-09)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.35.0 (2026-07-22)
+------------------
+
+* Feature - Enablement for ALB and Bedrock Knowledge Base logs via Observability Admin Telemetry Rule for account and organization level
+
 1.34.0 (2026-07-09)
 ------------------
 

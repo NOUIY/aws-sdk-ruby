@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.105.0 (2026-07-22)
+------------------
+
+* Feature - Launching DEED and MREP in US GOV
+
 1.104.0 (2026-07-20)
 ------------------
 

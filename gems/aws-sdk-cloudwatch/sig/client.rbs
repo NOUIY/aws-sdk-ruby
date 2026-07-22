@@ -656,7 +656,7 @@ module Aws
                              scheduled_query_role_arn: ::String,
                              schedule_configuration: {
                                schedule_expression: ::String,
-                               start_time_offset: ::Integer?,
+                               start_time_offset: ::Integer,
                                end_time_offset: ::Integer?
                              },
                              aggregation_expression: ::String,

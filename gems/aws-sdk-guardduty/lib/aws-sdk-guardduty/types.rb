@@ -5796,6 +5796,25 @@ module Aws::GuardDuty
     #   The tags of the filter resource.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] created_at
+    #   The timestamp when the filter was created. This field is not
+    #   available for filters that were created before the lifecycle
+    #   metadata feature was enabled (legacy filters).
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp when the filter was last updated. For legacy filters,
+    #   this field is present only after the filter has been updated at
+    #   least once since the lifecycle metadata feature was enabled.
+    #   @return [Time]
+    #
+    # @!attribute [rw] version
+    #   The version of the filter. Every time the filter is updated, the
+    #   version increments by 1. This field is not available for legacy
+    #   filters that were created before the lifecycle metadata feature was
+    #   enabled.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetFilterResponse AWS API Documentation
     #
     class GetFilterResponse < Struct.new(
@@ -5804,7 +5823,10 @@ module Aws::GuardDuty
       :action,
       :rank,
       :finding_criteria,
-      :tags)
+      :tags,
+      :created_at,
+      :updated_at,
+      :version)
       SENSITIVE = []
       include Aws::Structure
     end
