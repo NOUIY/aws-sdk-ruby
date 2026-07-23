@@ -2106,6 +2106,14 @@ module Aws::BedrockAgentCoreControl
     #   A list of certificates to install in the browser.
     #   @return [Array<Types::Certificate>]
     #
+    # @!attribute [rw] filesystem_configurations
+    #   The file system configurations to mount into the browser. Use these
+    #   configurations to mount your own Amazon Simple Storage Service
+    #   (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access
+    #   points. Your sessions can then access your data. If you don't
+    #   specify this field, no file systems are mounted.
+    #   @return [Array<Types::ToolsFileSystemConfiguration>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the operation
     #   completes no more than one time. If this token matches a previous
@@ -2133,6 +2141,7 @@ module Aws::BedrockAgentCoreControl
       :browser_signing,
       :enterprise_policies,
       :certificates,
+      :filesystem_configurations,
       :client_token,
       :tags)
       SENSITIVE = [:description]
@@ -2190,6 +2199,14 @@ module Aws::BedrockAgentCoreControl
     #   A list of certificates to install in the code interpreter.
     #   @return [Array<Types::Certificate>]
     #
+    # @!attribute [rw] filesystem_configurations
+    #   The file system configurations to mount into the code interpreter.
+    #   Use these configurations to mount your own Amazon Simple Storage
+    #   Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS)
+    #   access points. Your sessions can then access your data. If you
+    #   don't specify this field, no file systems are mounted.
+    #   @return [Array<Types::ToolsFileSystemConfiguration>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the operation
     #   completes no more than one time. If this token matches a previous
@@ -2214,6 +2231,7 @@ module Aws::BedrockAgentCoreControl
       :execution_role_arn,
       :network_configuration,
       :certificates,
+      :filesystem_configurations,
       :client_token,
       :tags)
       SENSITIVE = [:description]
@@ -6285,6 +6303,35 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The configuration for mounting an Amazon Elastic File System (Amazon
+    # EFS) access point that you own into a session.
+    #
+    # @!attribute [rw] access_point_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Elastic File System
+    #   (Amazon EFS) access point to mount.
+    #   @return [String]
+    #
+    # @!attribute [rw] mount_path
+    #   The absolute path within the session at which the access point is
+    #   mounted, for example `/mnt/efs`. Each mount path must be unique
+    #   across all file system configurations in the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_system_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Elastic File System
+    #   (Amazon EFS) file system that owns the access point.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EfsConfiguration AWS API Documentation
+    #
+    class EfsConfiguration < Struct.new(
+      :access_point_arn,
+      :mount_path,
+      :file_system_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Exception thrown when encryption of a secret fails.
     #
     # @!attribute [rw] message
@@ -7637,6 +7684,11 @@ module Aws::BedrockAgentCoreControl
     #   The list of certificates configured for the browser.
     #   @return [Array<Types::Certificate>]
     #
+    # @!attribute [rw] filesystem_configurations
+    #   The file system configurations mounted into the browser. Each entry
+    #   describes an access point and its mount path.
+    #   @return [Array<Types::ToolsFileSystemConfiguration>]
+    #
     # @!attribute [rw] status
     #   The current status of the browser.
     #   @return [String]
@@ -7666,6 +7718,7 @@ module Aws::BedrockAgentCoreControl
       :browser_signing,
       :enterprise_policies,
       :certificates,
+      :filesystem_configurations,
       :status,
       :failure_reason,
       :created_at,
@@ -7719,6 +7772,11 @@ module Aws::BedrockAgentCoreControl
     #   The list of certificates configured for the code interpreter.
     #   @return [Array<Types::Certificate>]
     #
+    # @!attribute [rw] filesystem_configurations
+    #   The file system configurations mounted into the code interpreter.
+    #   Each entry describes an access point and its mount path.
+    #   @return [Array<Types::ToolsFileSystemConfiguration>]
+    #
     # @!attribute [rw] failure_reason
     #   The reason for failure if the code interpreter is in a failed state.
     #   @return [String]
@@ -7742,6 +7800,7 @@ module Aws::BedrockAgentCoreControl
       :network_configuration,
       :status,
       :certificates,
+      :filesystem_configurations,
       :failure_reason,
       :created_at,
       :last_updated_at)
@@ -16349,6 +16408,35 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The configuration for mounting an Amazon Simple Storage Service
+    # (Amazon S3) Files access point that you own into a session.
+    #
+    # @!attribute [rw] access_point_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Simple Storage Service
+    #   (Amazon S3) Files access point to mount.
+    #   @return [String]
+    #
+    # @!attribute [rw] mount_path
+    #   The absolute path within the session at which the access point is
+    #   mounted, for example `/mnt/s3data`. Each mount path must be unique
+    #   across all file system configurations in the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_system_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Simple Storage Service
+    #   (Amazon S3) Files file system that owns the access point.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/S3FilesConfiguration AWS API Documentation
+    #
+    class S3FilesConfiguration < Struct.new(
+      :access_point_arn,
+      :mount_path,
+      :file_system_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The Amazon S3 location for storing data. This structure defines where
     # in Amazon S3 data is stored.
     #
@@ -17948,6 +18036,44 @@ module Aws::BedrockAgentCoreControl
       :inline_content)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # Specifies a file system to mount into the session by providing exactly
+    # one of the following:
+    #
+    # * `s3FilesConfiguration` - Mounts an Amazon Simple Storage Service
+    #   (Amazon S3) Files access point.
+    #
+    # * `efsConfiguration` - Mounts an Amazon Elastic File System (Amazon
+    #   EFS) access point.
+    #
+    # @note ToolsFileSystemConfiguration is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ToolsFileSystemConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ToolsFileSystemConfiguration corresponding to the set member.
+    #
+    # @!attribute [rw] s3_files_configuration
+    #   The configuration for mounting your own Amazon Simple Storage
+    #   Service (Amazon S3) Files access point into the session.
+    #   @return [Types::S3FilesConfiguration]
+    #
+    # @!attribute [rw] efs_configuration
+    #   The configuration for mounting your own Amazon Elastic File System
+    #   (Amazon EFS) access point into the session.
+    #   @return [Types::EfsConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ToolsFileSystemConfiguration AWS API Documentation
+    #
+    class ToolsFileSystemConfiguration < Struct.new(
+      :s3_files_configuration,
+      :efs_configuration,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class S3FilesConfiguration < ToolsFileSystemConfiguration; end
+      class EfsConfiguration < ToolsFileSystemConfiguration; end
+      class Unknown < ToolsFileSystemConfiguration; end
     end
 
     # An entry in a traffic split configuration, defining a named variant

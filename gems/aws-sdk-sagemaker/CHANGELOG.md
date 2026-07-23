@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.379.0 (2026-07-23)
+------------------
+
+* Feature - Release support for c6a, m6a, m6g, m7g, m8g instance types for SageMaker HyperPod
+
 1.378.0 (2026-07-16)
 ------------------
 

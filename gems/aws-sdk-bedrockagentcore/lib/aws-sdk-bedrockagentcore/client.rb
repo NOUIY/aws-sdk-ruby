@@ -1809,6 +1809,7 @@ module Aws::BedrockAgentCore
     #   * {Types::GetBrowserSessionResponse#streams #streams} => Types::BrowserSessionStream
     #   * {Types::GetBrowserSessionResponse#proxy_configuration #proxy_configuration} => Types::ProxyConfiguration
     #   * {Types::GetBrowserSessionResponse#certificates #certificates} => Array&lt;Types::Certificate&gt;
+    #   * {Types::GetBrowserSessionResponse#filesystem_configurations #filesystem_configurations} => Array&lt;Types::ToolsFileSystemConfiguration&gt;
     #   * {Types::GetBrowserSessionResponse#session_replay_artifact #session_replay_artifact} => String
     #   * {Types::GetBrowserSessionResponse#last_updated_at #last_updated_at} => Time
     #
@@ -1852,6 +1853,13 @@ module Aws::BedrockAgentCore
     #   resp.proxy_configuration.bypass.domain_patterns[0] #=> String
     #   resp.certificates #=> Array
     #   resp.certificates[0].location.secrets_manager.secret_arn #=> String
+    #   resp.filesystem_configurations #=> Array
+    #   resp.filesystem_configurations[0].s3_files_configuration.access_point_arn #=> String
+    #   resp.filesystem_configurations[0].s3_files_configuration.mount_path #=> String
+    #   resp.filesystem_configurations[0].s3_files_configuration.file_system_arn #=> String
+    #   resp.filesystem_configurations[0].efs_configuration.access_point_arn #=> String
+    #   resp.filesystem_configurations[0].efs_configuration.mount_path #=> String
+    #   resp.filesystem_configurations[0].efs_configuration.file_system_arn #=> String
     #   resp.session_replay_artifact #=> String
     #   resp.last_updated_at #=> Time
     #
@@ -1902,6 +1910,7 @@ module Aws::BedrockAgentCore
     #   * {Types::GetCodeInterpreterSessionResponse#session_timeout_seconds #session_timeout_seconds} => Integer
     #   * {Types::GetCodeInterpreterSessionResponse#status #status} => String
     #   * {Types::GetCodeInterpreterSessionResponse#certificates #certificates} => Array&lt;Types::Certificate&gt;
+    #   * {Types::GetCodeInterpreterSessionResponse#filesystem_configurations #filesystem_configurations} => Array&lt;Types::ToolsFileSystemConfiguration&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -1920,6 +1929,13 @@ module Aws::BedrockAgentCore
     #   resp.status #=> String, one of "READY", "TERMINATED"
     #   resp.certificates #=> Array
     #   resp.certificates[0].location.secrets_manager.secret_arn #=> String
+    #   resp.filesystem_configurations #=> Array
+    #   resp.filesystem_configurations[0].s3_files_configuration.access_point_arn #=> String
+    #   resp.filesystem_configurations[0].s3_files_configuration.mount_path #=> String
+    #   resp.filesystem_configurations[0].s3_files_configuration.file_system_arn #=> String
+    #   resp.filesystem_configurations[0].efs_configuration.access_point_arn #=> String
+    #   resp.filesystem_configurations[0].efs_configuration.mount_path #=> String
+    #   resp.filesystem_configurations[0].efs_configuration.file_system_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetCodeInterpreterSession AWS API Documentation
     #
@@ -5408,6 +5424,13 @@ module Aws::BedrockAgentCore
     # @option params [Array<Types::Certificate>] :certificates
     #   A list of certificates to install in the browser session.
     #
+    # @option params [Array<Types::ToolsFileSystemConfiguration>] :filesystem_configurations
+    #   The file system configurations to mount into the browser session. Use
+    #   these configurations to mount your own Amazon Simple Storage Service
+    #   (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access
+    #   points. Your session can then read and write your data. If you don't
+    #   specify this field, no additional file systems are mounted.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -5491,6 +5514,20 @@ module Aws::BedrockAgentCore
     #         },
     #       },
     #     ],
+    #     filesystem_configurations: [
+    #       {
+    #         s3_files_configuration: {
+    #           access_point_arn: "S3FilesAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #           file_system_arn: "S3FilesFileSystemArn", # required
+    #         },
+    #         efs_configuration: {
+    #           access_point_arn: "EfsAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #           file_system_arn: "EfsFileSystemArn", # required
+    #         },
+    #       },
+    #     ],
     #     client_token: "ClientToken",
     #   })
     #
@@ -5559,6 +5596,14 @@ module Aws::BedrockAgentCore
     # @option params [Array<Types::Certificate>] :certificates
     #   A list of certificates to install in the code interpreter session.
     #
+    # @option params [Array<Types::ToolsFileSystemConfiguration>] :filesystem_configurations
+    #   The file system configurations to mount into the code interpreter
+    #   session. Use these configurations to mount your own Amazon Simple
+    #   Storage Service (Amazon S3) Files or Amazon Elastic File System
+    #   (Amazon EFS) access points. Your session can then read and write your
+    #   data. If you don't specify this field, no additional file systems are
+    #   mounted.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If this token matches a previous
@@ -5589,6 +5634,20 @@ module Aws::BedrockAgentCore
     #           secrets_manager: {
     #             secret_arn: "SecretArn", # required
     #           },
+    #         },
+    #       },
+    #     ],
+    #     filesystem_configurations: [
+    #       {
+    #         s3_files_configuration: {
+    #           access_point_arn: "S3FilesAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #           file_system_arn: "S3FilesFileSystemArn", # required
+    #         },
+    #         efs_configuration: {
+    #           access_point_arn: "EfsAccessPointArn", # required
+    #           mount_path: "MountPath", # required
+    #           file_system_arn: "EfsFileSystemArn", # required
     #         },
     #       },
     #     ],
@@ -6284,7 +6343,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.44.0'
+      context[:gem_version] = '1.45.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

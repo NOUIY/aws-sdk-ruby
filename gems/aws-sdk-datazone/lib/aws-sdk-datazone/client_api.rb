@@ -157,6 +157,8 @@ module Aws::DataZone
     CloudFormationProperties = Shapes::StructureShape.new(name: 'CloudFormationProperties')
     ColumnFilterConfiguration = Shapes::StructureShape.new(name: 'ColumnFilterConfiguration')
     ColumnNameList = Shapes::ListShape.new(name: 'ColumnNameList')
+    CommitHash = Shapes::StringShape.new(name: 'CommitHash')
+    CommitMessage = Shapes::StringShape.new(name: 'CommitMessage')
     CompletedAt = Shapes::TimestampShape.new(name: 'CompletedAt')
     ComputeConfig = Shapes::StructureShape.new(name: 'ComputeConfig')
     ComputeEnvironments = Shapes::StringShape.new(name: 'ComputeEnvironments')
@@ -457,6 +459,7 @@ module Aws::DataZone
     FailureCause = Shapes::StructureShape.new(name: 'FailureCause')
     FailureReasons = Shapes::ListShape.new(name: 'FailureReasons')
     FileFormat = Shapes::StringShape.new(name: 'FileFormat')
+    FileName = Shapes::StringShape.new(name: 'FileName')
     Filter = Shapes::StructureShape.new(name: 'Filter')
     FilterClause = Shapes::UnionShape.new(name: 'FilterClause')
     FilterExpression = Shapes::StructureShape.new(name: 'FilterExpression')
@@ -570,6 +573,10 @@ module Aws::DataZone
     GetUserProfileInput = Shapes::StructureShape.new(name: 'GetUserProfileInput')
     GetUserProfileInputSessionNameString = Shapes::StringShape.new(name: 'GetUserProfileInputSessionNameString')
     GetUserProfileOutput = Shapes::StructureShape.new(name: 'GetUserProfileOutput')
+    GitBranch = Shapes::StringShape.new(name: 'GitBranch')
+    GitConnectionId = Shapes::StringShape.new(name: 'GitConnectionId')
+    GitMetadata = Shapes::StructureShape.new(name: 'GitMetadata')
+    GitRepository = Shapes::StringShape.new(name: 'GitRepository')
     GlobalParameterMap = Shapes::MapShape.new(name: 'GlobalParameterMap')
     GlossaryDescription = Shapes::StringShape.new(name: 'GlossaryDescription')
     GlossaryId = Shapes::StringShape.new(name: 'GlossaryId')
@@ -1133,6 +1140,8 @@ module Aws::DataZone
     StartNotebookImportOutput = Shapes::StructureShape.new(name: 'StartNotebookImportOutput')
     StartNotebookRunInput = Shapes::StructureShape.new(name: 'StartNotebookRunInput')
     StartNotebookRunOutput = Shapes::StructureShape.new(name: 'StartNotebookRunOutput')
+    StartNotebookSyncInput = Shapes::StructureShape.new(name: 'StartNotebookSyncInput')
+    StartNotebookSyncOutput = Shapes::StructureShape.new(name: 'StartNotebookSyncOutput')
     Status = Shapes::StringShape.new(name: 'Status')
     StopNotebookRunInput = Shapes::StructureShape.new(name: 'StopNotebookRunInput')
     StopNotebookRunOutput = Shapes::StructureShape.new(name: 'StopNotebookRunOutput')
@@ -2451,6 +2460,7 @@ module Aws::DataZone
     CreateNotebookOutput.add_member(:parameters, Shapes::ShapeRef.new(shape: Parameters, location_name: "parameters"))
     CreateNotebookOutput.add_member(:environment_configuration, Shapes::ShapeRef.new(shape: EnvironmentConfig, location_name: "environmentConfiguration"))
     CreateNotebookOutput.add_member(:error, Shapes::ShapeRef.new(shape: NotebookError, location_name: "error"))
+    CreateNotebookOutput.add_member(:git_metadata, Shapes::ShapeRef.new(shape: GitMetadata, location_name: "gitMetadata"))
     CreateNotebookOutput.struct_class = Types::CreateNotebookOutput
 
     CreateProjectFromProjectProfilePolicyGrantDetail.add_member(:include_child_domain_units, Shapes::ShapeRef.new(shape: Boolean, location_name: "includeChildDomainUnits"))
@@ -3873,6 +3883,7 @@ module Aws::DataZone
     GetNotebookOutput.add_member(:parameters, Shapes::ShapeRef.new(shape: Parameters, location_name: "parameters"))
     GetNotebookOutput.add_member(:environment_configuration, Shapes::ShapeRef.new(shape: EnvironmentConfig, location_name: "environmentConfiguration"))
     GetNotebookOutput.add_member(:error, Shapes::ShapeRef.new(shape: NotebookError, location_name: "error"))
+    GetNotebookOutput.add_member(:git_metadata, Shapes::ShapeRef.new(shape: GitMetadata, location_name: "gitMetadata"))
     GetNotebookOutput.struct_class = Types::GetNotebookOutput
 
     GetNotebookRunInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
@@ -4073,6 +4084,15 @@ module Aws::DataZone
     GetUserProfileOutput.add_member(:status, Shapes::ShapeRef.new(shape: UserProfileStatus, location_name: "status"))
     GetUserProfileOutput.add_member(:details, Shapes::ShapeRef.new(shape: UserProfileDetails, location_name: "details"))
     GetUserProfileOutput.struct_class = Types::GetUserProfileOutput
+
+    GitMetadata.add_member(:connection_id, Shapes::ShapeRef.new(shape: GitConnectionId, required: true, location_name: "connectionId"))
+    GitMetadata.add_member(:repository, Shapes::ShapeRef.new(shape: GitRepository, required: true, location_name: "repository"))
+    GitMetadata.add_member(:branch, Shapes::ShapeRef.new(shape: GitBranch, required: true, location_name: "branch"))
+    GitMetadata.add_member(:commit_hash, Shapes::ShapeRef.new(shape: CommitHash, required: true, location_name: "commitHash"))
+    GitMetadata.add_member(:file_name, Shapes::ShapeRef.new(shape: FileName, location_name: "fileName"))
+    GitMetadata.add_member(:committed_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "committedAt"))
+    GitMetadata.add_member(:commit_message, Shapes::ShapeRef.new(shape: CommitMessage, location_name: "commitMessage"))
+    GitMetadata.struct_class = Types::GitMetadata
 
     GlobalParameterMap.key = Shapes::ShapeRef.new(shape: String)
     GlobalParameterMap.value = Shapes::ShapeRef.new(shape: String)
@@ -6125,6 +6145,28 @@ module Aws::DataZone
     StartNotebookRunOutput.add_member(:completed_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "completedAt"))
     StartNotebookRunOutput.struct_class = Types::StartNotebookRunOutput
 
+    StartNotebookSyncInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
+    StartNotebookSyncInput.add_member(:owning_project_identifier, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "owningProjectIdentifier"))
+    StartNotebookSyncInput.add_member(:source_location, Shapes::ShapeRef.new(shape: SourceLocation, required: true, location_name: "sourceLocation"))
+    StartNotebookSyncInput.add_member(:git_metadata, Shapes::ShapeRef.new(shape: GitMetadata, location_name: "gitMetadata"))
+    StartNotebookSyncInput.add_member(:notebook_id, Shapes::ShapeRef.new(shape: NotebookId, location_name: "notebookId"))
+    StartNotebookSyncInput.add_member(:name, Shapes::ShapeRef.new(shape: NotebookName, location_name: "name"))
+    StartNotebookSyncInput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    StartNotebookSyncInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    StartNotebookSyncInput.struct_class = Types::StartNotebookSyncInput
+
+    StartNotebookSyncOutput.add_member(:notebook_id, Shapes::ShapeRef.new(shape: NotebookId, location_name: "notebookId"))
+    StartNotebookSyncOutput.add_member(:status, Shapes::ShapeRef.new(shape: NotebookStatus, location_name: "status"))
+    StartNotebookSyncOutput.add_member(:domain_id, Shapes::ShapeRef.new(shape: DomainId, location_name: "domainId"))
+    StartNotebookSyncOutput.add_member(:owning_project_id, Shapes::ShapeRef.new(shape: ProjectId, location_name: "owningProjectId"))
+    StartNotebookSyncOutput.add_member(:source_location, Shapes::ShapeRef.new(shape: SourceLocation, location_name: "sourceLocation"))
+    StartNotebookSyncOutput.add_member(:git_metadata, Shapes::ShapeRef.new(shape: GitMetadata, location_name: "gitMetadata"))
+    StartNotebookSyncOutput.add_member(:name, Shapes::ShapeRef.new(shape: NotebookName, location_name: "name"))
+    StartNotebookSyncOutput.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
+    StartNotebookSyncOutput.add_member(:created_at, Shapes::ShapeRef.new(shape: CreatedAt, location_name: "createdAt"))
+    StartNotebookSyncOutput.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
+    StartNotebookSyncOutput.struct_class = Types::StartNotebookSyncOutput
+
     StopNotebookRunInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     StopNotebookRunInput.add_member(:identifier, Shapes::ShapeRef.new(shape: NotebookRunId, required: true, location: "uri", location_name: "identifier"))
     StopNotebookRunInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
@@ -6733,6 +6775,7 @@ module Aws::DataZone
     UpdateNotebookOutput.add_member(:parameters, Shapes::ShapeRef.new(shape: Parameters, location_name: "parameters"))
     UpdateNotebookOutput.add_member(:environment_configuration, Shapes::ShapeRef.new(shape: EnvironmentConfig, location_name: "environmentConfiguration"))
     UpdateNotebookOutput.add_member(:error, Shapes::ShapeRef.new(shape: NotebookError, location_name: "error"))
+    UpdateNotebookOutput.add_member(:git_metadata, Shapes::ShapeRef.new(shape: GitMetadata, location_name: "gitMetadata"))
     UpdateNotebookOutput.struct_class = Types::UpdateNotebookOutput
 
     UpdateProjectInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
@@ -9620,6 +9663,22 @@ module Aws::DataZone
         o.http_request_uri = "/v2/domains/{domainIdentifier}/notebook-runs"
         o.input = Shapes::ShapeRef.new(shape: StartNotebookRunInput)
         o.output = Shapes::ShapeRef.new(shape: StartNotebookRunOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+      end)
+
+      api.add_operation(:start_notebook_sync, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartNotebookSync"
+        o.http_method = "POST"
+        o.http_request_uri = "/v2/domains/{domainIdentifier}/notebook-syncs"
+        o.input = Shapes::ShapeRef.new(shape: StartNotebookSyncInput)
+        o.output = Shapes::ShapeRef.new(shape: StartNotebookSyncOutput)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)

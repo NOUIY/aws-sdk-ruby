@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.45.0 (2026-07-23)
+------------------
+
+* Feature - Adds support for the Bring Your Own Storage(BYOS) feature in AgentCore Browser and Code Interpreter. Enables mounting S3Files and EFS File Systems via Access points.
+
 1.44.0 (2026-07-20)
 ------------------
 

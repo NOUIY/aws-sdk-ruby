@@ -2558,6 +2558,11 @@ module Aws::QuickSight
     #       research: "DENY", # accepts DENY
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
+    #       use_browser_extension: "DENY", # accepts DENY
+    #       use_word_add_in_extension: "DENY", # accepts DENY
+    #       use_outlook_add_in_extension: "DENY", # accepts DENY
+    #       use_excel_add_in_extension: "DENY", # accepts DENY
+    #       use_powerpoint_add_in_extension: "DENY", # accepts DENY
     #       manage_shared_folders: "DENY", # accepts DENY
     #       generate_analyses: "DENY", # accepts DENY
     #       story: "DENY", # accepts DENY
@@ -9155,6 +9160,11 @@ module Aws::QuickSight
     #   resp.custom_permissions.capabilities.research #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.extension #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.use_browser_extension #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.use_word_add_in_extension #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.use_outlook_add_in_extension #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.use_excel_add_in_extension #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.use_powerpoint_add_in_extension #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.manage_shared_folders #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.generate_analyses #=> String, one of "DENY"
     #   resp.custom_permissions.capabilities.story #=> String, one of "DENY"
@@ -14036,6 +14046,11 @@ module Aws::QuickSight
     #   resp.custom_permissions_list[0].capabilities.research #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.self_upgrade_user_role #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.extension #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.use_browser_extension #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.use_word_add_in_extension #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.use_outlook_add_in_extension #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.use_excel_add_in_extension #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.use_powerpoint_add_in_extension #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.manage_shared_folders #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.generate_analyses #=> String, one of "DENY"
     #   resp.custom_permissions_list[0].capabilities.story #=> String, one of "DENY"
@@ -20335,6 +20350,11 @@ module Aws::QuickSight
     #       research: "DENY", # accepts DENY
     #       self_upgrade_user_role: "DENY", # accepts DENY
     #       extension: "DENY", # accepts DENY
+    #       use_browser_extension: "DENY", # accepts DENY
+    #       use_word_add_in_extension: "DENY", # accepts DENY
+    #       use_outlook_add_in_extension: "DENY", # accepts DENY
+    #       use_excel_add_in_extension: "DENY", # accepts DENY
+    #       use_powerpoint_add_in_extension: "DENY", # accepts DENY
     #       manage_shared_folders: "DENY", # accepts DENY
     #       generate_analyses: "DENY", # accepts DENY
     #       story: "DENY", # accepts DENY
@@ -24748,7 +24768,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.191.0'
+      context[:gem_version] = '1.192.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

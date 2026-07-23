@@ -5109,6 +5109,10 @@ module Aws::DataZone
     #   The error details if the notebook creation failed.
     #   @return [Types::NotebookError]
     #
+    # @!attribute [rw] git_metadata
+    #   The Git metadata associated with the notebook.
+    #   @return [Types::GitMetadata]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateNotebookOutput AWS API Documentation
     #
     class CreateNotebookOutput < Struct.new(
@@ -5130,7 +5134,8 @@ module Aws::DataZone
       :metadata,
       :parameters,
       :environment_configuration,
-      :error)
+      :error,
+      :git_metadata)
       SENSITIVE = [:name, :description, :metadata, :parameters]
       include Aws::Structure
     end
@@ -11438,6 +11443,10 @@ module Aws::DataZone
     #   The error details if the notebook is in a failed state.
     #   @return [Types::NotebookError]
     #
+    # @!attribute [rw] git_metadata
+    #   The Git metadata associated with the notebook.
+    #   @return [Types::GitMetadata]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetNotebookOutput AWS API Documentation
     #
     class GetNotebookOutput < Struct.new(
@@ -11459,7 +11468,8 @@ module Aws::DataZone
       :metadata,
       :parameters,
       :environment_configuration,
-      :error)
+      :error,
+      :git_metadata)
       SENSITIVE = [:name, :description, :metadata, :parameters]
       include Aws::Structure
     end
@@ -12403,6 +12413,52 @@ module Aws::DataZone
       :status,
       :details)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Git metadata for a notebook sync operation in Amazon SageMaker
+    # Unified Studio. Contains information about the Git repository, branch,
+    # and commit associated with the notebook.
+    #
+    # @!attribute [rw] connection_id
+    #   The identifier of the Git connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] repository
+    #   The name of the Git repository.
+    #   @return [String]
+    #
+    # @!attribute [rw] branch
+    #   The name of the Git branch.
+    #   @return [String]
+    #
+    # @!attribute [rw] commit_hash
+    #   The commit hash in the Git repository.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_name
+    #   The name of the file in the Git repository.
+    #   @return [String]
+    #
+    # @!attribute [rw] committed_at
+    #   The timestamp of when the commit was made.
+    #   @return [Time]
+    #
+    # @!attribute [rw] commit_message
+    #   The commit message associated with the Git commit.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GitMetadata AWS API Documentation
+    #
+    class GitMetadata < Struct.new(
+      :connection_id,
+      :repository,
+      :branch,
+      :commit_hash,
+      :file_name,
+      :committed_at,
+      :commit_message)
+      SENSITIVE = [:repository, :branch, :commit_message]
       include Aws::Structure
     end
 
@@ -21830,6 +21886,119 @@ module Aws::DataZone
 
     # @!attribute [rw] domain_identifier
     #   The identifier of the Amazon SageMaker Unified Studio domain in
+    #   which to sync the notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_identifier
+    #   The identifier of the project that will own the synced notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_location
+    #   The source location of the notebook to sync. This specifies the
+    #   Amazon Simple Storage Service URI of the notebook file.
+    #   @return [Types::SourceLocation]
+    #
+    # @!attribute [rw] git_metadata
+    #   The Git metadata for the notebook sync, including repository,
+    #   branch, and commit information.
+    #   @return [Types::GitMetadata]
+    #
+    # @!attribute [rw] notebook_id
+    #   The identifier of an existing notebook to sync. If not specified, a
+    #   new notebook is created.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the notebook. The name must be between 1 and 256
+    #   characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. This field is automatically populated if not provided.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StartNotebookSyncInput AWS API Documentation
+    #
+    class StartNotebookSyncInput < Struct.new(
+      :domain_identifier,
+      :owning_project_identifier,
+      :source_location,
+      :git_metadata,
+      :notebook_id,
+      :name,
+      :description,
+      :client_token)
+      SENSITIVE = [:name, :description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] notebook_id
+    #   The identifier of the synced notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the notebook sync.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   The identifier of the Amazon SageMaker Unified Studio domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] owning_project_id
+    #   The identifier of the project that owns the synced notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_location
+    #   The source location from which the notebook was synced.
+    #   @return [Types::SourceLocation]
+    #
+    # @!attribute [rw] git_metadata
+    #   The Git metadata associated with the synced notebook.
+    #   @return [Types::GitMetadata]
+    #
+    # @!attribute [rw] name
+    #   The name of the synced notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the synced notebook.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the notebook sync was started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_by
+    #   The identifier of the user who started the notebook sync.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StartNotebookSyncOutput AWS API Documentation
+    #
+    class StartNotebookSyncOutput < Struct.new(
+      :notebook_id,
+      :status,
+      :domain_id,
+      :owning_project_id,
+      :source_location,
+      :git_metadata,
+      :name,
+      :description,
+      :created_at,
+      :created_by)
+      SENSITIVE = [:name, :description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_identifier
+    #   The identifier of the Amazon SageMaker Unified Studio domain in
     #   which the notebook run is stopped.
     #   @return [String]
     #
@@ -24539,6 +24708,10 @@ module Aws::DataZone
     #   The error details if the notebook is in a failed state.
     #   @return [Types::NotebookError]
     #
+    # @!attribute [rw] git_metadata
+    #   The Git metadata associated with the notebook.
+    #   @return [Types::GitMetadata]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateNotebookOutput AWS API Documentation
     #
     class UpdateNotebookOutput < Struct.new(
@@ -24560,7 +24733,8 @@ module Aws::DataZone
       :metadata,
       :parameters,
       :environment_configuration,
-      :error)
+      :error,
+      :git_metadata)
       SENSITIVE = [:name, :description, :metadata, :parameters]
       include Aws::Structure
     end

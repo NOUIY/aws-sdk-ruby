@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.69.0 (2026-07-23)
+------------------
+
+* Feature - This release adds support for non-epoch-locked CMAF ingest in MediaPackageV2 channels.
+
 1.68.0 (2026-07-09)
 ------------------
 

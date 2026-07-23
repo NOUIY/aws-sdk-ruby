@@ -534,6 +534,7 @@ module Aws
         def streams: () -> Types::BrowserSessionStream
         def proxy_configuration: () -> Types::ProxyConfiguration
         def certificates: () -> ::Array[Types::Certificate]
+        def filesystem_configurations: () -> ::Array[Types::ToolsFileSystemConfiguration]
         def session_replay_artifact: () -> ::String
         def last_updated_at: () -> ::Time
       end
@@ -553,6 +554,7 @@ module Aws
         def session_timeout_seconds: () -> ::Integer
         def status: () -> ("READY" | "TERMINATED")
         def certificates: () -> ::Array[Types::Certificate]
+        def filesystem_configurations: () -> ::Array[Types::ToolsFileSystemConfiguration]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#get_code_interpreter_session-instance_method
       def get_code_interpreter_session: (
@@ -1493,6 +1495,9 @@ module Aws
                                        }
                                      }
                                    ],
+                                   ?filesystem_configurations: Array[
+                                     Params::tools_file_system_configuration
+                                   ],
                                    ?client_token: ::String
                                  ) -> _StartBrowserSessionResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartBrowserSessionResponseSuccess
@@ -1518,6 +1523,9 @@ module Aws
                                                   }?
                                                 }
                                               }
+                                            ],
+                                            ?filesystem_configurations: Array[
+                                              Params::tools_file_system_configuration
                                             ],
                                             ?client_token: ::String
                                           ) -> _StartCodeInterpreterSessionResponseSuccess

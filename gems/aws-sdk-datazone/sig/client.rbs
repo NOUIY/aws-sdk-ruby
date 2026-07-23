@@ -1104,7 +1104,7 @@ module Aws
         def owning_project_id: () -> ::String
         def domain_id: () -> ::String
         def cell_order: () -> ::Array[Types::CellInformation]
-        def status: () -> ("ACTIVE" | "ARCHIVED")
+        def status: () -> ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
         def description: () -> ::String
         def created_at: () -> ::Time
         def created_by: () -> ::String
@@ -1117,6 +1117,7 @@ module Aws
         def metadata: () -> ::Hash[::String, ::String]
         def parameters: () -> ::Hash[::String, ::String]
         def environment_configuration: () -> Types::EnvironmentConfig
+        def git_metadata: () -> Types::GitMetadata
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#create_notebook-instance_method
       def create_notebook: (
@@ -2364,7 +2365,7 @@ module Aws
         def owning_project_id: () -> ::String
         def domain_id: () -> ::String
         def cell_order: () -> ::Array[Types::CellInformation]
-        def status: () -> ("ACTIVE" | "ARCHIVED")
+        def status: () -> ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
         def description: () -> ::String
         def created_at: () -> ::Time
         def created_by: () -> ::String
@@ -2377,6 +2378,7 @@ module Aws
         def metadata: () -> ::Hash[::String, ::String]
         def parameters: () -> ::Hash[::String, ::String]
         def environment_configuration: () -> Types::EnvironmentConfig
+        def git_metadata: () -> Types::GitMetadata
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#get_notebook-instance_method
       def get_notebook: (
@@ -3001,7 +3003,7 @@ module Aws
                             ?max_results: ::Integer,
                             ?sort_order: ("ASCENDING" | "DESCENDING"),
                             ?sort_by: ("CREATED_AT" | "UPDATED_AT"),
-                            ?status: ("ACTIVE" | "ARCHIVED"),
+                            ?status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED"),
                             ?next_token: ::String
                           ) -> _ListNotebooksResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListNotebooksResponseSuccess
@@ -3642,7 +3644,7 @@ module Aws
       interface _StartNotebookImportResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartNotebookImportOutput]
         def notebook_id: () -> ::String
-        def status: () -> ("ACTIVE" | "ARCHIVED")
+        def status: () -> ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
         def domain_id: () -> ::String
         def owning_project_id: () -> ::String
         def name: () -> ::String
@@ -3716,6 +3718,42 @@ module Aws
                                 ?client_token: ::String
                               ) -> _StartNotebookRunResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartNotebookRunResponseSuccess
+
+      interface _StartNotebookSyncResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartNotebookSyncOutput]
+        def notebook_id: () -> ::String
+        def status: () -> ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
+        def domain_id: () -> ::String
+        def owning_project_id: () -> ::String
+        def source_location: () -> Types::SourceLocation
+        def git_metadata: () -> Types::GitMetadata
+        def name: () -> ::String
+        def description: () -> ::String
+        def created_at: () -> ::Time
+        def created_by: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#start_notebook_sync-instance_method
+      def start_notebook_sync: (
+                                 domain_identifier: ::String,
+                                 owning_project_identifier: ::String,
+                                 source_location: {
+                                   s3: ::String?
+                                 },
+                                 ?git_metadata: {
+                                   connection_id: ::String,
+                                   repository: ::String,
+                                   branch: ::String,
+                                   commit_hash: ::String,
+                                   file_name: ::String?,
+                                   committed_at: ::Time?,
+                                   commit_message: ::String?
+                                 },
+                                 ?notebook_id: ::String,
+                                 ?name: ::String,
+                                 ?description: ::String,
+                                 ?client_token: ::String
+                               ) -> _StartNotebookSyncResponseSuccess
+                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartNotebookSyncResponseSuccess
 
       interface _StopNotebookRunResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StopNotebookRunOutput]
@@ -4235,7 +4273,7 @@ module Aws
         def owning_project_id: () -> ::String
         def domain_id: () -> ::String
         def cell_order: () -> ::Array[Types::CellInformation]
-        def status: () -> ("ACTIVE" | "ARCHIVED")
+        def status: () -> ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
         def description: () -> ::String
         def created_at: () -> ::Time
         def created_by: () -> ::String
@@ -4248,13 +4286,14 @@ module Aws
         def metadata: () -> ::Hash[::String, ::String]
         def parameters: () -> ::Hash[::String, ::String]
         def environment_configuration: () -> Types::EnvironmentConfig
+        def git_metadata: () -> Types::GitMetadata
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#update_notebook-instance_method
       def update_notebook: (
                              domain_identifier: ::String,
                              identifier: ::String,
                              ?description: ::String,
-                             ?status: ("ACTIVE" | "ARCHIVED"),
+                             ?status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED"),
                              ?name: ::String,
                              ?cell_order: Array[
                                {

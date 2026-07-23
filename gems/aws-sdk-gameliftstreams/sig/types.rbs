@@ -163,6 +163,11 @@ module Aws::GameLiftStreams
       SENSITIVE: []
     end
 
+    class DisplayConfiguration
+      attr_accessor resolution: Types::Resolution
+      SENSITIVE: []
+    end
+
     class ExportFilesMetadata
       attr_accessor status: ("SUCCEEDED" | "FAILED" | "PENDING")
       attr_accessor status_reason: ::String
@@ -253,6 +258,7 @@ module Aws::GameLiftStreams
       attr_accessor application_arn: ::String
       attr_accessor export_files_metadata: Types::ExportFilesMetadata
       attr_accessor role_arn: ::String
+      attr_accessor display_configuration: Types::DisplayConfiguration
       SENSITIVE: [:signal_request, :signal_response, :role_arn]
     end
 
@@ -366,6 +372,12 @@ module Aws::GameLiftStreams
       SENSITIVE: []
     end
 
+    class Resolution
+      attr_accessor width: ::Integer
+      attr_accessor height: ::Integer
+      SENSITIVE: []
+    end
+
     class ResourceNotFoundException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -397,6 +409,7 @@ module Aws::GameLiftStreams
       attr_accessor additional_environment_variables: ::Hash[::String, ::String]
       attr_accessor performance_stats_configuration: Types::PerformanceStatsConfiguration
       attr_accessor role_arn: ::String
+      attr_accessor display_configuration: Types::DisplayConfiguration
       SENSITIVE: [:signal_request, :role_arn]
     end
 
@@ -423,6 +436,7 @@ module Aws::GameLiftStreams
       attr_accessor application_arn: ::String
       attr_accessor export_files_metadata: Types::ExportFilesMetadata
       attr_accessor role_arn: ::String
+      attr_accessor display_configuration: Types::DisplayConfiguration
       SENSITIVE: [:signal_request, :signal_response, :role_arn]
     end
 

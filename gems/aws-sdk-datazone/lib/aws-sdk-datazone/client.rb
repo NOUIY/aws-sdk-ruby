@@ -3829,6 +3829,7 @@ module Aws::DataZone
     #   * {Types::CreateNotebookOutput#parameters #parameters} => Hash&lt;String,String&gt;
     #   * {Types::CreateNotebookOutput#environment_configuration #environment_configuration} => Types::EnvironmentConfig
     #   * {Types::CreateNotebookOutput#error #error} => Types::NotebookError
+    #   * {Types::CreateNotebookOutput#git_metadata #git_metadata} => Types::GitMetadata
     #
     # @example Request syntax with placeholder values
     #
@@ -3853,7 +3854,7 @@ module Aws::DataZone
     #   resp.owning_project_id #=> String
     #   resp.domain_id #=> String
     #   resp.cell_order #=> Array
-    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED"
+    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED", "SYNC_IN_PROGRESS", "SYNC_FAILED"
     #   resp.description #=> String
     #   resp.created_at #=> Time
     #   resp.created_by #=> String
@@ -3871,6 +3872,13 @@ module Aws::DataZone
     #   resp.environment_configuration.package_config.package_manager #=> String, one of "UV"
     #   resp.environment_configuration.package_config.package_specification #=> String
     #   resp.error.message #=> String
+    #   resp.git_metadata.connection_id #=> String
+    #   resp.git_metadata.repository #=> String
+    #   resp.git_metadata.branch #=> String
+    #   resp.git_metadata.commit_hash #=> String
+    #   resp.git_metadata.file_name #=> String
+    #   resp.git_metadata.committed_at #=> Time
+    #   resp.git_metadata.commit_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/CreateNotebook AWS API Documentation
     #
@@ -7954,6 +7962,7 @@ module Aws::DataZone
     #   * {Types::GetNotebookOutput#parameters #parameters} => Hash&lt;String,String&gt;
     #   * {Types::GetNotebookOutput#environment_configuration #environment_configuration} => Types::EnvironmentConfig
     #   * {Types::GetNotebookOutput#error #error} => Types::NotebookError
+    #   * {Types::GetNotebookOutput#git_metadata #git_metadata} => Types::GitMetadata
     #
     # @example Request syntax with placeholder values
     #
@@ -7969,7 +7978,7 @@ module Aws::DataZone
     #   resp.owning_project_id #=> String
     #   resp.domain_id #=> String
     #   resp.cell_order #=> Array
-    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED"
+    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED", "SYNC_IN_PROGRESS", "SYNC_FAILED"
     #   resp.description #=> String
     #   resp.created_at #=> Time
     #   resp.created_by #=> String
@@ -7987,6 +7996,13 @@ module Aws::DataZone
     #   resp.environment_configuration.package_config.package_manager #=> String, one of "UV"
     #   resp.environment_configuration.package_config.package_specification #=> String
     #   resp.error.message #=> String
+    #   resp.git_metadata.connection_id #=> String
+    #   resp.git_metadata.repository #=> String
+    #   resp.git_metadata.branch #=> String
+    #   resp.git_metadata.commit_hash #=> String
+    #   resp.git_metadata.file_name #=> String
+    #   resp.git_metadata.committed_at #=> Time
+    #   resp.git_metadata.commit_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetNotebook AWS API Documentation
     #
@@ -10661,7 +10677,7 @@ module Aws::DataZone
     #     max_results: 1,
     #     sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
     #     sort_by: "CREATED_AT", # accepts CREATED_AT, UPDATED_AT
-    #     status: "ACTIVE", # accepts ACTIVE, ARCHIVED
+    #     status: "ACTIVE", # accepts ACTIVE, ARCHIVED, SYNC_IN_PROGRESS, SYNC_FAILED
     #     next_token: "PaginationToken",
     #   })
     #
@@ -10672,7 +10688,7 @@ module Aws::DataZone
     #   resp.items[0].name #=> String
     #   resp.items[0].owning_project_id #=> String
     #   resp.items[0].domain_id #=> String
-    #   resp.items[0].status #=> String, one of "ACTIVE", "ARCHIVED"
+    #   resp.items[0].status #=> String, one of "ACTIVE", "ARCHIVED", "SYNC_IN_PROGRESS", "SYNC_FAILED"
     #   resp.items[0].description #=> String
     #   resp.items[0].created_at #=> Time
     #   resp.items[0].created_by #=> String
@@ -13678,7 +13694,7 @@ module Aws::DataZone
     # @example Response structure
     #
     #   resp.notebook_id #=> String
-    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED"
+    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED", "SYNC_IN_PROGRESS", "SYNC_FAILED"
     #   resp.domain_id #=> String
     #   resp.owning_project_id #=> String
     #   resp.name #=> String
@@ -13851,6 +13867,106 @@ module Aws::DataZone
     # @param [Hash] params ({})
     def start_notebook_run(params = {}, options = {})
       req = build_request(:start_notebook_run, params)
+      req.send_request(options)
+    end
+
+    # Starts a notebook sync in Amazon SageMaker Unified Studio. This
+    # operation syncs a notebook from a Git repository into a project.
+    #
+    # @option params [required, String] :domain_identifier
+    #   The identifier of the Amazon SageMaker Unified Studio domain in which
+    #   to sync the notebook.
+    #
+    # @option params [required, String] :owning_project_identifier
+    #   The identifier of the project that will own the synced notebook.
+    #
+    # @option params [required, Types::SourceLocation] :source_location
+    #   The source location of the notebook to sync. This specifies the Amazon
+    #   Simple Storage Service URI of the notebook file.
+    #
+    # @option params [Types::GitMetadata] :git_metadata
+    #   The Git metadata for the notebook sync, including repository, branch,
+    #   and commit information.
+    #
+    # @option params [String] :notebook_id
+    #   The identifier of an existing notebook to sync. If not specified, a
+    #   new notebook is created.
+    #
+    # @option params [String] :name
+    #   The name of the notebook. The name must be between 1 and 256
+    #   characters.
+    #
+    # @option params [String] :description
+    #   The description of the notebook.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure idempotency of the
+    #   request. This field is automatically populated if not provided.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::StartNotebookSyncOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartNotebookSyncOutput#notebook_id #notebook_id} => String
+    #   * {Types::StartNotebookSyncOutput#status #status} => String
+    #   * {Types::StartNotebookSyncOutput#domain_id #domain_id} => String
+    #   * {Types::StartNotebookSyncOutput#owning_project_id #owning_project_id} => String
+    #   * {Types::StartNotebookSyncOutput#source_location #source_location} => Types::SourceLocation
+    #   * {Types::StartNotebookSyncOutput#git_metadata #git_metadata} => Types::GitMetadata
+    #   * {Types::StartNotebookSyncOutput#name #name} => String
+    #   * {Types::StartNotebookSyncOutput#description #description} => String
+    #   * {Types::StartNotebookSyncOutput#created_at #created_at} => Time
+    #   * {Types::StartNotebookSyncOutput#created_by #created_by} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_notebook_sync({
+    #     domain_identifier: "DomainId", # required
+    #     owning_project_identifier: "ProjectId", # required
+    #     source_location: { # required
+    #       s3: "S3SourceLocation",
+    #     },
+    #     git_metadata: {
+    #       connection_id: "GitConnectionId", # required
+    #       repository: "GitRepository", # required
+    #       branch: "GitBranch", # required
+    #       commit_hash: "CommitHash", # required
+    #       file_name: "FileName",
+    #       committed_at: Time.now,
+    #       commit_message: "CommitMessage",
+    #     },
+    #     notebook_id: "NotebookId",
+    #     name: "NotebookName",
+    #     description: "Description",
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.notebook_id #=> String
+    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED", "SYNC_IN_PROGRESS", "SYNC_FAILED"
+    #   resp.domain_id #=> String
+    #   resp.owning_project_id #=> String
+    #   resp.source_location.s3 #=> String
+    #   resp.git_metadata.connection_id #=> String
+    #   resp.git_metadata.repository #=> String
+    #   resp.git_metadata.branch #=> String
+    #   resp.git_metadata.commit_hash #=> String
+    #   resp.git_metadata.file_name #=> String
+    #   resp.git_metadata.committed_at #=> Time
+    #   resp.git_metadata.commit_message #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.created_at #=> Time
+    #   resp.created_by #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/StartNotebookSync AWS API Documentation
+    #
+    # @overload start_notebook_sync(params = {})
+    # @param [Hash] params ({})
+    def start_notebook_sync(params = {}, options = {})
+      req = build_request(:start_notebook_sync, params)
       req.send_request(options)
     end
 
@@ -15554,6 +15670,7 @@ module Aws::DataZone
     #   * {Types::UpdateNotebookOutput#parameters #parameters} => Hash&lt;String,String&gt;
     #   * {Types::UpdateNotebookOutput#environment_configuration #environment_configuration} => Types::EnvironmentConfig
     #   * {Types::UpdateNotebookOutput#error #error} => Types::NotebookError
+    #   * {Types::UpdateNotebookOutput#git_metadata #git_metadata} => Types::GitMetadata
     #
     # @example Request syntax with placeholder values
     #
@@ -15561,7 +15678,7 @@ module Aws::DataZone
     #     domain_identifier: "DomainId", # required
     #     identifier: "NotebookId", # required
     #     description: "Description",
-    #     status: "ACTIVE", # accepts ACTIVE, ARCHIVED
+    #     status: "ACTIVE", # accepts ACTIVE, ARCHIVED, SYNC_IN_PROGRESS, SYNC_FAILED
     #     name: "NotebookName",
     #     cell_order: [
     #       {
@@ -15590,7 +15707,7 @@ module Aws::DataZone
     #   resp.owning_project_id #=> String
     #   resp.domain_id #=> String
     #   resp.cell_order #=> Array
-    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED"
+    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED", "SYNC_IN_PROGRESS", "SYNC_FAILED"
     #   resp.description #=> String
     #   resp.created_at #=> Time
     #   resp.created_by #=> String
@@ -15608,6 +15725,13 @@ module Aws::DataZone
     #   resp.environment_configuration.package_config.package_manager #=> String, one of "UV"
     #   resp.environment_configuration.package_config.package_specification #=> String
     #   resp.error.message #=> String
+    #   resp.git_metadata.connection_id #=> String
+    #   resp.git_metadata.repository #=> String
+    #   resp.git_metadata.branch #=> String
+    #   resp.git_metadata.commit_hash #=> String
+    #   resp.git_metadata.file_name #=> String
+    #   resp.git_metadata.committed_at #=> Time
+    #   resp.git_metadata.commit_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/UpdateNotebook AWS API Documentation
     #
@@ -16466,7 +16590,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.84.0'
+      context[:gem_version] = '1.85.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

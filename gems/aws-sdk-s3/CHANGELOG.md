@@ -1,6 +1,9 @@
 Unreleased Changes
 ------------------
 
+1.228.1 (2026-07-23)
+------------------
+
 * Issue - Ensure the source file is closed on multipart `upload_file` part failure, preventing leaked file descriptors (#3408).
 
 1.228.0 (2026-07-16)

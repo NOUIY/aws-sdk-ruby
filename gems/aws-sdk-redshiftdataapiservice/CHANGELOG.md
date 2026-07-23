@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.78.0 (2026-07-23)
+------------------
+
+* Feature - This release include long polling provids a new parameter wait-time-seconds to 5 API operations, new API ListSessions, and a new parameter execution-mode to BatchExecuteStatement
+
 1.77.0 (2026-07-21)
 ------------------
 

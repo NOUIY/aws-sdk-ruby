@@ -47,6 +47,7 @@ module Aws::GameLiftStreams
     Description = Shapes::StringShape.new(name: 'Description')
     DisassociateApplicationsInput = Shapes::StructureShape.new(name: 'DisassociateApplicationsInput')
     DisassociateApplicationsOutput = Shapes::StructureShape.new(name: 'DisassociateApplicationsOutput')
+    DisplayConfiguration = Shapes::StructureShape.new(name: 'DisplayConfiguration')
     EnvironmentVariables = Shapes::MapShape.new(name: 'EnvironmentVariables')
     EnvironmentVariablesKeyString = Shapes::StringShape.new(name: 'EnvironmentVariablesKeyString')
     EnvironmentVariablesValueString = Shapes::StringShape.new(name: 'EnvironmentVariablesValueString')
@@ -101,6 +102,9 @@ module Aws::GameLiftStreams
     ReplicationStatus = Shapes::StructureShape.new(name: 'ReplicationStatus')
     ReplicationStatusType = Shapes::StringShape.new(name: 'ReplicationStatusType')
     ReplicationStatuses = Shapes::ListShape.new(name: 'ReplicationStatuses')
+    Resolution = Shapes::StructureShape.new(name: 'Resolution')
+    ResolutionHeight = Shapes::IntegerShape.new(name: 'ResolutionHeight')
+    ResolutionWidth = Shapes::IntegerShape.new(name: 'ResolutionWidth')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     RuntimeEnvironment = Shapes::StructureShape.new(name: 'RuntimeEnvironment')
     RuntimeEnvironmentType = Shapes::StringShape.new(name: 'RuntimeEnvironmentType')
@@ -268,6 +272,9 @@ module Aws::GameLiftStreams
     DisassociateApplicationsOutput.add_member(:application_arns, Shapes::ShapeRef.new(shape: ArnList, location_name: "ApplicationArns"))
     DisassociateApplicationsOutput.struct_class = Types::DisassociateApplicationsOutput
 
+    DisplayConfiguration.add_member(:resolution, Shapes::ShapeRef.new(shape: Resolution, location_name: "Resolution"))
+    DisplayConfiguration.struct_class = Types::DisplayConfiguration
+
     EnvironmentVariables.key = Shapes::ShapeRef.new(shape: EnvironmentVariablesKeyString)
     EnvironmentVariables.value = Shapes::ShapeRef.new(shape: EnvironmentVariablesValueString)
 
@@ -349,6 +356,7 @@ module Aws::GameLiftStreams
     GetStreamSessionOutput.add_member(:application_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "ApplicationArn"))
     GetStreamSessionOutput.add_member(:export_files_metadata, Shapes::ShapeRef.new(shape: ExportFilesMetadata, location_name: "ExportFilesMetadata"))
     GetStreamSessionOutput.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "RoleArn"))
+    GetStreamSessionOutput.add_member(:display_configuration, Shapes::ShapeRef.new(shape: DisplayConfiguration, location_name: "DisplayConfiguration"))
     GetStreamSessionOutput.struct_class = Types::GetStreamSessionOutput
 
     Identifiers.member = Shapes::ShapeRef.new(shape: Identifier)
@@ -443,6 +451,10 @@ module Aws::GameLiftStreams
 
     ReplicationStatuses.member = Shapes::ShapeRef.new(shape: ReplicationStatus)
 
+    Resolution.add_member(:width, Shapes::ShapeRef.new(shape: ResolutionWidth, required: true, location_name: "Width"))
+    Resolution.add_member(:height, Shapes::ShapeRef.new(shape: ResolutionHeight, required: true, location_name: "Height"))
+    Resolution.struct_class = Types::Resolution
+
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
@@ -467,6 +479,7 @@ module Aws::GameLiftStreams
     StartStreamSessionInput.add_member(:additional_environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariables, location_name: "AdditionalEnvironmentVariables"))
     StartStreamSessionInput.add_member(:performance_stats_configuration, Shapes::ShapeRef.new(shape: PerformanceStatsConfiguration, location_name: "PerformanceStatsConfiguration"))
     StartStreamSessionInput.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "RoleArn"))
+    StartStreamSessionInput.add_member(:display_configuration, Shapes::ShapeRef.new(shape: DisplayConfiguration, location_name: "DisplayConfiguration"))
     StartStreamSessionInput.struct_class = Types::StartStreamSessionInput
 
     StartStreamSessionOutput.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
@@ -491,6 +504,7 @@ module Aws::GameLiftStreams
     StartStreamSessionOutput.add_member(:application_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "ApplicationArn"))
     StartStreamSessionOutput.add_member(:export_files_metadata, Shapes::ShapeRef.new(shape: ExportFilesMetadata, location_name: "ExportFilesMetadata"))
     StartStreamSessionOutput.add_member(:role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "RoleArn"))
+    StartStreamSessionOutput.add_member(:display_configuration, Shapes::ShapeRef.new(shape: DisplayConfiguration, location_name: "DisplayConfiguration"))
     StartStreamSessionOutput.struct_class = Types::StartStreamSessionOutput
 
     StreamGroupSummary.add_member(:arn, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "Arn"))

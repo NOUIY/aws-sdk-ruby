@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.85.0 (2026-07-23)
+------------------
+
+* Feature - Adds support for notebook sync with S3 ipynb files
+
 1.84.0 (2026-07-09)
 ------------------
 

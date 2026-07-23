@@ -1466,6 +1466,24 @@ module Aws::GameLiftStreams
       include Aws::Structure
     end
 
+    # The virtual monitor settings for a stream session, including the
+    # resolution. If not specified, the stream session uses the default
+    # resolution of 1920 × 1080.
+    #
+    # @!attribute [rw] resolution
+    #   The resolution to apply to the stream session's virtual monitor.
+    #   When specified, this value overrides the default resolution of 1920
+    #   × 1080.
+    #   @return [Types::Resolution]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/DisplayConfiguration AWS API Documentation
+    #
+    class DisplayConfiguration < Struct.new(
+      :resolution)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides details about the stream session's exported files.
     #
     # @!attribute [rw] status
@@ -2374,6 +2392,10 @@ module Aws::GameLiftStreams
     #   the stream session.
     #   @return [String]
     #
+    # @!attribute [rw] display_configuration
+    #   The configuration for the stream session's virtual monitor.
+    #   @return [Types::DisplayConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/GetStreamSessionOutput AWS API Documentation
     #
     class GetStreamSessionOutput < Struct.new(
@@ -2398,7 +2420,8 @@ module Aws::GameLiftStreams
       :created_at,
       :application_arn,
       :export_files_metadata,
-      :role_arn)
+      :role_arn,
+      :display_configuration)
       SENSITIVE = [:signal_request, :signal_response, :role_arn]
       include Aws::Structure
     end
@@ -2957,6 +2980,30 @@ module Aws::GameLiftStreams
       include Aws::Structure
     end
 
+    # Contains the width and height dimensions, in pixels, that define the
+    # resolution of the stream session's virtual monitor. The total number
+    # of pixels (width × height) must not exceed 2,073,600 (equivalent to
+    # 1920 × 1080).
+    #
+    # @!attribute [rw] width
+    #   The width of the stream session's virtual monitor, in pixels. The
+    #   value must be an even number.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] height
+    #   The height of the stream session's virtual monitor, in pixels. The
+    #   value must be an even number.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/Resolution AWS API Documentation
+    #
+    class Resolution < Struct.new(
+      :width,
+      :height)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The resource specified in the request was not found. Correct the
     # request before you try again.
     #
@@ -3173,6 +3220,14 @@ module Aws::GameLiftStreams
     #   `GameLiftStreams-`.
     #   @return [String]
     #
+    # @!attribute [rw] display_configuration
+    #   The configuration for the stream session's virtual monitor,
+    #   including the resolution settings.
+    #
+    #   If not specified, Amazon GameLift Streams uses the default
+    #   resolution of 1920 × 1080.
+    #   @return [Types::DisplayConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StartStreamSessionInput AWS API Documentation
     #
     class StartStreamSessionInput < Struct.new(
@@ -3189,7 +3244,8 @@ module Aws::GameLiftStreams
       :additional_launch_args,
       :additional_environment_variables,
       :performance_stats_configuration,
-      :role_arn)
+      :role_arn,
+      :display_configuration)
       SENSITIVE = [:signal_request, :role_arn]
       include Aws::Structure
     end
@@ -3433,6 +3489,10 @@ module Aws::GameLiftStreams
     #   the stream session.
     #   @return [String]
     #
+    # @!attribute [rw] display_configuration
+    #   The configuration for the stream session's virtual monitor.
+    #   @return [Types::DisplayConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StartStreamSessionOutput AWS API Documentation
     #
     class StartStreamSessionOutput < Struct.new(
@@ -3457,7 +3517,8 @@ module Aws::GameLiftStreams
       :created_at,
       :application_arn,
       :export_files_metadata,
-      :role_arn)
+      :role_arn,
+      :display_configuration)
       SENSITIVE = [:signal_request, :signal_response, :role_arn]
       include Aws::Structure
     end

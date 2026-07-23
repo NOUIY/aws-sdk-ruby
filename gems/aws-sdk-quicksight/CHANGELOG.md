@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.192.0 (2026-07-23)
+------------------
+
+* Feature - Added new capabilities to custom permissions profiles to control access to Amazon Quick through the browser extension and Microsoft Word, Outlook, Excel, and PowerPoint add-ins.
+
 1.191.0 (2026-07-20)
 ------------------
 

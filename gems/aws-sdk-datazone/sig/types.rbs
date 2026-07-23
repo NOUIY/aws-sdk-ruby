@@ -1376,7 +1376,7 @@ module Aws::DataZone
       attr_accessor owning_project_id: ::String
       attr_accessor domain_id: ::String
       attr_accessor cell_order: ::Array[Types::CellInformation]
-      attr_accessor status: ("ACTIVE" | "ARCHIVED")
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
       attr_accessor description: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
@@ -1390,6 +1390,7 @@ module Aws::DataZone
       attr_accessor parameters: ::Hash[::String, ::String]
       attr_accessor environment_configuration: Types::EnvironmentConfig
       attr_accessor error: Types::NotebookError
+      attr_accessor git_metadata: Types::GitMetadata
       SENSITIVE: [:name, :description, :parameters]
     end
 
@@ -3086,7 +3087,7 @@ module Aws::DataZone
       attr_accessor owning_project_id: ::String
       attr_accessor domain_id: ::String
       attr_accessor cell_order: ::Array[Types::CellInformation]
-      attr_accessor status: ("ACTIVE" | "ARCHIVED")
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
       attr_accessor description: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
@@ -3100,6 +3101,7 @@ module Aws::DataZone
       attr_accessor parameters: ::Hash[::String, ::String]
       attr_accessor environment_configuration: Types::EnvironmentConfig
       attr_accessor error: Types::NotebookError
+      attr_accessor git_metadata: Types::GitMetadata
       SENSITIVE: [:name, :description, :parameters]
     end
 
@@ -3336,6 +3338,17 @@ module Aws::DataZone
       attr_accessor status: ("ASSIGNED" | "NOT_ASSIGNED" | "ACTIVATED" | "DEACTIVATED")
       attr_accessor details: Types::UserProfileDetails
       SENSITIVE: []
+    end
+
+    class GitMetadata
+      attr_accessor connection_id: ::String
+      attr_accessor repository: ::String
+      attr_accessor branch: ::String
+      attr_accessor commit_hash: ::String
+      attr_accessor file_name: ::String
+      attr_accessor committed_at: ::Time
+      attr_accessor commit_message: ::String
+      SENSITIVE: [:repository, :branch, :commit_message]
     end
 
     class GlossaryItem
@@ -4140,7 +4153,7 @@ module Aws::DataZone
       attr_accessor max_results: ::Integer
       attr_accessor sort_order: ("ASCENDING" | "DESCENDING")
       attr_accessor sort_by: ("CREATED_AT" | "UPDATED_AT")
-      attr_accessor status: ("ACTIVE" | "ARCHIVED")
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -4612,7 +4625,7 @@ module Aws::DataZone
       attr_accessor name: ::String
       attr_accessor owning_project_id: ::String
       attr_accessor domain_id: ::String
-      attr_accessor status: ("ACTIVE" | "ARCHIVED")
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
       attr_accessor description: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
@@ -5904,7 +5917,7 @@ module Aws::DataZone
 
     class StartNotebookImportOutput
       attr_accessor notebook_id: ::String
-      attr_accessor status: ("ACTIVE" | "ARCHIVED")
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
       attr_accessor domain_id: ::String
       attr_accessor owning_project_id: ::String
       attr_accessor name: ::String
@@ -5954,6 +5967,32 @@ module Aws::DataZone
       attr_accessor started_at: ::Time
       attr_accessor completed_at: ::Time
       SENSITIVE: [:parameters]
+    end
+
+    class StartNotebookSyncInput
+      attr_accessor domain_identifier: ::String
+      attr_accessor owning_project_identifier: ::String
+      attr_accessor source_location: Types::SourceLocation
+      attr_accessor git_metadata: Types::GitMetadata
+      attr_accessor notebook_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: [:name, :description]
+    end
+
+    class StartNotebookSyncOutput
+      attr_accessor notebook_id: ::String
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
+      attr_accessor domain_id: ::String
+      attr_accessor owning_project_id: ::String
+      attr_accessor source_location: Types::SourceLocation
+      attr_accessor git_metadata: Types::GitMetadata
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor created_by: ::String
+      SENSITIVE: [:name, :description]
     end
 
     class StopNotebookRunInput
@@ -6629,7 +6668,7 @@ module Aws::DataZone
       attr_accessor domain_identifier: ::String
       attr_accessor identifier: ::String
       attr_accessor description: ::String
-      attr_accessor status: ("ACTIVE" | "ARCHIVED")
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
       attr_accessor name: ::String
       attr_accessor cell_order: ::Array[Types::CellInformation]
       attr_accessor metadata: ::Hash[::String, ::String]
@@ -6645,7 +6684,7 @@ module Aws::DataZone
       attr_accessor owning_project_id: ::String
       attr_accessor domain_id: ::String
       attr_accessor cell_order: ::Array[Types::CellInformation]
-      attr_accessor status: ("ACTIVE" | "ARCHIVED")
+      attr_accessor status: ("ACTIVE" | "ARCHIVED" | "SYNC_IN_PROGRESS" | "SYNC_FAILED")
       attr_accessor description: ::String
       attr_accessor created_at: ::Time
       attr_accessor created_by: ::String
@@ -6659,6 +6698,7 @@ module Aws::DataZone
       attr_accessor parameters: ::Hash[::String, ::String]
       attr_accessor environment_configuration: Types::EnvironmentConfig
       attr_accessor error: Types::NotebookError
+      attr_accessor git_metadata: Types::GitMetadata
       SENSITIVE: [:name, :description, :parameters]
     end
 

@@ -294,6 +294,7 @@ module Aws
         def application_arn: () -> ::String
         def export_files_metadata: () -> Types::ExportFilesMetadata
         def role_arn: () -> ::String
+        def display_configuration: () -> Types::DisplayConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GameLiftStreams/Client.html#get_stream_session-instance_method
       def get_stream_session: (
@@ -396,6 +397,7 @@ module Aws
         def application_arn: () -> ::String
         def export_files_metadata: () -> Types::ExportFilesMetadata
         def role_arn: () -> ::String
+        def display_configuration: () -> Types::DisplayConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/GameLiftStreams/Client.html#start_stream_session-instance_method
       def start_stream_session: (
@@ -414,7 +416,13 @@ module Aws
                                   ?performance_stats_configuration: {
                                     shared_with_client: bool?
                                   },
-                                  ?role_arn: ::String
+                                  ?role_arn: ::String,
+                                  ?display_configuration: {
+                                    resolution: {
+                                      width: ::Integer,
+                                      height: ::Integer
+                                    }?
+                                  }
                                 ) -> _StartStreamSessionResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartStreamSessionResponseSuccess
 

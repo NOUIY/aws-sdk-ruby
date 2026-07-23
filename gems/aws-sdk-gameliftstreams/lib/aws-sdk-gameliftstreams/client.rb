@@ -1906,6 +1906,7 @@ module Aws::GameLiftStreams
     #   * {Types::GetStreamSessionOutput#application_arn #application_arn} => String
     #   * {Types::GetStreamSessionOutput#export_files_metadata #export_files_metadata} => Types::ExportFilesMetadata
     #   * {Types::GetStreamSessionOutput#role_arn #role_arn} => String
+    #   * {Types::GetStreamSessionOutput#display_configuration #display_configuration} => Types::DisplayConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -1942,6 +1943,8 @@ module Aws::GameLiftStreams
     #   resp.export_files_metadata.status_reason #=> String
     #   resp.export_files_metadata.output_uri #=> String
     #   resp.role_arn #=> String
+    #   resp.display_configuration.resolution.width #=> Integer
+    #   resp.display_configuration.resolution.height #=> Integer
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -2563,6 +2566,13 @@ module Aws::GameLiftStreams
     #   must allow the `gameliftstreams.amazonaws.com` service principal to
     #   assume it. The role name must start with `GameLiftStreams-`.
     #
+    # @option params [Types::DisplayConfiguration] :display_configuration
+    #   The configuration for the stream session's virtual monitor, including
+    #   the resolution settings.
+    #
+    #   If not specified, Amazon GameLift Streams uses the default resolution
+    #   of 1920 × 1080.
+    #
     # @return [Types::StartStreamSessionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartStreamSessionOutput#arn #arn} => String
@@ -2587,6 +2597,7 @@ module Aws::GameLiftStreams
     #   * {Types::StartStreamSessionOutput#application_arn #application_arn} => String
     #   * {Types::StartStreamSessionOutput#export_files_metadata #export_files_metadata} => Types::ExportFilesMetadata
     #   * {Types::StartStreamSessionOutput#role_arn #role_arn} => String
+    #   * {Types::StartStreamSessionOutput#display_configuration #display_configuration} => Types::DisplayConfiguration
     #
     # @example Request syntax with placeholder values
     #
@@ -2609,6 +2620,12 @@ module Aws::GameLiftStreams
     #       shared_with_client: false,
     #     },
     #     role_arn: "IamRoleArn",
+    #     display_configuration: {
+    #       resolution: {
+    #         width: 1, # required
+    #         height: 1, # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -2639,6 +2656,8 @@ module Aws::GameLiftStreams
     #   resp.export_files_metadata.status_reason #=> String
     #   resp.export_files_metadata.output_uri #=> String
     #   resp.role_arn #=> String
+    #   resp.display_configuration.resolution.width #=> Integer
+    #   resp.display_configuration.resolution.height #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/gameliftstreams-2018-05-10/StartStreamSession AWS API Documentation
     #
@@ -3074,7 +3093,7 @@ module Aws::GameLiftStreams
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-gameliftstreams'
-      context[:gem_version] = '1.32.0'
+      context[:gem_version] = '1.33.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

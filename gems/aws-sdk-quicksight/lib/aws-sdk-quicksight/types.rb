@@ -5765,6 +5765,29 @@ module Aws::QuickSight
     #   The ability to perform Extension-related actions.
     #   @return [String]
     #
+    # @!attribute [rw] use_browser_extension
+    #   The ability to use Amazon Quick through the browser extension for
+    #   Chrome, Firefox, and Edge.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_word_add_in_extension
+    #   The ability to use Amazon Quick through the Microsoft Word add-in.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_outlook_add_in_extension
+    #   The ability to use Amazon Quick through the Microsoft Outlook
+    #   add-in.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_excel_add_in_extension
+    #   The ability to use Amazon Quick through the Microsoft Excel add-in.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_powerpoint_add_in_extension
+    #   The ability to use Amazon Quick through the Microsoft PowerPoint
+    #   add-in.
+    #   @return [String]
+    #
     # @!attribute [rw] manage_shared_folders
     #   The ability to create, update, delete and view shared folders (both
     #   restricted and unrestricted), ability to add any asset to shared
@@ -6033,6 +6056,11 @@ module Aws::QuickSight
       :research,
       :self_upgrade_user_role,
       :extension,
+      :use_browser_extension,
+      :use_word_add_in_extension,
+      :use_outlook_add_in_extension,
+      :use_excel_add_in_extension,
+      :use_powerpoint_add_in_extension,
       :manage_shared_folders,
       :generate_analyses,
       :story,
