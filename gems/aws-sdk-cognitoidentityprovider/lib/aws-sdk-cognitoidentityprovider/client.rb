@@ -1598,6 +1598,75 @@ module Aws::CognitoIdentityProvider
       req.send_request(options)
     end
 
+    # Lists the authentication options for a user in a user pool. Returns
+    # the following:
+    #
+    # 1.  The user's multi-factor authentication (MFA) preferences.
+    #
+    # 2.  The user's options for choice-based authentication with the
+    #     `USER_AUTH` flow.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, String] :user_pool_id
+    #   The ID of the user pool where you want to get information about the
+    #   user's authentication factors.
+    #
+    # @option params [required, String] :username
+    #   The name of the user that you want to query or modify. The value of
+    #   this parameter is typically your user's username, but it can be any
+    #   of their alias attributes. If `username` isn't an alias attribute in
+    #   your user pool, this value must be the `sub` of a local user or the
+    #   username of a user from a third-party IdP.
+    #
+    # @return [Types::AdminGetUserAuthFactorsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AdminGetUserAuthFactorsResponse#username #username} => String
+    #   * {Types::AdminGetUserAuthFactorsResponse#preferred_mfa_setting #preferred_mfa_setting} => String
+    #   * {Types::AdminGetUserAuthFactorsResponse#user_mfa_setting_list #user_mfa_setting_list} => Array&lt;String&gt;
+    #   * {Types::AdminGetUserAuthFactorsResponse#configured_user_auth_factors #configured_user_auth_factors} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.admin_get_user_auth_factors({
+    #     user_pool_id: "UserPoolIdType", # required
+    #     username: "UsernameType", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.username #=> String
+    #   resp.preferred_mfa_setting #=> String
+    #   resp.user_mfa_setting_list #=> Array
+    #   resp.user_mfa_setting_list[0] #=> String
+    #   resp.configured_user_auth_factors #=> Array
+    #   resp.configured_user_auth_factors[0] #=> String, one of "PASSWORD", "EMAIL_OTP", "SMS_OTP", "WEB_AUTHN", "SOFTWARE_TOKEN"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminGetUserAuthFactors AWS API Documentation
+    #
+    # @overload admin_get_user_auth_factors(params = {})
+    # @param [Hash] params ({})
+    def admin_get_user_auth_factors(params = {}, options = {})
+      req = build_request(:admin_get_user_auth_factors, params)
+      req.send_request(options)
+    end
+
     # Starts sign-in for applications with a server-side component, for
     # example a traditional web application. This operation specifies the
     # authentication flow that you'd like to begin. The authentication flow
@@ -4887,6 +4956,23 @@ module Aws::CognitoIdentityProvider
     #   prompts in API responses and in managed login for users who have
     #   chosen and configured a preferred MFA factor.
     #
+    #   The `CreateUserPool` operation supports only SMS MFA configuration. If
+    #   you set `MfaConfiguration` to either of these values, include an
+    #   `SmsConfiguration` in the same request:
+    #
+    #   * `ON` – Requires MFA for all users
+    #
+    #   * `OPTIONAL` – Makes MFA optional for each user
+    #
+    #   If you omit `SmsConfiguration`, the operation returns an
+    #   `InvalidParameterException`. To configure TOTP or email MFA, use the
+    #   [SetUserPoolMfaConfig][1] operation. You can also use
+    #   `SetUserPoolMfaConfig` to add MFA factors later.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserPoolMfaConfig.html
+    #
     # @option params [Types::UserAttributeUpdateSettingsType] :user_attribute_update_settings
     #   The settings for updates to user attributes. These settings include
     #   the property `AttributesRequireVerificationBeforeUpdate`, a user-pool
@@ -5504,7 +5590,7 @@ module Aws::CognitoIdentityProvider
     #         temporary_password_validity_days: 1,
     #       },
     #       sign_in_policy: {
-    #         allowed_first_auth_factors: ["PASSWORD"], # accepts PASSWORD, EMAIL_OTP, SMS_OTP, WEB_AUTHN
+    #         allowed_first_auth_factors: ["PASSWORD"], # accepts PASSWORD, EMAIL_OTP, SMS_OTP, WEB_AUTHN, SOFTWARE_TOKEN
     #       },
     #     },
     #     deletion_protection: "ACTIVE", # accepts ACTIVE, INACTIVE
@@ -5649,7 +5735,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_pool.policies.password_policy.password_history_size #=> Integer
     #   resp.user_pool.policies.password_policy.temporary_password_validity_days #=> Integer
     #   resp.user_pool.policies.sign_in_policy.allowed_first_auth_factors #=> Array
-    #   resp.user_pool.policies.sign_in_policy.allowed_first_auth_factors[0] #=> String, one of "PASSWORD", "EMAIL_OTP", "SMS_OTP", "WEB_AUTHN"
+    #   resp.user_pool.policies.sign_in_policy.allowed_first_auth_factors[0] #=> String, one of "PASSWORD", "EMAIL_OTP", "SMS_OTP", "WEB_AUTHN", "SOFTWARE_TOKEN"
     #   resp.user_pool.deletion_protection #=> String, one of "ACTIVE", "INACTIVE"
     #   resp.user_pool.lambda_config.pre_sign_up #=> String
     #   resp.user_pool.lambda_config.custom_message #=> String
@@ -6424,9 +6510,18 @@ module Aws::CognitoIdentityProvider
     #   Managed login requires that your user pool be configured for any
     #   [feature plan][1] other than `Lite`.
     #
+    #   A `ManagedLoginVersion` value of `2` does not activate managed login
+    #   pages for your app client. When you create an app client
+    #   programmatically, your app client has no branding style. To use
+    #   managed login, create a branding style using the
+    #   [CreateManagedLoginBranding][2] operation. When you use the console,
+    #   Amazon Cognito assigns a default branding style automatically. When
+    #   you use the API or an SDK, you must create a branding style yourself.
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
+    #   [2]: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateManagedLoginBranding.html
     #
     # @option params [Types::CustomDomainConfigType] :custom_domain_config
     #   The configuration for a custom domain. Configures your domain with an
@@ -7585,7 +7680,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_pool.policies.password_policy.password_history_size #=> Integer
     #   resp.user_pool.policies.password_policy.temporary_password_validity_days #=> Integer
     #   resp.user_pool.policies.sign_in_policy.allowed_first_auth_factors #=> Array
-    #   resp.user_pool.policies.sign_in_policy.allowed_first_auth_factors[0] #=> String, one of "PASSWORD", "EMAIL_OTP", "SMS_OTP", "WEB_AUTHN"
+    #   resp.user_pool.policies.sign_in_policy.allowed_first_auth_factors[0] #=> String, one of "PASSWORD", "EMAIL_OTP", "SMS_OTP", "WEB_AUTHN", "SOFTWARE_TOKEN"
     #   resp.user_pool.deletion_protection #=> String, one of "ACTIVE", "INACTIVE"
     #   resp.user_pool.lambda_config.pre_sign_up #=> String
     #   resp.user_pool.lambda_config.custom_message #=> String
@@ -8859,7 +8954,7 @@ module Aws::CognitoIdentityProvider
     #   resp.user_mfa_setting_list #=> Array
     #   resp.user_mfa_setting_list[0] #=> String
     #   resp.configured_user_auth_factors #=> Array
-    #   resp.configured_user_auth_factors[0] #=> String, one of "PASSWORD", "EMAIL_OTP", "SMS_OTP", "WEB_AUTHN"
+    #   resp.configured_user_auth_factors[0] #=> String, one of "PASSWORD", "EMAIL_OTP", "SMS_OTP", "WEB_AUTHN", "SOFTWARE_TOKEN"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetUserAuthFactors AWS API Documentation
     #
@@ -13389,7 +13484,7 @@ module Aws::CognitoIdentityProvider
     #         temporary_password_validity_days: 1,
     #       },
     #       sign_in_policy: {
-    #         allowed_first_auth_factors: ["PASSWORD"], # accepts PASSWORD, EMAIL_OTP, SMS_OTP, WEB_AUTHN
+    #         allowed_first_auth_factors: ["PASSWORD"], # accepts PASSWORD, EMAIL_OTP, SMS_OTP, WEB_AUTHN, SOFTWARE_TOKEN
     #       },
     #     },
     #     deletion_protection: "ACTIVE", # accepts ACTIVE, INACTIVE
@@ -14323,7 +14418,7 @@ module Aws::CognitoIdentityProvider
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cognitoidentityprovider'
-      context[:gem_version] = '1.148.0'
+      context[:gem_version] = '1.149.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

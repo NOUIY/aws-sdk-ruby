@@ -531,7 +531,7 @@ module Aws::Artifact
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_compliance_inquiry({
-    #     name: "String", # required
+    #     name: "InquiryName", # required
     #     inquiry_content: { # required
     #       query: "LongStringAttribute",
     #       file_content: {
@@ -1383,6 +1383,67 @@ module Aws::Artifact
       req.send_request(options)
     end
 
+    # Submits feedback on a compliance inquiry response.
+    #
+    # @option params [required, String] :compliance_inquiry_id
+    #   The unique identifier for the compliance inquiry.
+    #
+    # @option params [Integer] :query_identifier
+    #   The sequential identifier of the query to provide feedback on.
+    #
+    # @option params [required, String] :rating
+    #   The rating for the feedback. Valid values are THUMBS\_UP and
+    #   THUMBS\_DOWN.
+    #
+    # @option params [Integer] :response_revision_id
+    #   The response revision ID. Use this value to prevent submitting
+    #   feedback on a stale response.
+    #
+    # @option params [Array<String>] :reason_codes
+    #   The reason codes that describe why you rated the response. Valid
+    #   values are OTHER, PARTIAL\_RESPONSE, and IRRELEVANT\_RESPONSE.
+    #
+    # @option params [String] :comment
+    #   An optional comment for the feedback.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutComplianceInquiryFeedbackResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutComplianceInquiryFeedbackResponse#submitted_at #submitted_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_compliance_inquiry_feedback({
+    #     compliance_inquiry_id: "InquiryId", # required
+    #     query_identifier: 1,
+    #     rating: "THUMBS_UP", # required, accepts THUMBS_UP, THUMBS_DOWN
+    #     response_revision_id: 1,
+    #     reason_codes: ["OTHER"], # accepts OTHER, PARTIAL_RESPONSE, IRRELEVANT_RESPONSE
+    #     comment: "FeedbackCommentAttribute",
+    #     client_token: "IdempotentClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.submitted_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/artifact-2018-05-10/PutComplianceInquiryFeedback AWS API Documentation
+    #
+    # @overload put_compliance_inquiry_feedback(params = {})
+    # @param [Hash] params ({})
+    def put_compliance_inquiry_feedback(params = {}, options = {})
+      req = build_request(:put_compliance_inquiry_feedback, params)
+      req.send_request(options)
+    end
+
     # Add tags to a resource.
     #
     # @option params [required, String] :resource_arn
@@ -1455,7 +1516,7 @@ module Aws::Artifact
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-artifact'
-      context[:gem_version] = '1.40.0'
+      context[:gem_version] = '1.41.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

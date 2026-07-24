@@ -46,6 +46,8 @@ module Aws::CognitoIdentityProvider
     AdminForgetDeviceRequest = Shapes::StructureShape.new(name: 'AdminForgetDeviceRequest')
     AdminGetDeviceRequest = Shapes::StructureShape.new(name: 'AdminGetDeviceRequest')
     AdminGetDeviceResponse = Shapes::StructureShape.new(name: 'AdminGetDeviceResponse')
+    AdminGetUserAuthFactorsRequest = Shapes::StructureShape.new(name: 'AdminGetUserAuthFactorsRequest')
+    AdminGetUserAuthFactorsResponse = Shapes::StructureShape.new(name: 'AdminGetUserAuthFactorsResponse')
     AdminGetUserRequest = Shapes::StructureShape.new(name: 'AdminGetUserRequest')
     AdminGetUserResponse = Shapes::StructureShape.new(name: 'AdminGetUserResponse')
     AdminInitiateAuthRequest = Shapes::StructureShape.new(name: 'AdminInitiateAuthRequest')
@@ -747,6 +749,16 @@ module Aws::CognitoIdentityProvider
 
     AdminGetDeviceResponse.add_member(:device, Shapes::ShapeRef.new(shape: DeviceType, required: true, location_name: "Device"))
     AdminGetDeviceResponse.struct_class = Types::AdminGetDeviceResponse
+
+    AdminGetUserAuthFactorsRequest.add_member(:user_pool_id, Shapes::ShapeRef.new(shape: UserPoolIdType, required: true, location_name: "UserPoolId"))
+    AdminGetUserAuthFactorsRequest.add_member(:username, Shapes::ShapeRef.new(shape: UsernameType, required: true, location_name: "Username"))
+    AdminGetUserAuthFactorsRequest.struct_class = Types::AdminGetUserAuthFactorsRequest
+
+    AdminGetUserAuthFactorsResponse.add_member(:username, Shapes::ShapeRef.new(shape: UsernameType, required: true, location_name: "Username"))
+    AdminGetUserAuthFactorsResponse.add_member(:preferred_mfa_setting, Shapes::ShapeRef.new(shape: StringType, location_name: "PreferredMfaSetting"))
+    AdminGetUserAuthFactorsResponse.add_member(:user_mfa_setting_list, Shapes::ShapeRef.new(shape: UserMFASettingListType, location_name: "UserMFASettingList"))
+    AdminGetUserAuthFactorsResponse.add_member(:configured_user_auth_factors, Shapes::ShapeRef.new(shape: ConfiguredUserAuthFactorsListType, location_name: "ConfiguredUserAuthFactors"))
+    AdminGetUserAuthFactorsResponse.struct_class = Types::AdminGetUserAuthFactorsResponse
 
     AdminGetUserRequest.add_member(:user_pool_id, Shapes::ShapeRef.new(shape: UserPoolIdType, required: true, location_name: "UserPoolId"))
     AdminGetUserRequest.add_member(:username, Shapes::ShapeRef.new(shape: UsernameType, required: true, location_name: "Username"))
@@ -2881,6 +2893,21 @@ module Aws::CognitoIdentityProvider
         o.errors << Shapes::ShapeRef.new(shape: NotAuthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: UserNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: OperationNotEnabledException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalErrorException)
+      end)
+
+      api.add_operation(:admin_get_user_auth_factors, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AdminGetUserAuthFactors"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: AdminGetUserAuthFactorsRequest)
+        o.output = Shapes::ShapeRef.new(shape: AdminGetUserAuthFactorsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: NotAuthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotEnabledException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: UserNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalErrorException)
       end)
 

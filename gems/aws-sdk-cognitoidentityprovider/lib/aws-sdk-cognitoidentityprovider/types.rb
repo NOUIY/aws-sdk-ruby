@@ -809,6 +809,67 @@ module Aws::CognitoIdentityProvider
       include Aws::Structure
     end
 
+    # @!attribute [rw] user_pool_id
+    #   The ID of the user pool where you want to get information about the
+    #   user's authentication factors.
+    #   @return [String]
+    #
+    # @!attribute [rw] username
+    #   The name of the user that you want to query or modify. The value of
+    #   this parameter is typically your user's username, but it can be any
+    #   of their alias attributes. If `username` isn't an alias attribute
+    #   in your user pool, this value must be the `sub` of a local user or
+    #   the username of a user from a third-party IdP.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminGetUserAuthFactorsRequest AWS API Documentation
+    #
+    class AdminGetUserAuthFactorsRequest < Struct.new(
+      :user_pool_id,
+      :username)
+      SENSITIVE = [:username]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] username
+    #   The name of the user who is eligible for the authentication factors
+    #   in the response.
+    #   @return [String]
+    #
+    # @!attribute [rw] preferred_mfa_setting
+    #   The challenge method that Amazon Cognito returns to the user in
+    #   response to sign-in requests. Users can prefer SMS message, email
+    #   message, or TOTP MFA.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_mfa_setting_list
+    #   The MFA options that are activated for the user. The possible values
+    #   in this list are `SMS_MFA`, `EMAIL_OTP`, and `SOFTWARE_TOKEN_MFA`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] configured_user_auth_factors
+    #   The authentication types that are available to the user with
+    #   `USER_AUTH` sign-in, for example `["PASSWORD", "WEB_AUTHN"]`.
+    #
+    #   `PASSWORD` can only be used as a first authentication factor.
+    #   `SOFTWARE_TOKEN` can only be used as an MFA factor. `EMAIL_OTP`,
+    #   `SMS_OTP`, and `WEB_AUTHN` can be used as either a first
+    #   authentication factor or an MFA factor. `WEB_AUTHN` is available as
+    #   an MFA factor only when passkey MFA is enabled at the user pool
+    #   level.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminGetUserAuthFactorsResponse AWS API Documentation
+    #
+    class AdminGetUserAuthFactorsResponse < Struct.new(
+      :username,
+      :preferred_mfa_setting,
+      :user_mfa_setting_list,
+      :configured_user_auth_factors)
+      SENSITIVE = [:username]
+      include Aws::Structure
+    end
+
     # Represents the request to get the specified user as an administrator.
     #
     # @!attribute [rw] user_pool_id
@@ -4543,9 +4604,19 @@ module Aws::CognitoIdentityProvider
     #   Managed login requires that your user pool be configured for any
     #   [feature plan][1] other than `Lite`.
     #
+    #   A `ManagedLoginVersion` value of `2` does not activate managed login
+    #   pages for your app client. When you create an app client
+    #   programmatically, your app client has no branding style. To use
+    #   managed login, create a branding style using the
+    #   [CreateManagedLoginBranding][2] operation. When you use the console,
+    #   Amazon Cognito assigns a default branding style automatically. When
+    #   you use the API or an SDK, you must create a branding style
+    #   yourself.
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html
+    #   [2]: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateManagedLoginBranding.html
     #   @return [Integer]
     #
     # @!attribute [rw] custom_domain_config
@@ -4761,6 +4832,23 @@ module Aws::CognitoIdentityProvider
     #   automatically prompt users to set up MFA. Amazon Cognito generates
     #   MFA prompts in API responses and in managed login for users who have
     #   chosen and configured a preferred MFA factor.
+    #
+    #   The `CreateUserPool` operation supports only SMS MFA configuration.
+    #   If you set `MfaConfiguration` to either of these values, include an
+    #   `SmsConfiguration` in the same request:
+    #
+    #   * `ON` – Requires MFA for all users
+    #
+    #   * `OPTIONAL` – Makes MFA optional for each user
+    #
+    #   If you omit `SmsConfiguration`, the operation returns an
+    #   `InvalidParameterException`. To configure TOTP or email MFA, use the
+    #   [SetUserPoolMfaConfig][1] operation. You can also use
+    #   `SetUserPoolMfaConfig` to add MFA factors later.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserPoolMfaConfig.html
     #   @return [String]
     #
     # @!attribute [rw] user_attribute_update_settings
@@ -6975,6 +7063,13 @@ module Aws::CognitoIdentityProvider
     # @!attribute [rw] configured_user_auth_factors
     #   The authentication types that are available to the user with
     #   `USER_AUTH` sign-in, for example `["PASSWORD", "WEB_AUTHN"]`.
+    #
+    #   `PASSWORD` can only be used as a first authentication factor.
+    #   `SOFTWARE_TOKEN` can only be used as an MFA factor. `EMAIL_OTP`,
+    #   `SMS_OTP`, and `WEB_AUTHN` can be used as either a first
+    #   authentication factor or an MFA factor. `WEB_AUTHN` is available as
+    #   an MFA factor only when passkey MFA is enabled at the user pool
+    #   level.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetUserAuthFactorsResponse AWS API Documentation
@@ -11087,6 +11182,11 @@ module Aws::CognitoIdentityProvider
     #   You can permit users to start authentication with a standard
     #   username and password, or with other one-time password and hardware
     #   factors.
+    #
+    #   <note markdown="1"> `SOFTWARE_TOKEN` is not currently supported as a first auth factor.
+    #   Do not include this value in `AllowedFirstAuthFactors`.
+    #
+    #    </note>
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/SignInPolicyType AWS API Documentation

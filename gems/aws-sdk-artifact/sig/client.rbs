@@ -249,6 +249,22 @@ module Aws
                                 ) -> _PutAccountSettingsResponseSuccess
                               | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutAccountSettingsResponseSuccess
 
+      interface _PutComplianceInquiryFeedbackResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::PutComplianceInquiryFeedbackResponse]
+        def submitted_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Artifact/Client.html#put_compliance_inquiry_feedback-instance_method
+      def put_compliance_inquiry_feedback: (
+                                             compliance_inquiry_id: ::String,
+                                             ?query_identifier: ::Integer,
+                                             rating: ("THUMBS_UP" | "THUMBS_DOWN"),
+                                             ?response_revision_id: ::Integer,
+                                             ?reason_codes: Array[("OTHER" | "PARTIAL_RESPONSE" | "IRRELEVANT_RESPONSE")],
+                                             ?comment: ::String,
+                                             ?client_token: ::String
+                                           ) -> _PutComplianceInquiryFeedbackResponseSuccess
+                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _PutComplianceInquiryFeedbackResponseSuccess
+
       interface _TagResourceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::TagResourceResponse]
       end

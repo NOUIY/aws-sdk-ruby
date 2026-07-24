@@ -162,6 +162,20 @@ module Aws::CognitoIdentityProvider
       SENSITIVE: []
     end
 
+    class AdminGetUserAuthFactorsRequest
+      attr_accessor user_pool_id: ::String
+      attr_accessor username: ::String
+      SENSITIVE: [:username]
+    end
+
+    class AdminGetUserAuthFactorsResponse
+      attr_accessor username: ::String
+      attr_accessor preferred_mfa_setting: ::String
+      attr_accessor user_mfa_setting_list: ::Array[::String]
+      attr_accessor configured_user_auth_factors: ::Array[("PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN" | "SOFTWARE_TOKEN")]
+      SENSITIVE: [:username]
+    end
+
     class AdminGetUserRequest
       attr_accessor user_pool_id: ::String
       attr_accessor username: ::String
@@ -1239,7 +1253,7 @@ module Aws::CognitoIdentityProvider
       attr_accessor username: ::String
       attr_accessor preferred_mfa_setting: ::String
       attr_accessor user_mfa_setting_list: ::Array[::String]
-      attr_accessor configured_user_auth_factors: ::Array[("PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN")]
+      attr_accessor configured_user_auth_factors: ::Array[("PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN" | "SOFTWARE_TOKEN")]
       SENSITIVE: [:username]
     end
 
@@ -1965,7 +1979,7 @@ module Aws::CognitoIdentityProvider
     end
 
     class SignInPolicyType
-      attr_accessor allowed_first_auth_factors: ::Array[("PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN")]
+      attr_accessor allowed_first_auth_factors: ::Array[("PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN" | "SOFTWARE_TOKEN")]
       SENSITIVE: []
     end
 

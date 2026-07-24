@@ -117,7 +117,7 @@ module Aws::Artifact
       :client_token,
       :support_mode,
       :tags)
-      SENSITIVE = [:inquiry_content]
+      SENSITIVE = [:name, :inquiry_content]
       include Aws::Structure
     end
 
@@ -784,6 +784,69 @@ module Aws::Artifact
     #
     class PutAccountSettingsResponse < Struct.new(
       :account_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] compliance_inquiry_id
+    #   The unique identifier for the compliance inquiry.
+    #   @return [String]
+    #
+    # @!attribute [rw] query_identifier
+    #   The sequential identifier of the query to provide feedback on.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] rating
+    #   The rating for the feedback. Valid values are THUMBS\_UP and
+    #   THUMBS\_DOWN.
+    #   @return [String]
+    #
+    # @!attribute [rw] response_revision_id
+    #   The response revision ID. Use this value to prevent submitting
+    #   feedback on a stale response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] reason_codes
+    #   The reason codes that describe why you rated the response. Valid
+    #   values are OTHER, PARTIAL\_RESPONSE, and IRRELEVANT\_RESPONSE.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] comment
+    #   An optional comment for the feedback.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/artifact-2018-05-10/PutComplianceInquiryFeedbackRequest AWS API Documentation
+    #
+    class PutComplianceInquiryFeedbackRequest < Struct.new(
+      :compliance_inquiry_id,
+      :query_identifier,
+      :rating,
+      :response_revision_id,
+      :reason_codes,
+      :comment,
+      :client_token)
+      SENSITIVE = [:comment]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] submitted_at
+    #   The timestamp when the feedback was submitted.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/artifact-2018-05-10/PutComplianceInquiryFeedbackResponse AWS API Documentation
+    #
+    class PutComplianceInquiryFeedbackResponse < Struct.new(
+      :submitted_at)
       SENSITIVE = []
       include Aws::Structure
     end

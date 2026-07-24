@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.16.0 (2026-07-24)
+------------------
+
+* Feature - The deprecated inboundLinksCount field has been removed from the GetResponderGateway API response. Customers who previously relied on this field should use linksRequestedCount instead.
+
 1.15.0 (2026-07-09)
 ------------------
 

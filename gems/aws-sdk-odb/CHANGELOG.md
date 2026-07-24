@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.26.0 (2026-07-24)
+------------------
+
+* Feature - Documentation-only update to clarify the operation-specific valid values for the externalIdType field.
+
 1.25.0 (2026-07-17)
 ------------------
 

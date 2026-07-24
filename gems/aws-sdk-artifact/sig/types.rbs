@@ -38,7 +38,7 @@ module Aws::Artifact
       attr_accessor client_token: ::String
       attr_accessor support_mode: ("AI_ONLY" | "FULL_SUPPORT")
       attr_accessor tags: ::Hash[::String, ::String]
-      SENSITIVE: [:inquiry_content]
+      SENSITIVE: [:name, :inquiry_content]
     end
 
     class CreateComplianceInquiryResponse
@@ -260,6 +260,22 @@ module Aws::Artifact
 
     class PutAccountSettingsResponse
       attr_accessor account_settings: Types::AccountSettings
+      SENSITIVE: []
+    end
+
+    class PutComplianceInquiryFeedbackRequest
+      attr_accessor compliance_inquiry_id: ::String
+      attr_accessor query_identifier: ::Integer
+      attr_accessor rating: ("THUMBS_UP" | "THUMBS_DOWN")
+      attr_accessor response_revision_id: ::Integer
+      attr_accessor reason_codes: ::Array[("OTHER" | "PARTIAL_RESPONSE" | "IRRELEVANT_RESPONSE")]
+      attr_accessor comment: ::String
+      attr_accessor client_token: ::String
+      SENSITIVE: [:comment]
+    end
+
+    class PutComplianceInquiryFeedbackResponse
+      attr_accessor submitted_at: ::Time
       SENSITIVE: []
     end
 

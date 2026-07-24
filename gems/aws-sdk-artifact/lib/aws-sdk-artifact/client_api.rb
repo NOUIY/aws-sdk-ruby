@@ -32,6 +32,10 @@ module Aws::Artifact
     CustomerAgreementSummary = Shapes::StructureShape.new(name: 'CustomerAgreementSummary')
     ExportComplianceInquiryRequest = Shapes::StructureShape.new(name: 'ExportComplianceInquiryRequest')
     ExportComplianceInquiryResponse = Shapes::StructureShape.new(name: 'ExportComplianceInquiryResponse')
+    FeedbackCommentAttribute = Shapes::StringShape.new(name: 'FeedbackCommentAttribute')
+    FeedbackRating = Shapes::StringShape.new(name: 'FeedbackRating')
+    FeedbackReasonCode = Shapes::StringShape.new(name: 'FeedbackReasonCode')
+    FeedbackReasonCodeList = Shapes::ListShape.new(name: 'FeedbackReasonCodeList')
     GetAccountSettingsRequest = Shapes::StructureShape.new(name: 'GetAccountSettingsRequest')
     GetAccountSettingsResponse = Shapes::StructureShape.new(name: 'GetAccountSettingsResponse')
     GetComplianceInquiryMetadataRequest = Shapes::StructureShape.new(name: 'GetComplianceInquiryMetadataRequest')
@@ -52,6 +56,7 @@ module Aws::Artifact
     InquiryFileContent = Shapes::StructureShape.new(name: 'InquiryFileContent')
     InquiryFileContentFileSectionsList = Shapes::ListShape.new(name: 'InquiryFileContentFileSectionsList')
     InquiryId = Shapes::StringShape.new(name: 'InquiryId')
+    InquiryName = Shapes::StringShape.new(name: 'InquiryName')
     InquiryStatus = Shapes::StringShape.new(name: 'InquiryStatus')
     InquiryStatusMessage = Shapes::StringShape.new(name: 'InquiryStatusMessage')
     InquirySummary = Shapes::StructureShape.new(name: 'InquirySummary')
@@ -78,6 +83,8 @@ module Aws::Artifact
     PublishedState = Shapes::StringShape.new(name: 'PublishedState')
     PutAccountSettingsRequest = Shapes::StructureShape.new(name: 'PutAccountSettingsRequest')
     PutAccountSettingsResponse = Shapes::StructureShape.new(name: 'PutAccountSettingsResponse')
+    PutComplianceInquiryFeedbackRequest = Shapes::StructureShape.new(name: 'PutComplianceInquiryFeedbackRequest')
+    PutComplianceInquiryFeedbackResponse = Shapes::StructureShape.new(name: 'PutComplianceInquiryFeedbackResponse')
     QueriesList = Shapes::ListShape.new(name: 'QueriesList')
     QueryIdentifiersList = Shapes::ListShape.new(name: 'QueryIdentifiersList')
     QueryStatus = Shapes::StringShape.new(name: 'QueryStatus')
@@ -133,7 +140,7 @@ module Aws::Artifact
     ConflictException.add_member(:resource_type, Shapes::ShapeRef.new(shape: String, required: true, location_name: "resourceType"))
     ConflictException.struct_class = Types::ConflictException
 
-    CreateComplianceInquiryRequest.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    CreateComplianceInquiryRequest.add_member(:name, Shapes::ShapeRef.new(shape: InquiryName, required: true, location_name: "name"))
     CreateComplianceInquiryRequest.add_member(:inquiry_content, Shapes::ShapeRef.new(shape: InquiryContent, required: true, location_name: "inquiryContent"))
     CreateComplianceInquiryRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: IdempotentClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateComplianceInquiryRequest.add_member(:support_mode, Shapes::ShapeRef.new(shape: InquirySupportMode, location_name: "supportMode"))
@@ -169,6 +176,8 @@ module Aws::Artifact
     ExportComplianceInquiryResponse.add_member(:document_presigned_url, Shapes::ShapeRef.new(shape: PresignedUrl, location_name: "documentPresignedUrl"))
     ExportComplianceInquiryResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     ExportComplianceInquiryResponse.struct_class = Types::ExportComplianceInquiryResponse
+
+    FeedbackReasonCodeList.member = Shapes::ShapeRef.new(shape: FeedbackReasonCode)
 
     GetAccountSettingsRequest.struct_class = Types::GetAccountSettingsRequest
 
@@ -298,6 +307,18 @@ module Aws::Artifact
 
     PutAccountSettingsResponse.add_member(:account_settings, Shapes::ShapeRef.new(shape: AccountSettings, location_name: "accountSettings"))
     PutAccountSettingsResponse.struct_class = Types::PutAccountSettingsResponse
+
+    PutComplianceInquiryFeedbackRequest.add_member(:compliance_inquiry_id, Shapes::ShapeRef.new(shape: InquiryId, required: true, location_name: "complianceInquiryId"))
+    PutComplianceInquiryFeedbackRequest.add_member(:query_identifier, Shapes::ShapeRef.new(shape: Integer, location_name: "queryIdentifier"))
+    PutComplianceInquiryFeedbackRequest.add_member(:rating, Shapes::ShapeRef.new(shape: FeedbackRating, required: true, location_name: "rating"))
+    PutComplianceInquiryFeedbackRequest.add_member(:response_revision_id, Shapes::ShapeRef.new(shape: Integer, location_name: "responseRevisionId"))
+    PutComplianceInquiryFeedbackRequest.add_member(:reason_codes, Shapes::ShapeRef.new(shape: FeedbackReasonCodeList, location_name: "reasonCodes"))
+    PutComplianceInquiryFeedbackRequest.add_member(:comment, Shapes::ShapeRef.new(shape: FeedbackCommentAttribute, location_name: "comment"))
+    PutComplianceInquiryFeedbackRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: IdempotentClientToken, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    PutComplianceInquiryFeedbackRequest.struct_class = Types::PutComplianceInquiryFeedbackRequest
+
+    PutComplianceInquiryFeedbackResponse.add_member(:submitted_at, Shapes::ShapeRef.new(shape: TimestampAttribute, required: true, location_name: "submittedAt"))
+    PutComplianceInquiryFeedbackResponse.struct_class = Types::PutComplianceInquiryFeedbackResponse
 
     QueriesList.member = Shapes::ShapeRef.new(shape: QuerySummary)
 
@@ -646,6 +667,20 @@ module Aws::Artifact
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
+      api.add_operation(:put_compliance_inquiry_feedback, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutComplianceInquiryFeedback"
+        o.http_method = "PUT"
+        o.http_request_uri = "/v1/compliance-inquiry/putFeedback"
+        o.input = Shapes::ShapeRef.new(shape: PutComplianceInquiryFeedbackRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutComplianceInquiryFeedbackResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|

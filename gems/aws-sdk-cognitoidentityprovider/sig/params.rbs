@@ -50,7 +50,7 @@ module Aws
       type user_pool_policy_type = {
       password_policy: Params::password_policy_type?,
       sign_in_policy: {
-        allowed_first_auth_factors: Array[("PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN")]?
+        allowed_first_auth_factors: Array[("PASSWORD" | "EMAIL_OTP" | "SMS_OTP" | "WEB_AUTHN" | "SOFTWARE_TOKEN")]?
       }?
     }
 

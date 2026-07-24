@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.41.0 (2026-07-24)
+------------------
+
+* Feature - Added the PutComplianceInquiryFeedback API, enabling customers to submit feedback on compliance inquiry responses. Customers can rate responses as helpful or not helpful and provide optional reason codes and comments.
+
 1.40.0 (2026-07-09)
 ------------------
 

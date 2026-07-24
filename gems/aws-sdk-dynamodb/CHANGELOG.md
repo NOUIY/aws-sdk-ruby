@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.171.0 (2026-07-24)
+------------------
+
+* Feature - Endpoint test standardizations
+
 1.170.0 (2026-07-09)
 ------------------
 

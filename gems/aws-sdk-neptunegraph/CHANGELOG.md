@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.53.0 (2026-07-24)
+------------------
+
+* Feature - Update validations for Tag Keys and KMS Key ARNs.
+
 1.52.0 (2026-07-09)
 ------------------
 

@@ -4828,6 +4828,12 @@ module Aws::Odb
     # @!attribute [rw] external_id_type
     #   The type of Oracle Cloud Identifier (OCID) used as the external ID
     #   when assuming the IAM role.
+    #
+    #   The valid values depend on the operation. For the
+    #   `CreateAutonomousDatabase` operation, only `compartment_ocid` and
+    #   `tenant_ocid` are allowed. For the `UpdateAutonomousDatabase` and
+    #   `CreateAutonomousDatabaseWallet` operations, `database_ocid`,
+    #   `compartment_ocid`, and `tenant_ocid` are all allowed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/odb-2024-08-20/CustomerManagedAwsSecretConfigurationInput AWS API Documentation
