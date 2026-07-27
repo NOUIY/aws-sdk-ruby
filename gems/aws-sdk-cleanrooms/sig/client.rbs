@@ -1169,7 +1169,7 @@ module Aws
                                          ?parameters: Hash[::String, ::String],
                                          ?compute_configuration: {
                                            query_compute_configuration: {
-                                             type: ("CR.1X" | "CR.4X")?,
+                                             type: ("CR.1X" | "CR.4X" | "CR.8X")?,
                                              number: ::Integer?,
                                              properties: {
                                                spark: Hash[::String, ::String]?
@@ -1276,7 +1276,7 @@ module Aws
                                    },
                                    ?compute_configuration: {
                                      worker: {
-                                       type: ("CR.1X" | "CR.4X")?,
+                                       type: ("CR.1X" | "CR.4X" | "CR.8X")?,
                                        number: ::Integer?,
                                        properties: {
                                          spark: Hash[::String, ::String]?

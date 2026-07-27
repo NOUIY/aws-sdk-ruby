@@ -772,6 +772,8 @@ module Aws::QuickSight
     DecimalPlacesConfiguration = Shapes::StructureShape.new(name: 'DecimalPlacesConfiguration')
     DecimalValueWhenUnsetConfiguration = Shapes::StructureShape.new(name: 'DecimalValueWhenUnsetConfiguration')
     DefaultAggregation = Shapes::StringShape.new(name: 'DefaultAggregation')
+    DefaultCategoryEffect = Shapes::StringShape.new(name: 'DefaultCategoryEffect')
+    DefaultCategoryEffectsMap = Shapes::MapShape.new(name: 'DefaultCategoryEffectsMap')
     DefaultDateTimePickerControlOptions = Shapes::StructureShape.new(name: 'DefaultDateTimePickerControlOptions')
     DefaultFilterControlConfiguration = Shapes::StructureShape.new(name: 'DefaultFilterControlConfiguration')
     DefaultFilterControlOptions = Shapes::StructureShape.new(name: 'DefaultFilterControlOptions')
@@ -1254,6 +1256,8 @@ module Aws::QuickSight
     GetSessionEmbedUrlResponse = Shapes::StructureShape.new(name: 'GetSessionEmbedUrlResponse')
     GlobalTableBorderOptions = Shapes::StructureShape.new(name: 'GlobalTableBorderOptions')
     GoogleDriveParameters = Shapes::StructureShape.new(name: 'GoogleDriveParameters')
+    Governance = Shapes::StructureShape.new(name: 'Governance')
+    GovernanceCategoryName = Shapes::StringShape.new(name: 'GovernanceCategoryName')
     GradientColor = Shapes::StructureShape.new(name: 'GradientColor')
     GradientStop = Shapes::StructureShape.new(name: 'GradientStop')
     GradientStopList = Shapes::ListShape.new(name: 'GradientStopList')
@@ -4545,6 +4549,7 @@ module Aws::QuickSight
     CreateCustomPermissionsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     CreateCustomPermissionsRequest.add_member(:custom_permissions_name, Shapes::ShapeRef.new(shape: CustomPermissionsName, required: true, location_name: "CustomPermissionsName"))
     CreateCustomPermissionsRequest.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, location_name: "Capabilities"))
+    CreateCustomPermissionsRequest.add_member(:governance, Shapes::ShapeRef.new(shape: Governance, location_name: "Governance"))
     CreateCustomPermissionsRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateCustomPermissionsRequest.struct_class = Types::CreateCustomPermissionsRequest
 
@@ -5014,6 +5019,7 @@ module Aws::QuickSight
     CustomPermissions.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "Arn"))
     CustomPermissions.add_member(:custom_permissions_name, Shapes::ShapeRef.new(shape: CustomPermissionsName, location_name: "CustomPermissionsName"))
     CustomPermissions.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, location_name: "Capabilities"))
+    CustomPermissions.add_member(:governance, Shapes::ShapeRef.new(shape: Governance, location_name: "Governance"))
     CustomPermissions.struct_class = Types::CustomPermissions
 
     CustomPermissionsList.member = Shapes::ShapeRef.new(shape: CustomPermissions)
@@ -5681,6 +5687,9 @@ module Aws::QuickSight
     DecimalValueWhenUnsetConfiguration.add_member(:value_when_unset_option, Shapes::ShapeRef.new(shape: ValueWhenUnsetOption, location_name: "ValueWhenUnsetOption"))
     DecimalValueWhenUnsetConfiguration.add_member(:custom_value, Shapes::ShapeRef.new(shape: SensitiveDouble, location_name: "CustomValue", metadata: {"box" => true}))
     DecimalValueWhenUnsetConfiguration.struct_class = Types::DecimalValueWhenUnsetConfiguration
+
+    DefaultCategoryEffectsMap.key = Shapes::ShapeRef.new(shape: GovernanceCategoryName)
+    DefaultCategoryEffectsMap.value = Shapes::ShapeRef.new(shape: DefaultCategoryEffect)
 
     DefaultDateTimePickerControlOptions.add_member(:type, Shapes::ShapeRef.new(shape: SheetControlDateTimePickerType, location_name: "Type"))
     DefaultDateTimePickerControlOptions.add_member(:display_options, Shapes::ShapeRef.new(shape: DateTimePickerControlDisplayOptions, location_name: "DisplayOptions"))
@@ -7808,6 +7817,9 @@ module Aws::QuickSight
 
     GoogleDriveParameters.add_member(:auth_type, Shapes::ShapeRef.new(shape: AuthType, location_name: "AuthType"))
     GoogleDriveParameters.struct_class = Types::GoogleDriveParameters
+
+    Governance.add_member(:default_category_effects, Shapes::ShapeRef.new(shape: DefaultCategoryEffectsMap, location_name: "DefaultCategoryEffects"))
+    Governance.struct_class = Types::Governance
 
     GradientColor.add_member(:stops, Shapes::ShapeRef.new(shape: GradientStopList, location_name: "Stops"))
     GradientColor.struct_class = Types::GradientColor
@@ -12195,6 +12207,7 @@ module Aws::QuickSight
     UpdateCustomPermissionsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     UpdateCustomPermissionsRequest.add_member(:custom_permissions_name, Shapes::ShapeRef.new(shape: CustomPermissionsName, required: true, location: "uri", location_name: "CustomPermissionsName"))
     UpdateCustomPermissionsRequest.add_member(:capabilities, Shapes::ShapeRef.new(shape: Capabilities, location_name: "Capabilities"))
+    UpdateCustomPermissionsRequest.add_member(:governance, Shapes::ShapeRef.new(shape: Governance, location_name: "Governance"))
     UpdateCustomPermissionsRequest.struct_class = Types::UpdateCustomPermissionsRequest
 
     UpdateCustomPermissionsResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location_name: "Status"))

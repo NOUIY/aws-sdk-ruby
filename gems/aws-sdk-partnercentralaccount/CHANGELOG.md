@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.13.0 (2026-07-27)
+------------------
+
+* Feature - Adds optional headquarters location to StartProfileUpdateTask, letting partners record their headquarters as an ISO 3166 country and subdivision code on their profile. When headquarters is provided, both the country and subdivision codes are required.
+
 1.12.0 (2026-07-22)
 ------------------
 

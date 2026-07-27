@@ -783,6 +783,8 @@ module Aws::PartnerCentralAccount
     #   resp.task_details.localized_contents[0].website_url #=> String
     #   resp.task_details.localized_contents[0].logo_url #=> String
     #   resp.task_details.localized_contents[0].locale #=> String
+    #   resp.task_details.headquarters.country_code #=> String
+    #   resp.task_details.headquarters.subdivision_code #=> String
     #   resp.started_at #=> Time
     #   resp.status #=> String, one of "IN_PROGRESS", "CANCELED", "SUCCEEDED", "FAILED"
     #   resp.ended_at #=> Time
@@ -971,6 +973,8 @@ module Aws::PartnerCentralAccount
     #   resp.profile.localized_contents[0].website_url #=> String
     #   resp.profile.localized_contents[0].logo_url #=> String
     #   resp.profile.localized_contents[0].locale #=> String
+    #   resp.profile.headquarters.country_code #=> String
+    #   resp.profile.headquarters.subdivision_code #=> String
     #   resp.profile.profile_id #=> String
     #   resp.aws_training_certification_email_domains #=> Array
     #   resp.aws_training_certification_email_domains[0].domain_name #=> String
@@ -1267,6 +1271,8 @@ module Aws::PartnerCentralAccount
     #   resp.profile.localized_contents[0].website_url #=> String
     #   resp.profile.localized_contents[0].logo_url #=> String
     #   resp.profile.localized_contents[0].locale #=> String
+    #   resp.profile.headquarters.country_code #=> String
+    #   resp.profile.headquarters.subdivision_code #=> String
     #   resp.profile.profile_id #=> String
     #   resp.aws_training_certification_email_domains #=> Array
     #   resp.aws_training_certification_email_domains[0].domain_name #=> String
@@ -1328,6 +1334,8 @@ module Aws::PartnerCentralAccount
     #   resp.task_details.localized_contents[0].website_url #=> String
     #   resp.task_details.localized_contents[0].logo_url #=> String
     #   resp.task_details.localized_contents[0].locale #=> String
+    #   resp.task_details.headquarters.country_code #=> String
+    #   resp.task_details.headquarters.subdivision_code #=> String
     #   resp.started_at #=> Time
     #   resp.status #=> String, one of "IN_PROGRESS", "CANCELED", "SUCCEEDED", "FAILED"
     #   resp.ended_at #=> Time
@@ -2057,6 +2065,10 @@ module Aws::PartnerCentralAccount
     #           locale: "Locale", # required
     #         },
     #       ],
+    #       headquarters: {
+    #         country_code: "CountryCode", # required
+    #         subdivision_code: "SubdivisionCode", # required
+    #       },
     #     },
     #   })
     #
@@ -2080,6 +2092,8 @@ module Aws::PartnerCentralAccount
     #   resp.task_details.localized_contents[0].website_url #=> String
     #   resp.task_details.localized_contents[0].logo_url #=> String
     #   resp.task_details.localized_contents[0].locale #=> String
+    #   resp.task_details.headquarters.country_code #=> String
+    #   resp.task_details.headquarters.subdivision_code #=> String
     #   resp.started_at #=> Time
     #   resp.status #=> String, one of "IN_PROGRESS", "CANCELED", "SUCCEEDED", "FAILED"
     #   resp.ended_at #=> Time
@@ -2434,7 +2448,7 @@ module Aws::PartnerCentralAccount
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-partnercentralaccount'
-      context[:gem_version] = '1.12.0'
+      context[:gem_version] = '1.13.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

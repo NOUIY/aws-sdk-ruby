@@ -337,6 +337,9 @@ module Aws
                                        aws_account_id: ::String,
                                        custom_permissions_name: ::String,
                                        ?capabilities: Params::capabilities,
+                                       ?governance: {
+                                         default_category_effects: Hash[::String, ("DENY_BY_DEFAULT")]?
+                                       },
                                        ?tags: Array[
                                          {
                                            key: ::String,
@@ -4308,7 +4311,10 @@ module Aws
       def update_custom_permissions: (
                                        aws_account_id: ::String,
                                        custom_permissions_name: ::String,
-                                       ?capabilities: Params::capabilities
+                                       ?capabilities: Params::capabilities,
+                                       ?governance: {
+                                         default_category_effects: Hash[::String, ("DENY_BY_DEFAULT")]?
+                                       }
                                      ) -> _UpdateCustomPermissionsResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCustomPermissionsResponseSuccess
 

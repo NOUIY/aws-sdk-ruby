@@ -651,7 +651,8 @@ module Aws::EMRContainers
     #   The tags of the managed endpoint.
     #
     # @option params [Integer] :session_idle_timeout_in_minutes
-    #   The idle timeout in minutes for the managed endpoint session.
+    #   The number of idle minutes before the managed endpoint session times
+    #   out.
     #
     # @return [Types::CreateManagedEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -823,11 +824,11 @@ module Aws::EMRContainers
     end
 
     # Creates a virtual cluster. Virtual cluster is a managed entity on
-    # Amazon EMR on EKS. You can create, describe, list and delete virtual
-    # clusters. They do not consume any additional resource in your system.
-    # A single virtual cluster maps to a single Kubernetes namespace. Given
-    # this relationship, you can model virtual clusters the same way you
-    # model Kubernetes namespaces to meet your requirements.
+    # Amazon EMR on EKS. You can create, update, describe, list and delete
+    # virtual clusters. They do not consume any additional resource in your
+    # system. A single virtual cluster maps to a single Kubernetes
+    # namespace. Given this relationship, you can model virtual clusters the
+    # same way you model Kubernetes namespaces to meet your requirements.
     #
     # @option params [required, String] :name
     #   The specified name of the virtual cluster.
@@ -849,6 +850,11 @@ module Aws::EMRContainers
     #
     # @option params [Boolean] :session_enabled
     #   Indicates whether the virtual cluster has session support enabled.
+    #
+    # @option params [Types::SchedulerConfiguration] :scheduler_configuration
+    #   The scheduler configuration (concurrency and queue limits) to apply to
+    #   the virtual cluster at creation time. When omitted, no limits are
+    #   applied.
     #
     # @return [Types::CreateVirtualClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -876,6 +882,10 @@ module Aws::EMRContainers
     #     },
     #     security_configuration_id: "ResourceIdString",
     #     session_enabled: false,
+    #     scheduler_configuration: {
+    #       max_in_queue_job_runs: 1,
+    #       max_concurrent_job_runs: 1,
+    #     },
     #   })
     #
     # @example Response structure
@@ -989,11 +999,11 @@ module Aws::EMRContainers
     end
 
     # Deletes a virtual cluster. Virtual cluster is a managed entity on
-    # Amazon EMR on EKS. You can create, describe, list and delete virtual
-    # clusters. They do not consume any additional resource in your system.
-    # A single virtual cluster maps to a single Kubernetes namespace. Given
-    # this relationship, you can model virtual clusters the same way you
-    # model Kubernetes namespaces to meet your requirements.
+    # Amazon EMR on EKS. You can create, update, describe, list and delete
+    # virtual clusters. They do not consume any additional resource in your
+    # system. A single virtual cluster maps to a single Kubernetes
+    # namespace. Given this relationship, you can model virtual clusters the
+    # same way you model Kubernetes namespaces to meet your requirements.
     #
     # @option params [required, String] :id
     #   The ID of the virtual cluster that will be deleted.
@@ -1275,8 +1285,8 @@ module Aws::EMRContainers
 
     # Displays detailed information about a specified virtual cluster.
     # Virtual cluster is a managed entity on Amazon EMR on EKS. You can
-    # create, describe, list and delete virtual clusters. They do not
-    # consume any additional resource in your system. A single virtual
+    # create, update, describe, list and delete virtual clusters. They do
+    # not consume any additional resource in your system. A single virtual
     # cluster maps to a single Kubernetes namespace. Given this
     # relationship, you can model virtual clusters the same way you model
     # Kubernetes namespaces to meet your requirements.
@@ -1309,6 +1319,10 @@ module Aws::EMRContainers
     #   resp.virtual_cluster.tags["String128"] #=> String
     #   resp.virtual_cluster.security_configuration_id #=> String
     #   resp.virtual_cluster.session_enabled #=> Boolean
+    #   resp.virtual_cluster.scheduler_configuration.max_in_queue_job_runs #=> Integer
+    #   resp.virtual_cluster.scheduler_configuration.max_concurrent_job_runs #=> Integer
+    #   resp.virtual_cluster.scheduler_status.current_in_queue_job_runs #=> Integer
+    #   resp.virtual_cluster.scheduler_status.current_concurrent_job_runs #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/DescribeVirtualCluster AWS API Documentation
     #
@@ -1749,12 +1763,12 @@ module Aws::EMRContainers
     end
 
     # Lists information about the specified virtual cluster. Virtual cluster
-    # is a managed entity on Amazon EMR on EKS. You can create, describe,
-    # list and delete virtual clusters. They do not consume any additional
-    # resource in your system. A single virtual cluster maps to a single
-    # Kubernetes namespace. Given this relationship, you can model virtual
-    # clusters the same way you model Kubernetes namespaces to meet your
-    # requirements.
+    # is a managed entity on Amazon EMR on EKS. You can create, update,
+    # describe, list and delete virtual clusters. They do not consume any
+    # additional resource in your system. A single virtual cluster maps to a
+    # single Kubernetes namespace. Given this relationship, you can model
+    # virtual clusters the same way you model Kubernetes namespaces to meet
+    # your requirements.
     #
     # @option params [String] :container_provider_id
     #   The container provider ID of the virtual cluster.
@@ -1820,6 +1834,10 @@ module Aws::EMRContainers
     #   resp.virtual_clusters[0].tags["String128"] #=> String
     #   resp.virtual_clusters[0].security_configuration_id #=> String
     #   resp.virtual_clusters[0].session_enabled #=> Boolean
+    #   resp.virtual_clusters[0].scheduler_configuration.max_in_queue_job_runs #=> Integer
+    #   resp.virtual_clusters[0].scheduler_configuration.max_concurrent_job_runs #=> Integer
+    #   resp.virtual_clusters[0].scheduler_status.current_in_queue_job_runs #=> Integer
+    #   resp.virtual_clusters[0].scheduler_status.current_concurrent_job_runs #=> Integer
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/ListVirtualClusters AWS API Documentation
@@ -2021,6 +2039,74 @@ module Aws::EMRContainers
       req.send_request(options)
     end
 
+    # Updates a virtual cluster. Virtual cluster is a managed entity on
+    # Amazon EMR on EKS. You can create, update, describe, list and delete
+    # virtual clusters. They do not consume any additional resource in your
+    # system. A single virtual cluster maps to a single Kubernetes
+    # namespace. Given this relationship, you can model virtual clusters the
+    # same way you model Kubernetes namespaces to meet your requirements.
+    #
+    # @option params [required, String] :id
+    #   The ID of the virtual cluster to update.
+    #
+    # @option params [Types::SchedulerConfiguration] :scheduler_configuration
+    #   The scheduler configuration to apply to the virtual cluster. The new
+    #   configuration fully replaces the existing one. If you omit a field,
+    #   the corresponding limit is removed.
+    #
+    # @option params [required, String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If this token matches a
+    #   previous request, the service ignores the request, but does not return
+    #   an error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::UpdateVirtualClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateVirtualClusterResponse#virtual_cluster #virtual_cluster} => Types::VirtualCluster
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_virtual_cluster({
+    #     id: "ResourceIdString", # required
+    #     scheduler_configuration: {
+    #       max_in_queue_job_runs: 1,
+    #       max_concurrent_job_runs: 1,
+    #     },
+    #     client_token: "ClientToken", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.virtual_cluster.id #=> String
+    #   resp.virtual_cluster.name #=> String
+    #   resp.virtual_cluster.arn #=> String
+    #   resp.virtual_cluster.state #=> String, one of "RUNNING", "TERMINATING", "TERMINATED", "ARRESTED"
+    #   resp.virtual_cluster.container_provider.type #=> String, one of "EKS"
+    #   resp.virtual_cluster.container_provider.id #=> String
+    #   resp.virtual_cluster.container_provider.info.eks_info.namespace #=> String
+    #   resp.virtual_cluster.container_provider.info.eks_info.node_label #=> String
+    #   resp.virtual_cluster.created_at #=> Time
+    #   resp.virtual_cluster.tags #=> Hash
+    #   resp.virtual_cluster.tags["String128"] #=> String
+    #   resp.virtual_cluster.security_configuration_id #=> String
+    #   resp.virtual_cluster.session_enabled #=> Boolean
+    #   resp.virtual_cluster.scheduler_configuration.max_in_queue_job_runs #=> Integer
+    #   resp.virtual_cluster.scheduler_configuration.max_concurrent_job_runs #=> Integer
+    #   resp.virtual_cluster.scheduler_status.current_in_queue_job_runs #=> Integer
+    #   resp.virtual_cluster.scheduler_status.current_concurrent_job_runs #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/emr-containers-2020-10-01/UpdateVirtualCluster AWS API Documentation
+    #
+    # @overload update_virtual_cluster(params = {})
+    # @param [Hash] params ({})
+    def update_virtual_cluster(params = {}, options = {})
+      req = build_request(:update_virtual_cluster, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
@@ -2039,7 +2125,7 @@ module Aws::EMRContainers
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-emrcontainers'
-      context[:gem_version] = '1.75.0'
+      context[:gem_version] = '1.76.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

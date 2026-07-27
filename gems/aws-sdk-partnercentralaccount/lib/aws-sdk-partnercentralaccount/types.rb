@@ -1760,6 +1760,30 @@ module Aws::PartnerCentralAccount
       include Aws::Structure
     end
 
+    # Contains the partner's headquarters location using International
+    # Organization for Standardization (ISO) 3166 country and subdivision
+    # codes.
+    #
+    # @!attribute [rw] country_code
+    #   The ISO 3166-1 alpha-2 country code of the partner's headquarters.
+    #   For example, `US`, `BR`, or `DE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] subdivision_code
+    #   The subdivision portion of the ISO 3166-2 code for the partner's
+    #   headquarters (for example, `SP` from `BR-SP`, `NSW` from `AU-NSW`,
+    #   or `13` from `JP-13`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/Headquarters AWS API Documentation
+    #
+    class Headquarters < Struct.new(
+      :country_code,
+      :subdivision_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An internal server error occurred while processing the request. This
     # is typically a temporary condition and the request may be retried.
     #
@@ -2084,6 +2108,12 @@ module Aws::PartnerCentralAccount
     #   regions.
     #   @return [Array<Types::LocalizedContent>]
     #
+    # @!attribute [rw] headquarters
+    #   The ISO 3166 country and subdivision codes for the partner's
+    #   headquarters location. If no headquarters location is set, this
+    #   field is not included in the response.
+    #   @return [Types::Headquarters]
+    #
     # @!attribute [rw] profile_id
     #   The unique identifier of the partner profile.
     #   @return [String]
@@ -2099,6 +2129,7 @@ module Aws::PartnerCentralAccount
       :industry_segments,
       :translation_source_locale,
       :localized_contents,
+      :headquarters,
       :profile_id)
       SENSITIVE = []
       include Aws::Structure
@@ -2919,6 +2950,12 @@ module Aws::PartnerCentralAccount
     #   The updated localized content for the partner profile.
     #   @return [Array<Types::LocalizedContent>]
     #
+    # @!attribute [rw] headquarters
+    #   The ISO 3166 country and subdivision codes for the partner's
+    #   headquarters location. If you omit this field, the service retains
+    #   the existing headquarters value.
+    #   @return [Types::Headquarters]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/partnercentral-account-2025-04-04/TaskDetails AWS API Documentation
     #
     class TaskDetails < Struct.new(
@@ -2929,7 +2966,8 @@ module Aws::PartnerCentralAccount
       :primary_solution_type,
       :industry_segments,
       :translation_source_locale,
-      :localized_contents)
+      :localized_contents,
+      :headquarters)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.380.0 (2026-07-27)
+------------------
+
+* Feature - This release adds LoRA adapters, training plans, and new instance types to SageMaker inference optimization. CreateAIRecommendationJob accepts optional AdapterSource and CreateOptimizationJob accepts optional TrainingPlanArns and the ml.g7e and ml.p6-b200 families.
+
 1.379.0 (2026-07-23)
 ------------------
 

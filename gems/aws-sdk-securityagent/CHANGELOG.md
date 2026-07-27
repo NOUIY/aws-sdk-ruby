@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.9.0 (2026-07-27)
+------------------
+
+* Feature - AWS Security Agent adds a new task hours field that reflects the active work done for a task.
+
 1.8.0 (2026-07-09)
 ------------------
 

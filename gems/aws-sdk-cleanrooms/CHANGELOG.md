@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.77.0 (2026-07-27)
+------------------
+
+* Feature - This release adds support for the CR.8X worker type for SQL (32 vCPU)
+
 1.76.0 (2026-07-09)
 ------------------
 

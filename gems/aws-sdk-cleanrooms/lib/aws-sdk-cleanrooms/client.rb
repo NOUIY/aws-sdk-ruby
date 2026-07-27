@@ -3921,7 +3921,7 @@ module Aws::CleanRooms
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].user_contribution_limit #=> Integer
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].min_column_value #=> Float
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].max_column_value #=> Float
-    #   resp.protected_query.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X"
+    #   resp.protected_query.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X", "CR.8X"
     #   resp.protected_query.compute_configuration.worker.number #=> Integer
     #   resp.protected_query.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_query.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
@@ -5571,7 +5571,7 @@ module Aws::CleanRooms
     #     },
     #     compute_configuration: {
     #       query_compute_configuration: {
-    #         type: "CR.1X", # accepts CR.1X, CR.4X
+    #         type: "CR.1X", # accepts CR.1X, CR.4X, CR.8X
     #         number: 1,
     #         properties: {
     #           spark: {
@@ -5803,7 +5803,7 @@ module Aws::CleanRooms
     #     },
     #     compute_configuration: {
     #       worker: {
-    #         type: "CR.1X", # accepts CR.1X, CR.4X
+    #         type: "CR.1X", # accepts CR.1X, CR.4X, CR.8X
     #         number: 1,
     #         properties: {
     #           spark: {
@@ -5856,7 +5856,7 @@ module Aws::CleanRooms
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].user_contribution_limit #=> Integer
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].min_column_value #=> Float
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].max_column_value #=> Float
-    #   resp.protected_query.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X"
+    #   resp.protected_query.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X", "CR.8X"
     #   resp.protected_query.compute_configuration.worker.number #=> Integer
     #   resp.protected_query.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_query.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
@@ -7230,7 +7230,7 @@ module Aws::CleanRooms
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].user_contribution_limit #=> Integer
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].min_column_value #=> Float
     #   resp.protected_query.differential_privacy.sensitivity_parameters[0].max_column_value #=> Float
-    #   resp.protected_query.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X"
+    #   resp.protected_query.compute_configuration.worker.type #=> String, one of "CR.1X", "CR.4X", "CR.8X"
     #   resp.protected_query.compute_configuration.worker.number #=> Integer
     #   resp.protected_query.compute_configuration.worker.properties.spark #=> Hash
     #   resp.protected_query.compute_configuration.worker.properties.spark["SparkPropertyKey"] #=> String
@@ -7263,7 +7263,7 @@ module Aws::CleanRooms
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cleanrooms'
-      context[:gem_version] = '1.76.0'
+      context[:gem_version] = '1.77.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

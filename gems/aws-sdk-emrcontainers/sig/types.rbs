@@ -143,6 +143,7 @@ module Aws::EMRContainers
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor security_configuration_id: ::String
       attr_accessor session_enabled: bool
+      attr_accessor scheduler_configuration: Types::SchedulerConfiguration
       SENSITIVE: []
     end
 
@@ -552,6 +553,18 @@ module Aws::EMRContainers
       SENSITIVE: []
     end
 
+    class SchedulerConfiguration
+      attr_accessor max_in_queue_job_runs: ::Integer
+      attr_accessor max_concurrent_job_runs: ::Integer
+      SENSITIVE: []
+    end
+
+    class SchedulerStatus
+      attr_accessor current_in_queue_job_runs: ::Integer
+      attr_accessor current_concurrent_job_runs: ::Integer
+      SENSITIVE: []
+    end
+
     class SecureNamespaceInfo
       attr_accessor cluster_id: ::String
       attr_accessor namespace: ::String
@@ -642,6 +655,18 @@ module Aws::EMRContainers
     class UntagResourceResponse < Aws::EmptyStructure
     end
 
+    class UpdateVirtualClusterRequest
+      attr_accessor id: ::String
+      attr_accessor scheduler_configuration: Types::SchedulerConfiguration
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateVirtualClusterResponse
+      attr_accessor virtual_cluster: Types::VirtualCluster
+      SENSITIVE: []
+    end
+
     class ValidationException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -657,6 +682,8 @@ module Aws::EMRContainers
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor security_configuration_id: ::String
       attr_accessor session_enabled: bool
+      attr_accessor scheduler_configuration: Types::SchedulerConfiguration
+      attr_accessor scheduler_status: Types::SchedulerStatus
       SENSITIVE: []
     end
   end

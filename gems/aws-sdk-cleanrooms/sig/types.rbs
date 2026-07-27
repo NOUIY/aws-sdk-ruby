@@ -3343,7 +3343,7 @@ module Aws::CleanRooms
     end
 
     class WorkerComputeConfiguration
-      attr_accessor type: ("CR.1X" | "CR.4X")
+      attr_accessor type: ("CR.1X" | "CR.4X" | "CR.8X")
       attr_accessor number: ::Integer
       attr_accessor properties: Types::WorkerComputeConfigurationProperties
       SENSITIVE: []

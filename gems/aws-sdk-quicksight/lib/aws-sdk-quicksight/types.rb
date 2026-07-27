@@ -8528,6 +8528,14 @@ module Aws::QuickSight
     #   A set of actions to include in the custom permissions profile.
     #   @return [Types::Capabilities]
     #
+    # @!attribute [rw] governance
+    #   The governance configuration for the custom permissions profile.
+    #   When governance controls are defined for a category, any
+    #   capabilities in that category not explicitly set to `ALLOW` in
+    #   `Capabilities` are denied. Even newly added capabilities in the
+    #   category are implicitly disabled when Amazon Quick releases them.
+    #   @return [Types::Governance]
+    #
     # @!attribute [rw] tags
     #   The tags to associate with the custom permissions profile.
     #   @return [Array<Types::Tag>]
@@ -8538,6 +8546,7 @@ module Aws::QuickSight
       :aws_account_id,
       :custom_permissions_name,
       :capabilities,
+      :governance,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -11015,12 +11024,20 @@ module Aws::QuickSight
     #   A set of actions in the custom permissions profile.
     #   @return [Types::Capabilities]
     #
+    # @!attribute [rw] governance
+    #   The governance configuration for the custom permissions profile.
+    #   When you enable governance for a category, Amazon Quick denies
+    #   access to any current or new capability in that category unless you
+    #   explicitly set that capability to `ALLOW` in `Capabilities`.
+    #   @return [Types::Governance]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CustomPermissions AWS API Documentation
     #
     class CustomPermissions < Struct.new(
       :arn,
       :custom_permissions_name,
-      :capabilities)
+      :capabilities,
+      :governance)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -24744,6 +24761,24 @@ module Aws::QuickSight
     #
     class GoogleDriveParameters < Struct.new(
       :auth_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the governance configuration for a custom permissions
+    # profile. When governance controls are defined for a category, any
+    # capabilities in that category not explicitly set to `ALLOW` in
+    # `Capabilities` are denied. Even newly added capabilities in the
+    # category are implicitly disabled when Amazon Quick releases them.
+    #
+    # @!attribute [rw] default_category_effects
+    #   A map of `DefaultCategoryEffects`.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/Governance AWS API Documentation
+    #
+    class Governance < Struct.new(
+      :default_category_effects)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -45730,12 +45765,21 @@ module Aws::QuickSight
     #   A set of actions to include in the custom permissions profile.
     #   @return [Types::Capabilities]
     #
+    # @!attribute [rw] governance
+    #   The governance configuration for the custom permissions profile. The
+    #   `UpdateCustomPermissions` operation replaces all existing
+    #   `Capabilities` and `Governance` values. If you omit this parameter,
+    #   Amazon Quick removes governance from the profile and the existing
+    #   custom permission behavior applies.
+    #   @return [Types::Governance]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateCustomPermissionsRequest AWS API Documentation
     #
     class UpdateCustomPermissionsRequest < Struct.new(
       :aws_account_id,
       :custom_permissions_name,
-      :capabilities)
+      :capabilities,
+      :governance)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -99,6 +99,7 @@ module Aws::PartnerCentralAccount
     GetQualificationsDisassociationTaskResponse = Shapes::StructureShape.new(name: 'GetQualificationsDisassociationTaskResponse')
     GetVerificationRequest = Shapes::StructureShape.new(name: 'GetVerificationRequest')
     GetVerificationResponse = Shapes::StructureShape.new(name: 'GetVerificationResponse')
+    Headquarters = Shapes::StructureShape.new(name: 'Headquarters')
     IndustrySegment = Shapes::StringShape.new(name: 'IndustrySegment')
     IndustrySegmentList = Shapes::ListShape.new(name: 'IndustrySegmentList')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
@@ -177,6 +178,7 @@ module Aws::PartnerCentralAccount
     StartVerificationRequest = Shapes::StructureShape.new(name: 'StartVerificationRequest')
     StartVerificationResponse = Shapes::StructureShape.new(name: 'StartVerificationResponse')
     String = Shapes::StringShape.new(name: 'String')
+    SubdivisionCode = Shapes::StringShape.new(name: 'SubdivisionCode')
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
@@ -569,6 +571,10 @@ module Aws::PartnerCentralAccount
     GetVerificationResponse.add_member(:completed_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CompletedAt"))
     GetVerificationResponse.struct_class = Types::GetVerificationResponse
 
+    Headquarters.add_member(:country_code, Shapes::ShapeRef.new(shape: CountryCode, required: true, location_name: "CountryCode"))
+    Headquarters.add_member(:subdivision_code, Shapes::ShapeRef.new(shape: SubdivisionCode, required: true, location_name: "SubdivisionCode"))
+    Headquarters.struct_class = Types::Headquarters
+
     IndustrySegmentList.member = Shapes::ShapeRef.new(shape: IndustrySegment)
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))
@@ -652,6 +658,7 @@ module Aws::PartnerCentralAccount
     PartnerProfile.add_member(:industry_segments, Shapes::ShapeRef.new(shape: IndustrySegmentList, required: true, location_name: "IndustrySegments"))
     PartnerProfile.add_member(:translation_source_locale, Shapes::ShapeRef.new(shape: Locale, required: true, location_name: "TranslationSourceLocale"))
     PartnerProfile.add_member(:localized_contents, Shapes::ShapeRef.new(shape: LocalizedContentList, location_name: "LocalizedContents"))
+    PartnerProfile.add_member(:headquarters, Shapes::ShapeRef.new(shape: Headquarters, location_name: "Headquarters"))
     PartnerProfile.add_member(:profile_id, Shapes::ShapeRef.new(shape: PartnerProfileId, location_name: "ProfileId"))
     PartnerProfile.struct_class = Types::PartnerProfile
 
@@ -823,6 +830,7 @@ module Aws::PartnerCentralAccount
     TaskDetails.add_member(:industry_segments, Shapes::ShapeRef.new(shape: IndustrySegmentList, required: true, location_name: "IndustrySegments"))
     TaskDetails.add_member(:translation_source_locale, Shapes::ShapeRef.new(shape: Locale, required: true, location_name: "TranslationSourceLocale"))
     TaskDetails.add_member(:localized_contents, Shapes::ShapeRef.new(shape: LocalizedContentList, location_name: "LocalizedContents"))
+    TaskDetails.add_member(:headquarters, Shapes::ShapeRef.new(shape: Headquarters, location_name: "Headquarters"))
     TaskDetails.struct_class = Types::TaskDetails
 
     ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Message"))

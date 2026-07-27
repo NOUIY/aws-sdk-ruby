@@ -592,7 +592,11 @@ module Aws
                                              logo_url: ::String,
                                              locale: ::String
                                            }
-                                         ]?
+                                         ]?,
+                                         headquarters: {
+                                           country_code: ::String,
+                                           subdivision_code: ::String
+                                         }?
                                        }
                                      ) -> _StartProfileUpdateTaskResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartProfileUpdateTaskResponseSuccess

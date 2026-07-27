@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.193.0 (2026-07-27)
+------------------
+
+* Feature - Added new Governance fields to Custom Permissions API to support Deny By Default functionality.
+
 1.192.0 (2026-07-23)
 ------------------
 

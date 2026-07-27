@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.266.0 (2026-07-27)
+------------------
+
+* Feature - Adds BatchGetDataQualityRulesetEvaluationRun API to retrieve multiple runs in one call, ObservationScope and ObservationMode parameters for anomaly detection, writing evaluation results to Data Catalog tables, and custom log group paths for recommendation runs.
+
 1.265.0 (2026-07-09)
 ------------------
 
