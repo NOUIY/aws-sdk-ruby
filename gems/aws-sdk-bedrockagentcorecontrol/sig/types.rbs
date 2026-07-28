@@ -1255,7 +1255,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor client_secret_config: Types::SecretReference
       attr_accessor client_secret_source: ("MANAGED" | "EXTERNAL")
       attr_accessor on_behalf_of_token_exchange_config: Types::OnBehalfOfTokenExchangeConfigType
-      attr_accessor client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")
+      attr_accessor client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT" | "PRIVATE_KEY_JWT")
+      attr_accessor private_key_jwt_config: Types::PrivateKeyJwtConfig
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
       SENSITIVE: [:client_secret]
@@ -1264,10 +1265,11 @@ module Aws::BedrockAgentCoreControl
     class CustomOauth2ProviderConfigOutput
       attr_accessor oauth_discovery: Types::Oauth2Discovery
       attr_accessor client_id: ::String
+      attr_accessor on_behalf_of_token_exchange_config: Types::OnBehalfOfTokenExchangeConfigType
+      attr_accessor client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT" | "PRIVATE_KEY_JWT")
       attr_accessor private_endpoint: Types::PrivateEndpoint
       attr_accessor private_endpoint_overrides: ::Array[Types::PrivateEndpointOverride]
-      attr_accessor on_behalf_of_token_exchange_config: Types::OnBehalfOfTokenExchangeConfigType
-      attr_accessor client_authentication_method: ("CLIENT_SECRET_BASIC" | "CLIENT_SECRET_POST" | "AWS_IAM_ID_TOKEN_JWT")
+      attr_accessor private_key_jwt_config: Types::PrivateKeyJwtConfig
       SENSITIVE: []
     end
 
@@ -3187,6 +3189,11 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class KmsKeySourceType
+      attr_accessor kms_key_arn: ::String
+      SENSITIVE: []
+    end
+
     class LambdaEvaluatorConfig
       attr_accessor lambda_arn: ::String
       attr_accessor lambda_timeout_in_seconds: ::Integer
@@ -4368,6 +4375,25 @@ module Aws::BedrockAgentCoreControl
       attr_accessor domain: ::String
       attr_accessor private_endpoint: Types::PrivateEndpoint
       SENSITIVE: []
+    end
+
+    class PrivateKeyJwtConfig
+      attr_accessor private_key_source: Types::PrivateKeySource
+      attr_accessor signing_algorithm: ("RS256" | "PS256" | "ES256")
+      attr_accessor additional_header_claims: ::Hash[::String, ::String]
+      attr_accessor additional_payload_claims: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class PrivateKeySource
+      attr_accessor kms_key_source: Types::KmsKeySourceType
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class KmsKeySource < PrivateKeySource
+      end
+      class Unknown < PrivateKeySource
+      end
     end
 
     class ProtocolConfiguration

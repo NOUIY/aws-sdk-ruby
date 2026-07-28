@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.266.0 (2026-07-28)
+------------------
+
+* Feature - Documentation updates for SearchRules, AssociateRoutingProfileQueues, CreateRoutingProfile, AssociateContactWithUser CreateTaskTemplate, and UpdateTaskTemplate
+
 1.265.0 (2026-07-14)
 ------------------
 

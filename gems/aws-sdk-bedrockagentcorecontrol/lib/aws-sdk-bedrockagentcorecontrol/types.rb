@@ -4869,6 +4869,13 @@ module Aws::BedrockAgentCoreControl
     #   token endpoint.
     #   @return [String]
     #
+    # @!attribute [rw] private_key_jwt_config
+    #   Configuration for private\_key\_jwt client authentication (RFC
+    #   7523). On Create: privateKeySource and signingAlgorithm are required
+    #   (enforced server-side). On Update: all fields are optional — only
+    #   provided fields are updated.
+    #   @return [Types::PrivateKeyJwtConfig]
+    #
     # @!attribute [rw] private_endpoint
     #   The default private endpoint for the custom OAuth2 provider,
     #   enabling secure connectivity through a VPC Lattice resource
@@ -4890,6 +4897,7 @@ module Aws::BedrockAgentCoreControl
       :client_secret_source,
       :on_behalf_of_token_exchange_config,
       :client_authentication_method,
+      :private_key_jwt_config,
       :private_endpoint,
       :private_endpoint_overrides)
       SENSITIVE = [:client_secret]
@@ -4906,6 +4914,15 @@ module Aws::BedrockAgentCoreControl
     #   The client ID for the custom OAuth2 provider.
     #   @return [String]
     #
+    # @!attribute [rw] on_behalf_of_token_exchange_config
+    #   The configuration for on-behalf-of token exchange.
+    #   @return [Types::OnBehalfOfTokenExchangeConfigType]
+    #
+    # @!attribute [rw] client_authentication_method
+    #   The client authentication method used when authenticating with the
+    #   token endpoint.
+    #   @return [String]
+    #
     # @!attribute [rw] private_endpoint
     #   The default private endpoint for the custom OAuth2 provider,
     #   enabling secure connectivity through a VPC Lattice resource
@@ -4917,24 +4934,23 @@ module Aws::BedrockAgentCoreControl
     #   configuration.
     #   @return [Array<Types::PrivateEndpointOverride>]
     #
-    # @!attribute [rw] on_behalf_of_token_exchange_config
-    #   The configuration for on-behalf-of token exchange.
-    #   @return [Types::OnBehalfOfTokenExchangeConfigType]
-    #
-    # @!attribute [rw] client_authentication_method
-    #   The client authentication method used when authenticating with the
-    #   token endpoint.
-    #   @return [String]
+    # @!attribute [rw] private_key_jwt_config
+    #   Configuration for private\_key\_jwt client authentication (RFC
+    #   7523). On Create: privateKeySource and signingAlgorithm are required
+    #   (enforced server-side). On Update: all fields are optional — only
+    #   provided fields are updated.
+    #   @return [Types::PrivateKeyJwtConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomOauth2ProviderConfigOutput AWS API Documentation
     #
     class CustomOauth2ProviderConfigOutput < Struct.new(
       :oauth_discovery,
       :client_id,
+      :on_behalf_of_token_exchange_config,
+      :client_authentication_method,
       :private_endpoint,
       :private_endpoint_overrides,
-      :on_behalf_of_token_exchange_config,
-      :client_authentication_method)
+      :private_key_jwt_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11641,6 +11657,23 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # Contains the KMS key configuration for a JWT client assertion.
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to sign the JWT
+    #   client assertion. The key must be an asymmetric key with key usage
+    #   SIGN\_VERIFY and a key spec compatible with the configured signing
+    #   algorithm.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/KmsKeySourceType AWS API Documentation
+    #
+    class KmsKeySourceType < Struct.new(
+      :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for a Lambda function used as a code-based evaluator.
     #
     # @!attribute [rw] lambda_arn
@@ -15758,6 +15791,67 @@ module Aws::BedrockAgentCoreControl
       :private_endpoint)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # Configuration for private\_key\_jwt client authentication (RFC 7523).
+    # On Create: privateKeySource and signingAlgorithm are required
+    # (enforced server-side). On Update: all fields are optional — only
+    # provided fields are updated.
+    #
+    # @!attribute [rw] private_key_source
+    #   The private key source for the JWT client assertion.
+    #   @return [Types::PrivateKeySource]
+    #
+    # @!attribute [rw] signing_algorithm
+    #   The algorithm used to sign the JWT client assertion. Valid values
+    #   are `RS256`, `PS256`, and `ES256`.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_header_claims
+    #   A map of additional claims to include in the JWT client assertion
+    #   header. Standard header claims such as `alg` and `typ` cannot be
+    #   added.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] additional_payload_claims
+    #   A map of additional claims to include in the JWT client assertion
+    #   payload. Payload claims generated by the service, such as `iss`,
+    #   `sub`, `jti`, and `exp`, cannot be added.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PrivateKeyJwtConfig AWS API Documentation
+    #
+    class PrivateKeyJwtConfig < Struct.new(
+      :private_key_source,
+      :signing_algorithm,
+      :additional_header_claims,
+      :additional_payload_claims)
+      SENSITIVE = [:additional_header_claims, :additional_payload_claims]
+      include Aws::Structure
+    end
+
+    # Contains the private key source configuration for a JWT client
+    # assertion.
+    #
+    # @note PrivateKeySource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note PrivateKeySource is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of PrivateKeySource corresponding to the set member.
+    #
+    # @!attribute [rw] kms_key_source
+    #   The KMS key source for the JWT client assertion.
+    #   @return [Types::KmsKeySourceType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PrivateKeySource AWS API Documentation
+    #
+    class PrivateKeySource < Struct.new(
+      :kms_key_source,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class KmsKeySource < PrivateKeySource; end
+      class Unknown < PrivateKeySource; end
     end
 
     # The protocol configuration for an agent runtime. This structure

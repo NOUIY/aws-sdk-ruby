@@ -694,8 +694,11 @@ module Aws::Connect
     #
     # **Important things to know**
     #
-    # * Use this API with chat, email, and task contacts. It does not
-    #   support voice contacts.
+    # * Use this API with chat, email, task, and voice contacts. For voice
+    #   callbacks, this API does not support customer-first mode.
+    #
+    # * This API can be used to offer a contact to an agent even if the
+    #   agent is currently at maximum concurrency for the channel.
     #
     # * Use it to associate contacts with users regardless of their current
     #   state, including custom states. Ensure your application logic
@@ -1411,8 +1414,10 @@ module Aws::Connect
     # @option params [Array<Types::RoutingProfileManualAssignmentQueueConfig>] :manual_assignment_queue_configs
     #   The manual assignment queues to associate with this routing profile.
     #
-    #   Note: Use this config for chat, email, and task contacts. It does not
-    #   support voice contacts.
+    #   <note markdown="1"> For voice contacts, manual assignment supports only agent-first
+    #   callback contacts. Chat, email, and task contacts are fully supported.
+    #
+    #    </note>
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -4804,8 +4809,10 @@ module Aws::Connect
     #   quota of 50 queues per routing profile per instance that is listed in
     #   Connect Customer service quotas.
     #
-    #   Note: Use this config for chat, email, and task contacts. It does not
-    #   support voice contacts.
+    #   <note markdown="1"> For voice contacts, manual assignment supports only agent-first
+    #   callback contacts. Chat, email, and task contacts are fully supported.
+    #
+    #    </note>
     #
     # @option params [required, Array<Types::MediaConcurrency>] :media_concurrencies
     #   The channels that agents can handle in the Contact Control Panel (CCP)
@@ -5208,12 +5215,19 @@ module Aws::Connect
     #   The identifier of the flow that runs by default when a task is created
     #   by referencing this template.
     #
+    #   Although this parameter is marked as optional, the request must
+    #   contain either a `ContactFlowId` or a field of type `QUICK_CONNECT`.
+    #
     # @option params [String] :self_assign_flow_id
     #   The ContactFlowId for the flow that will be run if this template is
     #   used to create a self-assigned task.
     #
     # @option params [Types::TaskTemplateConstraints] :constraints
-    #   Constraints that are applicable to the fields listed.
+    #   Constraints that are applicable to the fields listed. Although this
+    #   parameter is marked as optional in the API model, the service requires
+    #   it when calling `CreateTaskTemplate` or `UpdateTaskTemplate`. The
+    #   `RequiredFields` array must contain at least one element, and the
+    #   field of type `NAME` must be included in `RequiredFields`.
     #
     # @option params [Types::TaskTemplateDefaults] :defaults
     #   The default values for fields when a task is created by referencing
@@ -5227,6 +5241,10 @@ module Aws::Connect
     #
     # @option params [required, Array<Types::TaskTemplateField>] :fields
     #   Fields that are part of the template.
+    #
+    #   The request must contain exactly one field of type `NAME`. This field
+    #   must also be listed in the `RequiredFields` array within the
+    #   `Constraints` parameter.
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
@@ -29005,12 +29023,19 @@ module Aws::Connect
     #   The identifier of the flow that runs by default when a task is created
     #   by referencing this template.
     #
+    #   Although this parameter is marked as optional, the request must
+    #   contain either a `ContactFlowId` or a field of type `QUICK_CONNECT`.
+    #
     # @option params [String] :self_assign_flow_id
     #   The ContactFlowId for the flow that will be run if this template is
     #   used to create a self-assigned task.
     #
     # @option params [Types::TaskTemplateConstraints] :constraints
-    #   Constraints that are applicable to the fields listed.
+    #   Constraints that are applicable to the fields listed. Although this
+    #   parameter is marked as optional in the API model, the service requires
+    #   it when calling `CreateTaskTemplate` or `UpdateTaskTemplate`. The
+    #   `RequiredFields` array must contain at least one element, and the
+    #   field of type `NAME` must be included in `RequiredFields`.
     #
     # @option params [Types::TaskTemplateDefaults] :defaults
     #   The default values for fields when a task is created by referencing
@@ -29022,8 +29047,15 @@ module Aws::Connect
     #   marked as `INACTIVE`, then a task that refers to this template cannot
     #   be created.
     #
+    #   Although this parameter is marked as optional, the service requires it
+    #   when calling `UpdateTaskTemplate`.
+    #
     # @option params [Array<Types::TaskTemplateField>] :fields
     #   Fields that are part of the template.
+    #
+    #   The request must contain exactly one field of type `NAME`. This field
+    #   must also be listed in the `RequiredFields` array within the
+    #   `Constraints` parameter.
     #
     # @return [Types::UpdateTaskTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -30161,7 +30193,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.265.0'
+      context[:gem_version] = '1.266.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

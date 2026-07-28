@@ -1516,8 +1516,11 @@ module Aws::Connect
     # @!attribute [rw] manual_assignment_queue_configs
     #   The manual assignment queues to associate with this routing profile.
     #
-    #   Note: Use this config for chat, email, and task contacts. It does
-    #   not support voice contacts.
+    #   <note markdown="1"> For voice contacts, manual assignment supports only agent-first
+    #   callback contacts. Chat, email, and task contacts are fully
+    #   supported.
+    #
+    #    </note>
     #   @return [Array<Types::RoutingProfileManualAssignmentQueueConfig>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AssociateRoutingProfileQueuesRequest AWS API Documentation
@@ -7253,8 +7256,11 @@ module Aws::Connect
     #   quota of 50 queues per routing profile per instance that is listed
     #   in Connect Customer service quotas.
     #
-    #   Note: Use this config for chat, email, and task contacts. It does
-    #   not support voice contacts.
+    #   <note markdown="1"> For voice contacts, manual assignment supports only agent-first
+    #   callback contacts. Chat, email, and task contacts are fully
+    #   supported.
+    #
+    #    </note>
     #   @return [Array<Types::RoutingProfileManualAssignmentQueueConfig>]
     #
     # @!attribute [rw] media_concurrencies
@@ -7510,6 +7516,9 @@ module Aws::Connect
     # @!attribute [rw] contact_flow_id
     #   The identifier of the flow that runs by default when a task is
     #   created by referencing this template.
+    #
+    #   Although this parameter is marked as optional, the request must
+    #   contain either a `ContactFlowId` or a field of type `QUICK_CONNECT`.
     #   @return [String]
     #
     # @!attribute [rw] self_assign_flow_id
@@ -7518,7 +7527,12 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] constraints
-    #   Constraints that are applicable to the fields listed.
+    #   Constraints that are applicable to the fields listed. Although this
+    #   parameter is marked as optional in the API model, the service
+    #   requires it when calling `CreateTaskTemplate` or
+    #   `UpdateTaskTemplate`. The `RequiredFields` array must contain at
+    #   least one element, and the field of type `NAME` must be included in
+    #   `RequiredFields`.
     #   @return [Types::TaskTemplateConstraints]
     #
     # @!attribute [rw] defaults
@@ -7535,6 +7549,10 @@ module Aws::Connect
     #
     # @!attribute [rw] fields
     #   Fields that are part of the template.
+    #
+    #   The request must contain exactly one field of type `NAME`. This
+    #   field must also be listed in the `RequiredFields` array within the
+    #   `Constraints` parameter.
     #   @return [Array<Types::TaskTemplateField>]
     #
     # @!attribute [rw] client_token
@@ -18996,7 +19014,12 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] constraints
-    #   Constraints that are applicable to the fields listed.
+    #   Constraints that are applicable to the fields listed. Although this
+    #   parameter is marked as optional in the API model, the service
+    #   requires it when calling `CreateTaskTemplate` or
+    #   `UpdateTaskTemplate`. The `RequiredFields` array must contain at
+    #   least one element, and the field of type `NAME` must be included in
+    #   `RequiredFields`.
     #   @return [Types::TaskTemplateConstraints]
     #
     # @!attribute [rw] defaults
@@ -37572,6 +37595,9 @@ module Aws::Connect
     # @!attribute [rw] contact_flow_id
     #   The identifier of the flow that runs by default when a task is
     #   created by referencing this template.
+    #
+    #   Although this parameter is marked as optional, the request must
+    #   contain either a `ContactFlowId` or a field of type `QUICK_CONNECT`.
     #   @return [String]
     #
     # @!attribute [rw] self_assign_flow_id
@@ -37580,7 +37606,12 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] constraints
-    #   Constraints that are applicable to the fields listed.
+    #   Constraints that are applicable to the fields listed. Although this
+    #   parameter is marked as optional in the API model, the service
+    #   requires it when calling `CreateTaskTemplate` or
+    #   `UpdateTaskTemplate`. The `RequiredFields` array must contain at
+    #   least one element, and the field of type `NAME` must be included in
+    #   `RequiredFields`.
     #   @return [Types::TaskTemplateConstraints]
     #
     # @!attribute [rw] defaults
@@ -37593,10 +37624,17 @@ module Aws::Connect
     #   it. Tasks can only be created from `ACTIVE` templates. If a template
     #   is marked as `INACTIVE`, then a task that refers to this template
     #   cannot be created.
+    #
+    #   Although this parameter is marked as optional, the service requires
+    #   it when calling `UpdateTaskTemplate`.
     #   @return [String]
     #
     # @!attribute [rw] fields
     #   Fields that are part of the template.
+    #
+    #   The request must contain exactly one field of type `NAME`. This
+    #   field must also be listed in the `RequiredFields` array within the
+    #   `Constraints` parameter.
     #   @return [Array<Types::TaskTemplateField>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateTaskTemplateRequest AWS API Documentation
@@ -37652,7 +37690,12 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] constraints
-    #   Constraints that are applicable to the fields listed.
+    #   Constraints that are applicable to the fields listed. Although this
+    #   parameter is marked as optional in the API model, the service
+    #   requires it when calling `CreateTaskTemplate` or
+    #   `UpdateTaskTemplate`. The `RequiredFields` array must contain at
+    #   least one element, and the field of type `NAME` must be included in
+    #   `RequiredFields`.
     #   @return [Types::TaskTemplateConstraints]
     #
     # @!attribute [rw] defaults

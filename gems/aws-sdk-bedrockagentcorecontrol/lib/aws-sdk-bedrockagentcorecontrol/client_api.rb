@@ -21,6 +21,9 @@ module Aws::BedrockAgentCoreControl
     ActorTokenContentType = Shapes::StringShape.new(name: 'ActorTokenContentType')
     AddDatasetExamplesRequest = Shapes::StructureShape.new(name: 'AddDatasetExamplesRequest')
     AddDatasetExamplesResponse = Shapes::StructureShape.new(name: 'AddDatasetExamplesResponse')
+    AdditionalClaimName = Shapes::StringShape.new(name: 'AdditionalClaimName')
+    AdditionalClaimValue = Shapes::StringShape.new(name: 'AdditionalClaimValue')
+    AdditionalClaims = Shapes::MapShape.new(name: 'AdditionalClaims')
     AdditionalModelRequestFields = Shapes::DocumentShape.new(name: 'AdditionalModelRequestFields', document: true)
     AdvertisedScopeMappingType = Shapes::MapShape.new(name: 'AdvertisedScopeMappingType')
     AgentCardDefinition = Shapes::StructureShape.new(name: 'AgentCardDefinition')
@@ -639,6 +642,7 @@ module Aws::BedrockAgentCoreControl
     KinesisResourceContentConfigurationsList = Shapes::ListShape.new(name: 'KinesisResourceContentConfigurationsList')
     KmsConfiguration = Shapes::StructureShape.new(name: 'KmsConfiguration')
     KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
+    KmsKeySourceType = Shapes::StructureShape.new(name: 'KmsKeySourceType')
     LambdaArn = Shapes::StringShape.new(name: 'LambdaArn')
     LambdaEvaluatorConfig = Shapes::StructureShape.new(name: 'LambdaEvaluatorConfig')
     LambdaEvaluatorConfigLambdaTimeoutInSecondsInteger = Shapes::IntegerShape.new(name: 'LambdaEvaluatorConfigLambdaTimeoutInSecondsInteger')
@@ -908,6 +912,8 @@ module Aws::BedrockAgentCoreControl
     PrivateEndpointOverride = Shapes::StructureShape.new(name: 'PrivateEndpointOverride')
     PrivateEndpointOverrideDomain = Shapes::StringShape.new(name: 'PrivateEndpointOverrideDomain')
     PrivateEndpointOverrides = Shapes::ListShape.new(name: 'PrivateEndpointOverrides')
+    PrivateKeyJwtConfig = Shapes::StructureShape.new(name: 'PrivateKeyJwtConfig')
+    PrivateKeySource = Shapes::UnionShape.new(name: 'PrivateKeySource')
     Prompt = Shapes::StringShape.new(name: 'Prompt')
     ProtocolConfiguration = Shapes::StructureShape.new(name: 'ProtocolConfiguration')
     ProviderPrefix = Shapes::StructureShape.new(name: 'ProviderPrefix')
@@ -1028,6 +1034,7 @@ module Aws::BedrockAgentCoreControl
     SessionStorageConfiguration = Shapes::StructureShape.new(name: 'SessionStorageConfiguration')
     SetTokenVaultCMKRequest = Shapes::StructureShape.new(name: 'SetTokenVaultCMKRequest')
     SetTokenVaultCMKResponse = Shapes::StructureShape.new(name: 'SetTokenVaultCMKResponse')
+    SigningAlgorithm = Shapes::StringShape.new(name: 'SigningAlgorithm')
     SkillDefinition = Shapes::StructureShape.new(name: 'SkillDefinition')
     SkillMdDefinition = Shapes::StructureShape.new(name: 'SkillMdDefinition')
     SlackOauth2ProviderConfigInput = Shapes::StructureShape.new(name: 'SlackOauth2ProviderConfigInput')
@@ -1269,6 +1276,9 @@ module Aws::BedrockAgentCoreControl
     AddDatasetExamplesResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
     AddDatasetExamplesResponse.add_member(:example_ids, Shapes::ShapeRef.new(shape: ExampleIdList, required: true, location_name: "exampleIds"))
     AddDatasetExamplesResponse.struct_class = Types::AddDatasetExamplesResponse
+
+    AdditionalClaims.key = Shapes::ShapeRef.new(shape: AdditionalClaimName)
+    AdditionalClaims.value = Shapes::ShapeRef.new(shape: AdditionalClaimValue)
 
     AdvertisedScopeMappingType.key = Shapes::ShapeRef.new(shape: AllowedScopeType)
     AdvertisedScopeMappingType.value = Shapes::ShapeRef.new(shape: AllowedScopeType)
@@ -2225,16 +2235,18 @@ module Aws::BedrockAgentCoreControl
     CustomOauth2ProviderConfigInput.add_member(:client_secret_source, Shapes::ShapeRef.new(shape: SecretSourceType, location_name: "clientSecretSource"))
     CustomOauth2ProviderConfigInput.add_member(:on_behalf_of_token_exchange_config, Shapes::ShapeRef.new(shape: OnBehalfOfTokenExchangeConfigType, location_name: "onBehalfOfTokenExchangeConfig"))
     CustomOauth2ProviderConfigInput.add_member(:client_authentication_method, Shapes::ShapeRef.new(shape: ClientAuthenticationMethodType, location_name: "clientAuthenticationMethod"))
+    CustomOauth2ProviderConfigInput.add_member(:private_key_jwt_config, Shapes::ShapeRef.new(shape: PrivateKeyJwtConfig, location_name: "privateKeyJwtConfig"))
     CustomOauth2ProviderConfigInput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
     CustomOauth2ProviderConfigInput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
     CustomOauth2ProviderConfigInput.struct_class = Types::CustomOauth2ProviderConfigInput
 
     CustomOauth2ProviderConfigOutput.add_member(:oauth_discovery, Shapes::ShapeRef.new(shape: Oauth2Discovery, required: true, location_name: "oauthDiscovery"))
     CustomOauth2ProviderConfigOutput.add_member(:client_id, Shapes::ShapeRef.new(shape: ClientIdType, location_name: "clientId"))
-    CustomOauth2ProviderConfigOutput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
-    CustomOauth2ProviderConfigOutput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
     CustomOauth2ProviderConfigOutput.add_member(:on_behalf_of_token_exchange_config, Shapes::ShapeRef.new(shape: OnBehalfOfTokenExchangeConfigType, location_name: "onBehalfOfTokenExchangeConfig"))
     CustomOauth2ProviderConfigOutput.add_member(:client_authentication_method, Shapes::ShapeRef.new(shape: ClientAuthenticationMethodType, location_name: "clientAuthenticationMethod"))
+    CustomOauth2ProviderConfigOutput.add_member(:private_endpoint, Shapes::ShapeRef.new(shape: PrivateEndpoint, location_name: "privateEndpoint"))
+    CustomOauth2ProviderConfigOutput.add_member(:private_endpoint_overrides, Shapes::ShapeRef.new(shape: PrivateEndpointOverrides, location_name: "privateEndpointOverrides"))
+    CustomOauth2ProviderConfigOutput.add_member(:private_key_jwt_config, Shapes::ShapeRef.new(shape: PrivateKeyJwtConfig, location_name: "privateKeyJwtConfig"))
     CustomOauth2ProviderConfigOutput.struct_class = Types::CustomOauth2ProviderConfigOutput
 
     CustomParameterMap.key = Shapes::ShapeRef.new(shape: String)
@@ -3691,6 +3703,9 @@ module Aws::BedrockAgentCoreControl
     KmsConfiguration.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "kmsKeyArn"))
     KmsConfiguration.struct_class = Types::KmsConfiguration
 
+    KmsKeySourceType.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, required: true, location_name: "kmsKeyArn"))
+    KmsKeySourceType.struct_class = Types::KmsKeySourceType
+
     LambdaEvaluatorConfig.add_member(:lambda_arn, Shapes::ShapeRef.new(shape: LambdaArn, required: true, location_name: "lambdaArn"))
     LambdaEvaluatorConfig.add_member(:lambda_timeout_in_seconds, Shapes::ShapeRef.new(shape: LambdaEvaluatorConfigLambdaTimeoutInSecondsInteger, location_name: "lambdaTimeoutInSeconds"))
     LambdaEvaluatorConfig.struct_class = Types::LambdaEvaluatorConfig
@@ -4569,6 +4584,18 @@ module Aws::BedrockAgentCoreControl
     PrivateEndpointOverride.struct_class = Types::PrivateEndpointOverride
 
     PrivateEndpointOverrides.member = Shapes::ShapeRef.new(shape: PrivateEndpointOverride)
+
+    PrivateKeyJwtConfig.add_member(:private_key_source, Shapes::ShapeRef.new(shape: PrivateKeySource, location_name: "privateKeySource"))
+    PrivateKeyJwtConfig.add_member(:signing_algorithm, Shapes::ShapeRef.new(shape: SigningAlgorithm, location_name: "signingAlgorithm"))
+    PrivateKeyJwtConfig.add_member(:additional_header_claims, Shapes::ShapeRef.new(shape: AdditionalClaims, location_name: "additionalHeaderClaims"))
+    PrivateKeyJwtConfig.add_member(:additional_payload_claims, Shapes::ShapeRef.new(shape: AdditionalClaims, location_name: "additionalPayloadClaims"))
+    PrivateKeyJwtConfig.struct_class = Types::PrivateKeyJwtConfig
+
+    PrivateKeySource.add_member(:kms_key_source, Shapes::ShapeRef.new(shape: KmsKeySourceType, location_name: "kmsKeySource"))
+    PrivateKeySource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    PrivateKeySource.add_member_subclass(:kms_key_source, Types::PrivateKeySource::KmsKeySource)
+    PrivateKeySource.add_member_subclass(:unknown, Types::PrivateKeySource::Unknown)
+    PrivateKeySource.struct_class = Types::PrivateKeySource
 
     ProtocolConfiguration.add_member(:server_protocol, Shapes::ShapeRef.new(shape: ServerProtocol, required: true, location_name: "serverProtocol"))
     ProtocolConfiguration.struct_class = Types::ProtocolConfiguration

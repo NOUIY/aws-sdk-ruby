@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.60.0 (2026-07-28)
+------------------
+
+* Feature - AgentCore Identity now supports Private Key JWT client authentication for OAuth 2.0 credential providers. Agents can authenticate to identity provider token endpoints with a JWT client assertion signed by a customer-managed AWS KMS asymmetric key, eliminating the need for client secrets.
+
 1.59.0 (2026-07-23)
 ------------------
 

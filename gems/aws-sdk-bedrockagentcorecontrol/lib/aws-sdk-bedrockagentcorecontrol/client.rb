@@ -3592,7 +3592,21 @@ module Aws::BedrockAgentCoreControl
     #             actor_token_scopes: ["ScopeType"],
     #           },
     #         },
-    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
+    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT, PRIVATE_KEY_JWT
+    #         private_key_jwt_config: {
+    #           private_key_source: {
+    #             kms_key_source: {
+    #               kms_key_arn: "KmsKeyArn", # required
+    #             },
+    #           },
+    #           signing_algorithm: "RS256", # accepts RS256, PS256, ES256
+    #           additional_header_claims: {
+    #             "AdditionalClaimName" => "AdditionalClaimValue",
+    #           },
+    #           additional_payload_claims: {
+    #             "AdditionalClaimName" => "AdditionalClaimValue",
+    #           },
+    #         },
     #         private_endpoint: {
     #           self_managed_lattice_resource: {
     #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
@@ -3728,6 +3742,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods #=> Array
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods[0] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_id #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT", "PRIVATE_KEY_JWT"
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
@@ -3750,11 +3769,12 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.private_key_source.kms_key_source.kms_key_arn #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.signing_algorithm #=> String, one of "RS256", "PS256", "ES256"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_header_claims #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_header_claims["AdditionalClaimName"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_payload_claims #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_payload_claims["AdditionalClaimName"] #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -7549,6 +7569,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods #=> Array
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods[0] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_id #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT", "PRIVATE_KEY_JWT"
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
@@ -7571,11 +7596,12 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.private_key_source.kms_key_source.kms_key_arn #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.signing_algorithm #=> String, one of "RS256", "PS256", "ES256"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_header_claims #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_header_claims["AdditionalClaimName"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_payload_claims #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_payload_claims["AdditionalClaimName"] #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -13722,7 +13748,21 @@ module Aws::BedrockAgentCoreControl
     #             actor_token_scopes: ["ScopeType"],
     #           },
     #         },
-    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT
+    #         client_authentication_method: "CLIENT_SECRET_BASIC", # accepts CLIENT_SECRET_BASIC, CLIENT_SECRET_POST, AWS_IAM_ID_TOKEN_JWT, PRIVATE_KEY_JWT
+    #         private_key_jwt_config: {
+    #           private_key_source: {
+    #             kms_key_source: {
+    #               kms_key_arn: "KmsKeyArn", # required
+    #             },
+    #           },
+    #           signing_algorithm: "RS256", # accepts RS256, PS256, ES256
+    #           additional_header_claims: {
+    #             "AdditionalClaimName" => "AdditionalClaimValue",
+    #           },
+    #           additional_payload_claims: {
+    #             "AdditionalClaimName" => "AdditionalClaimValue",
+    #           },
+    #         },
     #         private_endpoint: {
     #           self_managed_lattice_resource: {
     #             resource_configuration_identifier: "ResourceConfigurationIdentifier",
@@ -13856,6 +13896,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods #=> Array
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.token_endpoint_auth_methods[0] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_id #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT", "PRIVATE_KEY_JWT"
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.self_managed_lattice_resource.resource_configuration_identifier #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.vpc_identifier #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint.managed_vpc_resource.subnet_ids #=> Array
@@ -13878,11 +13923,12 @@ module Aws::BedrockAgentCoreControl
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags #=> Hash
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.tags["TagKey"] #=> String
     #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_endpoint_overrides[0].private_endpoint.managed_vpc_resource.routing_domain #=> String
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.grant_type #=> String, one of "TOKEN_EXCHANGE", "JWT_AUTHORIZATION_GRANT"
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_content #=> String, one of "NONE", "M2M", "AWS_IAM_ID_TOKEN_JWT"
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes #=> Array
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.on_behalf_of_token_exchange_config.token_exchange_grant_type_config.actor_token_scopes[0] #=> String
-    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.client_authentication_method #=> String, one of "CLIENT_SECRET_BASIC", "CLIENT_SECRET_POST", "AWS_IAM_ID_TOKEN_JWT"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.private_key_source.kms_key_source.kms_key_arn #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.signing_algorithm #=> String, one of "RS256", "PS256", "ES256"
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_header_claims #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_header_claims["AdditionalClaimName"] #=> String
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_payload_claims #=> Hash
+    #   resp.oauth2_provider_config_output.custom_oauth_2_provider_config.private_key_jwt_config.additional_payload_claims["AdditionalClaimName"] #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.discovery_url #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.issuer #=> String
     #   resp.oauth2_provider_config_output.google_oauth_2_provider_config.oauth_discovery.authorization_server_metadata.authorization_endpoint #=> String
@@ -15079,7 +15125,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.59.0'
+      context[:gem_version] = '1.60.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
