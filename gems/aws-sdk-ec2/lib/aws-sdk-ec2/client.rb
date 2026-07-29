@@ -17051,6 +17051,75 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Creates an entry in a transit gateway policy table to route matching
+    # traffic to a specified route table.
+    #
+    # @option params [required, String] :transit_gateway_policy_table_id
+    #   The ID of the transit gateway policy table.
+    #
+    # @option params [required, String] :policy_rule_number
+    #   The rule number for the policy table entry. Lower rule numbers are
+    #   evaluated first and take precedence.
+    #
+    # @option params [Types::TransitGatewayRequestPolicyRule] :policy_rule
+    #   The matching criteria for the policy table entry.
+    #
+    # @option params [required, String] :target_route_table_id
+    #   The ID of the transit gateway route table to use for traffic matching
+    #   this rule.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::CreateTransitGatewayPolicyTableEntryResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTransitGatewayPolicyTableEntryResult#transit_gateway_policy_table_entry #transit_gateway_policy_table_entry} => Types::TransitGatewayPolicyTableEntry
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_transit_gateway_policy_table_entry({
+    #     transit_gateway_policy_table_id: "TransitGatewayPolicyTableId", # required
+    #     policy_rule_number: "String", # required
+    #     policy_rule: {
+    #       source_cidr_block: "String",
+    #       source_port_range: "String",
+    #       destination_cidr_block: "String",
+    #       destination_port_range: "String",
+    #       protocol: "String",
+    #       meta_data: {
+    #         meta_data_key: "String",
+    #         meta_data_value: "String",
+    #       },
+    #     },
+    #     target_route_table_id: "TransitGatewayRouteTableId", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.transit_gateway_policy_table_entry.policy_rule_number #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.source_cidr_block #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.source_port_range #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.destination_cidr_block #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.destination_port_range #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.protocol #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.meta_data.meta_data_key #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.meta_data.meta_data_value #=> String
+    #   resp.transit_gateway_policy_table_entry.target_route_table_id #=> String
+    #   resp.transit_gateway_policy_table_entry.state #=> String, one of "active", "deleted"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayPolicyTableEntry AWS API Documentation
+    #
+    # @overload create_transit_gateway_policy_table_entry(params = {})
+    # @param [Hash] params ({})
+    def create_transit_gateway_policy_table_entry(params = {}, options = {})
+      req = build_request(:create_transit_gateway_policy_table_entry, params)
+      req.send_request(options)
+    end
+
     # Creates a reference (route) to a prefix list in a specified transit
     # gateway route table.
     #
@@ -23382,6 +23451,54 @@ module Aws::EC2
     # @param [Hash] params ({})
     def delete_transit_gateway_policy_table(params = {}, options = {})
       req = build_request(:delete_transit_gateway_policy_table, params)
+      req.send_request(options)
+    end
+
+    # Deletes the specified transit gateway policy table entry.
+    #
+    # @option params [required, String] :transit_gateway_policy_table_id
+    #   The ID of the transit gateway policy table.
+    #
+    # @option params [required, String] :policy_rule_number
+    #   The rule number of the policy table entry to delete.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::DeleteTransitGatewayPolicyTableEntryResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteTransitGatewayPolicyTableEntryResult#transit_gateway_policy_table_entry #transit_gateway_policy_table_entry} => Types::TransitGatewayPolicyTableEntry
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_transit_gateway_policy_table_entry({
+    #     transit_gateway_policy_table_id: "TransitGatewayPolicyTableId", # required
+    #     policy_rule_number: "String", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.transit_gateway_policy_table_entry.policy_rule_number #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.source_cidr_block #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.source_port_range #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.destination_cidr_block #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.destination_port_range #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.protocol #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.meta_data.meta_data_key #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.meta_data.meta_data_value #=> String
+    #   resp.transit_gateway_policy_table_entry.target_route_table_id #=> String
+    #   resp.transit_gateway_policy_table_entry.state #=> String, one of "active", "deleted"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayPolicyTableEntry AWS API Documentation
+    #
+    # @overload delete_transit_gateway_policy_table_entry(params = {})
+    # @param [Hash] params ({})
+    def delete_transit_gateway_policy_table_entry(params = {}, options = {})
+      req = build_request(:delete_transit_gateway_policy_table_entry, params)
       req.send_request(options)
     end
 
@@ -43916,6 +44033,7 @@ module Aws::EC2
     #   resp.transit_gateway_attachments[0].resource_id #=> String
     #   resp.transit_gateway_attachments[0].state #=> String, one of "initiating", "initiatingRequest", "pendingAcceptance", "rollingBack", "pending", "available", "modifying", "deleting", "deleted", "failed", "rejected", "rejecting", "failing"
     #   resp.transit_gateway_attachments[0].association.transit_gateway_route_table_id #=> String
+    #   resp.transit_gateway_attachments[0].association.transit_gateway_policy_table_id #=> String
     #   resp.transit_gateway_attachments[0].association.state #=> String, one of "associating", "associated", "disassociating", "disassociated"
     #   resp.transit_gateway_attachments[0].creation_time #=> Time
     #   resp.transit_gateway_attachments[0].tags #=> Array
@@ -56535,7 +56653,30 @@ module Aws::EC2
     #   The ID of the transit gateway policy table.
     #
     # @option params [Array<Types::Filter>] :filters
-    #   The filters associated with the transit gateway policy table.
+    #   One or more filters. The possible values are:
+    #
+    #   * `policy-rule-number` - The rule number for the transit gateway
+    #     policy table entry.
+    #
+    #   * `target-route-table-id` - The ID of the target route table.
+    #
+    #   * `policy-rule.source-ip` - The source CIDR block for the policy rule.
+    #
+    #   * `policy-rule.destination-ip` - The destination CIDR block for the
+    #     policy rule.
+    #
+    #   * `policy-rule.source-port` - The source port or port range for the
+    #     policy rule.
+    #
+    #   * `policy-rule.destination-port` - The destination port or port range
+    #     for the policy rule.
+    #
+    #   * `policy-rule.protocol` - The protocol for the policy rule.
+    #
+    #   * `policy-rule.meta-data.key` - The metadata key for the policy rule.
+    #
+    #   * `policy-rule.meta-data.value` - The metadata value for the policy
+    #     rule.
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return with a single call. To
@@ -56554,6 +56695,9 @@ module Aws::EC2
     # @return [Types::GetTransitGatewayPolicyTableEntriesResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetTransitGatewayPolicyTableEntriesResult#transit_gateway_policy_table_entries #transit_gateway_policy_table_entries} => Array&lt;Types::TransitGatewayPolicyTableEntry&gt;
+    #   * {Types::GetTransitGatewayPolicyTableEntriesResult#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -56582,6 +56726,8 @@ module Aws::EC2
     #   resp.transit_gateway_policy_table_entries[0].policy_rule.meta_data.meta_data_key #=> String
     #   resp.transit_gateway_policy_table_entries[0].policy_rule.meta_data.meta_data_value #=> String
     #   resp.transit_gateway_policy_table_entries[0].target_route_table_id #=> String
+    #   resp.transit_gateway_policy_table_entries[0].state #=> String, one of "active", "deleted"
+    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayPolicyTableEntries AWS API Documentation
     #
@@ -63421,6 +63567,74 @@ module Aws::EC2
     # @param [Hash] params ({})
     def modify_transit_gateway_metering_policy(params = {}, options = {})
       req = build_request(:modify_transit_gateway_metering_policy, params)
+      req.send_request(options)
+    end
+
+    # Modifies the specified transit gateway policy table entry.
+    #
+    # @option params [required, String] :transit_gateway_policy_table_id
+    #   The ID of the transit gateway policy table.
+    #
+    # @option params [required, String] :policy_rule_number
+    #   The rule number of the policy table entry to modify.
+    #
+    # @option params [Types::TransitGatewayRequestPolicyRule] :policy_rule
+    #   The updated matching criteria for the policy table entry. Unspecified
+    #   fields retain their current values.
+    #
+    # @option params [String] :target_route_table_id
+    #   The ID of the transit gateway route table to use for traffic matching
+    #   this rule.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::ModifyTransitGatewayPolicyTableEntryResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyTransitGatewayPolicyTableEntryResult#transit_gateway_policy_table_entry #transit_gateway_policy_table_entry} => Types::TransitGatewayPolicyTableEntry
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_transit_gateway_policy_table_entry({
+    #     transit_gateway_policy_table_id: "TransitGatewayPolicyTableId", # required
+    #     policy_rule_number: "String", # required
+    #     policy_rule: {
+    #       source_cidr_block: "String",
+    #       source_port_range: "String",
+    #       destination_cidr_block: "String",
+    #       destination_port_range: "String",
+    #       protocol: "String",
+    #       meta_data: {
+    #         meta_data_key: "String",
+    #         meta_data_value: "String",
+    #       },
+    #     },
+    #     target_route_table_id: "TransitGatewayRouteTableId",
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.transit_gateway_policy_table_entry.policy_rule_number #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.source_cidr_block #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.source_port_range #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.destination_cidr_block #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.destination_port_range #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.protocol #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.meta_data.meta_data_key #=> String
+    #   resp.transit_gateway_policy_table_entry.policy_rule.meta_data.meta_data_value #=> String
+    #   resp.transit_gateway_policy_table_entry.target_route_table_id #=> String
+    #   resp.transit_gateway_policy_table_entry.state #=> String, one of "active", "deleted"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTransitGatewayPolicyTableEntry AWS API Documentation
+    #
+    # @overload modify_transit_gateway_policy_table_entry(params = {})
+    # @param [Hash] params ({})
+    def modify_transit_gateway_policy_table_entry(params = {}, options = {})
+      req = build_request(:modify_transit_gateway_policy_table_entry, params)
       req.send_request(options)
     end
 
@@ -74416,7 +74630,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.632.0'
+      context[:gem_version] = '1.633.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

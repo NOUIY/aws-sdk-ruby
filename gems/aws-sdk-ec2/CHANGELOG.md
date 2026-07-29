@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.633.0 (2026-07-29)
+------------------
+
+* Feature - This release adds support for policy-based routing on AWS Transit Gateway, enabling you to route traffic based on 5-tuple matching (source IP, destination IP, source port, destination port, and protocol) using new policy table entry APIs that direct matching traffic to a target route table.
+
 1.632.0 (2026-07-10)
 ------------------
 

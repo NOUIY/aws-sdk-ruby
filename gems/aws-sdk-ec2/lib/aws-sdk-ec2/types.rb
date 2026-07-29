@@ -15786,6 +15786,55 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] transit_gateway_policy_table_id
+    #   The ID of the transit gateway policy table.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_rule_number
+    #   The rule number for the policy table entry. Lower rule numbers are
+    #   evaluated first and take precedence.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_rule
+    #   The matching criteria for the policy table entry.
+    #   @return [Types::TransitGatewayRequestPolicyRule]
+    #
+    # @!attribute [rw] target_route_table_id
+    #   The ID of the transit gateway route table to use for traffic
+    #   matching this rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayPolicyTableEntryRequest AWS API Documentation
+    #
+    class CreateTransitGatewayPolicyTableEntryRequest < Struct.new(
+      :transit_gateway_policy_table_id,
+      :policy_rule_number,
+      :policy_rule,
+      :target_route_table_id,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_policy_table_entry
+    #   Describes a transit gateway policy table entry
+    #   @return [Types::TransitGatewayPolicyTableEntry]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayPolicyTableEntryResult AWS API Documentation
+    #
+    class CreateTransitGatewayPolicyTableEntryResult < Struct.new(
+      :transit_gateway_policy_table_entry)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] transit_gateway_id
     #   The ID of the transit gateway used for the policy table.
     #   @return [String]
@@ -16107,7 +16156,13 @@ module Aws::EC2
     #   @return [String]
     #
     # @!attribute [rw] ipv_6_support
-    #   Enable or disable IPv6 support. The default is `disable`.
+    #   Specifies whether IPv6 support is enabled for the attachment. When
+    #   enabled, the transit gateway network interface receives an IPv6
+    #   address. When you enable route propagation, IPv6 VPC CIDRs propagate
+    #   to the transit gateway route tables. When disabled, the network
+    #   interface does not receive an IPv6 address, and IPv6 routes do not
+    #   propagate. The setting does not filter IPv6 traffic. The default is
+    #   `disable`.
     #   @return [String]
     #
     # @!attribute [rw] appliance_mode_support
@@ -20712,6 +20767,43 @@ module Aws::EC2
     #
     class DeleteTransitGatewayPeeringAttachmentResult < Struct.new(
       :transit_gateway_peering_attachment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_policy_table_id
+    #   The ID of the transit gateway policy table.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_rule_number
+    #   The rule number of the policy table entry to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayPolicyTableEntryRequest AWS API Documentation
+    #
+    class DeleteTransitGatewayPolicyTableEntryRequest < Struct.new(
+      :transit_gateway_policy_table_id,
+      :policy_rule_number,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_policy_table_entry
+    #   Describes a transit gateway policy table entry
+    #   @return [Types::TransitGatewayPolicyTableEntry]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayPolicyTableEntryResult AWS API Documentation
+    #
+    class DeleteTransitGatewayPolicyTableEntryResult < Struct.new(
+      :transit_gateway_policy_table_entry)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -47407,7 +47499,32 @@ module Aws::EC2
     #   @return [String]
     #
     # @!attribute [rw] filters
-    #   The filters associated with the transit gateway policy table.
+    #   One or more filters. The possible values are:
+    #
+    #   * `policy-rule-number` - The rule number for the transit gateway
+    #     policy table entry.
+    #
+    #   * `target-route-table-id` - The ID of the target route table.
+    #
+    #   * `policy-rule.source-ip` - The source CIDR block for the policy
+    #     rule.
+    #
+    #   * `policy-rule.destination-ip` - The destination CIDR block for the
+    #     policy rule.
+    #
+    #   * `policy-rule.source-port` - The source port or port range for the
+    #     policy rule.
+    #
+    #   * `policy-rule.destination-port` - The destination port or port
+    #     range for the policy rule.
+    #
+    #   * `policy-rule.protocol` - The protocol for the policy rule.
+    #
+    #   * `policy-rule.meta-data.key` - The metadata key for the policy
+    #     rule.
+    #
+    #   * `policy-rule.meta-data.value` - The metadata value for the policy
+    #     rule.
     #   @return [Array<Types::Filter>]
     #
     # @!attribute [rw] max_results
@@ -47443,10 +47560,16 @@ module Aws::EC2
     #   The entries for the transit gateway policy table.
     #   @return [Array<Types::TransitGatewayPolicyTableEntry>]
     #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results. This value is
+    #   `null` when there are no more results to return.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayPolicyTableEntriesResult AWS API Documentation
     #
     class GetTransitGatewayPolicyTableEntriesResult < Struct.new(
-      :transit_gateway_policy_table_entries)
+      :transit_gateway_policy_table_entries,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -65133,6 +65256,55 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] transit_gateway_policy_table_id
+    #   The ID of the transit gateway policy table.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_rule_number
+    #   The rule number of the policy table entry to modify.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_rule
+    #   The updated matching criteria for the policy table entry.
+    #   Unspecified fields retain their current values.
+    #   @return [Types::TransitGatewayRequestPolicyRule]
+    #
+    # @!attribute [rw] target_route_table_id
+    #   The ID of the transit gateway route table to use for traffic
+    #   matching this rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTransitGatewayPolicyTableEntryRequest AWS API Documentation
+    #
+    class ModifyTransitGatewayPolicyTableEntryRequest < Struct.new(
+      :transit_gateway_policy_table_id,
+      :policy_rule_number,
+      :policy_rule,
+      :target_route_table_id,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] transit_gateway_policy_table_entry
+    #   Describes a transit gateway policy table entry
+    #   @return [Types::TransitGatewayPolicyTableEntry]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTransitGatewayPolicyTableEntryResult AWS API Documentation
+    #
+    class ModifyTransitGatewayPolicyTableEntryResult < Struct.new(
+      :transit_gateway_policy_table_entry)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] transit_gateway_route_table_id
     #   The ID of the transit gateway route table.
     #   @return [String]
@@ -65280,7 +65452,12 @@ module Aws::EC2
     #   @return [String]
     #
     # @!attribute [rw] ipv_6_support
-    #   Enable or disable IPv6 support. The default is `enable`.
+    #   Specifies whether IPv6 support is enabled for the attachment. When
+    #   enabled, the transit gateway network interface receives an IPv6
+    #   address. When you enable route propagation, IPv6 VPC CIDRs propagate
+    #   to the transit gateway route tables. When disabled, the network
+    #   interface does not receive an IPv6 address, and IPv6 routes do not
+    #   propagate. The setting does not filter IPv6 traffic.
     #   @return [String]
     #
     # @!attribute [rw] appliance_mode_support
@@ -83193,6 +83370,11 @@ module Aws::EC2
     #   The ID of the route table for the transit gateway.
     #   @return [String]
     #
+    # @!attribute [rw] transit_gateway_policy_table_id
+    #   The ID of the transit gateway policy table associated with the
+    #   attachment.
+    #   @return [String]
+    #
     # @!attribute [rw] state
     #   The state of the association.
     #   @return [String]
@@ -83201,6 +83383,7 @@ module Aws::EC2
     #
     class TransitGatewayAttachmentAssociation < Struct.new(
       :transit_gateway_route_table_id,
+      :transit_gateway_policy_table_id,
       :state)
       SENSITIVE = []
       include Aws::Structure
@@ -84123,8 +84306,7 @@ module Aws::EC2
     #   @return [String]
     #
     # @!attribute [rw] source_port_range
-    #   The port range for the transit gateway policy rule. Currently this
-    #   is set to * (all).
+    #   The source port or port range for the transit gateway policy rule.
     #   @return [String]
     #
     # @!attribute [rw] destination_cidr_block
@@ -84132,8 +84314,8 @@ module Aws::EC2
     #   @return [String]
     #
     # @!attribute [rw] destination_port_range
-    #   The port range for the transit gateway policy rule. Currently this
-    #   is set to * (all).
+    #   The destination port or port range for the transit gateway policy
+    #   rule.
     #   @return [String]
     #
     # @!attribute [rw] protocol
@@ -84260,12 +84442,17 @@ module Aws::EC2
     #   The ID of the target route table.
     #   @return [String]
     #
+    # @!attribute [rw] state
+    #   The state of the transit gateway policy table entry.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TransitGatewayPolicyTableEntry AWS API Documentation
     #
     class TransitGatewayPolicyTableEntry < Struct.new(
       :policy_rule_number,
       :policy_rule,
-      :target_route_table_id)
+      :target_route_table_id,
+      :state)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -84443,6 +84630,69 @@ module Aws::EC2
       :security_group_referencing_support,
       :multicast_support,
       :transit_gateway_cidr_blocks)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The matching criteria for a transit gateway policy table entry.
+    #
+    # @!attribute [rw] source_cidr_block
+    #   The source CIDR block for the policy rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_port_range
+    #   The source port or port range for the policy rule. You can specify a
+    #   port range only when `Protocol` is `6` (TCP) or `17` (UDP); for all
+    #   other protocols, this value must be `*`.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_cidr_block
+    #   The destination CIDR block for the policy rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_port_range
+    #   The destination port or port range for the policy rule. You can
+    #   specify a port range only when `Protocol` is `6` (TCP) or `17`
+    #   (UDP); for all other protocols, this value must be `*`.
+    #   @return [String]
+    #
+    # @!attribute [rw] protocol
+    #   The protocol for the policy rule. Valid values are `1` (ICMP), `6`
+    #   (TCP), `17` (UDP), `47` (GRE), or `*` for all protocols.
+    #   @return [String]
+    #
+    # @!attribute [rw] meta_data
+    #   The metadata key-value pair for the policy rule.
+    #   @return [Types::TransitGatewayRequestPolicyRuleMetaData]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TransitGatewayRequestPolicyRule AWS API Documentation
+    #
+    class TransitGatewayRequestPolicyRule < Struct.new(
+      :source_cidr_block,
+      :source_port_range,
+      :destination_cidr_block,
+      :destination_port_range,
+      :protocol,
+      :meta_data)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A metadata key-value pair for a transit gateway policy rule.
+    #
+    # @!attribute [rw] meta_data_key
+    #   The key of the metadata pair for the policy rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] meta_data_value
+    #   The value of the metadata pair for the policy rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TransitGatewayRequestPolicyRuleMetaData AWS API Documentation
+    #
+    class TransitGatewayRequestPolicyRuleMetaData < Struct.new(
+      :meta_data_key,
+      :meta_data_value)
       SENSITIVE = []
       include Aws::Structure
     end

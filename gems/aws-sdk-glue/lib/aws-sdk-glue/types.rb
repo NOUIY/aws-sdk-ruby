@@ -1827,6 +1827,33 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # Configuration that defines how BETWEEN range filter operations are
+    # translated into REST API request parameters.
+    #
+    # @!attribute [rw] low_bound_key
+    #   The parameter name used for the lower bound value in a BETWEEN
+    #   filter operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] high_bound_key
+    #   The parameter name used for the upper bound value in a BETWEEN
+    #   filter operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] template
+    #   A template string for constructing the BETWEEN filter expression.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BetweenConfiguration AWS API Documentation
+    #
+    class BetweenConfiguration < Struct.new(
+      :low_bound_key,
+      :high_bound_key,
+      :template)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Defines column statistics supported for bit sequence data values.
     #
     # @!attribute [rw] maximum_length
@@ -5024,6 +5051,13 @@ module Aws::Glue
     #   The data type of this property
     #   @return [String]
     #
+    # @!attribute [rw] format
+    #   A format template for the property value that defines how the value
+    #   should be formatted before sending it in API requests. Use `{value}`
+    #   as a placeholder for the actual property value (for example, `SSWS
+    #   {value}`).
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ConnectorProperty AWS API Documentation
     #
     class ConnectorProperty < Struct.new(
@@ -5033,7 +5067,8 @@ module Aws::Glue
       :default_value,
       :allowed_values,
       :property_location,
-      :property_type)
+      :property_type,
+      :format)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12453,11 +12488,48 @@ module Aws::Glue
     #   The data type of the field.
     #   @return [String]
     #
+    # @!attribute [rw] response_date_format
+    #   The format pattern for parsing date values from API responses.
+    #   Required when the API uses a non-ISO-8601 format. Accepts Java
+    #   `DateTimeFormatter` patterns (for example, `EEE, d MMM yyyy HH:mm:ss
+    #   Z`), `EPOCH_SECONDS` for Unix epoch seconds, or `EPOCH_MILLIS` for
+    #   Unix epoch milliseconds.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_partitionable
+    #   Indicates whether this field can be used for partitioning queries to
+    #   the data source.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_nullable
+    #   Indicates whether this field can contain null values.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_queryable
+    #   Indicates whether this field can be used in filter predicates when
+    #   querying data.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] is_orderable
+    #   Indicates whether this field can be used for ordering results.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] filter_overrides
+    #   Per-field overrides for filter behavior, allowing customization of
+    #   how filters are applied to this specific field.
+    #   @return [Types::FilterOverrides]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/FieldDefinition AWS API Documentation
     #
     class FieldDefinition < Struct.new(
       :name,
-      :field_data_type)
+      :field_data_type,
+      :response_date_format,
+      :is_partitionable,
+      :is_nullable,
+      :is_queryable,
+      :is_orderable,
+      :filter_overrides)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12527,6 +12599,59 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # Configuration that defines how filter predicates are applied to REST
+    # API requests, supporting both query parameter and filter string
+    # strategies.
+    #
+    # @!attribute [rw] filter_mode
+    #   The strategy for applying filters to requests. Use `QUERY_PARAMS` to
+    #   pass filters as individual query parameters, or `FILTER_STRING` to
+    #   construct a single filter expression string.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator_mappings
+    #   A map of logical filter operators to their API-specific string
+    #   representations. Supported operator keys are: `EQUAL_TO`,
+    #   `NOT_EQUAL_TO`, `LESS_THAN`, `GREATER_THAN`,
+    #   `LESS_THAN_OR_EQUAL_TO`, `GREATER_THAN_OR_EQUAL_TO`, `CONTAINS`,
+    #   `BETWEEN`, `AND`, and `OR`.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] date_time_format
+    #   The global date and time format for filter expressions. Accepts Java
+    #   `DateTimeFormatter` patterns (for example, `EEE, d MMM yyyy HH:mm:ss
+    #   Z`), `EPOCH_SECONDS` for Unix epoch seconds, or `EPOCH_MILLIS` for
+    #   Unix epoch milliseconds. If not specified, values are passed as-is
+    #   in ISO-8601 format.
+    #   @return [String]
+    #
+    # @!attribute [rw] strip_quotes
+    #   Indicates whether surrounding double quotes should be stripped from
+    #   filter values before processing.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] between_configuration
+    #   Configuration for handling BETWEEN range filter operations.
+    #   @return [Types::BetweenConfiguration]
+    #
+    # @!attribute [rw] filter_string_configuration
+    #   Configuration for constructing filter expressions when `FilterMode`
+    #   is set to `FILTER_STRING`.
+    #   @return [Types::FilterStringConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/FilterConfiguration AWS API Documentation
+    #
+    class FilterConfiguration < Struct.new(
+      :filter_mode,
+      :operator_mappings,
+      :date_time_format,
+      :strip_quotes,
+      :between_configuration,
+      :filter_string_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies a filter expression.
     #
     # @!attribute [rw] operation
@@ -12547,6 +12672,75 @@ module Aws::Glue
       :operation,
       :negated,
       :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration that defines per-field overrides for filter behavior,
+    # allowing individual fields to customize how filter operations are
+    # applied.
+    #
+    # @!attribute [rw] field_name
+    #   An override for the field name to use in filter expressions, if
+    #   different from the schema field name.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator_mappings
+    #   A map of logical filter operators to their field-specific API
+    #   representations, overriding the global operator mappings. Supported
+    #   operator keys are: `EQUAL_TO`, `NOT_EQUAL_TO`, `LESS_THAN`,
+    #   `GREATER_THAN`, `LESS_THAN_OR_EQUAL_TO`, `GREATER_THAN_OR_EQUAL_TO`,
+    #   `CONTAINS`, `BETWEEN`, `AND`, and `OR`.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] between_configuration
+    #   Field-specific configuration for handling BETWEEN range filter
+    #   operations.
+    #   @return [Types::BetweenConfiguration]
+    #
+    # @!attribute [rw] date_time_format
+    #   The date and time format for filter expressions on this field,
+    #   overriding the global `DateTimeFormat`. Accepts Java
+    #   `DateTimeFormatter` patterns (for example, `EEE, d MMM yyyy HH:mm:ss
+    #   Z`), `EPOCH_SECONDS` for Unix epoch seconds, or `EPOCH_MILLIS` for
+    #   Unix epoch milliseconds.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/FilterOverrides AWS API Documentation
+    #
+    class FilterOverrides < Struct.new(
+      :field_name,
+      :operator_mappings,
+      :between_configuration,
+      :date_time_format)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for constructing filter expression strings when using
+    # the `FILTER_STRING` filter mode.
+    #
+    # @!attribute [rw] query_parameter_name
+    #   The query parameter name used to send the constructed filter
+    #   expression string in API requests.
+    #   @return [String]
+    #
+    # @!attribute [rw] quote_string_values
+    #   Indicates whether string and date values should be wrapped with a
+    #   quote character in the filter expression.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] quote_character
+    #   The character used to quote values when `QuoteStringValues` is true.
+    #   Defaults to double quotes if not specified.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/FilterStringConfiguration AWS API Documentation
+    #
+    class FilterStringConfiguration < Struct.new(
+      :query_parameter_name,
+      :quote_string_values,
+      :quote_character)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -28212,6 +28406,12 @@ module Aws::Glue
     #   supporting both cursor-based and offset-based pagination strategies.
     #   @return [Types::PaginationConfiguration]
     #
+    # @!attribute [rw] filter_configuration
+    #   Configuration for applying filter pushdown to REST API requests,
+    #   defining how filter predicates are translated into query parameters
+    #   or filter strings.
+    #   @return [Types::FilterConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SourceConfiguration AWS API Documentation
     #
     class SourceConfiguration < Struct.new(
@@ -28219,7 +28419,8 @@ module Aws::Glue
       :request_path,
       :request_parameters,
       :response_configuration,
-      :pagination_configuration)
+      :pagination_configuration,
+      :filter_configuration)
       SENSITIVE = []
       include Aws::Structure
     end

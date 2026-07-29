@@ -517,6 +517,13 @@ module Aws::Glue
       SENSITIVE: []
     end
 
+    class BetweenConfiguration
+      attr_accessor low_bound_key: ::String
+      attr_accessor high_bound_key: ::String
+      attr_accessor template: ::String
+      SENSITIVE: []
+    end
+
     class BinaryColumnStatisticsData
       attr_accessor maximum_length: ::Integer
       attr_accessor average_length: ::Float
@@ -1201,6 +1208,7 @@ module Aws::Glue
       attr_accessor allowed_values: ::Array[::String]
       attr_accessor property_location: ("HEADER" | "BODY" | "QUERY_PARAM" | "PATH")
       attr_accessor property_type: ("USER_INPUT" | "SECRET" | "READ_ONLY" | "UNUSED" | "SECRET_OR_USER_INPUT")
+      attr_accessor format: ::String
       SENSITIVE: []
     end
 
@@ -3051,6 +3059,12 @@ module Aws::Glue
     class FieldDefinition
       attr_accessor name: ::String
       attr_accessor field_data_type: ("INT" | "SMALLINT" | "BIGINT" | "FLOAT" | "LONG" | "DATE" | "BOOLEAN" | "MAP" | "ARRAY" | "STRING" | "TIMESTAMP" | "DECIMAL" | "BYTE" | "SHORT" | "DOUBLE" | "STRUCT" | "BINARY" | "UNION")
+      attr_accessor response_date_format: ::String
+      attr_accessor is_partitionable: bool
+      attr_accessor is_nullable: bool
+      attr_accessor is_queryable: bool
+      attr_accessor is_orderable: bool
+      attr_accessor filter_overrides: Types::FilterOverrides
       SENSITIVE: []
     end
 
@@ -3070,10 +3084,35 @@ module Aws::Glue
       SENSITIVE: []
     end
 
+    class FilterConfiguration
+      attr_accessor filter_mode: ("QUERY_PARAMS" | "FILTER_STRING")
+      attr_accessor operator_mappings: ::Hash[::String, ::String]
+      attr_accessor date_time_format: ::String
+      attr_accessor strip_quotes: bool
+      attr_accessor between_configuration: Types::BetweenConfiguration
+      attr_accessor filter_string_configuration: Types::FilterStringConfiguration
+      SENSITIVE: []
+    end
+
     class FilterExpression
       attr_accessor operation: ("EQ" | "LT" | "GT" | "LTE" | "GTE" | "REGEX" | "ISNULL")
       attr_accessor negated: bool
       attr_accessor values: ::Array[Types::FilterValue]
+      SENSITIVE: []
+    end
+
+    class FilterOverrides
+      attr_accessor field_name: ::String
+      attr_accessor operator_mappings: ::Hash[::String, ::String]
+      attr_accessor between_configuration: Types::BetweenConfiguration
+      attr_accessor date_time_format: ::String
+      SENSITIVE: []
+    end
+
+    class FilterStringConfiguration
+      attr_accessor query_parameter_name: ::String
+      attr_accessor quote_string_values: bool
+      attr_accessor quote_character: ::String
       SENSITIVE: []
     end
 
@@ -6981,6 +7020,7 @@ module Aws::Glue
       attr_accessor request_parameters: ::Array[Types::ConnectorProperty]
       attr_accessor response_configuration: Types::ResponseConfiguration
       attr_accessor pagination_configuration: Types::PaginationConfiguration
+      attr_accessor filter_configuration: Types::FilterConfiguration
       SENSITIVE: []
     end
 

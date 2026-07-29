@@ -3410,6 +3410,20 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class CreateTransitGatewayPolicyTableEntryRequest
+      attr_accessor transit_gateway_policy_table_id: ::String
+      attr_accessor policy_rule_number: ::String
+      attr_accessor policy_rule: Types::TransitGatewayRequestPolicyRule
+      attr_accessor target_route_table_id: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class CreateTransitGatewayPolicyTableEntryResult
+      attr_accessor transit_gateway_policy_table_entry: Types::TransitGatewayPolicyTableEntry
+      SENSITIVE: []
+    end
+
     class CreateTransitGatewayPolicyTableRequest
       attr_accessor transit_gateway_id: ::String
       attr_accessor tag_specifications: ::Array[Types::TagSpecification]
@@ -4720,6 +4734,18 @@ module Aws::EC2
 
     class DeleteTransitGatewayPeeringAttachmentResult
       attr_accessor transit_gateway_peering_attachment: Types::TransitGatewayPeeringAttachment
+      SENSITIVE: []
+    end
+
+    class DeleteTransitGatewayPolicyTableEntryRequest
+      attr_accessor transit_gateway_policy_table_id: ::String
+      attr_accessor policy_rule_number: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class DeleteTransitGatewayPolicyTableEntryResult
+      attr_accessor transit_gateway_policy_table_entry: Types::TransitGatewayPolicyTableEntry
       SENSITIVE: []
     end
 
@@ -10461,6 +10487,7 @@ module Aws::EC2
 
     class GetTransitGatewayPolicyTableEntriesResult
       attr_accessor transit_gateway_policy_table_entries: ::Array[Types::TransitGatewayPolicyTableEntry]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -13957,6 +13984,20 @@ module Aws::EC2
       attr_accessor propagation_default_route_table_id: ::String
       attr_accessor amazon_side_asn: ::Integer
       attr_accessor encryption_support: ("enable" | "disable")
+      SENSITIVE: []
+    end
+
+    class ModifyTransitGatewayPolicyTableEntryRequest
+      attr_accessor transit_gateway_policy_table_id: ::String
+      attr_accessor policy_rule_number: ::String
+      attr_accessor policy_rule: Types::TransitGatewayRequestPolicyRule
+      attr_accessor target_route_table_id: ::String
+      attr_accessor dry_run: bool
+      SENSITIVE: []
+    end
+
+    class ModifyTransitGatewayPolicyTableEntryResult
+      attr_accessor transit_gateway_policy_table_entry: Types::TransitGatewayPolicyTableEntry
       SENSITIVE: []
     end
 
@@ -17844,6 +17885,7 @@ module Aws::EC2
 
     class TransitGatewayAttachmentAssociation
       attr_accessor transit_gateway_route_table_id: ::String
+      attr_accessor transit_gateway_policy_table_id: ::String
       attr_accessor state: ("associating" | "associated" | "disassociating" | "disassociated")
       SENSITIVE: []
     end
@@ -18114,6 +18156,7 @@ module Aws::EC2
       attr_accessor policy_rule_number: ::String
       attr_accessor policy_rule: Types::TransitGatewayPolicyRule
       attr_accessor target_route_table_id: ::String
+      attr_accessor state: ("active" | "deleted")
       SENSITIVE: []
     end
 
@@ -18154,6 +18197,22 @@ module Aws::EC2
       attr_accessor security_group_referencing_support: ("enable" | "disable")
       attr_accessor multicast_support: ("enable" | "disable")
       attr_accessor transit_gateway_cidr_blocks: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class TransitGatewayRequestPolicyRule
+      attr_accessor source_cidr_block: ::String
+      attr_accessor source_port_range: ::String
+      attr_accessor destination_cidr_block: ::String
+      attr_accessor destination_port_range: ::String
+      attr_accessor protocol: ::String
+      attr_accessor meta_data: Types::TransitGatewayRequestPolicyRuleMetaData
+      SENSITIVE: []
+    end
+
+    class TransitGatewayRequestPolicyRuleMetaData
+      attr_accessor meta_data_key: ::String
+      attr_accessor meta_data_value: ::String
       SENSITIVE: []
     end
 

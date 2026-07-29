@@ -482,6 +482,18 @@ module Aws
       }?
     }
 
+      type transit_gateway_request_policy_rule = {
+      source_cidr_block: ::String?,
+      source_port_range: ::String?,
+      destination_cidr_block: ::String?,
+      destination_port_range: ::String?,
+      protocol: ::String?,
+      meta_data: {
+        meta_data_key: ::String?,
+        meta_data_value: ::String?
+      }?
+    }
+
       type cloud_watch_log_options_specification = {
       log_enabled: bool?,
       log_group_arn: ::String?,

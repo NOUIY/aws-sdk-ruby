@@ -3760,7 +3760,22 @@ module Aws
                                             source_configuration: Params::source_configuration?,
                                             schema: Hash[::String, {
                                                 name: ::String,
-                                                field_data_type: ("INT" | "SMALLINT" | "BIGINT" | "FLOAT" | "LONG" | "DATE" | "BOOLEAN" | "MAP" | "ARRAY" | "STRING" | "TIMESTAMP" | "DECIMAL" | "BYTE" | "SHORT" | "DOUBLE" | "STRUCT" | "BINARY" | "UNION")
+                                                field_data_type: ("INT" | "SMALLINT" | "BIGINT" | "FLOAT" | "LONG" | "DATE" | "BOOLEAN" | "MAP" | "ARRAY" | "STRING" | "TIMESTAMP" | "DECIMAL" | "BYTE" | "SHORT" | "DOUBLE" | "STRUCT" | "BINARY" | "UNION"),
+                                                response_date_format: ::String?,
+                                                is_partitionable: bool?,
+                                                is_nullable: bool?,
+                                                is_queryable: bool?,
+                                                is_orderable: bool?,
+                                                filter_overrides: {
+                                                  field_name: ::String?,
+                                                  operator_mappings: Hash[::String, ::String]?,
+                                                  between_configuration: {
+                                                    low_bound_key: ::String?,
+                                                    high_bound_key: ::String?,
+                                                    template: ::String?
+                                                  }?,
+                                                  date_time_format: ::String?
+                                                }?
                                               }]?
                                           }]?
                                       },

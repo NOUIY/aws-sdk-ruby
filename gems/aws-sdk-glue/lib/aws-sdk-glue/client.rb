@@ -6661,6 +6661,7 @@ module Aws::Glue
     #   resp.rest_configuration.global_source_configuration.request_parameters[0].allowed_values[0] #=> String
     #   resp.rest_configuration.global_source_configuration.request_parameters[0].property_location #=> String, one of "HEADER", "BODY", "QUERY_PARAM", "PATH"
     #   resp.rest_configuration.global_source_configuration.request_parameters[0].property_type #=> String, one of "USER_INPUT", "SECRET", "READ_ONLY", "UNUSED", "SECRET_OR_USER_INPUT"
+    #   resp.rest_configuration.global_source_configuration.request_parameters[0].format #=> String
     #   resp.rest_configuration.global_source_configuration.response_configuration.result_path #=> String
     #   resp.rest_configuration.global_source_configuration.response_configuration.error_path #=> String
     #   resp.rest_configuration.global_source_configuration.pagination_configuration.cursor_configuration.next_page.key #=> String
@@ -6683,6 +6684,17 @@ module Aws::Glue
     #   resp.rest_configuration.global_source_configuration.pagination_configuration.offset_configuration.limit_parameter.property_location #=> String, one of "HEADER", "BODY", "QUERY_PARAM", "PATH"
     #   resp.rest_configuration.global_source_configuration.pagination_configuration.offset_configuration.limit_parameter.value.content_path #=> String
     #   resp.rest_configuration.global_source_configuration.pagination_configuration.offset_configuration.limit_parameter.value.header_key #=> String
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.filter_mode #=> String, one of "QUERY_PARAMS", "FILTER_STRING"
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.operator_mappings #=> Hash
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.operator_mappings["String"] #=> String
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.date_time_format #=> String
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.strip_quotes #=> Boolean
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.between_configuration.low_bound_key #=> String
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.between_configuration.high_bound_key #=> String
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.between_configuration.template #=> String
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.filter_string_configuration.query_parameter_name #=> String
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.filter_string_configuration.quote_string_values #=> Boolean
+    #   resp.rest_configuration.global_source_configuration.filter_configuration.filter_string_configuration.quote_character #=> String
     #   resp.rest_configuration.validation_endpoint_configuration.request_method #=> String, one of "GET", "POST"
     #   resp.rest_configuration.validation_endpoint_configuration.request_path #=> String
     #   resp.rest_configuration.validation_endpoint_configuration.request_parameters #=> Array
@@ -6694,6 +6706,7 @@ module Aws::Glue
     #   resp.rest_configuration.validation_endpoint_configuration.request_parameters[0].allowed_values[0] #=> String
     #   resp.rest_configuration.validation_endpoint_configuration.request_parameters[0].property_location #=> String, one of "HEADER", "BODY", "QUERY_PARAM", "PATH"
     #   resp.rest_configuration.validation_endpoint_configuration.request_parameters[0].property_type #=> String, one of "USER_INPUT", "SECRET", "READ_ONLY", "UNUSED", "SECRET_OR_USER_INPUT"
+    #   resp.rest_configuration.validation_endpoint_configuration.request_parameters[0].format #=> String
     #   resp.rest_configuration.validation_endpoint_configuration.response_configuration.result_path #=> String
     #   resp.rest_configuration.validation_endpoint_configuration.response_configuration.error_path #=> String
     #   resp.rest_configuration.validation_endpoint_configuration.pagination_configuration.cursor_configuration.next_page.key #=> String
@@ -6716,6 +6729,17 @@ module Aws::Glue
     #   resp.rest_configuration.validation_endpoint_configuration.pagination_configuration.offset_configuration.limit_parameter.property_location #=> String, one of "HEADER", "BODY", "QUERY_PARAM", "PATH"
     #   resp.rest_configuration.validation_endpoint_configuration.pagination_configuration.offset_configuration.limit_parameter.value.content_path #=> String
     #   resp.rest_configuration.validation_endpoint_configuration.pagination_configuration.offset_configuration.limit_parameter.value.header_key #=> String
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.filter_mode #=> String, one of "QUERY_PARAMS", "FILTER_STRING"
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.operator_mappings #=> Hash
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.operator_mappings["String"] #=> String
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.date_time_format #=> String
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.strip_quotes #=> Boolean
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.between_configuration.low_bound_key #=> String
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.between_configuration.high_bound_key #=> String
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.between_configuration.template #=> String
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.filter_string_configuration.query_parameter_name #=> String
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.filter_string_configuration.quote_string_values #=> Boolean
+    #   resp.rest_configuration.validation_endpoint_configuration.filter_configuration.filter_string_configuration.quote_character #=> String
     #   resp.rest_configuration.entity_configurations #=> Hash
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.request_method #=> String, one of "GET", "POST"
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.request_path #=> String
@@ -6728,6 +6752,7 @@ module Aws::Glue
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.request_parameters[0].allowed_values[0] #=> String
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.request_parameters[0].property_location #=> String, one of "HEADER", "BODY", "QUERY_PARAM", "PATH"
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.request_parameters[0].property_type #=> String, one of "USER_INPUT", "SECRET", "READ_ONLY", "UNUSED", "SECRET_OR_USER_INPUT"
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.request_parameters[0].format #=> String
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.response_configuration.result_path #=> String
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.response_configuration.error_path #=> String
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.pagination_configuration.cursor_configuration.next_page.key #=> String
@@ -6750,9 +6775,32 @@ module Aws::Glue
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.pagination_configuration.offset_configuration.limit_parameter.property_location #=> String, one of "HEADER", "BODY", "QUERY_PARAM", "PATH"
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.pagination_configuration.offset_configuration.limit_parameter.value.content_path #=> String
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.pagination_configuration.offset_configuration.limit_parameter.value.header_key #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.filter_mode #=> String, one of "QUERY_PARAMS", "FILTER_STRING"
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.operator_mappings #=> Hash
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.operator_mappings["String"] #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.date_time_format #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.strip_quotes #=> Boolean
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.between_configuration.low_bound_key #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.between_configuration.high_bound_key #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.between_configuration.template #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.filter_string_configuration.query_parameter_name #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.filter_string_configuration.quote_string_values #=> Boolean
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].source_configuration.filter_configuration.filter_string_configuration.quote_character #=> String
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema #=> Hash
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].name #=> String
     #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].field_data_type #=> String, one of "INT", "SMALLINT", "BIGINT", "FLOAT", "LONG", "DATE", "BOOLEAN", "MAP", "ARRAY", "STRING", "TIMESTAMP", "DECIMAL", "BYTE", "SHORT", "DOUBLE", "STRUCT", "BINARY", "UNION"
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].response_date_format #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].is_partitionable #=> Boolean
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].is_nullable #=> Boolean
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].is_queryable #=> Boolean
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].is_orderable #=> Boolean
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].filter_overrides.field_name #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].filter_overrides.operator_mappings #=> Hash
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].filter_overrides.operator_mappings["String"] #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].filter_overrides.between_configuration.low_bound_key #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].filter_overrides.between_configuration.high_bound_key #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].filter_overrides.between_configuration.template #=> String
+    #   resp.rest_configuration.entity_configurations["EntityConfigurationMapKeyString"].schema["FieldDefinitionMapKeyString"].filter_overrides.date_time_format #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DescribeConnectionType AWS API Documentation
     #
@@ -16174,6 +16222,7 @@ module Aws::Glue
     #         allowed_values: ["String"],
     #         property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #         property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #         format: "String",
     #       },
     #       additional_request_parameters: [
     #         {
@@ -16184,6 +16233,7 @@ module Aws::Glue
     #           allowed_values: ["String"],
     #           property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #           property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #           format: "String",
     #         },
     #       ],
     #     },
@@ -16200,6 +16250,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           request_method: "GET", # accepts GET, POST
     #           content_type: "APPLICATION_JSON", # accepts APPLICATION_JSON, URL_ENCODED
@@ -16211,6 +16262,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           client_secret: {
     #             name: "PropertyName", # required
@@ -16220,6 +16272,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           scope: {
     #             name: "PropertyName", # required
@@ -16229,6 +16282,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           token_url_parameters: [
     #             {
@@ -16239,6 +16293,7 @@ module Aws::Glue
     #               allowed_values: ["String"],
     #               property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #               property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #               format: "String",
     #             },
     #           ],
     #         },
@@ -16251,6 +16306,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           request_method: "GET", # accepts GET, POST
     #           content_type: "APPLICATION_JSON", # accepts APPLICATION_JSON, URL_ENCODED
@@ -16262,6 +16318,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           token_url_parameters: [
     #             {
@@ -16272,6 +16329,7 @@ module Aws::Glue
     #               allowed_values: ["String"],
     #               property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #               property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #               format: "String",
     #             },
     #           ],
     #         },
@@ -16284,6 +16342,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           authorization_code: {
     #             name: "PropertyName", # required
@@ -16293,6 +16352,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           redirect_uri: {
     #             name: "PropertyName", # required
@@ -16302,6 +16362,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           token_url: {
     #             name: "PropertyName", # required
@@ -16311,6 +16372,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           request_method: "GET", # accepts GET, POST
     #           content_type: "APPLICATION_JSON", # accepts APPLICATION_JSON, URL_ENCODED
@@ -16322,6 +16384,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           client_secret: {
     #             name: "PropertyName", # required
@@ -16331,6 +16394,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           scope: {
     #             name: "PropertyName", # required
@@ -16340,6 +16404,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           prompt: {
     #             name: "PropertyName", # required
@@ -16349,6 +16414,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #           token_url_parameters: [
     #             {
@@ -16359,6 +16425,7 @@ module Aws::Glue
     #               allowed_values: ["String"],
     #               property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #               property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #               format: "String",
     #             },
     #           ],
     #         },
@@ -16372,6 +16439,7 @@ module Aws::Glue
     #           allowed_values: ["String"],
     #           property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #           property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #           format: "String",
     #         },
     #         password: {
     #           name: "PropertyName", # required
@@ -16381,6 +16449,7 @@ module Aws::Glue
     #           allowed_values: ["String"],
     #           property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #           property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #           format: "String",
     #         },
     #       },
     #       custom_authentication_properties: {
@@ -16393,6 +16462,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #         ],
     #       },
@@ -16410,6 +16480,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #         ],
     #         response_configuration: {
@@ -16456,6 +16527,24 @@ module Aws::Glue
     #                 header_key: "ConnectorPropertyKey",
     #               },
     #             },
+    #           },
+    #         },
+    #         filter_configuration: {
+    #           filter_mode: "QUERY_PARAMS", # required, accepts QUERY_PARAMS, FILTER_STRING
+    #           operator_mappings: {
+    #             "String" => "String",
+    #           },
+    #           date_time_format: "String",
+    #           strip_quotes: false,
+    #           between_configuration: {
+    #             low_bound_key: "String",
+    #             high_bound_key: "String",
+    #             template: "String",
+    #           },
+    #           filter_string_configuration: {
+    #             query_parameter_name: "String", # required
+    #             quote_string_values: false,
+    #             quote_character: "String",
     #           },
     #         },
     #       },
@@ -16471,6 +16560,7 @@ module Aws::Glue
     #             allowed_values: ["String"],
     #             property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #             property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #             format: "String",
     #           },
     #         ],
     #         response_configuration: {
@@ -16517,6 +16607,24 @@ module Aws::Glue
     #                 header_key: "ConnectorPropertyKey",
     #               },
     #             },
+    #           },
+    #         },
+    #         filter_configuration: {
+    #           filter_mode: "QUERY_PARAMS", # required, accepts QUERY_PARAMS, FILTER_STRING
+    #           operator_mappings: {
+    #             "String" => "String",
+    #           },
+    #           date_time_format: "String",
+    #           strip_quotes: false,
+    #           between_configuration: {
+    #             low_bound_key: "String",
+    #             high_bound_key: "String",
+    #             template: "String",
+    #           },
+    #           filter_string_configuration: {
+    #             query_parameter_name: "String", # required
+    #             quote_string_values: false,
+    #             quote_character: "String",
     #           },
     #         },
     #       },
@@ -16534,6 +16642,7 @@ module Aws::Glue
     #                 allowed_values: ["String"],
     #                 property_location: "HEADER", # accepts HEADER, BODY, QUERY_PARAM, PATH
     #                 property_type: "USER_INPUT", # required, accepts USER_INPUT, SECRET, READ_ONLY, UNUSED, SECRET_OR_USER_INPUT
+    #                 format: "String",
     #               },
     #             ],
     #             response_configuration: {
@@ -16582,11 +16691,46 @@ module Aws::Glue
     #                 },
     #               },
     #             },
+    #             filter_configuration: {
+    #               filter_mode: "QUERY_PARAMS", # required, accepts QUERY_PARAMS, FILTER_STRING
+    #               operator_mappings: {
+    #                 "String" => "String",
+    #               },
+    #               date_time_format: "String",
+    #               strip_quotes: false,
+    #               between_configuration: {
+    #                 low_bound_key: "String",
+    #                 high_bound_key: "String",
+    #                 template: "String",
+    #               },
+    #               filter_string_configuration: {
+    #                 query_parameter_name: "String", # required
+    #                 quote_string_values: false,
+    #                 quote_character: "String",
+    #               },
+    #             },
     #           },
     #           schema: {
     #             "FieldDefinitionMapKeyString" => {
     #               name: "String", # required
     #               field_data_type: "INT", # required, accepts INT, SMALLINT, BIGINT, FLOAT, LONG, DATE, BOOLEAN, MAP, ARRAY, STRING, TIMESTAMP, DECIMAL, BYTE, SHORT, DOUBLE, STRUCT, BINARY, UNION
+    #               response_date_format: "String",
+    #               is_partitionable: false,
+    #               is_nullable: false,
+    #               is_queryable: false,
+    #               is_orderable: false,
+    #               filter_overrides: {
+    #                 field_name: "String",
+    #                 operator_mappings: {
+    #                   "String" => "String",
+    #                 },
+    #                 between_configuration: {
+    #                   low_bound_key: "String",
+    #                   high_bound_key: "String",
+    #                   template: "String",
+    #                 },
+    #                 date_time_format: "String",
+    #               },
     #             },
     #           },
     #         },
@@ -20842,7 +20986,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.266.0'
+      context[:gem_version] = '1.267.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

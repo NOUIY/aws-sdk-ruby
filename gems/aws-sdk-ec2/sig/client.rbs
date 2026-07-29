@@ -3434,6 +3434,20 @@ module Aws
                                                ) -> _CreateTransitGatewayPolicyTableResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTransitGatewayPolicyTableResponseSuccess
 
+      interface _CreateTransitGatewayPolicyTableEntryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateTransitGatewayPolicyTableEntryResult]
+        def transit_gateway_policy_table_entry: () -> Types::TransitGatewayPolicyTableEntry
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#create_transit_gateway_policy_table_entry-instance_method
+      def create_transit_gateway_policy_table_entry: (
+                                                       transit_gateway_policy_table_id: ::String,
+                                                       policy_rule_number: ::String,
+                                                       ?policy_rule: Params::transit_gateway_request_policy_rule,
+                                                       target_route_table_id: ::String,
+                                                       ?dry_run: bool
+                                                     ) -> _CreateTransitGatewayPolicyTableEntryResponseSuccess
+                                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTransitGatewayPolicyTableEntryResponseSuccess
+
       interface _CreateTransitGatewayPrefixListReferenceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateTransitGatewayPrefixListReferenceResult]
         def transit_gateway_prefix_list_reference: () -> Types::TransitGatewayPrefixListReference
@@ -4906,6 +4920,18 @@ module Aws
                                                  ?dry_run: bool
                                                ) -> _DeleteTransitGatewayPolicyTableResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTransitGatewayPolicyTableResponseSuccess
+
+      interface _DeleteTransitGatewayPolicyTableEntryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTransitGatewayPolicyTableEntryResult]
+        def transit_gateway_policy_table_entry: () -> Types::TransitGatewayPolicyTableEntry
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#delete_transit_gateway_policy_table_entry-instance_method
+      def delete_transit_gateway_policy_table_entry: (
+                                                       transit_gateway_policy_table_id: ::String,
+                                                       policy_rule_number: ::String,
+                                                       ?dry_run: bool
+                                                     ) -> _DeleteTransitGatewayPolicyTableEntryResponseSuccess
+                                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTransitGatewayPolicyTableEntryResponseSuccess
 
       interface _DeleteTransitGatewayPrefixListReferenceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTransitGatewayPrefixListReferenceResult]
@@ -10758,6 +10784,7 @@ module Aws
       interface _GetTransitGatewayPolicyTableEntriesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetTransitGatewayPolicyTableEntriesResult]
         def transit_gateway_policy_table_entries: () -> ::Array[Types::TransitGatewayPolicyTableEntry]
+        def next_token: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#get_transit_gateway_policy_table_entries-instance_method
       def get_transit_gateway_policy_table_entries: (
@@ -12240,6 +12267,20 @@ module Aws
                                                     ?dry_run: bool
                                                   ) -> _ModifyTransitGatewayMeteringPolicyResponseSuccess
                                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyTransitGatewayMeteringPolicyResponseSuccess
+
+      interface _ModifyTransitGatewayPolicyTableEntryResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ModifyTransitGatewayPolicyTableEntryResult]
+        def transit_gateway_policy_table_entry: () -> Types::TransitGatewayPolicyTableEntry
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#modify_transit_gateway_policy_table_entry-instance_method
+      def modify_transit_gateway_policy_table_entry: (
+                                                       transit_gateway_policy_table_id: ::String,
+                                                       policy_rule_number: ::String,
+                                                       ?policy_rule: Params::transit_gateway_request_policy_rule,
+                                                       ?target_route_table_id: ::String,
+                                                       ?dry_run: bool
+                                                     ) -> _ModifyTransitGatewayPolicyTableEntryResponseSuccess
+                                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ModifyTransitGatewayPolicyTableEntryResponseSuccess
 
       interface _ModifyTransitGatewayPrefixListReferenceResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ModifyTransitGatewayPrefixListReferenceResult]

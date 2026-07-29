@@ -146,6 +146,7 @@ module Aws::Glue
     BatchUpdatePartitionRequestEntryList = Shapes::ListShape.new(name: 'BatchUpdatePartitionRequestEntryList')
     BatchUpdatePartitionResponse = Shapes::StructureShape.new(name: 'BatchUpdatePartitionResponse')
     BatchWindow = Shapes::IntegerShape.new(name: 'BatchWindow')
+    BetweenConfiguration = Shapes::StructureShape.new(name: 'BetweenConfiguration')
     BinEdges = Shapes::ListShape.new(name: 'BinEdges')
     BinaryColumnStatisticsData = Shapes::StructureShape.new(name: 'BinaryColumnStatisticsData')
     Blob = Shapes::BlobShape.new(name: 'Blob')
@@ -293,6 +294,7 @@ module Aws::Glue
     ConnectionStatus = Shapes::StringShape.new(name: 'ConnectionStatus')
     ConnectionString = Shapes::StringShape.new(name: 'ConnectionString')
     ConnectionStringList = Shapes::ListShape.new(name: 'ConnectionStringList')
+    ConnectionStringToStringMap = Shapes::MapShape.new(name: 'ConnectionStringToStringMap')
     ConnectionType = Shapes::StringShape.new(name: 'ConnectionType')
     ConnectionTypeBrief = Shapes::StructureShape.new(name: 'ConnectionTypeBrief')
     ConnectionTypeList = Shapes::ListShape.new(name: 'ConnectionTypeList')
@@ -690,13 +692,17 @@ module Aws::Glue
     FieldsList = Shapes::ListShape.new(name: 'FieldsList')
     FillMissingValues = Shapes::StructureShape.new(name: 'FillMissingValues')
     Filter = Shapes::StructureShape.new(name: 'Filter')
+    FilterConfiguration = Shapes::StructureShape.new(name: 'FilterConfiguration')
     FilterExpression = Shapes::StructureShape.new(name: 'FilterExpression')
     FilterExpressions = Shapes::ListShape.new(name: 'FilterExpressions')
     FilterLogicalOperator = Shapes::StringShape.new(name: 'FilterLogicalOperator')
+    FilterMode = Shapes::StringShape.new(name: 'FilterMode')
     FilterOperation = Shapes::StringShape.new(name: 'FilterOperation')
     FilterOperator = Shapes::StringShape.new(name: 'FilterOperator')
+    FilterOverrides = Shapes::StructureShape.new(name: 'FilterOverrides')
     FilterPredicate = Shapes::StringShape.new(name: 'FilterPredicate')
     FilterString = Shapes::StringShape.new(name: 'FilterString')
+    FilterStringConfiguration = Shapes::StructureShape.new(name: 'FilterStringConfiguration')
     FilterValue = Shapes::StructureShape.new(name: 'FilterValue')
     FilterValueType = Shapes::StringShape.new(name: 'FilterValueType')
     FilterValues = Shapes::ListShape.new(name: 'FilterValues')
@@ -2282,6 +2288,11 @@ module Aws::Glue
     BatchUpdatePartitionResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchUpdatePartitionFailureList, location_name: "Errors"))
     BatchUpdatePartitionResponse.struct_class = Types::BatchUpdatePartitionResponse
 
+    BetweenConfiguration.add_member(:low_bound_key, Shapes::ShapeRef.new(shape: String, location_name: "LowBoundKey"))
+    BetweenConfiguration.add_member(:high_bound_key, Shapes::ShapeRef.new(shape: String, location_name: "HighBoundKey"))
+    BetweenConfiguration.add_member(:template, Shapes::ShapeRef.new(shape: String, location_name: "Template"))
+    BetweenConfiguration.struct_class = Types::BetweenConfiguration
+
     BinEdges.member = Shapes::ShapeRef.new(shape: GenericString)
 
     BinaryColumnStatisticsData.add_member(:maximum_length, Shapes::ShapeRef.new(shape: NonNegativeLong, required: true, location_name: "MaximumLength"))
@@ -2830,6 +2841,9 @@ module Aws::Glue
 
     ConnectionStringList.member = Shapes::ShapeRef.new(shape: ConnectionString)
 
+    ConnectionStringToStringMap.key = Shapes::ShapeRef.new(shape: String)
+    ConnectionStringToStringMap.value = Shapes::ShapeRef.new(shape: String)
+
     ConnectionTypeBrief.add_member(:connection_type, Shapes::ShapeRef.new(shape: ConnectionType, location_name: "ConnectionType"))
     ConnectionTypeBrief.add_member(:display_name, Shapes::ShapeRef.new(shape: DisplayName, location_name: "DisplayName"))
     ConnectionTypeBrief.add_member(:vendor, Shapes::ShapeRef.new(shape: Vendor, location_name: "Vendor"))
@@ -2900,6 +2914,7 @@ module Aws::Glue
     ConnectorProperty.add_member(:allowed_values, Shapes::ShapeRef.new(shape: ListOfString, location_name: "AllowedValues"))
     ConnectorProperty.add_member(:property_location, Shapes::ShapeRef.new(shape: PropertyLocation, location_name: "PropertyLocation"))
     ConnectorProperty.add_member(:property_type, Shapes::ShapeRef.new(shape: PropertyType, required: true, location_name: "PropertyType"))
+    ConnectorProperty.add_member(:format, Shapes::ShapeRef.new(shape: String, location_name: "Format"))
     ConnectorProperty.struct_class = Types::ConnectorProperty
 
     ConnectorPropertyList.member = Shapes::ShapeRef.new(shape: ConnectorProperty)
@@ -4397,6 +4412,12 @@ module Aws::Glue
 
     FieldDefinition.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Name"))
     FieldDefinition.add_member(:field_data_type, Shapes::ShapeRef.new(shape: FieldDataType, required: true, location_name: "FieldDataType"))
+    FieldDefinition.add_member(:response_date_format, Shapes::ShapeRef.new(shape: String, location_name: "ResponseDateFormat"))
+    FieldDefinition.add_member(:is_partitionable, Shapes::ShapeRef.new(shape: Bool, location_name: "IsPartitionable"))
+    FieldDefinition.add_member(:is_nullable, Shapes::ShapeRef.new(shape: Bool, location_name: "IsNullable"))
+    FieldDefinition.add_member(:is_queryable, Shapes::ShapeRef.new(shape: Bool, location_name: "IsQueryable"))
+    FieldDefinition.add_member(:is_orderable, Shapes::ShapeRef.new(shape: Bool, location_name: "IsOrderable"))
+    FieldDefinition.add_member(:filter_overrides, Shapes::ShapeRef.new(shape: FilterOverrides, location_name: "FilterOverrides"))
     FieldDefinition.struct_class = Types::FieldDefinition
 
     FieldDefinitionMap.key = Shapes::ShapeRef.new(shape: FieldDefinitionMapKeyString)
@@ -4418,12 +4439,31 @@ module Aws::Glue
     Filter.add_member(:filters, Shapes::ShapeRef.new(shape: FilterExpressions, required: true, location_name: "Filters"))
     Filter.struct_class = Types::Filter
 
+    FilterConfiguration.add_member(:filter_mode, Shapes::ShapeRef.new(shape: FilterMode, required: true, location_name: "FilterMode"))
+    FilterConfiguration.add_member(:operator_mappings, Shapes::ShapeRef.new(shape: ConnectionStringToStringMap, location_name: "OperatorMappings"))
+    FilterConfiguration.add_member(:date_time_format, Shapes::ShapeRef.new(shape: String, location_name: "DateTimeFormat"))
+    FilterConfiguration.add_member(:strip_quotes, Shapes::ShapeRef.new(shape: Bool, location_name: "StripQuotes"))
+    FilterConfiguration.add_member(:between_configuration, Shapes::ShapeRef.new(shape: BetweenConfiguration, location_name: "BetweenConfiguration"))
+    FilterConfiguration.add_member(:filter_string_configuration, Shapes::ShapeRef.new(shape: FilterStringConfiguration, location_name: "FilterStringConfiguration"))
+    FilterConfiguration.struct_class = Types::FilterConfiguration
+
     FilterExpression.add_member(:operation, Shapes::ShapeRef.new(shape: FilterOperation, required: true, location_name: "Operation"))
     FilterExpression.add_member(:negated, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "Negated"))
     FilterExpression.add_member(:values, Shapes::ShapeRef.new(shape: FilterValues, required: true, location_name: "Values"))
     FilterExpression.struct_class = Types::FilterExpression
 
     FilterExpressions.member = Shapes::ShapeRef.new(shape: FilterExpression)
+
+    FilterOverrides.add_member(:field_name, Shapes::ShapeRef.new(shape: String, location_name: "FieldName"))
+    FilterOverrides.add_member(:operator_mappings, Shapes::ShapeRef.new(shape: ConnectionStringToStringMap, location_name: "OperatorMappings"))
+    FilterOverrides.add_member(:between_configuration, Shapes::ShapeRef.new(shape: BetweenConfiguration, location_name: "BetweenConfiguration"))
+    FilterOverrides.add_member(:date_time_format, Shapes::ShapeRef.new(shape: String, location_name: "DateTimeFormat"))
+    FilterOverrides.struct_class = Types::FilterOverrides
+
+    FilterStringConfiguration.add_member(:query_parameter_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "QueryParameterName"))
+    FilterStringConfiguration.add_member(:quote_string_values, Shapes::ShapeRef.new(shape: Bool, location_name: "QuoteStringValues"))
+    FilterStringConfiguration.add_member(:quote_character, Shapes::ShapeRef.new(shape: String, location_name: "QuoteCharacter"))
+    FilterStringConfiguration.struct_class = Types::FilterStringConfiguration
 
     FilterValue.add_member(:type, Shapes::ShapeRef.new(shape: FilterValueType, required: true, location_name: "Type"))
     FilterValue.add_member(:value, Shapes::ShapeRef.new(shape: EnclosedInStringProperties, required: true, location_name: "Value"))
@@ -7563,6 +7603,7 @@ module Aws::Glue
     SourceConfiguration.add_member(:request_parameters, Shapes::ShapeRef.new(shape: ConnectorPropertyList, location_name: "RequestParameters"))
     SourceConfiguration.add_member(:response_configuration, Shapes::ShapeRef.new(shape: ResponseConfiguration, location_name: "ResponseConfiguration"))
     SourceConfiguration.add_member(:pagination_configuration, Shapes::ShapeRef.new(shape: PaginationConfiguration, location_name: "PaginationConfiguration"))
+    SourceConfiguration.add_member(:filter_configuration, Shapes::ShapeRef.new(shape: FilterConfiguration, location_name: "FilterConfiguration"))
     SourceConfiguration.struct_class = Types::SourceConfiguration
 
     SourceControlDetails.add_member(:provider, Shapes::ShapeRef.new(shape: SourceControlProvider, location_name: "Provider"))

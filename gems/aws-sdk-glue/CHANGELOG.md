@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.267.0 (2026-07-29)
+------------------
+
+* Feature - Adding filtering, partitioning, and VPC support to AWS Glue REST API connector
+
 1.266.0 (2026-07-27)
 ------------------
 
