@@ -43,7 +43,8 @@ module Aws
       integrated_repositories: Array[
         {
           integration_id: ::String,
-          provider_resource_id: ::String
+          provider_resource_id: ::String,
+          branch: ::String?
         }
       ]?
     }

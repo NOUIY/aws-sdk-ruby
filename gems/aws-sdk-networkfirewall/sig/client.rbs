@@ -173,7 +173,7 @@ module Aws
         def description: () -> ::String
         def type: () -> ("ECS" | "EKS")
         def container_monitoring_configurations: () -> ::Array[Types::ContainerMonitoringConfiguration]
-        def status: () -> ("ACTIVE" | "CREATING" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
         def tags: () -> ::Array[Types::Tag]
         def update_token: () -> ::String
       end
@@ -459,7 +459,7 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteContainerAssociationResponse]
         def container_association_name: () -> ::String
         def container_association_arn: () -> ::String
-        def status: () -> ("ACTIVE" | "CREATING" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/NetworkFirewall/Client.html#delete_container_association-instance_method
       def delete_container_association: (
@@ -602,7 +602,7 @@ module Aws
         def description: () -> ::String
         def type: () -> ("ECS" | "EKS")
         def container_monitoring_configurations: () -> ::Array[Types::ContainerMonitoringConfiguration]
-        def status: () -> ("ACTIVE" | "CREATING" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
         def resolved_cidr_count: () -> ::Integer
         def last_updated_time: () -> ::Time
         def tags: () -> ::Array[Types::Tag]
@@ -1198,7 +1198,7 @@ module Aws
         def description: () -> ::String
         def type: () -> ("ECS" | "EKS")
         def container_monitoring_configurations: () -> ::Array[Types::ContainerMonitoringConfiguration]
-        def status: () -> ("ACTIVE" | "CREATING" | "DELETING")
+        def status: () -> ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
         def tags: () -> ::Array[Types::Tag]
         def update_token: () -> ::String
       end

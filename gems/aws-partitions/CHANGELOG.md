@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1276.0 (2026-07-30)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::PricingPlanManager`.
+
 1.1275.0 (2026-07-29)
 ------------------
 

@@ -1495,6 +1495,7 @@ module Aws::SecurityAgent
 
     IntegratedRepository.add_member(:integration_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "integrationId"))
     IntegratedRepository.add_member(:provider_resource_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "providerResourceId"))
+    IntegratedRepository.add_member(:branch, Shapes::ShapeRef.new(shape: String, location_name: "branch"))
     IntegratedRepository.struct_class = Types::IntegratedRepository
 
     IntegratedRepositoryList.member = Shapes::ShapeRef.new(shape: IntegratedRepository)

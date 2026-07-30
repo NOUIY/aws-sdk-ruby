@@ -1234,6 +1234,7 @@ module Aws::SecurityAgent
     class IntegratedRepository
       attr_accessor integration_id: ::String
       attr_accessor provider_resource_id: ::String
+      attr_accessor branch: ::String
       SENSITIVE: []
     end
 

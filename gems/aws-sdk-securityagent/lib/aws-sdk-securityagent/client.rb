@@ -655,6 +655,7 @@ module Aws::SecurityAgent
     #   resp.deleted[0].assets.integrated_repositories #=> Array
     #   resp.deleted[0].assets.integrated_repositories[0].integration_id #=> String
     #   resp.deleted[0].assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.deleted[0].assets.integrated_repositories[0].branch #=> String
     #   resp.deleted[0].exclude_risk_types #=> Array
     #   resp.deleted[0].exclude_risk_types[0] #=> String, one of "CROSS_SITE_SCRIPTING", "DEFAULT_CREDENTIALS", "INSECURE_DIRECT_OBJECT_REFERENCE", "PRIVILEGE_ESCALATION", "SERVER_SIDE_TEMPLATE_INJECTION", "COMMAND_INJECTION", "CODE_INJECTION", "SQL_INJECTION", "ARBITRARY_FILE_UPLOAD", "INSECURE_DESERIALIZATION", "LOCAL_FILE_INCLUSION", "INFORMATION_DISCLOSURE", "PATH_TRAVERSAL", "SERVER_SIDE_REQUEST_FORGERY", "JSON_WEB_TOKEN_VULNERABILITIES", "XML_EXTERNAL_ENTITY", "FILE_DELETION", "OTHER", "GRAPHQL_VULNERABILITIES", "BUSINESS_LOGIC_VULNERABILITIES", "CRYPTOGRAPHIC_VULNERABILITIES", "DENIAL_OF_SERVICE", "FILE_ACCESS", "FILE_CREATION", "DATABASE_MODIFICATION", "DATABASE_ACCESS", "OUTBOUND_SERVICE_REQUEST", "UNKNOWN"
     #   resp.deleted[0].service_role #=> String
@@ -967,6 +968,7 @@ module Aws::SecurityAgent
     #   resp.code_review_jobs[0].integrated_repositories #=> Array
     #   resp.code_review_jobs[0].integrated_repositories[0].integration_id #=> String
     #   resp.code_review_jobs[0].integrated_repositories[0].provider_resource_id #=> String
+    #   resp.code_review_jobs[0].integrated_repositories[0].branch #=> String
     #   resp.code_review_jobs[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
     #   resp.code_review_jobs[0].created_at #=> Time
     #   resp.code_review_jobs[0].updated_at #=> Time
@@ -1029,6 +1031,7 @@ module Aws::SecurityAgent
     #   resp.code_reviews[0].assets.integrated_repositories #=> Array
     #   resp.code_reviews[0].assets.integrated_repositories[0].integration_id #=> String
     #   resp.code_reviews[0].assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.code_reviews[0].assets.integrated_repositories[0].branch #=> String
     #   resp.code_reviews[0].service_role #=> String
     #   resp.code_reviews[0].log_config.log_group #=> String
     #   resp.code_reviews[0].log_config.log_stream #=> String
@@ -1257,6 +1260,7 @@ module Aws::SecurityAgent
     #   resp.pentest_jobs[0].integrated_repositories #=> Array
     #   resp.pentest_jobs[0].integrated_repositories[0].integration_id #=> String
     #   resp.pentest_jobs[0].integrated_repositories[0].provider_resource_id #=> String
+    #   resp.pentest_jobs[0].integrated_repositories[0].branch #=> String
     #   resp.pentest_jobs[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
     #   resp.pentest_jobs[0].clean_up_strategy #=> String, one of "BEST_EFFORT_DELETE", "RETAIN_ALL"
     #   resp.pentest_jobs[0].disable_managed_skills #=> Array
@@ -1320,6 +1324,7 @@ module Aws::SecurityAgent
     #   resp.pentests[0].assets.integrated_repositories #=> Array
     #   resp.pentests[0].assets.integrated_repositories[0].integration_id #=> String
     #   resp.pentests[0].assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.pentests[0].assets.integrated_repositories[0].branch #=> String
     #   resp.pentests[0].exclude_risk_types #=> Array
     #   resp.pentests[0].exclude_risk_types[0] #=> String, one of "CROSS_SITE_SCRIPTING", "DEFAULT_CREDENTIALS", "INSECURE_DIRECT_OBJECT_REFERENCE", "PRIVILEGE_ESCALATION", "SERVER_SIDE_TEMPLATE_INJECTION", "COMMAND_INJECTION", "CODE_INJECTION", "SQL_INJECTION", "ARBITRARY_FILE_UPLOAD", "INSECURE_DESERIALIZATION", "LOCAL_FILE_INCLUSION", "INFORMATION_DISCLOSURE", "PATH_TRAVERSAL", "SERVER_SIDE_REQUEST_FORGERY", "JSON_WEB_TOKEN_VULNERABILITIES", "XML_EXTERNAL_ENTITY", "FILE_DELETION", "OTHER", "GRAPHQL_VULNERABILITIES", "BUSINESS_LOGIC_VULNERABILITIES", "CRYPTOGRAPHIC_VULNERABILITIES", "DENIAL_OF_SERVICE", "FILE_ACCESS", "FILE_CREATION", "DATABASE_MODIFICATION", "DATABASE_ACCESS", "OUTBOUND_SERVICE_REQUEST", "UNKNOWN"
     #   resp.pentests[0].service_role #=> String
@@ -1531,6 +1536,7 @@ module Aws::SecurityAgent
     #   resp.threat_model_jobs[0].integrated_repositories #=> Array
     #   resp.threat_model_jobs[0].integrated_repositories[0].integration_id #=> String
     #   resp.threat_model_jobs[0].integrated_repositories[0].provider_resource_id #=> String
+    #   resp.threat_model_jobs[0].integrated_repositories[0].branch #=> String
     #   resp.threat_model_jobs[0].documents #=> Array
     #   resp.threat_model_jobs[0].documents[0].s3_location #=> String
     #   resp.threat_model_jobs[0].documents[0].artifact_id #=> String
@@ -1604,6 +1610,7 @@ module Aws::SecurityAgent
     #   resp.threat_models[0].assets.integrated_repositories #=> Array
     #   resp.threat_models[0].assets.integrated_repositories[0].integration_id #=> String
     #   resp.threat_models[0].assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.threat_models[0].assets.integrated_repositories[0].branch #=> String
     #   resp.threat_models[0].scope_docs #=> Array
     #   resp.threat_models[0].scope_docs[0].s3_location #=> String
     #   resp.threat_models[0].scope_docs[0].artifact_id #=> String
@@ -1970,6 +1977,7 @@ module Aws::SecurityAgent
     #         {
     #           integration_id: "String", # required
     #           provider_resource_id: "String", # required
+    #           branch: "String",
     #         },
     #       ],
     #     },
@@ -2007,6 +2015,7 @@ module Aws::SecurityAgent
     #   resp.assets.integrated_repositories #=> Array
     #   resp.assets.integrated_repositories[0].integration_id #=> String
     #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.assets.integrated_repositories[0].branch #=> String
     #   resp.service_role #=> String
     #   resp.log_config.log_group #=> String
     #   resp.log_config.log_stream #=> String
@@ -2238,6 +2247,7 @@ module Aws::SecurityAgent
     #         {
     #           integration_id: "String", # required
     #           provider_resource_id: "String", # required
+    #           branch: "String",
     #         },
     #       ],
     #     },
@@ -2296,6 +2306,7 @@ module Aws::SecurityAgent
     #   resp.assets.integrated_repositories #=> Array
     #   resp.assets.integrated_repositories[0].integration_id #=> String
     #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.assets.integrated_repositories[0].branch #=> String
     #   resp.exclude_risk_types #=> Array
     #   resp.exclude_risk_types[0] #=> String, one of "CROSS_SITE_SCRIPTING", "DEFAULT_CREDENTIALS", "INSECURE_DIRECT_OBJECT_REFERENCE", "PRIVILEGE_ESCALATION", "SERVER_SIDE_TEMPLATE_INJECTION", "COMMAND_INJECTION", "CODE_INJECTION", "SQL_INJECTION", "ARBITRARY_FILE_UPLOAD", "INSECURE_DESERIALIZATION", "LOCAL_FILE_INCLUSION", "INFORMATION_DISCLOSURE", "PATH_TRAVERSAL", "SERVER_SIDE_REQUEST_FORGERY", "JSON_WEB_TOKEN_VULNERABILITIES", "XML_EXTERNAL_ENTITY", "FILE_DELETION", "OTHER", "GRAPHQL_VULNERABILITIES", "BUSINESS_LOGIC_VULNERABILITIES", "CRYPTOGRAPHIC_VULNERABILITIES", "DENIAL_OF_SERVICE", "FILE_ACCESS", "FILE_CREATION", "DATABASE_MODIFICATION", "DATABASE_ACCESS", "OUTBOUND_SERVICE_REQUEST", "UNKNOWN"
     #   resp.service_role #=> String
@@ -2725,6 +2736,7 @@ module Aws::SecurityAgent
     #         {
     #           integration_id: "String", # required
     #           provider_resource_id: "String", # required
+    #           branch: "String",
     #         },
     #       ],
     #     },
@@ -2776,6 +2788,7 @@ module Aws::SecurityAgent
     #   resp.assets.integrated_repositories #=> Array
     #   resp.assets.integrated_repositories[0].integration_id #=> String
     #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.assets.integrated_repositories[0].branch #=> String
     #   resp.scope_docs #=> Array
     #   resp.scope_docs[0].s3_location #=> String
     #   resp.scope_docs[0].artifact_id #=> String
@@ -5108,6 +5121,7 @@ module Aws::SecurityAgent
     #         {
     #           integration_id: "String", # required
     #           provider_resource_id: "String", # required
+    #           branch: "String",
     #         },
     #       ],
     #     },
@@ -5145,6 +5159,7 @@ module Aws::SecurityAgent
     #   resp.assets.integrated_repositories #=> Array
     #   resp.assets.integrated_repositories[0].integration_id #=> String
     #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.assets.integrated_repositories[0].branch #=> String
     #   resp.service_role #=> String
     #   resp.log_config.log_group #=> String
     #   resp.log_config.log_stream #=> String
@@ -5387,6 +5402,7 @@ module Aws::SecurityAgent
     #         {
     #           integration_id: "String", # required
     #           provider_resource_id: "String", # required
+    #           branch: "String",
     #         },
     #       ],
     #     },
@@ -5445,6 +5461,7 @@ module Aws::SecurityAgent
     #   resp.assets.integrated_repositories #=> Array
     #   resp.assets.integrated_repositories[0].integration_id #=> String
     #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.assets.integrated_repositories[0].branch #=> String
     #   resp.exclude_risk_types #=> Array
     #   resp.exclude_risk_types[0] #=> String, one of "CROSS_SITE_SCRIPTING", "DEFAULT_CREDENTIALS", "INSECURE_DIRECT_OBJECT_REFERENCE", "PRIVILEGE_ESCALATION", "SERVER_SIDE_TEMPLATE_INJECTION", "COMMAND_INJECTION", "CODE_INJECTION", "SQL_INJECTION", "ARBITRARY_FILE_UPLOAD", "INSECURE_DESERIALIZATION", "LOCAL_FILE_INCLUSION", "INFORMATION_DISCLOSURE", "PATH_TRAVERSAL", "SERVER_SIDE_REQUEST_FORGERY", "JSON_WEB_TOKEN_VULNERABILITIES", "XML_EXTERNAL_ENTITY", "FILE_DELETION", "OTHER", "GRAPHQL_VULNERABILITIES", "BUSINESS_LOGIC_VULNERABILITIES", "CRYPTOGRAPHIC_VULNERABILITIES", "DENIAL_OF_SERVICE", "FILE_ACCESS", "FILE_CREATION", "DATABASE_MODIFICATION", "DATABASE_ACCESS", "OUTBOUND_SERVICE_REQUEST", "UNKNOWN"
     #   resp.service_role #=> String
@@ -5841,6 +5858,7 @@ module Aws::SecurityAgent
     #         {
     #           integration_id: "String", # required
     #           provider_resource_id: "String", # required
+    #           branch: "String",
     #         },
     #       ],
     #     },
@@ -5886,6 +5904,7 @@ module Aws::SecurityAgent
     #   resp.assets.integrated_repositories #=> Array
     #   resp.assets.integrated_repositories[0].integration_id #=> String
     #   resp.assets.integrated_repositories[0].provider_resource_id #=> String
+    #   resp.assets.integrated_repositories[0].branch #=> String
     #   resp.scope_docs #=> Array
     #   resp.scope_docs[0].s3_location #=> String
     #   resp.scope_docs[0].artifact_id #=> String
@@ -5965,7 +5984,7 @@ module Aws::SecurityAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-securityagent'
-      context[:gem_version] = '1.9.0'
+      context[:gem_version] = '1.10.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

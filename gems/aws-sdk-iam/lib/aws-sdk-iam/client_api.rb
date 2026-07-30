@@ -34,6 +34,8 @@ module Aws::IAM
     AttachUserPolicyRequest = Shapes::StructureShape.new(name: 'AttachUserPolicyRequest')
     AttachedPermissionsBoundary = Shapes::StructureShape.new(name: 'AttachedPermissionsBoundary')
     AttachedPolicy = Shapes::StructureShape.new(name: 'AttachedPolicy')
+    AttachmentName = Shapes::StringShape.new(name: 'AttachmentName')
+    AttachmentType = Shapes::StringShape.new(name: 'AttachmentType')
     BootstrapDatum = Shapes::BlobShape.new(name: 'BootstrapDatum')
     CallerIsNotManagementAccountException = Shapes::StructureShape.new(name: 'CallerIsNotManagementAccountException')
     CertificationKeyType = Shapes::StringShape.new(name: 'CertificationKeyType')
@@ -203,6 +205,7 @@ module Aws::IAM
     GetUserResponse = Shapes::StructureShape.new(name: 'GetUserResponse')
     Group = Shapes::StructureShape.new(name: 'Group')
     GroupDetail = Shapes::StructureShape.new(name: 'GroupDetail')
+    InlinePolicyIdentifierType = Shapes::StructureShape.new(name: 'InlinePolicyIdentifierType')
     InstanceProfile = Shapes::StructureShape.new(name: 'InstanceProfile')
     InvalidAuthenticationCodeException = Shapes::StructureShape.new(name: 'InvalidAuthenticationCodeException', error: {"code" => "InvalidAuthenticationCode", "httpStatusCode" => 403, "senderFault" => true})
     InvalidCertificateException = Shapes::StructureShape.new(name: 'InvalidCertificateException', error: {"code" => "InvalidCertificate", "httpStatusCode" => 400, "senderFault" => true})
@@ -296,9 +299,11 @@ module Aws::IAM
     OpenIDConnectProviderListType = Shapes::ListShape.new(name: 'OpenIDConnectProviderListType')
     OpenIDConnectProviderUrlType = Shapes::StringShape.new(name: 'OpenIDConnectProviderUrlType')
     OpenIdIdpCommunicationErrorException = Shapes::StructureShape.new(name: 'OpenIdIdpCommunicationErrorException', error: {"code" => "OpenIdIdpCommunicationError", "httpStatusCode" => 400, "senderFault" => true})
+    OrderedOrganizationPolicyType = Shapes::StructureShape.new(name: 'OrderedOrganizationPolicyType')
     OrganizationIdType = Shapes::StringShape.new(name: 'OrganizationIdType')
     OrganizationNotFoundException = Shapes::StructureShape.new(name: 'OrganizationNotFoundException')
     OrganizationNotInAllFeaturesModeException = Shapes::StructureShape.new(name: 'OrganizationNotInAllFeaturesModeException')
+    OrganizationPolicyListType = Shapes::ListShape.new(name: 'OrganizationPolicyListType')
     OrganizationsDecisionDetail = Shapes::StructureShape.new(name: 'OrganizationsDecisionDetail')
     PasswordPolicy = Shapes::StructureShape.new(name: 'PasswordPolicy')
     PasswordPolicyViolationException = Shapes::StructureShape.new(name: 'PasswordPolicyViolationException', error: {"code" => "PasswordPolicyViolation", "httpStatusCode" => 400, "senderFault" => true})
@@ -308,9 +313,12 @@ module Aws::IAM
     PolicyDetail = Shapes::StructureShape.new(name: 'PolicyDetail')
     PolicyEvaluationDecisionType = Shapes::StringShape.new(name: 'PolicyEvaluationDecisionType')
     PolicyEvaluationException = Shapes::StructureShape.new(name: 'PolicyEvaluationException', error: {"code" => "PolicyEvaluation", "httpStatusCode" => 500})
+    PolicyExclusionsListType = Shapes::ListShape.new(name: 'PolicyExclusionsListType')
     PolicyGrantingServiceAccess = Shapes::StructureShape.new(name: 'PolicyGrantingServiceAccess')
     PolicyGroup = Shapes::StructureShape.new(name: 'PolicyGroup')
     PolicyGroupListType = Shapes::ListShape.new(name: 'PolicyGroupListType')
+    PolicyIdentifier = Shapes::UnionShape.new(name: 'PolicyIdentifier')
+    PolicyIdentifierPolicyType = Shapes::StringShape.new(name: 'PolicyIdentifierPolicyType')
     PolicyIdentifierType = Shapes::StringShape.new(name: 'PolicyIdentifierType')
     PolicyNotAttachableException = Shapes::StructureShape.new(name: 'PolicyNotAttachableException', error: {"code" => "PolicyNotAttachable", "httpStatusCode" => 400, "senderFault" => true})
     PolicyParameter = Shapes::StructureShape.new(name: 'PolicyParameter')
@@ -1303,6 +1311,11 @@ module Aws::IAM
     GroupDetail.add_member(:attached_managed_policies, Shapes::ShapeRef.new(shape: attachedPoliciesListType, location_name: "AttachedManagedPolicies"))
     GroupDetail.struct_class = Types::GroupDetail
 
+    InlinePolicyIdentifierType.add_member(:policy_name, Shapes::ShapeRef.new(shape: policyNameType, required: true, location_name: "PolicyName"))
+    InlinePolicyIdentifierType.add_member(:attachment_type, Shapes::ShapeRef.new(shape: AttachmentType, required: true, location_name: "AttachmentType"))
+    InlinePolicyIdentifierType.add_member(:attachment_name, Shapes::ShapeRef.new(shape: AttachmentName, required: true, location_name: "AttachmentName"))
+    InlinePolicyIdentifierType.struct_class = Types::InlinePolicyIdentifierType
+
     InstanceProfile.add_member(:path, Shapes::ShapeRef.new(shape: pathType, required: true, location_name: "Path"))
     InstanceProfile.add_member(:instance_profile_name, Shapes::ShapeRef.new(shape: instanceProfileNameType, required: true, location_name: "InstanceProfileName"))
     InstanceProfile.add_member(:instance_profile_id, Shapes::ShapeRef.new(shape: idType, required: true, location_name: "InstanceProfileId"))
@@ -1738,9 +1751,14 @@ module Aws::IAM
     OpenIdIdpCommunicationErrorException.add_member(:message, Shapes::ShapeRef.new(shape: openIdIdpCommunicationErrorExceptionMessage, location_name: "message"))
     OpenIdIdpCommunicationErrorException.struct_class = Types::OpenIdIdpCommunicationErrorException
 
+    OrderedOrganizationPolicyType.add_member(:service_control_policy_input_list, Shapes::ShapeRef.new(shape: SimulationPolicyListType, location_name: "ServiceControlPolicyInputList"))
+    OrderedOrganizationPolicyType.struct_class = Types::OrderedOrganizationPolicyType
+
     OrganizationNotFoundException.struct_class = Types::OrganizationNotFoundException
 
     OrganizationNotInAllFeaturesModeException.struct_class = Types::OrganizationNotInAllFeaturesModeException
+
+    OrganizationPolicyListType.member = Shapes::ShapeRef.new(shape: OrderedOrganizationPolicyType)
 
     OrganizationsDecisionDetail.add_member(:allowed_by_organizations, Shapes::ShapeRef.new(shape: booleanType, location_name: "AllowedByOrganizations"))
     OrganizationsDecisionDetail.struct_class = Types::OrganizationsDecisionDetail
@@ -1784,6 +1802,8 @@ module Aws::IAM
     PolicyEvaluationException.add_member(:message, Shapes::ShapeRef.new(shape: policyEvaluationErrorMessage, location_name: "message"))
     PolicyEvaluationException.struct_class = Types::PolicyEvaluationException
 
+    PolicyExclusionsListType.member = Shapes::ShapeRef.new(shape: PolicyIdentifier)
+
     PolicyGrantingServiceAccess.add_member(:policy_name, Shapes::ShapeRef.new(shape: policyNameType, required: true, location_name: "PolicyName"))
     PolicyGrantingServiceAccess.add_member(:policy_type, Shapes::ShapeRef.new(shape: policyType, required: true, location_name: "PolicyType"))
     PolicyGrantingServiceAccess.add_member(:policy_arn, Shapes::ShapeRef.new(shape: arnType, location_name: "PolicyArn"))
@@ -1796,6 +1816,16 @@ module Aws::IAM
     PolicyGroup.struct_class = Types::PolicyGroup
 
     PolicyGroupListType.member = Shapes::ShapeRef.new(shape: PolicyGroup)
+
+    PolicyIdentifier.add_member(:policy_type, Shapes::ShapeRef.new(shape: PolicyIdentifierPolicyType, location_name: "PolicyType"))
+    PolicyIdentifier.add_member(:policy_arn, Shapes::ShapeRef.new(shape: arnType, location_name: "PolicyArn"))
+    PolicyIdentifier.add_member(:inline_policy_identifier, Shapes::ShapeRef.new(shape: InlinePolicyIdentifierType, location_name: "InlinePolicyIdentifier"))
+    PolicyIdentifier.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    PolicyIdentifier.add_member_subclass(:policy_type, Types::PolicyIdentifier::PolicyType)
+    PolicyIdentifier.add_member_subclass(:policy_arn, Types::PolicyIdentifier::PolicyArn)
+    PolicyIdentifier.add_member_subclass(:inline_policy_identifier, Types::PolicyIdentifier::InlinePolicyIdentifier)
+    PolicyIdentifier.add_member_subclass(:unknown, Types::PolicyIdentifier::Unknown)
+    PolicyIdentifier.struct_class = Types::PolicyIdentifier
 
     PolicyNotAttachableException.add_member(:message, Shapes::ShapeRef.new(shape: policyNotAttachableMessage, location_name: "message"))
     PolicyNotAttachableException.struct_class = Types::PolicyNotAttachableException
@@ -2034,6 +2064,7 @@ module Aws::IAM
 
     SimulateCustomPolicyRequest.add_member(:policy_input_list, Shapes::ShapeRef.new(shape: SimulationPolicyListType, required: true, location_name: "PolicyInputList"))
     SimulateCustomPolicyRequest.add_member(:permissions_boundary_policy_input_list, Shapes::ShapeRef.new(shape: SimulationPolicyListType, location_name: "PermissionsBoundaryPolicyInputList"))
+    SimulateCustomPolicyRequest.add_member(:ordered_organization_policy_input_list, Shapes::ShapeRef.new(shape: OrganizationPolicyListType, location_name: "OrderedOrganizationPolicyInputList"))
     SimulateCustomPolicyRequest.add_member(:action_names, Shapes::ShapeRef.new(shape: ActionNameListType, required: true, location_name: "ActionNames"))
     SimulateCustomPolicyRequest.add_member(:resource_arns, Shapes::ShapeRef.new(shape: ResourceNameListType, location_name: "ResourceArns"))
     SimulateCustomPolicyRequest.add_member(:resource_policy, Shapes::ShapeRef.new(shape: policyDocumentType, location_name: "ResourcePolicy"))
@@ -2053,6 +2084,7 @@ module Aws::IAM
     SimulatePrincipalPolicyRequest.add_member(:policy_source_arn, Shapes::ShapeRef.new(shape: arnType, required: true, location_name: "PolicySourceArn"))
     SimulatePrincipalPolicyRequest.add_member(:policy_input_list, Shapes::ShapeRef.new(shape: SimulationPolicyListType, location_name: "PolicyInputList"))
     SimulatePrincipalPolicyRequest.add_member(:permissions_boundary_policy_input_list, Shapes::ShapeRef.new(shape: SimulationPolicyListType, location_name: "PermissionsBoundaryPolicyInputList"))
+    SimulatePrincipalPolicyRequest.add_member(:policy_exclusion_list, Shapes::ShapeRef.new(shape: PolicyExclusionsListType, location_name: "PolicyExclusionList"))
     SimulatePrincipalPolicyRequest.add_member(:action_names, Shapes::ShapeRef.new(shape: ActionNameListType, required: true, location_name: "ActionNames"))
     SimulatePrincipalPolicyRequest.add_member(:resource_arns, Shapes::ShapeRef.new(shape: ResourceNameListType, location_name: "ResourceArns"))
     SimulatePrincipalPolicyRequest.add_member(:resource_policy, Shapes::ShapeRef.new(shape: policyDocumentType, location_name: "ResourcePolicy"))

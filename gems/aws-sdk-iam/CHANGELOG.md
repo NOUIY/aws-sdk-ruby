@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.150.0 (2026-07-30)
+------------------
+
+* Feature - Improved IAM Policy Simulator accuracy. Simulator now evaluates SCP conditions and resource scoping, returns explicitDeny for explicit SCP denials, and reports accurate cross-account decisions.
+
 1.149.0 (2026-07-09)
 ------------------
 

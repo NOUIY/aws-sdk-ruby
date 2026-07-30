@@ -1617,6 +1617,11 @@ module Aws
       def simulate_custom_policy: (
                                     policy_input_list: Array[::String],
                                     ?permissions_boundary_policy_input_list: Array[::String],
+                                    ?ordered_organization_policy_input_list: Array[
+                                      {
+                                        service_control_policy_input_list: Array[::String]?
+                                      }
+                                    ],
                                     action_names: Array[::String],
                                     ?resource_arns: Array[::String],
                                     ?resource_policy: ::String,
@@ -1646,6 +1651,17 @@ module Aws
                                        policy_source_arn: ::String,
                                        ?policy_input_list: Array[::String],
                                        ?permissions_boundary_policy_input_list: Array[::String],
+                                       ?policy_exclusion_list: Array[
+                                         {
+                                           policy_type: ("inline" | "aws-managed" | "user-managed" | "permission-boundary" | "scp" | "rcp")?,
+                                           policy_arn: ::String?,
+                                           inline_policy_identifier: {
+                                             policy_name: ::String,
+                                             attachment_type: ("user" | "group" | "role"),
+                                             attachment_name: ::String
+                                           }?
+                                         }
+                                       ],
                                        action_names: Array[::String],
                                        ?resource_arns: Array[::String],
                                        ?resource_policy: ::String,

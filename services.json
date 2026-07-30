@@ -989,6 +989,9 @@
   "Pricing": {
     "models": "pricing/2017-10-15"
   },
+  "PricingPlanManager": {
+    "models": "pricing-plan-manager/2025-08-05"
+  },
   "PrometheusService": {
     "models": "amp/2020-08-01"
   },

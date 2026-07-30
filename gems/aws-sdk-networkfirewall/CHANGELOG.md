@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.94.0 (2026-07-30)
+------------------
+
+* Feature - Adds UPDATING field to Container Association Status
+
 1.93.0 (2026-07-09)
 ------------------
 

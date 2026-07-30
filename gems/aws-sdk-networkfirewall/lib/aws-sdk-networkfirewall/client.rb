@@ -924,7 +924,7 @@ module Aws::NetworkFirewall
     #   resp.container_monitoring_configurations[0].attribute_filters #=> Array
     #   resp.container_monitoring_configurations[0].attribute_filters[0].key #=> String
     #   resp.container_monitoring_configurations[0].attribute_filters[0].value #=> String
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "UPDATING"
     #   resp.tags #=> Array
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
@@ -2358,7 +2358,7 @@ module Aws::NetworkFirewall
     #
     #   resp.container_association_name #=> String
     #   resp.container_association_arn #=> String
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "UPDATING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DeleteContainerAssociation AWS API Documentation
     #
@@ -3000,7 +3000,7 @@ module Aws::NetworkFirewall
     #   resp.container_monitoring_configurations[0].attribute_filters #=> Array
     #   resp.container_monitoring_configurations[0].attribute_filters[0].key #=> String
     #   resp.container_monitoring_configurations[0].attribute_filters[0].value #=> String
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "UPDATING"
     #   resp.resolved_cidr_count #=> Integer
     #   resp.last_updated_time #=> Time
     #   resp.tags #=> Array
@@ -5681,7 +5681,7 @@ module Aws::NetworkFirewall
     #   resp.container_monitoring_configurations[0].attribute_filters #=> Array
     #   resp.container_monitoring_configurations[0].attribute_filters[0].key #=> String
     #   resp.container_monitoring_configurations[0].attribute_filters[0].value #=> String
-    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING"
+    #   resp.status #=> String, one of "ACTIVE", "CREATING", "DELETING", "UPDATING"
     #   resp.tags #=> Array
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
@@ -7262,7 +7262,7 @@ module Aws::NetworkFirewall
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-networkfirewall'
-      context[:gem_version] = '1.93.0'
+      context[:gem_version] = '1.94.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

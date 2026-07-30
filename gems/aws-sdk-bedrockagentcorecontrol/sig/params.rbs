@@ -163,8 +163,19 @@ module Aws
       }?
     }
 
+      type open_responses_evaluator_model_config = {
+      model_id: ::String,
+      max_output_tokens: ::Integer?,
+      temperature: ::Float?,
+      top_p: ::Float?,
+      reasoning: {
+        effort: ::String?
+      }?
+    }
+
       type evaluator_model_config = {
-      bedrock_evaluator_model_config: Params::bedrock_evaluator_model_config?
+      bedrock_evaluator_model_config: Params::bedrock_evaluator_model_config?,
+      responses_evaluator_model_config: Params::open_responses_evaluator_model_config?
     }
 
       type llm_as_a_judge_evaluator_config = {

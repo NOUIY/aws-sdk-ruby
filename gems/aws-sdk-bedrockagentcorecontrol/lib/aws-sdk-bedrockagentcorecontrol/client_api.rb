@@ -851,6 +851,10 @@ module Aws::BedrockAgentCoreControl
     OnlineEvaluationConfigSummary = Shapes::StructureShape.new(name: 'OnlineEvaluationConfigSummary')
     OnlineEvaluationConfigSummaryList = Shapes::ListShape.new(name: 'OnlineEvaluationConfigSummaryList')
     OnlineEvaluationExecutionStatus = Shapes::StringShape.new(name: 'OnlineEvaluationExecutionStatus')
+    OpenResponsesEvaluatorModelConfig = Shapes::StructureShape.new(name: 'OpenResponsesEvaluatorModelConfig')
+    OpenResponsesEvaluatorModelConfigMaxOutputTokensInteger = Shapes::IntegerShape.new(name: 'OpenResponsesEvaluatorModelConfigMaxOutputTokensInteger')
+    OpenResponsesEvaluatorModelConfigTemperatureFloat = Shapes::FloatShape.new(name: 'OpenResponsesEvaluatorModelConfigTemperatureFloat')
+    OpenResponsesEvaluatorModelConfigTopPFloat = Shapes::FloatShape.new(name: 'OpenResponsesEvaluatorModelConfigTopPFloat')
     OutputConfig = Shapes::StructureShape.new(name: 'OutputConfig')
     OverrideType = Shapes::StringShape.new(name: 'OverrideType')
     PassthroughEndpoint = Shapes::StringShape.new(name: 'PassthroughEndpoint')
@@ -921,6 +925,8 @@ module Aws::BedrockAgentCoreControl
     PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
     PutResourcePolicyResponse = Shapes::StructureShape.new(name: 'PutResourcePolicyResponse')
     RatingScale = Shapes::UnionShape.new(name: 'RatingScale')
+    ReasoningConfiguration = Shapes::StructureShape.new(name: 'ReasoningConfiguration')
+    ReasoningConfigurationEffortString = Shapes::StringShape.new(name: 'ReasoningConfigurationEffortString')
     RecordIdentifier = Shapes::StringShape.new(name: 'RecordIdentifier')
     RecordingConfig = Shapes::StructureShape.new(name: 'RecordingConfig')
     ReflectionConfiguration = Shapes::UnionShape.new(name: 'ReflectionConfiguration')
@@ -2629,8 +2635,10 @@ module Aws::BedrockAgentCoreControl
     EvaluatorList.member = Shapes::ShapeRef.new(shape: EvaluatorReference)
 
     EvaluatorModelConfig.add_member(:bedrock_evaluator_model_config, Shapes::ShapeRef.new(shape: BedrockEvaluatorModelConfig, location_name: "bedrockEvaluatorModelConfig"))
+    EvaluatorModelConfig.add_member(:responses_evaluator_model_config, Shapes::ShapeRef.new(shape: OpenResponsesEvaluatorModelConfig, location_name: "responsesEvaluatorModelConfig"))
     EvaluatorModelConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     EvaluatorModelConfig.add_member_subclass(:bedrock_evaluator_model_config, Types::EvaluatorModelConfig::BedrockEvaluatorModelConfig)
+    EvaluatorModelConfig.add_member_subclass(:responses_evaluator_model_config, Types::EvaluatorModelConfig::ResponsesEvaluatorModelConfig)
     EvaluatorModelConfig.add_member_subclass(:unknown, Types::EvaluatorModelConfig::Unknown)
     EvaluatorModelConfig.struct_class = Types::EvaluatorModelConfig
 
@@ -4405,6 +4413,13 @@ module Aws::BedrockAgentCoreControl
 
     OnlineEvaluationConfigSummaryList.member = Shapes::ShapeRef.new(shape: OnlineEvaluationConfigSummary)
 
+    OpenResponsesEvaluatorModelConfig.add_member(:model_id, Shapes::ShapeRef.new(shape: ModelId, required: true, location_name: "modelId"))
+    OpenResponsesEvaluatorModelConfig.add_member(:max_output_tokens, Shapes::ShapeRef.new(shape: OpenResponsesEvaluatorModelConfigMaxOutputTokensInteger, location_name: "maxOutputTokens"))
+    OpenResponsesEvaluatorModelConfig.add_member(:temperature, Shapes::ShapeRef.new(shape: OpenResponsesEvaluatorModelConfigTemperatureFloat, location_name: "temperature"))
+    OpenResponsesEvaluatorModelConfig.add_member(:top_p, Shapes::ShapeRef.new(shape: OpenResponsesEvaluatorModelConfigTopPFloat, location_name: "topP"))
+    OpenResponsesEvaluatorModelConfig.add_member(:reasoning, Shapes::ShapeRef.new(shape: ReasoningConfiguration, location_name: "reasoning"))
+    OpenResponsesEvaluatorModelConfig.struct_class = Types::OpenResponsesEvaluatorModelConfig
+
     OutputConfig.add_member(:cloud_watch_config, Shapes::ShapeRef.new(shape: CloudWatchOutputConfig, required: true, location_name: "cloudWatchConfig"))
     OutputConfig.struct_class = Types::OutputConfig
 
@@ -4618,6 +4633,9 @@ module Aws::BedrockAgentCoreControl
     RatingScale.add_member_subclass(:categorical, Types::RatingScale::Categorical)
     RatingScale.add_member_subclass(:unknown, Types::RatingScale::Unknown)
     RatingScale.struct_class = Types::RatingScale
+
+    ReasoningConfiguration.add_member(:effort, Shapes::ShapeRef.new(shape: ReasoningConfigurationEffortString, location_name: "effort"))
+    ReasoningConfiguration.struct_class = Types::ReasoningConfiguration
 
     RecordingConfig.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "enabled"))
     RecordingConfig.add_member(:s3_location, Shapes::ShapeRef.new(shape: S3Location, location_name: "s3Location"))

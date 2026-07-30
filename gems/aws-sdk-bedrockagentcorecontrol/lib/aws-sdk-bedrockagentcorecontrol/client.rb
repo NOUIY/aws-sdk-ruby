@@ -1535,6 +1535,15 @@ module Aws::BedrockAgentCoreControl
     #             additional_model_request_fields: {
     #             },
     #           },
+    #           responses_evaluator_model_config: {
+    #             model_id: "ModelId", # required
+    #             max_output_tokens: 1,
+    #             temperature: 1.0,
+    #             top_p: 1.0,
+    #             reasoning: {
+    #               effort: "ReasoningConfigurationEffortString",
+    #             },
+    #           },
     #         },
     #       },
     #       code_based: {
@@ -6784,6 +6793,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.evaluator_config.llm_as_a_judge.model_config.bedrock_evaluator_model_config.inference_config.top_p #=> Float
     #   resp.evaluator_config.llm_as_a_judge.model_config.bedrock_evaluator_model_config.inference_config.stop_sequences #=> Array
     #   resp.evaluator_config.llm_as_a_judge.model_config.bedrock_evaluator_model_config.inference_config.stop_sequences[0] #=> String
+    #   resp.evaluator_config.llm_as_a_judge.model_config.responses_evaluator_model_config.model_id #=> String
+    #   resp.evaluator_config.llm_as_a_judge.model_config.responses_evaluator_model_config.max_output_tokens #=> Integer
+    #   resp.evaluator_config.llm_as_a_judge.model_config.responses_evaluator_model_config.temperature #=> Float
+    #   resp.evaluator_config.llm_as_a_judge.model_config.responses_evaluator_model_config.top_p #=> Float
+    #   resp.evaluator_config.llm_as_a_judge.model_config.responses_evaluator_model_config.reasoning.effort #=> String
     #   resp.evaluator_config.code_based.lambda_config.lambda_arn #=> String
     #   resp.evaluator_config.code_based.lambda_config.lambda_timeout_in_seconds #=> Integer
     #   resp.level #=> String, one of "TOOL_CALL", "TRACE", "SESSION"
@@ -11582,6 +11596,15 @@ module Aws::BedrockAgentCoreControl
     #             additional_model_request_fields: {
     #             },
     #           },
+    #           responses_evaluator_model_config: {
+    #             model_id: "ModelId", # required
+    #             max_output_tokens: 1,
+    #             temperature: 1.0,
+    #             top_p: 1.0,
+    #             reasoning: {
+    #               effort: "ReasoningConfigurationEffortString",
+    #             },
+    #           },
     #         },
     #       },
     #       code_based: {
@@ -15125,7 +15148,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.60.0'
+      context[:gem_version] = '1.61.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

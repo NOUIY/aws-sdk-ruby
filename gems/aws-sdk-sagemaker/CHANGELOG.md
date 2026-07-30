@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.381.0 (2026-07-30)
+------------------
+
+* Feature - Adds support for g7 family instance types for SageMaker Studio JupyterLab and CodeEditor apps for IAD (us-east-1), PDX (us-west-2), CMH (us-east-2).
+
 1.380.0 (2026-07-27)
 ------------------
 

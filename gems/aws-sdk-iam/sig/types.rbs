@@ -1021,6 +1021,13 @@ module Aws::IAM
       SENSITIVE: []
     end
 
+    class InlinePolicyIdentifierType
+      attr_accessor policy_name: ::String
+      attr_accessor attachment_type: ("user" | "group" | "role")
+      attr_accessor attachment_name: ::String
+      SENSITIVE: []
+    end
+
     class InstanceProfile
       attr_accessor path: ::String
       attr_accessor instance_profile_name: ::String
@@ -1627,6 +1634,11 @@ module Aws::IAM
       SENSITIVE: []
     end
 
+    class OrderedOrganizationPolicyType
+      attr_accessor service_control_policy_input_list: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class OrganizationNotFoundException < Aws::EmptyStructure
     end
 
@@ -1702,6 +1714,23 @@ module Aws::IAM
       attr_accessor group_name: ::String
       attr_accessor group_id: ::String
       SENSITIVE: []
+    end
+
+    class PolicyIdentifier
+      attr_accessor policy_type: ("inline" | "aws-managed" | "user-managed" | "permission-boundary" | "scp" | "rcp")
+      attr_accessor policy_arn: ::String
+      attr_accessor inline_policy_identifier: Types::InlinePolicyIdentifierType
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class PolicyType < PolicyIdentifier
+      end
+      class PolicyArn < PolicyIdentifier
+      end
+      class InlinePolicyIdentifier < PolicyIdentifier
+      end
+      class Unknown < PolicyIdentifier
+      end
     end
 
     class PolicyNotAttachableException
@@ -2003,6 +2032,7 @@ module Aws::IAM
     class SimulateCustomPolicyRequest
       attr_accessor policy_input_list: ::Array[::String]
       attr_accessor permissions_boundary_policy_input_list: ::Array[::String]
+      attr_accessor ordered_organization_policy_input_list: ::Array[Types::OrderedOrganizationPolicyType]
       attr_accessor action_names: ::Array[::String]
       attr_accessor resource_arns: ::Array[::String]
       attr_accessor resource_policy: ::String
@@ -2026,6 +2056,7 @@ module Aws::IAM
       attr_accessor policy_source_arn: ::String
       attr_accessor policy_input_list: ::Array[::String]
       attr_accessor permissions_boundary_policy_input_list: ::Array[::String]
+      attr_accessor policy_exclusion_list: ::Array[Types::PolicyIdentifier]
       attr_accessor action_names: ::Array[::String]
       attr_accessor resource_arns: ::Array[::String]
       attr_accessor resource_policy: ::String

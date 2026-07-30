@@ -432,9 +432,9 @@ module Aws::SageMaker
 
     # The per-recommendation LoRA adapter details. Contains both the model
     # package ARNs and Amazon S3 URIs for each adapter, regardless of which
-    # form was originally supplied in the request. When the customer
-    # supplies only Amazon S3 URIs, Amazon SageMaker AI creates model
-    # packages on their behalf.
+    # form was originally supplied in the request. When you supply only
+    # Amazon S3 URIs, Amazon SageMaker AI creates model packages on your
+    # behalf.
     #
     # @!attribute [rw] model_package_arns
     #   The list of LoRA adapters with their model package ARNs.
@@ -515,12 +515,10 @@ module Aws::SageMaker
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] min_cpu_memory_required_in_mb
-    #   The minimum host (CPU) memory, in MiB, to reserve per model copy
-    #   when deploying the recommendation as an Inference Component. This
-    #   value maps to the base Inference Component's
-    #   `ComputeResourceRequirements$MinMemoryRequiredInMb` and is sized so
-    #   that `CopyCountPerInstance` copies co-place within the instance's
-    #   allocatable host memory.
+    #   The minimum host (CPU) memory, in MiB, to reserve for each model
+    #   copy when deploying the recommendation as an Inference Component.
+    #   This value maps to the Inference Component's
+    #   `ComputeResourceRequirements$MinMemoryRequiredInMb` field.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/AIRecommendationDeploymentConfiguration AWS API Documentation
@@ -13485,7 +13483,7 @@ module Aws::SageMaker
     #   When you use reserved capacity from a training plan, the
     #   optimization job runs on that reserved capacity instead of on-demand
     #   capacity. If you omit this field, the job uses on-demand capacity.
-    #   Currently, you can specify at most one training plan.
+    #   You can specify at most one training plan.
     #
     #   For more information about how to reserve GPU capacity for your
     #   optimization jobs using Amazon SageMaker Training Plans, see
@@ -17363,8 +17361,8 @@ module Aws::SageMaker
     #   @return [Types::AIRecommendationComputeSpec]
     #
     # @!attribute [rw] adapter_source
-    #   The LoRA adapter source that was specified when the recommendation
-    #   job was created. This field is absent when the job was created
+    #   The LoRA adapter source that you specified when you created the
+    #   recommendation job. This field is absent when you created the job
     #   without LoRA adapters.
     #   @return [Types::AIAdapterSource]
     #

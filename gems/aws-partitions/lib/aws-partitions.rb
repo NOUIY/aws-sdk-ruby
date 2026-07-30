@@ -555,6 +555,7 @@ module Aws
             'Pipes' => 'pipes',
             'Polly' => 'polly',
             'Pricing' => 'api.pricing',
+            'PricingPlanManager' => 'pricingplanmanager',
             'PrometheusService' => 'aps',
             'Proton' => 'proton',
             'QApps' => 'data.qapps',

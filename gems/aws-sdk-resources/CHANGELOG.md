@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.268.0 (2026-07-30)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-pricingplanmanager` gem.
+
 3.267.0 (2026-07-07)
 ------------------
 

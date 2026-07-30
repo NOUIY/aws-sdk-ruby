@@ -1801,10 +1801,13 @@ module Aws::BedrockAgentCoreControl
 
     class EvaluatorModelConfig
       attr_accessor bedrock_evaluator_model_config: Types::BedrockEvaluatorModelConfig
+      attr_accessor responses_evaluator_model_config: Types::OpenResponsesEvaluatorModelConfig
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class BedrockEvaluatorModelConfig < EvaluatorModelConfig
+      end
+      class ResponsesEvaluatorModelConfig < EvaluatorModelConfig
       end
       class Unknown < EvaluatorModelConfig
       end
@@ -4166,6 +4169,15 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: [:description]
     end
 
+    class OpenResponsesEvaluatorModelConfig
+      attr_accessor model_id: ::String
+      attr_accessor max_output_tokens: ::Integer
+      attr_accessor temperature: ::Float
+      attr_accessor top_p: ::Float
+      attr_accessor reasoning: Types::ReasoningConfiguration
+      SENSITIVE: []
+    end
+
     class OutputConfig
       attr_accessor cloud_watch_config: Types::CloudWatchOutputConfig
       SENSITIVE: []
@@ -4430,6 +4442,11 @@ module Aws::BedrockAgentCoreControl
       end
       class Unknown < RatingScale
       end
+    end
+
+    class ReasoningConfiguration
+      attr_accessor effort: ::String
+      SENSITIVE: []
     end
 
     class RecordingConfig

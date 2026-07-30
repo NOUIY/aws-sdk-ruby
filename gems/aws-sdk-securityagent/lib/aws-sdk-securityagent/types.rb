@@ -4479,11 +4479,16 @@ module Aws::SecurityAgent
     #   The provider-specific resource identifier for the repository.
     #   @return [String]
     #
+    # @!attribute [rw] branch
+    #   An optional override for the repository branch.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/IntegratedRepository AWS API Documentation
     #
     class IntegratedRepository < Struct.new(
       :integration_id,
-      :provider_resource_id)
+      :provider_resource_id,
+      :branch)
       SENSITIVE = []
       include Aws::Structure
     end

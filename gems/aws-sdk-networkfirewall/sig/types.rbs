@@ -190,7 +190,7 @@ module Aws::NetworkFirewall
       attr_accessor description: ::String
       attr_accessor type: ("ECS" | "EKS")
       attr_accessor container_monitoring_configurations: ::Array[Types::ContainerMonitoringConfiguration]
-      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING")
+      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor update_token: ::String
       SENSITIVE: []
@@ -379,7 +379,7 @@ module Aws::NetworkFirewall
     class DeleteContainerAssociationResponse
       attr_accessor container_association_name: ::String
       attr_accessor container_association_arn: ::String
-      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING")
+      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
       SENSITIVE: []
     end
 
@@ -521,7 +521,7 @@ module Aws::NetworkFirewall
       attr_accessor description: ::String
       attr_accessor type: ("ECS" | "EKS")
       attr_accessor container_monitoring_configurations: ::Array[Types::ContainerMonitoringConfiguration]
-      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING")
+      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
       attr_accessor resolved_cidr_count: ::Integer
       attr_accessor last_updated_time: ::Time
       attr_accessor tags: ::Array[Types::Tag]
@@ -1774,7 +1774,7 @@ module Aws::NetworkFirewall
       attr_accessor description: ::String
       attr_accessor type: ("ECS" | "EKS")
       attr_accessor container_monitoring_configurations: ::Array[Types::ContainerMonitoringConfiguration]
-      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING")
+      attr_accessor status: ("ACTIVE" | "CREATING" | "DELETING" | "UPDATING")
       attr_accessor tags: ::Array[Types::Tag]
       attr_accessor update_token: ::String
       SENSITIVE: []

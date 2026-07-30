@@ -715,6 +715,7 @@ RubyGems.org page under "LINKS" section.
 | Payment Cryptography Control Plane                    | Aws::PaymentCryptography                 | aws-sdk-paymentcryptography                 | 2021-09-14  |
 | Payment Cryptography Data Plane                       | Aws::PaymentCryptographyData             | aws-sdk-paymentcryptographydata             | 2022-02-03  |
 | PcaConnectorAd                                        | Aws::PcaConnectorAd                      | aws-sdk-pcaconnectorad                      | 2018-05-10  |
+| PricingPlanManager                                    | Aws::PricingPlanManager                  | aws-sdk-pricingplanmanager                  | 2025-08-05  |
 | Private CA Connector for SCEP                         | Aws::PcaConnectorScep                    | aws-sdk-pcaconnectorscep                    | 2018-05-10  |
 | QApps                                                 | Aws::QApps                               | aws-sdk-qapps                               | 2023-11-27  |
 | QBusiness                                             | Aws::QBusiness                           | aws-sdk-qbusiness                           | 2023-11-27  |

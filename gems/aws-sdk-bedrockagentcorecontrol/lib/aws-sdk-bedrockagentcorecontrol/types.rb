@@ -6698,16 +6698,22 @@ module Aws::BedrockAgentCoreControl
     #   The Amazon Bedrock model configuration for evaluation.
     #   @return [Types::BedrockEvaluatorModelConfig]
     #
+    # @!attribute [rw] responses_evaluator_model_config
+    #   The OpenResponses model configuration for evaluation.
+    #   @return [Types::OpenResponsesEvaluatorModelConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EvaluatorModelConfig AWS API Documentation
     #
     class EvaluatorModelConfig < Struct.new(
       :bedrock_evaluator_model_config,
+      :responses_evaluator_model_config,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
       class BedrockEvaluatorModelConfig < EvaluatorModelConfig; end
+      class ResponsesEvaluatorModelConfig < EvaluatorModelConfig; end
       class Unknown < EvaluatorModelConfig; end
     end
 
@@ -14923,6 +14929,47 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The configuration for using models served through the OpenResponses
+    # API in evaluator assessments, including model selection and inference
+    # parameters.
+    #
+    # @!attribute [rw] model_id
+    #   The identifier of the model to use for evaluation.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_output_tokens
+    #   The maximum number of tokens to generate in the model response,
+    #   including visible output and reasoning tokens.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] temperature
+    #   The temperature value that controls randomness in the model's
+    #   responses. Lower values produce more deterministic outputs.
+    #   @return [Float]
+    #
+    # @!attribute [rw] top_p
+    #   The top-p sampling parameter that controls the diversity of the
+    #   model's responses by limiting the cumulative probability of token
+    #   choices.
+    #   @return [Float]
+    #
+    # @!attribute [rw] reasoning
+    #   The reasoning configuration for reasoning models. Non-reasoning
+    #   models ignore this configuration.
+    #   @return [Types::ReasoningConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/OpenResponsesEvaluatorModelConfig AWS API Documentation
+    #
+    class OpenResponsesEvaluatorModelConfig < Struct.new(
+      :model_id,
+      :max_output_tokens,
+      :temperature,
+      :top_p,
+      :reasoning)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The configuration that specifies where evaluation results should be
     # written for monitoring and analysis.
     #
@@ -15954,6 +16001,23 @@ module Aws::BedrockAgentCoreControl
       class Numerical < RatingScale; end
       class Categorical < RatingScale; end
       class Unknown < RatingScale; end
+    end
+
+    # The reasoning configuration that controls how a reasoning model
+    # allocates effort during evaluation.
+    #
+    # @!attribute [rw] effort
+    #   The level of reasoning effort the model applies when generating a
+    #   response. For supported values, see the model provider's
+    #   documentation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ReasoningConfiguration AWS API Documentation
+    #
+    class ReasoningConfiguration < Struct.new(
+      :effort)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # The recording configuration for a browser. This structure defines how

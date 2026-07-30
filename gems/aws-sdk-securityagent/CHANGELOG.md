@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.10.0 (2026-07-30)
+------------------
+
+* Feature - Adds support for providing a branch override when configured integrated repositories
+
 1.9.0 (2026-07-27)
 ------------------
 
