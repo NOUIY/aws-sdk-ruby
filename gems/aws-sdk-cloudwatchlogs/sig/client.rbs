@@ -217,7 +217,8 @@ module Aws
       def create_lookup_table: (
                                  lookup_table_name: ::String,
                                  ?description: ::String,
-                                 table_body: ::String,
+                                 ?table_body: ::String,
+                                 ?query_id: ::String,
                                  ?kms_key_id: ::String,
                                  ?tags: Hash[::String, ::String]
                                ) -> _CreateLookupTableResponseSuccess
@@ -1524,7 +1525,8 @@ module Aws
       def update_lookup_table: (
                                  lookup_table_arn: ::String,
                                  ?description: ::String,
-                                 table_body: ::String,
+                                 ?table_body: ::String,
+                                 ?query_id: ::String,
                                  ?kms_key_id: ::String
                                ) -> _UpdateLookupTableResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateLookupTableResponseSuccess

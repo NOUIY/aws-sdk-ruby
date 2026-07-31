@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.95.0 (2026-07-31)
+------------------
+
+* Feature - Doc Updates for Container Attributes
+
 1.94.0 (2026-07-30)
 ------------------
 

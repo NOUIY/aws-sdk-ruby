@@ -20,6 +20,12 @@ module Aws
 
       type output_config = {
       cropping: {
+        template_groups: Array[
+          {
+            name: ::String,
+            template_uris: Array[::String]
+          }
+        ]?
       }?,
       clipping: {
         callback_metadata: ::String?

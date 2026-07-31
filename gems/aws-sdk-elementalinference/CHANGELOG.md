@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.8.0 (2026-07-31)
+------------------
+
+* Feature - AWS Elemental Inference now supports graphic composition on cropped video outputs, enabling branded graphics and other visual elements to be overlaid as part of the inference workflow.
+
 1.7.0 (2026-07-09)
 ------------------
 

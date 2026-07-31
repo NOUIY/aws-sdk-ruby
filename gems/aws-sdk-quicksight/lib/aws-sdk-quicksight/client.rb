@@ -506,7 +506,7 @@ module Aws::QuickSight
     #       {
     #         answer_id: "AnswerId", # required
     #         dataset_arn: "Arn", # required
-    #         question: "LimitedString", # required
+    #         question: "LimitedSensitiveString", # required
     #         mir: {
     #           metrics: [
     #             {
@@ -599,7 +599,7 @@ module Aws::QuickSight
     #             [
     #               {
     #                 filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
-    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #                 operand_field: {
     #                   identity: "LimitedString", # required
     #                 },
@@ -699,7 +699,7 @@ module Aws::QuickSight
     #             time_ranges: {
     #               start_range: {
     #                 filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
-    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #                 operand_field: {
     #                   identity: "LimitedString", # required
     #                 },
@@ -784,7 +784,7 @@ module Aws::QuickSight
     #               },
     #               end_range: {
     #                 filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
-    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #                 operand_field: {
     #                   identity: "LimitedString", # required
     #                 },
@@ -970,7 +970,7 @@ module Aws::QuickSight
     #               [
     #                 {
     #                   filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
-    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #                   operand_field: {
     #                     identity: "LimitedString", # required
     #                   },
@@ -1070,7 +1070,7 @@ module Aws::QuickSight
     #               time_ranges: {
     #                 start_range: {
     #                   filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
-    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #                   operand_field: {
     #                     identity: "LimitedString", # required
     #                   },
@@ -1155,7 +1155,7 @@ module Aws::QuickSight
     #                 },
     #                 end_range: {
     #                   filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
-    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #                   operand_field: {
     #                     identity: "LimitedString", # required
     #                   },
@@ -2044,7 +2044,7 @@ module Aws::QuickSight
     # @option params [Types::AnalysisSourceEntity] :source_entity
     #   A source entity to use for the analysis that you're creating. This
     #   metadata structure contains details that describe a source template
-    #   and one or more datasets.
+    #   and one or more datasets or topics.
     #
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
@@ -2379,6 +2379,48 @@ module Aws::QuickSight
     #       approve_flow_share_requests: "DENY", # accepts DENY, ALLOW
     #       use_agent_web_search: "DENY", # accepts DENY, ALLOW
     #       knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_knowledge_bases: "DENY", # accepts DENY, ALLOW
+    #       share_knowledge_bases: "DENY", # accepts DENY, ALLOW
+    #       share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       idc_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_idc_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_idc_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_idc_knowledge_base: "DENY", # accepts DENY, ALLOW
     #       action: "DENY", # accepts DENY, ALLOW
     #       generic_http_action: "DENY", # accepts DENY, ALLOW
     #       create_and_update_generic_http_action: "DENY", # accepts DENY, ALLOW
@@ -2653,7 +2695,10 @@ module Aws::QuickSight
     #
     #   Use the `DataSetReferences` entity within `SourceTemplate` to list the
     #   replacement datasets for the placeholders listed in the original. The
-    #   schema in each dataset must match its placeholder.
+    #   schema in each dataset must match its placeholder. Use the
+    #   `TopicReferences` entity to list the replacement topics for the topic
+    #   placeholders listed in the original. The schema in each topic must
+    #   match its placeholder.
     #
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
@@ -5103,7 +5148,9 @@ module Aws::QuickSight
     #   Use the `DataSetReferences` entity within `SourceTemplate` or
     #   `SourceAnalysis` to list the replacement datasets for the placeholders
     #   listed in the original. The schema in each dataset must match its
-    #   placeholder.
+    #   placeholder. Use the `TopicReferences` entity to list the replacement
+    #   topics for the topic placeholders listed in the original. The schema
+    #   in each topic must match its placeholder.
     #
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
@@ -5573,10 +5620,10 @@ module Aws::QuickSight
     #           },
     #           filters: [
     #             {
-    #               filter_description: "LimitedString",
-    #               filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #               filter_description: "DescriptionSensitiveString",
+    #               filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #               filter_name: "LimitedString", # required
-    #               filter_synonyms: ["LimitedString"],
+    #               filter_synonyms: ["SynonymString"],
     #               operand_field_name: "LimitedString", # required
     #               filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, NULL_FILTER
     #               category_filter: {
@@ -5584,54 +5631,61 @@ module Aws::QuickSight
     #                 category_filter_type: "CUSTOM_FILTER", # accepts CUSTOM_FILTER, CUSTOM_FILTER_LIST, FILTER_LIST
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                   collective_constant: {
     #                     value_list: ["String"],
     #                   },
     #                 },
     #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               numeric_equality_filter: {
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                 },
     #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               numeric_range_filter: {
     #                 inclusive: false,
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
     #                   range_constant: {
-    #                     minimum: "LimitedString",
-    #                     maximum: "LimitedString",
+    #                     minimum: "LimitedSensitiveString",
+    #                     maximum: "LimitedSensitiveString",
     #                   },
     #                 },
     #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               date_range_filter: {
     #                 inclusive: false,
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
     #                   range_constant: {
-    #                     minimum: "LimitedString",
-    #                     maximum: "LimitedString",
+    #                     minimum: "LimitedSensitiveString",
+    #                     maximum: "LimitedSensitiveString",
     #                   },
     #                 },
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               relative_date_filter: {
     #                 time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
     #                 relative_date_filter_function: "PREVIOUS", # accepts PREVIOUS, THIS, LAST, NEXT, NOW
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                 },
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               null_filter: {
     #                 null_filter_type: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                 },
     #                 inverse: false,
     #               },
@@ -5640,9 +5694,9 @@ module Aws::QuickSight
     #           columns: [
     #             {
     #               column_name: "LimitedString", # required
-    #               column_friendly_name: "LimitedString",
-    #               column_description: "LimitedString",
-    #               column_synonyms: ["LimitedString"],
+    #               column_friendly_name: "LimitedSensitiveString",
+    #               column_description: "DescriptionSensitiveString",
+    #               column_synonyms: ["SynonymString"],
     #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
     #               aggregation: "SUM", # accepts SUM, MAX, MIN, COUNT, DISTINCT_COUNT, AVERAGE, MEDIAN, STDEV, STDEVP, VAR, VARP
     #               is_included_in_topic: false,
@@ -5689,8 +5743,8 @@ module Aws::QuickSight
     #               never_aggregate_in_filter: false,
     #               cell_value_synonyms: [
     #                 {
-    #                   cell_value: "LimitedString",
-    #                   synonyms: ["String"],
+    #                   cell_value: "SynonymString",
+    #                   synonyms: ["SensitiveString"],
     #                 },
     #               ],
     #               non_additive: false,
@@ -5698,10 +5752,10 @@ module Aws::QuickSight
     #           ],
     #           calculated_fields: [
     #             {
-    #               calculated_field_name: "LimitedString", # required
-    #               calculated_field_description: "LimitedString",
+    #               calculated_field_name: "LimitedSensitiveString", # required
+    #               calculated_field_description: "DescriptionSensitiveString",
     #               expression: "Expression", # required
-    #               calculated_field_synonyms: ["LimitedString"],
+    #               calculated_field_synonyms: ["SynonymString"],
     #               is_included_in_topic: false,
     #               disable_indexing: false,
     #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
@@ -5748,8 +5802,8 @@ module Aws::QuickSight
     #               never_aggregate_in_filter: false,
     #               cell_value_synonyms: [
     #                 {
-    #                   cell_value: "LimitedString",
-    #                   synonyms: ["String"],
+    #                   cell_value: "SynonymString",
+    #                   synonyms: ["SensitiveString"],
     #                 },
     #               ],
     #               non_additive: false,
@@ -5758,8 +5812,8 @@ module Aws::QuickSight
     #           named_entities: [
     #             {
     #               entity_name: "LimitedString", # required
-    #               entity_description: "LimitedString",
-    #               entity_synonyms: ["LimitedString"],
+    #               entity_description: "DescriptionSensitiveString",
+    #               entity_synonyms: ["SynonymString"],
     #               semantic_entity_type: {
     #                 type_name: "LimitedString",
     #                 sub_type_name: "LimitedString",
@@ -5779,8 +5833,19 @@ module Aws::QuickSight
     #                       "LimitedString" => "LimitedString",
     #                     },
     #                   },
+    #                   rank_order: 1,
+    #                   presentation_order: 1,
+    #                   is_hidden: false,
     #                 },
     #               ],
+    #               sort: [
+    #                 {
+    #                   field_name: "LimitedString", # required
+    #                   direction: "ASCENDING", # required, accepts ASCENDING, DESCENDING
+    #                 },
+    #               ],
+    #               rank_order: 1,
+    #               presentation_order: 1,
     #             },
     #           ],
     #         },
@@ -5876,6 +5941,93 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def create_topic_refresh_schedule(params = {}, options = {})
       req = build_request(:create_topic_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Creates a new Q topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that you want to create a
+    #   topic in.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID for the topic that you want to create. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, Types::TopicV2Details] :topic
+    #   The definition of a topic to create.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   Contains a map of the key-value pairs for the resource tag or tags
+    #   that are assigned to the topic.
+    #
+    # @option params [Array<String>] :folder_arns
+    #   The Amazon Resource Names (ARNs) of the folders that you want the
+    #   topic to reside in.
+    #
+    # @option params [Types::CustomInstructions] :custom_instructions
+    #   Instructions that provide additional guidance and context for response
+    #   generation.
+    #
+    # @return [Types::CreateTopicV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTopicV2Response#arn #arn} => String
+    #   * {Types::CreateTopicV2Response#topic_id #topic_id} => String
+    #   * {Types::CreateTopicV2Response#request_id #request_id} => String
+    #   * {Types::CreateTopicV2Response#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_topic_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     topic: { # required
+    #       name: "ResourceName", # required
+    #       description: "LimitedString",
+    #       data_sets: [
+    #         {
+    #           data_set_arn: "Arn", # required
+    #           data_set_name: "LimitedString",
+    #         },
+    #       ],
+    #       data_set_relations: [
+    #         {
+    #           left: { # required
+    #             data_set_arn: "Arn", # required
+    #             column_names: ["String"], # required
+    #           },
+    #           right: { # required
+    #             data_set_arn: "Arn", # required
+    #             column_names: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     folder_arns: ["Arn"],
+    #     custom_instructions: {
+    #       custom_instructions_string: "CustomInstructionsString", # required
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.topic_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateTopicV2 AWS API Documentation
+    #
+    # @overload create_topic_v2(params = {})
+    # @param [Hash] params ({})
+    def create_topic_v2(params = {}, options = {})
+      req = build_request(:create_topic_v2, params)
       req.send_request(options)
     end
 
@@ -7396,6 +7548,46 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes a Q topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to delete.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to delete. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @return [Types::DeleteTopicV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteTopicV2Response#arn #arn} => String
+    #   * {Types::DeleteTopicV2Response#topic_id #topic_id} => String
+    #   * {Types::DeleteTopicV2Response#request_id #request_id} => String
+    #   * {Types::DeleteTopicV2Response#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_topic_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.topic_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteTopicV2 AWS API Documentation
+    #
+    # @overload delete_topic_v2(params = {})
+    # @param [Hash] params ({})
+    def delete_topic_v2(params = {}, options = {})
+      req = build_request(:delete_topic_v2, params)
+      req.send_request(options)
+    end
+
     # Deletes the Amazon Quick Sight user that is associated with the
     # identity of the IAM user or role that's making the call. The IAM user
     # isn't deleted as a result of this call.
@@ -8034,6 +8226,8 @@ module Aws::QuickSight
     #   resp.analysis.errors[0].violated_entities[0].path #=> String
     #   resp.analysis.data_set_arns #=> Array
     #   resp.analysis.data_set_arns[0] #=> String
+    #   resp.analysis.topic_arns #=> Array
+    #   resp.analysis.topic_arns[0] #=> String
     #   resp.analysis.theme_arn #=> String
     #   resp.analysis.created_time #=> Time
     #   resp.analysis.last_updated_time #=> Time
@@ -8072,6 +8266,7 @@ module Aws::QuickSight
     #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_parameter_name #=> String
     #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_field #=> String
     #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.data_set_identifier #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.topic_identifier #=> String
     #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.column_name #=> String
     #   resp.status #=> Integer
     #   resp.request_id #=> String
@@ -8986,6 +9181,48 @@ module Aws::QuickSight
     #   resp.custom_permissions.capabilities.approve_flow_share_requests #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions.capabilities.use_agent_web_search #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions.capabilities.knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_knowledge_bases #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_knowledge_bases #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.idc_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.create_and_update_idc_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.share_idc_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions.capabilities.use_idc_knowledge_base #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions.capabilities.action #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions.capabilities.generic_http_action #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions.capabilities.create_and_update_generic_http_action #=> String, one of "DENY", "ALLOW"
@@ -9246,6 +9483,8 @@ module Aws::QuickSight
     #   resp.dashboard.version.source_entity_arn #=> String
     #   resp.dashboard.version.data_set_arns #=> Array
     #   resp.dashboard.version.data_set_arns[0] #=> String
+    #   resp.dashboard.version.topic_arns #=> Array
+    #   resp.dashboard.version.topic_arns[0] #=> String
     #   resp.dashboard.version.description #=> String
     #   resp.dashboard.version.theme_arn #=> String
     #   resp.dashboard.version.sheets #=> Array
@@ -9283,6 +9522,7 @@ module Aws::QuickSight
     #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_parameter_name #=> String
     #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_field #=> String
     #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.data_set_identifier #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.topic_identifier #=> String
     #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.column_name #=> String
     #   resp.dashboard.created_time #=> Time
     #   resp.dashboard.last_published_time #=> Time
@@ -11606,6 +11846,16 @@ module Aws::QuickSight
     #   resp.template.version.data_set_configurations[0].column_group_schema_list[0].name #=> String
     #   resp.template.version.data_set_configurations[0].column_group_schema_list[0].column_group_column_schema_list #=> Array
     #   resp.template.version.data_set_configurations[0].column_group_schema_list[0].column_group_column_schema_list[0].name #=> String
+    #   resp.template.version.topic_configurations #=> Array
+    #   resp.template.version.topic_configurations[0].placeholder #=> String
+    #   resp.template.version.topic_configurations[0].data_set_schema.column_schema_list #=> Array
+    #   resp.template.version.topic_configurations[0].data_set_schema.column_schema_list[0].name #=> String
+    #   resp.template.version.topic_configurations[0].data_set_schema.column_schema_list[0].data_type #=> String
+    #   resp.template.version.topic_configurations[0].data_set_schema.column_schema_list[0].geographic_role #=> String
+    #   resp.template.version.topic_configurations[0].column_group_schema_list #=> Array
+    #   resp.template.version.topic_configurations[0].column_group_schema_list[0].name #=> String
+    #   resp.template.version.topic_configurations[0].column_group_schema_list[0].column_group_column_schema_list #=> Array
+    #   resp.template.version.topic_configurations[0].column_group_schema_list[0].column_group_column_schema_list[0].name #=> String
     #   resp.template.version.description #=> String
     #   resp.template.version.source_entity_arn #=> String
     #   resp.template.version.theme_arn #=> String
@@ -11644,6 +11894,7 @@ module Aws::QuickSight
     #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_parameter_name #=> String
     #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_field #=> String
     #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.data_set_identifier #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.topic_identifier #=> String
     #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.column_name #=> String
     #   resp.template.template_id #=> String
     #   resp.template.last_updated_time #=> Time
@@ -12097,7 +12348,7 @@ module Aws::QuickSight
     #   resp.topic.data_sets[0].data_aggregation.default_date_column_name #=> String
     #   resp.topic.data_sets[0].filters #=> Array
     #   resp.topic.data_sets[0].filters[0].filter_description #=> String
-    #   resp.topic.data_sets[0].filters[0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.topic.data_sets[0].filters[0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER", "DASHBOARD_DEFAULT_FILTER"
     #   resp.topic.data_sets[0].filters[0].filter_name #=> String
     #   resp.topic.data_sets[0].filters[0].filter_synonyms #=> Array
     #   resp.topic.data_sets[0].filters[0].filter_synonyms[0] #=> String
@@ -12110,22 +12361,29 @@ module Aws::QuickSight
     #   resp.topic.data_sets[0].filters[0].category_filter.constant.collective_constant.value_list #=> Array
     #   resp.topic.data_sets[0].filters[0].category_filter.constant.collective_constant.value_list[0] #=> String
     #   resp.topic.data_sets[0].filters[0].category_filter.inverse #=> Boolean
+    #   resp.topic.data_sets[0].filters[0].category_filter.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
     #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
     #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.constant.singular_constant #=> String
     #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.aggregation #=> String, one of "NO_AGGREGATION", "SUM", "AVERAGE", "COUNT", "DISTINCT_COUNT", "MAX", "MEDIAN", "MIN", "STDEV", "STDEVP", "VAR", "VARP"
+    #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.inverse #=> Boolean
+    #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
     #   resp.topic.data_sets[0].filters[0].numeric_range_filter.inclusive #=> Boolean
     #   resp.topic.data_sets[0].filters[0].numeric_range_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
     #   resp.topic.data_sets[0].filters[0].numeric_range_filter.constant.range_constant.minimum #=> String
     #   resp.topic.data_sets[0].filters[0].numeric_range_filter.constant.range_constant.maximum #=> String
     #   resp.topic.data_sets[0].filters[0].numeric_range_filter.aggregation #=> String, one of "NO_AGGREGATION", "SUM", "AVERAGE", "COUNT", "DISTINCT_COUNT", "MAX", "MEDIAN", "MIN", "STDEV", "STDEVP", "VAR", "VARP"
+    #   resp.topic.data_sets[0].filters[0].numeric_range_filter.inverse #=> Boolean
+    #   resp.topic.data_sets[0].filters[0].numeric_range_filter.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
     #   resp.topic.data_sets[0].filters[0].date_range_filter.inclusive #=> Boolean
     #   resp.topic.data_sets[0].filters[0].date_range_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
     #   resp.topic.data_sets[0].filters[0].date_range_filter.constant.range_constant.minimum #=> String
     #   resp.topic.data_sets[0].filters[0].date_range_filter.constant.range_constant.maximum #=> String
+    #   resp.topic.data_sets[0].filters[0].date_range_filter.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
     #   resp.topic.data_sets[0].filters[0].relative_date_filter.time_granularity #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
     #   resp.topic.data_sets[0].filters[0].relative_date_filter.relative_date_filter_function #=> String, one of "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
     #   resp.topic.data_sets[0].filters[0].relative_date_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
     #   resp.topic.data_sets[0].filters[0].relative_date_filter.constant.singular_constant #=> String
+    #   resp.topic.data_sets[0].filters[0].relative_date_filter.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
     #   resp.topic.data_sets[0].filters[0].null_filter.null_filter_type #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
     #   resp.topic.data_sets[0].filters[0].null_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
     #   resp.topic.data_sets[0].filters[0].null_filter.constant.singular_constant #=> String
@@ -12245,6 +12503,14 @@ module Aws::QuickSight
     #   resp.topic.data_sets[0].named_entities[0].definition[0].metric.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "CUSTOM"
     #   resp.topic.data_sets[0].named_entities[0].definition[0].metric.aggregation_function_parameters #=> Hash
     #   resp.topic.data_sets[0].named_entities[0].definition[0].metric.aggregation_function_parameters["LimitedString"] #=> String
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].rank_order #=> Integer
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].presentation_order #=> Integer
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].is_hidden #=> Boolean
+    #   resp.topic.data_sets[0].named_entities[0].sort #=> Array
+    #   resp.topic.data_sets[0].named_entities[0].sort[0].field_name #=> String
+    #   resp.topic.data_sets[0].named_entities[0].sort[0].direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.topic.data_sets[0].named_entities[0].rank_order #=> Integer
+    #   resp.topic.data_sets[0].named_entities[0].presentation_order #=> Integer
     #   resp.topic.config_options.q_business_insights_enabled #=> Boolean
     #   resp.request_id #=> String
     #   resp.status #=> Integer
@@ -12301,6 +12567,51 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_topic_permissions(params = {}, options = {})
       req = build_request(:describe_topic_permissions, params)
+      req.send_request(options)
+    end
+
+    # Describes the permissions of a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want described.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @return [Types::DescribeTopicPermissionsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTopicPermissionsV2Response#topic_id #topic_id} => String
+    #   * {Types::DescribeTopicPermissionsV2Response#topic_arn #topic_arn} => String
+    #   * {Types::DescribeTopicPermissionsV2Response#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::DescribeTopicPermissionsV2Response#status #status} => Integer
+    #   * {Types::DescribeTopicPermissionsV2Response#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_topic_permissions_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicPermissionsV2 AWS API Documentation
+    #
+    # @overload describe_topic_permissions_v2(params = {})
+    # @param [Hash] params ({})
+    def describe_topic_permissions_v2(params = {}, options = {})
+      req = build_request(:describe_topic_permissions_v2, params)
       req.send_request(options)
     end
 
@@ -12399,6 +12710,61 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_topic_refresh_schedule(params = {}, options = {})
       req = build_request(:describe_topic_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Describes a Q topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to describe.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @return [Types::DescribeTopicV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTopicV2Response#arn #arn} => String
+    #   * {Types::DescribeTopicV2Response#topic_id #topic_id} => String
+    #   * {Types::DescribeTopicV2Response#topic #topic} => Types::TopicV2Details
+    #   * {Types::DescribeTopicV2Response#custom_instructions #custom_instructions} => Types::CustomInstructions
+    #   * {Types::DescribeTopicV2Response#status #status} => Integer
+    #   * {Types::DescribeTopicV2Response#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_topic_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.topic_id #=> String
+    #   resp.topic.name #=> String
+    #   resp.topic.description #=> String
+    #   resp.topic.data_sets #=> Array
+    #   resp.topic.data_sets[0].data_set_arn #=> String
+    #   resp.topic.data_sets[0].data_set_name #=> String
+    #   resp.topic.data_set_relations #=> Array
+    #   resp.topic.data_set_relations[0].left.data_set_arn #=> String
+    #   resp.topic.data_set_relations[0].left.column_names #=> Array
+    #   resp.topic.data_set_relations[0].left.column_names[0] #=> String
+    #   resp.topic.data_set_relations[0].right.data_set_arn #=> String
+    #   resp.topic.data_set_relations[0].right.column_names #=> Array
+    #   resp.topic.data_set_relations[0].right.column_names[0] #=> String
+    #   resp.custom_instructions.custom_instructions_string #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicV2 AWS API Documentation
+    #
+    # @overload describe_topic_v2(params = {})
+    # @param [Hash] params ({})
+    def describe_topic_v2(params = {}, options = {})
+      req = build_request(:describe_topic_v2, params)
       req.send_request(options)
     end
 
@@ -13874,6 +14240,48 @@ module Aws::QuickSight
     #   resp.custom_permissions_list[0].capabilities.approve_flow_share_requests #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions_list[0].capabilities.use_agent_web_search #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions_list[0].capabilities.knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_knowledge_bases #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_knowledge_bases #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_share_point_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_google_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_web_crawler_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_s3_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_confluence_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_one_drive_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_q_business_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_bedrock_managed_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_box_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.idc_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_idc_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.share_idc_knowledge_base #=> String, one of "DENY", "ALLOW"
+    #   resp.custom_permissions_list[0].capabilities.use_idc_knowledge_base #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions_list[0].capabilities.action #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions_list[0].capabilities.generic_http_action #=> String, one of "DENY", "ALLOW"
     #   resp.custom_permissions_list[0].capabilities.create_and_update_generic_http_action #=> String, one of "DENY", "ALLOW"
@@ -16052,7 +16460,7 @@ module Aws::QuickSight
     #   resp.answers[0].mir.filters #=> Array
     #   resp.answers[0].mir.filters[0] #=> Array
     #   resp.answers[0].mir.filters[0][0].filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
-    #   resp.answers[0].mir.filters[0][0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].mir.filters[0][0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER", "DASHBOARD_DEFAULT_FILTER"
     #   resp.answers[0].mir.filters[0][0].operand_field.identity #=> String
     #   resp.answers[0].mir.filters[0][0].function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
     #   resp.answers[0].mir.filters[0][0].constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
@@ -16106,7 +16514,7 @@ module Aws::QuickSight
     #   resp.answers[0].mir.contribution_analysis.factors #=> Array
     #   resp.answers[0].mir.contribution_analysis.factors[0].field_name #=> String
     #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
-    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER", "DASHBOARD_DEFAULT_FILTER"
     #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.operand_field.identity #=> String
     #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
     #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
@@ -16156,7 +16564,7 @@ module Aws::QuickSight
     #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
     #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.anchor.offset #=> Integer
     #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
-    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER", "DASHBOARD_DEFAULT_FILTER"
     #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.operand_field.identity #=> String
     #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
     #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
@@ -16263,7 +16671,7 @@ module Aws::QuickSight
     #   resp.answers[0].primary_visual.ir.filters #=> Array
     #   resp.answers[0].primary_visual.ir.filters[0] #=> Array
     #   resp.answers[0].primary_visual.ir.filters[0][0].filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
-    #   resp.answers[0].primary_visual.ir.filters[0][0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER", "DASHBOARD_DEFAULT_FILTER"
     #   resp.answers[0].primary_visual.ir.filters[0][0].operand_field.identity #=> String
     #   resp.answers[0].primary_visual.ir.filters[0][0].function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
     #   resp.answers[0].primary_visual.ir.filters[0][0].constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
@@ -16317,7 +16725,7 @@ module Aws::QuickSight
     #   resp.answers[0].primary_visual.ir.contribution_analysis.factors #=> Array
     #   resp.answers[0].primary_visual.ir.contribution_analysis.factors[0].field_name #=> String
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
-    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER", "DASHBOARD_DEFAULT_FILTER"
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.operand_field.identity #=> String
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
@@ -16367,7 +16775,7 @@ module Aws::QuickSight
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.anchor.offset #=> Integer
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
-    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER", "DASHBOARD_DEFAULT_FILTER"
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.operand_field.identity #=> String
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
     #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
@@ -16484,6 +16892,56 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_topics(params = {}, options = {})
       req = build_request(:list_topics, params)
+      req.send_request(options)
+    end
+
+    # Lists all of the Q topics in the specified Amazon Web Services account
+    # in an Amazon Web Services Region.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topics
+    #   that you want to list.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::ListTopicsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTopicsV2Response#topic_summary_list #topic_summary_list} => Array&lt;Types::TopicV2Summary&gt;
+    #   * {Types::ListTopicsV2Response#next_token #next_token} => String
+    #   * {Types::ListTopicsV2Response#request_id #request_id} => String
+    #   * {Types::ListTopicsV2Response#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_topics_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_summary_list #=> Array
+    #   resp.topic_summary_list[0].arn #=> String
+    #   resp.topic_summary_list[0].topic_id #=> String
+    #   resp.topic_summary_list[0].name #=> String
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListTopicsV2 AWS API Documentation
+    #
+    # @overload list_topics_v2(params = {})
+    # @param [Hash] params ({})
+    def list_topics_v2(params = {}, options = {})
+      req = build_request(:list_topics_v2, params)
       req.send_request(options)
     end
 
@@ -17936,7 +18394,7 @@ module Aws::QuickSight
     #       {
     #         operator: "StringEquals", # required, accepts StringEquals, StringLike
     #         name: "QUICKSIGHT_USER", # required, accepts QUICKSIGHT_USER, QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, TOPIC_NAME
-    #         value: "String", # required
+    #         value: "SensitiveString", # required
     #       },
     #     ],
     #     next_token: "String",
@@ -17960,6 +18418,66 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def search_topics(params = {}, options = {})
       req = build_request(:search_topics, params)
+      req.send_request(options)
+    end
+
+    # Searches for any Q topic that exists in an Amazon Web Services
+    # account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to search.
+    #
+    # @option params [required, Array<Types::TopicSearchFilter>] :filters
+    #   The filters that you want to use to search for the topic.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::SearchTopicsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchTopicsV2Response#topic_summary_list #topic_summary_list} => Array&lt;Types::TopicV2Summary&gt;
+    #   * {Types::SearchTopicsV2Response#next_token #next_token} => String
+    #   * {Types::SearchTopicsV2Response#status #status} => Integer
+    #   * {Types::SearchTopicsV2Response#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_topics_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     filters: [ # required
+    #       {
+    #         operator: "StringEquals", # required, accepts StringEquals, StringLike
+    #         name: "QUICKSIGHT_USER", # required, accepts QUICKSIGHT_USER, QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, TOPIC_NAME
+    #         value: "SensitiveString", # required
+    #       },
+    #     ],
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_summary_list #=> Array
+    #   resp.topic_summary_list[0].arn #=> String
+    #   resp.topic_summary_list[0].topic_id #=> String
+    #   resp.topic_summary_list[0].name #=> String
+    #   resp.next_token #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchTopicsV2 AWS API Documentation
+    #
+    # @overload search_topics_v2(params = {})
+    # @param [Hash] params ({})
+    def search_topics_v2(params = {}, options = {})
+      req = build_request(:search_topics_v2, params)
       req.send_request(options)
     end
 
@@ -19702,7 +20220,7 @@ module Aws::QuickSight
     # @option params [Types::AnalysisSourceEntity] :source_entity
     #   A source entity to use for the analysis that you're updating. This
     #   metadata structure contains details that describe a source template
-    #   and one or more datasets.
+    #   and one or more datasets or topics.
     #
     # @option params [String] :theme_arn
     #   The Amazon Resource Name (ARN) for the theme to apply to the analysis
@@ -20187,6 +20705,48 @@ module Aws::QuickSight
     #       approve_flow_share_requests: "DENY", # accepts DENY, ALLOW
     #       use_agent_web_search: "DENY", # accepts DENY, ALLOW
     #       knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_knowledge_bases: "DENY", # accepts DENY, ALLOW
+    #       share_knowledge_bases: "DENY", # accepts DENY, ALLOW
+    #       share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_share_point_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_google_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_web_crawler_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_s3_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_confluence_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_one_drive_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_q_business_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_bedrock_managed_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_box_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       idc_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       create_and_update_idc_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       share_idc_knowledge_base: "DENY", # accepts DENY, ALLOW
+    #       use_idc_knowledge_base: "DENY", # accepts DENY, ALLOW
     #       action: "DENY", # accepts DENY, ALLOW
     #       generic_http_action: "DENY", # accepts DENY, ALLOW
     #       create_and_update_generic_http_action: "DENY", # accepts DENY, ALLOW
@@ -20441,7 +21001,10 @@ module Aws::QuickSight
     #
     #   Use the `DataSetReferences` entity within `SourceTemplate` to list the
     #   replacement datasets for the placeholders listed in the original. The
-    #   schema in each dataset must match its placeholder.
+    #   schema in each dataset must match its placeholder. Use the
+    #   `TopicReferences` entity to list the replacement topics for the topic
+    #   placeholders listed in the original. The schema in each topic must
+    #   match its placeholder.
     #
     # @option params [Types::Parameters] :parameters
     #   A structure that contains the parameters of the dashboard. These are
@@ -23568,7 +24131,9 @@ module Aws::QuickSight
     #   Use the `DataSetReferences` entity within `SourceTemplate` or
     #   `SourceAnalysis` to list the replacement datasets for the placeholders
     #   listed in the original. The schema in each dataset must match its
-    #   placeholder.
+    #   placeholder. Use the `TopicReferences` entity to list the replacement
+    #   topics for the topic placeholders listed in the original. The schema
+    #   in each topic must match its placeholder.
     #
     # @option params [String] :version_description
     #   A description of the current template version that is being updated.
@@ -24155,10 +24720,10 @@ module Aws::QuickSight
     #           },
     #           filters: [
     #             {
-    #               filter_description: "LimitedString",
-    #               filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #               filter_description: "DescriptionSensitiveString",
+    #               filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER, DASHBOARD_DEFAULT_FILTER
     #               filter_name: "LimitedString", # required
-    #               filter_synonyms: ["LimitedString"],
+    #               filter_synonyms: ["SynonymString"],
     #               operand_field_name: "LimitedString", # required
     #               filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, NULL_FILTER
     #               category_filter: {
@@ -24166,54 +24731,61 @@ module Aws::QuickSight
     #                 category_filter_type: "CUSTOM_FILTER", # accepts CUSTOM_FILTER, CUSTOM_FILTER_LIST, FILTER_LIST
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                   collective_constant: {
     #                     value_list: ["String"],
     #                   },
     #                 },
     #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               numeric_equality_filter: {
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                 },
     #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               numeric_range_filter: {
     #                 inclusive: false,
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
     #                   range_constant: {
-    #                     minimum: "LimitedString",
-    #                     maximum: "LimitedString",
+    #                     minimum: "LimitedSensitiveString",
+    #                     maximum: "LimitedSensitiveString",
     #                   },
     #                 },
     #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               date_range_filter: {
     #                 inclusive: false,
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
     #                   range_constant: {
-    #                     minimum: "LimitedString",
-    #                     maximum: "LimitedString",
+    #                     minimum: "LimitedSensitiveString",
+    #                     maximum: "LimitedSensitiveString",
     #                   },
     #                 },
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               relative_date_filter: {
     #                 time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
     #                 relative_date_filter_function: "PREVIOUS", # accepts PREVIOUS, THIS, LAST, NEXT, NOW
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                 },
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #               },
     #               null_filter: {
     #                 null_filter_type: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
     #                 constant: {
     #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
-    #                   singular_constant: "LimitedString",
+    #                   singular_constant: "LimitedSensitiveString",
     #                 },
     #                 inverse: false,
     #               },
@@ -24222,9 +24794,9 @@ module Aws::QuickSight
     #           columns: [
     #             {
     #               column_name: "LimitedString", # required
-    #               column_friendly_name: "LimitedString",
-    #               column_description: "LimitedString",
-    #               column_synonyms: ["LimitedString"],
+    #               column_friendly_name: "LimitedSensitiveString",
+    #               column_description: "DescriptionSensitiveString",
+    #               column_synonyms: ["SynonymString"],
     #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
     #               aggregation: "SUM", # accepts SUM, MAX, MIN, COUNT, DISTINCT_COUNT, AVERAGE, MEDIAN, STDEV, STDEVP, VAR, VARP
     #               is_included_in_topic: false,
@@ -24271,8 +24843,8 @@ module Aws::QuickSight
     #               never_aggregate_in_filter: false,
     #               cell_value_synonyms: [
     #                 {
-    #                   cell_value: "LimitedString",
-    #                   synonyms: ["String"],
+    #                   cell_value: "SynonymString",
+    #                   synonyms: ["SensitiveString"],
     #                 },
     #               ],
     #               non_additive: false,
@@ -24280,10 +24852,10 @@ module Aws::QuickSight
     #           ],
     #           calculated_fields: [
     #             {
-    #               calculated_field_name: "LimitedString", # required
-    #               calculated_field_description: "LimitedString",
+    #               calculated_field_name: "LimitedSensitiveString", # required
+    #               calculated_field_description: "DescriptionSensitiveString",
     #               expression: "Expression", # required
-    #               calculated_field_synonyms: ["LimitedString"],
+    #               calculated_field_synonyms: ["SynonymString"],
     #               is_included_in_topic: false,
     #               disable_indexing: false,
     #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
@@ -24330,8 +24902,8 @@ module Aws::QuickSight
     #               never_aggregate_in_filter: false,
     #               cell_value_synonyms: [
     #                 {
-    #                   cell_value: "LimitedString",
-    #                   synonyms: ["String"],
+    #                   cell_value: "SynonymString",
+    #                   synonyms: ["SensitiveString"],
     #                 },
     #               ],
     #               non_additive: false,
@@ -24340,8 +24912,8 @@ module Aws::QuickSight
     #           named_entities: [
     #             {
     #               entity_name: "LimitedString", # required
-    #               entity_description: "LimitedString",
-    #               entity_synonyms: ["LimitedString"],
+    #               entity_description: "DescriptionSensitiveString",
+    #               entity_synonyms: ["SynonymString"],
     #               semantic_entity_type: {
     #                 type_name: "LimitedString",
     #                 sub_type_name: "LimitedString",
@@ -24361,8 +24933,19 @@ module Aws::QuickSight
     #                       "LimitedString" => "LimitedString",
     #                     },
     #                   },
+    #                   rank_order: 1,
+    #                   presentation_order: 1,
+    #                   is_hidden: false,
     #                 },
     #               ],
+    #               sort: [
+    #                 {
+    #                   field_name: "LimitedString", # required
+    #                   direction: "ASCENDING", # required, accepts ASCENDING, DESCENDING
+    #                 },
+    #               ],
+    #               rank_order: 1,
+    #               presentation_order: 1,
     #             },
     #           ],
     #         },
@@ -24456,6 +25039,69 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates the permissions of a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to update the permissions for.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [Array<Types::ResourcePermission>] :grant_permissions
+    #   The resource permissions that you want to grant to the topic.
+    #
+    # @option params [Array<Types::ResourcePermission>] :revoke_permissions
+    #   The resource permissions that you want to revoke from the topic.
+    #
+    # @return [Types::UpdateTopicPermissionsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateTopicPermissionsV2Response#topic_id #topic_id} => String
+    #   * {Types::UpdateTopicPermissionsV2Response#topic_arn #topic_arn} => String
+    #   * {Types::UpdateTopicPermissionsV2Response#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::UpdateTopicPermissionsV2Response#status #status} => Integer
+    #   * {Types::UpdateTopicPermissionsV2Response#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_topic_permissions_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     grant_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     revoke_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicPermissionsV2 AWS API Documentation
+    #
+    # @overload update_topic_permissions_v2(params = {})
+    # @param [Hash] params ({})
+    def update_topic_permissions_v2(params = {}, options = {})
+      req = build_request(:update_topic_permissions_v2, params)
+      req.send_request(options)
+    end
+
     # Updates a topic refresh schedule.
     #
     # @option params [required, String] :aws_account_id
@@ -24510,6 +25156,82 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_topic_refresh_schedule(params = {}, options = {})
       req = build_request(:update_topic_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Updates the definition of a Q topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to update.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, Types::TopicV2Details] :topic
+    #   The definition of the topic that you want to update.
+    #
+    # @option params [Types::CustomInstructions] :custom_instructions
+    #   Instructions that provide additional guidance and context for response
+    #   generation.
+    #
+    # @option params [String] :publish_option
+    #   The publish option for the topic that you want to update.
+    #
+    # @return [Types::UpdateTopicV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateTopicV2Response#arn #arn} => String
+    #   * {Types::UpdateTopicV2Response#topic_id #topic_id} => String
+    #   * {Types::UpdateTopicV2Response#request_id #request_id} => String
+    #   * {Types::UpdateTopicV2Response#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_topic_v2({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     topic: { # required
+    #       name: "ResourceName", # required
+    #       description: "LimitedString",
+    #       data_sets: [
+    #         {
+    #           data_set_arn: "Arn", # required
+    #           data_set_name: "LimitedString",
+    #         },
+    #       ],
+    #       data_set_relations: [
+    #         {
+    #           left: { # required
+    #             data_set_arn: "Arn", # required
+    #             column_names: ["String"], # required
+    #           },
+    #           right: { # required
+    #             data_set_arn: "Arn", # required
+    #             column_names: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     custom_instructions: {
+    #       custom_instructions_string: "CustomInstructionsString", # required
+    #     },
+    #     publish_option: "DRAFT", # accepts DRAFT, PUBLISH
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.topic_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicV2 AWS API Documentation
+    #
+    # @overload update_topic_v2(params = {})
+    # @param [Hash] params ({})
+    def update_topic_v2(params = {}, options = {})
+      req = build_request(:update_topic_v2, params)
       req.send_request(options)
     end
 
@@ -24796,7 +25518,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.193.0'
+      context[:gem_version] = '1.194.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

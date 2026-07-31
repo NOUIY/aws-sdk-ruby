@@ -213,6 +213,14 @@ module Aws::ElementalInference
     #   A user-friendly name for this feed.
     #   @return [String]
     #
+    # @!attribute [rw] access_role_arn
+    #   The ARN of an IAM role that Elemental Inference assumes to access
+    #   resources in your account on your behalf. For example, the smart
+    #   crop feature uses this role to read graphics-compositing templates
+    #   from your Amazon S3 bucket. You specify one access role for each
+    #   feed.
+    #   @return [String]
+    #
     # @!attribute [rw] outputs
     #   An array of outputs for this feed. Each output represents a specific
     #   Elemental Inference feature. For example, there is one output type
@@ -229,6 +237,7 @@ module Aws::ElementalInference
     #
     class CreateFeedRequest < Struct.new(
       :name,
+      :access_role_arn,
       :outputs,
       :tags)
       SENSITIVE = []
@@ -325,11 +334,20 @@ module Aws::ElementalInference
     # A type of OutputConfig, used when the output in a feed is for the crop
     # feature.
     #
-    # @api private
+    # @!attribute [rw] template_groups
+    #   An array of template groups for the crop output. Each template group
+    #   provides the graphics-compositing templates that Elemental Inference
+    #   applies to the cropped video. You can specify from 1 to 4 template
+    #   groups.
+    #   @return [Array<Types::TemplateGroup>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/CroppingConfig AWS API Documentation
     #
-    class CroppingConfig < Aws::EmptyStructure; end
+    class CroppingConfig < Struct.new(
+      :template_groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] id
     #   The ID of the dictionary to delete.
@@ -966,6 +984,30 @@ module Aws::ElementalInference
       include Aws::Structure
     end
 
+    # A named set of graphics-compositing templates used by the crop
+    # feature, specified in the templateGroups array of a CroppingConfig.
+    #
+    # @!attribute [rw] name
+    #   A name for the template group.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_uris
+    #   An array of Amazon S3 URIs that point to the graphics-compositing
+    #   templates for this group. You can specify 1 or 2 URIs. Each URI must
+    #   be in the form `s3://bucket-name/key`. Elemental Inference reads
+    #   these templates using the IAM role that you specify in
+    #   accessRoleArn.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/TemplateGroup AWS API Documentation
+    #
+    class TemplateGroup < Struct.new(
+      :name,
+      :template_uris)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request was denied due to request throttling. Too many requests
     # have been made within a given time period. Reduce the frequency of
     # requests and use exponential backoff when retrying.
@@ -1075,6 +1117,13 @@ module Aws::ElementalInference
     #   or a new name.
     #   @return [String]
     #
+    # @!attribute [rw] access_role_arn
+    #   The ARN of an IAM role that Elemental Inference assumes to access
+    #   resources in your account on your behalf. You can specify the
+    #   existing role (to leave it unchanged) or a new role. You specify one
+    #   access role for each feed.
+    #   @return [String]
+    #
     # @!attribute [rw] id
     #   The ID of the feed to update.
     #   @return [String]
@@ -1088,6 +1137,7 @@ module Aws::ElementalInference
     #
     class UpdateFeedRequest < Struct.new(
       :name,
+      :access_role_arn,
       :id,
       :outputs)
       SENSITIVE = []

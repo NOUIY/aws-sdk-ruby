@@ -1159,6 +1159,15 @@ module Aws::CloudWatchLogs
     #   The CSV content of the lookup table. The first row must be a header
     #   row with column names. The content must use UTF-8 encoding and not
     #   exceed 10 MB.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
+    #   @return [String]
+    #
+    # @!attribute [rw] query_id
+    #   The ID of a completed CloudWatch Logs query whose results populate
+    #   the lookup table.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
     #   @return [String]
     #
     # @!attribute [rw] kms_key_id
@@ -1179,6 +1188,7 @@ module Aws::CloudWatchLogs
       :lookup_table_name,
       :description,
       :table_body,
+      :query_id,
       :kms_key_id,
       :tags)
       SENSITIVE = []
@@ -1255,8 +1265,10 @@ module Aws::CloudWatchLogs
     #   @return [Integer]
     #
     # @!attribute [rw] destination_configuration
-    #   Configuration for where to deliver query results. Currently supports
-    #   Amazon S3 destinations for storing query output.
+    #   Configuration for where to deliver query results. Supports Amazon S3
+    #   destinations for storing query output and lookup table destinations
+    #   for automatically refreshing lookup tables with query results. You
+    #   can configure one or both destination types.
     #   @return [Types::DestinationConfiguration]
     #
     # @!attribute [rw] schedule_start_time
@@ -3238,10 +3250,17 @@ module Aws::CloudWatchLogs
     #   Configuration for delivering query results to Amazon S3.
     #   @return [Types::S3Configuration]
     #
+    # @!attribute [rw] lookup_table_configuration
+    #   Configuration for delivering query results to a lookup table. The
+    #   query results automatically populate or refresh the specified lookup
+    #   table on each scheduled execution.
+    #   @return [Types::LookupTableConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DestinationConfiguration AWS API Documentation
     #
     class DestinationConfiguration < Struct.new(
-      :s3_configuration)
+      :s3_configuration,
+      :lookup_table_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4607,7 +4626,7 @@ module Aws::CloudWatchLogs
     #
     # @!attribute [rw] last_updated_time
     #   The time when the storage tier policy was last updated, expressed as
-    #   the number of milliseconds after `Jan 1, 1970 00:00:00 UTC`.
+    #   the number of milliseconds after `January 1, 1970 00:00:00 UTC`.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetStorageTierPolicyResponse AWS API Documentation
@@ -6201,6 +6220,47 @@ module Aws::CloudWatchLogs
       :size_bytes,
       :last_updated_time,
       :kms_key_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration for a lookup table destination. Use it to automatically
+    # refresh a lookup table with query results on a schedule.
+    #
+    # @!attribute [rw] table_name
+    #   The name of the lookup table to create or update with query results.
+    #   The name can contain only alphanumeric characters and underscores.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The ARN of the IAM role that grants permissions to create or update
+    #   the lookup table with query results.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the lookup table.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The ARN of the KMS key to use to encrypt the lookup table data. If
+    #   you don't specify a key, the data is encrypted with an Amazon Web
+    #   Services-owned key.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Key-value pairs to associate with the lookup table for resource
+    #   management and cost allocation. The service applies tags only during
+    #   initial table creation.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/LookupTableConfiguration AWS API Documentation
+    #
+    class LookupTableConfiguration < Struct.new(
+      :table_name,
+      :role_arn,
+      :description,
+      :kms_key_id,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8671,8 +8731,9 @@ module Aws::CloudWatchLogs
     end
 
     # @!attribute [rw] storage_tier
-    #   The storage tier to set for the account. Valid values are `STANDARD`
-    #   and `INTELLIGENT_TIERING`.
+    #   The storage tier to set for the account. Use `INTELLIGENT_TIERING`
+    #   to automatically optimize storage costs by moving log data to the
+    #   appropriate tier based on access frequency.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutStorageTierPolicyRequest AWS API Documentation
@@ -8684,12 +8745,12 @@ module Aws::CloudWatchLogs
     end
 
     # @!attribute [rw] storage_tier
-    #   The storage tier that was set.
+    #   The storage tier for the account.
     #   @return [String]
     #
     # @!attribute [rw] last_updated_time
     #   The time when the storage tier policy was last updated, expressed as
-    #   the number of milliseconds after `Jan 1, 1970 00:00:00 UTC`.
+    #   the number of milliseconds after `January 1, 1970 00:00:00 UTC`.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutStorageTierPolicyResponse AWS API Documentation
@@ -8787,9 +8848,9 @@ module Aws::CloudWatchLogs
     #
     # @!attribute [rw] emit_system_fields
     #   A list of system fields to include in the log events sent to the
-    #   subscription destination. Valid values are `@aws.account` and
-    #   `@aws.region`. These fields provide source information for
-    #   centralized log data in the forwarded payload.
+    #   subscription destination. Valid values are `@aws.account`,
+    #   `@aws.region`, and `@source.log`. These fields provide source
+    #   information for centralized log data in the forwarded payload.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSubscriptionFilterRequest AWS API Documentation
@@ -10596,6 +10657,15 @@ module Aws::CloudWatchLogs
     #   The new CSV content to replace the existing data. The first row must
     #   be a header row with column names. The content must use UTF-8
     #   encoding and not exceed 10 MB.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
+    #   @return [String]
+    #
+    # @!attribute [rw] query_id
+    #   The ID of a completed CloudWatch Logs query whose results replace
+    #   the lookup table content.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
     #   @return [String]
     #
     # @!attribute [rw] kms_key_id
@@ -10611,6 +10681,7 @@ module Aws::CloudWatchLogs
       :lookup_table_arn,
       :description,
       :table_body,
+      :query_id,
       :kms_key_id)
       SENSITIVE = []
       include Aws::Structure

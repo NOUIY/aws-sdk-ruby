@@ -886,6 +886,10 @@ module Aws::QuickSight
     #   The ARNs of the datasets of the analysis.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] topic_arns
+    #   The ARNs of the topics associated with the analysis.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] theme_arn
     #   The ARN of the theme of the analysis.
     #   @return [String]
@@ -912,6 +916,7 @@ module Aws::QuickSight
       :status,
       :errors,
       :data_set_arns,
+      :topic_arns,
       :theme_arn,
       :created_time,
       :last_updated_time,
@@ -941,6 +946,12 @@ module Aws::QuickSight
     #   usage of dataset identifiers instead of dataset ARNs throughout
     #   analysis sub-structures.
     #   @return [Array<Types::DataSetIdentifierDeclaration>]
+    #
+    # @!attribute [rw] topic_identifier_declarations
+    #   An array of topic identifier declarations. This mapping allows the
+    #   usage of topic identifiers instead of topic ARNs throughout analysis
+    #   sub-structures.
+    #   @return [Array<Types::TopicIdentifierDeclaration>]
     #
     # @!attribute [rw] sheets
     #   An array of sheet definitions for an analysis. Each
@@ -1009,6 +1020,7 @@ module Aws::QuickSight
     #
     class AnalysisDefinition < Struct.new(
       :data_set_identifier_declarations,
+      :topic_identifier_declarations,
       :sheets,
       :tooltip_sheets,
       :calculated_fields,
@@ -1139,6 +1151,10 @@ module Aws::QuickSight
     #   The dataset references of the source template of an analysis.
     #   @return [Array<Types::DataSetReference>]
     #
+    # @!attribute [rw] topic_references
+    #   The topic references of the source template of an analysis.
+    #   @return [Array<Types::TopicReference>]
+    #
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the source template of an
     #   analysis.
@@ -1148,6 +1164,7 @@ module Aws::QuickSight
     #
     class AnalysisSourceTemplate < Struct.new(
       :data_set_references,
+      :topic_references,
       :arn)
       SENSITIVE = []
       include Aws::Structure
@@ -2879,6 +2896,11 @@ module Aws::QuickSight
     #   A list of visual custom actions for the analysis.
     #   @return [Types::VisualCustomActionDefaults]
     #
+    # @!attribute [rw] visual_messages
+    #   The configuration options for the messages that are displayed on
+    #   visuals in the analysis.
+    #   @return [Types::VisualMessages]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetOptions AWS API Documentation
     #
     class AssetOptions < Struct.new(
@@ -2886,7 +2908,8 @@ module Aws::QuickSight
       :week_start,
       :q_business_insights_status,
       :excluded_data_set_arns,
-      :custom_action_defaults)
+      :custom_action_defaults,
+      :visual_messages)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4760,6 +4783,10 @@ module Aws::QuickSight
     #   The data set that is used in this calculated field.
     #   @return [String]
     #
+    # @!attribute [rw] topic_identifier
+    #   The topic that is used in this calculated field.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The name of the calculated field.
     #   @return [String]
@@ -4772,6 +4799,7 @@ module Aws::QuickSight
     #
     class CalculatedField < Struct.new(
       :data_set_identifier,
+      :topic_identifier,
       :name,
       :expression)
       SENSITIVE = [:expression]
@@ -5004,6 +5032,636 @@ module Aws::QuickSight
     # @!attribute [rw] knowledge_base
     #   The ability to use knowledge bases to specify content from external
     #   applications.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_knowledge_bases
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_knowledge_bases
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_point_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_share_point_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_share_point_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_share_point_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] google_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_google_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_google_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_google_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_crawler_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_web_crawler_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_web_crawler_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_web_crawler_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_s3_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_s3_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_s3_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] confluence_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_confluence_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_confluence_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_confluence_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] one_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_one_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_one_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_one_drive_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] q_business_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_q_business_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_q_business_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_q_business_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] bedrock_managed_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_bedrock_managed_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_bedrock_managed_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_bedrock_managed_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] box_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_box_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_box_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_box_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] idc_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_and_update_idc_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_idc_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_idc_knowledge_base
+    #   The permission state of a capability in a custom permissions
+    #   profile. Valid values:
+    #
+    #   * `DENY` – Amazon Quick denies this capability for users assigned to
+    #     the profile.
+    #
+    #   * `ALLOW` – Amazon Quick grants this capability to users assigned to
+    #     the profile. This value is only relevant when governance is
+    #     enabled for the capability's category. Without governance, the
+    #     default effect is always `ALLOW`. In a governed category, this
+    #     value overrides the category-level deny-by-default behavior for
+    #     that capability only.
     #   @return [String]
     #
     # @!attribute [rw] action
@@ -5870,6 +6528,48 @@ module Aws::QuickSight
       :approve_flow_share_requests,
       :use_agent_web_search,
       :knowledge_base,
+      :create_and_update_knowledge_bases,
+      :share_knowledge_bases,
+      :share_point_knowledge_base,
+      :create_and_update_share_point_knowledge_base,
+      :share_share_point_knowledge_base,
+      :use_share_point_knowledge_base,
+      :google_drive_knowledge_base,
+      :create_and_update_google_drive_knowledge_base,
+      :share_google_drive_knowledge_base,
+      :use_google_drive_knowledge_base,
+      :web_crawler_knowledge_base,
+      :create_and_update_web_crawler_knowledge_base,
+      :share_web_crawler_knowledge_base,
+      :use_web_crawler_knowledge_base,
+      :s3_knowledge_base,
+      :create_and_update_s3_knowledge_base,
+      :share_s3_knowledge_base,
+      :use_s3_knowledge_base,
+      :confluence_knowledge_base,
+      :create_and_update_confluence_knowledge_base,
+      :share_confluence_knowledge_base,
+      :use_confluence_knowledge_base,
+      :one_drive_knowledge_base,
+      :create_and_update_one_drive_knowledge_base,
+      :share_one_drive_knowledge_base,
+      :use_one_drive_knowledge_base,
+      :q_business_knowledge_base,
+      :create_and_update_q_business_knowledge_base,
+      :share_q_business_knowledge_base,
+      :use_q_business_knowledge_base,
+      :bedrock_managed_knowledge_base,
+      :create_and_update_bedrock_managed_knowledge_base,
+      :share_bedrock_managed_knowledge_base,
+      :use_bedrock_managed_knowledge_base,
+      :box_knowledge_base,
+      :create_and_update_box_knowledge_base,
+      :share_box_knowledge_base,
+      :use_box_knowledge_base,
+      :idc_knowledge_base,
+      :create_and_update_idc_knowledge_base,
+      :share_idc_knowledge_base,
+      :use_idc_knowledge_base,
       :action,
       :generic_http_action,
       :create_and_update_generic_http_action,
@@ -6378,7 +7078,7 @@ module Aws::QuickSight
     class CellValueSynonym < Struct.new(
       :cell_value,
       :synonyms)
-      SENSITIVE = []
+      SENSITIVE = [:cell_value, :synonyms]
       include Aws::Structure
     end
 
@@ -6724,6 +7424,10 @@ module Aws::QuickSight
     #   The data set that the column belongs to.
     #   @return [String]
     #
+    # @!attribute [rw] topic_identifier
+    #   The topic that the column belongs to.
+    #   @return [String]
+    #
     # @!attribute [rw] column_name
     #   The name of the column.
     #   @return [String]
@@ -6732,6 +7436,7 @@ module Aws::QuickSight
     #
     class ColumnIdentifier < Struct.new(
       :data_set_identifier,
+      :topic_identifier,
       :column_name)
       SENSITIVE = []
       include Aws::Structure
@@ -8352,7 +9057,7 @@ module Aws::QuickSight
     # @!attribute [rw] source_entity
     #   A source entity to use for the analysis that you're creating. This
     #   metadata structure contains details that describe a source template
-    #   and one or more datasets.
+    #   and one or more datasets or topics.
     #
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
@@ -8614,7 +9319,10 @@ module Aws::QuickSight
     #
     #   Use the `DataSetReferences` entity within `SourceTemplate` to list
     #   the replacement datasets for the placeholders listed in the
-    #   original. The schema in each dataset must match its placeholder.
+    #   original. The schema in each dataset must match its placeholder. Use
+    #   the `TopicReferences` entity to list the replacement topics for the
+    #   topic placeholders listed in the original. The schema in each topic
+    #   must match its placeholder.
     #
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
@@ -10042,7 +10750,9 @@ module Aws::QuickSight
     #   Use the `DataSetReferences` entity within `SourceTemplate` or
     #   `SourceAnalysis` to list the replacement datasets for the
     #   placeholders listed in the original. The schema in each dataset must
-    #   match its placeholder.
+    #   match its placeholder. Use the `TopicReferences` entity to list the
+    #   replacement topics for the topic placeholders listed in the
+    #   original. The schema in each topic must match its placeholder.
     #
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
@@ -10452,6 +11162,76 @@ module Aws::QuickSight
       :mir,
       :primary_visual,
       :template)
+      SENSITIVE = [:question]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that you want to create a
+    #   topic in.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID for the topic that you want to create. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic
+    #   The definition of a topic to create.
+    #   @return [Types::TopicV2Details]
+    #
+    # @!attribute [rw] tags
+    #   Contains a map of the key-value pairs for the resource tag or tags
+    #   that are assigned to the topic.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] folder_arns
+    #   The Amazon Resource Names (ARNs) of the folders that you want the
+    #   topic to reside in.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] custom_instructions
+    #   Instructions that provide additional guidance and context for
+    #   response generation.
+    #   @return [Types::CustomInstructions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateTopicV2Request AWS API Documentation
+    #
+    class CreateTopicV2Request < Struct.new(
+      :aws_account_id,
+      :topic_id,
+      :topic,
+      :tags,
+      :folder_arns,
+      :custom_instructions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID for the topic that you want to create. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateTopicV2Response AWS API Documentation
+    #
+    class CreateTopicV2Response < Struct.new(
+      :arn,
+      :topic_id,
+      :request_id,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10817,7 +11597,12 @@ module Aws::QuickSight
     #
     # @!attribute [rw] data_set_identifier
     #   The dataset that is used to create the custom content visual. You
-    #   can't create a visual without a dataset.
+    #   can't create a visual without a dataset or a topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_identifier
+    #   The topic that is used in the custom content visual. You can't
+    #   create a visual without a dataset or a topic.
     #   @return [String]
     #
     # @!attribute [rw] visual_content_alt_text
@@ -10833,6 +11618,7 @@ module Aws::QuickSight
       :chart_configuration,
       :actions,
       :data_set_identifier,
+      :topic_identifier,
       :visual_content_alt_text)
       SENSITIVE = []
       include Aws::Structure
@@ -11541,6 +12327,10 @@ module Aws::QuickSight
     #   Dataset references.
     #   @return [Array<Types::DataSetReference>]
     #
+    # @!attribute [rw] topic_references
+    #   The topic references for the source template of a dashboard.
+    #   @return [Array<Types::TopicReference>]
+    #
     # @!attribute [rw] arn
     #   The Amazon Resource Name (ARN) of the resource.
     #   @return [String]
@@ -11549,6 +12339,7 @@ module Aws::QuickSight
     #
     class DashboardSourceTemplate < Struct.new(
       :data_set_references,
+      :topic_references,
       :arn)
       SENSITIVE = []
       include Aws::Structure
@@ -11625,8 +12416,13 @@ module Aws::QuickSight
     #   @return [String]
     #
     # @!attribute [rw] data_set_arns
-    #   The Amazon Resource Numbers (ARNs) for the datasets that are
+    #   The Amazon Resource Names (ARNs) for the datasets that are
     #   associated with this version of the dashboard.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] topic_arns
+    #   The Amazon Resource Names (ARNs) for the topics that are associated
+    #   with this version of the dashboard.
     #   @return [Array<String>]
     #
     # @!attribute [rw] description
@@ -11652,6 +12448,7 @@ module Aws::QuickSight
       :arn,
       :source_entity_arn,
       :data_set_arns,
+      :topic_arns,
       :description,
       :theme_arn,
       :sheets)
@@ -11666,6 +12463,12 @@ module Aws::QuickSight
     #   can use dataset identifiers instead of dataset Amazon Resource Names
     #   (ARNs) throughout the dashboard's sub-structures.
     #   @return [Array<Types::DataSetIdentifierDeclaration>]
+    #
+    # @!attribute [rw] topic_identifier_declarations
+    #   An array of topic identifier declarations. With this mapping, you
+    #   can use topic identifiers instead of topic Amazon Resource Names
+    #   (ARNs) throughout the dashboard's sub-structures.
+    #   @return [Array<Types::TopicIdentifierDeclaration>]
     #
     # @!attribute [rw] sheets
     #   An array of sheet definitions for a dashboard.
@@ -11725,6 +12528,7 @@ module Aws::QuickSight
     #
     class DashboardVersionDefinition < Struct.new(
       :data_set_identifier_declarations,
+      :topic_identifier_declarations,
       :sheets,
       :tooltip_sheets,
       :calculated_fields,
@@ -16253,6 +17057,53 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   that you want to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to delete. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteTopicV2Request AWS API Documentation
+    #
+    class DeleteTopicV2Request < Struct.new(
+      :aws_account_id,
+      :topic_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to delete. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteTopicV2Response AWS API Documentation
+    #
+    class DeleteTopicV2Response < Struct.new(
+      :arn,
+      :topic_id,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] principal_id
     #   The principal ID of the user.
     #   @return [String]
@@ -19693,6 +20544,58 @@ module Aws::QuickSight
 
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that contains the topic
+    #   that you want described.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicPermissionsV2Request AWS API Documentation
+    #
+    class DescribeTopicPermissionsV2Request < Struct.new(
+      :aws_account_id,
+      :topic_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   A list of resource permissions that are configured to the topic.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicPermissionsV2Response AWS API Documentation
+    #
+    class DescribeTopicPermissionsV2Response < Struct.new(
+      :topic_id,
+      :topic_arn,
+      :permissions,
+      :status,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
     #   whose refresh you want to describe.
     #   @return [String]
     #
@@ -19854,6 +20757,64 @@ module Aws::QuickSight
       :request_id,
       :status,
       :custom_instructions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   that you want to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicV2Request AWS API Documentation
+    #
+    class DescribeTopicV2Request < Struct.new(
+      :aws_account_id,
+      :topic_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic
+    #   The definition of a topic.
+    #   @return [Types::TopicV2Details]
+    #
+    # @!attribute [rw] custom_instructions
+    #   Instructions that provide additional guidance and context for
+    #   response generation.
+    #   @return [Types::CustomInstructions]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicV2Response AWS API Documentation
+    #
+    class DescribeTopicV2Response < Struct.new(
+      :arn,
+      :topic_id,
+      :topic,
+      :custom_instructions,
+      :status,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -20274,7 +21235,12 @@ module Aws::QuickSight
     #
     # @!attribute [rw] data_set_identifier
     #   The data set that is used in the empty visual. Every visual requires
-    #   a dataset to render.
+    #   a dataset or a topic to render.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_identifier
+    #   The topic that is used in the empty visual. Every visual requires a
+    #   dataset or a topic to render.
     #   @return [String]
     #
     # @!attribute [rw] actions
@@ -20286,6 +21252,7 @@ module Aws::QuickSight
     class EmptyVisual < Struct.new(
       :visual_id,
       :data_set_identifier,
+      :topic_identifier,
       :actions)
       SENSITIVE = []
       include Aws::Structure
@@ -26146,6 +27113,10 @@ module Aws::QuickSight
     #   The dataset that is used in the insight visual.
     #   @return [String]
     #
+    # @!attribute [rw] topic_identifier
+    #   The topic that is used in the insight visual.
+    #   @return [String]
+    #
     # @!attribute [rw] visual_content_alt_text
     #   The alt text for the visual.
     #   @return [String]
@@ -26159,6 +27130,7 @@ module Aws::QuickSight
       :insight_configuration,
       :actions,
       :data_set_identifier,
+      :topic_identifier,
       :visual_content_alt_text)
       SENSITIVE = []
       include Aws::Structure
@@ -27403,7 +28375,12 @@ module Aws::QuickSight
     #
     # @!attribute [rw] data_set_identifier
     #   The dataset that is used to create the layer map visual. You can't
-    #   create a visual without a dataset.
+    #   create a visual without a dataset or a topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_identifier
+    #   The topic that is used in the layer map visual. You can't create a
+    #   visual without a dataset or a topic.
     #   @return [String]
     #
     # @!attribute [rw] visual_content_alt_text
@@ -27418,6 +28395,7 @@ module Aws::QuickSight
       :subtitle,
       :chart_configuration,
       :data_set_identifier,
+      :topic_identifier,
       :visual_content_alt_text)
       SENSITIVE = []
       include Aws::Structure
@@ -30142,6 +31120,58 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topics
+    #   that you want to list.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to be returned per request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListTopicsV2Request AWS API Documentation
+    #
+    class ListTopicsV2Request < Struct.new(
+      :aws_account_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] topic_summary_list
+    #   A list of topic summaries.
+    #   @return [Array<Types::TopicV2Summary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListTopicsV2Response AWS API Documentation
+    #
+    class ListTopicsV2Response < Struct.new(
+      :topic_summary_list,
+      :next_token,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] user_name
     #   The Amazon Quick Sight user name that you want to list group
     #   memberships for.
@@ -30912,6 +31942,19 @@ module Aws::QuickSight
     #   The definition of a metric.
     #   @return [Types::NamedEntityDefinitionMetric]
     #
+    # @!attribute [rw] rank_order
+    #   The rank order of the named entity definition.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] presentation_order
+    #   The presentation order of the named entity definition.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_hidden
+    #   A Boolean value that indicates whether the named entity definition
+    #   is hidden.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/NamedEntityDefinition AWS API Documentation
     #
     class NamedEntityDefinition < Struct.new(
@@ -30919,7 +31962,10 @@ module Aws::QuickSight
       :property_name,
       :property_role,
       :property_usage,
-      :metric)
+      :metric,
+      :rank_order,
+      :presentation_order,
+      :is_hidden)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -30956,6 +32002,26 @@ module Aws::QuickSight
     #
     class NamedEntityRef < Struct.new(
       :named_entity_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that represents a sort for a named entity.
+    #
+    # @!attribute [rw] field_name
+    #   The name of the field that is used for the sort.
+    #   @return [String]
+    #
+    # @!attribute [rw] direction
+    #   The direction of the sort. Valid values are `ASCENDING` and
+    #   `DESCENDING`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/NamedEntitySort AWS API Documentation
+    #
+    class NamedEntitySort < Struct.new(
+      :field_name,
+      :direction)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -34482,7 +35548,7 @@ module Aws::QuickSight
     class RangeConstant < Struct.new(
       :minimum,
       :maximum)
-      SENSITIVE = []
+      SENSITIVE = [:minimum, :maximum]
       include Aws::Structure
     end
 
@@ -37827,6 +38893,64 @@ module Aws::QuickSight
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchTopicsResponse AWS API Documentation
     #
     class SearchTopicsResponse < Struct.new(
+      :topic_summary_list,
+      :next_token,
+      :status,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   that you want to search.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   The filters that you want to use to search for the topic.
+    #   @return [Array<Types::TopicSearchFilter>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to be returned per request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchTopicsV2Request AWS API Documentation
+    #
+    class SearchTopicsV2Request < Struct.new(
+      :aws_account_id,
+      :filters,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] topic_summary_list
+    #   A list of topic summaries that is returned by the search topic
+    #   request.
+    #   @return [Array<Types::TopicV2Summary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchTopicsV2Response AWS API Documentation
+    #
+    class SearchTopicsV2Response < Struct.new(
       :topic_summary_list,
       :next_token,
       :status,
@@ -41649,11 +42773,17 @@ module Aws::QuickSight
     #   as placeholders in the template.
     #   @return [Array<Types::DataSetReference>]
     #
+    # @!attribute [rw] topic_references
+    #   A structure containing information about the topic references used
+    #   as placeholders in the template.
+    #   @return [Array<Types::TopicReference>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TemplateSourceAnalysis AWS API Documentation
     #
     class TemplateSourceAnalysis < Struct.new(
       :arn,
-      :data_set_references)
+      :data_set_references,
+      :topic_references)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -41770,6 +42900,12 @@ module Aws::QuickSight
     #   the same schema described through this API operation.
     #   @return [Array<Types::DataSetConfiguration>]
     #
+    # @!attribute [rw] topic_configurations
+    #   Schema of the topic identified by the placeholder. Any dashboard
+    #   created from this template should be bound to new topics matching
+    #   the same schema described through this API operation.
+    #   @return [Array<Types::TopicConfiguration>]
+    #
     # @!attribute [rw] description
     #   The description of the template.
     #   @return [String]
@@ -41796,6 +42932,7 @@ module Aws::QuickSight
       :version_number,
       :status,
       :data_set_configurations,
+      :topic_configurations,
       :description,
       :source_entity_arn,
       :theme_arn,
@@ -41810,6 +42947,11 @@ module Aws::QuickSight
     #   An array of dataset configurations. These configurations define the
     #   required columns for each dataset used within a template.
     #   @return [Array<Types::DataSetConfiguration>]
+    #
+    # @!attribute [rw] topic_configurations
+    #   An array of topic configurations. These configurations define the
+    #   required columns for each topic used within a template.
+    #   @return [Array<Types::TopicConfiguration>]
     #
     # @!attribute [rw] sheets
     #   An array of sheet definitions for a template.
@@ -41874,6 +43016,7 @@ module Aws::QuickSight
     #
     class TemplateVersionDefinition < Struct.new(
       :data_set_configurations,
+      :topic_configurations,
       :sheets,
       :tooltip_sheets,
       :calculated_fields,
@@ -42997,7 +44140,7 @@ module Aws::QuickSight
       :never_aggregate_in_filter,
       :cell_value_synonyms,
       :non_additive)
-      SENSITIVE = [:expression]
+      SENSITIVE = [:calculated_field_name, :calculated_field_description, :expression, :calculated_field_synonyms]
       include Aws::Structure
     end
 
@@ -43021,13 +44164,18 @@ module Aws::QuickSight
     #   A Boolean value that indicates if the filter is inverse.
     #   @return [Boolean]
     #
+    # @!attribute [rw] null_filter
+    #   The `null` filter that is applied to the category filter.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicCategoryFilter AWS API Documentation
     #
     class TopicCategoryFilter < Struct.new(
       :category_filter_function,
       :category_filter_type,
       :constant,
-      :inverse)
+      :inverse,
+      :null_filter)
       SENSITIVE = [:constant]
       include Aws::Structure
     end
@@ -43056,7 +44204,7 @@ module Aws::QuickSight
       :constant_type,
       :singular_constant,
       :collective_constant)
-      SENSITIVE = []
+      SENSITIVE = [:singular_constant]
       include Aws::Structure
     end
 
@@ -43163,7 +44311,7 @@ module Aws::QuickSight
       :never_aggregate_in_filter,
       :cell_value_synonyms,
       :non_additive)
-      SENSITIVE = []
+      SENSITIVE = [:column_friendly_name, :column_description, :column_synonyms]
       include Aws::Structure
     end
 
@@ -43177,6 +44325,30 @@ module Aws::QuickSight
     #
     class TopicConfigOptions < Struct.new(
       :q_business_insights_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of a topic.
+    #
+    # @!attribute [rw] placeholder
+    #   The placeholder for the topic configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_set_schema
+    #   Topic schema.
+    #   @return [Types::DataSetSchema]
+    #
+    # @!attribute [rw] column_group_schema_list
+    #   The list of column group schemas in the topic configuration.
+    #   @return [Array<Types::ColumnGroupSchema>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicConfiguration AWS API Documentation
+    #
+    class TopicConfiguration < Struct.new(
+      :placeholder,
+      :data_set_schema,
+      :column_group_schema_list)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43227,11 +44399,16 @@ module Aws::QuickSight
     #   The constant used in a date range filter.
     #   @return [Types::TopicRangeFilterConstant]
     #
+    # @!attribute [rw] null_filter
+    #   The `null` filter that is applied to the date range filter.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicDateRangeFilter AWS API Documentation
     #
     class TopicDateRangeFilter < Struct.new(
       :inclusive,
-      :constant)
+      :constant,
+      :null_filter)
       SENSITIVE = [:constant]
       include Aws::Structure
     end
@@ -43341,7 +44518,7 @@ module Aws::QuickSight
       :date_range_filter,
       :relative_date_filter,
       :null_filter)
-      SENSITIVE = []
+      SENSITIVE = [:filter_description, :filter_synonyms]
       include Aws::Structure
     end
 
@@ -43631,6 +44808,25 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # A topic.
+    #
+    # @!attribute [rw] identifier
+    #   The identifier of the topic, typically the topic's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicIdentifierDeclaration AWS API Documentation
+    #
+    class TopicIdentifierDeclaration < Struct.new(
+      :identifier,
+      :topic_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A structure that represents a named entity.
     #
     # @!attribute [rw] entity_name
@@ -43653,6 +44849,18 @@ module Aws::QuickSight
     #   The definition of a named entity.
     #   @return [Array<Types::NamedEntityDefinition>]
     #
+    # @!attribute [rw] sort
+    #   The sort configuration of the named entity.
+    #   @return [Array<Types::NamedEntitySort>]
+    #
+    # @!attribute [rw] rank_order
+    #   The rank order of the named entity.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] presentation_order
+    #   The presentation order of the named entity.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicNamedEntity AWS API Documentation
     #
     class TopicNamedEntity < Struct.new(
@@ -43660,8 +44868,11 @@ module Aws::QuickSight
       :entity_description,
       :entity_synonyms,
       :semantic_entity_type,
-      :definition)
-      SENSITIVE = []
+      :definition,
+      :sort,
+      :rank_order,
+      :presentation_order)
+      SENSITIVE = [:entity_description, :entity_synonyms]
       include Aws::Structure
     end
 
@@ -43706,11 +44917,21 @@ module Aws::QuickSight
     #   `MAX`, `MEDIAN`, `MIN`, `STDEV`, `STDEVP`, `VAR`, and `VARP`.
     #   @return [String]
     #
+    # @!attribute [rw] inverse
+    #   A Boolean value that indicates if the filter is inverse.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] null_filter
+    #   The `null` filter that is applied to the numeric equality filter.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicNumericEqualityFilter AWS API Documentation
     #
     class TopicNumericEqualityFilter < Struct.new(
       :constant,
-      :aggregation)
+      :aggregation,
+      :inverse,
+      :null_filter)
       SENSITIVE = [:constant]
       include Aws::Structure
     end
@@ -43738,12 +44959,22 @@ module Aws::QuickSight
     #   `MAX`, `MEDIAN`, `MIN`, `STDEV`, `STDEVP`, `VAR`, and `VARP`.
     #   @return [String]
     #
+    # @!attribute [rw] inverse
+    #   A Boolean value that indicates if the filter is inverse.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] null_filter
+    #   The `null` filter that is applied to the numeric range filter.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicNumericRangeFilter AWS API Documentation
     #
     class TopicNumericRangeFilter < Struct.new(
       :inclusive,
       :constant,
-      :aggregation)
+      :aggregation,
+      :inverse,
+      :null_filter)
       SENSITIVE = [:constant]
       include Aws::Structure
     end
@@ -43766,6 +44997,25 @@ module Aws::QuickSight
     class TopicRangeFilterConstant < Struct.new(
       :constant_type,
       :range_constant)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Topic reference.
+    #
+    # @!attribute [rw] topic_placeholder
+    #   Topic placeholder.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_arn
+    #   Topic Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicReference AWS API Documentation
+    #
+    class TopicReference < Struct.new(
+      :topic_placeholder,
+      :topic_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -43884,12 +45134,17 @@ module Aws::QuickSight
     #   The constant used in a relative date filter.
     #   @return [Types::TopicSingularFilterConstant]
     #
+    # @!attribute [rw] null_filter
+    #   The `null` filter that is applied to the relative date filter.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicRelativeDateFilter AWS API Documentation
     #
     class TopicRelativeDateFilter < Struct.new(
       :time_granularity,
       :relative_date_filter_function,
-      :constant)
+      :constant,
+      :null_filter)
       SENSITIVE = [:constant]
       include Aws::Structure
     end
@@ -43934,7 +45189,7 @@ module Aws::QuickSight
       :mir,
       :primary_visual,
       :template)
-      SENSITIVE = []
+      SENSITIVE = [:question]
       include Aws::Structure
     end
 
@@ -43958,7 +45213,7 @@ module Aws::QuickSight
       :operator,
       :name,
       :value)
-      SENSITIVE = []
+      SENSITIVE = [:value]
       include Aws::Structure
     end
 
@@ -43979,7 +45234,7 @@ module Aws::QuickSight
     class TopicSingularFilterConstant < Struct.new(
       :constant_type,
       :singular_constant)
-      SENSITIVE = []
+      SENSITIVE = [:singular_constant]
       include Aws::Structure
     end
 
@@ -44047,6 +45302,121 @@ module Aws::QuickSight
     class TopicTemplate < Struct.new(
       :template_type,
       :slots)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that represents a data set reference of a topic.
+    #
+    # @!attribute [rw] data_set_arn
+    #   The Amazon Resource Name (ARN) of the data set.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_set_name
+    #   The name of the data set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicV2DataSetReference AWS API Documentation
+    #
+    class TopicV2DataSetReference < Struct.new(
+      :data_set_arn,
+      :data_set_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that represents a relation between two data sets of a
+    # topic.
+    #
+    # @!attribute [rw] left
+    #   The left endpoint of the data set relation.
+    #   @return [Types::TopicV2DataSetRelationEndpoint]
+    #
+    # @!attribute [rw] right
+    #   The right endpoint of the data set relation.
+    #   @return [Types::TopicV2DataSetRelationEndpoint]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicV2DataSetRelation AWS API Documentation
+    #
+    class TopicV2DataSetRelation < Struct.new(
+      :left,
+      :right)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that represents an endpoint of a data set relation of a
+    # topic.
+    #
+    # @!attribute [rw] data_set_arn
+    #   The Amazon Resource Name (ARN) of the data set at this endpoint of
+    #   the relation.
+    #   @return [String]
+    #
+    # @!attribute [rw] column_names
+    #   The names of the columns that are used in the data set relation.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicV2DataSetRelationEndpoint AWS API Documentation
+    #
+    class TopicV2DataSetRelationEndpoint < Struct.new(
+      :data_set_arn,
+      :column_names)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The definition of a topic.
+    #
+    # @!attribute [rw] name
+    #   The name of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_sets
+    #   The data sets that the topic is associated with.
+    #   @return [Array<Types::TopicV2DataSetReference>]
+    #
+    # @!attribute [rw] data_set_relations
+    #   The relations between the data sets that the topic is associated
+    #   with.
+    #   @return [Array<Types::TopicV2DataSetRelation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicV2Details AWS API Documentation
+    #
+    class TopicV2Details < Struct.new(
+      :name,
+      :description,
+      :data_sets,
+      :data_set_relations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of the topic.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic. This ID is unique per Amazon Web Services
+    #   Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the topic.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/TopicV2Summary AWS API Documentation
+    #
+    class TopicV2Summary < Struct.new(
+      :arn,
+      :topic_id,
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -45530,7 +46900,7 @@ module Aws::QuickSight
     # @!attribute [rw] source_entity
     #   A source entity to use for the analysis that you're updating. This
     #   metadata structure contains details that describe a source template
-    #   and one or more datasets.
+    #   and one or more datasets or topics.
     #   @return [Types::AnalysisSourceEntity]
     #
     # @!attribute [rw] theme_arn
@@ -46010,7 +47380,10 @@ module Aws::QuickSight
     #
     #   Use the `DataSetReferences` entity within `SourceTemplate` to list
     #   the replacement datasets for the placeholders listed in the
-    #   original. The schema in each dataset must match its placeholder.
+    #   original. The schema in each dataset must match its placeholder. Use
+    #   the `TopicReferences` entity to list the replacement topics for the
+    #   topic placeholders listed in the original. The schema in each topic
+    #   must match its placeholder.
     #   @return [Types::DashboardSourceEntity]
     #
     # @!attribute [rw] parameters
@@ -47993,7 +49366,9 @@ module Aws::QuickSight
     #   Use the `DataSetReferences` entity within `SourceTemplate` or
     #   `SourceAnalysis` to list the replacement datasets for the
     #   placeholders listed in the original. The schema in each dataset must
-    #   match its placeholder.
+    #   match its placeholder. Use the `TopicReferences` entity to list the
+    #   replacement topics for the topic placeholders listed in the
+    #   original. The schema in each topic must match its placeholder.
     #   @return [Types::TemplateSourceEntity]
     #
     # @!attribute [rw] version_description
@@ -48326,6 +49701,68 @@ module Aws::QuickSight
 
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that contains the topic
+    #   that you want to update the permissions for.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] grant_permissions
+    #   The resource permissions that you want to grant to the topic.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] revoke_permissions
+    #   The resource permissions that you want to revoke from the topic.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicPermissionsV2Request AWS API Documentation
+    #
+    class UpdateTopicPermissionsV2Request < Struct.new(
+      :aws_account_id,
+      :topic_id,
+      :grant_permissions,
+      :revoke_permissions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] permissions
+    #   A list of resource permissions on the topic.
+    #   @return [Array<Types::ResourcePermission>]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicPermissionsV2Response AWS API Documentation
+    #
+    class UpdateTopicPermissionsV2Response < Struct.new(
+      :topic_id,
+      :topic_arn,
+      :permissions,
+      :status,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
     #   whose refresh schedule you want to update.
     #   @return [String]
     #
@@ -48442,6 +49879,69 @@ module Aws::QuickSight
       :topic_id,
       :arn,
       :refresh_arn,
+      :request_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   that you want to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic
+    #   The definition of the topic that you want to update.
+    #   @return [Types::TopicV2Details]
+    #
+    # @!attribute [rw] custom_instructions
+    #   Instructions that provide additional guidance and context for
+    #   response generation.
+    #   @return [Types::CustomInstructions]
+    #
+    # @!attribute [rw] publish_option
+    #   The publish option for the topic that you want to update.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicV2Request AWS API Documentation
+    #
+    class UpdateTopicV2Request < Struct.new(
+      :aws_account_id,
+      :topic_id,
+      :topic,
+      :custom_instructions,
+      :publish_option)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The HTTP status of the request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicV2Response AWS API Documentation
+    #
+    class UpdateTopicV2Response < Struct.new(
+      :arn,
+      :topic_id,
       :request_id,
       :status)
       SENSITIVE = []
@@ -49710,6 +51210,76 @@ module Aws::QuickSight
     #
     class VisualMenuOption < Struct.new(
       :availability_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for a customizable message displayed on a visual.
+    # Supports parameter substitution in text fields.
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether the custom message is displayed on the visual.
+    #   When set to `true`, the custom message appears in place of the
+    #   default message. When set to `false` or omitted, the default message
+    #   is displayed.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] title
+    #   The title text of the message that is displayed on the visual.
+    #   @return [String]
+    #
+    # @!attribute [rw] title_visibility
+    #   Specifies whether the title of the message is displayed.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description text of the message that is displayed on the visual.
+    #   @return [String]
+    #
+    # @!attribute [rw] description_visibility
+    #   Specifies whether the description of the message is displayed.
+    #   @return [String]
+    #
+    # @!attribute [rw] link_text
+    #   The display text of the hyperlink that is shown in the message.
+    #   @return [String]
+    #
+    # @!attribute [rw] link_url
+    #   The destination URL of the hyperlink that is shown in the message.
+    #   Only valid `http`, `https`, and `mailto` URLs are supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] link_visibility
+    #   Specifies whether the hyperlink in the message is displayed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/VisualMessageConfiguration AWS API Documentation
+    #
+    class VisualMessageConfiguration < Struct.new(
+      :enabled,
+      :title,
+      :title_visibility,
+      :description,
+      :description_visibility,
+      :link_text,
+      :link_url,
+      :link_visibility)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The messages that are displayed on a visual under specific conditions,
+    # such as when the visual returns no data.
+    #
+    # @!attribute [rw] no_data_message
+    #   The message that is displayed on a visual when there is no data to
+    #   display.
+    #   @return [Types::VisualMessageConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/VisualMessages AWS API Documentation
+    #
+    class VisualMessages < Struct.new(
+      :no_data_message)
       SENSITIVE = []
       include Aws::Structure
     end

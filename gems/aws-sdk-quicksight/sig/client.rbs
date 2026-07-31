@@ -931,6 +931,31 @@ module Aws
                                          ) -> _CreateTopicRefreshScheduleResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTopicRefreshScheduleResponseSuccess
 
+      interface _CreateTopicV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateTopicV2Response]
+        def arn: () -> ::String
+        def topic_id: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#create_topic_v2-instance_method
+      def create_topic_v2: (
+                             aws_account_id: ::String,
+                             topic_id: ::String,
+                             topic: Params::topic_v2_details,
+                             ?tags: Array[
+                               {
+                                 key: ::String,
+                                 value: ::String
+                               }
+                             ],
+                             ?folder_arns: Array[::String],
+                             ?custom_instructions: {
+                               custom_instructions_string: ::String
+                             }
+                           ) -> _CreateTopicV2ResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateTopicV2ResponseSuccess
+
       interface _CreateVPCConnectionResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateVPCConnectionResponse]
         def arn: () -> ::String
@@ -1414,6 +1439,20 @@ module Aws
                                            dataset_id: ::String
                                          ) -> _DeleteTopicRefreshScheduleResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTopicRefreshScheduleResponseSuccess
+
+      interface _DeleteTopicV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteTopicV2Response]
+        def arn: () -> ::String
+        def topic_id: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#delete_topic_v2-instance_method
+      def delete_topic_v2: (
+                             aws_account_id: ::String,
+                             topic_id: ::String
+                           ) -> _DeleteTopicV2ResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteTopicV2ResponseSuccess
 
       interface _DeleteUserResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteUserResponse]
@@ -2380,6 +2419,21 @@ module Aws
                                       ) -> _DescribeTopicPermissionsResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeTopicPermissionsResponseSuccess
 
+      interface _DescribeTopicPermissionsV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeTopicPermissionsV2Response]
+        def topic_id: () -> ::String
+        def topic_arn: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+        def status: () -> ::Integer
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_topic_permissions_v2-instance_method
+      def describe_topic_permissions_v2: (
+                                           aws_account_id: ::String,
+                                           topic_id: ::String
+                                         ) -> _DescribeTopicPermissionsV2ResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeTopicPermissionsV2ResponseSuccess
+
       interface _DescribeTopicRefreshResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeTopicRefreshResponse]
         def refresh_details: () -> Types::TopicRefreshDetails
@@ -2410,6 +2464,22 @@ module Aws
                                              dataset_id: ::String
                                            ) -> _DescribeTopicRefreshScheduleResponseSuccess
                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeTopicRefreshScheduleResponseSuccess
+
+      interface _DescribeTopicV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeTopicV2Response]
+        def arn: () -> ::String
+        def topic_id: () -> ::String
+        def topic: () -> Types::TopicV2Details
+        def custom_instructions: () -> Types::CustomInstructions
+        def status: () -> ::Integer
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#describe_topic_v2-instance_method
+      def describe_topic_v2: (
+                               aws_account_id: ::String,
+                               topic_id: ::String
+                             ) -> _DescribeTopicV2ResponseSuccess
+                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeTopicV2ResponseSuccess
 
       interface _DescribeUserResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeUserResponse]
@@ -3204,6 +3274,21 @@ module Aws
                        ) -> _ListTopicsResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTopicsResponseSuccess
 
+      interface _ListTopicsV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListTopicsV2Response]
+        def topic_summary_list: () -> ::Array[Types::TopicV2Summary]
+        def next_token: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#list_topics_v2-instance_method
+      def list_topics_v2: (
+                            aws_account_id: ::String,
+                            ?next_token: ::String,
+                            ?max_results: ::Integer
+                          ) -> _ListTopicsV2ResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListTopicsV2ResponseSuccess
+
       interface _ListUserGroupsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListUserGroupsResponse]
         def group_list: () -> ::Array[Types::Group]
@@ -3624,6 +3709,28 @@ module Aws
                            ?max_results: ::Integer
                          ) -> _SearchTopicsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchTopicsResponseSuccess
+
+      interface _SearchTopicsV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchTopicsV2Response]
+        def topic_summary_list: () -> ::Array[Types::TopicV2Summary]
+        def next_token: () -> ::String
+        def status: () -> ::Integer
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#search_topics_v2-instance_method
+      def search_topics_v2: (
+                              aws_account_id: ::String,
+                              filters: Array[
+                                {
+                                  operator: ("StringEquals" | "StringLike"),
+                                  name: ("QUICKSIGHT_USER" | "QUICKSIGHT_VIEWER_OR_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER" | "QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "TOPIC_NAME"),
+                                  value: ::String
+                                }
+                              ],
+                              ?next_token: ::String,
+                              ?max_results: ::Integer
+                            ) -> _SearchTopicsV2ResponseSuccess
+                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchTopicsV2ResponseSuccess
 
       interface _StartAssetBundleExportJobResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartAssetBundleExportJobResponse]
@@ -5180,6 +5287,33 @@ module Aws
                                     ) -> _UpdateTopicPermissionsResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTopicPermissionsResponseSuccess
 
+      interface _UpdateTopicPermissionsV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateTopicPermissionsV2Response]
+        def topic_id: () -> ::String
+        def topic_arn: () -> ::String
+        def permissions: () -> ::Array[Types::ResourcePermission]
+        def status: () -> ::Integer
+        def request_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_topic_permissions_v2-instance_method
+      def update_topic_permissions_v2: (
+                                         aws_account_id: ::String,
+                                         topic_id: ::String,
+                                         ?grant_permissions: Array[
+                                           {
+                                             principal: ::String,
+                                             actions: Array[::String]
+                                           }
+                                         ],
+                                         ?revoke_permissions: Array[
+                                           {
+                                             principal: ::String,
+                                             actions: Array[::String]
+                                           }
+                                         ]
+                                       ) -> _UpdateTopicPermissionsV2ResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTopicPermissionsV2ResponseSuccess
+
       interface _UpdateTopicRefreshScheduleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateTopicRefreshScheduleResponse]
         def topic_id: () -> ::String
@@ -5196,6 +5330,25 @@ module Aws
                                            refresh_schedule: Params::topic_refresh_schedule
                                          ) -> _UpdateTopicRefreshScheduleResponseSuccess
                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTopicRefreshScheduleResponseSuccess
+
+      interface _UpdateTopicV2ResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateTopicV2Response]
+        def arn: () -> ::String
+        def topic_id: () -> ::String
+        def request_id: () -> ::String
+        def status: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/QuickSight/Client.html#update_topic_v2-instance_method
+      def update_topic_v2: (
+                             aws_account_id: ::String,
+                             topic_id: ::String,
+                             topic: Params::topic_v2_details,
+                             ?custom_instructions: {
+                               custom_instructions_string: ::String
+                             },
+                             ?publish_option: ("DRAFT" | "PUBLISH")
+                           ) -> _UpdateTopicV2ResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateTopicV2ResponseSuccess
 
       interface _UpdateUserResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateUserResponse]

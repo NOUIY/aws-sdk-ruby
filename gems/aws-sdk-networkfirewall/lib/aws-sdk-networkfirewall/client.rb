@@ -846,17 +846,10 @@ module Aws::NetworkFirewall
       req.send_request(options)
     end
 
-    # Creates a container association for Network Firewall. A container
-    # association links container clusters (ECS or EKS) to Network Firewall,
-    # enabling dynamic IP resolution for firewall rules based on container
-    # attributes.
-    #
-    # To manage a container association's tags, use the standard Amazon Web
-    # Services resource tagging operations, ListTagsForResource,
-    # TagResource, and UntagResource.
-    #
-    # To retrieve information about container associations, use
-    # ListContainerAssociations and DescribeContainerAssociation.
+    # Creates a Network Firewall container association. The association
+    # monitors container lifecycle events in your Amazon ECS or Amazon EKS
+    # clusters and resolves running container addresses for use in firewall
+    # rules.
     #
     # @option params [required, String] :container_association_name
     #   The descriptive name of the container association. You can't change
@@ -866,13 +859,17 @@ module Aws::NetworkFirewall
     #   A description of the container association.
     #
     # @option params [required, String] :type
-    #   The type of container orchestration platform for the clusters in this
-    #   association. Valid values are `ECS` and `EKS`. You can't change the
-    #   type after creation.
+    #   The type of containers to monitor. You can't change the container
+    #   type after creation. Valid values:
+    #
+    #   * `ECS` - Amazon Elastic Container Service
+    #
+    #   * `EKS` - Amazon Elastic Kubernetes Service
     #
     # @option params [required, Array<Types::ContainerMonitoringConfiguration>] :container_monitoring_configurations
-    #   The list of container monitoring configurations that define which
-    #   clusters and container attributes to monitor.
+    #   The monitoring configurations for the container association. Each
+    #   configuration specifies an Amazon ECS or Amazon EKS cluster to monitor
+    #   and optional attribute filters to narrow which containers are tracked.
     #
     # @option params [Array<Types::Tag>] :tags
     #   The key:value pairs to associate with the resource.
@@ -2328,18 +2325,20 @@ module Aws::NetworkFirewall
       req.send_request(options)
     end
 
-    # Deletes the specified container association. When you delete a
-    # container association, Network Firewall stops monitoring the
-    # associated container clusters and removes the resolved IP addresses
-    # from firewall rules.
+    # Deletes a container association. The resource transitions to a
+    # `DELETING` state. Deletion is asynchronous - Network Firewall returns
+    # immediately while cleanup proceeds in the background. You can't
+    # delete a container association while a rule group references it.
     #
     # @option params [String] :container_association_name
-    #   The descriptive name of the container association. You must specify
-    #   the ARN or the name, and you can specify both.
+    #   The descriptive name of the container association.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
     #
     # @option params [String] :container_association_arn
-    #   The Amazon Resource Name (ARN) of the container association. You must
-    #   specify the ARN or the name, and you can specify both.
+    #   The Amazon Resource Name (ARN) of the container association.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
     #
     # @return [Types::DeleteContainerAssociationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2959,15 +2958,17 @@ module Aws::NetworkFirewall
       req.send_request(options)
     end
 
-    # Returns the properties of a container association.
+    # Retrieves the configuration and status of a container association.
     #
     # @option params [String] :container_association_name
-    #   The descriptive name of the container association. You must specify
-    #   the ARN or the name, and you can specify both.
+    #   The descriptive name of the container association.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
     #
     # @option params [String] :container_association_arn
-    #   The Amazon Resource Name (ARN) of the container association. You must
-    #   specify the ARN or the name, and you can specify both.
+    #   The Amazon Resource Name (ARN) of the container association.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
     #
     # @return [Types::DescribeContainerAssociationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4376,8 +4377,9 @@ module Aws::NetworkFirewall
       req.send_request(options)
     end
 
-    # Retrieves the metadata for the container associations that you have
-    # defined. You can optionally page through results.
+    # Lists the container associations in your account and Region. Use the
+    # `NextToken` parameter in subsequent requests to retrieve additional
+    # results.
     #
     # @option params [Integer] :max_results
     #   The maximum number of objects that you want Network Firewall to return
@@ -5594,43 +5596,54 @@ module Aws::NetworkFirewall
       req.send_request(options)
     end
 
-    # Updates the properties of an existing container association. Use this
-    # to modify the container monitoring configurations or description.
+    # Updates the monitoring configurations and description of a container
+    # association. You can't change the container type after creation.
+    # Provide an update token to enable optimistic concurrency control.
     #
     # @option params [String] :container_association_name
-    #   The descriptive name of the container association. You must specify
-    #   the ARN or the name, and you can specify both.
+    #   The descriptive name of the container association.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
     #
     # @option params [String] :container_association_arn
-    #   The Amazon Resource Name (ARN) of the container association. You must
-    #   specify the ARN or the name, and you can specify both.
+    #   The Amazon Resource Name (ARN) of the container association.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
     #
     # @option params [String] :description
-    #   A description of the container association.
+    #   A description of the container association. When omitted, the existing
+    #   description remains unchanged. To clear the description, pass an empty
+    #   string.
     #
     # @option params [required, String] :type
-    #   The type of container orchestration platform. This must match the type
-    #   specified when the container association was created.
+    #   The container type. This value must match the existing type and can't
+    #   be changed. Valid values:
+    #
+    #   * `ECS` - Amazon Elastic Container Service
+    #
+    #   * `EKS` - Amazon Elastic Kubernetes Service
     #
     # @option params [required, Array<Types::ContainerMonitoringConfiguration>] :container_monitoring_configurations
-    #   The updated list of container monitoring configurations that define
-    #   which clusters and container attributes to monitor.
+    #   The updated monitoring configurations for the container association.
+    #   Each configuration specifies an Amazon ECS or Amazon EKS cluster to
+    #   monitor and optional attribute filters.
     #
     # @option params [Array<Types::Tag>] :tags
-    #   The key:value pairs associated with the resource.
+    #   The key:value pairs to associate with the resource.
     #
     # @option params [required, String] :update_token
     #   A token used for optimistic locking. Network Firewall returns a token
     #   to your requests that access the container association. The token
     #   marks the state of the container association resource at the time of
-    #   the request. To make an update to the container association, provide
-    #   the token in your request. Network Firewall uses the token to ensure
-    #   that the container association hasn't changed since you last
-    #   retrieved it. If it has changed, the operation fails with an
-    #   `InvalidTokenException`. If this happens, retrieve the container
-    #   association again to get a current copy of it with a new token.
-    #   Reapply your changes as needed, then try the operation again using the
-    #   new token.
+    #   the request.
+    #
+    #   To make changes to the container association, you provide the token in
+    #   your request. Network Firewall uses the token to ensure that the
+    #   container association hasn't changed since you last retrieved it. If
+    #   it has changed, the operation fails with an `InvalidTokenException`.
+    #   If this happens, retrieve the container association again to get a
+    #   current copy of it with a current token. Reapply your changes as
+    #   needed, then try the operation again using the new token.
     #
     # @return [Types::UpdateContainerAssociationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7262,7 +7275,7 @@ module Aws::NetworkFirewall
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-networkfirewall'
-      context[:gem_version] = '1.94.0'
+      context[:gem_version] = '1.95.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

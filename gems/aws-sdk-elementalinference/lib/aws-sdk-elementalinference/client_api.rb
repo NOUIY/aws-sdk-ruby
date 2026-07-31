@@ -57,6 +57,7 @@ module Aws::ElementalInference
     GetFeedResponse = Shapes::StructureShape.new(name: 'GetFeedResponse')
     GetOutput = Shapes::StructureShape.new(name: 'GetOutput')
     GetOutputList = Shapes::ListShape.new(name: 'GetOutputList')
+    IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerErrorException = Shapes::StructureShape.new(name: 'InternalServerErrorException')
     ListDictionariesRequest = Shapes::StructureShape.new(name: 'ListDictionariesRequest')
@@ -74,6 +75,7 @@ module Aws::ElementalInference
     ResourceDescription = Shapes::StringShape.new(name: 'ResourceDescription')
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    S3Uri = Shapes::StringShape.new(name: 'S3Uri')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
@@ -83,6 +85,9 @@ module Aws::ElementalInference
     TagMap = Shapes::MapShape.new(name: 'TagMap')
     TagResourceRequest = Shapes::StructureShape.new(name: 'TagResourceRequest')
     TagValue = Shapes::StringShape.new(name: 'TagValue')
+    TemplateGroup = Shapes::StructureShape.new(name: 'TemplateGroup')
+    TemplateGroupList = Shapes::ListShape.new(name: 'TemplateGroupList')
+    TemplateUriList = Shapes::ListShape.new(name: 'TemplateUriList')
     TooManyRequestException = Shapes::StructureShape.new(name: 'TooManyRequestException')
     TranscriptionLanguage = Shapes::StringShape.new(name: 'TranscriptionLanguage')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
@@ -133,6 +138,7 @@ module Aws::ElementalInference
     CreateDictionaryResponse.struct_class = Types::CreateDictionaryResponse
 
     CreateFeedRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    CreateFeedRequest.add_member(:access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "accessRoleArn"))
     CreateFeedRequest.add_member(:outputs, Shapes::ShapeRef.new(shape: CreateOutputList, required: true, location_name: "outputs"))
     CreateFeedRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     CreateFeedRequest.struct_class = Types::CreateFeedRequest
@@ -155,6 +161,7 @@ module Aws::ElementalInference
 
     CreateOutputList.member = Shapes::ShapeRef.new(shape: CreateOutput)
 
+    CroppingConfig.add_member(:template_groups, Shapes::ShapeRef.new(shape: TemplateGroupList, location_name: "templateGroups"))
     CroppingConfig.struct_class = Types::CroppingConfig
 
     DeleteDictionaryRequest.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location: "uri", location_name: "id"))
@@ -303,6 +310,14 @@ module Aws::ElementalInference
     TagResourceRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, required: true, location_name: "tags"))
     TagResourceRequest.struct_class = Types::TagResourceRequest
 
+    TemplateGroup.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    TemplateGroup.add_member(:template_uris, Shapes::ShapeRef.new(shape: TemplateUriList, required: true, location_name: "templateUris"))
+    TemplateGroup.struct_class = Types::TemplateGroup
+
+    TemplateGroupList.member = Shapes::ShapeRef.new(shape: TemplateGroup)
+
+    TemplateUriList.member = Shapes::ShapeRef.new(shape: S3Uri)
+
     TooManyRequestException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     TooManyRequestException.struct_class = Types::TooManyRequestException
 
@@ -326,6 +341,7 @@ module Aws::ElementalInference
     UpdateDictionaryResponse.struct_class = Types::UpdateDictionaryResponse
 
     UpdateFeedRequest.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
+    UpdateFeedRequest.add_member(:access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "accessRoleArn"))
     UpdateFeedRequest.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location: "uri", location_name: "id"))
     UpdateFeedRequest.add_member(:outputs, Shapes::ShapeRef.new(shape: UpdateOutputList, required: true, location_name: "outputs"))
     UpdateFeedRequest.struct_class = Types::UpdateFeedRequest

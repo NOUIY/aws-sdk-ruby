@@ -127,6 +127,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ElementalInference/Client.html#create_feed-instance_method
       def create_feed: (
                          name: ::String,
+                         ?access_role_arn: ::String,
                          outputs: Array[
                            Params::create_output
                          ],
@@ -295,6 +296,7 @@ module Aws
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ElementalInference/Client.html#update_feed-instance_method
       def update_feed: (
                          name: ::String,
+                         ?access_role_arn: ::String,
                          id: ::String,
                          outputs: Array[
                            {

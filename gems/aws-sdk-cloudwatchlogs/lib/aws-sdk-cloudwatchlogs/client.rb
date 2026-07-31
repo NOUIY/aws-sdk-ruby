@@ -1344,14 +1344,15 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
-    # Creates a lookup table by uploading CSV data. You can use lookup
-    # tables to enrich log data in CloudWatch Logs Insights queries with
-    # reference data such as user details, application names, or error
-    # descriptions.
+    # Creates a lookup table by uploading CSV data or from CloudWatch Logs
+    # query results. You can use lookup tables to enrich log data in
+    # CloudWatch Logs queries with reference data such as user details,
+    # application names, or error descriptions.
     #
-    # The table name must be unique within your account and Region. The CSV
-    # content must include a header row with column names, use UTF-8
-    # encoding, and not exceed 10 MB.
+    # The table name must be unique within your account and Region. You must
+    # specify either `tableBody` or `queryId`, but not both. If you use
+    # `tableBody`, the CSV content must include a header row with column
+    # names, use UTF-8 encoding, and not exceed 10 MB.
     #
     # @option params [required, String] :lookup_table_name
     #   The name of the lookup table. The name must be unique within your
@@ -1362,10 +1363,18 @@ module Aws::CloudWatchLogs
     #   A description of the lookup table. The description can be up to 1024
     #   characters long.
     #
-    # @option params [required, String] :table_body
+    # @option params [String] :table_body
     #   The CSV content of the lookup table. The first row must be a header
     #   row with column names. The content must use UTF-8 encoding and not
     #   exceed 10 MB.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
+    #
+    # @option params [String] :query_id
+    #   The ID of a completed CloudWatch Logs query whose results populate the
+    #   lookup table.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
     #
     # @option params [String] :kms_key_id
     #   The ARN of the KMS key to use to encrypt the lookup table data. If you
@@ -1387,7 +1396,8 @@ module Aws::CloudWatchLogs
     #   resp = client.create_lookup_table({
     #     lookup_table_name: "LookupTableName", # required
     #     description: "LookupTableDescription",
-    #     table_body: "TableBody", # required
+    #     table_body: "TableBody",
+    #     query_id: "QueryId",
     #     kms_key_id: "KmsKeyId",
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -1454,8 +1464,10 @@ module Aws::CloudWatchLogs
     #   time window relative to the execution time over which the query runs.
     #
     # @option params [Types::DestinationConfiguration] :destination_configuration
-    #   Configuration for where to deliver query results. Currently supports
-    #   Amazon S3 destinations for storing query output.
+    #   Configuration for where to deliver query results. Supports Amazon S3
+    #   destinations for storing query output and lookup table destinations
+    #   for automatically refreshing lookup tables with query results. You can
+    #   configure one or both destination types.
     #
     # @option params [Integer] :schedule_start_time
     #   The start time for the scheduled query in Unix epoch format. The query
@@ -1497,11 +1509,20 @@ module Aws::CloudWatchLogs
     #     start_time_offset: 1,
     #     end_time_offset: 1,
     #     destination_configuration: {
-    #       s3_configuration: { # required
+    #       s3_configuration: {
     #         destination_identifier: "S3Uri", # required
     #         role_arn: "RoleArn", # required
     #         owner_account_id: "AccountId",
     #         kms_key_id: "KmsKeyId",
+    #       },
+    #       lookup_table_configuration: {
+    #         table_name: "LookupTableName", # required
+    #         role_arn: "RoleArn", # required
+    #         description: "LookupTableDescription",
+    #         kms_key_id: "KmsKeyId",
+    #         tags: {
+    #           "TagKey" => "TagValue",
+    #         },
     #       },
     #     },
     #     schedule_start_time: 1,
@@ -4830,6 +4851,12 @@ module Aws::CloudWatchLogs
     #   resp.destination_configuration.s3_configuration.role_arn #=> String
     #   resp.destination_configuration.s3_configuration.owner_account_id #=> String
     #   resp.destination_configuration.s3_configuration.kms_key_id #=> String
+    #   resp.destination_configuration.lookup_table_configuration.table_name #=> String
+    #   resp.destination_configuration.lookup_table_configuration.role_arn #=> String
+    #   resp.destination_configuration.lookup_table_configuration.description #=> String
+    #   resp.destination_configuration.lookup_table_configuration.kms_key_id #=> String
+    #   resp.destination_configuration.lookup_table_configuration.tags #=> Hash
+    #   resp.destination_configuration.lookup_table_configuration.tags["TagKey"] #=> String
     #   resp.state #=> String, one of "ENABLED", "DISABLED"
     #   resp.schedule_type #=> String, one of "CUSTOMER_MANAGED", "AWS_MANAGED"
     #   resp.last_triggered_time #=> Integer
@@ -4904,7 +4931,7 @@ module Aws::CloudWatchLogs
     #   resp.trigger_history[0].triggered_timestamp #=> Integer
     #   resp.trigger_history[0].error_message #=> String
     #   resp.trigger_history[0].destinations #=> Array
-    #   resp.trigger_history[0].destinations[0].destination_type #=> String, one of "S3"
+    #   resp.trigger_history[0].destinations[0].destination_type #=> String, one of "S3", "LOOKUP_TABLE"
     #   resp.trigger_history[0].destinations[0].destination_identifier #=> String
     #   resp.trigger_history[0].destinations[0].status #=> String, one of "IN_PROGRESS", "CLIENT_ERROR", "FAILED", "COMPLETE"
     #   resp.trigger_history[0].destinations[0].processed_identifier #=> String
@@ -4920,7 +4947,7 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
-    # Returns the storage tier policy for your account.
+    # Returns the storage tier policy for the account.
     #
     # @return [Types::GetStorageTierPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5598,6 +5625,12 @@ module Aws::CloudWatchLogs
     #   resp.scheduled_queries[0].destination_configuration.s3_configuration.role_arn #=> String
     #   resp.scheduled_queries[0].destination_configuration.s3_configuration.owner_account_id #=> String
     #   resp.scheduled_queries[0].destination_configuration.s3_configuration.kms_key_id #=> String
+    #   resp.scheduled_queries[0].destination_configuration.lookup_table_configuration.table_name #=> String
+    #   resp.scheduled_queries[0].destination_configuration.lookup_table_configuration.role_arn #=> String
+    #   resp.scheduled_queries[0].destination_configuration.lookup_table_configuration.description #=> String
+    #   resp.scheduled_queries[0].destination_configuration.lookup_table_configuration.kms_key_id #=> String
+    #   resp.scheduled_queries[0].destination_configuration.lookup_table_configuration.tags #=> Hash
+    #   resp.scheduled_queries[0].destination_configuration.lookup_table_configuration.tags["TagKey"] #=> String
     #   resp.scheduled_queries[0].creation_time #=> Integer
     #   resp.scheduled_queries[0].last_updated_time #=> Integer
     #
@@ -7830,14 +7863,15 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
-    # Sets the storage tier policy for your account. When you set the
-    # storage tier to `INTELLIGENT_TIERING`, CloudWatch Logs automatically
-    # moves your log data between storage tiers based on access patterns to
-    # optimize costs.
+    # Sets the storage tier policy for the account. When you set the storage
+    # tier to `INTELLIGENT_TIERING`, the service automatically moves log
+    # data to the most cost-effective storage tier based on access
+    # frequency.
     #
     # @option params [required, String] :storage_tier
-    #   The storage tier to set for the account. Valid values are `STANDARD`
-    #   and `INTELLIGENT_TIERING`.
+    #   The storage tier to set for the account. Use `INTELLIGENT_TIERING` to
+    #   automatically optimize storage costs by moving log data to the
+    #   appropriate tier based on access frequency.
     #
     # @return [Types::PutStorageTierPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7985,9 +8019,9 @@ module Aws::CloudWatchLogs
     #
     # @option params [Array<String>] :emit_system_fields
     #   A list of system fields to include in the log events sent to the
-    #   subscription destination. Valid values are `@aws.account` and
-    #   `@aws.region`. These fields provide source information for centralized
-    #   log data in the forwarded payload.
+    #   subscription destination. Valid values are `@aws.account`,
+    #   `@aws.region`, and `@source.log`. These fields provide source
+    #   information for centralized log data in the forwarded payload.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -9354,12 +9388,13 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
-    # Updates an existing lookup table by replacing all of its CSV content.
-    # After the update completes, queries that use this table will use the
-    # new data.
+    # Updates an existing lookup table by replacing all of its content with
+    # new CSV data or CloudWatch Logs query results. After the update
+    # completes, queries that use this table use the new data.
     #
-    # This is a full replacement operation. All existing content is replaced
-    # with the new CSV data.
+    # This is a full replacement operation. All existing content is
+    # replaced. You must specify either `tableBody` or `queryId`, but not
+    # both.
     #
     # @option params [required, String] :lookup_table_arn
     #   The ARN of the lookup table to update.
@@ -9367,10 +9402,18 @@ module Aws::CloudWatchLogs
     # @option params [String] :description
     #   An updated description of the lookup table.
     #
-    # @option params [required, String] :table_body
+    # @option params [String] :table_body
     #   The new CSV content to replace the existing data. The first row must
     #   be a header row with column names. The content must use UTF-8 encoding
     #   and not exceed 10 MB.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
+    #
+    # @option params [String] :query_id
+    #   The ID of a completed CloudWatch Logs query whose results replace the
+    #   lookup table content.
+    #
+    #   You must specify either `tableBody` or `queryId`, but not both.
     #
     # @option params [String] :kms_key_id
     #   The ARN of the KMS key to use to encrypt the lookup table data. You
@@ -9388,7 +9431,8 @@ module Aws::CloudWatchLogs
     #   resp = client.update_lookup_table({
     #     lookup_table_arn: "Arn", # required
     #     description: "LookupTableDescription",
-    #     table_body: "TableBody", # required
+    #     table_body: "TableBody",
+    #     query_id: "QueryId",
     #     kms_key_id: "KmsKeyId",
     #   })
     #
@@ -9492,11 +9536,20 @@ module Aws::CloudWatchLogs
     #     start_time_offset: 1,
     #     end_time_offset: 1,
     #     destination_configuration: {
-    #       s3_configuration: { # required
+    #       s3_configuration: {
     #         destination_identifier: "S3Uri", # required
     #         role_arn: "RoleArn", # required
     #         owner_account_id: "AccountId",
     #         kms_key_id: "KmsKeyId",
+    #       },
+    #       lookup_table_configuration: {
+    #         table_name: "LookupTableName", # required
+    #         role_arn: "RoleArn", # required
+    #         description: "LookupTableDescription",
+    #         kms_key_id: "KmsKeyId",
+    #         tags: {
+    #           "TagKey" => "TagValue",
+    #         },
     #       },
     #     },
     #     schedule_start_time: 1,
@@ -9522,6 +9575,12 @@ module Aws::CloudWatchLogs
     #   resp.destination_configuration.s3_configuration.role_arn #=> String
     #   resp.destination_configuration.s3_configuration.owner_account_id #=> String
     #   resp.destination_configuration.s3_configuration.kms_key_id #=> String
+    #   resp.destination_configuration.lookup_table_configuration.table_name #=> String
+    #   resp.destination_configuration.lookup_table_configuration.role_arn #=> String
+    #   resp.destination_configuration.lookup_table_configuration.description #=> String
+    #   resp.destination_configuration.lookup_table_configuration.kms_key_id #=> String
+    #   resp.destination_configuration.lookup_table_configuration.tags #=> Hash
+    #   resp.destination_configuration.lookup_table_configuration.tags["TagKey"] #=> String
     #   resp.state #=> String, one of "ENABLED", "DISABLED"
     #   resp.schedule_type #=> String, one of "CUSTOMER_MANAGED", "AWS_MANAGED"
     #   resp.last_triggered_time #=> Integer
@@ -9559,7 +9618,7 @@ module Aws::CloudWatchLogs
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.159.0'
+      context[:gem_version] = '1.160.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

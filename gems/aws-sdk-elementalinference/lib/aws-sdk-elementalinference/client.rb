@@ -541,6 +541,12 @@ module Aws::ElementalInference
     #         name: "ResourceName", # required
     #         output_config: { # required
     #           cropping: {
+    #             template_groups: [
+    #               {
+    #                 name: "ResourceName", # required
+    #                 template_uris: ["S3Uri"], # required
+    #               },
+    #             ],
     #           },
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
@@ -651,6 +657,12 @@ module Aws::ElementalInference
     # @option params [required, String] :name
     #   A user-friendly name for this feed.
     #
+    # @option params [String] :access_role_arn
+    #   The ARN of an IAM role that Elemental Inference assumes to access
+    #   resources in your account on your behalf. For example, the smart crop
+    #   feature uses this role to read graphics-compositing templates from
+    #   your Amazon S3 bucket. You specify one access role for each feed.
+    #
     # @option params [required, Array<Types::CreateOutput>] :outputs
     #   An array of outputs for this feed. Each output represents a specific
     #   Elemental Inference feature. For example, there is one output type for
@@ -676,11 +688,18 @@ module Aws::ElementalInference
     #
     #   resp = client.create_feed({
     #     name: "ResourceName", # required
+    #     access_role_arn: "IamRoleArn",
     #     outputs: [ # required
     #       {
     #         name: "ResourceName", # required
     #         output_config: { # required
     #           cropping: {
+    #             template_groups: [
+    #               {
+    #                 name: "ResourceName", # required
+    #                 template_uris: ["S3Uri"], # required
+    #               },
+    #             ],
     #           },
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
@@ -713,6 +732,10 @@ module Aws::ElementalInference
     #   resp.data_endpoints[0] #=> String
     #   resp.outputs #=> Array
     #   resp.outputs[0].name #=> String
+    #   resp.outputs[0].output_config.cropping.template_groups #=> Array
+    #   resp.outputs[0].output_config.cropping.template_groups[0].name #=> String
+    #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris #=> Array
+    #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris[0] #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
     #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
@@ -954,6 +977,10 @@ module Aws::ElementalInference
     #   resp.data_endpoints[0] #=> String
     #   resp.outputs #=> Array
     #   resp.outputs[0].name #=> String
+    #   resp.outputs[0].output_config.cropping.template_groups #=> Array
+    #   resp.outputs[0].output_config.cropping.template_groups[0].name #=> String
+    #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris #=> Array
+    #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris[0] #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
     #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
@@ -1242,6 +1269,12 @@ module Aws::ElementalInference
     #   Required. You can specify the existing name (to leave it unchanged) or
     #   a new name.
     #
+    # @option params [String] :access_role_arn
+    #   The ARN of an IAM role that Elemental Inference assumes to access
+    #   resources in your account on your behalf. You can specify the existing
+    #   role (to leave it unchanged) or a new role. You specify one access
+    #   role for each feed.
+    #
     # @option params [required, String] :id
     #   The ID of the feed to update.
     #
@@ -1264,12 +1297,19 @@ module Aws::ElementalInference
     #
     #   resp = client.update_feed({
     #     name: "ResourceName", # required
+    #     access_role_arn: "IamRoleArn",
     #     id: "FeedId", # required
     #     outputs: [ # required
     #       {
     #         name: "ResourceName", # required
     #         output_config: { # required
     #           cropping: {
+    #             template_groups: [
+    #               {
+    #                 name: "ResourceName", # required
+    #                 template_uris: ["S3Uri"], # required
+    #               },
+    #             ],
     #           },
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
@@ -1300,6 +1340,10 @@ module Aws::ElementalInference
     #   resp.data_endpoints[0] #=> String
     #   resp.outputs #=> Array
     #   resp.outputs[0].name #=> String
+    #   resp.outputs[0].output_config.cropping.template_groups #=> Array
+    #   resp.outputs[0].output_config.cropping.template_groups[0].name #=> String
+    #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris #=> Array
+    #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris[0] #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
     #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
@@ -1341,7 +1385,7 @@ module Aws::ElementalInference
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-elementalinference'
-      context[:gem_version] = '1.7.0'
+      context[:gem_version] = '1.8.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

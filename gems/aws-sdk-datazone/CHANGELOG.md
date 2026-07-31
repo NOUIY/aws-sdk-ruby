@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.86.0 (2026-07-31)
+------------------
+
+* Feature - Adding support for enhanced Git experience in Sagemaker Unified Studio.
+
 1.85.0 (2026-07-23)
 ------------------
 

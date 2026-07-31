@@ -64,6 +64,7 @@ module Aws::ElementalInference
 
     class CreateFeedRequest
       attr_accessor name: ::String
+      attr_accessor access_role_arn: ::String
       attr_accessor outputs: ::Array[Types::CreateOutput]
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
@@ -89,7 +90,9 @@ module Aws::ElementalInference
       SENSITIVE: []
     end
 
-    class CroppingConfig < Aws::EmptyStructure
+    class CroppingConfig
+      attr_accessor template_groups: ::Array[Types::TemplateGroup]
+      SENSITIVE: []
     end
 
     class DeleteDictionaryRequest
@@ -284,6 +287,12 @@ module Aws::ElementalInference
       SENSITIVE: []
     end
 
+    class TemplateGroup
+      attr_accessor name: ::String
+      attr_accessor template_uris: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class TooManyRequestException
       attr_accessor message: ::String
       SENSITIVE: []
@@ -316,6 +325,7 @@ module Aws::ElementalInference
 
     class UpdateFeedRequest
       attr_accessor name: ::String
+      attr_accessor access_role_arn: ::String
       attr_accessor id: ::String
       attr_accessor outputs: ::Array[Types::UpdateOutput]
       SENSITIVE: []

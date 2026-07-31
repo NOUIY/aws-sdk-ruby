@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.194.0 (2026-07-31)
+------------------
+
+* Feature - Adding TopicV2 management APIs, adding possibility to use Topics in Analysis
+
 1.193.0 (2026-07-27)
 ------------------
 
