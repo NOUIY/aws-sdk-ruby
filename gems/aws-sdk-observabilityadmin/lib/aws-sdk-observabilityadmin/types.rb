@@ -1651,11 +1651,13 @@ module Aws::ObservabilityAdmin
       include Aws::Structure
     end
 
-    # Configuration parameters for Amazon Bedrock AgentCore logging,
-    # including `logType` settings.
+    # The configuration parameters for log delivery, including `logType`
+    # settings. Applies to resource types that support configurable log
+    # delivery, such as Amazon Bedrock Knowledge Bases and Elastic Load
+    # Balancing Application Load Balancers.
     #
     # @!attribute [rw] log_types
-    #   The type of log that the source is sending.
+    #   The types of logs to collect from the resource.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/LogDeliveryParameters AWS API Documentation
@@ -1754,10 +1756,11 @@ module Aws::ObservabilityAdmin
       include Aws::Structure
     end
 
-    # Configuration for encrypting centralized log groups. This
-    # configuration is only applied to destination log groups for which the
-    # corresponding source log groups are encrypted using Customer Managed
-    # KMS Keys.
+    # Configuration for encrypting centralized destination log groups. By
+    # default, this configuration applies only to destination log groups
+    # whose corresponding source log groups are encrypted using customer
+    # managed KMS keys. To encrypt all destination log groups created by the
+    # rule, set `EncryptionScope` to `NEW_DESTINATION_LOG_GROUPS`.
     #
     # @!attribute [rw] encryption_strategy
     #   Configuration that determines the encryption strategy of the
@@ -1779,12 +1782,32 @@ module Aws::ObservabilityAdmin
     #   log group.
     #   @return [String]
     #
+    # @!attribute [rw] encryption_scope
+    #   Determines which newly created destination log groups are encrypted
+    #   with the configured `KmsKeyArn` when `EncryptionStrategy` is
+    #   `CUSTOMER_MANAGED`.
+    #
+    #   If you set this to `ENCRYPTED_SOURCE_ONLY` (the default), only
+    #   destination log groups whose source log group is encrypted with a
+    #   customer managed KMS key use the configured `KmsKeyArn`. Destination
+    #   log groups derived from Amazon Web Services owned encrypted source
+    #   log groups remain Amazon Web Services owned encrypted.
+    #
+    #   If you set this to `NEW_DESTINATION_LOG_GROUPS`, every new
+    #   destination log group created by this rule uses the configured
+    #   `KmsKeyArn`, regardless of the source log group's encryption
+    #   posture.
+    #
+    #   This field is not valid when `EncryptionStrategy` is `AWS_OWNED`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/LogsEncryptionConfiguration AWS API Documentation
     #
     class LogsEncryptionConfiguration < Struct.new(
       :encryption_strategy,
       :kms_key_arn,
-      :encryption_conflict_resolution_strategy)
+      :encryption_conflict_resolution_strategy,
+      :encryption_scope)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2263,14 +2286,21 @@ module Aws::ObservabilityAdmin
     #   @return [Types::WAFLoggingParameters]
     #
     # @!attribute [rw] log_delivery_parameters
-    #   Configuration parameters specific to Amazon Bedrock AgentCore
-    #   logging when Amazon Bedrock AgentCore is the resource type.
+    #   The configuration parameters for log delivery when the resource type
+    #   supports configurable log types, such as Amazon Bedrock Knowledge
+    #   Bases or Elastic Load Balancing Application Load Balancers.
     #   @return [Types::LogDeliveryParameters]
     #
     # @!attribute [rw] msk_monitoring_parameters
     #   Configuration parameters specific to MSK monitoring when MSK is the
     #   resource type.
     #   @return [Types::MskMonitoringParameters]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the customer-managed Amazon Web
+    #   Services KMS key used to encrypt the log groups created during
+    #   telemetry rule remediation.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/TelemetryDestinationConfiguration AWS API Documentation
     #
@@ -2283,7 +2313,8 @@ module Aws::ObservabilityAdmin
       :elb_load_balancer_logging_parameters,
       :waf_logging_parameters,
       :log_delivery_parameters,
-      :msk_monitoring_parameters)
+      :msk_monitoring_parameters,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2453,8 +2484,9 @@ module Aws::ObservabilityAdmin
     #
     # @!attribute [rw] resource_type
     #   The type of Amazon Web Services resource to configure telemetry for
-    #   (e.g., "AWS::EC2::VPC", "AWS::EKS::Cluster",
-    #   "AWS::WAFv2::WebACL").
+    #   (for example, `AWS::EC2::VPC`, `AWS::EKS::Cluster`,
+    #   `AWS::ElasticLoadBalancingV2::LoadBalancer`, or
+    #   `AWS::Bedrock::KnowledgeBase`).
     #   @return [String]
     #
     # @!attribute [rw] telemetry_type

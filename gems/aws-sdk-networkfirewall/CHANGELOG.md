@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.96.0 (2026-08-03)
+------------------
+
+* Feature - This launch allows customers to use Network Firewall as an explicit Proxy and protect their workloads against threat of data exfiltration.
+
 1.95.0 (2026-07-31)
 ------------------
 

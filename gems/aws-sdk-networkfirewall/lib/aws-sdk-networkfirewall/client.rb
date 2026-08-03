@@ -1057,6 +1057,40 @@ module Aws::NetworkFirewall
     #
     #   Default value: `FALSE`
     #
+    # @option params [Array<Types::NatGatewayMapping>] :nat_gateway_mappings
+    #   The NAT gateways that the firewall uses to proxy traffic when
+    #   `NoSourcePreservation` is `TRUE`. Network Firewall attaches the
+    #   firewall to each NAT gateway that you specify, so that egress traffic
+    #   is proxied through the NAT gateway.
+    #
+    # @option params [Types::ProxySettings] :proxy_settings
+    #   The listener configuration for a proxy mode firewall, used when
+    #   `NoSourcePreservation` is `TRUE`. This specifies the ports and
+    #   protocols on which the firewall's proxy listens for traffic.
+    #
+    # @option params [Boolean] :no_source_preservation
+    #   Optional. Indicates whether the firewall operates in proxy mode, in
+    #   which the source IP address of the traffic is not preserved. When set
+    #   to `TRUE`, the firewall proxies traffic through a NAT gateway and the
+    #   traffic reaching the destination uses the NAT gateway's IP address as
+    #   the source.
+    #
+    #   When you set this to `TRUE`, you must specify `NatGatewayMappings` and
+    #   `VpcEndpoint` instead of a top-level `VpcId` and `SubnetMappings`.
+    #
+    #   You can't change this setting after you create the firewall.
+    #
+    #   Default value: `FALSE`
+    #
+    # @option params [Types::VpcEndpoint] :vpc_endpoint
+    #   The VPC and subnets for the firewall endpoint, used when
+    #   `NoSourcePreservation` is `TRUE`. Network Firewall creates the
+    #   firewall endpoint in the subnets that you specify here.
+    #
+    #   For proxy mode firewalls, provide the firewall's VPC and endpoint
+    #   subnets through this parameter instead of the top-level `VpcId` and
+    #   `SubnetMappings`.
+    #
     # @return [Types::CreateFirewallResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateFirewallResponse#firewall #firewall} => Types::Firewall
@@ -1096,6 +1130,29 @@ module Aws::NetworkFirewall
     #       },
     #     ],
     #     availability_zone_change_protection: false,
+    #     nat_gateway_mappings: [
+    #       {
+    #         nat_gateway_id: "NatGatewayId", # required
+    #       },
+    #     ],
+    #     proxy_settings: {
+    #       listener_properties: [ # required
+    #         {
+    #           port: 1,
+    #           type: "HTTP", # accepts HTTP, HTTPS
+    #         },
+    #       ],
+    #     },
+    #     no_source_preservation: false,
+    #     vpc_endpoint: {
+    #       vpc_id: "VpcId", # required
+    #       subnet_mappings: [ # required
+    #         {
+    #           subnet_id: "CollectionMember_String", # required
+    #           ip_address_type: "DUALSTACK", # accepts DUALSTACK, IPV4, IPV6
+    #         },
+    #       ],
+    #     },
     #   })
     #
     # @example Response structure
@@ -1125,6 +1182,16 @@ module Aws::NetworkFirewall
     #   resp.firewall.availability_zone_mappings #=> Array
     #   resp.firewall.availability_zone_mappings[0].availability_zone #=> String
     #   resp.firewall.availability_zone_change_protection #=> Boolean
+    #   resp.firewall.nat_gateway_mappings #=> Array
+    #   resp.firewall.nat_gateway_mappings[0].nat_gateway_id #=> String
+    #   resp.firewall.proxy_settings.listener_properties #=> Array
+    #   resp.firewall.proxy_settings.listener_properties[0].port #=> Integer
+    #   resp.firewall.proxy_settings.listener_properties[0].type #=> String, one of "HTTP", "HTTPS"
+    #   resp.firewall.no_source_preservation #=> Boolean
+    #   resp.firewall.vpc_endpoint.vpc_id #=> String
+    #   resp.firewall.vpc_endpoint.subnet_mappings #=> Array
+    #   resp.firewall.vpc_endpoint.subnet_mappings[0].subnet_id #=> String
+    #   resp.firewall.vpc_endpoint.subnet_mappings[0].ip_address_type #=> String, one of "DUALSTACK", "IPV4", "IPV6"
     #   resp.firewall_status.status #=> String, one of "PROVISIONING", "DELETING", "READY"
     #   resp.firewall_status.configuration_sync_state_summary #=> String, one of "PENDING", "IN_SYNC", "CAPACITY_CONSTRAINED"
     #   resp.firewall_status.sync_states #=> Hash
@@ -1132,9 +1199,15 @@ module Aws::NetworkFirewall
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.endpoint_id #=> String
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.status #=> String, one of "CREATING", "DELETING", "FAILED", "ERROR", "SCALING", "READY"
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.status_message #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.dns_name #=> String
     #   resp.firewall_status.sync_states["AvailabilityZone"].config #=> Hash
     #   resp.firewall_status.sync_states["AvailabilityZone"].config["ResourceName"].sync_status #=> String, one of "PENDING", "IN_SYNC", "CAPACITY_CONSTRAINED", "NOT_SUBSCRIBED", "DEPRECATED"
     #   resp.firewall_status.sync_states["AvailabilityZone"].config["ResourceName"].update_token #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments #=> Array
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].nat_gateway_id #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].status #=> String, one of "CREATING", "READY", "UPDATING", "FAILED", "DELETING"
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].status_message #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].dns_name #=> String
     #   resp.firewall_status.capacity_usage_summary.cid_rs.available_cidr_count #=> Integer
     #   resp.firewall_status.capacity_usage_summary.cid_rs.utilized_cidr_count #=> Integer
     #   resp.firewall_status.capacity_usage_summary.cid_rs.ip_set_references #=> Hash
@@ -2315,6 +2388,7 @@ module Aws::NetworkFirewall
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.endpoint_id #=> String
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.status #=> String, one of "CREATING", "DELETING", "FAILED", "ERROR", "SCALING", "READY"
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.status_message #=> String
+    #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.dns_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/CreateVpcEndpointAssociation AWS API Documentation
     #
@@ -2434,6 +2508,16 @@ module Aws::NetworkFirewall
     #   resp.firewall.availability_zone_mappings #=> Array
     #   resp.firewall.availability_zone_mappings[0].availability_zone #=> String
     #   resp.firewall.availability_zone_change_protection #=> Boolean
+    #   resp.firewall.nat_gateway_mappings #=> Array
+    #   resp.firewall.nat_gateway_mappings[0].nat_gateway_id #=> String
+    #   resp.firewall.proxy_settings.listener_properties #=> Array
+    #   resp.firewall.proxy_settings.listener_properties[0].port #=> Integer
+    #   resp.firewall.proxy_settings.listener_properties[0].type #=> String, one of "HTTP", "HTTPS"
+    #   resp.firewall.no_source_preservation #=> Boolean
+    #   resp.firewall.vpc_endpoint.vpc_id #=> String
+    #   resp.firewall.vpc_endpoint.subnet_mappings #=> Array
+    #   resp.firewall.vpc_endpoint.subnet_mappings[0].subnet_id #=> String
+    #   resp.firewall.vpc_endpoint.subnet_mappings[0].ip_address_type #=> String, one of "DUALSTACK", "IPV4", "IPV6"
     #   resp.firewall_status.status #=> String, one of "PROVISIONING", "DELETING", "READY"
     #   resp.firewall_status.configuration_sync_state_summary #=> String, one of "PENDING", "IN_SYNC", "CAPACITY_CONSTRAINED"
     #   resp.firewall_status.sync_states #=> Hash
@@ -2441,9 +2525,15 @@ module Aws::NetworkFirewall
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.endpoint_id #=> String
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.status #=> String, one of "CREATING", "DELETING", "FAILED", "ERROR", "SCALING", "READY"
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.status_message #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.dns_name #=> String
     #   resp.firewall_status.sync_states["AvailabilityZone"].config #=> Hash
     #   resp.firewall_status.sync_states["AvailabilityZone"].config["ResourceName"].sync_status #=> String, one of "PENDING", "IN_SYNC", "CAPACITY_CONSTRAINED", "NOT_SUBSCRIBED", "DEPRECATED"
     #   resp.firewall_status.sync_states["AvailabilityZone"].config["ResourceName"].update_token #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments #=> Array
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].nat_gateway_id #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].status #=> String, one of "CREATING", "READY", "UPDATING", "FAILED", "DELETING"
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].status_message #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].dns_name #=> String
     #   resp.firewall_status.capacity_usage_summary.cid_rs.available_cidr_count #=> Integer
     #   resp.firewall_status.capacity_usage_summary.cid_rs.utilized_cidr_count #=> Integer
     #   resp.firewall_status.capacity_usage_summary.cid_rs.ip_set_references #=> Hash
@@ -2948,6 +3038,7 @@ module Aws::NetworkFirewall
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.endpoint_id #=> String
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.status #=> String, one of "CREATING", "DELETING", "FAILED", "ERROR", "SCALING", "READY"
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.status_message #=> String
+    #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.dns_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DeleteVpcEndpointAssociation AWS API Documentation
     #
@@ -3072,6 +3163,16 @@ module Aws::NetworkFirewall
     #   resp.firewall.availability_zone_mappings #=> Array
     #   resp.firewall.availability_zone_mappings[0].availability_zone #=> String
     #   resp.firewall.availability_zone_change_protection #=> Boolean
+    #   resp.firewall.nat_gateway_mappings #=> Array
+    #   resp.firewall.nat_gateway_mappings[0].nat_gateway_id #=> String
+    #   resp.firewall.proxy_settings.listener_properties #=> Array
+    #   resp.firewall.proxy_settings.listener_properties[0].port #=> Integer
+    #   resp.firewall.proxy_settings.listener_properties[0].type #=> String, one of "HTTP", "HTTPS"
+    #   resp.firewall.no_source_preservation #=> Boolean
+    #   resp.firewall.vpc_endpoint.vpc_id #=> String
+    #   resp.firewall.vpc_endpoint.subnet_mappings #=> Array
+    #   resp.firewall.vpc_endpoint.subnet_mappings[0].subnet_id #=> String
+    #   resp.firewall.vpc_endpoint.subnet_mappings[0].ip_address_type #=> String, one of "DUALSTACK", "IPV4", "IPV6"
     #   resp.firewall_status.status #=> String, one of "PROVISIONING", "DELETING", "READY"
     #   resp.firewall_status.configuration_sync_state_summary #=> String, one of "PENDING", "IN_SYNC", "CAPACITY_CONSTRAINED"
     #   resp.firewall_status.sync_states #=> Hash
@@ -3079,9 +3180,15 @@ module Aws::NetworkFirewall
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.endpoint_id #=> String
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.status #=> String, one of "CREATING", "DELETING", "FAILED", "ERROR", "SCALING", "READY"
     #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.status_message #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].attachment.dns_name #=> String
     #   resp.firewall_status.sync_states["AvailabilityZone"].config #=> Hash
     #   resp.firewall_status.sync_states["AvailabilityZone"].config["ResourceName"].sync_status #=> String, one of "PENDING", "IN_SYNC", "CAPACITY_CONSTRAINED", "NOT_SUBSCRIBED", "DEPRECATED"
     #   resp.firewall_status.sync_states["AvailabilityZone"].config["ResourceName"].update_token #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments #=> Array
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].nat_gateway_id #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].status #=> String, one of "CREATING", "READY", "UPDATING", "FAILED", "DELETING"
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].status_message #=> String
+    #   resp.firewall_status.sync_states["AvailabilityZone"].nat_gateway_attachments[0].dns_name #=> String
     #   resp.firewall_status.capacity_usage_summary.cid_rs.available_cidr_count #=> Integer
     #   resp.firewall_status.capacity_usage_summary.cid_rs.utilized_cidr_count #=> Integer
     #   resp.firewall_status.capacity_usage_summary.cid_rs.ip_set_references #=> Hash
@@ -3989,6 +4096,7 @@ module Aws::NetworkFirewall
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.endpoint_id #=> String
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.status #=> String, one of "CREATING", "DELETING", "FAILED", "ERROR", "SCALING", "READY"
     #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.status_message #=> String
+    #   resp.vpc_endpoint_association_status.association_sync_state["AvailabilityZone"].attachment.dns_name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DescribeVpcEndpointAssociation AWS API Documentation
     #
@@ -6752,6 +6860,87 @@ module Aws::NetworkFirewall
       req.send_request(options)
     end
 
+    # Modifies the proxy listener configuration of a proxy mode firewall.
+    # Proxy mode firewalls are created with `NoSourcePreservation` set to
+    # `TRUE`. Use this operation to change the ports and protocols on which
+    # the firewall's proxy listens for traffic.
+    #
+    # @option params [String] :firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #
+    # @option params [String] :firewall_name
+    #   The descriptive name of the firewall. You can't change the name of a
+    #   firewall after you create it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #
+    # @option params [String] :update_token
+    #   An optional token that you can use for optimistic locking. Network
+    #   Firewall returns a token to your requests that access the firewall.
+    #   The token marks the state of the firewall resource at the time of the
+    #   request.
+    #
+    #   To make an unconditional change to the firewall, omit the token in
+    #   your update request. Without the token, Network Firewall performs your
+    #   updates regardless of whether the firewall has changed since you last
+    #   retrieved it.
+    #
+    #   To make a conditional change to the firewall, provide the token in
+    #   your update request. Network Firewall uses the token to ensure that
+    #   the firewall hasn't changed since you last retrieved it. If it has
+    #   changed, the operation fails with an `InvalidTokenException`. If this
+    #   happens, retrieve the firewall again to get a current copy of it with
+    #   a new token. Reapply your changes as needed, then try the operation
+    #   again using the new token.
+    #
+    # @option params [Types::ProxySettings] :proxy_settings
+    #   The proxy listener configuration to set on the firewall. This
+    #   specifies the ports and protocols on which the firewall's proxy
+    #   listens for traffic.
+    #
+    # @return [Types::UpdateProxySettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateProxySettingsResponse#firewall_arn #firewall_arn} => String
+    #   * {Types::UpdateProxySettingsResponse#firewall_name #firewall_name} => String
+    #   * {Types::UpdateProxySettingsResponse#update_token #update_token} => String
+    #   * {Types::UpdateProxySettingsResponse#proxy_settings #proxy_settings} => Types::ProxySettings
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_proxy_settings({
+    #     firewall_arn: "ResourceArn",
+    #     firewall_name: "ResourceName",
+    #     update_token: "UpdateToken",
+    #     proxy_settings: {
+    #       listener_properties: [ # required
+    #         {
+    #           port: 1,
+    #           type: "HTTP", # accepts HTTP, HTTPS
+    #         },
+    #       ],
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.firewall_arn #=> String
+    #   resp.firewall_name #=> String
+    #   resp.update_token #=> String
+    #   resp.proxy_settings.listener_properties #=> Array
+    #   resp.proxy_settings.listener_properties[0].port #=> Integer
+    #   resp.proxy_settings.listener_properties[0].type #=> String, one of "HTTP", "HTTPS"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateProxySettings AWS API Documentation
+    #
+    # @overload update_proxy_settings(params = {})
+    # @param [Hash] params ({})
+    def update_proxy_settings(params = {}, options = {})
+      req = build_request(:update_proxy_settings, params)
+      req.send_request(options)
+    end
+
     # Updates the rule settings for the specified rule group. You use a rule
     # group by reference in one or more firewall policies. When you modify a
     # rule group, you modify all firewall policies that use the rule group.
@@ -7275,7 +7464,7 @@ module Aws::NetworkFirewall
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-networkfirewall'
-      context[:gem_version] = '1.95.0'
+      context[:gem_version] = '1.96.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

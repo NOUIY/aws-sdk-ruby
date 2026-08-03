@@ -815,7 +815,7 @@ module Aws::WAFV2
     #   before the standard text transformations. Pre-parse text
     #   transformations are only supported when `FieldToMatch` is
     #   `SingleQueryArgument` or `AllQueryArguments`. You can specify up to
-    #   3 pre-parse text transformations per rule statement.
+    #   10 pre-parse text transformations per rule statement.
     #   @return [Array<Types::PreParseTextTransformation>]
     #
     # @!attribute [rw] positional_constraint
@@ -8396,7 +8396,7 @@ module Aws::WAFV2
     #   before the standard text transformations. Pre-parse text
     #   transformations are only supported when `FieldToMatch` is
     #   `SingleQueryArgument` or `AllQueryArguments`. You can specify up to
-    #   3 pre-parse text transformations per rule statement.
+    #   10 pre-parse text transformations per rule statement.
     #   @return [Array<Types::PreParseTextTransformation>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/RegexMatchStatement AWS API Documentation
@@ -8490,7 +8490,7 @@ module Aws::WAFV2
     #   before the standard text transformations. Pre-parse text
     #   transformations are only supported when `FieldToMatch` is
     #   `SingleQueryArgument` or `AllQueryArguments`. You can specify up to
-    #   3 pre-parse text transformations per rule statement.
+    #   10 pre-parse text transformations per rule statement.
     #   @return [Array<Types::PreParseTextTransformation>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/RegexPatternSetReferenceStatement AWS API Documentation
@@ -9958,7 +9958,7 @@ module Aws::WAFV2
     #   before the standard text transformations. Pre-parse text
     #   transformations are only supported when `FieldToMatch` is
     #   `SingleQueryArgument` or `AllQueryArguments`. You can specify up to
-    #   3 pre-parse text transformations per rule statement.
+    #   10 pre-parse text transformations per rule statement.
     #   @return [Array<Types::PreParseTextTransformation>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/SizeConstraintStatement AWS API Documentation
@@ -10063,7 +10063,7 @@ module Aws::WAFV2
     #   before the standard text transformations. Pre-parse text
     #   transformations are only supported when `FieldToMatch` is
     #   `SingleQueryArgument` or `AllQueryArguments`. You can specify up to
-    #   3 pre-parse text transformations per rule statement.
+    #   10 pre-parse text transformations per rule statement.
     #   @return [Array<Types::PreParseTextTransformation>]
     #
     # @!attribute [rw] sensitivity_level
@@ -12105,7 +12105,7 @@ module Aws::WAFV2
     #   before the standard text transformations. Pre-parse text
     #   transformations are only supported when `FieldToMatch` is
     #   `SingleQueryArgument` or `AllQueryArguments`. You can specify up to
-    #   3 pre-parse text transformations per rule statement.
+    #   10 pre-parse text transformations per rule statement.
     #   @return [Array<Types::PreParseTextTransformation>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wafv2-2019-07-29/XssMatchStatement AWS API Documentation

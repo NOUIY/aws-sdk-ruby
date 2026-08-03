@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.136.0 (2026-08-03)
+------------------
+
+* Feature - Updated descriptions for number of PreParseTextTransformations allowed per rule statement
+
 1.135.0 (2026-07-29)
 ------------------
 

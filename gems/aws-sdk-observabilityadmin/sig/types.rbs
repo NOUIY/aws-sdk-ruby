@@ -489,6 +489,7 @@ module Aws::ObservabilityAdmin
       attr_accessor encryption_strategy: ("CUSTOMER_MANAGED" | "AWS_OWNED")
       attr_accessor kms_key_arn: ::String
       attr_accessor encryption_conflict_resolution_strategy: ("ALLOW" | "SKIP")
+      attr_accessor encryption_scope: ("ENCRYPTED_SOURCE_ONLY" | "NEW_DESTINATION_LOG_GROUPS")
       SENSITIVE: []
     end
 
@@ -616,6 +617,7 @@ module Aws::ObservabilityAdmin
       attr_accessor waf_logging_parameters: Types::WAFLoggingParameters
       attr_accessor log_delivery_parameters: Types::LogDeliveryParameters
       attr_accessor msk_monitoring_parameters: Types::MskMonitoringParameters
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 

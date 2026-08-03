@@ -239,7 +239,30 @@ module Aws
                                  availability_zone: ::String
                                }
                              ],
-                             ?availability_zone_change_protection: bool
+                             ?availability_zone_change_protection: bool,
+                             ?nat_gateway_mappings: Array[
+                               {
+                                 nat_gateway_id: ::String
+                               }
+                             ],
+                             ?proxy_settings: {
+                               listener_properties: Array[
+                                 {
+                                   port: ::Integer?,
+                                   type: ("HTTP" | "HTTPS")?
+                                 }
+                               ]
+                             },
+                             ?no_source_preservation: bool,
+                             ?vpc_endpoint: {
+                               vpc_id: ::String,
+                               subnet_mappings: Array[
+                                 {
+                                   subnet_id: ::String,
+                                   ip_address_type: ("DUALSTACK" | "IPV4" | "IPV6")?
+                                 }
+                               ]
+                             }
                            ) -> _CreateFirewallResponseSuccess
                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateFirewallResponseSuccess
 
@@ -1476,6 +1499,29 @@ module Aws
                                           update_token: ::String
                                         ) -> _UpdateProxyRulePrioritiesResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateProxyRulePrioritiesResponseSuccess
+
+      interface _UpdateProxySettingsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateProxySettingsResponse]
+        def firewall_arn: () -> ::String
+        def firewall_name: () -> ::String
+        def update_token: () -> ::String
+        def proxy_settings: () -> Types::ProxySettings
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/NetworkFirewall/Client.html#update_proxy_settings-instance_method
+      def update_proxy_settings: (
+                                   ?firewall_arn: ::String,
+                                   ?firewall_name: ::String,
+                                   ?update_token: ::String,
+                                   ?proxy_settings: {
+                                     listener_properties: Array[
+                                       {
+                                         port: ::Integer?,
+                                         type: ("HTTP" | "HTTPS")?
+                                       }
+                                     ]
+                                   }
+                                 ) -> _UpdateProxySettingsResponseSuccess
+                               | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateProxySettingsResponseSuccess
 
       interface _UpdateRuleGroupResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateRuleGroupResponse]

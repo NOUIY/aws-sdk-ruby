@@ -62,6 +62,7 @@ module Aws::ObservabilityAdmin
     EncryptedLogGroupStrategy = Shapes::StringShape.new(name: 'EncryptedLogGroupStrategy')
     Encryption = Shapes::StructureShape.new(name: 'Encryption')
     EncryptionConflictResolutionStrategy = Shapes::StringShape.new(name: 'EncryptionConflictResolutionStrategy')
+    EncryptionScope = Shapes::StringShape.new(name: 'EncryptionScope')
     EncryptionStrategy = Shapes::StringShape.new(name: 'EncryptionStrategy')
     FailureReason = Shapes::StringShape.new(name: 'FailureReason')
     FieldMap = Shapes::MapShape.new(name: 'FieldMap')
@@ -91,6 +92,7 @@ module Aws::ObservabilityAdmin
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     InvalidStateException = Shapes::StructureShape.new(name: 'InvalidStateException')
     IsReplicated = Shapes::BooleanShape.new(name: 'IsReplicated')
+    KmsKeyArn = Shapes::StringShape.new(name: 'KmsKeyArn')
     LabelNameCondition = Shapes::StructureShape.new(name: 'LabelNameCondition')
     LabelNameConditionLabelNameString = Shapes::StringShape.new(name: 'LabelNameConditionLabelNameString')
     ListCentralizationRulesForOrganizationInput = Shapes::StructureShape.new(name: 'ListCentralizationRulesForOrganizationInput')
@@ -581,6 +583,7 @@ module Aws::ObservabilityAdmin
     LogsEncryptionConfiguration.add_member(:encryption_strategy, Shapes::ShapeRef.new(shape: EncryptionStrategy, required: true, location_name: "EncryptionStrategy"))
     LogsEncryptionConfiguration.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "KmsKeyArn"))
     LogsEncryptionConfiguration.add_member(:encryption_conflict_resolution_strategy, Shapes::ShapeRef.new(shape: EncryptionConflictResolutionStrategy, location_name: "EncryptionConflictResolutionStrategy"))
+    LogsEncryptionConfiguration.add_member(:encryption_scope, Shapes::ShapeRef.new(shape: EncryptionScope, location_name: "EncryptionScope"))
     LogsEncryptionConfiguration.struct_class = Types::LogsEncryptionConfiguration
 
     MetricsBackupConfiguration.add_member(:region, Shapes::ShapeRef.new(shape: Region, required: true, location_name: "Region"))
@@ -705,6 +708,7 @@ module Aws::ObservabilityAdmin
     TelemetryDestinationConfiguration.add_member(:waf_logging_parameters, Shapes::ShapeRef.new(shape: WAFLoggingParameters, location_name: "WAFLoggingParameters"))
     TelemetryDestinationConfiguration.add_member(:log_delivery_parameters, Shapes::ShapeRef.new(shape: LogDeliveryParameters, location_name: "LogDeliveryParameters"))
     TelemetryDestinationConfiguration.add_member(:msk_monitoring_parameters, Shapes::ShapeRef.new(shape: MskMonitoringParameters, location_name: "MskMonitoringParameters"))
+    TelemetryDestinationConfiguration.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "KmsKeyArn"))
     TelemetryDestinationConfiguration.struct_class = Types::TelemetryDestinationConfiguration
 
     TelemetryPipeline.add_member(:created_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "CreatedTimeStamp"))

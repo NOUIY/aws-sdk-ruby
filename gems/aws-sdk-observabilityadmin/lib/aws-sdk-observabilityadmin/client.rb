@@ -521,6 +521,7 @@ module Aws::ObservabilityAdmin
     #             encryption_strategy: "CUSTOMER_MANAGED", # required, accepts CUSTOMER_MANAGED, AWS_OWNED
     #             kms_key_arn: "ResourceArn",
     #             encryption_conflict_resolution_strategy: "ALLOW", # accepts ALLOW, SKIP
+    #             encryption_scope: "ENCRYPTED_SOURCE_ONLY", # accepts ENCRYPTED_SOURCE_ONLY, NEW_DESTINATION_LOG_GROUPS
     #           },
     #           backup_configuration: {
     #             region: "Region", # required
@@ -753,6 +754,7 @@ module Aws::ObservabilityAdmin
     #         msk_monitoring_parameters: {
     #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
+    #         kms_key_arn: "KmsKeyArn",
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
@@ -876,6 +878,7 @@ module Aws::ObservabilityAdmin
     #         msk_monitoring_parameters: {
     #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
+    #         kms_key_arn: "KmsKeyArn",
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
@@ -1071,6 +1074,7 @@ module Aws::ObservabilityAdmin
     #   resp.centralization_rule.destination.destination_logs_configuration.logs_encryption_configuration.encryption_strategy #=> String, one of "CUSTOMER_MANAGED", "AWS_OWNED"
     #   resp.centralization_rule.destination.destination_logs_configuration.logs_encryption_configuration.kms_key_arn #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.logs_encryption_configuration.encryption_conflict_resolution_strategy #=> String, one of "ALLOW", "SKIP"
+    #   resp.centralization_rule.destination.destination_logs_configuration.logs_encryption_configuration.encryption_scope #=> String, one of "ENCRYPTED_SOURCE_ONLY", "NEW_DESTINATION_LOG_GROUPS"
     #   resp.centralization_rule.destination.destination_logs_configuration.backup_configuration.region #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.backup_configuration.kms_key_arn #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.log_group_name_configuration.log_group_name_pattern #=> String
@@ -1321,6 +1325,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types #=> Array
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types[0] #=> String, one of "APPLICATION_LOGS", "USAGE_LOGS", "SECURITY_FINDING_LOGS", "ACCESS_LOGS", "CONNECTION_LOGS", "S3_SERVER_ACCESS_LOGS", "ALB_ACCESS_LOGS", "ALB_CONNECTION_LOGS", "ALB_HEALTH_CHECK_LOGS"
     #   resp.telemetry_rule.destination_configuration.msk_monitoring_parameters.enhanced_monitoring #=> String, one of "DEFAULT", "PER_BROKER", "PER_TOPIC_PER_BROKER", "PER_TOPIC_PER_PARTITION"
+    #   resp.telemetry_rule.destination_configuration.kms_key_arn #=> String
     #   resp.telemetry_rule.scope #=> String
     #   resp.telemetry_rule.selection_criteria #=> String
     #   resp.telemetry_rule.allow_field_updates #=> Boolean
@@ -1419,6 +1424,7 @@ module Aws::ObservabilityAdmin
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types #=> Array
     #   resp.telemetry_rule.destination_configuration.log_delivery_parameters.log_types[0] #=> String, one of "APPLICATION_LOGS", "USAGE_LOGS", "SECURITY_FINDING_LOGS", "ACCESS_LOGS", "CONNECTION_LOGS", "S3_SERVER_ACCESS_LOGS", "ALB_ACCESS_LOGS", "ALB_CONNECTION_LOGS", "ALB_HEALTH_CHECK_LOGS"
     #   resp.telemetry_rule.destination_configuration.msk_monitoring_parameters.enhanced_monitoring #=> String, one of "DEFAULT", "PER_BROKER", "PER_TOPIC_PER_BROKER", "PER_TOPIC_PER_PARTITION"
+    #   resp.telemetry_rule.destination_configuration.kms_key_arn #=> String
     #   resp.telemetry_rule.scope #=> String
     #   resp.telemetry_rule.selection_criteria #=> String
     #   resp.telemetry_rule.allow_field_updates #=> Boolean
@@ -2213,6 +2219,7 @@ module Aws::ObservabilityAdmin
     #             encryption_strategy: "CUSTOMER_MANAGED", # required, accepts CUSTOMER_MANAGED, AWS_OWNED
     #             kms_key_arn: "ResourceArn",
     #             encryption_conflict_resolution_strategy: "ALLOW", # accepts ALLOW, SKIP
+    #             encryption_scope: "ENCRYPTED_SOURCE_ONLY", # accepts ENCRYPTED_SOURCE_ONLY, NEW_DESTINATION_LOG_GROUPS
     #           },
     #           backup_configuration: {
     #             region: "Region", # required
@@ -2434,6 +2441,7 @@ module Aws::ObservabilityAdmin
     #         msk_monitoring_parameters: {
     #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
+    #         kms_key_arn: "KmsKeyArn",
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
@@ -2551,6 +2559,7 @@ module Aws::ObservabilityAdmin
     #         msk_monitoring_parameters: {
     #           enhanced_monitoring: "DEFAULT", # accepts DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, PER_TOPIC_PER_PARTITION
     #         },
+    #         kms_key_arn: "KmsKeyArn",
     #       },
     #       scope: "String",
     #       selection_criteria: "String",
@@ -2627,7 +2636,7 @@ module Aws::ObservabilityAdmin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-observabilityadmin'
-      context[:gem_version] = '1.35.0'
+      context[:gem_version] = '1.36.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -708,13 +708,20 @@ module Aws::NetworkFirewall
     #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html
     #   @return [String]
     #
+    # @!attribute [rw] dns_name
+    #   The DNS name that resolves to the firewall endpoint in the subnet.
+    #   This is populated for proxy mode firewalls, where clients direct
+    #   traffic to the firewall's proxy using this name.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/Attachment AWS API Documentation
     #
     class Attachment < Struct.new(
       :subnet_id,
       :endpoint_id,
       :status,
-      :status_message)
+      :status_message,
+      :dns_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1212,6 +1219,45 @@ module Aws::NetworkFirewall
     #   Default value: `FALSE`
     #   @return [Boolean]
     #
+    # @!attribute [rw] nat_gateway_mappings
+    #   The NAT gateways that the firewall uses to proxy traffic when
+    #   `NoSourcePreservation` is `TRUE`. Network Firewall attaches the
+    #   firewall to each NAT gateway that you specify, so that egress
+    #   traffic is proxied through the NAT gateway.
+    #   @return [Array<Types::NatGatewayMapping>]
+    #
+    # @!attribute [rw] proxy_settings
+    #   The listener configuration for a proxy mode firewall, used when
+    #   `NoSourcePreservation` is `TRUE`. This specifies the ports and
+    #   protocols on which the firewall's proxy listens for traffic.
+    #   @return [Types::ProxySettings]
+    #
+    # @!attribute [rw] no_source_preservation
+    #   Optional. Indicates whether the firewall operates in proxy mode, in
+    #   which the source IP address of the traffic is not preserved. When
+    #   set to `TRUE`, the firewall proxies traffic through a NAT gateway
+    #   and the traffic reaching the destination uses the NAT gateway's IP
+    #   address as the source.
+    #
+    #   When you set this to `TRUE`, you must specify `NatGatewayMappings`
+    #   and `VpcEndpoint` instead of a top-level `VpcId` and
+    #   `SubnetMappings`.
+    #
+    #   You can't change this setting after you create the firewall.
+    #
+    #   Default value: `FALSE`
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] vpc_endpoint
+    #   The VPC and subnets for the firewall endpoint, used when
+    #   `NoSourcePreservation` is `TRUE`. Network Firewall creates the
+    #   firewall endpoint in the subnets that you specify here.
+    #
+    #   For proxy mode firewalls, provide the firewall's VPC and endpoint
+    #   subnets through this parameter instead of the top-level `VpcId` and
+    #   `SubnetMappings`.
+    #   @return [Types::VpcEndpoint]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/CreateFirewallRequest AWS API Documentation
     #
     class CreateFirewallRequest < Struct.new(
@@ -1228,7 +1274,11 @@ module Aws::NetworkFirewall
       :enabled_analysis_types,
       :transit_gateway_id,
       :availability_zone_mappings,
-      :availability_zone_change_protection)
+      :availability_zone_change_protection,
+      :nat_gateway_mappings,
+      :proxy_settings,
+      :no_source_preservation,
+      :vpc_endpoint)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4099,6 +4149,30 @@ module Aws::NetworkFirewall
     #   Availability Zones.
     #   @return [Boolean]
     #
+    # @!attribute [rw] nat_gateway_mappings
+    #   The NAT gateways that the firewall uses to proxy traffic. This is
+    #   set for proxy mode firewalls, where `NoSourcePreservation` is
+    #   `TRUE`.
+    #   @return [Array<Types::NatGatewayMapping>]
+    #
+    # @!attribute [rw] proxy_settings
+    #   The listener configuration for the firewall's proxy. This is set
+    #   for proxy mode firewalls, where `NoSourcePreservation` is `TRUE`.
+    #   @return [Types::ProxySettings]
+    #
+    # @!attribute [rw] no_source_preservation
+    #   Indicates whether the firewall operates in proxy mode, in which the
+    #   source IP address of the traffic is not preserved. When this value
+    #   is `TRUE`, the firewall proxies traffic through a NAT gateway and
+    #   uses the NAT gateway's IP address as the source for traffic
+    #   reaching the destination.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] vpc_endpoint
+    #   The VPC and subnets for the firewall endpoint. This is set for proxy
+    #   mode firewalls, where `NoSourcePreservation` is `TRUE`.
+    #   @return [Types::VpcEndpoint]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/Firewall AWS API Documentation
     #
     class Firewall < Struct.new(
@@ -4119,7 +4193,11 @@ module Aws::NetworkFirewall
       :transit_gateway_id,
       :transit_gateway_owner_account_id,
       :availability_zone_mappings,
-      :availability_zone_change_protection)
+      :availability_zone_change_protection,
+      :nat_gateway_mappings,
+      :proxy_settings,
+      :no_source_preservation,
+      :vpc_endpoint)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6044,6 +6122,57 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # The definition and status of the attachment between a proxy mode
+    # firewall and a NAT gateway that proxies its traffic.
+    #
+    # @!attribute [rw] nat_gateway_id
+    #   A unique identifier for the NAT gateway to use with proxy resources.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the NAT gateway attachment.
+    #
+    #   When this value is `READY`, the attachment is available to proxy
+    #   traffic. Otherwise, this value reflects its state, for example
+    #   `CREATING` or `DELETING`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   If Network Firewall encounters an issue with the NAT gateway
+    #   attachment, it populates this with an explanation of the problem.
+    #   @return [String]
+    #
+    # @!attribute [rw] dns_name
+    #   The DNS name that resolves to the firewall's proxy for traffic sent
+    #   through this NAT gateway attachment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/NatGatewayAttachment AWS API Documentation
+    #
+    class NatGatewayAttachment < Struct.new(
+      :nat_gateway_id,
+      :status,
+      :status_message,
+      :dns_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A NAT gateway that a proxy mode firewall uses to proxy traffic. This
+    # is used in CreateFirewall when `NoSourcePreservation` is `TRUE`.
+    #
+    # @!attribute [rw] nat_gateway_id
+    #   A unique identifier for the NAT gateway to use with proxy resources.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/NatGatewayMapping AWS API Documentation
+    #
+    class NatGatewayMapping < Struct.new(
+      :nat_gateway_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides configuration status for a single policy or rule group that
     # is used for a firewall endpoint. Network Firewall provides each
     # endpoint with the rules that are configured in the firewall policy.
@@ -6610,6 +6739,22 @@ module Aws::NetworkFirewall
       :pre_dns,
       :pre_request,
       :post_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The listener configuration for a proxy mode firewall. This specifies
+    # the ports and protocols on which the firewall's proxy listens for
+    # traffic.
+    #
+    # @!attribute [rw] listener_properties
+    #   Listener properties for HTTP and HTTPS traffic.
+    #   @return [Array<Types::ListenerProperty>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ProxySettings AWS API Documentation
+    #
+    class ProxySettings < Struct.new(
+      :listener_properties)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8052,11 +8197,18 @@ module Aws::NetworkFirewall
     #   traffic.
     #   @return [Hash<String,Types::PerObjectStatus>]
     #
+    # @!attribute [rw] nat_gateway_attachments
+    #   The status of the NAT gateway attachments for a proxy mode firewall
+    #   in the Availability Zone. This reflects the attachment of the
+    #   firewall to each NAT gateway that proxies its traffic.
+    #   @return [Array<Types::NatGatewayAttachment>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/SyncState AWS API Documentation
     #
     class SyncState < Struct.new(
       :attachment,
-      :config)
+      :config,
+      :nat_gateway_attachments)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9837,6 +9989,100 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # @!attribute [rw] firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] firewall_name
+    #   The descriptive name of the firewall. You can't change the name of
+    #   a firewall after you create it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_token
+    #   An optional token that you can use for optimistic locking. Network
+    #   Firewall returns a token to your requests that access the firewall.
+    #   The token marks the state of the firewall resource at the time of
+    #   the request.
+    #
+    #   To make an unconditional change to the firewall, omit the token in
+    #   your update request. Without the token, Network Firewall performs
+    #   your updates regardless of whether the firewall has changed since
+    #   you last retrieved it.
+    #
+    #   To make a conditional change to the firewall, provide the token in
+    #   your update request. Network Firewall uses the token to ensure that
+    #   the firewall hasn't changed since you last retrieved it. If it has
+    #   changed, the operation fails with an `InvalidTokenException`. If
+    #   this happens, retrieve the firewall again to get a current copy of
+    #   it with a new token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @!attribute [rw] proxy_settings
+    #   The proxy listener configuration to set on the firewall. This
+    #   specifies the ports and protocols on which the firewall's proxy
+    #   listens for traffic.
+    #   @return [Types::ProxySettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateProxySettingsRequest AWS API Documentation
+    #
+    class UpdateProxySettingsRequest < Struct.new(
+      :firewall_arn,
+      :firewall_name,
+      :update_token,
+      :proxy_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #   @return [String]
+    #
+    # @!attribute [rw] firewall_name
+    #   The descriptive name of the firewall. You can't change the name of
+    #   a firewall after you create it.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_token
+    #   An optional token that you can use for optimistic locking. Network
+    #   Firewall returns a token to your requests that access the firewall.
+    #   The token marks the state of the firewall resource at the time of
+    #   the request.
+    #
+    #   To make an unconditional change to the firewall, omit the token in
+    #   your update request. Without the token, Network Firewall performs
+    #   your updates regardless of whether the firewall has changed since
+    #   you last retrieved it.
+    #
+    #   To make a conditional change to the firewall, provide the token in
+    #   your update request. Network Firewall uses the token to ensure that
+    #   the firewall hasn't changed since you last retrieved it. If it has
+    #   changed, the operation fails with an `InvalidTokenException`. If
+    #   this happens, retrieve the firewall again to get a current copy of
+    #   it with a new token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @!attribute [rw] proxy_settings
+    #   The updated proxy listener configuration on the firewall.
+    #   @return [Types::ProxySettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateProxySettingsResponse AWS API Documentation
+    #
+    class UpdateProxySettingsResponse < Struct.new(
+      :firewall_arn,
+      :firewall_name,
+      :update_token,
+      :proxy_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] update_token
     #   A token used for optimistic locking. Network Firewall returns a
     #   token to your requests that access the rule group. The token marks
@@ -10194,6 +10440,33 @@ module Aws::NetworkFirewall
     class UpdateTLSInspectionConfigurationResponse < Struct.new(
       :update_token,
       :tls_inspection_configuration_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The VPC and subnets for a proxy mode firewall endpoint. This is used
+    # in CreateFirewall when `NoSourcePreservation` is `TRUE`, to specify
+    # where Network Firewall creates the firewall endpoint.
+    #
+    # This differs from VpcEndpointAssociation, which defines additional
+    # secondary endpoints for a firewall in other VPCs.
+    #
+    # @!attribute [rw] vpc_id
+    #   The unique identifier of the VPC where Network Firewall creates the
+    #   proxy mode firewall endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_mappings
+    #   The subnets in which Network Firewall creates the firewall endpoint
+    #   for a proxy mode firewall. Each subnet must belong to a different
+    #   Availability Zone in the VPC.
+    #   @return [Array<Types::SubnetMapping>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/VpcEndpoint AWS API Documentation
+    #
+    class VpcEndpoint < Struct.new(
+      :vpc_id,
+      :subnet_mappings)
       SENSITIVE = []
       include Aws::Structure
     end

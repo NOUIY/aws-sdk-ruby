@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.36.0 (2026-08-03)
+------------------
+
+* Feature - Launch CMK support for Telemetry Enablement Organization and Account Rules.
+
 1.35.0 (2026-07-22)
 ------------------
 
