@@ -508,11 +508,11 @@ module Aws::Organizations
     # CloudTrail, available only in the management account's event history.
     # If the account was standalone and joined a new organization, an
     # `AccountJoinedOrganization` event is logged with
-    # `joinedMethod:Invited` and `joinedTime` fields. If the account
+    # `joinedMethod:INVITED` and `joinedTime` fields. If the account
     # departed one organization and joined another, both an
-    # `AccountDepartedOrganization` event with `departedMethod:Left` and
-    # `departedTime` and an `AccountJoinedOrganization` event with
-    # `joinedMethod:Invited` and `joinedTime` are logged in their respective
+    # `AccountDepartedOrganization` event with `departureMethod:LEFT` and
+    # `departureTime` and an `AccountJoinedOrganization` event with
+    # `joinedMethod:INVITED` and `joinedTime` are logged in their respective
     # management accounts.
     #
     #
@@ -910,7 +910,7 @@ module Aws::Organizations
     # After the permanent termination of the account after the 90-day
     # waiting period, Organizations logs a membership event in CloudTrail.
     # The event is an `AccountDepartedOrganization` event with
-    # `departedMethod:Cleaned` and `departedTime`. This event is available
+    # `departureMethod:CLEANED` and `departureTime`. This event is available
     # only in the management account's event history.
     #
     #
@@ -1503,7 +1503,7 @@ module Aws::Organizations
     #
     # The `AccountJoinedOrganization` event is logged in CloudTrail and is
     # available only in the management account's event history. This event
-    # includes `joinedMethod:Invited` and `joinedTime` fields to provide
+    # includes `joinedMethod:INVITED` and `joinedTime` fields to provide
     # context on how and when the account joined the organization.
     #
     #
@@ -2013,8 +2013,8 @@ module Aws::Organizations
     #
     # When an organization is deleted, Organizations logs a membership event
     # in CloudTrail. The event is an `AccountDepartedOrganization` event
-    # with `departedMethod:Left` and `departedTime`. This event is available
-    # only in the management account's event history.
+    # with `departureMethod:LEFT` and `departureTime`. This event is
+    # available only in the management account's event history.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3763,8 +3763,8 @@ module Aws::Organizations
     #
     # When an account leaves an organization, Organizations logs a
     # membership event in CloudTrail. The event is an
-    # `AccountDepartedOrganization` event with `departedMethod:Left` and
-    # `departedTime`. This event is available only in the management
+    # `AccountDepartedOrganization` event with `departureMethod:LEFT` and
+    # `departureTime`. This event is available only in the management
     # account's event history.
     #
     # * The management account in an organization with all features enabled
@@ -6237,8 +6237,8 @@ module Aws::Organizations
     #
     # When an account is removed from an organization, Organizations logs a
     # membership event in CloudTrail. The event is an
-    # `AccountDepartedOrganization` event with `departedMethod:Removed` and
-    # `departedTime`. This event is available only in the management
+    # `AccountDepartedOrganization` event with `departureMethod:REMOVED` and
+    # `departureTime`. This event is available only in the management
     # account's event history.
     #
     # * You can remove an account from your organization only if the account
@@ -6793,7 +6793,7 @@ module Aws::Organizations
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-organizations'
-      context[:gem_version] = '1.144.0'
+      context[:gem_version] = '1.145.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

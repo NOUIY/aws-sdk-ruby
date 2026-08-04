@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.151.0 (2026-08-04)
+------------------
+
+* Feature - Updating endpoint generation logic
+
 1.150.0 (2026-07-30)
 ------------------
 

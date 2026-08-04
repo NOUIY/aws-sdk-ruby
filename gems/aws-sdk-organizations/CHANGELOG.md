@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.145.0 (2026-08-04)
+------------------
+
+* Feature - Improved accuracy of CloudTrail event documentation for AWS Organizations membership operations.
+
 1.144.0 (2026-07-20)
 ------------------
 

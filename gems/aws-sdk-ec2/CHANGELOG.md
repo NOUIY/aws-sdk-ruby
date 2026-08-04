@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.634.0 (2026-08-04)
+------------------
+
+* Feature - Amazon EC2 now supports Application Status Checks, a new status check that monitors your application's health through configurable HTTP(S) paths and ports, so you can detect and automatically respond to application-level impairments.
+
 1.633.0 (2026-07-29)
 ------------------
 

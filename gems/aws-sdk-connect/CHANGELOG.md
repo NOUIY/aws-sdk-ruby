@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.267.0 (2026-08-04)
+------------------
+
+* Feature - Amazon Connect Customer now supports up to 50 attachments per email, increased from the previous limit of 10. The individual maximum attachment size limit of 20 MB and the total email size limit of 25 MB still hold true.
+
 1.266.0 (2026-07-28)
 ------------------
 
