@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.62.0 (2026-08-05)
+------------------
+
+* Feature - Adding support for fine-grained access control for AgentCore Memory through managed AgentCore Gateway HTTP Connectors.
+
 1.61.0 (2026-07-30)
 ------------------
 

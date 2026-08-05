@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.268.0 (2026-08-05)
+------------------
+
+* Feature - Added the PutDataCatalogExportConfiguration to export Glue Data Catalog metadata to systems tables stored in S3 Tables.
+
 1.267.0 (2026-07-29)
 ------------------
 

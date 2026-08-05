@@ -165,8 +165,10 @@ module Aws::BedrockAgentCoreControl
     ConnectorConfigurationNameString = Shapes::StringShape.new(name: 'ConnectorConfigurationNameString')
     ConnectorConfigurations = Shapes::ListShape.new(name: 'ConnectorConfigurations')
     ConnectorId = Shapes::StringShape.new(name: 'ConnectorId')
+    ConnectorParameterName = Shapes::StringShape.new(name: 'ConnectorParameterName')
     ConnectorParameterOverride = Shapes::StructureShape.new(name: 'ConnectorParameterOverride')
     ConnectorParameterOverrides = Shapes::ListShape.new(name: 'ConnectorParameterOverrides')
+    ConnectorParameterValue = Shapes::StringShape.new(name: 'ConnectorParameterValue')
     ConnectorSource = Shapes::StructureShape.new(name: 'ConnectorSource')
     ConnectorTargetConfiguration = Shapes::StructureShape.new(name: 'ConnectorTargetConfiguration')
     ConnectorVersion = Shapes::StringShape.new(name: 'ConnectorVersion')
@@ -584,6 +586,9 @@ module Aws::BedrockAgentCoreControl
     HostingEnvironment = Shapes::StructureShape.new(name: 'HostingEnvironment')
     HostingEnvironmentListType = Shapes::ListShape.new(name: 'HostingEnvironmentListType')
     HttpApiSchemaConfiguration = Shapes::StructureShape.new(name: 'HttpApiSchemaConfiguration')
+    HttpConnectorParameters = Shapes::MapShape.new(name: 'HttpConnectorParameters')
+    HttpConnectorSource = Shapes::StructureShape.new(name: 'HttpConnectorSource')
+    HttpConnectorTargetConfiguration = Shapes::StructureShape.new(name: 'HttpConnectorTargetConfiguration')
     HttpHeaderKey = Shapes::StringShape.new(name: 'HttpHeaderKey')
     HttpHeaderName = Shapes::StringShape.new(name: 'HttpHeaderName')
     HttpHeaderValue = Shapes::StringShape.new(name: 'HttpHeaderValue')
@@ -3587,14 +3592,26 @@ module Aws::BedrockAgentCoreControl
     HttpApiSchemaConfiguration.add_member(:source, Shapes::ShapeRef.new(shape: ApiSchemaConfiguration, required: true, location_name: "source"))
     HttpApiSchemaConfiguration.struct_class = Types::HttpApiSchemaConfiguration
 
+    HttpConnectorParameters.key = Shapes::ShapeRef.new(shape: ConnectorParameterName)
+    HttpConnectorParameters.value = Shapes::ShapeRef.new(shape: ConnectorParameterValue)
+
+    HttpConnectorSource.add_member(:connector_id, Shapes::ShapeRef.new(shape: ConnectorId, required: true, location_name: "connectorId"))
+    HttpConnectorSource.struct_class = Types::HttpConnectorSource
+
+    HttpConnectorTargetConfiguration.add_member(:source, Shapes::ShapeRef.new(shape: HttpConnectorSource, required: true, location_name: "source"))
+    HttpConnectorTargetConfiguration.add_member(:parameters, Shapes::ShapeRef.new(shape: HttpConnectorParameters, location_name: "parameters"))
+    HttpConnectorTargetConfiguration.struct_class = Types::HttpConnectorTargetConfiguration
+
     HttpHeadersMap.key = Shapes::ShapeRef.new(shape: HttpHeaderKey)
     HttpHeadersMap.value = Shapes::ShapeRef.new(shape: HttpHeaderValue)
 
     HttpTargetConfiguration.add_member(:agentcore_runtime, Shapes::ShapeRef.new(shape: RuntimeTargetConfiguration, location_name: "agentcoreRuntime"))
     HttpTargetConfiguration.add_member(:passthrough, Shapes::ShapeRef.new(shape: PassthroughTargetConfiguration, location_name: "passthrough"))
+    HttpTargetConfiguration.add_member(:connector, Shapes::ShapeRef.new(shape: HttpConnectorTargetConfiguration, location_name: "connector"))
     HttpTargetConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     HttpTargetConfiguration.add_member_subclass(:agentcore_runtime, Types::HttpTargetConfiguration::AgentcoreRuntime)
     HttpTargetConfiguration.add_member_subclass(:passthrough, Types::HttpTargetConfiguration::Passthrough)
+    HttpTargetConfiguration.add_member_subclass(:connector, Types::HttpTargetConfiguration::Connector)
     HttpTargetConfiguration.add_member_subclass(:unknown, Types::HttpTargetConfiguration::Unknown)
     HttpTargetConfiguration.struct_class = Types::HttpTargetConfiguration
 

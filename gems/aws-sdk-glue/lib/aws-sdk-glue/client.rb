@@ -8493,6 +8493,38 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Retrieves the current export configuration for the Glue Data Catalog.
+    # The export configuration controls whether catalog metadata is exported
+    # to S3 Tables.
+    #
+    # @return [Types::GetDataCatalogExportConfigurationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDataCatalogExportConfigurationOutput#export_setting #export_setting} => String
+    #   * {Types::GetDataCatalogExportConfigurationOutput#status #status} => String
+    #   * {Types::GetDataCatalogExportConfigurationOutput#encryption_configuration #encryption_configuration} => Types::ExportEncryptionConfiguration
+    #   * {Types::GetDataCatalogExportConfigurationOutput#s3_table_bucket_arn #s3_table_bucket_arn} => String
+    #   * {Types::GetDataCatalogExportConfigurationOutput#created_at #created_at} => Time
+    #   * {Types::GetDataCatalogExportConfigurationOutput#updated_at #updated_at} => Time
+    #
+    # @example Response structure
+    #
+    #   resp.export_setting #=> String, one of "ENABLED", "DISABLED"
+    #   resp.status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED", "FAILED"
+    #   resp.encryption_configuration.sse_algorithm #=> String
+    #   resp.encryption_configuration.kms_key_arn #=> String
+    #   resp.s3_table_bucket_arn #=> String
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDataCatalogExportConfiguration AWS API Documentation
+    #
+    # @overload get_data_catalog_export_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_data_catalog_export_configuration(params = {}, options = {})
+      req = build_request(:get_data_catalog_export_configuration, params)
+      req.send_request(options)
+    end
+
     # Retrieve the training status of the model along with more information
     # (CompletedOn, StartedOn, FailureReason).
     #
@@ -15847,6 +15879,57 @@ module Aws::Glue
       req.send_request(options)
     end
 
+    # Creates or updates the export configuration for the Glue Data Catalog.
+    # Use this operation to enable or disable the export of catalog metadata
+    # to S3 Tables.
+    #
+    # @option params [required, String] :export_setting
+    #   The export setting for the data catalog. Specify `ENABLED` to start
+    #   exporting catalog metadata to S3 Tables, or `DISABLED` to stop
+    #   exporting. This field is required.
+    #
+    # @option params [Types::ExportEncryptionConfiguration] :encryption_configuration
+    #   The encryption configuration for the exported data. If not specified,
+    #   the default encryption settings are used.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutDataCatalogExportConfigurationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutDataCatalogExportConfigurationOutput#export_setting #export_setting} => String
+    #   * {Types::PutDataCatalogExportConfigurationOutput#encryption_configuration #encryption_configuration} => Types::ExportEncryptionConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_data_catalog_export_configuration({
+    #     export_setting: "ENABLED", # required, accepts ENABLED, DISABLED
+    #     encryption_configuration: {
+    #       sse_algorithm: "SseAlgorithm",
+    #       kms_key_arn: "KmsKeyArnString",
+    #     },
+    #     client_token: "HashString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.export_setting #=> String, one of "ENABLED", "DISABLED"
+    #   resp.encryption_configuration.sse_algorithm #=> String
+    #   resp.encryption_configuration.kms_key_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataCatalogExportConfiguration AWS API Documentation
+    #
+    # @overload put_data_catalog_export_configuration(params = {})
+    # @param [Hash] params ({})
+    def put_data_catalog_export_configuration(params = {}, options = {})
+      req = build_request(:put_data_catalog_export_configuration, params)
+      req.send_request(options)
+    end
+
     # Annotate all datapoints for a Profile.
     #
     # @option params [required, String] :profile_id
@@ -20986,7 +21069,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.267.0'
+      context[:gem_version] = '1.268.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

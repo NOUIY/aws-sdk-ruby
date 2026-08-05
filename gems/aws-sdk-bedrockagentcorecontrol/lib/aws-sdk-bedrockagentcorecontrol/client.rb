@@ -2264,6 +2264,14 @@ module Aws::BedrockAgentCoreControl
     #             timeout: 1,
     #           },
     #         },
+    #         connector: {
+    #           source: { # required
+    #             connector_id: "ConnectorId", # required
+    #           },
+    #           parameters: {
+    #             "ConnectorParameterName" => "ConnectorParameterValue",
+    #           },
+    #         },
     #       },
     #       inference: {
     #         connector: {
@@ -2418,6 +2426,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.http.connector.source.connector_id #=> String
+    #   resp.target_configuration.http.connector.parameters #=> Hash
+    #   resp.target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
     #   resp.target_configuration.inference.connector.source.connector_id #=> String
     #   resp.target_configuration.inference.provider.endpoint #=> String
     #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
@@ -7124,6 +7135,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.http.connector.source.connector_id #=> String
+    #   resp.target_configuration.http.connector.parameters #=> Hash
+    #   resp.target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
     #   resp.target_configuration.inference.connector.source.connector_id #=> String
     #   resp.target_configuration.inference.provider.endpoint #=> String
     #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
@@ -9351,7 +9365,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.items[0].last_synchronized_at #=> Time
     #   resp.items[0].authorization_data.oauth2.authorization_url #=> String
     #   resp.items[0].authorization_data.oauth2.user_id #=> String
-    #   resp.items[0].target_type #=> String, one of "OPEN_API_SCHEMA", "SMITHY_MODEL", "MCP_SERVER", "LAMBDA", "API_GATEWAY", "CONNECTOR", "AGENTCORE_RUNTIME", "PASSTHROUGH", "PROVIDER"
+    #   resp.items[0].target_type #=> String, one of "OPEN_API_SCHEMA", "SMITHY_MODEL", "MCP_SERVER", "LAMBDA", "API_GATEWAY", "CONNECTOR", "AGENTCORE_RUNTIME", "PASSTHROUGH", "PROVIDER", "HTTP_CONNECTOR"
     #   resp.items[0].listing_mode #=> String, one of "DEFAULT", "DYNAMIC"
     #   resp.next_token #=> String
     #
@@ -10830,6 +10844,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.targets[0].target_configuration.http.connector.source.connector_id #=> String
+    #   resp.targets[0].target_configuration.http.connector.parameters #=> Hash
+    #   resp.targets[0].target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
     #   resp.targets[0].target_configuration.inference.connector.source.connector_id #=> String
     #   resp.targets[0].target_configuration.inference.provider.endpoint #=> String
     #   resp.targets[0].target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
@@ -12283,6 +12300,14 @@ module Aws::BedrockAgentCoreControl
     #             timeout: 1,
     #           },
     #         },
+    #         connector: {
+    #           source: { # required
+    #             connector_id: "ConnectorId", # required
+    #           },
+    #           parameters: {
+    #             "ConnectorParameterName" => "ConnectorParameterValue",
+    #           },
+    #         },
     #       },
     #       inference: {
     #         connector: {
@@ -12437,6 +12462,9 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.http.connector.source.connector_id #=> String
+    #   resp.target_configuration.http.connector.parameters #=> Hash
+    #   resp.target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
     #   resp.target_configuration.inference.connector.source.connector_id #=> String
     #   resp.target_configuration.inference.provider.endpoint #=> String
     #   resp.target_configuration.inference.provider.model_mapping.provider_prefix.strip #=> Boolean
@@ -15148,7 +15176,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.61.0'
+      context[:gem_version] = '1.62.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

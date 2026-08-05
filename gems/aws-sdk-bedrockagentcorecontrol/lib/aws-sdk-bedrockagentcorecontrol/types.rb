@@ -11119,6 +11119,42 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The source identifying the HTTP connector integration.
+    #
+    # @!attribute [rw] connector_id
+    #   The identifier for the HTTP connector integration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HttpConnectorSource AWS API Documentation
+    #
+    class HttpConnectorSource < Struct.new(
+      :connector_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration for an HTTP connector target. Use this configuration
+    # when you want to route HTTP requests through a managed connector.
+    #
+    # @!attribute [rw] source
+    #   The source configuration identifying which HTTP connector to use.
+    #   @return [Types::HttpConnectorSource]
+    #
+    # @!attribute [rw] parameters
+    #   The resource parameters for this connector (for example,
+    #   `memoryId`). The service validates these parameters against the
+    #   request path at runtime.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HttpConnectorTargetConfiguration AWS API Documentation
+    #
+    class HttpConnectorTargetConfiguration < Struct.new(
+      :source,
+      :parameters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The HTTP target configuration for a gateway target. Contains the
     # configuration for HTTP-based target endpoints.
     #
@@ -11136,11 +11172,18 @@ module Aws::BedrockAgentCoreControl
     #   target forwards requests directly to an external HTTP endpoint.
     #   @return [Types::PassthroughTargetConfiguration]
     #
+    # @!attribute [rw] connector
+    #   The connector-based configuration for the HTTP target. Use this
+    #   configuration when you want to route HTTP requests through a managed
+    #   connector.
+    #   @return [Types::HttpConnectorTargetConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/HttpTargetConfiguration AWS API Documentation
     #
     class HttpTargetConfiguration < Struct.new(
       :agentcore_runtime,
       :passthrough,
+      :connector,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -11148,6 +11191,7 @@ module Aws::BedrockAgentCoreControl
 
       class AgentcoreRuntime < HttpTargetConfiguration; end
       class Passthrough < HttpTargetConfiguration; end
+      class Connector < HttpTargetConfiguration; end
       class Unknown < HttpTargetConfiguration; end
     end
 

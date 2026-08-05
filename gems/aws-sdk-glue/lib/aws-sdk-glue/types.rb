@@ -12184,6 +12184,26 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # The encryption configuration for exported data catalog metadata.
+    #
+    # @!attribute [rw] sse_algorithm
+    #   The server-side encryption algorithm used for the exported data.
+    #   Valid values are `AES256` and `aws:kms`.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The ARN of the KMS key used to encrypt the exported data.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ExportEncryptionConfiguration AWS API Documentation
+    #
+    class ExportEncryptionConfiguration < Struct.new(
+      :sse_algorithm,
+      :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies configuration properties for an exporting labels task run.
     #
     # @!attribute [rw] output_s3_path
@@ -13864,6 +13884,51 @@ module Aws::Glue
     #
     class GetDataCatalogEncryptionSettingsResponse < Struct.new(
       :data_catalog_encryption_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDataCatalogExportConfigurationInput AWS API Documentation
+    #
+    class GetDataCatalogExportConfigurationInput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] export_setting
+    #   The export setting for the data catalog. Valid values are `ENABLED`
+    #   and `DISABLED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the export. Valid values are `ENABLING`,
+    #   `ENABLED`, `DISABLING`, `DISABLED`, and `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   The encryption configuration for the exported data.
+    #   @return [Types::ExportEncryptionConfiguration]
+    #
+    # @!attribute [rw] s3_table_bucket_arn
+    #   The ARN of the S3 Tables bucket where catalog metadata is exported.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp at which the export configuration was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp at which the export configuration was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDataCatalogExportConfigurationOutput AWS API Documentation
+    #
+    class GetDataCatalogExportConfigurationOutput < Struct.new(
+      :export_setting,
+      :status,
+      :encryption_configuration,
+      :s3_table_bucket_arn,
+      :created_at,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -24696,6 +24761,52 @@ module Aws::Glue
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataCatalogEncryptionSettingsResponse AWS API Documentation
     #
     class PutDataCatalogEncryptionSettingsResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] export_setting
+    #   The export setting for the data catalog. Specify `ENABLED` to start
+    #   exporting catalog metadata to S3 Tables, or `DISABLED` to stop
+    #   exporting. This field is required.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   The encryption configuration for the exported data. If not
+    #   specified, the default encryption settings are used.
+    #   @return [Types::ExportEncryptionConfiguration]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataCatalogExportConfigurationInput AWS API Documentation
+    #
+    class PutDataCatalogExportConfigurationInput < Struct.new(
+      :export_setting,
+      :encryption_configuration,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] export_setting
+    #   The export setting for the data catalog.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   The encryption configuration for the exported data.
+    #   @return [Types::ExportEncryptionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataCatalogExportConfigurationOutput AWS API Documentation
+    #
+    class PutDataCatalogExportConfigurationOutput < Struct.new(
+      :export_setting,
+      :encryption_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] profile_id
     #   The ID of the data quality monitoring profile to annotate.

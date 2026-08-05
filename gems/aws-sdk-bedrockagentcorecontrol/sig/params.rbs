@@ -409,7 +409,13 @@ module Aws
 
       type http_target_configuration = {
       agentcore_runtime: Params::runtime_target_configuration?,
-      passthrough: Params::passthrough_target_configuration?
+      passthrough: Params::passthrough_target_configuration?,
+      connector: {
+        source: {
+          connector_id: ::String
+        },
+        parameters: Hash[::String, ::String]?
+      }?
     }
 
       type inference_provider_target_configuration = {

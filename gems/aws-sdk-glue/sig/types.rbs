@@ -2982,6 +2982,12 @@ module Aws::Glue
       SENSITIVE: []
     end
 
+    class ExportEncryptionConfiguration
+      attr_accessor sse_algorithm: ::String
+      attr_accessor kms_key_arn: ::String
+      SENSITIVE: []
+    end
+
     class ExportLabelsTaskRunProperties
       attr_accessor output_s3_path: ::String
       SENSITIVE: []
@@ -3443,6 +3449,19 @@ module Aws::Glue
 
     class GetDataCatalogEncryptionSettingsResponse
       attr_accessor data_catalog_encryption_settings: Types::DataCatalogEncryptionSettings
+      SENSITIVE: []
+    end
+
+    class GetDataCatalogExportConfigurationInput < Aws::EmptyStructure
+    end
+
+    class GetDataCatalogExportConfigurationOutput
+      attr_accessor export_setting: ("ENABLED" | "DISABLED")
+      attr_accessor status: ("ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | "FAILED")
+      attr_accessor encryption_configuration: Types::ExportEncryptionConfiguration
+      attr_accessor s3_table_bucket_arn: ::String
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
 
@@ -6072,6 +6091,19 @@ module Aws::Glue
     end
 
     class PutDataCatalogEncryptionSettingsResponse < Aws::EmptyStructure
+    end
+
+    class PutDataCatalogExportConfigurationInput
+      attr_accessor export_setting: ("ENABLED" | "DISABLED")
+      attr_accessor encryption_configuration: Types::ExportEncryptionConfiguration
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class PutDataCatalogExportConfigurationOutput
+      attr_accessor export_setting: ("ENABLED" | "DISABLED")
+      attr_accessor encryption_configuration: Types::ExportEncryptionConfiguration
+      SENSITIVE: []
     end
 
     class PutDataQualityProfileAnnotationRequest

@@ -3025,15 +3025,29 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class HttpConnectorSource
+      attr_accessor connector_id: ::String
+      SENSITIVE: []
+    end
+
+    class HttpConnectorTargetConfiguration
+      attr_accessor source: Types::HttpConnectorSource
+      attr_accessor parameters: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class HttpTargetConfiguration
       attr_accessor agentcore_runtime: Types::RuntimeTargetConfiguration
       attr_accessor passthrough: Types::PassthroughTargetConfiguration
+      attr_accessor connector: Types::HttpConnectorTargetConfiguration
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class AgentcoreRuntime < HttpTargetConfiguration
       end
       class Passthrough < HttpTargetConfiguration
+      end
+      class Connector < HttpTargetConfiguration
       end
       class Unknown < HttpTargetConfiguration
       end
@@ -5018,7 +5032,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor resource_priority: ::Integer
       attr_accessor last_synchronized_at: ::Time
       attr_accessor authorization_data: Types::AuthorizationData
-      attr_accessor target_type: ("OPEN_API_SCHEMA" | "SMITHY_MODEL" | "MCP_SERVER" | "LAMBDA" | "API_GATEWAY" | "CONNECTOR" | "AGENTCORE_RUNTIME" | "PASSTHROUGH" | "PROVIDER")
+      attr_accessor target_type: ("OPEN_API_SCHEMA" | "SMITHY_MODEL" | "MCP_SERVER" | "LAMBDA" | "API_GATEWAY" | "CONNECTOR" | "AGENTCORE_RUNTIME" | "PASSTHROUGH" | "PROVIDER" | "HTTP_CONNECTOR")
       attr_accessor listing_mode: ("DEFAULT" | "DYNAMIC")
       SENSITIVE: [:name, :description]
     end
