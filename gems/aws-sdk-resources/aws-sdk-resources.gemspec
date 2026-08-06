@@ -23,6 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency('aws-sdk-arczonalshift', '~> 1')
   spec.add_dependency('aws-sdk-accessanalyzer', '~> 1')
   spec.add_dependency('aws-sdk-account', '~> 1')
+  spec.add_dependency('aws-sdk-agentregistry', '~> 1')
+  spec.add_dependency('aws-sdk-agentregistrycontrol', '~> 1')
   spec.add_dependency('aws-sdk-amplify', '~> 1')
   spec.add_dependency('aws-sdk-amplifybackend', '~> 1')
   spec.add_dependency('aws-sdk-amplifyuibuilder', '~> 1')

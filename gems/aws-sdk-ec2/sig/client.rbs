@@ -2918,7 +2918,7 @@ module Aws
       def create_secondary_network: (
                                       ?client_token: ::String,
                                       ?dry_run: bool,
-                                      ?ipv_4_cidr_block: ::String,
+                                      ipv_4_cidr_block: ::String,
                                       network_type: ("rdma"),
                                       ?tag_specifications: Array[
                                         {
@@ -10855,7 +10855,8 @@ module Aws
                                        },
                                        ?dry_run: bool,
                                        ?max_results: ::Integer,
-                                       ?next_token: ::String
+                                       ?next_token: ::String,
+                                       ?include_local_zones: bool
                                      ) -> _GetSpotPlacementScoresResponseSuccess
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetSpotPlacementScoresResponseSuccess
 

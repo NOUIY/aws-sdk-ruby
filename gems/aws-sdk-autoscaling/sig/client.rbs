@@ -259,6 +259,9 @@ module Aws
                                          retention_triggers: {
                                            terminate_hook_abandon: ("retain" | "terminate")?
                                          }?
+                                       },
+                                       ?operator: {
+                                         principal: ::String
                                        }
                                      ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                    | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]

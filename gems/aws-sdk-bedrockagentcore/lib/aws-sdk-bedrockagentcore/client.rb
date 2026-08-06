@@ -1208,6 +1208,47 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Deletes a session associated with a capacity provider in Amazon
+    # Bedrock AgentCore and makes the session unavailable for further use.
+    # To delete a capacity provider session, specify both the capacity
+    # provider identifier and the session ID. After you delete a session,
+    # you cannot restart it.
+    #
+    # @option params [required, String] :capacity_provider_id
+    #   The unique identifier of the capacity provider associated with the
+    #   session.
+    #
+    # @option params [required, String] :session_id
+    #   The unique identifier of the capacity provider session to delete.
+    #
+    # @return [Types::DeleteCapacityProviderSessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteCapacityProviderSessionResponse#capacity_provider_arn #capacity_provider_arn} => String
+    #   * {Types::DeleteCapacityProviderSessionResponse#session_id #session_id} => String
+    #   * {Types::DeleteCapacityProviderSessionResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_capacity_provider_session({
+    #     capacity_provider_id: "CapacityProviderId", # required
+    #     session_id: "SessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.capacity_provider_arn #=> String
+    #   resp.session_id #=> String
+    #   resp.status #=> String, one of "Provisioning", "Deprovisioning", "Active", "Deleting", "Deleted", "Stopped"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteCapacityProviderSession AWS API Documentation
+    #
+    # @overload delete_capacity_provider_session(params = {})
+    # @param [Hash] params ({})
+    def delete_capacity_provider_session(params = {}, options = {})
+      req = build_request(:delete_capacity_provider_session, params)
+      req.send_request(options)
+    end
+
     # Deletes an event from an AgentCore Memory resource. When you delete an
     # event, it is permanently removed.
     #
@@ -6343,7 +6384,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.45.0'
+      context[:gem_version] = '1.46.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

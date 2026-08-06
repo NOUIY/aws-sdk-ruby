@@ -541,6 +541,12 @@ module Aws::AutoScaling
     #   The instance lifecycle policy for the Auto Scaling group.
     #   @return [Types::InstanceLifecyclePolicy]
     #
+    # @!attribute [rw] operator
+    #   The entity that manages the Auto Scaling group, if applicable. When
+    #   set, only the designated operator can make changes to the group
+    #   configuration.
+    #   @return [Types::Operator]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AutoScalingGroup AWS API Documentation
     #
     class AutoScalingGroup < Struct.new(
@@ -584,7 +590,8 @@ module Aws::AutoScaling
       :availability_zone_distribution,
       :availability_zone_impairment_policy,
       :capacity_reservation_specification,
-      :instance_lifecycle_policy)
+      :instance_lifecycle_policy,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -801,7 +808,7 @@ module Aws::AutoScaling
     #
     #   * `reservations-then-balanced` - Auto Scaling will first attempt to
     #     launch into your Capacity Reservations, and then balance any
-    #     remaining capacity across the healthy Availability Zones.
+    #     remaining capacity across healthy Availability Zones.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AvailabilityZoneDistribution AWS API Documentation
@@ -1603,6 +1610,14 @@ module Aws::AutoScaling
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html
     #   @return [Types::InstanceLifecyclePolicy]
     #
+    # @!attribute [rw] operator
+    #   The entity that manages the Auto Scaling group. If you specify this
+    #   parameter, Amazon EC2 Auto Scaling passes the operator identity to
+    #   EC2 for instance launches and only allows the designated operator to
+    #   make changes to the Auto Scaling group. All mutating API calls from
+    #   non-operator callers are rejected with an `AccessDenied` exception.
+    #   @return [Types::Operator]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateAutoScalingGroupType AWS API Documentation
     #
     class CreateAutoScalingGroupType < Struct.new(
@@ -1640,7 +1655,8 @@ module Aws::AutoScaling
       :availability_zone_impairment_policy,
       :skip_zonal_shift_validation,
       :capacity_reservation_specification,
-      :instance_lifecycle_policy)
+      :instance_lifecycle_policy,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6010,6 +6026,23 @@ module Aws::AutoScaling
       :auto_scaling_group_name,
       :topic_arn,
       :notification_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the entity that manages an Auto Scaling group.
+    #
+    # @!attribute [rw] principal
+    #   The service principal that is authorized to manage the Auto Scaling
+    #   group. When an operator is specified, only the designated operator
+    #   service principal can make mutating changes to the Auto Scaling
+    #   group.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/Operator AWS API Documentation
+    #
+    class Operator < Struct.new(
+      :principal)
       SENSITIVE = []
       include Aws::Structure
     end

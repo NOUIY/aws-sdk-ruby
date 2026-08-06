@@ -6785,7 +6785,7 @@ module Aws::EC2
 
     CreateSecondaryNetworkRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateSecondaryNetworkRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
-    CreateSecondaryNetworkRequest.add_member(:ipv_4_cidr_block, Shapes::ShapeRef.new(shape: String, location_name: "Ipv4CidrBlock"))
+    CreateSecondaryNetworkRequest.add_member(:ipv_4_cidr_block, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Ipv4CidrBlock"))
     CreateSecondaryNetworkRequest.add_member(:network_type, Shapes::ShapeRef.new(shape: SecondaryNetworkType, required: true, location_name: "NetworkType"))
     CreateSecondaryNetworkRequest.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecification"))
     CreateSecondaryNetworkRequest.struct_class = Types::CreateSecondaryNetworkRequest
@@ -12291,6 +12291,7 @@ module Aws::EC2
     GetSpotPlacementScoresRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     GetSpotPlacementScoresRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: SpotPlacementScoresMaxResults, location_name: "MaxResults"))
     GetSpotPlacementScoresRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    GetSpotPlacementScoresRequest.add_member(:include_local_zones, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeLocalZones"))
     GetSpotPlacementScoresRequest.struct_class = Types::GetSpotPlacementScoresRequest
 
     GetSpotPlacementScoresResult.add_member(:spot_placement_scores, Shapes::ShapeRef.new(shape: SpotPlacementScores, location_name: "spotPlacementScoreSet"))

@@ -349,6 +349,19 @@ module Aws
                                    ) -> _DeleteBatchEvaluationResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteBatchEvaluationResponseSuccess
 
+      interface _DeleteCapacityProviderSessionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteCapacityProviderSessionResponse]
+        def capacity_provider_arn: () -> ::String
+        def session_id: () -> ::String
+        def status: () -> ("Provisioning" | "Deprovisioning" | "Active" | "Deleting" | "Deleted" | "Stopped")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#delete_capacity_provider_session-instance_method
+      def delete_capacity_provider_session: (
+                                              capacity_provider_id: ::String,
+                                              session_id: ::String
+                                            ) -> _DeleteCapacityProviderSessionResponseSuccess
+                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteCapacityProviderSessionResponseSuccess
+
       interface _DeleteEventResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteEventOutput]
         def event_id: () -> ::String

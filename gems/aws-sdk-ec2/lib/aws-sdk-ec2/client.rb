@@ -15036,7 +15036,7 @@ module Aws::EC2
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     #
-    # @option params [String] :ipv_4_cidr_block
+    # @option params [required, String] :ipv_4_cidr_block
     #   The IPv4 CIDR block for the secondary network. The CIDR block size
     #   must be between /12 and /28.
     #
@@ -15103,7 +15103,7 @@ module Aws::EC2
     #   resp = client.create_secondary_network({
     #     client_token: "String",
     #     dry_run: false,
-    #     ipv_4_cidr_block: "String",
+    #     ipv_4_cidr_block: "String", # required
     #     network_type: "rdma", # required, accepts rdma
     #     tag_specifications: [
     #       {
@@ -57318,6 +57318,13 @@ module Aws::EC2
     #   The token returned from a previous paginated request. Pagination
     #   continues from the end of the items returned by the previous request.
     #
+    # @option params [Boolean] :include_local_zones
+    #   Specify `true` so that the response returns scores that include Local
+    #   Zones. Otherwise, the response ignores Local Zones.
+    #
+    #   When you request regional scores, Local Zone capacity counts toward
+    #   its parent Region.
+    #
     # @return [Types::GetSpotPlacementScoresResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetSpotPlacementScoresResult#spot_placement_scores #spot_placement_scores} => Array&lt;Types::SpotPlacementScore&gt;
@@ -57403,6 +57410,7 @@ module Aws::EC2
     #     dry_run: false,
     #     max_results: 1,
     #     next_token: "String",
+    #     include_local_zones: false,
     #   })
     #
     # @example Response structure
@@ -75970,7 +75978,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.634.0'
+      context[:gem_version] = '1.635.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

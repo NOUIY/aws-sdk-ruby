@@ -584,6 +584,7 @@ module Aws::CloudWatchLogs
 
     class DescribeFieldIndexesRequest
       attr_accessor log_group_identifiers: ::Array[::String]
+      attr_accessor index_categories: ::Array[("DEFAULT" | "CUSTOM" | "AUTO" | "INACTIVE")]
       attr_accessor next_token: ::String
       SENSITIVE: []
     end
@@ -828,6 +829,7 @@ module Aws::CloudWatchLogs
       attr_accessor first_event_time: ::Integer
       attr_accessor last_event_time: ::Integer
       attr_accessor type: ("FACET" | "FIELD_INDEX")
+      attr_accessor index_category: ("DEFAULT" | "CUSTOM" | "AUTO" | "INACTIVE")
       SENSITIVE: []
     end
 

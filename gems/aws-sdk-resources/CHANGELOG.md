@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+3.269.0 (2026-08-06)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-agentregistrycontrol` gem.
+
+* Feature - Added a dependency on the new `aws-sdk-agentregistry` gem.
+
 3.268.0 (2026-07-30)
 ------------------
 

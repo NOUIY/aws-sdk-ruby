@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.164.0 (2026-08-06)
+------------------
+
+* Feature - EC2 Auto Scaling now supports being managed by other AWS services via the operator field.
+
 1.163.0 (2026-07-09)
 ------------------
 

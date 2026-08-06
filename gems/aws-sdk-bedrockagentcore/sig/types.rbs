@@ -602,6 +602,19 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class DeleteCapacityProviderSessionRequest
+      attr_accessor capacity_provider_id: ::String
+      attr_accessor session_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteCapacityProviderSessionResponse
+      attr_accessor capacity_provider_arn: ::String
+      attr_accessor session_id: ::String
+      attr_accessor status: ("Provisioning" | "Deprovisioning" | "Active" | "Deleting" | "Deleted" | "Stopped")
+      SENSITIVE: []
+    end
+
     class DeleteEventInput
       attr_accessor memory_id: ::String
       attr_accessor session_id: ::String

@@ -10616,6 +10616,7 @@ module Aws::EC2
       attr_accessor dry_run: bool
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
+      attr_accessor include_local_zones: bool
       SENSITIVE: []
     end
 

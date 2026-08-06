@@ -16,6 +16,7 @@ module Aws::Kafka
 
     AmazonMskCluster = Shapes::StructureShape.new(name: 'AmazonMskCluster')
     ApacheKafkaCluster = Shapes::StructureShape.new(name: 'ApacheKafkaCluster')
+    AuthorizerLogs = Shapes::StructureShape.new(name: 'AuthorizerLogs')
     BadRequestException = Shapes::StructureShape.new(name: 'BadRequestException')
     BatchAssociateScramSecretRequest = Shapes::StructureShape.new(name: 'BatchAssociateScramSecretRequest')
     BatchAssociateScramSecretResponse = Shapes::StructureShape.new(name: 'BatchAssociateScramSecretResponse')
@@ -368,6 +369,11 @@ module Aws::Kafka
     ApacheKafkaCluster.add_member(:apache_kafka_cluster_id, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "apacheKafkaClusterId"))
     ApacheKafkaCluster.add_member(:bootstrap_broker_string, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "bootstrapBrokerString"))
     ApacheKafkaCluster.struct_class = Types::ApacheKafkaCluster
+
+    AuthorizerLogs.add_member(:cloud_watch_logs, Shapes::ShapeRef.new(shape: CloudWatchLogs, location_name: "cloudWatchLogs"))
+    AuthorizerLogs.add_member(:firehose, Shapes::ShapeRef.new(shape: Firehose, location_name: "firehose"))
+    AuthorizerLogs.add_member(:s3, Shapes::ShapeRef.new(shape: S3, location_name: "s3"))
+    AuthorizerLogs.struct_class = Types::AuthorizerLogs
 
     BadRequestException.add_member(:invalid_parameter, Shapes::ShapeRef.new(shape: __string, location_name: "invalidParameter"))
     BadRequestException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
@@ -1174,6 +1180,7 @@ module Aws::Kafka
     LogDelivery.add_member(:replicator_log_delivery, Shapes::ShapeRef.new(shape: ReplicatorLogDelivery, location_name: "replicatorLogDelivery"))
     LogDelivery.struct_class = Types::LogDelivery
 
+    LoggingInfo.add_member(:authorizer_logs, Shapes::ShapeRef.new(shape: AuthorizerLogs, location_name: "authorizerLogs"))
     LoggingInfo.add_member(:broker_logs, Shapes::ShapeRef.new(shape: BrokerLogs, required: true, location_name: "brokerLogs"))
     LoggingInfo.struct_class = Types::LoggingInfo
 

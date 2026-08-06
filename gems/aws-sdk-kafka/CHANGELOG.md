@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.118.0 (2026-08-06)
+------------------
+
+* Feature - MSK Clusters can now deliver authorizer logs alongside broker logs to the destinations defined by you
+
 1.117.0 (2026-07-30)
 ------------------
 

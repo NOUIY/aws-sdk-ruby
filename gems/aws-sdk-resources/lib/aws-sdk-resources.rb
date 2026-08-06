@@ -13,6 +13,8 @@ module Aws
   autoload :ARCZonalShift, 'aws-sdk-arczonalshift'
   autoload :AccessAnalyzer, 'aws-sdk-accessanalyzer'
   autoload :Account, 'aws-sdk-account'
+  autoload :AgentRegistry, 'aws-sdk-agentregistry'
+  autoload :AgentRegistryControl, 'aws-sdk-agentregistrycontrol'
   autoload :Amplify, 'aws-sdk-amplify'
   autoload :AmplifyBackend, 'aws-sdk-amplifybackend'
   autoload :AmplifyUIBuilder, 'aws-sdk-amplifyuibuilder'

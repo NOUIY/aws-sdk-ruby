@@ -51105,6 +51105,33 @@ module Aws::SageMaker
     #   reward prompt.
     #   @return [String]
     #
+    # @!attribute [rw] sequence_length
+    #   The maximum sequence length, in tokens, that the customization job
+    #   supports. SageMaker uses this value to select a training
+    #   configuration for the base model that you specify. The parameter
+    #   supports the following values:
+    #
+    #   * `1K`
+    #
+    #   * `2K`
+    #
+    #   * `4K`
+    #
+    #   * `8K`
+    #
+    #   * `16K`
+    #
+    #   * `32K`
+    #
+    #   * `64K`
+    #
+    #   * `128K`
+    #
+    #   If you don't specify a value, SageMaker selects a training
+    #   configuration based on the other values that you specify. The
+    #   selection is not restricted to a particular sequence length.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ServerlessJobConfig AWS API Documentation
     #
     class ServerlessJobConfig < Struct.new(
@@ -51114,7 +51141,8 @@ module Aws::SageMaker
       :customization_technique,
       :peft,
       :evaluation_type,
-      :evaluator_arn)
+      :evaluator_arn,
+      :sequence_length)
       SENSITIVE = []
       include Aws::Structure
     end

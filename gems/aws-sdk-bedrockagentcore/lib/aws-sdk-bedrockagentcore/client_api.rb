@@ -85,6 +85,9 @@ module Aws::BedrockAgentCore
     BrowserSessionSummary = Shapes::StructureShape.new(name: 'BrowserSessionSummary')
     BrowserSessionTimeout = Shapes::IntegerShape.new(name: 'BrowserSessionTimeout')
     BrowserStreamEndpoint = Shapes::StringShape.new(name: 'BrowserStreamEndpoint')
+    CapacityProviderArn = Shapes::StringShape.new(name: 'CapacityProviderArn')
+    CapacityProviderId = Shapes::StringShape.new(name: 'CapacityProviderId')
+    CapacityProviderSessionStatus = Shapes::StringShape.new(name: 'CapacityProviderSessionStatus')
     Certificate = Shapes::StructureShape.new(name: 'Certificate')
     CertificateLocation = Shapes::UnionShape.new(name: 'CertificateLocation')
     Certificates = Shapes::ListShape.new(name: 'Certificates')
@@ -159,6 +162,8 @@ module Aws::BedrockAgentCore
     DeleteABTestResponse = Shapes::StructureShape.new(name: 'DeleteABTestResponse')
     DeleteBatchEvaluationRequest = Shapes::StructureShape.new(name: 'DeleteBatchEvaluationRequest')
     DeleteBatchEvaluationResponse = Shapes::StructureShape.new(name: 'DeleteBatchEvaluationResponse')
+    DeleteCapacityProviderSessionRequest = Shapes::StructureShape.new(name: 'DeleteCapacityProviderSessionRequest')
+    DeleteCapacityProviderSessionResponse = Shapes::StructureShape.new(name: 'DeleteCapacityProviderSessionResponse')
     DeleteEventInput = Shapes::StructureShape.new(name: 'DeleteEventInput')
     DeleteEventOutput = Shapes::StructureShape.new(name: 'DeleteEventOutput')
     DeleteMemoryRecordInput = Shapes::StructureShape.new(name: 'DeleteMemoryRecordInput')
@@ -1244,6 +1249,15 @@ module Aws::BedrockAgentCore
     DeleteBatchEvaluationResponse.add_member(:batch_evaluation_arn, Shapes::ShapeRef.new(shape: BatchEvaluationArn, required: true, location_name: "batchEvaluationArn"))
     DeleteBatchEvaluationResponse.add_member(:status, Shapes::ShapeRef.new(shape: BatchEvaluationStatus, required: true, location_name: "status"))
     DeleteBatchEvaluationResponse.struct_class = Types::DeleteBatchEvaluationResponse
+
+    DeleteCapacityProviderSessionRequest.add_member(:capacity_provider_id, Shapes::ShapeRef.new(shape: CapacityProviderId, required: true, location: "uri", location_name: "capacityProviderId"))
+    DeleteCapacityProviderSessionRequest.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "uri", location_name: "sessionId"))
+    DeleteCapacityProviderSessionRequest.struct_class = Types::DeleteCapacityProviderSessionRequest
+
+    DeleteCapacityProviderSessionResponse.add_member(:capacity_provider_arn, Shapes::ShapeRef.new(shape: CapacityProviderArn, required: true, location_name: "capacityProviderArn"))
+    DeleteCapacityProviderSessionResponse.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
+    DeleteCapacityProviderSessionResponse.add_member(:status, Shapes::ShapeRef.new(shape: CapacityProviderSessionStatus, required: true, location_name: "status"))
+    DeleteCapacityProviderSessionResponse.struct_class = Types::DeleteCapacityProviderSessionResponse
 
     DeleteEventInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     DeleteEventInput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location: "uri", location_name: "sessionId"))
@@ -3484,6 +3498,19 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:delete_capacity_provider_session, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteCapacityProviderSession"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/capacity-providers/{capacityProviderId}/sessions/{sessionId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteCapacityProviderSessionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteCapacityProviderSessionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 

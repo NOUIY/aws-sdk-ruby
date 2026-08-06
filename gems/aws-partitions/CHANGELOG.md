@@ -1,6 +1,13 @@
 Unreleased Changes
 ------------------
 
+1.1278.0 (2026-08-06)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::AgentRegistryControl`.
+
+* Feature - Added support for enumerating regions for `Aws::AgentRegistry`.
+
 1.1277.0 (2026-07-31)
 ------------------
 

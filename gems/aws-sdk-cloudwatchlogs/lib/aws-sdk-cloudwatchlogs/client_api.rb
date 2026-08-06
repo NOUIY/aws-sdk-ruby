@@ -323,6 +323,8 @@ module Aws::CloudWatchLogs
     ImportStatus = Shapes::StringShape.new(name: 'ImportStatus')
     ImportStatusList = Shapes::ListShape.new(name: 'ImportStatusList')
     IncludeLinkedAccounts = Shapes::BooleanShape.new(name: 'IncludeLinkedAccounts')
+    IndexCategories = Shapes::ListShape.new(name: 'IndexCategories')
+    IndexCategory = Shapes::StringShape.new(name: 'IndexCategory')
     IndexPolicies = Shapes::ListShape.new(name: 'IndexPolicies')
     IndexPolicy = Shapes::StructureShape.new(name: 'IndexPolicy')
     IndexSource = Shapes::StringShape.new(name: 'IndexSource')
@@ -1171,6 +1173,7 @@ module Aws::CloudWatchLogs
     DescribeFieldIndexesLogGroupIdentifiers.member = Shapes::ShapeRef.new(shape: LogGroupIdentifier)
 
     DescribeFieldIndexesRequest.add_member(:log_group_identifiers, Shapes::ShapeRef.new(shape: DescribeFieldIndexesLogGroupIdentifiers, required: true, location_name: "logGroupIdentifiers"))
+    DescribeFieldIndexesRequest.add_member(:index_categories, Shapes::ShapeRef.new(shape: IndexCategories, location_name: "indexCategories"))
     DescribeFieldIndexesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     DescribeFieldIndexesRequest.struct_class = Types::DescribeFieldIndexesRequest
 
@@ -1376,6 +1379,7 @@ module Aws::CloudWatchLogs
     FieldIndex.add_member(:first_event_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "firstEventTime"))
     FieldIndex.add_member(:last_event_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastEventTime"))
     FieldIndex.add_member(:type, Shapes::ShapeRef.new(shape: IndexType, location_name: "type"))
+    FieldIndex.add_member(:index_category, Shapes::ShapeRef.new(shape: IndexCategory, location_name: "indexCategory"))
     FieldIndex.struct_class = Types::FieldIndex
 
     FieldIndexNames.member = Shapes::ShapeRef.new(shape: FieldIndexName)
@@ -1637,6 +1641,8 @@ module Aws::CloudWatchLogs
     ImportStatistics.struct_class = Types::ImportStatistics
 
     ImportStatusList.member = Shapes::ShapeRef.new(shape: ImportStatus)
+
+    IndexCategories.member = Shapes::ShapeRef.new(shape: IndexCategory)
 
     IndexPolicies.member = Shapes::ShapeRef.new(shape: IndexPolicy)
 

@@ -2533,6 +2533,7 @@ module Aws::SageMaker
     SendPipelineExecutionStepFailureResponse = Shapes::StructureShape.new(name: 'SendPipelineExecutionStepFailureResponse')
     SendPipelineExecutionStepSuccessRequest = Shapes::StructureShape.new(name: 'SendPipelineExecutionStepSuccessRequest')
     SendPipelineExecutionStepSuccessResponse = Shapes::StructureShape.new(name: 'SendPipelineExecutionStepSuccessResponse')
+    SequenceLength = Shapes::StringShape.new(name: 'SequenceLength')
     ServerlessJobBaseModelArn = Shapes::StringShape.new(name: 'ServerlessJobBaseModelArn')
     ServerlessJobConfig = Shapes::StructureShape.new(name: 'ServerlessJobConfig')
     ServerlessJobType = Shapes::StringShape.new(name: 'ServerlessJobType')
@@ -11914,6 +11915,7 @@ module Aws::SageMaker
     ServerlessJobConfig.add_member(:peft, Shapes::ShapeRef.new(shape: Peft, location_name: "Peft"))
     ServerlessJobConfig.add_member(:evaluation_type, Shapes::ShapeRef.new(shape: EvaluationType, location_name: "EvaluationType"))
     ServerlessJobConfig.add_member(:evaluator_arn, Shapes::ShapeRef.new(shape: EvaluatorArn, location_name: "EvaluatorArn"))
+    ServerlessJobConfig.add_member(:sequence_length, Shapes::ShapeRef.new(shape: SequenceLength, location_name: "SequenceLength"))
     ServerlessJobConfig.struct_class = Types::ServerlessJobConfig
 
     ServiceCatalogProvisionedProductDetails.add_member(:provisioned_product_id, Shapes::ShapeRef.new(shape: ServiceCatalogEntityId, location_name: "ProvisionedProductId"))

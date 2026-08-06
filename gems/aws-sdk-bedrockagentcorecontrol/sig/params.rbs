@@ -20,6 +20,28 @@ module Aws
       }?
     }
 
+      type limit_entry = {
+      dimensions: Hash[::String, ::String],
+      requests: Array[
+        {
+          rate: ::Float,
+          period: ("second" | "minute")
+        }
+      ]?,
+      tokens: Array[
+        {
+          rate: ::Float,
+          period: ("second" | "minute")
+        }
+      ]?,
+      connections: Array[
+        {
+          rate: ::Float,
+          period: ("second" | "minute")
+        }
+      ]?
+    }
+
       type code_configuration = {
       code: {
         s3: {
@@ -118,6 +140,10 @@ module Aws
       }?,
       efs_access_point: {
         access_point_arn: ::String,
+        mount_path: ::String
+      }?,
+      capacity_provider_volume: {
+        volume_name: ::String,
         mount_path: ::String
       }?
     }

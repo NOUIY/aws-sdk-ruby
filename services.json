@@ -26,6 +26,12 @@
   "Account": {
     "models": "account/2021-02-01"
   },
+  "AgentRegistry": {
+    "models": "agent-registry/2025-12-01"
+  },
+  "AgentRegistryControl": {
+    "models": "agent-registry-control/2025-12-01"
+  },
   "Amplify": {
     "models": "amplify/2017-07-25"
   },

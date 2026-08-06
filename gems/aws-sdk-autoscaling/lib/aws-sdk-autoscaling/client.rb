@@ -1422,6 +1422,13 @@ module Aws::AutoScaling
     #
     #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html
     #
+    # @option params [Types::Operator] :operator
+    #   The entity that manages the Auto Scaling group. If you specify this
+    #   parameter, Amazon EC2 Auto Scaling passes the operator identity to EC2
+    #   for instance launches and only allows the designated operator to make
+    #   changes to the Auto Scaling group. All mutating API calls from
+    #   non-operator callers are rejected with an `AccessDenied` exception.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     #
@@ -1718,6 +1725,9 @@ module Aws::AutoScaling
     #       retention_triggers: {
     #         terminate_hook_abandon: "retain", # accepts retain, terminate
     #       },
+    #     },
+    #     operator: {
+    #       principal: "ManagerIdentifier", # required
     #     },
     #   })
     #
@@ -2855,6 +2865,7 @@ module Aws::AutoScaling
     #   resp.auto_scaling_groups[0].capacity_reservation_specification.capacity_reservation_target.capacity_reservation_resource_group_arns #=> Array
     #   resp.auto_scaling_groups[0].capacity_reservation_specification.capacity_reservation_target.capacity_reservation_resource_group_arns[0] #=> String
     #   resp.auto_scaling_groups[0].instance_lifecycle_policy.retention_triggers.terminate_hook_abandon #=> String, one of "retain", "terminate"
+    #   resp.auto_scaling_groups[0].operator.principal #=> String
     #   resp.next_token #=> String
     #
     #
@@ -7747,7 +7758,7 @@ module Aws::AutoScaling
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-autoscaling'
-      context[:gem_version] = '1.163.0'
+      context[:gem_version] = '1.164.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

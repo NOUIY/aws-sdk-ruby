@@ -149,6 +149,7 @@ module Aws::AutoScaling
       attr_accessor availability_zone_impairment_policy: Types::AvailabilityZoneImpairmentPolicy
       attr_accessor capacity_reservation_specification: Types::CapacityReservationSpecification
       attr_accessor instance_lifecycle_policy: Types::InstanceLifecyclePolicy
+      attr_accessor operator: Types::Operator
       SENSITIVE: []
     end
 
@@ -323,6 +324,7 @@ module Aws::AutoScaling
       attr_accessor skip_zonal_shift_validation: bool
       attr_accessor capacity_reservation_specification: Types::CapacityReservationSpecification
       attr_accessor instance_lifecycle_policy: Types::InstanceLifecyclePolicy
+      attr_accessor operator: Types::Operator
       SENSITIVE: []
     end
 
@@ -1078,6 +1080,11 @@ module Aws::AutoScaling
       attr_accessor auto_scaling_group_name: ::String
       attr_accessor topic_arn: ::String
       attr_accessor notification_type: ::String
+      SENSITIVE: []
+    end
+
+    class Operator
+      attr_accessor principal: ::String
       SENSITIVE: []
     end
 

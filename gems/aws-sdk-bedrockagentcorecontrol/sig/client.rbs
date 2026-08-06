@@ -95,6 +95,27 @@ module Aws
                                 ) -> _AddDatasetExamplesResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AddDatasetExamplesResponseSuccess
 
+      interface _BatchPutGatewayRateLimitsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::BatchPutGatewayRateLimitsResponse]
+        def rate_limits: () -> ::Array[Types::GatewayRateLimitDetail]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#batch_put_gateway_rate_limits-instance_method
+      def batch_put_gateway_rate_limits: (
+                                           gateway_identifier: ::String,
+                                           ?client_token: ::String,
+                                           rate_limits: Array[
+                                             {
+                                               rate_limit_id: ::String?,
+                                               description: ::String?,
+                                               dimension_keys: Array[::String],
+                                               entries: Array[
+                                                 Params::limit_entry
+                                               ]
+                                             }
+                                           ]
+                                         ) -> _BatchPutGatewayRateLimitsResponseSuccess
+                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _BatchPutGatewayRateLimitsResponseSuccess
+
       interface _CreateAgentRuntimeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateAgentRuntimeResponse]
         def agent_runtime_arn: () -> ::String
@@ -109,7 +130,7 @@ module Aws
                                   agent_runtime_name: ::String,
                                   agent_runtime_artifact: Params::agent_runtime_artifact,
                                   role_arn: ::String,
-                                  network_configuration: Params::network_configuration,
+                                  ?network_configuration: Params::network_configuration,
                                   ?client_token: ::String,
                                   ?description: ::String,
                                   ?authorizer_configuration: Params::authorizer_configuration,
@@ -127,6 +148,9 @@ module Aws
                                   ?filesystem_configurations: Array[
                                     Params::filesystem_configuration
                                   ],
+                                  ?capacity_provider_configuration: {
+                                    capacity_provider_arn: ::String?
+                                  },
                                   ?tags: Hash[::String, ::String]
                                 ) -> _CreateAgentRuntimeResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAgentRuntimeResponseSuccess
@@ -248,6 +272,100 @@ module Aws
                                     ?tags: Hash[::String, ::String]
                                   ) -> _CreateBrowserProfileResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateBrowserProfileResponseSuccess
+
+      interface _CreateCapacityProviderResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateCapacityProviderOutput]
+        def capacity_provider_id: () -> ::String
+        def capacity_provider_arn: () -> ::String
+        def name: () -> ::String
+        def status: () -> ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_capacity_provider-instance_method
+      def create_capacity_provider: (
+                                      name: ::String,
+                                      ?description: ::String,
+                                      permissions_configuration: {
+                                        capacity_provider_operator_role_arn: ::String
+                                      },
+                                      ?client_token: ::String,
+                                      ?tags: Hash[::String, ::String],
+                                      compute_configuration: {
+                                        ec2_configuration: {
+                                          launch_template_source: {
+                                            launch_parameters: {
+                                              operating_system: ("LINUX_X86_64" | "LINUX_ARM64"),
+                                              instance_requirements: {
+                                                allowed_instance_types: Array[::String]
+                                              },
+                                              ephemeral_volumes: Array[
+                                                {
+                                                  device_name: ::String?,
+                                                  virtual_name: ::String?,
+                                                  ebs: {
+                                                    volume_type: ("standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3")?,
+                                                    iops: ::Integer?,
+                                                    throughput: ::Integer?,
+                                                    encrypted: bool?,
+                                                    kms_key_id: ::String?,
+                                                    snapshot_id: ::String?,
+                                                    volume_size: ::Integer?,
+                                                    volume_initialization_rate: ::Integer?,
+                                                    ebs_card_index: ::Integer?
+                                                  }?
+                                                }
+                                              ]?,
+                                              monitoring: ("BASIC" | "DETAILED")?,
+                                              license_specifications: Array[
+                                                {
+                                                  license_configuration_arn: ::String
+                                                }
+                                              ]?,
+                                              capacity_reservation_specification: {
+                                                capacity_reservation_preference: ("capacity-reservations-only" | "open" | "none")?,
+                                                capacity_reservation_target: {
+                                                  capacity_reservation_id: ::String?,
+                                                  capacity_reservation_resource_group_arn: ::String?
+                                                }?
+                                              }?,
+                                              ssh_key_name: ::String?,
+                                              instance_profile_arn: ::String?,
+                                              propagated_tags: Hash[::String, ::String]?
+                                            }?
+                                          },
+                                          vpc_configuration: {
+                                            subnets: Array[::String],
+                                            security_groups: Array[::String]
+                                          },
+                                          volumes: Array[
+                                            {
+                                              ebs_configuration: {
+                                                name: ::String,
+                                                size_gi_b: ::Integer,
+                                                volume_type: ("standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3")?,
+                                                iops: ::Integer?,
+                                                throughput: ::Integer?,
+                                                encrypted: bool?,
+                                                kms_key_id: ::String?,
+                                                snapshot_id: ::String?
+                                              }?
+                                            }
+                                          ]?,
+                                          lifecycle_configuration: {
+                                            idle_instance_timeout: ::Integer?,
+                                            max_lifetime: ::Integer?
+                                          }?,
+                                          root_volume: {
+                                            volume_type: ("standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3")?,
+                                            iops: ::Integer?,
+                                            throughput: ::Integer?,
+                                            encrypted: bool?,
+                                            kms_key_id: ::String?,
+                                            free_space_gi_b: ::Integer?
+                                          }?
+                                        }?
+                                      }
+                                    ) -> _CreateCapacityProviderResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateCapacityProviderResponseSuccess
 
       interface _CreateCodeInterpreterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateCodeInterpreterResponse]
@@ -413,6 +531,30 @@ module Aws
                             ?tags: Hash[::String, ::String]
                           ) -> _CreateGatewayResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateGatewayResponseSuccess
+
+      interface _CreateGatewayRateLimitResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateGatewayRateLimitResponse]
+        def rate_limit_id: () -> ::String
+        def gateway_identifier: () -> ::String
+        def description: () -> ::String
+        def dimension_keys: () -> ::Array[::String]
+        def entries: () -> ::Array[Types::LimitEntry]
+        def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_gateway_rate_limit-instance_method
+      def create_gateway_rate_limit: (
+                                       gateway_identifier: ::String,
+                                       ?client_token: ::String,
+                                       ?rate_limit_id: ::String,
+                                       ?description: ::String,
+                                       dimension_keys: Array[::String],
+                                       entries: Array[
+                                         Params::limit_entry
+                                       ]
+                                     ) -> _CreateGatewayRateLimitResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateGatewayRateLimitResponseSuccess
 
       interface _CreateGatewayRuleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateGatewayRuleResponse]
@@ -815,10 +957,12 @@ module Aws
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAgentRuntimeResponse]
         def status: () -> ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING")
         def agent_runtime_id: () -> ::String
+        def agent_runtime_version: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_agent_runtime-instance_method
       def delete_agent_runtime: (
                                   agent_runtime_id: ::String,
+                                  ?agent_runtime_version: ::String,
                                   ?client_token: ::String
                                 ) -> _DeleteAgentRuntimeResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteAgentRuntimeResponseSuccess
@@ -873,6 +1017,18 @@ module Aws
                                     ?client_token: ::String
                                   ) -> _DeleteBrowserProfileResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteBrowserProfileResponseSuccess
+
+      interface _DeleteCapacityProviderResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteCapacityProviderOutput]
+        def capacity_provider_id: () -> ::String
+        def status: () -> ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_capacity_provider-instance_method
+      def delete_capacity_provider: (
+                                      capacity_provider_id: ::String,
+                                      ?client_token: ::String
+                                    ) -> _DeleteCapacityProviderResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteCapacityProviderResponseSuccess
 
       interface _DeleteCodeInterpreterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteCodeInterpreterResponse]
@@ -952,6 +1108,18 @@ module Aws
                             gateway_identifier: ::String
                           ) -> _DeleteGatewayResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteGatewayResponseSuccess
+
+      interface _DeleteGatewayRateLimitResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteGatewayRateLimitResponse]
+        def rate_limit_id: () -> ::String
+        def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING")
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_gateway_rate_limit-instance_method
+      def delete_gateway_rate_limit: (
+                                       gateway_identifier: ::String,
+                                       rate_limit_id: ::String
+                                     ) -> _DeleteGatewayRateLimitResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteGatewayRateLimitResponseSuccess
 
       interface _DeleteGatewayRuleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteGatewayRuleResponse]
@@ -1169,6 +1337,7 @@ module Aws
         def request_header_configuration: () -> Types::RequestHeaderConfiguration
         def metadata_configuration: () -> Types::RuntimeMetadataConfiguration
         def filesystem_configurations: () -> ::Array[Types::FilesystemConfiguration]
+        def capacity_provider_configuration: () -> Types::CapacityProviderConfiguration
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_agent_runtime-instance_method
       def get_agent_runtime: (
@@ -1256,6 +1425,26 @@ module Aws
                                  profile_id: ::String
                                ) -> _GetBrowserProfileResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetBrowserProfileResponseSuccess
+
+      interface _GetCapacityProviderResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetCapacityProviderOutput]
+        def capacity_provider_id: () -> ::String
+        def capacity_provider_arn: () -> ::String
+        def name: () -> ::String
+        def status: () -> ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
+        def description: () -> ::String
+        def status_code: () -> ("VALIDATION_ERROR" | "QUOTA_EXCEEDED" | "THROTTLED" | "INTERNAL_SERVER_EXCEPTION")
+        def status_reason: () -> ::String
+        def permissions_configuration: () -> Types::PermissionsConfiguration
+        def compute_configuration: () -> Types::ComputeConfiguration
+        def created_at: () -> ::Time
+        def last_updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_capacity_provider-instance_method
+      def get_capacity_provider: (
+                                   capacity_provider_id: ::String
+                                 ) -> _GetCapacityProviderResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetCapacityProviderResponseSuccess
 
       interface _GetCodeInterpreterResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetCodeInterpreterResponse]
@@ -1395,6 +1584,24 @@ module Aws
                          gateway_identifier: ::String
                        ) -> _GetGatewayResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetGatewayResponseSuccess
+
+      interface _GetGatewayRateLimitResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetGatewayRateLimitResponse]
+        def rate_limit_id: () -> ::String
+        def gateway_identifier: () -> ::String
+        def description: () -> ::String
+        def dimension_keys: () -> ::Array[::String]
+        def entries: () -> ::Array[Types::LimitEntry]
+        def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_gateway_rate_limit-instance_method
+      def get_gateway_rate_limit: (
+                                    gateway_identifier: ::String,
+                                    rate_limit_id: ::String
+                                  ) -> _GetGatewayRateLimitResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetGatewayRateLimitResponseSuccess
 
       interface _GetGatewayRuleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetGatewayRuleResponse]
@@ -1794,6 +2001,19 @@ module Aws
                                        ) -> _ListAgentRuntimeVersionsResponseSuccess
                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAgentRuntimeVersionsResponseSuccess
 
+      interface _ListAgentRuntimeVersionsByCapacityProviderResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListAgentRuntimeVersionsByCapacityProviderOutput]
+        def agent_runtimes: () -> ::Array[Types::AgentRuntimeVersionSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_agent_runtime_versions_by_capacity_provider-instance_method
+      def list_agent_runtime_versions_by_capacity_provider: (
+                                                              capacity_provider_id: ::String,
+                                                              ?max_results: ::Integer,
+                                                              ?next_token: ::String
+                                                            ) -> _ListAgentRuntimeVersionsByCapacityProviderResponseSuccess
+                                                          | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListAgentRuntimeVersionsByCapacityProviderResponseSuccess
+
       interface _ListAgentRuntimesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListAgentRuntimesResponse]
         def agent_runtimes: () -> ::Array[Types::AgentRuntime]
@@ -1843,6 +2063,18 @@ module Aws
                            ?type: ("SYSTEM" | "CUSTOM")
                          ) -> _ListBrowsersResponseSuccess
                        | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListBrowsersResponseSuccess
+
+      interface _ListCapacityProvidersResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListCapacityProvidersOutput]
+        def capacity_providers: () -> ::Array[Types::CapacityProviderSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_capacity_providers-instance_method
+      def list_capacity_providers: (
+                                     ?max_results: ::Integer,
+                                     ?next_token: ::String
+                                   ) -> _ListCapacityProvidersResponseSuccess
+                                 | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListCapacityProvidersResponseSuccess
 
       interface _ListCodeInterpretersResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListCodeInterpretersResponse]
@@ -1940,6 +2172,19 @@ module Aws
                              ?max_results: ::Integer
                            ) -> _ListEvaluatorsResponseSuccess
                          | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListEvaluatorsResponseSuccess
+
+      interface _ListGatewayRateLimitsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListGatewayRateLimitsResponse]
+        def rate_limits: () -> ::Array[Types::GatewayRateLimitDetail]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#list_gateway_rate_limits-instance_method
+      def list_gateway_rate_limits: (
+                                      gateway_identifier: ::String,
+                                      ?max_results: ::Integer,
+                                      ?next_token: ::String
+                                    ) -> _ListGatewayRateLimitsResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListGatewayRateLimitsResponseSuccess
 
       interface _ListGatewayRulesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListGatewayRulesResponse]
@@ -2349,7 +2594,7 @@ module Aws
                                   agent_runtime_id: ::String,
                                   agent_runtime_artifact: Params::agent_runtime_artifact,
                                   role_arn: ::String,
-                                  network_configuration: Params::network_configuration,
+                                  ?network_configuration: Params::network_configuration,
                                   ?description: ::String,
                                   ?authorizer_configuration: Params::authorizer_configuration,
                                   ?request_header_configuration: {
@@ -2369,6 +2614,9 @@ module Aws
                                   ?filesystem_configurations: Array[
                                     Params::filesystem_configuration
                                   ],
+                                  ?capacity_provider_configuration: {
+                                    capacity_provider_arn: ::String?
+                                  },
                                   ?client_token: ::String
                                 ) -> _UpdateAgentRuntimeResponseSuccess
                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAgentRuntimeResponseSuccess
@@ -2414,6 +2662,25 @@ module Aws
                                                 ?api_key_secret_source: ("MANAGED" | "EXTERNAL")
                                               ) -> _UpdateApiKeyCredentialProviderResponseSuccess
                                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateApiKeyCredentialProviderResponseSuccess
+
+      interface _UpdateCapacityProviderResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateCapacityProviderOutput]
+        def capacity_provider_id: () -> ::String
+        def capacity_provider_arn: () -> ::String
+        def name: () -> ::String
+        def status: () -> ("CREATING" | "CREATE_FAILED" | "UPDATING" | "UPDATE_FAILED" | "READY" | "DELETING" | "DELETE_FAILED")
+        def created_at: () -> ::Time
+        def last_updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_capacity_provider-instance_method
+      def update_capacity_provider: (
+                                      capacity_provider_id: ::String,
+                                      ?description: {
+                                        optional_value: ::String?
+                                      },
+                                      ?client_token: ::String
+                                    ) -> _UpdateCapacityProviderResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCapacityProviderResponseSuccess
 
       interface _UpdateConfigurationBundleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateConfigurationBundleResponse]
@@ -2548,6 +2815,28 @@ module Aws
                             }
                           ) -> _UpdateGatewayResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGatewayResponseSuccess
+
+      interface _UpdateGatewayRateLimitResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateGatewayRateLimitResponse]
+        def rate_limit_id: () -> ::String
+        def gateway_identifier: () -> ::String
+        def description: () -> ::String
+        def dimension_keys: () -> ::Array[::String]
+        def entries: () -> ::Array[Types::LimitEntry]
+        def status: () -> ("CREATING" | "ACTIVE" | "UPDATING" | "DELETING")
+        def created_at: () -> ::Time
+        def updated_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_gateway_rate_limit-instance_method
+      def update_gateway_rate_limit: (
+                                       gateway_identifier: ::String,
+                                       rate_limit_id: ::String,
+                                       ?description: ::String,
+                                       entries: Array[
+                                         Params::limit_entry
+                                       ]
+                                     ) -> _UpdateGatewayRateLimitResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateGatewayRateLimitResponseSuccess
 
       interface _UpdateGatewayRuleResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateGatewayRuleResponse]

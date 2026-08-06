@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.635.0 (2026-08-06)
+------------------
+
+* Feature - Adds a new optional IncludeLocalZones parameter to the Spot Placement Score API that defaults to false. When set to true, the Spot Placement Score API will consider the relevant Local Zones with Spot capacity when computing the Spot Placement Score.
+
 1.634.0 (2026-08-04)
 ------------------
 

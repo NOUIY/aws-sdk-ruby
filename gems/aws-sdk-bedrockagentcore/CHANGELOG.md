@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.46.0 (2026-08-06)
+------------------
+
+* Feature - Add support for capacity provider sessions in Amazon Bedrock AgentCore. Customers can now delete an active session running on a runtime instance launched through their capacity provider.
+
 1.45.0 (2026-07-23)
 ------------------
 

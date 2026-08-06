@@ -43,6 +43,7 @@ module Aws::MediaTailor
     ChannelState = Shapes::StringShape.new(name: 'ChannelState')
     ClipRange = Shapes::StructureShape.new(name: 'ClipRange')
     CompressionMethod = Shapes::StringShape.new(name: 'CompressionMethod')
+    ConcurrentExecutorConfiguration = Shapes::StructureShape.new(name: 'ConcurrentExecutorConfiguration')
     ConfigurationAliasesRequest = Shapes::MapShape.new(name: 'ConfigurationAliasesRequest')
     ConfigurationAliasesResponse = Shapes::MapShape.new(name: 'ConfigurationAliasesResponse')
     ConfigureLogsForChannelRequest = Shapes::StructureShape.new(name: 'ConfigureLogsForChannelRequest')
@@ -357,6 +358,13 @@ module Aws::MediaTailor
     ClipRange.add_member(:start_offset_millis, Shapes::ShapeRef.new(shape: __long, location_name: "StartOffsetMillis"))
     ClipRange.struct_class = Types::ClipRange
 
+    ConcurrentExecutorConfiguration.add_member(:runtime, Shapes::ShapeRef.new(shape: RuntimeType, required: true, location_name: "Runtime"))
+    ConcurrentExecutorConfiguration.add_member(:output, Shapes::ShapeRef.new(shape: __mapOf__string, required: true, location_name: "Output"))
+    ConcurrentExecutorConfiguration.add_member(:function_list, Shapes::ShapeRef.new(shape: __listOfFunctionsRef, required: true, location_name: "FunctionList"))
+    ConcurrentExecutorConfiguration.add_member(:timeout_milliseconds, Shapes::ShapeRef.new(shape: __integer, required: true, location_name: "TimeoutMilliseconds"))
+    ConcurrentExecutorConfiguration.add_member(:max_concurrency, Shapes::ShapeRef.new(shape: __integer, required: true, location_name: "MaxConcurrency"))
+    ConcurrentExecutorConfiguration.struct_class = Types::ConcurrentExecutorConfiguration
+
     ConfigurationAliasesRequest.key = Shapes::ShapeRef.new(shape: __string)
     ConfigurationAliasesRequest.value = Shapes::ShapeRef.new(shape: __mapOf__string)
 
@@ -660,6 +668,7 @@ module Aws::MediaTailor
     Function.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "Description"))
     Function.add_member(:http_request_configuration, Shapes::ShapeRef.new(shape: HttpRequestConfiguration, location_name: "HttpRequestConfiguration"))
     Function.add_member(:custom_output_configuration, Shapes::ShapeRef.new(shape: CustomOutputConfiguration, location_name: "CustomOutputConfiguration"))
+    Function.add_member(:concurrent_executor_configuration, Shapes::ShapeRef.new(shape: ConcurrentExecutorConfiguration, location_name: "ConcurrentExecutorConfiguration"))
     Function.add_member(:sequential_executor_configuration, Shapes::ShapeRef.new(shape: SequentialExecutorConfiguration, location_name: "SequentialExecutorConfiguration"))
     Function.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     Function.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "Arn"))
@@ -670,6 +679,7 @@ module Aws::MediaTailor
 
     FunctionRef.add_member(:run_condition, Shapes::ShapeRef.new(shape: __string, location_name: "RunCondition"))
     FunctionRef.add_member(:function_id, Shapes::ShapeRef.new(shape: __string, location_name: "FunctionId"))
+    FunctionRef.add_member(:alias, Shapes::ShapeRef.new(shape: __string, location_name: "Alias"))
     FunctionRef.struct_class = Types::FunctionRef
 
     GetChannelPolicyRequest.add_member(:channel_name, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "ChannelName"))
@@ -697,6 +707,7 @@ module Aws::MediaTailor
     GetFunctionResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "Description"))
     GetFunctionResponse.add_member(:http_request_configuration, Shapes::ShapeRef.new(shape: HttpRequestConfiguration, location_name: "HttpRequestConfiguration"))
     GetFunctionResponse.add_member(:custom_output_configuration, Shapes::ShapeRef.new(shape: CustomOutputConfiguration, location_name: "CustomOutputConfiguration"))
+    GetFunctionResponse.add_member(:concurrent_executor_configuration, Shapes::ShapeRef.new(shape: ConcurrentExecutorConfiguration, location_name: "ConcurrentExecutorConfiguration"))
     GetFunctionResponse.add_member(:sequential_executor_configuration, Shapes::ShapeRef.new(shape: SequentialExecutorConfiguration, location_name: "SequentialExecutorConfiguration"))
     GetFunctionResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     GetFunctionResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "Arn"))
@@ -957,6 +968,7 @@ module Aws::MediaTailor
     PutFunctionRequest.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "Description"))
     PutFunctionRequest.add_member(:http_request_configuration, Shapes::ShapeRef.new(shape: HttpRequestConfiguration, location_name: "HttpRequestConfiguration"))
     PutFunctionRequest.add_member(:custom_output_configuration, Shapes::ShapeRef.new(shape: CustomOutputConfiguration, location_name: "CustomOutputConfiguration"))
+    PutFunctionRequest.add_member(:concurrent_executor_configuration, Shapes::ShapeRef.new(shape: ConcurrentExecutorConfiguration, location_name: "ConcurrentExecutorConfiguration"))
     PutFunctionRequest.add_member(:sequential_executor_configuration, Shapes::ShapeRef.new(shape: SequentialExecutorConfiguration, location_name: "SequentialExecutorConfiguration"))
     PutFunctionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     PutFunctionRequest.struct_class = Types::PutFunctionRequest
@@ -966,6 +978,7 @@ module Aws::MediaTailor
     PutFunctionResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "Description"))
     PutFunctionResponse.add_member(:http_request_configuration, Shapes::ShapeRef.new(shape: HttpRequestConfiguration, location_name: "HttpRequestConfiguration"))
     PutFunctionResponse.add_member(:custom_output_configuration, Shapes::ShapeRef.new(shape: CustomOutputConfiguration, location_name: "CustomOutputConfiguration"))
+    PutFunctionResponse.add_member(:concurrent_executor_configuration, Shapes::ShapeRef.new(shape: ConcurrentExecutorConfiguration, location_name: "ConcurrentExecutorConfiguration"))
     PutFunctionResponse.add_member(:sequential_executor_configuration, Shapes::ShapeRef.new(shape: SequentialExecutorConfiguration, location_name: "SequentialExecutorConfiguration"))
     PutFunctionResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     PutFunctionResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "Arn"))

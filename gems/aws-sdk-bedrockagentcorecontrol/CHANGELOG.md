@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.63.0 (2026-08-06)
+------------------
+
+* Feature - Add support for Gateway rate limits and Runtime instances in Amazon Bedrock AgentCore. Customers can now configure rate limits scoped to control request rates, token consumption rates, and active connection rates. Customers can now create capacity providers to launch runtimes on their EC2 instances.
+
 1.62.0 (2026-08-05)
 ------------------
 

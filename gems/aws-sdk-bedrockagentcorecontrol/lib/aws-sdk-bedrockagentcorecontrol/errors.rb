@@ -35,6 +35,7 @@ module Aws::BedrockAgentCoreControl
   # * {InternalServerException}
   # * {ResourceLimitExceededException}
   # * {ResourceNotFoundException}
+  # * {RetryableConflictException}
   # * {ServiceException}
   # * {ServiceQuotaExceededException}
   # * {ThrottledException}
@@ -165,6 +166,25 @@ module Aws::BedrockAgentCoreControl
       # @return [String]
       def message
         @message || @data[:message]
+      end
+    end
+
+    class RetryableConflictException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::BedrockAgentCoreControl::Types::RetryableConflictException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+
+      def retryable?
+        true
       end
     end
 

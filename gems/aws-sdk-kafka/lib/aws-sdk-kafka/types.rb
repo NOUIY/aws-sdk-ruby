@@ -43,6 +43,31 @@ module Aws::Kafka
       include Aws::Structure
     end
 
+    # The authorizer logs configuration for this MSK cluster.
+    #
+    # @!attribute [rw] cloud_watch_logs
+    #   Details of the CloudWatch Logs destination for authorizer logs.
+    #   @return [Types::CloudWatchLogs]
+    #
+    # @!attribute [rw] firehose
+    #   Details of the Kinesis Data Firehose delivery stream that is the
+    #   destination for authorizer logs.
+    #   @return [Types::Firehose]
+    #
+    # @!attribute [rw] s3
+    #   Details of the Amazon S3 destination for authorizer logs.
+    #   @return [Types::S3]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/AuthorizerLogs AWS API Documentation
+    #
+    class AuthorizerLogs < Struct.new(
+      :cloud_watch_logs,
+      :firehose,
+      :s3)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Request body for BatchAssociateScramSecret.
     #
     # @!attribute [rw] cluster_arn
@@ -4045,6 +4070,11 @@ module Aws::Kafka
     # destination types. This is a container for the configuration details
     # related to broker logs.
     #
+    # @!attribute [rw] authorizer_logs
+    #   You can configure your MSK cluster to send authorizer logs to
+    #   different destination types.
+    #   @return [Types::AuthorizerLogs]
+    #
     # @!attribute [rw] broker_logs
     #   You can configure your MSK cluster to send broker logs to different
     #   destination types. This configuration specifies the details of these
@@ -4054,6 +4084,7 @@ module Aws::Kafka
     # @see http://docs.aws.amazon.com/goto/WebAPI/kafka-2018-11-14/LoggingInfo AWS API Documentation
     #
     class LoggingInfo < Struct.new(
+      :authorizer_logs,
       :broker_logs)
       SENSITIVE = []
       include Aws::Structure

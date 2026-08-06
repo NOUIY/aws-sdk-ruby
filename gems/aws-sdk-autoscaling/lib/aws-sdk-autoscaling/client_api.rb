@@ -254,6 +254,7 @@ module Aws::AutoScaling
     LocalStorage = Shapes::StringShape.new(name: 'LocalStorage')
     LocalStorageType = Shapes::StringShape.new(name: 'LocalStorageType')
     LocalStorageTypes = Shapes::ListShape.new(name: 'LocalStorageTypes')
+    ManagerIdentifier = Shapes::StringShape.new(name: 'ManagerIdentifier')
     MaxGroupPreparedCapacity = Shapes::IntegerShape.new(name: 'MaxGroupPreparedCapacity')
     MaxInstanceLifetime = Shapes::IntegerShape.new(name: 'MaxInstanceLifetime')
     MaxNumberOfAutoScalingGroups = Shapes::IntegerShape.new(name: 'MaxNumberOfAutoScalingGroups')
@@ -300,6 +301,7 @@ module Aws::AutoScaling
     NumberOfLaunchConfigurations = Shapes::IntegerShape.new(name: 'NumberOfLaunchConfigurations')
     OnDemandBaseCapacity = Shapes::IntegerShape.new(name: 'OnDemandBaseCapacity')
     OnDemandPercentageAboveBaseCapacity = Shapes::IntegerShape.new(name: 'OnDemandPercentageAboveBaseCapacity')
+    Operator = Shapes::StructureShape.new(name: 'Operator')
     Overrides = Shapes::ListShape.new(name: 'Overrides')
     PerformanceFactorReferenceRequest = Shapes::StructureShape.new(name: 'PerformanceFactorReferenceRequest')
     PerformanceFactorReferenceSetRequest = Shapes::ListShape.new(name: 'PerformanceFactorReferenceSetRequest')
@@ -563,6 +565,7 @@ module Aws::AutoScaling
     AutoScalingGroup.add_member(:availability_zone_impairment_policy, Shapes::ShapeRef.new(shape: AvailabilityZoneImpairmentPolicy, location_name: "AvailabilityZoneImpairmentPolicy"))
     AutoScalingGroup.add_member(:capacity_reservation_specification, Shapes::ShapeRef.new(shape: CapacityReservationSpecification, location_name: "CapacityReservationSpecification"))
     AutoScalingGroup.add_member(:instance_lifecycle_policy, Shapes::ShapeRef.new(shape: InstanceLifecyclePolicy, location_name: "InstanceLifecyclePolicy"))
+    AutoScalingGroup.add_member(:operator, Shapes::ShapeRef.new(shape: Operator, location_name: "Operator"))
     AutoScalingGroup.struct_class = Types::AutoScalingGroup
 
     AutoScalingGroupNames.member = Shapes::ShapeRef.new(shape: XmlStringMaxLen255)
@@ -722,6 +725,7 @@ module Aws::AutoScaling
     CreateAutoScalingGroupType.add_member(:skip_zonal_shift_validation, Shapes::ShapeRef.new(shape: SkipZonalShiftValidation, location_name: "SkipZonalShiftValidation"))
     CreateAutoScalingGroupType.add_member(:capacity_reservation_specification, Shapes::ShapeRef.new(shape: CapacityReservationSpecification, location_name: "CapacityReservationSpecification"))
     CreateAutoScalingGroupType.add_member(:instance_lifecycle_policy, Shapes::ShapeRef.new(shape: InstanceLifecyclePolicy, location_name: "InstanceLifecyclePolicy"))
+    CreateAutoScalingGroupType.add_member(:operator, Shapes::ShapeRef.new(shape: Operator, location_name: "Operator"))
     CreateAutoScalingGroupType.struct_class = Types::CreateAutoScalingGroupType
 
     CreateLaunchConfigurationType.add_member(:launch_configuration_name, Shapes::ShapeRef.new(shape: XmlStringMaxLen255, required: true, location_name: "LaunchConfigurationName"))
@@ -1329,6 +1333,9 @@ module Aws::AutoScaling
     NotificationConfiguration.struct_class = Types::NotificationConfiguration
 
     NotificationConfigurations.member = Shapes::ShapeRef.new(shape: NotificationConfiguration)
+
+    Operator.add_member(:principal, Shapes::ShapeRef.new(shape: ManagerIdentifier, required: true, location_name: "Principal"))
+    Operator.struct_class = Types::Operator
 
     Overrides.member = Shapes::ShapeRef.new(shape: LaunchTemplateOverrides)
 

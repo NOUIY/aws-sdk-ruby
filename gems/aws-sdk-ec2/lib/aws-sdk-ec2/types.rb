@@ -48194,6 +48194,14 @@ module Aws::EC2
     #   request.
     #   @return [String]
     #
+    # @!attribute [rw] include_local_zones
+    #   Specify `true` so that the response returns scores that include
+    #   Local Zones. Otherwise, the response ignores Local Zones.
+    #
+    #   When you request regional scores, Local Zone capacity counts toward
+    #   its parent Region.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetSpotPlacementScoresRequest AWS API Documentation
     #
     class GetSpotPlacementScoresRequest < Struct.new(
@@ -48205,7 +48213,8 @@ module Aws::EC2
       :instance_requirements_with_metadata,
       :dry_run,
       :max_results,
-      :next_token)
+      :next_token,
+      :include_local_zones)
       SENSITIVE = []
       include Aws::Structure
     end

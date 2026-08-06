@@ -1969,6 +1969,49 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # @!attribute [rw] capacity_provider_id
+    #   The unique identifier of the capacity provider associated with the
+    #   session.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the capacity provider session to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteCapacityProviderSessionRequest AWS API Documentation
+    #
+    class DeleteCapacityProviderSessionRequest < Struct.new(
+      :capacity_provider_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_provider_arn
+    #   The Amazon Resource Name (ARN) of the capacity provider associated
+    #   with the deleted session.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The unique identifier of the deleted capacity provider session.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the capacity provider session. When the status
+    #   is `Deleting`, the session is being deleted and is not available.
+    #   When the status is `Deleted`, the session is no longer available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteCapacityProviderSessionResponse AWS API Documentation
+    #
+    class DeleteCapacityProviderSessionResponse < Struct.new(
+      :capacity_provider_arn,
+      :session_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] memory_id
     #   The identifier of the AgentCore Memory resource from which to delete
     #   the event.

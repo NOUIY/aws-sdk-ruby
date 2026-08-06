@@ -1164,8 +1164,10 @@ module Aws::CloudWatchLogs
     #   @return [String]
     #
     # @!attribute [rw] query_id
-    #   The ID of a completed CloudWatch Logs query whose results populate
-    #   the lookup table.
+    #   The ID of a completed or cancelled CloudWatch Logs query whose
+    #   results populate the lookup table. A cancelled query populates the
+    #   table with the partial results that were available when the query
+    #   was stopped.
     #
     #   You must specify either `tableBody` or `queryId`, but not both.
     #   @return [String]
@@ -2488,6 +2490,39 @@ module Aws::CloudWatchLogs
     #   want to retrieve field indexes for.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] index_categories
+    #   The index categories to return. The following values are supported:
+    #
+    #   * `DEFAULT`: Fields that CloudWatch Logs indexes by default.
+    #     Examples include `@logStream` and `@data_format`.
+    #
+    #   * `CUSTOM`: Fields that you added manually to the field index
+    #     policy. CloudWatch Logs always indexes these fields. These fields
+    #     count toward the quota of 20 fields for each log group.
+    #
+    #   * `AUTO`: Fields that CloudWatch Logs indexes automatically based on
+    #     your query patterns and usage. These fields do not count toward
+    #     the field index quota. CloudWatch Logs might update these fields
+    #     based on changes in your query patterns. To keep a field indexed
+    #     permanently, add it to an account-level or log-group level field
+    #     index policy.
+    #
+    #   * `INACTIVE`: Fields that CloudWatch Logs indexed before but does
+    #     not index now. This happens if you remove a field from the field
+    #     index policy or if CloudWatch Logs automatically selects a
+    #     different field based on your queries.
+    #
+    #   If you omit this parameter, the response includes the `DEFAULT`,
+    #   `CUSTOM`, and `INACTIVE` categories.
+    #
+    #   For more information about automatically indexed fields and using
+    #   the `AUTO` category, see [Automatically indexed fields][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Automatic.html
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] next_token
     #   The token for the next set of items to return. The token expires
     #   after 24 hours.
@@ -2497,6 +2532,7 @@ module Aws::CloudWatchLogs
     #
     class DescribeFieldIndexesRequest < Struct.new(
       :log_group_identifiers,
+      :index_categories,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -3508,6 +3544,36 @@ module Aws::CloudWatchLogs
     #   field is indexed and can be queried.
     #   @return [String]
     #
+    # @!attribute [rw] index_category
+    #   The category of the field index:
+    #
+    #   * `DEFAULT`: Fields that CloudWatch Logs indexes by default.
+    #     Examples include `@logStream` and `@data_format`.
+    #
+    #   * `CUSTOM`: Fields that you added manually to the field index
+    #     policy. CloudWatch Logs always indexes these fields. These fields
+    #     count toward the quota of 20 fields for each log group.
+    #
+    #   * `AUTO`: Fields that CloudWatch Logs indexes automatically based on
+    #     your query patterns and usage. These fields do not count toward
+    #     the field index quota. CloudWatch Logs might update these fields
+    #     based on changes in your query patterns. To keep a field indexed
+    #     permanently, add it to an account-level or log-group level field
+    #     index policy.
+    #
+    #   * `INACTIVE`: Fields that CloudWatch Logs indexed before but does
+    #     not index now. This happens if you remove a field from the field
+    #     index policy or if CloudWatch Logs automatically selects a
+    #     different field based on your queries.
+    #
+    #   For more information about automatically indexed fields, see
+    #   [Automatically indexed fields][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Automatic.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/FieldIndex AWS API Documentation
     #
     class FieldIndex < Struct.new(
@@ -3516,7 +3582,8 @@ module Aws::CloudWatchLogs
       :last_scan_time,
       :first_event_time,
       :last_event_time,
-      :type)
+      :type,
+      :index_category)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3581,6 +3648,11 @@ module Aws::CloudWatchLogs
     #   The start of the time range, expressed as the number of milliseconds
     #   after `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp before
     #   this time are not returned.
+    #
+    #   <note markdown="1"> Set `startTime` explicitly to reduce the chances of empty pages in
+    #   the response.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] end_time
@@ -4031,6 +4103,11 @@ module Aws::CloudWatchLogs
     #   after `Jan 1, 1970 00:00:00 UTC`. Events with a timestamp equal to
     #   this time or later than this time are included. Events with a
     #   timestamp earlier than this time are not included.
+    #
+    #   <note markdown="1"> Set `startTime` explicitly to reduce the chances of empty pages in
+    #   the response.
+    #
+    #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] end_time
@@ -8044,6 +8121,10 @@ module Aws::CloudWatchLogs
     # @!attribute [rw] log_type
     #   Defines the type of log that the source is sending.
     #
+    #   * For Application Load Balancer, the valid values are
+    #     `ALB_ACCESS_LOGS`, `ALB_CONNECTION_LOGS`, and
+    #     `ALB_HEALTH_CHECK_LOGS`.
+    #
     #   * For Amazon Bedrock Agents, the valid values are `APPLICATION_LOGS`
     #     and `EVENT_LOGS`.
     #
@@ -10662,8 +10743,10 @@ module Aws::CloudWatchLogs
     #   @return [String]
     #
     # @!attribute [rw] query_id
-    #   The ID of a completed CloudWatch Logs query whose results replace
-    #   the lookup table content.
+    #   The ID of a completed or cancelled CloudWatch Logs query whose
+    #   results replace the lookup table content. A cancelled query replaces
+    #   the content with the partial results that were available when the
+    #   query was stopped.
     #
     #   You must specify either `tableBody` or `queryId`, but not both.
     #   @return [String]

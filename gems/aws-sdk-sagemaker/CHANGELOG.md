@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.382.0 (2026-08-06)
+------------------
+
+* Feature - Releases new Model Customization SequenceLength parameter for Training and g7 instance types for Training and Processing.
+
 1.381.0 (2026-07-30)
 ------------------
 

@@ -19,6 +19,13 @@ module Aws::Kafka
       SENSITIVE: []
     end
 
+    class AuthorizerLogs
+      attr_accessor cloud_watch_logs: Types::CloudWatchLogs
+      attr_accessor firehose: Types::Firehose
+      attr_accessor s3: Types::S3
+      SENSITIVE: []
+    end
+
     class BatchAssociateScramSecretRequest
       attr_accessor cluster_arn: ::String
       attr_accessor secret_arn_list: ::Array[::String]
@@ -1130,6 +1137,7 @@ module Aws::Kafka
     end
 
     class LoggingInfo
+      attr_accessor authorizer_logs: Types::AuthorizerLogs
       attr_accessor broker_logs: Types::BrokerLogs
       SENSITIVE: []
     end
