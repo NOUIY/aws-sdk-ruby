@@ -197,10 +197,16 @@ module Aws::MediaTailor
     #   server.
     #   @return [Types::HttpRequest]
     #
+    # @!attribute [rw] vast_response
+    #   The settings that control how MediaTailor processes VAST responses
+    #   from the ad decision server.
+    #   @return [Types::VastResponse]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/AdDecisionServerConfiguration AWS API Documentation
     #
     class AdDecisionServerConfiguration < Struct.new(
-      :http_request)
+      :http_request,
+      :vast_response)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3708,11 +3714,18 @@ module Aws::MediaTailor
     #   returns.
     #   @return [Integer]
     #
+    # @!attribute [rw] ad_decision_server_configuration
+    #   The configuration for the ad decision server (ADS) for live pre-roll
+    #   ads. The configuration contains settings that control how
+    #   MediaTailor processes VAST responses for pre-roll ad breaks.
+    #   @return [Types::PreRollAdDecisionServerConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/LivePreRollConfiguration AWS API Documentation
     #
     class LivePreRollConfiguration < Struct.new(
       :ad_decision_server_url,
-      :max_duration_seconds)
+      :max_duration_seconds,
+      :ad_decision_server_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4117,6 +4130,43 @@ module Aws::MediaTailor
       :function_mapping,
       :ads_personalization_timeouts,
       :ads_personalization_concurrency)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The ad decision server configuration for live pre-roll ads. It
+    # contains settings that control how MediaTailor processes VAST
+    # responses for pre-roll ad breaks.
+    #
+    # @!attribute [rw] vast_response
+    #   The settings that control how MediaTailor processes VAST responses
+    #   for live pre-roll ad breaks.
+    #   @return [Types::PreRollVastResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/PreRollAdDecisionServerConfiguration AWS API Documentation
+    #
+    class PreRollAdDecisionServerConfiguration < Struct.new(
+      :vast_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The settings that control how MediaTailor processes VAST responses
+    # from the ad decision server for live pre-roll ad breaks.
+    #
+    # @!attribute [rw] ad_sequencing_mode
+    #   The ad sequencing mode for live pre-roll ads. `FOLLOW_AD_SEQUENCE`
+    #   inserts sequenced ads in increasing order and uses standalone ads
+    #   only as replacements when a sequenced ad fails. `IGNORE_AD_SEQUENCE`
+    #   inserts ads in the order they appear in the VAST response,
+    #   regardless of sequence attributes. The default behavior is
+    #   `IGNORE_AD_SEQUENCE`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/PreRollVastResponse AWS API Documentation
+    #
+    class PreRollVastResponse < Struct.new(
+      :ad_sequencing_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6216,6 +6266,30 @@ module Aws::MediaTailor
       :source_location_name,
       :tags,
       :vod_source_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The settings that control how MediaTailor processes VAST responses
+    # from the ad decision server.
+    #
+    # @!attribute [rw] ad_sequencing_mode
+    #   The ad sequencing mode that controls how MediaTailor handles
+    #   sequenced and standalone ads in VAST responses. `FOLLOW_AD_SEQUENCE`
+    #   inserts sequenced ads in increasing order for both live and VOD
+    #   workflows, using standalone ads only as replacements when a
+    #   sequenced ad fails. `FOLLOW_AD_SEQUENCE_ONLY_LIVE` enables ad
+    #   sequencing for live workflows only. `FOLLOW_AD_SEQUENCE_ONLY_VOD`
+    #   enables ad sequencing for VOD workflows only. `IGNORE_AD_SEQUENCE`
+    #   inserts ads in the order they appear in the VAST response,
+    #   regardless of sequence attributes. The default behavior is
+    #   `IGNORE_AD_SEQUENCE`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediatailor-2018-04-23/VastResponse AWS API Documentation
+    #
+    class VastResponse < Struct.new(
+      :ad_sequencing_mode)
       SENSITIVE = []
       include Aws::Structure
     end

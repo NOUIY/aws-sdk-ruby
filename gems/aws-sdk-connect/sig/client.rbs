@@ -5206,6 +5206,17 @@ module Aws
                                    ) -> _UpdateContactScheduleResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateContactScheduleResponseSuccess
 
+      interface _UpdateContactTaskTemplateResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateContactTaskTemplateResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_contact_task_template-instance_method
+      def update_contact_task_template: (
+                                          instance_id: ::String,
+                                          task_template_id: ::String,
+                                          contact_id: ::String
+                                        ) -> _UpdateContactTaskTemplateResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateContactTaskTemplateResponseSuccess
+
       interface _UpdateDataTableAttributeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateDataTableAttributeResponse]
         def name: () -> ::String

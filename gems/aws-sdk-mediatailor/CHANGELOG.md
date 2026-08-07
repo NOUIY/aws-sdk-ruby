@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.126.0 (2026-08-07)
+------------------
+
+* Feature - Added support for inserting ads via the VAST Ad Buffet standard. You can now configure MediaTailor to insert ads in sequence order using the AdSequencingMode setting in your playback configuration. Standalone ads are used as fallbacks when a sequenced ad is unavailable.
+
 1.125.0 (2026-08-06)
 ------------------
 

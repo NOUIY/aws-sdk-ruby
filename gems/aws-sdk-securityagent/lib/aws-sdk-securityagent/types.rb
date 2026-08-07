@@ -88,14 +88,24 @@ module Aws::SecurityAgent
     #   A description of the actor.
     #   @return [String]
     #
+    # @!attribute [rw] enable_email_mfa
+    #   Whether email-based MFA is enabled for this actor.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] mfa_forwarding_address
+    #   Server-generated email forwarding address for receiving MFA codes.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/Actor AWS API Documentation
     #
     class Actor < Struct.new(
       :identifier,
       :uris,
       :authentication,
-      :description)
-      SENSITIVE = []
+      :description,
+      :enable_email_mfa,
+      :mfa_forwarding_address)
+      SENSITIVE = [:mfa_forwarding_address]
       include Aws::Structure
     end
 

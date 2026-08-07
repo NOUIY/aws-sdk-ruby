@@ -390,6 +390,7 @@ module Aws::SecurityAgent
     SecurityRequirementSummaryList = Shapes::ListShape.new(name: 'SecurityRequirementSummaryList')
     SelfManagedInput = Shapes::StructureShape.new(name: 'SelfManagedInput')
     SensitiveEmail = Shapes::StringShape.new(name: 'SensitiveEmail')
+    SensitiveEmailAddress = Shapes::StringShape.new(name: 'SensitiveEmailAddress')
     ServiceManagedInput = Shapes::StructureShape.new(name: 'ServiceManagedInput')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceRole = Shapes::StringShape.new(name: 'ServiceRole')
@@ -528,6 +529,8 @@ module Aws::SecurityAgent
     Actor.add_member(:uris, Shapes::ShapeRef.new(shape: UriList, location_name: "uris"))
     Actor.add_member(:authentication, Shapes::ShapeRef.new(shape: Authentication, location_name: "authentication"))
     Actor.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    Actor.add_member(:enable_email_mfa, Shapes::ShapeRef.new(shape: Boolean, location_name: "enableEmailMfa"))
+    Actor.add_member(:mfa_forwarding_address, Shapes::ShapeRef.new(shape: SensitiveEmailAddress, location_name: "mfaForwardingAddress"))
     Actor.struct_class = Types::Actor
 
     ActorList.member = Shapes::ShapeRef.new(shape: Actor)

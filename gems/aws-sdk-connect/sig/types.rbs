@@ -6202,7 +6202,7 @@ module Aws::Connect
 
     class PropertyValidationExceptionProperty
       attr_accessor property_path: ::String
-      attr_accessor reason: ("INVALID_FORMAT" | "UNIQUE_CONSTRAINT_VIOLATED" | "REFERENCED_RESOURCE_NOT_FOUND" | "RESOURCE_NAME_ALREADY_EXISTS" | "REQUIRED_PROPERTY_MISSING" | "NOT_SUPPORTED")
+      attr_accessor reason: ("INVALID_FORMAT" | "UNIQUE_CONSTRAINT_VIOLATED" | "REFERENCED_RESOURCE_NOT_FOUND" | "RESOURCE_NAME_ALREADY_EXISTS" | "REQUIRED_PROPERTY_MISSING" | "NOT_SUPPORTED" | "TYPE_MISMATCH")
       attr_accessor message: ::String
       SENSITIVE: []
     end
@@ -8430,6 +8430,16 @@ module Aws::Connect
     end
 
     class UpdateContactScheduleResponse < Aws::EmptyStructure
+    end
+
+    class UpdateContactTaskTemplateRequest
+      attr_accessor instance_id: ::String
+      attr_accessor task_template_id: ::String
+      attr_accessor contact_id: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateContactTaskTemplateResponse < Aws::EmptyStructure
     end
 
     class UpdateDataTableAttributeRequest

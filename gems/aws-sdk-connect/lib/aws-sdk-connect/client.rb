@@ -2020,7 +2020,7 @@ module Aws::Connect
     #
     # @option params [required, String] :associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -2030,6 +2030,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #
     # @return [Types::BatchGetAttachedFileMetadataResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2429,7 +2430,7 @@ module Aws::Connect
     #
     # @option params [required, String] :associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -2439,6 +2440,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -6306,8 +6308,8 @@ module Aws::Connect
     #   The unique identifier of the attached file resource.
     #
     # @option params [required, String] :associated_resource_arn
-    #   The resource to which the attached file is (being) uploaded to.
-    #   [Cases][1] are the only current supported resource.
+    #   The resource to which the attached file is (being) uploaded to. The
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -6315,7 +6317,9 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
+    #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -6338,17 +6342,16 @@ module Aws::Connect
 
     # Deletes the specified fields containing personally identifiable
     # information (PII) from a contact in the specified Connect Customer
-    # instance. This operation redacts PII (such as customer endpoints,
-    # additional email recipients, and the email subject) from the contact
-    # and its associated contact trace record (CTR). The contact must be in
-    # a terminated state.
+    # instance. We redact PII (such as customer endpoints, additional email
+    # recipients, and the email subject) from the contact and its associated
+    # contact trace record (CTR). The contact must be in a terminated state.
     #
-    # This operation performs a hard deletion of the specified PII and
-    # cannot be undone. There is no retention period; after the data is
-    # deleted, it cannot be recovered. Only fields that Connect Customer
-    # identifies and stores as PII are removed. Any PII that you place in
-    # fields outside the scope of this operation remains your responsibility
-    # to remove.
+    # **This deletion is permanent and cannot be undone.** Performing this
+    # operation permanently deletes the specified PII. There is no retention
+    # period; you cannot recover the data after deletion. We remove only the
+    # fields that Connect Customer identifies and stores as PII. Any PII
+    # that you place in fields outside the scope of this operation remains
+    # your responsibility to remove.
     #
     # @option params [required, String] :instance_id
     #   The identifier of the Connect Customer instance. You can [find the
@@ -6359,14 +6362,20 @@ module Aws::Connect
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
     #
     # @option params [required, String] :contact_id
-    #   The identifier of the contact. PII can be deleted only from a contact
+    #   The identifier of the contact. You can delete PII only from a contact
     #   that has been disconnected (is in a terminated state).
     #
     # @option params [required, Array<String>] :contact_fields
-    #   The categories of PII to redact from the contact. Valid values are
-    #   `CUSTOMER_ENDPOINT`, `ADDITIONAL_EMAIL_RECIPIENTS`, and
-    #   `EMAIL_SUBJECT`. `ADDITIONAL_EMAIL_RECIPIENTS` and `EMAIL_SUBJECT` are
-    #   supported only for contacts in the email channel.
+    #   The categories of PII to redact from the contact. Specify one or more
+    #   of the following values:
+    #
+    #   * `CUSTOMER_ENDPOINT` – The customer's contact endpoint.
+    #
+    #   * `ADDITIONAL_EMAIL_RECIPIENTS` – Additional recipients on an email
+    #     contact (email channel only).
+    #
+    #   * `EMAIL_SUBJECT` – The subject line of an email contact (email
+    #     channel only).
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -11131,7 +11140,7 @@ module Aws::Connect
     #
     # @option params [required, String] :associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -11141,6 +11150,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #
     # @return [Types::GetAttachedFileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -23417,13 +23427,14 @@ module Aws::Connect
     # Provides a pre-signed Amazon S3 URL in response for uploading your
     # content.
     #
-    # You may only use this API to upload attachments to an [Connect
-    # Customer Case][1] or [Connect Customer Email][2].
+    # You may only use this API to upload attachments to a [Connect Customer
+    # Case][1], [Connect Customer Email][2], or [Connect Customer Task][3].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html
     # [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    # [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
@@ -23458,7 +23469,7 @@ module Aws::Connect
     #
     # @option params [required, String] :associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -23468,6 +23479,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #
     # @option params [Types::CreatedByInfo] :created_by
     #   Represents the identity that created the file.
@@ -26872,6 +26884,92 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Updates the task template association on an existing task contact. You
+    # can update the task template on a contact before assignment to support
+    # tasks that are created without a template (for example [Rules][1] or
+    # [disconnect flows][2]) or change the agent interaction form to
+    # represent the latest task data (for example an initial request that
+    # was submitted as a refund gets updated to an account cancellation and
+    # requires a new template).
+    #
+    # This operation can only be used with task contacts that are in
+    # progress and not connected to an agent. A task template can be updated
+    # a maximum of 5 times per contact.
+    #
+    # The task's references must be compatible with the fields of the
+    # target task template. If the target template has a required field, the
+    # task must have a corresponding reference with a matching name and
+    # compatible type. The following task template field types map to
+    # reference types:
+    #
+    # * `TEXT`, `TEXT_AREA`, `BOOLEAN`, and `SINGLE_SELECT` map to
+    #   references of type `STRING`.
+    #
+    # * `NUMBER` maps to references of type `NUMBER`.
+    #
+    # * `DATE_TIME` maps to references of type `DATE`.
+    #
+    # * `URL` maps to references of type `URL`.
+    #
+    # * `EMAIL` maps to references of type `EMAIL`.
+    #
+    # References corresponding to `TEXT` fields must be fewer than 512
+    # characters. `TEXT_AREA` fields must be fewer than 4,096 characters.
+    # `BOOLEAN` fields must have a value of `true` or `false`.
+    #
+    # An `InvalidRequestException` occurs when `UpdateContactTaskTemplate`
+    # is called on a connected or terminated task, when it is called on
+    # non-task contacts, and when the task contact already uses the provided
+    # task template. A `PropertyValidationException` occurs when the task's
+    # references conflict with the task template's fields, for example if
+    # the task is missing a reference that matches a required field, or if
+    # the task has a reference that matches a required field's name but not
+    # its datatype.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/connect-rules.html
+    # [2]: https://docs.aws.amazon.com/connect/latest/adminguide/set-disconnect-flow.html
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :task_template_id
+    #   A unique identifier for the task template. For more information about
+    #   task templates, see [Task templates][1] in the *Connect Customer
+    #   Administrator Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html
+    #
+    # @option params [required, String] :contact_id
+    #   The identifier of the contact in this instance of Connect Customer.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_contact_task_template({
+    #     instance_id: "InstanceId", # required
+    #     task_template_id: "TaskTemplateId", # required
+    #     contact_id: "ContactId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateContactTaskTemplate AWS API Documentation
+    #
+    # @overload update_contact_task_template(params = {})
+    # @param [Hash] params ({})
+    def update_contact_task_template(params = {}, options = {})
+      req = build_request(:update_contact_task_template, params)
+      req.send_request(options)
+    end
+
     # Updates all properties for an attribute using all properties from
     # CreateDataTableAttribute. There are no other granular update
     # endpoints. It does not act as a patch operation - all properties must
@@ -30193,7 +30291,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.267.0'
+      context[:gem_version] = '1.268.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

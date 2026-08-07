@@ -863,7 +863,12 @@ module Aws
                                         ?insertion_mode: ("STITCHED_ONLY" | "PLAYER_SELECT"),
                                         ?live_pre_roll_configuration: {
                                           ad_decision_server_url: ::String?,
-                                          max_duration_seconds: ::Integer?
+                                          max_duration_seconds: ::Integer?,
+                                          ad_decision_server_configuration: {
+                                            vast_response: {
+                                              ad_sequencing_mode: ("FOLLOW_AD_SEQUENCE" | "IGNORE_AD_SEQUENCE")?
+                                            }?
+                                          }?
                                         },
                                         ?manifest_processing_rules: {
                                           ad_marker_passthrough: {
@@ -885,6 +890,9 @@ module Aws
                                             body: ::String?,
                                             headers: Hash[::String, ::String]?,
                                             compress_request: ("NONE" | "GZIP")?
+                                          }?,
+                                          vast_response: {
+                                            ad_sequencing_mode: ("FOLLOW_AD_SEQUENCE" | "IGNORE_AD_SEQUENCE" | "FOLLOW_AD_SEQUENCE_ONLY_LIVE" | "FOLLOW_AD_SEQUENCE_ONLY_VOD")?
                                           }?
                                         },
                                         ?function_mapping: Hash[("PRE_SESSION_INITIALIZATION" | "PRE_ADS_REQUEST"), ::String],

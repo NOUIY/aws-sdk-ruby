@@ -645,6 +645,8 @@ module Aws::SecurityAgent
     #   resp.deleted[0].assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.deleted[0].assets.actors[0].authentication.value #=> String
     #   resp.deleted[0].assets.actors[0].description #=> String
+    #   resp.deleted[0].assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.deleted[0].assets.actors[0].mfa_forwarding_address #=> String
     #   resp.deleted[0].assets.documents #=> Array
     #   resp.deleted[0].assets.documents[0].s3_location #=> String
     #   resp.deleted[0].assets.documents[0].artifact_id #=> String
@@ -1021,6 +1023,8 @@ module Aws::SecurityAgent
     #   resp.code_reviews[0].assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.code_reviews[0].assets.actors[0].authentication.value #=> String
     #   resp.code_reviews[0].assets.actors[0].description #=> String
+    #   resp.code_reviews[0].assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.code_reviews[0].assets.actors[0].mfa_forwarding_address #=> String
     #   resp.code_reviews[0].assets.documents #=> Array
     #   resp.code_reviews[0].assets.documents[0].s3_location #=> String
     #   resp.code_reviews[0].assets.documents[0].artifact_id #=> String
@@ -1218,6 +1222,8 @@ module Aws::SecurityAgent
     #   resp.pentest_jobs[0].actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.pentest_jobs[0].actors[0].authentication.value #=> String
     #   resp.pentest_jobs[0].actors[0].description #=> String
+    #   resp.pentest_jobs[0].actors[0].enable_email_mfa #=> Boolean
+    #   resp.pentest_jobs[0].actors[0].mfa_forwarding_address #=> String
     #   resp.pentest_jobs[0].documents #=> Array
     #   resp.pentest_jobs[0].documents[0].s3_location #=> String
     #   resp.pentest_jobs[0].documents[0].artifact_id #=> String
@@ -1314,6 +1320,8 @@ module Aws::SecurityAgent
     #   resp.pentests[0].assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.pentests[0].assets.actors[0].authentication.value #=> String
     #   resp.pentests[0].assets.actors[0].description #=> String
+    #   resp.pentests[0].assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.pentests[0].assets.actors[0].mfa_forwarding_address #=> String
     #   resp.pentests[0].assets.documents #=> Array
     #   resp.pentests[0].assets.documents[0].s3_location #=> String
     #   resp.pentests[0].assets.documents[0].artifact_id #=> String
@@ -1600,6 +1608,8 @@ module Aws::SecurityAgent
     #   resp.threat_models[0].assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.threat_models[0].assets.actors[0].authentication.value #=> String
     #   resp.threat_models[0].assets.actors[0].description #=> String
+    #   resp.threat_models[0].assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.threat_models[0].assets.actors[0].mfa_forwarding_address #=> String
     #   resp.threat_models[0].assets.documents #=> Array
     #   resp.threat_models[0].assets.documents[0].s3_location #=> String
     #   resp.threat_models[0].assets.documents[0].artifact_id #=> String
@@ -1956,6 +1966,8 @@ module Aws::SecurityAgent
     #             value: "String",
     #           },
     #           description: "String",
+    #           enable_email_mfa: false,
+    #           mfa_forwarding_address: "SensitiveEmailAddress",
     #         },
     #       ],
     #       documents: [
@@ -2005,6 +2017,8 @@ module Aws::SecurityAgent
     #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.assets.actors[0].authentication.value #=> String
     #   resp.assets.actors[0].description #=> String
+    #   resp.assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.assets.actors[0].mfa_forwarding_address #=> String
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
@@ -2226,6 +2240,8 @@ module Aws::SecurityAgent
     #             value: "String",
     #           },
     #           description: "String",
+    #           enable_email_mfa: false,
+    #           mfa_forwarding_address: "SensitiveEmailAddress",
     #         },
     #       ],
     #       documents: [
@@ -2296,6 +2312,8 @@ module Aws::SecurityAgent
     #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.assets.actors[0].authentication.value #=> String
     #   resp.assets.actors[0].description #=> String
+    #   resp.assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.assets.actors[0].mfa_forwarding_address #=> String
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
@@ -2715,6 +2733,8 @@ module Aws::SecurityAgent
     #             value: "String",
     #           },
     #           description: "String",
+    #           enable_email_mfa: false,
+    #           mfa_forwarding_address: "SensitiveEmailAddress",
     #         },
     #       ],
     #       documents: [
@@ -2778,6 +2798,8 @@ module Aws::SecurityAgent
     #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.assets.actors[0].authentication.value #=> String
     #   resp.assets.actors[0].description #=> String
+    #   resp.assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.assets.actors[0].mfa_forwarding_address #=> String
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
@@ -5100,6 +5122,8 @@ module Aws::SecurityAgent
     #             value: "String",
     #           },
     #           description: "String",
+    #           enable_email_mfa: false,
+    #           mfa_forwarding_address: "SensitiveEmailAddress",
     #         },
     #       ],
     #       documents: [
@@ -5149,6 +5173,8 @@ module Aws::SecurityAgent
     #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.assets.actors[0].authentication.value #=> String
     #   resp.assets.actors[0].description #=> String
+    #   resp.assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.assets.actors[0].mfa_forwarding_address #=> String
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
@@ -5381,6 +5407,8 @@ module Aws::SecurityAgent
     #             value: "String",
     #           },
     #           description: "String",
+    #           enable_email_mfa: false,
+    #           mfa_forwarding_address: "SensitiveEmailAddress",
     #         },
     #       ],
     #       documents: [
@@ -5451,6 +5479,8 @@ module Aws::SecurityAgent
     #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.assets.actors[0].authentication.value #=> String
     #   resp.assets.actors[0].description #=> String
+    #   resp.assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.assets.actors[0].mfa_forwarding_address #=> String
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
@@ -5837,6 +5867,8 @@ module Aws::SecurityAgent
     #             value: "String",
     #           },
     #           description: "String",
+    #           enable_email_mfa: false,
+    #           mfa_forwarding_address: "SensitiveEmailAddress",
     #         },
     #       ],
     #       documents: [
@@ -5894,6 +5926,8 @@ module Aws::SecurityAgent
     #   resp.assets.actors[0].authentication.provider_type #=> String, one of "SECRETS_MANAGER", "AWS_LAMBDA", "AWS_IAM_ROLE", "AWS_INTERNAL"
     #   resp.assets.actors[0].authentication.value #=> String
     #   resp.assets.actors[0].description #=> String
+    #   resp.assets.actors[0].enable_email_mfa #=> Boolean
+    #   resp.assets.actors[0].mfa_forwarding_address #=> String
     #   resp.assets.documents #=> Array
     #   resp.assets.documents[0].s3_location #=> String
     #   resp.assets.documents[0].artifact_id #=> String
@@ -5984,7 +6018,7 @@ module Aws::SecurityAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-securityagent'
-      context[:gem_version] = '1.10.0'
+      context[:gem_version] = '1.11.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -148,6 +148,7 @@ module Aws::EC2
     AsnAssociationSet = Shapes::ListShape.new(name: 'AsnAssociationSet')
     AsnAssociationState = Shapes::StringShape.new(name: 'AsnAssociationState')
     AsnAuthorizationContext = Shapes::StructureShape.new(name: 'AsnAuthorizationContext')
+    AsnList = Shapes::ListShape.new(name: 'AsnList')
     AsnState = Shapes::StringShape.new(name: 'AsnState')
     AssetId = Shapes::StringShape.new(name: 'AssetId')
     AssetIdList = Shapes::ListShape.new(name: 'AssetIdList')
@@ -275,6 +276,8 @@ module Aws::EC2
     BaselinePerformanceFactors = Shapes::StructureShape.new(name: 'BaselinePerformanceFactors')
     BaselinePerformanceFactorsRequest = Shapes::StructureShape.new(name: 'BaselinePerformanceFactorsRequest')
     BaselineThroughputInMBps = Shapes::FloatShape.new(name: 'BaselineThroughputInMBps')
+    BatchModifyIpamRoutingPolicyRegistrationsRequest = Shapes::StructureShape.new(name: 'BatchModifyIpamRoutingPolicyRegistrationsRequest')
+    BatchModifyIpamRoutingPolicyRegistrationsResult = Shapes::StructureShape.new(name: 'BatchModifyIpamRoutingPolicyRegistrationsResult')
     BatchState = Shapes::StringShape.new(name: 'BatchState')
     BgpStatus = Shapes::StringShape.new(name: 'BgpStatus')
     BillingProductList = Shapes::ListShape.new(name: 'BillingProductList')
@@ -430,6 +433,7 @@ module Aws::EC2
     CertificateAuthentication = Shapes::StructureShape.new(name: 'CertificateAuthentication')
     CertificateAuthenticationRequest = Shapes::StructureShape.new(name: 'CertificateAuthenticationRequest')
     CertificateId = Shapes::StringShape.new(name: 'CertificateId')
+    ChronologicalOrder = Shapes::StringShape.new(name: 'ChronologicalOrder')
     CidrAuthorizationContext = Shapes::StructureShape.new(name: 'CidrAuthorizationContext')
     CidrBlock = Shapes::StructureShape.new(name: 'CidrBlock')
     CidrBlockSet = Shapes::ListShape.new(name: 'CidrBlockSet')
@@ -595,6 +599,8 @@ module Aws::EC2
     CreateInterruptibleCapacityReservationAllocationResult = Shapes::StructureShape.new(name: 'CreateInterruptibleCapacityReservationAllocationResult')
     CreateIpamExternalResourceVerificationTokenRequest = Shapes::StructureShape.new(name: 'CreateIpamExternalResourceVerificationTokenRequest')
     CreateIpamExternalResourceVerificationTokenResult = Shapes::StructureShape.new(name: 'CreateIpamExternalResourceVerificationTokenResult')
+    CreateIpamInternetRegistryAssociationRequest = Shapes::StructureShape.new(name: 'CreateIpamInternetRegistryAssociationRequest')
+    CreateIpamInternetRegistryAssociationResult = Shapes::StructureShape.new(name: 'CreateIpamInternetRegistryAssociationResult')
     CreateIpamPolicyRequest = Shapes::StructureShape.new(name: 'CreateIpamPolicyRequest')
     CreateIpamPolicyResult = Shapes::StructureShape.new(name: 'CreateIpamPolicyResult')
     CreateIpamPoolRequest = Shapes::StructureShape.new(name: 'CreateIpamPoolRequest')
@@ -607,6 +613,8 @@ module Aws::EC2
     CreateIpamResourceDiscoveryRequest = Shapes::StructureShape.new(name: 'CreateIpamResourceDiscoveryRequest')
     CreateIpamResourceDiscoveryResult = Shapes::StructureShape.new(name: 'CreateIpamResourceDiscoveryResult')
     CreateIpamResult = Shapes::StructureShape.new(name: 'CreateIpamResult')
+    CreateIpamRoutingPolicyRegistrationRequest = Shapes::StructureShape.new(name: 'CreateIpamRoutingPolicyRegistrationRequest')
+    CreateIpamRoutingPolicyRegistrationResult = Shapes::StructureShape.new(name: 'CreateIpamRoutingPolicyRegistrationResult')
     CreateIpamScopeRequest = Shapes::StructureShape.new(name: 'CreateIpamScopeRequest')
     CreateIpamScopeResult = Shapes::StructureShape.new(name: 'CreateIpamScopeResult')
     CreateKeyPairRequest = Shapes::StructureShape.new(name: 'CreateKeyPairRequest')
@@ -845,6 +853,8 @@ module Aws::EC2
     DeleteInternetGatewayRequest = Shapes::StructureShape.new(name: 'DeleteInternetGatewayRequest')
     DeleteIpamExternalResourceVerificationTokenRequest = Shapes::StructureShape.new(name: 'DeleteIpamExternalResourceVerificationTokenRequest')
     DeleteIpamExternalResourceVerificationTokenResult = Shapes::StructureShape.new(name: 'DeleteIpamExternalResourceVerificationTokenResult')
+    DeleteIpamInternetRegistryAssociationRequest = Shapes::StructureShape.new(name: 'DeleteIpamInternetRegistryAssociationRequest')
+    DeleteIpamInternetRegistryAssociationResult = Shapes::StructureShape.new(name: 'DeleteIpamInternetRegistryAssociationResult')
     DeleteIpamPolicyRequest = Shapes::StructureShape.new(name: 'DeleteIpamPolicyRequest')
     DeleteIpamPolicyResult = Shapes::StructureShape.new(name: 'DeleteIpamPolicyResult')
     DeleteIpamPoolRequest = Shapes::StructureShape.new(name: 'DeleteIpamPoolRequest')
@@ -857,6 +867,8 @@ module Aws::EC2
     DeleteIpamResourceDiscoveryRequest = Shapes::StructureShape.new(name: 'DeleteIpamResourceDiscoveryRequest')
     DeleteIpamResourceDiscoveryResult = Shapes::StructureShape.new(name: 'DeleteIpamResourceDiscoveryResult')
     DeleteIpamResult = Shapes::StructureShape.new(name: 'DeleteIpamResult')
+    DeleteIpamRoutingPolicyRegistrationRequest = Shapes::StructureShape.new(name: 'DeleteIpamRoutingPolicyRegistrationRequest')
+    DeleteIpamRoutingPolicyRegistrationResult = Shapes::StructureShape.new(name: 'DeleteIpamRoutingPolicyRegistrationResult')
     DeleteIpamScopeRequest = Shapes::StructureShape.new(name: 'DeleteIpamScopeRequest')
     DeleteIpamScopeResult = Shapes::StructureShape.new(name: 'DeleteIpamScopeResult')
     DeleteKeyPairRequest = Shapes::StructureShape.new(name: 'DeleteKeyPairRequest')
@@ -1218,6 +1230,8 @@ module Aws::EC2
     DescribeIpamByoasnResult = Shapes::StructureShape.new(name: 'DescribeIpamByoasnResult')
     DescribeIpamExternalResourceVerificationTokensRequest = Shapes::StructureShape.new(name: 'DescribeIpamExternalResourceVerificationTokensRequest')
     DescribeIpamExternalResourceVerificationTokensResult = Shapes::StructureShape.new(name: 'DescribeIpamExternalResourceVerificationTokensResult')
+    DescribeIpamInternetRegistryAssociationsRequest = Shapes::StructureShape.new(name: 'DescribeIpamInternetRegistryAssociationsRequest')
+    DescribeIpamInternetRegistryAssociationsResult = Shapes::StructureShape.new(name: 'DescribeIpamInternetRegistryAssociationsResult')
     DescribeIpamPoliciesRequest = Shapes::StructureShape.new(name: 'DescribeIpamPoliciesRequest')
     DescribeIpamPoliciesResult = Shapes::StructureShape.new(name: 'DescribeIpamPoliciesResult')
     DescribeIpamPoolAllocationsMaxResults = Shapes::IntegerShape.new(name: 'DescribeIpamPoolAllocationsMaxResults')
@@ -1710,6 +1724,8 @@ module Aws::EC2
     EnableImageResult = Shapes::StructureShape.new(name: 'EnableImageResult')
     EnableInstanceSqlHaStandbyDetectionsRequest = Shapes::StructureShape.new(name: 'EnableInstanceSqlHaStandbyDetectionsRequest')
     EnableInstanceSqlHaStandbyDetectionsResult = Shapes::StructureShape.new(name: 'EnableInstanceSqlHaStandbyDetectionsResult')
+    EnableIpamInternetRegistryAssociationRequest = Shapes::StructureShape.new(name: 'EnableIpamInternetRegistryAssociationRequest')
+    EnableIpamInternetRegistryAssociationResult = Shapes::StructureShape.new(name: 'EnableIpamInternetRegistryAssociationResult')
     EnableIpamOrganizationAdminAccountRequest = Shapes::StructureShape.new(name: 'EnableIpamOrganizationAdminAccountRequest')
     EnableIpamOrganizationAdminAccountResult = Shapes::StructureShape.new(name: 'EnableIpamOrganizationAdminAccountResult')
     EnableIpamPolicyRequest = Shapes::StructureShape.new(name: 'EnableIpamPolicyRequest')
@@ -1928,6 +1944,12 @@ module Aws::EC2
     GetIpamDiscoveredPublicAddressesResult = Shapes::StructureShape.new(name: 'GetIpamDiscoveredPublicAddressesResult')
     GetIpamDiscoveredResourceCidrsRequest = Shapes::StructureShape.new(name: 'GetIpamDiscoveredResourceCidrsRequest')
     GetIpamDiscoveredResourceCidrsResult = Shapes::StructureShape.new(name: 'GetIpamDiscoveredResourceCidrsResult')
+    GetIpamDiscoveredRoutesRequest = Shapes::StructureShape.new(name: 'GetIpamDiscoveredRoutesRequest')
+    GetIpamDiscoveredRoutesResult = Shapes::StructureShape.new(name: 'GetIpamDiscoveredRoutesResult')
+    GetIpamInternetRegistryAssociationAsnsRequest = Shapes::StructureShape.new(name: 'GetIpamInternetRegistryAssociationAsnsRequest')
+    GetIpamInternetRegistryAssociationAsnsResult = Shapes::StructureShape.new(name: 'GetIpamInternetRegistryAssociationAsnsResult')
+    GetIpamInternetRegistryAssociationCidrsRequest = Shapes::StructureShape.new(name: 'GetIpamInternetRegistryAssociationCidrsRequest')
+    GetIpamInternetRegistryAssociationCidrsResult = Shapes::StructureShape.new(name: 'GetIpamInternetRegistryAssociationCidrsResult')
     GetIpamPolicyAllocationRulesRequest = Shapes::StructureShape.new(name: 'GetIpamPolicyAllocationRulesRequest')
     GetIpamPolicyAllocationRulesResult = Shapes::StructureShape.new(name: 'GetIpamPolicyAllocationRulesResult')
     GetIpamPolicyOrganizationTargetsRequest = Shapes::StructureShape.new(name: 'GetIpamPolicyOrganizationTargetsRequest')
@@ -1945,6 +1967,14 @@ module Aws::EC2
     GetIpamPrefixListResolverVersionsResult = Shapes::StructureShape.new(name: 'GetIpamPrefixListResolverVersionsResult')
     GetIpamResourceCidrsRequest = Shapes::StructureShape.new(name: 'GetIpamResourceCidrsRequest')
     GetIpamResourceCidrsResult = Shapes::StructureShape.new(name: 'GetIpamResourceCidrsResult')
+    GetIpamRouteOriginAuthorizationsRequest = Shapes::StructureShape.new(name: 'GetIpamRouteOriginAuthorizationsRequest')
+    GetIpamRouteOriginAuthorizationsResult = Shapes::StructureShape.new(name: 'GetIpamRouteOriginAuthorizationsResult')
+    GetIpamRouteProtectionFindingsRequest = Shapes::StructureShape.new(name: 'GetIpamRouteProtectionFindingsRequest')
+    GetIpamRouteProtectionFindingsResult = Shapes::StructureShape.new(name: 'GetIpamRouteProtectionFindingsResult')
+    GetIpamRoutingPolicyRegistrationDeltasRequest = Shapes::StructureShape.new(name: 'GetIpamRoutingPolicyRegistrationDeltasRequest')
+    GetIpamRoutingPolicyRegistrationDeltasResult = Shapes::StructureShape.new(name: 'GetIpamRoutingPolicyRegistrationDeltasResult')
+    GetIpamRoutingPolicyRegistrationsRequest = Shapes::StructureShape.new(name: 'GetIpamRoutingPolicyRegistrationsRequest')
+    GetIpamRoutingPolicyRegistrationsResult = Shapes::StructureShape.new(name: 'GetIpamRoutingPolicyRegistrationsResult')
     GetLaunchTemplateDataRequest = Shapes::StructureShape.new(name: 'GetLaunchTemplateDataRequest')
     GetLaunchTemplateDataResult = Shapes::StructureShape.new(name: 'GetLaunchTemplateDataResult')
     GetManagedPrefixListAssociationsMaxResults = Shapes::IntegerShape.new(name: 'GetManagedPrefixListAssociationsMaxResults')
@@ -2365,6 +2395,8 @@ module Aws::EC2
     IpamAddressHistoryRecordSet = Shapes::ListShape.new(name: 'IpamAddressHistoryRecordSet')
     IpamAddressHistoryResourceType = Shapes::StringShape.new(name: 'IpamAddressHistoryResourceType')
     IpamAssociatedResourceDiscoveryStatus = Shapes::StringShape.new(name: 'IpamAssociatedResourceDiscoveryStatus')
+    IpamByoipAdvertisementType = Shapes::StringShape.new(name: 'IpamByoipAdvertisementType')
+    IpamByoipCidrState = Shapes::StringShape.new(name: 'IpamByoipCidrState')
     IpamCidrAuthorizationContext = Shapes::StructureShape.new(name: 'IpamCidrAuthorizationContext')
     IpamComplianceStatus = Shapes::StringShape.new(name: 'IpamComplianceStatus')
     IpamDiscoveredAccount = Shapes::StructureShape.new(name: 'IpamDiscoveredAccount')
@@ -2373,6 +2405,8 @@ module Aws::EC2
     IpamDiscoveredPublicAddressSet = Shapes::ListShape.new(name: 'IpamDiscoveredPublicAddressSet')
     IpamDiscoveredResourceCidr = Shapes::StructureShape.new(name: 'IpamDiscoveredResourceCidr')
     IpamDiscoveredResourceCidrSet = Shapes::ListShape.new(name: 'IpamDiscoveredResourceCidrSet')
+    IpamDiscoveredRoute = Shapes::StructureShape.new(name: 'IpamDiscoveredRoute')
+    IpamDiscoveredRouteSet = Shapes::ListShape.new(name: 'IpamDiscoveredRouteSet')
     IpamDiscoveryFailureCode = Shapes::StringShape.new(name: 'IpamDiscoveryFailureCode')
     IpamDiscoveryFailureReason = Shapes::StructureShape.new(name: 'IpamDiscoveryFailureReason')
     IpamExternalResourceVerificationToken = Shapes::StructureShape.new(name: 'IpamExternalResourceVerificationToken')
@@ -2380,6 +2414,14 @@ module Aws::EC2
     IpamExternalResourceVerificationTokenSet = Shapes::ListShape.new(name: 'IpamExternalResourceVerificationTokenSet')
     IpamExternalResourceVerificationTokenState = Shapes::StringShape.new(name: 'IpamExternalResourceVerificationTokenState')
     IpamId = Shapes::StringShape.new(name: 'IpamId')
+    IpamInternetRegistryAssociation = Shapes::StructureShape.new(name: 'IpamInternetRegistryAssociation')
+    IpamInternetRegistryAssociationAsn = Shapes::StructureShape.new(name: 'IpamInternetRegistryAssociationAsn')
+    IpamInternetRegistryAssociationAsnSet = Shapes::ListShape.new(name: 'IpamInternetRegistryAssociationAsnSet')
+    IpamInternetRegistryAssociationCidr = Shapes::StructureShape.new(name: 'IpamInternetRegistryAssociationCidr')
+    IpamInternetRegistryAssociationCidrSet = Shapes::ListShape.new(name: 'IpamInternetRegistryAssociationCidrSet')
+    IpamInternetRegistryAssociationId = Shapes::StringShape.new(name: 'IpamInternetRegistryAssociationId')
+    IpamInternetRegistryAssociationSet = Shapes::ListShape.new(name: 'IpamInternetRegistryAssociationSet')
+    IpamInternetRegistryAssociationState = Shapes::StringShape.new(name: 'IpamInternetRegistryAssociationState')
     IpamManagementState = Shapes::StringShape.new(name: 'IpamManagementState')
     IpamMaxResults = Shapes::IntegerShape.new(name: 'IpamMaxResults')
     IpamMeteredAccount = Shapes::StringShape.new(name: 'IpamMeteredAccount')
@@ -2471,6 +2513,23 @@ module Aws::EC2
     IpamResourceTag = Shapes::StructureShape.new(name: 'IpamResourceTag')
     IpamResourceTagList = Shapes::ListShape.new(name: 'IpamResourceTagList')
     IpamResourceType = Shapes::StringShape.new(name: 'IpamResourceType')
+    IpamRouteOriginAuthorization = Shapes::StructureShape.new(name: 'IpamRouteOriginAuthorization')
+    IpamRouteOriginAuthorizationInfo = Shapes::StructureShape.new(name: 'IpamRouteOriginAuthorizationInfo')
+    IpamRouteOriginAuthorizationInfoSet = Shapes::ListShape.new(name: 'IpamRouteOriginAuthorizationInfoSet')
+    IpamRouteOriginAuthorizationSet = Shapes::ListShape.new(name: 'IpamRouteOriginAuthorizationSet')
+    IpamRouteOverlap = Shapes::StructureShape.new(name: 'IpamRouteOverlap')
+    IpamRouteOverlapSet = Shapes::ListShape.new(name: 'IpamRouteOverlapSet')
+    IpamRouteProtectionFinding = Shapes::StructureShape.new(name: 'IpamRouteProtectionFinding')
+    IpamRouteProtectionFindingSet = Shapes::ListShape.new(name: 'IpamRouteProtectionFindingSet')
+    IpamRoutingPolicyRegistration = Shapes::StructureShape.new(name: 'IpamRoutingPolicyRegistration')
+    IpamRoutingPolicyRegistrationDelta = Shapes::StructureShape.new(name: 'IpamRoutingPolicyRegistrationDelta')
+    IpamRoutingPolicyRegistrationDeltaSet = Shapes::ListShape.new(name: 'IpamRoutingPolicyRegistrationDeltaSet')
+    IpamRoutingPolicyRegistrationDeltaState = Shapes::StringShape.new(name: 'IpamRoutingPolicyRegistrationDeltaState')
+    IpamRoutingPolicyRegistrationMaxLength = Shapes::IntegerShape.new(name: 'IpamRoutingPolicyRegistrationMaxLength')
+    IpamRoutingPolicyRegistrationSet = Shapes::ListShape.new(name: 'IpamRoutingPolicyRegistrationSet')
+    IpamRoutingPolicyRegistrationState = Shapes::StringShape.new(name: 'IpamRoutingPolicyRegistrationState')
+    IpamRpkiStatus = Shapes::StringShape.new(name: 'IpamRpkiStatus')
+    IpamRpkiStrength = Shapes::StringShape.new(name: 'IpamRpkiStrength')
     IpamScope = Shapes::StructureShape.new(name: 'IpamScope')
     IpamScopeExternalAuthorityConfiguration = Shapes::StructureShape.new(name: 'IpamScopeExternalAuthorityConfiguration')
     IpamScopeExternalAuthorityType = Shapes::StringShape.new(name: 'IpamScopeExternalAuthorityType')
@@ -2810,6 +2869,8 @@ module Aws::EC2
     ModifyIpamResourceDiscoveryRequest = Shapes::StructureShape.new(name: 'ModifyIpamResourceDiscoveryRequest')
     ModifyIpamResourceDiscoveryResult = Shapes::StructureShape.new(name: 'ModifyIpamResourceDiscoveryResult')
     ModifyIpamResult = Shapes::StructureShape.new(name: 'ModifyIpamResult')
+    ModifyIpamRoutingPolicyRegistrationRequest = Shapes::StructureShape.new(name: 'ModifyIpamRoutingPolicyRegistrationRequest')
+    ModifyIpamRoutingPolicyRegistrationResult = Shapes::StructureShape.new(name: 'ModifyIpamRoutingPolicyRegistrationResult')
     ModifyIpamScopeRequest = Shapes::StructureShape.new(name: 'ModifyIpamScopeRequest')
     ModifyIpamScopeResult = Shapes::StructureShape.new(name: 'ModifyIpamScopeResult')
     ModifyLaunchTemplateRequest = Shapes::StructureShape.new(name: 'ModifyLaunchTemplateRequest')
@@ -3395,6 +3456,7 @@ module Aws::EC2
     RevokeSecurityGroupIngressResult = Shapes::StructureShape.new(name: 'RevokeSecurityGroupIngressResult')
     RevokedSecurityGroupRule = Shapes::StructureShape.new(name: 'RevokedSecurityGroupRule')
     RevokedSecurityGroupRuleList = Shapes::ListShape.new(name: 'RevokedSecurityGroupRuleList')
+    Rir = Shapes::StringShape.new(name: 'Rir')
     RoleId = Shapes::StringShape.new(name: 'RoleId')
     RootDeviceType = Shapes::StringShape.new(name: 'RootDeviceType')
     RootDeviceTypeList = Shapes::ListShape.new(name: 'RootDeviceTypeList')
@@ -4631,6 +4693,8 @@ module Aws::EC2
     AsnAuthorizationContext.add_member(:signature, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Signature"))
     AsnAuthorizationContext.struct_class = Types::AsnAuthorizationContext
 
+    AsnList.member = Shapes::ShapeRef.new(shape: String, location_name: "item")
+
     AssetIdList.member = Shapes::ShapeRef.new(shape: AssetId)
 
     AssignIpv6AddressesRequest.add_member(:ipv_6_prefix_count, Shapes::ShapeRef.new(shape: Integer, location_name: "Ipv6PrefixCount"))
@@ -5100,6 +5164,16 @@ module Aws::EC2
     BaselinePerformanceFactorsRequest.add_member(:cpu, Shapes::ShapeRef.new(shape: CpuPerformanceFactorRequest, location_name: "Cpu"))
     BaselinePerformanceFactorsRequest.struct_class = Types::BaselinePerformanceFactorsRequest
 
+    BatchModifyIpamRoutingPolicyRegistrationsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    BatchModifyIpamRoutingPolicyRegistrationsRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    BatchModifyIpamRoutingPolicyRegistrationsRequest.add_member(:delta_json, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DeltaJson"))
+    BatchModifyIpamRoutingPolicyRegistrationsRequest.add_member(:force, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "Force"))
+    BatchModifyIpamRoutingPolicyRegistrationsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    BatchModifyIpamRoutingPolicyRegistrationsRequest.struct_class = Types::BatchModifyIpamRoutingPolicyRegistrationsRequest
+
+    BatchModifyIpamRoutingPolicyRegistrationsResult.add_member(:ipam_routing_policy_registration_delta, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationDelta, location_name: "ipamRoutingPolicyRegistrationDelta"))
+    BatchModifyIpamRoutingPolicyRegistrationsResult.struct_class = Types::BatchModifyIpamRoutingPolicyRegistrationsResult
+
     BillingProductList.member = Shapes::ShapeRef.new(shape: String, location_name: "item")
 
     BlobAttributeValue.add_member(:value, Shapes::ShapeRef.new(shape: Blob, location_name: "value"))
@@ -5169,6 +5243,8 @@ module Aws::EC2
     ByoipCidr.add_member(:state, Shapes::ShapeRef.new(shape: ByoipCidrState, location_name: "state"))
     ByoipCidr.add_member(:network_border_group, Shapes::ShapeRef.new(shape: String, location_name: "networkBorderGroup"))
     ByoipCidr.add_member(:advertisement_type, Shapes::ShapeRef.new(shape: String, location_name: "advertisementType"))
+    ByoipCidr.add_member(:pool_id, Shapes::ShapeRef.new(shape: String, location_name: "poolId"))
+    ByoipCidr.add_member(:ipam_pool_id, Shapes::ShapeRef.new(shape: IpamPoolId, location_name: "ipamPoolId"))
     ByoipCidr.struct_class = Types::ByoipCidr
 
     ByoipCidrSet.member = Shapes::ShapeRef.new(shape: ByoipCidr, location_name: "item")
@@ -6351,6 +6427,18 @@ module Aws::EC2
     CreateIpamExternalResourceVerificationTokenResult.add_member(:ipam_external_resource_verification_token, Shapes::ShapeRef.new(shape: IpamExternalResourceVerificationToken, location_name: "ipamExternalResourceVerificationToken"))
     CreateIpamExternalResourceVerificationTokenResult.struct_class = Types::CreateIpamExternalResourceVerificationTokenResult
 
+    CreateIpamInternetRegistryAssociationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    CreateIpamInternetRegistryAssociationRequest.add_member(:ipam_id, Shapes::ShapeRef.new(shape: IpamId, required: true, location_name: "IpamId"))
+    CreateIpamInternetRegistryAssociationRequest.add_member(:rir, Shapes::ShapeRef.new(shape: Rir, required: true, location_name: "Rir"))
+    CreateIpamInternetRegistryAssociationRequest.add_member(:organization_handle, Shapes::ShapeRef.new(shape: String, required: true, location_name: "OrganizationHandle"))
+    CreateIpamInternetRegistryAssociationRequest.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "Description"))
+    CreateIpamInternetRegistryAssociationRequest.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecification"))
+    CreateIpamInternetRegistryAssociationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    CreateIpamInternetRegistryAssociationRequest.struct_class = Types::CreateIpamInternetRegistryAssociationRequest
+
+    CreateIpamInternetRegistryAssociationResult.add_member(:ipam_internet_registry_association, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociation, location_name: "ipamInternetRegistryAssociation"))
+    CreateIpamInternetRegistryAssociationResult.struct_class = Types::CreateIpamInternetRegistryAssociationResult
+
     CreateIpamPolicyRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     CreateIpamPolicyRequest.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecification"))
     CreateIpamPolicyRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
@@ -6429,6 +6517,20 @@ module Aws::EC2
 
     CreateIpamResult.add_member(:ipam, Shapes::ShapeRef.new(shape: Ipam, location_name: "ipam"))
     CreateIpamResult.struct_class = Types::CreateIpamResult
+
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:cidr, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Cidr"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:asns, Shapes::ShapeRef.new(shape: AsnList, required: true, location_name: "Asn"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:permit_more_specific_announcements, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "PermitMoreSpecificAnnouncements"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:max_length, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationMaxLength, location_name: "MaxLength"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "Description"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:force, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "Force"))
+    CreateIpamRoutingPolicyRegistrationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    CreateIpamRoutingPolicyRegistrationRequest.struct_class = Types::CreateIpamRoutingPolicyRegistrationRequest
+
+    CreateIpamRoutingPolicyRegistrationResult.add_member(:ipam_routing_policy_registration_delta, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationDelta, location_name: "ipamRoutingPolicyRegistrationDelta"))
+    CreateIpamRoutingPolicyRegistrationResult.struct_class = Types::CreateIpamRoutingPolicyRegistrationResult
 
     CreateIpamScopeRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     CreateIpamScopeRequest.add_member(:ipam_id, Shapes::ShapeRef.new(shape: IpamId, required: true, location_name: "IpamId"))
@@ -7612,6 +7714,13 @@ module Aws::EC2
     DeleteIpamExternalResourceVerificationTokenResult.add_member(:ipam_external_resource_verification_token, Shapes::ShapeRef.new(shape: IpamExternalResourceVerificationToken, location_name: "ipamExternalResourceVerificationToken"))
     DeleteIpamExternalResourceVerificationTokenResult.struct_class = Types::DeleteIpamExternalResourceVerificationTokenResult
 
+    DeleteIpamInternetRegistryAssociationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    DeleteIpamInternetRegistryAssociationRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    DeleteIpamInternetRegistryAssociationRequest.struct_class = Types::DeleteIpamInternetRegistryAssociationRequest
+
+    DeleteIpamInternetRegistryAssociationResult.add_member(:ipam_internet_registry_association, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociation, location_name: "ipamInternetRegistryAssociation"))
+    DeleteIpamInternetRegistryAssociationResult.struct_class = Types::DeleteIpamInternetRegistryAssociationResult
+
     DeleteIpamPolicyRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     DeleteIpamPolicyRequest.add_member(:ipam_policy_id, Shapes::ShapeRef.new(shape: IpamPolicyId, required: true, location_name: "IpamPolicyId"))
     DeleteIpamPolicyRequest.struct_class = Types::DeleteIpamPolicyRequest
@@ -7655,6 +7764,16 @@ module Aws::EC2
 
     DeleteIpamResult.add_member(:ipam, Shapes::ShapeRef.new(shape: Ipam, location_name: "ipam"))
     DeleteIpamResult.struct_class = Types::DeleteIpamResult
+
+    DeleteIpamRoutingPolicyRegistrationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    DeleteIpamRoutingPolicyRegistrationRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    DeleteIpamRoutingPolicyRegistrationRequest.add_member(:cidr, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Cidr"))
+    DeleteIpamRoutingPolicyRegistrationRequest.add_member(:force, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "Force"))
+    DeleteIpamRoutingPolicyRegistrationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    DeleteIpamRoutingPolicyRegistrationRequest.struct_class = Types::DeleteIpamRoutingPolicyRegistrationRequest
+
+    DeleteIpamRoutingPolicyRegistrationResult.add_member(:ipam_routing_policy_registration_delta, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationDelta, location_name: "ipamRoutingPolicyRegistrationDelta"))
+    DeleteIpamRoutingPolicyRegistrationResult.struct_class = Types::DeleteIpamRoutingPolicyRegistrationResult
 
     DeleteIpamScopeRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     DeleteIpamScopeRequest.add_member(:ipam_scope_id, Shapes::ShapeRef.new(shape: IpamScopeId, required: true, location_name: "IpamScopeId"))
@@ -9107,6 +9226,17 @@ module Aws::EC2
     DescribeIpamExternalResourceVerificationTokensResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     DescribeIpamExternalResourceVerificationTokensResult.add_member(:ipam_external_resource_verification_tokens, Shapes::ShapeRef.new(shape: IpamExternalResourceVerificationTokenSet, location_name: "ipamExternalResourceVerificationTokenSet"))
     DescribeIpamExternalResourceVerificationTokensResult.struct_class = Types::DescribeIpamExternalResourceVerificationTokensResult
+
+    DescribeIpamInternetRegistryAssociationsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    DescribeIpamInternetRegistryAssociationsRequest.add_member(:ipam_internet_registry_association_ids, Shapes::ShapeRef.new(shape: ValueStringList, location_name: "IpamInternetRegistryAssociationId"))
+    DescribeIpamInternetRegistryAssociationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    DescribeIpamInternetRegistryAssociationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    DescribeIpamInternetRegistryAssociationsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
+    DescribeIpamInternetRegistryAssociationsRequest.struct_class = Types::DescribeIpamInternetRegistryAssociationsRequest
+
+    DescribeIpamInternetRegistryAssociationsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    DescribeIpamInternetRegistryAssociationsResult.add_member(:ipam_internet_registry_associations, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationSet, location_name: "ipamInternetRegistryAssociationSet"))
+    DescribeIpamInternetRegistryAssociationsResult.struct_class = Types::DescribeIpamInternetRegistryAssociationsResult
 
     DescribeIpamPoliciesRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     DescribeIpamPoliciesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
@@ -11190,6 +11320,19 @@ module Aws::EC2
     EnableInstanceSqlHaStandbyDetectionsResult.add_member(:instances, Shapes::ShapeRef.new(shape: RegisteredInstanceList, location_name: "instanceSet"))
     EnableInstanceSqlHaStandbyDetectionsResult.struct_class = Types::EnableInstanceSqlHaStandbyDetectionsResult
 
+    EnableIpamInternetRegistryAssociationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    EnableIpamInternetRegistryAssociationRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    EnableIpamInternetRegistryAssociationRequest.add_member(:rpki_version, Shapes::ShapeRef.new(shape: String, required: true, location_name: "RpkiVersion"))
+    EnableIpamInternetRegistryAssociationRequest.add_member(:service_uri, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ServiceUri"))
+    EnableIpamInternetRegistryAssociationRequest.add_member(:child_handle, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ChildHandle"))
+    EnableIpamInternetRegistryAssociationRequest.add_member(:parent_handle, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ParentHandle"))
+    EnableIpamInternetRegistryAssociationRequest.add_member(:parent_bpki_ta, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ParentBpkiTa"))
+    EnableIpamInternetRegistryAssociationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    EnableIpamInternetRegistryAssociationRequest.struct_class = Types::EnableIpamInternetRegistryAssociationRequest
+
+    EnableIpamInternetRegistryAssociationResult.add_member(:ipam_internet_registry_association, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociation, location_name: "ipamInternetRegistryAssociation"))
+    EnableIpamInternetRegistryAssociationResult.struct_class = Types::EnableIpamInternetRegistryAssociationResult
+
     EnableIpamOrganizationAdminAccountRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     EnableIpamOrganizationAdminAccountRequest.add_member(:delegated_admin_account_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "DelegatedAdminAccountId"))
     EnableIpamOrganizationAdminAccountRequest.struct_class = Types::EnableIpamOrganizationAdminAccountRequest
@@ -12055,6 +12198,40 @@ module Aws::EC2
     GetIpamDiscoveredResourceCidrsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     GetIpamDiscoveredResourceCidrsResult.struct_class = Types::GetIpamDiscoveredResourceCidrsResult
 
+    GetIpamDiscoveredRoutesRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetIpamDiscoveredRoutesRequest.add_member(:ipam_resource_discovery_id, Shapes::ShapeRef.new(shape: IpamResourceDiscoveryId, required: true, location_name: "IpamResourceDiscoveryId"))
+    GetIpamDiscoveredRoutesRequest.add_member(:resource_region, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ResourceRegion"))
+    GetIpamDiscoveredRoutesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
+    GetIpamDiscoveredRoutesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    GetIpamDiscoveredRoutesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    GetIpamDiscoveredRoutesRequest.struct_class = Types::GetIpamDiscoveredRoutesRequest
+
+    GetIpamDiscoveredRoutesResult.add_member(:ipam_discovered_routes, Shapes::ShapeRef.new(shape: IpamDiscoveredRouteSet, location_name: "ipamDiscoveredRouteSet"))
+    GetIpamDiscoveredRoutesResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    GetIpamDiscoveredRoutesResult.struct_class = Types::GetIpamDiscoveredRoutesResult
+
+    GetIpamInternetRegistryAssociationAsnsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetIpamInternetRegistryAssociationAsnsRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    GetIpamInternetRegistryAssociationAsnsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    GetIpamInternetRegistryAssociationAsnsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    GetIpamInternetRegistryAssociationAsnsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
+    GetIpamInternetRegistryAssociationAsnsRequest.struct_class = Types::GetIpamInternetRegistryAssociationAsnsRequest
+
+    GetIpamInternetRegistryAssociationAsnsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    GetIpamInternetRegistryAssociationAsnsResult.add_member(:ipam_internet_registry_association_asns, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationAsnSet, location_name: "ipamInternetRegistryAssociationAsnSet"))
+    GetIpamInternetRegistryAssociationAsnsResult.struct_class = Types::GetIpamInternetRegistryAssociationAsnsResult
+
+    GetIpamInternetRegistryAssociationCidrsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetIpamInternetRegistryAssociationCidrsRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    GetIpamInternetRegistryAssociationCidrsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    GetIpamInternetRegistryAssociationCidrsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    GetIpamInternetRegistryAssociationCidrsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
+    GetIpamInternetRegistryAssociationCidrsRequest.struct_class = Types::GetIpamInternetRegistryAssociationCidrsRequest
+
+    GetIpamInternetRegistryAssociationCidrsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    GetIpamInternetRegistryAssociationCidrsResult.add_member(:ipam_internet_registry_association_cidrs, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationCidrSet, location_name: "ipamInternetRegistryAssociationCidrSet"))
+    GetIpamInternetRegistryAssociationCidrsResult.struct_class = Types::GetIpamInternetRegistryAssociationCidrsResult
+
     GetIpamPolicyAllocationRulesRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     GetIpamPolicyAllocationRulesRequest.add_member(:ipam_policy_id, Shapes::ShapeRef.new(shape: IpamPolicyId, required: true, location_name: "IpamPolicyId"))
     GetIpamPolicyAllocationRulesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
@@ -12151,6 +12328,54 @@ module Aws::EC2
     GetIpamResourceCidrsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     GetIpamResourceCidrsResult.add_member(:ipam_resource_cidrs, Shapes::ShapeRef.new(shape: IpamResourceCidrSet, location_name: "ipamResourceCidrSet"))
     GetIpamResourceCidrsResult.struct_class = Types::GetIpamResourceCidrsResult
+
+    GetIpamRouteOriginAuthorizationsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetIpamRouteOriginAuthorizationsRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    GetIpamRouteOriginAuthorizationsRequest.add_member(:cidr, Shapes::ShapeRef.new(shape: String, location_name: "Cidr"))
+    GetIpamRouteOriginAuthorizationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    GetIpamRouteOriginAuthorizationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    GetIpamRouteOriginAuthorizationsRequest.struct_class = Types::GetIpamRouteOriginAuthorizationsRequest
+
+    GetIpamRouteOriginAuthorizationsResult.add_member(:ipam_route_origin_authorizations, Shapes::ShapeRef.new(shape: IpamRouteOriginAuthorizationInfoSet, location_name: "ipamRouteOriginAuthorizationSet"))
+    GetIpamRouteOriginAuthorizationsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    GetIpamRouteOriginAuthorizationsResult.struct_class = Types::GetIpamRouteOriginAuthorizationsResult
+
+    GetIpamRouteProtectionFindingsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetIpamRouteProtectionFindingsRequest.add_member(:ipam_id, Shapes::ShapeRef.new(shape: IpamId, required: true, location_name: "IpamId"))
+    GetIpamRouteProtectionFindingsRequest.add_member(:filters, Shapes::ShapeRef.new(shape: FilterList, location_name: "Filter"))
+    GetIpamRouteProtectionFindingsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    GetIpamRouteProtectionFindingsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    GetIpamRouteProtectionFindingsRequest.struct_class = Types::GetIpamRouteProtectionFindingsRequest
+
+    GetIpamRouteProtectionFindingsResult.add_member(:ipam_id, Shapes::ShapeRef.new(shape: IpamId, location_name: "ipamId"))
+    GetIpamRouteProtectionFindingsResult.add_member(:route_protection_findings, Shapes::ShapeRef.new(shape: IpamRouteProtectionFindingSet, location_name: "routeProtectionFindingSet"))
+    GetIpamRouteProtectionFindingsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    GetIpamRouteProtectionFindingsResult.struct_class = Types::GetIpamRouteProtectionFindingsResult
+
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:delta_id, Shapes::ShapeRef.new(shape: String, location_name: "DeltaId"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "StartTime"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:end_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "EndTime"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:chronological_order, Shapes::ShapeRef.new(shape: ChronologicalOrder, location_name: "ChronologicalOrder"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    GetIpamRoutingPolicyRegistrationDeltasRequest.struct_class = Types::GetIpamRoutingPolicyRegistrationDeltasRequest
+
+    GetIpamRoutingPolicyRegistrationDeltasResult.add_member(:ipam_routing_policy_registration_deltas, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationDeltaSet, location_name: "ipamRoutingPolicyRegistrationDeltaSet"))
+    GetIpamRoutingPolicyRegistrationDeltasResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    GetIpamRoutingPolicyRegistrationDeltasResult.struct_class = Types::GetIpamRoutingPolicyRegistrationDeltasResult
+
+    GetIpamRoutingPolicyRegistrationsRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    GetIpamRoutingPolicyRegistrationsRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    GetIpamRoutingPolicyRegistrationsRequest.add_member(:cidr, Shapes::ShapeRef.new(shape: String, location_name: "Cidr"))
+    GetIpamRoutingPolicyRegistrationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: IpamMaxResults, location_name: "MaxResults"))
+    GetIpamRoutingPolicyRegistrationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    GetIpamRoutingPolicyRegistrationsRequest.struct_class = Types::GetIpamRoutingPolicyRegistrationsRequest
+
+    GetIpamRoutingPolicyRegistrationsResult.add_member(:ipam_routing_policy_registrations, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationSet, location_name: "ipamRoutingPolicyRegistrationSet"))
+    GetIpamRoutingPolicyRegistrationsResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    GetIpamRoutingPolicyRegistrationsResult.struct_class = Types::GetIpamRoutingPolicyRegistrationsResult
 
     GetLaunchTemplateDataRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     GetLaunchTemplateDataRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
@@ -13837,6 +14062,21 @@ module Aws::EC2
 
     IpamDiscoveredResourceCidrSet.member = Shapes::ShapeRef.new(shape: IpamDiscoveredResourceCidr, location_name: "item")
 
+    IpamDiscoveredRoute.add_member(:ipam_resource_discovery_id, Shapes::ShapeRef.new(shape: IpamResourceDiscoveryId, location_name: "ipamResourceDiscoveryId"))
+    IpamDiscoveredRoute.add_member(:resource_region, Shapes::ShapeRef.new(shape: String, location_name: "resourceRegion"))
+    IpamDiscoveredRoute.add_member(:resource_owner_id, Shapes::ShapeRef.new(shape: String, location_name: "resourceOwnerId"))
+    IpamDiscoveredRoute.add_member(:cidr, Shapes::ShapeRef.new(shape: String, location_name: "cidr"))
+    IpamDiscoveredRoute.add_member(:asn, Shapes::ShapeRef.new(shape: String, location_name: "asn"))
+    IpamDiscoveredRoute.add_member(:state, Shapes::ShapeRef.new(shape: IpamByoipCidrState, location_name: "state"))
+    IpamDiscoveredRoute.add_member(:advertisement_type, Shapes::ShapeRef.new(shape: IpamByoipAdvertisementType, location_name: "advertisementType"))
+    IpamDiscoveredRoute.add_member(:network_border_group, Shapes::ShapeRef.new(shape: String, location_name: "networkBorderGroup"))
+    IpamDiscoveredRoute.add_member(:pool_id, Shapes::ShapeRef.new(shape: String, location_name: "poolId"))
+    IpamDiscoveredRoute.add_member(:ipam_pool_id, Shapes::ShapeRef.new(shape: String, location_name: "ipamPoolId"))
+    IpamDiscoveredRoute.add_member(:sample_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "sampleTime"))
+    IpamDiscoveredRoute.struct_class = Types::IpamDiscoveredRoute
+
+    IpamDiscoveredRouteSet.member = Shapes::ShapeRef.new(shape: IpamDiscoveredRoute, location_name: "item")
+
     IpamDiscoveryFailureReason.add_member(:code, Shapes::ShapeRef.new(shape: IpamDiscoveryFailureCode, location_name: "code"))
     IpamDiscoveryFailureReason.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     IpamDiscoveryFailureReason.struct_class = Types::IpamDiscoveryFailureReason
@@ -13855,6 +14095,33 @@ module Aws::EC2
     IpamExternalResourceVerificationToken.struct_class = Types::IpamExternalResourceVerificationToken
 
     IpamExternalResourceVerificationTokenSet.member = Shapes::ShapeRef.new(shape: IpamExternalResourceVerificationToken, location_name: "item")
+
+    IpamInternetRegistryAssociation.add_member(:owner_id, Shapes::ShapeRef.new(shape: String, location_name: "ownerId"))
+    IpamInternetRegistryAssociation.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, location_name: "ipamInternetRegistryAssociationId"))
+    IpamInternetRegistryAssociation.add_member(:ipam_internet_registry_association_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "ipamInternetRegistryAssociationArn"))
+    IpamInternetRegistryAssociation.add_member(:ipam_id, Shapes::ShapeRef.new(shape: IpamId, location_name: "ipamId"))
+    IpamInternetRegistryAssociation.add_member(:ipam_region, Shapes::ShapeRef.new(shape: String, location_name: "ipamRegion"))
+    IpamInternetRegistryAssociation.add_member(:rir, Shapes::ShapeRef.new(shape: Rir, location_name: "rir"))
+    IpamInternetRegistryAssociation.add_member(:organization_handle, Shapes::ShapeRef.new(shape: String, location_name: "organizationHandle"))
+    IpamInternetRegistryAssociation.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    IpamInternetRegistryAssociation.add_member(:state, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationState, location_name: "state"))
+    IpamInternetRegistryAssociation.add_member(:child_request_xml, Shapes::ShapeRef.new(shape: String, location_name: "childRequestXml"))
+    IpamInternetRegistryAssociation.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tagSet"))
+    IpamInternetRegistryAssociation.struct_class = Types::IpamInternetRegistryAssociation
+
+    IpamInternetRegistryAssociationAsn.add_member(:asn, Shapes::ShapeRef.new(shape: String, location_name: "asn"))
+    IpamInternetRegistryAssociationAsn.add_member(:last_observed_at, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "lastObservedAt"))
+    IpamInternetRegistryAssociationAsn.struct_class = Types::IpamInternetRegistryAssociationAsn
+
+    IpamInternetRegistryAssociationAsnSet.member = Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationAsn, location_name: "item")
+
+    IpamInternetRegistryAssociationCidr.add_member(:cidr, Shapes::ShapeRef.new(shape: String, location_name: "cidr"))
+    IpamInternetRegistryAssociationCidr.add_member(:last_observed_at, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "lastObservedAt"))
+    IpamInternetRegistryAssociationCidr.struct_class = Types::IpamInternetRegistryAssociationCidr
+
+    IpamInternetRegistryAssociationCidrSet.member = Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationCidr, location_name: "item")
+
+    IpamInternetRegistryAssociationSet.member = Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociation, location_name: "item")
 
     IpamOperatingRegion.add_member(:region_name, Shapes::ShapeRef.new(shape: String, location_name: "regionName"))
     IpamOperatingRegion.struct_class = Types::IpamOperatingRegion
@@ -14122,6 +14389,67 @@ module Aws::EC2
     IpamResourceTag.struct_class = Types::IpamResourceTag
 
     IpamResourceTagList.member = Shapes::ShapeRef.new(shape: IpamResourceTag, location_name: "item")
+
+    IpamRouteOriginAuthorization.add_member(:asn, Shapes::ShapeRef.new(shape: String, location_name: "asn"))
+    IpamRouteOriginAuthorization.add_member(:prefix, Shapes::ShapeRef.new(shape: String, location_name: "prefix"))
+    IpamRouteOriginAuthorization.add_member(:max_length, Shapes::ShapeRef.new(shape: Integer, location_name: "maxLength"))
+    IpamRouteOriginAuthorization.add_member(:match, Shapes::ShapeRef.new(shape: Boolean, location_name: "match"))
+    IpamRouteOriginAuthorization.add_member(:expiration, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "expiration"))
+    IpamRouteOriginAuthorization.struct_class = Types::IpamRouteOriginAuthorization
+
+    IpamRouteOriginAuthorizationInfo.add_member(:cidr, Shapes::ShapeRef.new(shape: String, location_name: "cidr"))
+    IpamRouteOriginAuthorizationInfo.add_member(:asn, Shapes::ShapeRef.new(shape: String, location_name: "asn"))
+    IpamRouteOriginAuthorizationInfo.add_member(:max_length, Shapes::ShapeRef.new(shape: Integer, location_name: "maxLength"))
+    IpamRouteOriginAuthorizationInfo.struct_class = Types::IpamRouteOriginAuthorizationInfo
+
+    IpamRouteOriginAuthorizationInfoSet.member = Shapes::ShapeRef.new(shape: IpamRouteOriginAuthorizationInfo, location_name: "item")
+
+    IpamRouteOriginAuthorizationSet.member = Shapes::ShapeRef.new(shape: IpamRouteOriginAuthorization, location_name: "item")
+
+    IpamRouteOverlap.add_member(:prefix, Shapes::ShapeRef.new(shape: String, location_name: "prefix"))
+    IpamRouteOverlap.add_member(:asn, Shapes::ShapeRef.new(shape: String, location_name: "asn"))
+    IpamRouteOverlap.add_member(:detected_at, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "detectedAt"))
+    IpamRouteOverlap.struct_class = Types::IpamRouteOverlap
+
+    IpamRouteOverlapSet.member = Shapes::ShapeRef.new(shape: IpamRouteOverlap, location_name: "item")
+
+    IpamRouteProtectionFinding.add_member(:resource_owner_id, Shapes::ShapeRef.new(shape: String, location_name: "resourceOwnerId"))
+    IpamRouteProtectionFinding.add_member(:resource_region, Shapes::ShapeRef.new(shape: String, location_name: "resourceRegion"))
+    IpamRouteProtectionFinding.add_member(:ipam_pool_id, Shapes::ShapeRef.new(shape: IpamPoolId, location_name: "ipamPoolId"))
+    IpamRouteProtectionFinding.add_member(:cidr, Shapes::ShapeRef.new(shape: String, location_name: "cidr"))
+    IpamRouteProtectionFinding.add_member(:state, Shapes::ShapeRef.new(shape: IpamByoipCidrState, location_name: "state"))
+    IpamRouteProtectionFinding.add_member(:advertisement_type, Shapes::ShapeRef.new(shape: IpamByoipAdvertisementType, location_name: "advertisementType"))
+    IpamRouteProtectionFinding.add_member(:network_border_group, Shapes::ShapeRef.new(shape: String, location_name: "networkBorderGroup"))
+    IpamRouteProtectionFinding.add_member(:pool_id, Shapes::ShapeRef.new(shape: String, location_name: "poolId"))
+    IpamRouteProtectionFinding.add_member(:asn, Shapes::ShapeRef.new(shape: String, location_name: "asn"))
+    IpamRouteProtectionFinding.add_member(:rpki_status, Shapes::ShapeRef.new(shape: IpamRpkiStatus, location_name: "rpkiStatus"))
+    IpamRouteProtectionFinding.add_member(:rpki_strength, Shapes::ShapeRef.new(shape: IpamRpkiStrength, location_name: "rpkiStrength"))
+    IpamRouteProtectionFinding.add_member(:roas, Shapes::ShapeRef.new(shape: IpamRouteOriginAuthorizationSet, location_name: "roaSet"))
+    IpamRouteProtectionFinding.add_member(:route_overlaps, Shapes::ShapeRef.new(shape: IpamRouteOverlapSet, location_name: "routeOverlapSet"))
+    IpamRouteProtectionFinding.add_member(:sample_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "sampleTime"))
+    IpamRouteProtectionFinding.add_member(:roa_sample_time, Shapes::ShapeRef.new(shape: MillisecondDateTime, location_name: "roaSampleTime"))
+    IpamRouteProtectionFinding.struct_class = Types::IpamRouteProtectionFinding
+
+    IpamRouteProtectionFindingSet.member = Shapes::ShapeRef.new(shape: IpamRouteProtectionFinding, location_name: "item")
+
+    IpamRoutingPolicyRegistration.add_member(:cidr, Shapes::ShapeRef.new(shape: String, location_name: "cidr"))
+    IpamRoutingPolicyRegistration.add_member(:asns, Shapes::ShapeRef.new(shape: AsnList, location_name: "asnSet"))
+    IpamRoutingPolicyRegistration.add_member(:permit_more_specific_announcements, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "permitMoreSpecificAnnouncements"))
+    IpamRoutingPolicyRegistration.add_member(:max_length, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationMaxLength, location_name: "maxLength"))
+    IpamRoutingPolicyRegistration.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
+    IpamRoutingPolicyRegistration.add_member(:latest_delta_id, Shapes::ShapeRef.new(shape: String, location_name: "latestDeltaId"))
+    IpamRoutingPolicyRegistration.add_member(:state, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationState, location_name: "state"))
+    IpamRoutingPolicyRegistration.struct_class = Types::IpamRoutingPolicyRegistration
+
+    IpamRoutingPolicyRegistrationDelta.add_member(:delta_id, Shapes::ShapeRef.new(shape: String, location_name: "deltaId"))
+    IpamRoutingPolicyRegistrationDelta.add_member(:delta_json, Shapes::ShapeRef.new(shape: String, location_name: "deltaJson"))
+    IpamRoutingPolicyRegistrationDelta.add_member(:state, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationDeltaState, location_name: "state"))
+    IpamRoutingPolicyRegistrationDelta.add_member(:state_message, Shapes::ShapeRef.new(shape: String, location_name: "stateMessage"))
+    IpamRoutingPolicyRegistrationDelta.struct_class = Types::IpamRoutingPolicyRegistrationDelta
+
+    IpamRoutingPolicyRegistrationDeltaSet.member = Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationDelta, location_name: "item")
+
+    IpamRoutingPolicyRegistrationSet.member = Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistration, location_name: "item")
 
     IpamScope.add_member(:owner_id, Shapes::ShapeRef.new(shape: String, location_name: "ownerId"))
     IpamScope.add_member(:ipam_scope_id, Shapes::ShapeRef.new(shape: IpamScopeId, location_name: "ipamScopeId"))
@@ -15329,6 +15657,20 @@ module Aws::EC2
 
     ModifyIpamResult.add_member(:ipam, Shapes::ShapeRef.new(shape: Ipam, location_name: "ipam"))
     ModifyIpamResult.struct_class = Types::ModifyIpamResult
+
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:ipam_internet_registry_association_id, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationId, required: true, location_name: "IpamInternetRegistryAssociationId"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:cidr, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Cidr"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:asns, Shapes::ShapeRef.new(shape: AsnList, required: true, location_name: "Asn"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:permit_more_specific_announcements, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "PermitMoreSpecificAnnouncements"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:max_length, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationMaxLength, location_name: "MaxLength"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "Description"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:force, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "Force"))
+    ModifyIpamRoutingPolicyRegistrationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    ModifyIpamRoutingPolicyRegistrationRequest.struct_class = Types::ModifyIpamRoutingPolicyRegistrationRequest
+
+    ModifyIpamRoutingPolicyRegistrationResult.add_member(:ipam_routing_policy_registration_delta, Shapes::ShapeRef.new(shape: IpamRoutingPolicyRegistrationDelta, location_name: "ipamRoutingPolicyRegistrationDelta"))
+    ModifyIpamRoutingPolicyRegistrationResult.struct_class = Types::ModifyIpamRoutingPolicyRegistrationResult
 
     ModifyIpamScopeRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     ModifyIpamScopeRequest.add_member(:ipam_scope_id, Shapes::ShapeRef.new(shape: IpamScopeId, required: true, location_name: "IpamScopeId"))
@@ -20786,6 +21128,14 @@ module Aws::EC2
         o.output = Shapes::ShapeRef.new(shape: AuthorizeSecurityGroupIngressResult)
       end)
 
+      api.add_operation(:batch_modify_ipam_routing_policy_registrations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchModifyIpamRoutingPolicyRegistrations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: BatchModifyIpamRoutingPolicyRegistrationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchModifyIpamRoutingPolicyRegistrationsResult)
+      end)
+
       api.add_operation(:bundle_instance, Seahorse::Model::Operation.new.tap do |o|
         o.name = "BundleInstance"
         o.http_method = "POST"
@@ -21154,6 +21504,14 @@ module Aws::EC2
         o.output = Shapes::ShapeRef.new(shape: CreateIpamExternalResourceVerificationTokenResult)
       end)
 
+      api.add_operation(:create_ipam_internet_registry_association, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateIpamInternetRegistryAssociation"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateIpamInternetRegistryAssociationRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateIpamInternetRegistryAssociationResult)
+      end)
+
       api.add_operation(:create_ipam_policy, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateIpamPolicy"
         o.http_method = "POST"
@@ -21192,6 +21550,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: CreateIpamResourceDiscoveryRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateIpamResourceDiscoveryResult)
+      end)
+
+      api.add_operation(:create_ipam_routing_policy_registration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateIpamRoutingPolicyRegistration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateIpamRoutingPolicyRegistrationRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateIpamRoutingPolicyRegistrationResult)
       end)
 
       api.add_operation(:create_ipam_scope, Seahorse::Model::Operation.new.tap do |o|
@@ -21930,6 +22296,14 @@ module Aws::EC2
         o.output = Shapes::ShapeRef.new(shape: DeleteIpamExternalResourceVerificationTokenResult)
       end)
 
+      api.add_operation(:delete_ipam_internet_registry_association, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteIpamInternetRegistryAssociation"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteIpamInternetRegistryAssociationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteIpamInternetRegistryAssociationResult)
+      end)
+
       api.add_operation(:delete_ipam_policy, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteIpamPolicy"
         o.http_method = "POST"
@@ -21968,6 +22342,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DeleteIpamResourceDiscoveryRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteIpamResourceDiscoveryResult)
+      end)
+
+      api.add_operation(:delete_ipam_routing_policy_registration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteIpamRoutingPolicyRegistration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteIpamRoutingPolicyRegistrationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteIpamRoutingPolicyRegistrationResult)
       end)
 
       api.add_operation(:delete_ipam_scope, Seahorse::Model::Operation.new.tap do |o|
@@ -23510,6 +23892,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeIpamExternalResourceVerificationTokensRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeIpamExternalResourceVerificationTokensResult)
+      end)
+
+      api.add_operation(:describe_ipam_internet_registry_associations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeIpamInternetRegistryAssociations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeIpamInternetRegistryAssociationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeIpamInternetRegistryAssociationsResult)
       end)
 
       api.add_operation(:describe_ipam_policies, Seahorse::Model::Operation.new.tap do |o|
@@ -25433,6 +25823,14 @@ module Aws::EC2
         o.output = Shapes::ShapeRef.new(shape: EnableInstanceSqlHaStandbyDetectionsResult)
       end)
 
+      api.add_operation(:enable_ipam_internet_registry_association, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "EnableIpamInternetRegistryAssociation"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: EnableIpamInternetRegistryAssociationRequest)
+        o.output = Shapes::ShapeRef.new(shape: EnableIpamInternetRegistryAssociationResult)
+      end)
+
       api.add_operation(:enable_ipam_organization_admin_account, Seahorse::Model::Operation.new.tap do |o|
         o.name = "EnableIpamOrganizationAdminAccount"
         o.http_method = "POST"
@@ -25869,6 +26267,30 @@ module Aws::EC2
         )
       end)
 
+      api.add_operation(:get_ipam_discovered_routes, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIpamDiscoveredRoutes"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetIpamDiscoveredRoutesRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIpamDiscoveredRoutesResult)
+      end)
+
+      api.add_operation(:get_ipam_internet_registry_association_asns, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIpamInternetRegistryAssociationAsns"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetIpamInternetRegistryAssociationAsnsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIpamInternetRegistryAssociationAsnsResult)
+      end)
+
+      api.add_operation(:get_ipam_internet_registry_association_cidrs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIpamInternetRegistryAssociationCidrs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetIpamInternetRegistryAssociationCidrsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIpamInternetRegistryAssociationCidrsResult)
+      end)
+
       api.add_operation(:get_ipam_policy_allocation_rules, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetIpamPolicyAllocationRules"
         o.http_method = "POST"
@@ -25967,6 +26389,38 @@ module Aws::EC2
             "next_token" => "next_token"
           }
         )
+      end)
+
+      api.add_operation(:get_ipam_route_origin_authorizations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIpamRouteOriginAuthorizations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetIpamRouteOriginAuthorizationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIpamRouteOriginAuthorizationsResult)
+      end)
+
+      api.add_operation(:get_ipam_route_protection_findings, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIpamRouteProtectionFindings"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetIpamRouteProtectionFindingsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIpamRouteProtectionFindingsResult)
+      end)
+
+      api.add_operation(:get_ipam_routing_policy_registration_deltas, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIpamRoutingPolicyRegistrationDeltas"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetIpamRoutingPolicyRegistrationDeltasRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIpamRoutingPolicyRegistrationDeltasResult)
+      end)
+
+      api.add_operation(:get_ipam_routing_policy_registrations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIpamRoutingPolicyRegistrations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetIpamRoutingPolicyRegistrationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIpamRoutingPolicyRegistrationsResult)
       end)
 
       api.add_operation(:get_launch_template_data, Seahorse::Model::Operation.new.tap do |o|
@@ -26665,6 +27119,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ModifyIpamResourceDiscoveryRequest)
         o.output = Shapes::ShapeRef.new(shape: ModifyIpamResourceDiscoveryResult)
+      end)
+
+      api.add_operation(:modify_ipam_routing_policy_registration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ModifyIpamRoutingPolicyRegistration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ModifyIpamRoutingPolicyRegistrationRequest)
+        o.output = Shapes::ShapeRef.new(shape: ModifyIpamRoutingPolicyRegistrationResult)
       end)
 
       api.add_operation(:modify_ipam_scope, Seahorse::Model::Operation.new.tap do |o|

@@ -4794,6 +4794,61 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] delta_json
+    #   The batch modifications to apply, in JSON format.
+    #   @return [String]
+    #
+    # @!attribute [rw] force
+    #   Forces the batch modification even if individual changes conflict
+    #   with announced routes. Default: `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the operation ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/BatchModifyIpamRoutingPolicyRegistrationsRequest AWS API Documentation
+    #
+    class BatchModifyIpamRoutingPolicyRegistrationsRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :delta_json,
+      :force,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_routing_policy_registration_delta
+    #   Information about the routing policy registration delta created by
+    #   this batch operation.
+    #   @return [Types::IpamRoutingPolicyRegistrationDelta]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/BatchModifyIpamRoutingPolicyRegistrationsResult AWS API Documentation
+    #
+    class BatchModifyIpamRoutingPolicyRegistrationsResult < Struct.new(
+      :ipam_routing_policy_registration_delta)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] value
     #   @return [String]
     #
@@ -5153,6 +5208,14 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoip-cloudfront.html
     #   @return [String]
     #
+    # @!attribute [rw] pool_id
+    #   The ID of the address pool associated with the CIDR.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_pool_id
+    #   The ID of the IPAM pool associated with the CIDR.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ByoipCidr AWS API Documentation
     #
     class ByoipCidr < Struct.new(
@@ -5162,7 +5225,9 @@ module Aws::EC2
       :status_message,
       :state,
       :network_border_group,
-      :advertisement_type)
+      :advertisement_type,
+      :pool_id,
+      :ipam_pool_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12152,6 +12217,78 @@ module Aws::EC2
     end
 
     # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_id
+    #   The ID of the IPAM to associate with the internet registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] rir
+    #   The Regional Internet Registry to associate with. Possible values:
+    #
+    #   * `ripe` - RIPE NCC (Europe, the Middle East, and Central Asia).
+    #
+    #   * `apnic` - APNIC (Asia Pacific).
+    #
+    #   * `arin` - ARIN (North America).
+    #
+    #   * `lacnic` - LACNIC (Latin America and the Caribbean).
+    #   @return [String]
+    #
+    # @!attribute [rw] organization_handle
+    #   The organization handle at the internet registry (for example, a
+    #   RIPE NCC organization ID or ARIN Org ID).
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description for the internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_specifications
+    #   The tags to assign to the internet registry association.
+    #   @return [Array<Types::TagSpecification>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the operation ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateIpamInternetRegistryAssociationRequest AWS API Documentation
+    #
+    class CreateIpamInternetRegistryAssociationRequest < Struct.new(
+      :dry_run,
+      :ipam_id,
+      :rir,
+      :organization_handle,
+      :description,
+      :tag_specifications,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_internet_registry_association
+    #   Information about the internet registry association.
+    #   @return [Types::IpamInternetRegistryAssociation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateIpamInternetRegistryAssociationResult AWS API Documentation
+    #
+    class CreateIpamInternetRegistryAssociationResult < Struct.new(
+      :ipam_internet_registry_association)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
     #   A check for whether you have the required permissions for the action
     #   without actually making the request and provides an error response.
     #   If you have the required permissions, the error response is
@@ -12716,6 +12853,88 @@ module Aws::EC2
     #
     class CreateIpamResult < Struct.new(
       :ipam)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix in CIDR notation to authorize in the ROA.
+    #   @return [String]
+    #
+    # @!attribute [rw] asns
+    #   The Autonomous System Numbers (ASNs) authorized to originate the
+    #   prefix.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] permit_more_specific_announcements
+    #   Specifies whether to permit more specific route announcements than
+    #   the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the
+    #   authorized CIDR up to the specified maximum length. Default:
+    #   `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] max_length
+    #   The maximum prefix length that the ASNs are authorized to announce.
+    #   Must be greater than or equal to the prefix length of the CIDR. If
+    #   not specified, defaults to the prefix length of the CIDR (exact
+    #   match only).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] description
+    #   A description for the routing policy registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] force
+    #   Forces the creation of the routing policy registration even if it
+    #   conflicts with an announced route. Default: `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the operation ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateIpamRoutingPolicyRegistrationRequest AWS API Documentation
+    #
+    class CreateIpamRoutingPolicyRegistrationRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :cidr,
+      :asns,
+      :permit_more_specific_announcements,
+      :max_length,
+      :description,
+      :force,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_routing_policy_registration_delta
+    #   Information about the routing policy registration delta created by
+    #   this operation.
+    #   @return [Types::IpamRoutingPolicyRegistrationDelta]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateIpamRoutingPolicyRegistrationResult AWS API Documentation
+    #
+    class CreateIpamRoutingPolicyRegistrationResult < Struct.new(
+      :ipam_routing_policy_registration_delta)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19512,6 +19731,38 @@ module Aws::EC2
     end
 
     # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteIpamInternetRegistryAssociationRequest AWS API Documentation
+    #
+    class DeleteIpamInternetRegistryAssociationRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_internet_registry_association
+    #   Information about the deleted internet registry association.
+    #   @return [Types::IpamInternetRegistryAssociation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteIpamInternetRegistryAssociationResult AWS API Documentation
+    #
+    class DeleteIpamInternetRegistryAssociationResult < Struct.new(
+      :ipam_internet_registry_association)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
     #   A check for whether you have the required permissions for the action
     #   without actually making the request and provides an error response.
     #   If you have the required permissions, the error response is
@@ -19747,6 +19998,62 @@ module Aws::EC2
     #
     class DeleteIpamResult < Struct.new(
       :ipam)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix in CIDR notation identifying the routing
+    #   policy registration to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] force
+    #   Forces the deletion even if it conflicts with an announced route.
+    #   Default: `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the operation ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteIpamRoutingPolicyRegistrationRequest AWS API Documentation
+    #
+    class DeleteIpamRoutingPolicyRegistrationRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :cidr,
+      :force,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_routing_policy_registration_delta
+    #   Information about the routing policy registration delta created by
+    #   this deletion.
+    #   @return [Types::IpamRoutingPolicyRegistrationDelta]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteIpamRoutingPolicyRegistrationResult AWS API Documentation
+    #
+    class DeleteIpamRoutingPolicyRegistrationResult < Struct.new(
+      :ipam_routing_policy_registration_delta)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -28928,6 +29235,61 @@ module Aws::EC2
     class DescribeIpamExternalResourceVerificationTokensResult < Struct.new(
       :next_token,
       :ipam_external_resource_verification_tokens)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_ids
+    #   The IDs of the internet registry associations to describe.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters to apply to the results.
+    #   @return [Array<Types::Filter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeIpamInternetRegistryAssociationsRequest AWS API Documentation
+    #
+    class DescribeIpamInternetRegistryAssociationsRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_ids,
+      :max_results,
+      :next_token,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_internet_registry_associations
+    #   The internet registry associations.
+    #   @return [Array<Types::IpamInternetRegistryAssociation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeIpamInternetRegistryAssociationsResult AWS API Documentation
+    #
+    class DescribeIpamInternetRegistryAssociationsResult < Struct.new(
+      :next_token,
+      :ipam_internet_registry_associations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -41920,6 +42282,78 @@ module Aws::EC2
     end
 
     # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association to enable.
+    #   @return [String]
+    #
+    # @!attribute [rw] rpki_version
+    #   The RPKI version to use from the Parent Response XML.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_uri
+    #   The RPKI service URI for the publication point from the Parent
+    #   Response XML.
+    #   @return [String]
+    #
+    # @!attribute [rw] child_handle
+    #   The child handle for the BPKI certificate hierarchy from the Parent
+    #   Response XML.
+    #   @return [String]
+    #
+    # @!attribute [rw] parent_handle
+    #   The parent handle for the BPKI certificate hierarchy from the Parent
+    #   Response XML.
+    #   @return [String]
+    #
+    # @!attribute [rw] parent_bpki_ta
+    #   The parent BPKI Trust Anchor certificate in PEM format from the
+    #   Parent Response XML.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the operation ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableIpamInternetRegistryAssociationRequest AWS API Documentation
+    #
+    class EnableIpamInternetRegistryAssociationRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :rpki_version,
+      :service_uri,
+      :child_handle,
+      :parent_handle,
+      :parent_bpki_ta,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_internet_registry_association
+    #   Information about the enabled internet registry association.
+    #   @return [Types::IpamInternetRegistryAssociation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableIpamInternetRegistryAssociationResult AWS API Documentation
+    #
+    class EnableIpamInternetRegistryAssociationResult < Struct.new(
+      :ipam_internet_registry_association)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
     #   A check for whether you have the required permissions for the action
     #   without actually making the request and provides an error response.
     #   If you have the required permissions, the error response is
@@ -46916,6 +47350,176 @@ module Aws::EC2
     end
 
     # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_resource_discovery_id
+    #   The ID of the IPAM resource discovery.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_region
+    #   The Amazon Web Services Region to retrieve discovered routes for.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters to apply to the results.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamDiscoveredRoutesRequest AWS API Documentation
+    #
+    class GetIpamDiscoveredRoutesRequest < Struct.new(
+      :dry_run,
+      :ipam_resource_discovery_id,
+      :resource_region,
+      :filters,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_discovered_routes
+    #   The discovered BGP routes.
+    #   @return [Array<Types::IpamDiscoveredRoute>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamDiscoveredRoutesResult AWS API Documentation
+    #
+    class GetIpamDiscoveredRoutesResult < Struct.new(
+      :ipam_discovered_routes,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters to apply to the results.
+    #   @return [Array<Types::Filter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamInternetRegistryAssociationAsnsRequest AWS API Documentation
+    #
+    class GetIpamInternetRegistryAssociationAsnsRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :max_results,
+      :next_token,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_asns
+    #   The ASNs registered with the internet registry.
+    #   @return [Array<Types::IpamInternetRegistryAssociationAsn>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamInternetRegistryAssociationAsnsResult AWS API Documentation
+    #
+    class GetIpamInternetRegistryAssociationAsnsResult < Struct.new(
+      :next_token,
+      :ipam_internet_registry_association_asns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters to apply to the results.
+    #   @return [Array<Types::Filter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamInternetRegistryAssociationCidrsRequest AWS API Documentation
+    #
+    class GetIpamInternetRegistryAssociationCidrsRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :max_results,
+      :next_token,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_cidrs
+    #   The CIDRs registered with the internet registry.
+    #   @return [Array<Types::IpamInternetRegistryAssociationCidr>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamInternetRegistryAssociationCidrsResult AWS API Documentation
+    #
+    class GetIpamInternetRegistryAssociationCidrsResult < Struct.new(
+      :next_token,
+      :ipam_internet_registry_association_cidrs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
     #   A check for whether you have the required permissions for the action
     #   without actually making the request and provides an error response.
     #   If you have the required permissions, the error response is
@@ -47447,6 +48051,247 @@ module Aws::EC2
     class GetIpamResourceCidrsResult < Struct.new(
       :next_token,
       :ipam_resource_cidrs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cidr
+    #   Filter results to a specific CIDR prefix.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRouteOriginAuthorizationsRequest AWS API Documentation
+    #
+    class GetIpamRouteOriginAuthorizationsRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :cidr,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_route_origin_authorizations
+    #   The Route Origin Authorizations published to the RPKI.
+    #   @return [Array<Types::IpamRouteOriginAuthorizationInfo>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRouteOriginAuthorizationsResult AWS API Documentation
+    #
+    class GetIpamRouteOriginAuthorizationsResult < Struct.new(
+      :ipam_route_origin_authorizations,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_id
+    #   The ID of the IPAM to retrieve route protection findings for.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters to apply to the results.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRouteProtectionFindingsRequest AWS API Documentation
+    #
+    class GetIpamRouteProtectionFindingsRequest < Struct.new(
+      :dry_run,
+      :ipam_id,
+      :filters,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_id
+    #   The ID of the IPAM.
+    #   @return [String]
+    #
+    # @!attribute [rw] route_protection_findings
+    #   The route protection findings.
+    #   @return [Array<Types::IpamRouteProtectionFinding>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRouteProtectionFindingsResult AWS API Documentation
+    #
+    class GetIpamRouteProtectionFindingsResult < Struct.new(
+      :ipam_id,
+      :route_protection_findings,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] delta_id
+    #   Filter results to a specific delta ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The start of the time range to filter deltas by.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The end of the time range to filter deltas by.
+    #   @return [Time]
+    #
+    # @!attribute [rw] chronological_order
+    #   The chronological order to return results in. Valid values:
+    #   `forward` \| `reverse`.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRoutingPolicyRegistrationDeltasRequest AWS API Documentation
+    #
+    class GetIpamRoutingPolicyRegistrationDeltasRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :delta_id,
+      :start_time,
+      :end_time,
+      :chronological_order,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_routing_policy_registration_deltas
+    #   The routing policy registration deltas.
+    #   @return [Array<Types::IpamRoutingPolicyRegistrationDelta>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRoutingPolicyRegistrationDeltasResult AWS API Documentation
+    #
+    class GetIpamRoutingPolicyRegistrationDeltasResult < Struct.new(
+      :ipam_routing_policy_registration_deltas,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cidr
+    #   Filter results to a specific CIDR prefix.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If not
+    #   specified, all available results are returned. To retrieve the
+    #   remaining results, make another call with the returned `nextToken`
+    #   value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRoutingPolicyRegistrationsRequest AWS API Documentation
+    #
+    class GetIpamRoutingPolicyRegistrationsRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :cidr,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_routing_policy_registrations
+    #   The routing policy registrations.
+    #   @return [Array<Types::IpamRoutingPolicyRegistration>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to retrieve the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetIpamRoutingPolicyRegistrationsResult AWS API Documentation
+    #
+    class GetIpamRoutingPolicyRegistrationsResult < Struct.new(
+      :ipam_routing_policy_registrations,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -56892,6 +57737,95 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Contains information about a BGP route discovered by IPAM resource
+    # discovery.
+    #
+    # @!attribute [rw] ipam_resource_discovery_id
+    #   The ID of the IPAM resource discovery that discovered the route.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_region
+    #   The Amazon Web Services Region where the route was discovered.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_owner_id
+    #   The ID of the resource owner.
+    #   @return [String]
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix of the discovered route in CIDR notation.
+    #   @return [String]
+    #
+    # @!attribute [rw] asn
+    #   The Autonomous System Number (ASN) that originates the route.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the BYOIP CIDR. Possible values:
+    #
+    #   * `advertised` - The CIDR is being advertised.
+    #
+    #   * `deprovisioned` - The CIDR has been deprovisioned.
+    #
+    #   * `failed-deprovision` - Deprovisioning failed.
+    #
+    #   * `failed-provision` - Provisioning failed.
+    #
+    #   * `pending-deprovision` - Deprovisioning is in progress.
+    #
+    #   * `pending-provision` - Provisioning is in progress.
+    #
+    #   * `provisioned` - The CIDR is provisioned.
+    #
+    #   * `provisioned-not-publicly-advertisable` - The CIDR is provisioned
+    #     but not publicly advertisable.
+    #   @return [String]
+    #
+    # @!attribute [rw] advertisement_type
+    #   The advertisement type of the route. Possible values:
+    #
+    #   * `regional` - The IP address is advertised from a single location
+    #     (regional services such as Amazon EC2).
+    #
+    #   * `global` - The IP address is advertised from multiple global
+    #     locations simultaneously (global services such as Amazon
+    #     CloudFront).
+    #   @return [String]
+    #
+    # @!attribute [rw] network_border_group
+    #   The network border group for the route.
+    #   @return [String]
+    #
+    # @!attribute [rw] pool_id
+    #   The ID of the BYOIP pool associated with the route.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_pool_id
+    #   The ID of the IPAM pool associated with the route.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_time
+    #   The time when the route was last sampled.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamDiscoveredRoute AWS API Documentation
+    #
+    class IpamDiscoveredRoute < Struct.new(
+      :ipam_resource_discovery_id,
+      :resource_region,
+      :resource_owner_id,
+      :cidr,
+      :asn,
+      :state,
+      :advertisement_type,
+      :network_border_group,
+      :pool_id,
+      :ipam_pool_id,
+      :sample_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The discovery failure reason.
     #
     # @!attribute [rw] code
@@ -56997,6 +57931,125 @@ module Aws::EC2
       :status,
       :tags,
       :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about an association between an IPAM and a
+    # Regional Internet Registry (RIR) for delegated RPKI management.
+    #
+    # @!attribute [rw] owner_id
+    #   The ID of the Amazon Web Services account that owns the internet
+    #   registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_arn
+    #   The Amazon Resource Name (ARN) of the internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_id
+    #   The ID of the associated IPAM.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_region
+    #   The Amazon Web Services Region of the IPAM.
+    #   @return [String]
+    #
+    # @!attribute [rw] rir
+    #   The Regional Internet Registry. Possible values:
+    #
+    #   * `ripe` - RIPE NCC (Europe, the Middle East, and Central Asia).
+    #
+    #   * `apnic` - APNIC (Asia Pacific).
+    #
+    #   * `arin` - ARIN (North America).
+    #
+    #   * `lacnic` - LACNIC (Latin America and the Caribbean).
+    #   @return [String]
+    #
+    # @!attribute [rw] organization_handle
+    #   The organization handle at the internet registry.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the internet registry association. Valid values:
+    #   `pending-activation` \| `pending-enable` \| `create-in-progress` \|
+    #   `create-failed` \| `enable-in-progress` \| `enable-complete` \|
+    #   `enable-failed` \| `delete-in-progress` \| `delete-complete` \|
+    #   `delete-failed`.
+    #   @return [String]
+    #
+    # @!attribute [rw] child_request_xml
+    #   The XML content for the child request to be submitted to the
+    #   internet registry to complete the BPKI setup.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags assigned to the internet registry association.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamInternetRegistryAssociation AWS API Documentation
+    #
+    class IpamInternetRegistryAssociation < Struct.new(
+      :owner_id,
+      :ipam_internet_registry_association_id,
+      :ipam_internet_registry_association_arn,
+      :ipam_id,
+      :ipam_region,
+      :rir,
+      :organization_handle,
+      :description,
+      :state,
+      :child_request_xml,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about an Autonomous System Number (ASN)
+    # registered at an internet registry and associated with an IPAM.
+    #
+    # @!attribute [rw] asn
+    #   The Autonomous System Number.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_observed_at
+    #   The time when the ASN was last observed at the internet registry.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamInternetRegistryAssociationAsn AWS API Documentation
+    #
+    class IpamInternetRegistryAssociationAsn < Struct.new(
+      :asn,
+      :last_observed_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about an IP address CIDR registered at an
+    # internet registry and associated with an IPAM.
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix in CIDR notation.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_observed_at
+    #   The time when the CIDR was last observed at the internet registry.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamInternetRegistryAssociationCidr AWS API Documentation
+    #
+    class IpamInternetRegistryAssociationCidr < Struct.new(
+      :cidr,
+      :last_observed_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -58596,6 +59649,299 @@ module Aws::EC2
     class IpamResourceTag < Struct.new(
       :key,
       :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a Route Origin Authorization (ROA)
+    # published in the RPKI. A ROA cryptographically attests that a specific
+    # ASN is authorized to originate a specific IP address prefix.
+    #
+    # @!attribute [rw] asn
+    #   The Autonomous System Number (ASN) authorized by the ROA.
+    #   @return [String]
+    #
+    # @!attribute [rw] prefix
+    #   The IP address prefix authorized by the ROA in CIDR notation.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_length
+    #   The maximum prefix length that the ASN is authorized to announce.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] match
+    #   Specifies whether the ROA matches the route announcement.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] expiration
+    #   The expiration date of the ROA.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamRouteOriginAuthorization AWS API Documentation
+    #
+    class IpamRouteOriginAuthorization < Struct.new(
+      :asn,
+      :prefix,
+      :max_length,
+      :match,
+      :expiration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a Route Origin Authorization (ROA)
+    # currently published in the RPKI.
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix in CIDR notation authorized by the ROA.
+    #   @return [String]
+    #
+    # @!attribute [rw] asn
+    #   The Autonomous System Number (ASN) authorized to originate the
+    #   prefix.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_length
+    #   The maximum prefix length that the ASN is authorized to announce.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamRouteOriginAuthorizationInfo AWS API Documentation
+    #
+    class IpamRouteOriginAuthorizationInfo < Struct.new(
+      :cidr,
+      :asn,
+      :max_length)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about an overlapping route detected for a BYOIP
+    # prefix.
+    #
+    # @!attribute [rw] prefix
+    #   The overlapping IP address prefix in CIDR notation.
+    #   @return [String]
+    #
+    # @!attribute [rw] asn
+    #   The ASN originating the overlapping route.
+    #   @return [String]
+    #
+    # @!attribute [rw] detected_at
+    #   The time when the overlap was detected.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamRouteOverlap AWS API Documentation
+    #
+    class IpamRouteOverlap < Struct.new(
+      :prefix,
+      :asn,
+      :detected_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a route protection finding, including the
+    # RPKI validation status of a BYOIP route announcement.
+    #
+    # @!attribute [rw] resource_owner_id
+    #   The ID of the resource owner.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_region
+    #   The Amazon Web Services Region of the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipam_pool_id
+    #   The ID of the IPAM pool associated with the finding.
+    #   @return [String]
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix in CIDR notation.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the BYOIP CIDR. Possible values:
+    #
+    #   * `advertised` - The CIDR is being advertised.
+    #
+    #   * `deprovisioned` - The CIDR has been deprovisioned.
+    #
+    #   * `failed-deprovision` - Deprovisioning failed.
+    #
+    #   * `failed-provision` - Provisioning failed.
+    #
+    #   * `pending-deprovision` - Deprovisioning is in progress.
+    #
+    #   * `pending-provision` - Provisioning is in progress.
+    #
+    #   * `provisioned` - The CIDR is provisioned.
+    #
+    #   * `provisioned-not-publicly-advertisable` - The CIDR is provisioned
+    #     but not publicly advertisable.
+    #   @return [String]
+    #
+    # @!attribute [rw] advertisement_type
+    #   The advertisement type. Possible values:
+    #
+    #   * `regional` - The IP address is advertised from a single location
+    #     (regional services such as Amazon EC2).
+    #
+    #   * `global` - The IP address is advertised from multiple global
+    #     locations simultaneously (global services such as Amazon
+    #     CloudFront).
+    #   @return [String]
+    #
+    # @!attribute [rw] network_border_group
+    #   The network border group.
+    #   @return [String]
+    #
+    # @!attribute [rw] pool_id
+    #   The ID of the BYOIP pool.
+    #   @return [String]
+    #
+    # @!attribute [rw] asn
+    #   The Autonomous System Number (ASN) that originates the route.
+    #   @return [String]
+    #
+    # @!attribute [rw] rpki_status
+    #   The RPKI validation status of the route. Possible values:
+    #
+    #   * `valid` - The route has a matching ROA that covers the prefix and
+    #     origin ASN.
+    #
+    #   * `invalid` - The route has a ROA for the prefix, but the origin ASN
+    #     or prefix length does not match.
+    #
+    #   * `unknown` - No ROA exists for the prefix, so RPKI validation
+    #     cannot be performed.
+    #   @return [String]
+    #
+    # @!attribute [rw] rpki_strength
+    #   The RPKI enforcement strength for the route. Possible values:
+    #
+    #   * `strict` - Invalid routes are rejected.
+    #
+    #   * `permissive` - Invalid routes are accepted but flagged.
+    #   @return [String]
+    #
+    # @!attribute [rw] roas
+    #   The Route Origin Authorizations (ROAs) that cover the prefix.
+    #   @return [Array<Types::IpamRouteOriginAuthorization>]
+    #
+    # @!attribute [rw] route_overlaps
+    #   The overlapping routes detected for this prefix.
+    #   @return [Array<Types::IpamRouteOverlap>]
+    #
+    # @!attribute [rw] sample_time
+    #   The time when the route was last sampled.
+    #   @return [Time]
+    #
+    # @!attribute [rw] roa_sample_time
+    #   The time when the ROA data was last sampled.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamRouteProtectionFinding AWS API Documentation
+    #
+    class IpamRouteProtectionFinding < Struct.new(
+      :resource_owner_id,
+      :resource_region,
+      :ipam_pool_id,
+      :cidr,
+      :state,
+      :advertisement_type,
+      :network_border_group,
+      :pool_id,
+      :asn,
+      :rpki_status,
+      :rpki_strength,
+      :roas,
+      :route_overlaps,
+      :sample_time,
+      :roa_sample_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a routing policy registration that
+    # represents a Route Origin Authorization (ROA) managed through IPAM.
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix in CIDR notation authorized by the ROA.
+    #   @return [String]
+    #
+    # @!attribute [rw] asns
+    #   The Autonomous System Numbers (ASNs) authorized to originate the
+    #   prefix.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] permit_more_specific_announcements
+    #   Specifies whether to permit more specific route announcements than
+    #   the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the
+    #   authorized CIDR up to the specified maximum length. Default:
+    #   `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] max_length
+    #   The maximum prefix length that the ASNs are authorized to announce.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] description
+    #   The description of the routing policy registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] latest_delta_id
+    #   The ID of the most recent delta that modified this registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the routing policy registration. Valid values:
+    #   `pending-activate` \| `activate-failed` \| `create-in-progress` \|
+    #   `create-complete` \| `update-in-progress` \| `update-complete` \|
+    #   `delete-in-progress` \| `delete-complete`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamRoutingPolicyRegistration AWS API Documentation
+    #
+    class IpamRoutingPolicyRegistration < Struct.new(
+      :cidr,
+      :asns,
+      :permit_more_specific_announcements,
+      :max_length,
+      :description,
+      :latest_delta_id,
+      :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a routing policy registration change,
+    # including the changes applied and their publication state.
+    #
+    # @!attribute [rw] delta_id
+    #   The unique identifier of the delta.
+    #   @return [String]
+    #
+    # @!attribute [rw] delta_json
+    #   The JSON specification describing the changes applied in this delta.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the delta. Valid values: `pending` \| `published` \|
+    #   `failed`.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_message
+    #   A message describing the current state, including error information
+    #   if the delta failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/IpamRoutingPolicyRegistrationDelta AWS API Documentation
+    #
+    class IpamRoutingPolicyRegistrationDelta < Struct.new(
+      :delta_id,
+      :delta_json,
+      :state,
+      :state_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -65350,6 +66696,86 @@ module Aws::EC2
     #
     class ModifyIpamResult < Struct.new(
       :ipam)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ipam_internet_registry_association_id
+    #   The ID of the IPAM internet registry association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cidr
+    #   The IP address prefix in CIDR notation identifying the routing
+    #   policy registration to modify.
+    #   @return [String]
+    #
+    # @!attribute [rw] asns
+    #   The updated list of Autonomous System Numbers (ASNs) authorized to
+    #   originate the prefix.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] permit_more_specific_announcements
+    #   Specifies whether to permit more specific route announcements than
+    #   the CIDR prefix. Default: `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] max_length
+    #   The new maximum prefix length that the ASNs are authorized to
+    #   announce. Must be greater than or equal to the prefix length of the
+    #   CIDR.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] description
+    #   A new description for the routing policy registration.
+    #   @return [String]
+    #
+    # @!attribute [rw] force
+    #   Forces the modification even if it conflicts with an announced
+    #   route. Default: `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the operation ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyIpamRoutingPolicyRegistrationRequest AWS API Documentation
+    #
+    class ModifyIpamRoutingPolicyRegistrationRequest < Struct.new(
+      :dry_run,
+      :ipam_internet_registry_association_id,
+      :cidr,
+      :asns,
+      :permit_more_specific_announcements,
+      :max_length,
+      :description,
+      :force,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ipam_routing_policy_registration_delta
+    #   Information about the routing policy registration delta created by
+    #   this modification.
+    #   @return [Types::IpamRoutingPolicyRegistrationDelta]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyIpamRoutingPolicyRegistrationResult AWS API Documentation
+    #
+    class ModifyIpamRoutingPolicyRegistrationResult < Struct.new(
+      :ipam_routing_policy_registration_delta)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -36,6 +36,7 @@ module Aws::MediaTailor
 
     class AdDecisionServerConfiguration
       attr_accessor http_request: Types::HttpRequest
+      attr_accessor vast_response: Types::VastResponse
       SENSITIVE: []
     end
 
@@ -816,6 +817,7 @@ module Aws::MediaTailor
     class LivePreRollConfiguration
       attr_accessor ad_decision_server_url: ::String
       attr_accessor max_duration_seconds: ::Integer
+      attr_accessor ad_decision_server_configuration: Types::PreRollAdDecisionServerConfiguration
       SENSITIVE: []
     end
 
@@ -882,6 +884,16 @@ module Aws::MediaTailor
       attr_accessor function_mapping: ::Hash[("PRE_SESSION_INITIALIZATION" | "PRE_ADS_REQUEST"), ::String]
       attr_accessor ads_personalization_timeouts: Types::AdsPersonalizationTimeouts
       attr_accessor ads_personalization_concurrency: Types::AdsPersonalizationConcurrency
+      SENSITIVE: []
+    end
+
+    class PreRollAdDecisionServerConfiguration
+      attr_accessor vast_response: Types::PreRollVastResponse
+      SENSITIVE: []
+    end
+
+    class PreRollVastResponse
+      attr_accessor ad_sequencing_mode: ("FOLLOW_AD_SEQUENCE" | "IGNORE_AD_SEQUENCE")
       SENSITIVE: []
     end
 
@@ -1310,6 +1322,11 @@ module Aws::MediaTailor
       attr_accessor source_location_name: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor vod_source_name: ::String
+      SENSITIVE: []
+    end
+
+    class VastResponse
+      attr_accessor ad_sequencing_mode: ("FOLLOW_AD_SEQUENCE" | "IGNORE_AD_SEQUENCE" | "FOLLOW_AD_SEQUENCE_ONLY_LIVE" | "FOLLOW_AD_SEQUENCE_ONLY_VOD")
       SENSITIVE: []
     end
 

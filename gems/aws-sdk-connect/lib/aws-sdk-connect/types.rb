@@ -1812,8 +1812,8 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] associated_resource_arn
-    #   The resource to which the attached file is (being) uploaded to.
-    #   [Cases][1] are the only current supported resource.
+    #   The resource to which the attached file is (being) uploaded to. The
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -1821,7 +1821,9 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
+    #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -2825,7 +2827,7 @@ module Aws::Connect
     #
     # @!attribute [rw] associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -2835,6 +2837,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/BatchGetAttachedFileMetadataRequest AWS API Documentation
@@ -3559,7 +3562,7 @@ module Aws::Connect
     #
     # @!attribute [rw] associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -3569,6 +3572,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CompleteAttachedFileUploadRequest AWS API Documentation
@@ -4926,8 +4930,8 @@ module Aws::Connect
     end
 
     # The contact has not been disconnected and is not in a terminated
-    # state. PII can be deleted only from a contact that has been
-    # disconnected. This error is returned with an HTTP 409 status code.
+    # state. To delete PII, disconnect the contact first. Wait for it to
+    # reach the terminated state, then retry the request.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -9269,8 +9273,8 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] associated_resource_arn
-    #   The resource to which the attached file is (being) uploaded to.
-    #   [Cases][1] are the only current supported resource.
+    #   The resource to which the attached file is (being) uploaded to. The
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -9278,7 +9282,9 @@ module Aws::Connect
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
+    #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteAttachedFileRequest AWS API Documentation
@@ -9307,15 +9313,21 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] contact_id
-    #   The identifier of the contact. PII can be deleted only from a
+    #   The identifier of the contact. You can delete PII only from a
     #   contact that has been disconnected (is in a terminated state).
     #   @return [String]
     #
     # @!attribute [rw] contact_fields
-    #   The categories of PII to redact from the contact. Valid values are
-    #   `CUSTOMER_ENDPOINT`, `ADDITIONAL_EMAIL_RECIPIENTS`, and
-    #   `EMAIL_SUBJECT`. `ADDITIONAL_EMAIL_RECIPIENTS` and `EMAIL_SUBJECT`
-    #   are supported only for contacts in the email channel.
+    #   The categories of PII to redact from the contact. Specify one or
+    #   more of the following values:
+    #
+    #   * `CUSTOMER_ENDPOINT` – The customer's contact endpoint.
+    #
+    #   * `ADDITIONAL_EMAIL_RECIPIENTS` – Additional recipients on an email
+    #     contact (email channel only).
+    #
+    #   * `EMAIL_SUBJECT` – The subject line of an email contact (email
+    #     channel only).
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteContactDataRequest AWS API Documentation
@@ -15494,7 +15506,7 @@ module Aws::Connect
     #
     # @!attribute [rw] associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -15504,6 +15516,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetAttachedFileRequest AWS API Documentation
@@ -15546,12 +15559,14 @@ module Aws::Connect
     #   @return [Integer]
     #
     # @!attribute [rw] associated_resource_arn
-    #   The resource to which the attached file is (being) uploaded to.
-    #   [Cases][1] are the only current supported resource.
+    #   The resource to which the attached file is (being) uploaded to. The
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
+    #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #   @return [String]
     #
     # @!attribute [rw] file_use_case_type
@@ -32457,7 +32472,7 @@ module Aws::Connect
     #
     # @!attribute [rw] associated_resource_arn
     #   The resource to which the attached file is (being) uploaded to. The
-    #   supported resources are [Cases][1] and [Email][2].
+    #   supported resources are [Cases][1], [Email][2], and [Task][3].
     #
     #   <note markdown="1"> This value must be a valid ARN.
     #
@@ -32467,6 +32482,7 @@ module Aws::Connect
     #
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cases.html
     #   [2]: https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html
+    #   [3]: https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html
     #   @return [String]
     #
     # @!attribute [rw] created_by
@@ -36171,6 +36187,43 @@ module Aws::Connect
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateContactScheduleResponse AWS API Documentation
     #
     class UpdateContactScheduleResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] task_template_id
+    #   A unique identifier for the task template. For more information
+    #   about task templates, see [Task templates][1] in the *Connect
+    #   Customer Administrator Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html
+    #   @return [String]
+    #
+    # @!attribute [rw] contact_id
+    #   The identifier of the contact in this instance of Connect Customer.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateContactTaskTemplateRequest AWS API Documentation
+    #
+    class UpdateContactTaskTemplateRequest < Struct.new(
+      :instance_id,
+      :task_template_id,
+      :contact_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateContactTaskTemplateResponse AWS API Documentation
+    #
+    class UpdateContactTaskTemplateResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] instance_id
     #   The unique identifier for the Amazon Connect instance.

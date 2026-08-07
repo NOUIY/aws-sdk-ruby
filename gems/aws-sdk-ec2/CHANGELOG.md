@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.636.0 (2026-08-07)
+------------------
+
+* Feature - This release adds support for BGP route protection in Amazon VPC IP Address Manager (IPAM), including route discovery, RPKI route protection findings, and delegated RPKI (Internet Registry Associations, routing policy registrations, and ROA management) for BYOIP prefixes.
+
 1.635.0 (2026-08-06)
 ------------------
 

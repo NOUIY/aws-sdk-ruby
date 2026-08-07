@@ -24,6 +24,7 @@ module Aws::MediaTailor
     AdDecisionServerConfiguration = Shapes::StructureShape.new(name: 'AdDecisionServerConfiguration')
     AdMarkerPassthrough = Shapes::StructureShape.new(name: 'AdMarkerPassthrough')
     AdMarkupType = Shapes::StringShape.new(name: 'AdMarkupType')
+    AdSequencingMode = Shapes::StringShape.new(name: 'AdSequencingMode')
     AdsInteractionExcludeEventType = Shapes::StringShape.new(name: 'AdsInteractionExcludeEventType')
     AdsInteractionLog = Shapes::StructureShape.new(name: 'AdsInteractionLog')
     AdsInteractionPublishOptInEventType = Shapes::StringShape.new(name: 'AdsInteractionPublishOptInEventType')
@@ -161,6 +162,9 @@ module Aws::MediaTailor
     OriginManifestType = Shapes::StringShape.new(name: 'OriginManifestType')
     PlaybackConfiguration = Shapes::StructureShape.new(name: 'PlaybackConfiguration')
     PlaybackMode = Shapes::StringShape.new(name: 'PlaybackMode')
+    PreRollAdDecisionServerConfiguration = Shapes::StructureShape.new(name: 'PreRollAdDecisionServerConfiguration')
+    PreRollAdSequencingMode = Shapes::StringShape.new(name: 'PreRollAdSequencingMode')
+    PreRollVastResponse = Shapes::StructureShape.new(name: 'PreRollVastResponse')
     PrefetchConsumption = Shapes::StructureShape.new(name: 'PrefetchConsumption')
     PrefetchRetrieval = Shapes::StructureShape.new(name: 'PrefetchRetrieval')
     PrefetchSchedule = Shapes::StructureShape.new(name: 'PrefetchSchedule')
@@ -221,6 +225,7 @@ module Aws::MediaTailor
     UpdateSourceLocationResponse = Shapes::StructureShape.new(name: 'UpdateSourceLocationResponse')
     UpdateVodSourceRequest = Shapes::StructureShape.new(name: 'UpdateVodSourceRequest')
     UpdateVodSourceResponse = Shapes::StructureShape.new(name: 'UpdateVodSourceResponse')
+    VastResponse = Shapes::StructureShape.new(name: 'VastResponse')
     VodSource = Shapes::StructureShape.new(name: 'VodSource')
     __adsInteractionExcludeEventTypesList = Shapes::ListShape.new(name: '__adsInteractionExcludeEventTypesList')
     __adsInteractionPublishOptInEventTypesList = Shapes::ListShape.new(name: '__adsInteractionPublishOptInEventTypesList')
@@ -277,6 +282,7 @@ module Aws::MediaTailor
     AdConditioningConfiguration.struct_class = Types::AdConditioningConfiguration
 
     AdDecisionServerConfiguration.add_member(:http_request, Shapes::ShapeRef.new(shape: HttpRequest, location_name: "HttpRequest"))
+    AdDecisionServerConfiguration.add_member(:vast_response, Shapes::ShapeRef.new(shape: VastResponse, location_name: "VastResponse"))
     AdDecisionServerConfiguration.struct_class = Types::AdDecisionServerConfiguration
 
     AdMarkerPassthrough.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, location_name: "Enabled"))
@@ -875,6 +881,7 @@ module Aws::MediaTailor
 
     LivePreRollConfiguration.add_member(:ad_decision_server_url, Shapes::ShapeRef.new(shape: __string, location_name: "AdDecisionServerUrl"))
     LivePreRollConfiguration.add_member(:max_duration_seconds, Shapes::ShapeRef.new(shape: __integer, location_name: "MaxDurationSeconds"))
+    LivePreRollConfiguration.add_member(:ad_decision_server_configuration, Shapes::ShapeRef.new(shape: PreRollAdDecisionServerConfiguration, location_name: "AdDecisionServerConfiguration"))
     LivePreRollConfiguration.struct_class = Types::LivePreRollConfiguration
 
     LiveSource.add_member(:arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "Arn"))
@@ -932,6 +939,12 @@ module Aws::MediaTailor
     PlaybackConfiguration.add_member(:ads_personalization_timeouts, Shapes::ShapeRef.new(shape: AdsPersonalizationTimeouts, location_name: "AdsPersonalizationTimeouts"))
     PlaybackConfiguration.add_member(:ads_personalization_concurrency, Shapes::ShapeRef.new(shape: AdsPersonalizationConcurrency, location_name: "AdsPersonalizationConcurrency"))
     PlaybackConfiguration.struct_class = Types::PlaybackConfiguration
+
+    PreRollAdDecisionServerConfiguration.add_member(:vast_response, Shapes::ShapeRef.new(shape: PreRollVastResponse, location_name: "VastResponse"))
+    PreRollAdDecisionServerConfiguration.struct_class = Types::PreRollAdDecisionServerConfiguration
+
+    PreRollVastResponse.add_member(:ad_sequencing_mode, Shapes::ShapeRef.new(shape: PreRollAdSequencingMode, location_name: "AdSequencingMode"))
+    PreRollVastResponse.struct_class = Types::PreRollVastResponse
 
     PrefetchConsumption.add_member(:avail_matching_criteria, Shapes::ShapeRef.new(shape: __listOfAvailMatchingCriteria, location_name: "AvailMatchingCriteria"))
     PrefetchConsumption.add_member(:end_time, Shapes::ShapeRef.new(shape: __timestampUnix, required: true, location_name: "EndTime"))
@@ -1278,6 +1291,9 @@ module Aws::MediaTailor
     UpdateVodSourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     UpdateVodSourceResponse.add_member(:vod_source_name, Shapes::ShapeRef.new(shape: __string, location_name: "VodSourceName"))
     UpdateVodSourceResponse.struct_class = Types::UpdateVodSourceResponse
+
+    VastResponse.add_member(:ad_sequencing_mode, Shapes::ShapeRef.new(shape: AdSequencingMode, location_name: "AdSequencingMode"))
+    VastResponse.struct_class = Types::VastResponse
 
     VodSource.add_member(:arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "Arn"))
     VodSource.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampUnix, location_name: "CreationTime"))

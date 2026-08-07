@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.383.0 (2026-08-07)
+------------------
+
+* Feature - Amazon SageMaker adds maintenance lifecycle statuses for Notebook Instances
+
 1.382.0 (2026-08-06)
 ------------------
 

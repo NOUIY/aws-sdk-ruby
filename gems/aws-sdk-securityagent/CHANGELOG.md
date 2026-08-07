@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.11.0 (2026-08-07)
+------------------
+
+* Feature - Added enableEmailMfa input field on Actor to enable email-based MFA during penetration tests. When enabled, a server-generated mfaForwardingAddress is returned. Set up a forwarding rule in your email provider to forward MFA emails to this address so the agent can complete email-based MFA login flows
+
 1.10.0 (2026-07-30)
 ------------------
 

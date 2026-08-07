@@ -2038,6 +2038,8 @@ module Aws::Connect
     UpdateContactRoutingDataResponse = Shapes::StructureShape.new(name: 'UpdateContactRoutingDataResponse')
     UpdateContactScheduleRequest = Shapes::StructureShape.new(name: 'UpdateContactScheduleRequest')
     UpdateContactScheduleResponse = Shapes::StructureShape.new(name: 'UpdateContactScheduleResponse')
+    UpdateContactTaskTemplateRequest = Shapes::StructureShape.new(name: 'UpdateContactTaskTemplateRequest')
+    UpdateContactTaskTemplateResponse = Shapes::StructureShape.new(name: 'UpdateContactTaskTemplateResponse')
     UpdateDataTableAttributeRequest = Shapes::StructureShape.new(name: 'UpdateDataTableAttributeRequest')
     UpdateDataTableAttributeResponse = Shapes::StructureShape.new(name: 'UpdateDataTableAttributeResponse')
     UpdateDataTableMetadataRequest = Shapes::StructureShape.new(name: 'UpdateDataTableMetadataRequest')
@@ -8997,6 +8999,13 @@ module Aws::Connect
 
     UpdateContactScheduleResponse.struct_class = Types::UpdateContactScheduleResponse
 
+    UpdateContactTaskTemplateRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
+    UpdateContactTaskTemplateRequest.add_member(:task_template_id, Shapes::ShapeRef.new(shape: TaskTemplateId, required: true, location_name: "TaskTemplateId"))
+    UpdateContactTaskTemplateRequest.add_member(:contact_id, Shapes::ShapeRef.new(shape: ContactId, required: true, location_name: "ContactId"))
+    UpdateContactTaskTemplateRequest.struct_class = Types::UpdateContactTaskTemplateRequest
+
+    UpdateContactTaskTemplateResponse.struct_class = Types::UpdateContactTaskTemplateResponse
+
     UpdateDataTableAttributeRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     UpdateDataTableAttributeRequest.add_member(:data_table_id, Shapes::ShapeRef.new(shape: DataTableId, required: true, location: "uri", location_name: "DataTableId"))
     UpdateDataTableAttributeRequest.add_member(:attribute_name, Shapes::ShapeRef.new(shape: DataTableName, required: true, location: "uri", location_name: "AttributeName"))
@@ -14876,6 +14885,21 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+      end)
+
+      api.add_operation(:update_contact_task_template, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateContactTaskTemplate"
+        o.http_method = "POST"
+        o.http_request_uri = "/contact/task-template"
+        o.input = Shapes::ShapeRef.new(shape: UpdateContactTaskTemplateRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateContactTaskTemplateResponse)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: PropertyValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
       end)
 
       api.add_operation(:update_data_table_attribute, Seahorse::Model::Operation.new.tap do |o|

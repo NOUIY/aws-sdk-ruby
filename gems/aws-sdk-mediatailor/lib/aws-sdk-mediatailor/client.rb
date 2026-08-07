@@ -2265,6 +2265,7 @@ module Aws::MediaTailor
     #   resp.insertion_mode #=> String, one of "STITCHED_ONLY", "PLAYER_SELECT"
     #   resp.live_pre_roll_configuration.ad_decision_server_url #=> String
     #   resp.live_pre_roll_configuration.max_duration_seconds #=> Integer
+    #   resp.live_pre_roll_configuration.ad_decision_server_configuration.vast_response.ad_sequencing_mode #=> String, one of "FOLLOW_AD_SEQUENCE", "IGNORE_AD_SEQUENCE"
     #   resp.log_configuration.percent_enabled #=> Integer
     #   resp.log_configuration.enabled_logging_strategies #=> Array
     #   resp.log_configuration.enabled_logging_strategies[0] #=> String, one of "VENDED_LOGS", "LEGACY_CLOUDWATCH"
@@ -2295,6 +2296,7 @@ module Aws::MediaTailor
     #   resp.ad_decision_server_configuration.http_request.headers #=> Hash
     #   resp.ad_decision_server_configuration.http_request.headers["__string"] #=> String
     #   resp.ad_decision_server_configuration.http_request.compress_request #=> String, one of "NONE", "GZIP"
+    #   resp.ad_decision_server_configuration.vast_response.ad_sequencing_mode #=> String, one of "FOLLOW_AD_SEQUENCE", "IGNORE_AD_SEQUENCE", "FOLLOW_AD_SEQUENCE_ONLY_LIVE", "FOLLOW_AD_SEQUENCE_ONLY_VOD"
     #   resp.function_mapping #=> Hash
     #   resp.function_mapping["EventName"] #=> String
     #   resp.ads_personalization_timeouts.ads_request_timeout_milliseconds #=> Integer
@@ -2779,6 +2781,7 @@ module Aws::MediaTailor
     #   resp.items[0].insertion_mode #=> String, one of "STITCHED_ONLY", "PLAYER_SELECT"
     #   resp.items[0].live_pre_roll_configuration.ad_decision_server_url #=> String
     #   resp.items[0].live_pre_roll_configuration.max_duration_seconds #=> Integer
+    #   resp.items[0].live_pre_roll_configuration.ad_decision_server_configuration.vast_response.ad_sequencing_mode #=> String, one of "FOLLOW_AD_SEQUENCE", "IGNORE_AD_SEQUENCE"
     #   resp.items[0].log_configuration.percent_enabled #=> Integer
     #   resp.items[0].log_configuration.enabled_logging_strategies #=> Array
     #   resp.items[0].log_configuration.enabled_logging_strategies[0] #=> String, one of "VENDED_LOGS", "LEGACY_CLOUDWATCH"
@@ -2809,6 +2812,7 @@ module Aws::MediaTailor
     #   resp.items[0].ad_decision_server_configuration.http_request.headers #=> Hash
     #   resp.items[0].ad_decision_server_configuration.http_request.headers["__string"] #=> String
     #   resp.items[0].ad_decision_server_configuration.http_request.compress_request #=> String, one of "NONE", "GZIP"
+    #   resp.items[0].ad_decision_server_configuration.vast_response.ad_sequencing_mode #=> String, one of "FOLLOW_AD_SEQUENCE", "IGNORE_AD_SEQUENCE", "FOLLOW_AD_SEQUENCE_ONLY_LIVE", "FOLLOW_AD_SEQUENCE_ONLY_VOD"
     #   resp.items[0].function_mapping #=> Hash
     #   resp.items[0].function_mapping["EventName"] #=> String
     #   resp.items[0].ads_personalization_timeouts.ads_request_timeout_milliseconds #=> Integer
@@ -3521,6 +3525,11 @@ module Aws::MediaTailor
     #     live_pre_roll_configuration: {
     #       ad_decision_server_url: "__string",
     #       max_duration_seconds: 1,
+    #       ad_decision_server_configuration: {
+    #         vast_response: {
+    #           ad_sequencing_mode: "FOLLOW_AD_SEQUENCE", # accepts FOLLOW_AD_SEQUENCE, IGNORE_AD_SEQUENCE
+    #         },
+    #       },
     #     },
     #     manifest_processing_rules: {
     #       ad_marker_passthrough: {
@@ -3546,6 +3555,9 @@ module Aws::MediaTailor
     #           "__string" => "__string",
     #         },
     #         compress_request: "NONE", # accepts NONE, GZIP
+    #       },
+    #       vast_response: {
+    #         ad_sequencing_mode: "FOLLOW_AD_SEQUENCE", # accepts FOLLOW_AD_SEQUENCE, IGNORE_AD_SEQUENCE, FOLLOW_AD_SEQUENCE_ONLY_LIVE, FOLLOW_AD_SEQUENCE_ONLY_VOD
     #       },
     #     },
     #     function_mapping: {
@@ -3586,6 +3598,7 @@ module Aws::MediaTailor
     #   resp.insertion_mode #=> String, one of "STITCHED_ONLY", "PLAYER_SELECT"
     #   resp.live_pre_roll_configuration.ad_decision_server_url #=> String
     #   resp.live_pre_roll_configuration.max_duration_seconds #=> Integer
+    #   resp.live_pre_roll_configuration.ad_decision_server_configuration.vast_response.ad_sequencing_mode #=> String, one of "FOLLOW_AD_SEQUENCE", "IGNORE_AD_SEQUENCE"
     #   resp.log_configuration.percent_enabled #=> Integer
     #   resp.log_configuration.enabled_logging_strategies #=> Array
     #   resp.log_configuration.enabled_logging_strategies[0] #=> String, one of "VENDED_LOGS", "LEGACY_CLOUDWATCH"
@@ -3616,6 +3629,7 @@ module Aws::MediaTailor
     #   resp.ad_decision_server_configuration.http_request.headers #=> Hash
     #   resp.ad_decision_server_configuration.http_request.headers["__string"] #=> String
     #   resp.ad_decision_server_configuration.http_request.compress_request #=> String, one of "NONE", "GZIP"
+    #   resp.ad_decision_server_configuration.vast_response.ad_sequencing_mode #=> String, one of "FOLLOW_AD_SEQUENCE", "IGNORE_AD_SEQUENCE", "FOLLOW_AD_SEQUENCE_ONLY_LIVE", "FOLLOW_AD_SEQUENCE_ONLY_VOD"
     #   resp.function_mapping #=> Hash
     #   resp.function_mapping["EventName"] #=> String
     #   resp.ads_personalization_timeouts.ads_request_timeout_milliseconds #=> Integer
@@ -4309,7 +4323,7 @@ module Aws::MediaTailor
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mediatailor'
-      context[:gem_version] = '1.125.0'
+      context[:gem_version] = '1.126.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.268.0 (2026-08-07)
+------------------
+
+* Feature - Supports updating the task template associated with in-progress task contacts using the new UpdateContactTaskTemplate API. This enables supervisors and developers to dynamically reassign task templates without creating a new task.
+
 1.267.0 (2026-08-04)
 ------------------
 
