@@ -801,7 +801,11 @@ module Aws
       enable_ssm_access: bool?,
       managed_instance_scaling: Params::production_variant_managed_instance_scaling?,
       routing_config: {
-        routing_strategy: ("LEAST_OUTSTANDING_REQUESTS" | "RANDOM")
+        routing_strategy: ("LEAST_OUTSTANDING_REQUESTS" | "RANDOM" | "PREFIX_AWARE"),
+        prefix_aware_routing_config: {
+          prefix_length: ::Integer?,
+          concurrency_threshold: ::Integer?
+        }?
       }?,
       inference_ami_version: ("al2-ami-sagemaker-inference-gpu-2" | "al2-ami-sagemaker-inference-gpu-2-1" | "al2-ami-sagemaker-inference-gpu-3-1" | "al2-ami-sagemaker-inference-neuron-2" | "al2023-ami-sagemaker-inference-gpu-4-1")?,
       capacity_reservation_config: {

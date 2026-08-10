@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.384.0 (2026-08-10)
+------------------
+
+* Feature - Added PREFIX AWARE routing strategy and PrefixAwareRoutingConfig to CreateEndpointConfig. Configure PrefixLength and ConcurrencyThreshold to route requests that share the same prompt prefix to the same instance.
+
 1.383.0 (2026-08-07)
 ------------------
 

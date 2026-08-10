@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.269.0 (2026-08-10)
+------------------
+
+* Feature - Added Malay language option to use AI to automatically fill evaluation forms in Malay
+
 1.268.0 (2026-08-07)
 ------------------
 

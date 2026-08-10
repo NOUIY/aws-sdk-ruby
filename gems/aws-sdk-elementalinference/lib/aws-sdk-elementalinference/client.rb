@@ -550,6 +550,9 @@ module Aws::ElementalInference
     #           },
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
+    #             data_source_configuration: {
+    #               fixture_id: "FixtureId", # required
+    #             },
     #           },
     #           subtitling: {
     #             language: "eng", # required, accepts eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por
@@ -703,6 +706,9 @@ module Aws::ElementalInference
     #           },
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
+    #             data_source_configuration: {
+    #               fixture_id: "FixtureId", # required
+    #             },
     #           },
     #           subtitling: {
     #             language: "eng", # required, accepts eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por
@@ -737,6 +743,7 @@ module Aws::ElementalInference
     #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris #=> Array
     #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris[0] #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
+    #   resp.outputs[0].output_config.clipping.data_source_configuration.fixture_id #=> String
     #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.height #=> Integer
@@ -982,6 +989,7 @@ module Aws::ElementalInference
     #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris #=> Array
     #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris[0] #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
+    #   resp.outputs[0].output_config.clipping.data_source_configuration.fixture_id #=> String
     #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.height #=> Integer
@@ -1135,6 +1143,105 @@ module Aws::ElementalInference
     # @param [Hash] params ({})
     def list_tags_for_resource(params = {}, options = {})
       req = build_request(:list_tags_for_resource, params)
+      req.send_request(options)
+    end
+
+    # Searches for the fixtures (sports events, such as a specific
+    # basketball game) that are available for a sport in a date window. Each
+    # fixture in the response includes a fixtureId that you specify in the
+    # clipping output of a feed, so that Elemental Inference maps the event
+    # data for that fixture onto the clipping metadata. This operation is
+    # paginated: if there are more fixtures than fit in one page, the
+    # response includes a nextToken that you pass in a subsequent request.
+    #
+    # @option params [required, String] :sport
+    #   The sport to search for fixtures. Valid values: basketball (search for
+    #   basketball fixtures), american-football (search for american-football
+    #   fixtures).
+    #
+    # @option params [required, String] :start_date
+    #   The first day of the search window, in UTC. The search includes
+    #   fixtures that are scheduled on this day.
+    #
+    #   Specify the date in ISO 8601 format, as `YYYY-MM-DD`. For example,
+    #   2026-03-14.
+    #
+    # @option params [String] :end_date
+    #   The last day of the search window, in UTC. The search includes
+    #   fixtures that are scheduled on this day. Specify the date in ISO 8601
+    #   format, as `YYYY-MM-DD`.
+    #
+    #   If you omit this parameter, Elemental Inference searches only the day
+    #   that you specified in startDate. The window from startDate through
+    #   endDate must not exceed seven days.
+    #
+    # @option params [Array<Types::SearchFilter>] :filters
+    #   An array of filters that narrow the results. Each filter applies to
+    #   one dimension of a fixture, such as the competitor. You can specify up
+    #   to 10 filters.
+    #
+    #   A fixture must satisfy every filter in the array in order to appear in
+    #   the results. Within one filter, a fixture must match at least one of
+    #   the values.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of fixtures to return for each API request.
+    #
+    #   The service might return fewer fixtures than the maxResults value.
+    #   When more fixtures match the search, the response also includes a
+    #   nextToken value that you can use to fetch the next batch of results.
+    #
+    # @option params [String] :next_token
+    #   The token that identifies the batch of results that you want to see.
+    #
+    #   For example, you submit a SearchFixtures request with maxResults set
+    #   at 5. The service returns the first batch of results (up to 5) and a
+    #   nextToken value. To see the next batch of results, you submit the
+    #   SearchFixtures request a second time, with the same search criteria,
+    #   and specify the nextToken value.
+    #
+    # @return [Types::SearchFixturesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchFixturesResponse#fixtures #fixtures} => Array&lt;Types::FixtureSummary&gt;
+    #   * {Types::SearchFixturesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_fixtures({
+    #     sport: "basketball", # required, accepts basketball, american-football
+    #     start_date: "FixtureDate", # required
+    #     end_date: "FixtureDate",
+    #     filters: [
+    #       {
+    #         name: "COMPETITOR", # required, accepts COMPETITOR
+    #         values: ["FilterValue"], # required
+    #       },
+    #     ],
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.fixtures #=> Array
+    #   resp.fixtures[0].fixture_id #=> String
+    #   resp.fixtures[0].name #=> String
+    #   resp.fixtures[0].fixture_group #=> String
+    #   resp.fixtures[0].scheduled_start #=> Time
+    #   resp.fixtures[0].status #=> String
+    #   resp.fixtures[0].competitors #=> Array
+    #   resp.fixtures[0].competitors[0].name #=> String
+    #   resp.fixtures[0].competitors[0].is_home #=> Boolean
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/SearchFixtures AWS API Documentation
+    #
+    # @overload search_fixtures(params = {})
+    # @param [Hash] params ({})
+    def search_fixtures(params = {}, options = {})
+      req = build_request(:search_fixtures, params)
       req.send_request(options)
     end
 
@@ -1313,6 +1420,9 @@ module Aws::ElementalInference
     #           },
     #           clipping: {
     #             callback_metadata: "ResourceDescription",
+    #             data_source_configuration: {
+    #               fixture_id: "FixtureId", # required
+    #             },
     #           },
     #           subtitling: {
     #             language: "eng", # required, accepts eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por
@@ -1345,6 +1455,7 @@ module Aws::ElementalInference
     #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris #=> Array
     #   resp.outputs[0].output_config.cropping.template_groups[0].template_uris[0] #=> String
     #   resp.outputs[0].output_config.clipping.callback_metadata #=> String
+    #   resp.outputs[0].output_config.clipping.data_source_configuration.fixture_id #=> String
     #   resp.outputs[0].output_config.subtitling.language #=> String, one of "eng", "eng-au", "eng-gb", "eng-us", "fra", "ita", "deu", "spa", "por"
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.width #=> Integer
     #   resp.outputs[0].output_config.subtitling.aspect_ratio.height #=> Integer
@@ -1385,7 +1496,7 @@ module Aws::ElementalInference
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-elementalinference'
-      context[:gem_version] = '1.8.0'
+      context[:gem_version] = '1.9.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

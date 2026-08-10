@@ -3723,7 +3723,7 @@ module Aws::Connect
     #       contact_interaction_type: "AGENT", # required, accepts AGENT, AUTOMATED, CUSTOMER
     #     },
     #     language_configuration: {
-    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR, ja-JP, ko-KR, zh-CN
+    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR, ja-JP, ko-KR, zh-CN, ms-MY
     #     },
     #   })
     #
@@ -8250,7 +8250,7 @@ module Aws::Connect
     #   resp.evaluation_form.scoring_strategy.score_thresholds[0].max_score_percentage #=> Float
     #   resp.evaluation_form.auto_evaluation_configuration.enabled #=> Boolean
     #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
-    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
+    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN", "ms-MY"
     #   resp.evaluation_form.review_configuration.review_notification_recipients #=> Array
     #   resp.evaluation_form.review_configuration.review_notification_recipients[0].type #=> String, one of "USER_ID"
     #   resp.evaluation_form.review_configuration.review_notification_recipients[0].value.user_id #=> String
@@ -8749,7 +8749,7 @@ module Aws::Connect
     #   resp.evaluation_form.tags #=> Hash
     #   resp.evaluation_form.tags["TagKey"] #=> String
     #   resp.evaluation_form.target_configuration.contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
-    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
+    #   resp.evaluation_form.language_configuration.form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN", "ms-MY"
     #   resp.evaluation_form.latest_validation_status #=> String, one of "IN_PROGRESS", "COMPLETED", "FAILED"
     #   resp.evaluation_form.last_validation_time #=> Time
     #
@@ -20988,7 +20988,7 @@ module Aws::Connect
     #   resp.evaluation_form_search_summary_list[0].latest_version #=> Integer
     #   resp.evaluation_form_search_summary_list[0].active_version #=> Integer
     #   resp.evaluation_form_search_summary_list[0].auto_evaluation_enabled #=> Boolean
-    #   resp.evaluation_form_search_summary_list[0].evaluation_form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN"
+    #   resp.evaluation_form_search_summary_list[0].evaluation_form_language #=> String, one of "de-DE", "en-US", "es-ES", "fr-FR", "it-IT", "pt-BR", "ja-JP", "ko-KR", "zh-CN", "ms-MY"
     #   resp.evaluation_form_search_summary_list[0].contact_interaction_type #=> String, one of "AGENT", "AUTOMATED", "CUSTOMER"
     #   resp.evaluation_form_search_summary_list[0].tags #=> Hash
     #   resp.evaluation_form_search_summary_list[0].tags["TagKey"] #=> String
@@ -27545,7 +27545,7 @@ module Aws::Connect
     #       contact_interaction_type: "AGENT", # required, accepts AGENT, AUTOMATED, CUSTOMER
     #     },
     #     language_configuration: {
-    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR, ja-JP, ko-KR, zh-CN
+    #       form_language: "de-DE", # accepts de-DE, en-US, es-ES, fr-FR, it-IT, pt-BR, ja-JP, ko-KR, zh-CN, ms-MY
     #     },
     #   })
     #
@@ -30291,7 +30291,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.268.0'
+      context[:gem_version] = '1.269.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

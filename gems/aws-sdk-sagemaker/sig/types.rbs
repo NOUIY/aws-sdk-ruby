@@ -9937,6 +9937,12 @@ module Aws::SageMaker
       SENSITIVE: []
     end
 
+    class PrefixAwareRoutingConfig
+      attr_accessor prefix_length: ::Integer
+      attr_accessor concurrency_threshold: ::Integer
+      SENSITIVE: []
+    end
+
     class PresignedUrlAccessConfig
       attr_accessor accept_eula: bool
       attr_accessor expected_s3_url: ::String
@@ -10114,7 +10120,8 @@ module Aws::SageMaker
     end
 
     class ProductionVariantRoutingConfig
-      attr_accessor routing_strategy: ("LEAST_OUTSTANDING_REQUESTS" | "RANDOM")
+      attr_accessor routing_strategy: ("LEAST_OUTSTANDING_REQUESTS" | "RANDOM" | "PREFIX_AWARE")
+      attr_accessor prefix_aware_routing_config: Types::PrefixAwareRoutingConfig
       SENSITIVE: []
     end
 

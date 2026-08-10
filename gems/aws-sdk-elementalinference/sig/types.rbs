@@ -35,6 +35,13 @@ module Aws::ElementalInference
 
     class ClippingConfig
       attr_accessor callback_metadata: ::String
+      attr_accessor data_source_configuration: Types::DataSourceConfiguration
+      SENSITIVE: []
+    end
+
+    class Competitor
+      attr_accessor name: ::String
+      attr_accessor is_home: bool
       SENSITIVE: []
     end
 
@@ -92,6 +99,11 @@ module Aws::ElementalInference
 
     class CroppingConfig
       attr_accessor template_groups: ::Array[Types::TemplateGroup]
+      SENSITIVE: []
+    end
+
+    class DataSourceConfiguration
+      attr_accessor fixture_id: ::String
       SENSITIVE: []
     end
 
@@ -162,6 +174,21 @@ module Aws::ElementalInference
       attr_accessor name: ::String
       attr_accessor association: Types::FeedAssociation
       attr_accessor status: ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
+      SENSITIVE: []
+    end
+
+    class FixtureSummary
+      attr_accessor fixture_id: ::String
+      attr_accessor name: ::String
+      attr_accessor fixture_group: ::String
+      attr_accessor scheduled_start: ::Time
+      attr_accessor status: ::String
+      attr_accessor competitors: ::Array[Types::Competitor]
+      SENSITIVE: []
+    end
+
+    class GatewayTimedOutException
+      attr_accessor message: ::String
       SENSITIVE: []
     end
 
@@ -268,7 +295,34 @@ module Aws::ElementalInference
       SENSITIVE: []
     end
 
+    class SearchFilter
+      attr_accessor name: ("COMPETITOR")
+      attr_accessor values: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class SearchFixturesRequest
+      attr_accessor sport: ("basketball" | "american-football")
+      attr_accessor start_date: ::String
+      attr_accessor end_date: ::String
+      attr_accessor filters: ::Array[Types::SearchFilter]
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class SearchFixturesResponse
+      attr_accessor fixtures: ::Array[Types::FixtureSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ServiceQuotaExceededException
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class ServiceUnavailableException
       attr_accessor message: ::String
       SENSITIVE: []
     end

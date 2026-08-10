@@ -2250,6 +2250,9 @@ module Aws::SageMaker
     PolicyString = Shapes::StringShape.new(name: 'PolicyString')
     PredefinedMetricSpecification = Shapes::StructureShape.new(name: 'PredefinedMetricSpecification')
     PreemptTeamTasks = Shapes::StringShape.new(name: 'PreemptTeamTasks')
+    PrefixAwareRoutingConcurrencyThreshold = Shapes::IntegerShape.new(name: 'PrefixAwareRoutingConcurrencyThreshold')
+    PrefixAwareRoutingConfig = Shapes::StructureShape.new(name: 'PrefixAwareRoutingConfig')
+    PrefixAwareRoutingPrefixLength = Shapes::IntegerShape.new(name: 'PrefixAwareRoutingPrefixLength')
     PresignedDomainUrl = Shapes::StringShape.new(name: 'PresignedDomainUrl')
     PresignedUrlAccessConfig = Shapes::StructureShape.new(name: 'PresignedUrlAccessConfig')
     PriorityClass = Shapes::StructureShape.new(name: 'PriorityClass')
@@ -11149,6 +11152,10 @@ module Aws::SageMaker
     PredefinedMetricSpecification.add_member(:predefined_metric_type, Shapes::ShapeRef.new(shape: String, location_name: "PredefinedMetricType"))
     PredefinedMetricSpecification.struct_class = Types::PredefinedMetricSpecification
 
+    PrefixAwareRoutingConfig.add_member(:prefix_length, Shapes::ShapeRef.new(shape: PrefixAwareRoutingPrefixLength, location_name: "PrefixLength"))
+    PrefixAwareRoutingConfig.add_member(:concurrency_threshold, Shapes::ShapeRef.new(shape: PrefixAwareRoutingConcurrencyThreshold, location_name: "ConcurrencyThreshold"))
+    PrefixAwareRoutingConfig.struct_class = Types::PrefixAwareRoutingConfig
+
     PresignedUrlAccessConfig.add_member(:accept_eula, Shapes::ShapeRef.new(shape: Boolean, location_name: "AcceptEula", metadata: {"box" => true}))
     PresignedUrlAccessConfig.add_member(:expected_s3_url, Shapes::ShapeRef.new(shape: S3ModelUri, location_name: "ExpectedS3Url"))
     PresignedUrlAccessConfig.struct_class = Types::PresignedUrlAccessConfig
@@ -11301,6 +11308,7 @@ module Aws::SageMaker
     ProductionVariantManagedInstanceScalingScaleInPolicy.struct_class = Types::ProductionVariantManagedInstanceScalingScaleInPolicy
 
     ProductionVariantRoutingConfig.add_member(:routing_strategy, Shapes::ShapeRef.new(shape: RoutingStrategy, required: true, location_name: "RoutingStrategy"))
+    ProductionVariantRoutingConfig.add_member(:prefix_aware_routing_config, Shapes::ShapeRef.new(shape: PrefixAwareRoutingConfig, location_name: "PrefixAwareRoutingConfig"))
     ProductionVariantRoutingConfig.struct_class = Types::ProductionVariantRoutingConfig
 
     ProductionVariantServerlessConfig.add_member(:memory_size_in_mb, Shapes::ShapeRef.new(shape: ServerlessMemorySizeInMB, required: true, location_name: "MemorySizeInMB"))

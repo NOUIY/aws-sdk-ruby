@@ -21,6 +21,8 @@ module Aws::ElementalInference
     AssociatedResourceName = Shapes::StringShape.new(name: 'AssociatedResourceName')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     ClippingConfig = Shapes::StructureShape.new(name: 'ClippingConfig')
+    Competitor = Shapes::StructureShape.new(name: 'Competitor')
+    CompetitorList = Shapes::ListShape.new(name: 'CompetitorList')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     CreateDictionaryRequest = Shapes::StructureShape.new(name: 'CreateDictionaryRequest')
     CreateDictionaryResponse = Shapes::StructureShape.new(name: 'CreateDictionaryResponse')
@@ -29,6 +31,8 @@ module Aws::ElementalInference
     CreateOutput = Shapes::StructureShape.new(name: 'CreateOutput')
     CreateOutputList = Shapes::ListShape.new(name: 'CreateOutputList')
     CroppingConfig = Shapes::StructureShape.new(name: 'CroppingConfig')
+    DataSourceConfiguration = Shapes::StructureShape.new(name: 'DataSourceConfiguration')
+    DataSourceSport = Shapes::StringShape.new(name: 'DataSourceSport')
     DeleteDictionaryRequest = Shapes::StructureShape.new(name: 'DeleteDictionaryRequest')
     DeleteDictionaryResponse = Shapes::StructureShape.new(name: 'DeleteDictionaryResponse')
     DeleteFeedRequest = Shapes::StructureShape.new(name: 'DeleteFeedRequest')
@@ -51,6 +55,14 @@ module Aws::ElementalInference
     FeedStatus = Shapes::StringShape.new(name: 'FeedStatus')
     FeedSummary = Shapes::StructureShape.new(name: 'FeedSummary')
     FeedSummaryList = Shapes::ListShape.new(name: 'FeedSummaryList')
+    FilterName = Shapes::StringShape.new(name: 'FilterName')
+    FilterValue = Shapes::StringShape.new(name: 'FilterValue')
+    FilterValueList = Shapes::ListShape.new(name: 'FilterValueList')
+    FixtureDate = Shapes::StringShape.new(name: 'FixtureDate')
+    FixtureId = Shapes::StringShape.new(name: 'FixtureId')
+    FixtureSummary = Shapes::StructureShape.new(name: 'FixtureSummary')
+    FixtureSummaryList = Shapes::ListShape.new(name: 'FixtureSummaryList')
+    GatewayTimedOutException = Shapes::StructureShape.new(name: 'GatewayTimedOutException')
     GetDictionaryRequest = Shapes::StructureShape.new(name: 'GetDictionaryRequest')
     GetDictionaryResponse = Shapes::StructureShape.new(name: 'GetDictionaryResponse')
     GetFeedRequest = Shapes::StructureShape.new(name: 'GetFeedRequest')
@@ -76,10 +88,17 @@ module Aws::ElementalInference
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     S3Uri = Shapes::StringShape.new(name: 'S3Uri')
+    SearchFilter = Shapes::StructureShape.new(name: 'SearchFilter')
+    SearchFilterList = Shapes::ListShape.new(name: 'SearchFilterList')
+    SearchFixturesRequest = Shapes::StructureShape.new(name: 'SearchFixturesRequest')
+    SearchFixturesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'SearchFixturesRequestMaxResultsInteger')
+    SearchFixturesResponse = Shapes::StructureShape.new(name: 'SearchFixturesResponse')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
+    ServiceUnavailableException = Shapes::StructureShape.new(name: 'ServiceUnavailableException')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
     SubtitlingConfig = Shapes::StructureShape.new(name: 'SubtitlingConfig')
+    SyntheticTimestamp_date_time = Shapes::TimestampShape.new(name: 'SyntheticTimestamp_date_time', timestampFormat: "iso8601")
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
     TagMap = Shapes::MapShape.new(name: 'TagMap')
@@ -117,7 +136,14 @@ module Aws::ElementalInference
     AssociateFeedResponse.struct_class = Types::AssociateFeedResponse
 
     ClippingConfig.add_member(:callback_metadata, Shapes::ShapeRef.new(shape: ResourceDescription, location_name: "callbackMetadata"))
+    ClippingConfig.add_member(:data_source_configuration, Shapes::ShapeRef.new(shape: DataSourceConfiguration, location_name: "dataSourceConfiguration"))
     ClippingConfig.struct_class = Types::ClippingConfig
+
+    Competitor.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
+    Competitor.add_member(:is_home, Shapes::ShapeRef.new(shape: Boolean, location_name: "isHome"))
+    Competitor.struct_class = Types::Competitor
+
+    CompetitorList.member = Shapes::ShapeRef.new(shape: Competitor)
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
@@ -163,6 +189,9 @@ module Aws::ElementalInference
 
     CroppingConfig.add_member(:template_groups, Shapes::ShapeRef.new(shape: TemplateGroupList, location_name: "templateGroups"))
     CroppingConfig.struct_class = Types::CroppingConfig
+
+    DataSourceConfiguration.add_member(:fixture_id, Shapes::ShapeRef.new(shape: FixtureId, required: true, location_name: "fixtureId"))
+    DataSourceConfiguration.struct_class = Types::DataSourceConfiguration
 
     DeleteDictionaryRequest.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location: "uri", location_name: "id"))
     DeleteDictionaryRequest.struct_class = Types::DeleteDictionaryRequest
@@ -217,6 +246,21 @@ module Aws::ElementalInference
     FeedSummary.struct_class = Types::FeedSummary
 
     FeedSummaryList.member = Shapes::ShapeRef.new(shape: FeedSummary)
+
+    FilterValueList.member = Shapes::ShapeRef.new(shape: FilterValue)
+
+    FixtureSummary.add_member(:fixture_id, Shapes::ShapeRef.new(shape: FixtureId, required: true, location_name: "fixtureId"))
+    FixtureSummary.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    FixtureSummary.add_member(:fixture_group, Shapes::ShapeRef.new(shape: String, location_name: "fixtureGroup"))
+    FixtureSummary.add_member(:scheduled_start, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "scheduledStart"))
+    FixtureSummary.add_member(:status, Shapes::ShapeRef.new(shape: String, required: true, location_name: "status"))
+    FixtureSummary.add_member(:competitors, Shapes::ShapeRef.new(shape: CompetitorList, required: true, location_name: "competitors"))
+    FixtureSummary.struct_class = Types::FixtureSummary
+
+    FixtureSummaryList.member = Shapes::ShapeRef.new(shape: FixtureSummary)
+
+    GatewayTimedOutException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    GatewayTimedOutException.struct_class = Types::GatewayTimedOutException
 
     GetDictionaryRequest.add_member(:id, Shapes::ShapeRef.new(shape: DictionaryId, required: true, location: "uri", location_name: "id"))
     GetDictionaryRequest.struct_class = Types::GetDictionaryRequest
@@ -290,8 +334,29 @@ module Aws::ElementalInference
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
+    SearchFilter.add_member(:name, Shapes::ShapeRef.new(shape: FilterName, required: true, location_name: "name"))
+    SearchFilter.add_member(:values, Shapes::ShapeRef.new(shape: FilterValueList, required: true, location_name: "values"))
+    SearchFilter.struct_class = Types::SearchFilter
+
+    SearchFilterList.member = Shapes::ShapeRef.new(shape: SearchFilter)
+
+    SearchFixturesRequest.add_member(:sport, Shapes::ShapeRef.new(shape: DataSourceSport, required: true, location_name: "sport"))
+    SearchFixturesRequest.add_member(:start_date, Shapes::ShapeRef.new(shape: FixtureDate, required: true, location_name: "startDate"))
+    SearchFixturesRequest.add_member(:end_date, Shapes::ShapeRef.new(shape: FixtureDate, location_name: "endDate"))
+    SearchFixturesRequest.add_member(:filters, Shapes::ShapeRef.new(shape: SearchFilterList, location_name: "filters"))
+    SearchFixturesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: SearchFixturesRequestMaxResultsInteger, location_name: "maxResults"))
+    SearchFixturesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    SearchFixturesRequest.struct_class = Types::SearchFixturesRequest
+
+    SearchFixturesResponse.add_member(:fixtures, Shapes::ShapeRef.new(shape: FixtureSummaryList, required: true, location_name: "fixtures"))
+    SearchFixturesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    SearchFixturesResponse.struct_class = Types::SearchFixturesResponse
+
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
+
+    ServiceUnavailableException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    ServiceUnavailableException.struct_class = Types::ServiceUnavailableException
 
     StringList.member = Shapes::ShapeRef.new(shape: String)
 
@@ -558,6 +623,26 @@ module Aws::ElementalInference
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+      end)
+
+      api.add_operation(:search_fixtures, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SearchFixtures"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/fixtures"
+        o.input = Shapes::ShapeRef.new(shape: SearchFixturesRequest)
+        o.output = Shapes::ShapeRef.new(shape: SearchFixturesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: GatewayTimedOutException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|

@@ -770,7 +770,7 @@ module Aws
                                       contact_interaction_type: ("AGENT" | "AUTOMATED" | "CUSTOMER")
                                     },
                                     ?language_configuration: {
-                                      form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN")?
+                                      form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN" | "ms-MY")?
                                     }
                                   ) -> _CreateEvaluationFormResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEvaluationFormResponseSuccess
@@ -5322,7 +5322,7 @@ module Aws
                                       contact_interaction_type: ("AGENT" | "AUTOMATED" | "CUSTOMER")
                                     },
                                     ?language_configuration: {
-                                      form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN")?
+                                      form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN" | "ms-MY")?
                                     }
                                   ) -> _UpdateEvaluationFormResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateEvaluationFormResponseSuccess

@@ -46189,6 +46189,44 @@ module Aws::SageMaker
       include Aws::Structure
     end
 
+    # The configuration for prefix-aware routing on a SageMaker real-time
+    # inference endpoint. Specify `PrefixLength` and `ConcurrencyThreshold`
+    # to control routing behavior.
+    #
+    # @!attribute [rw] prefix_length
+    #   The maximum length of the prefix used for routing decisions.
+    #   Required when `RoutingStrategy` is `PREFIX_AWARE`.
+    #
+    #   * For the SageMaker Runtime `InvokeEndpoint` and
+    #     `InvokeEndpointWithResponseStream` APIs, this value specifies the
+    #     number of bytes from the beginning of the request body.
+    #
+    #   * For OpenAI-compatible API, this value specifies the number of
+    #     characters from the text content of the messages array.
+    #
+    #   The endpoint routes requests that share the same prefix to the same
+    #   instance. Set this value to cover shared content (such as system
+    #   prompts) plus enough unique content to distribute workloads across
+    #   instances.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] concurrency_threshold
+    #   The maximum number of in-flight requests on the target instance
+    #   before the endpoint routes to another instance. Required when
+    #   `RoutingStrategy` is `PREFIX_AWARE`. When in-flight requests on the
+    #   prefix-selected instance reach this threshold, the endpoint routes
+    #   the request to an instance with more available capacity.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/PrefixAwareRoutingConfig AWS API Documentation
+    #
+    class PrefixAwareRoutingConfig < Struct.new(
+      :prefix_length,
+      :concurrency_threshold)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration for accessing hub content through presigned URLs,
     # including license agreement acceptance and URL validation settings.
     #
@@ -47189,12 +47227,24 @@ module Aws::SageMaker
     #
     #   * `RANDOM`: The endpoint routes each request to a randomly chosen
     #     instance.
+    #
+    #   * `PREFIX_AWARE`: The endpoint routes requests that share the same
+    #     prompt prefix to the same instance. When the number of in-flight
+    #     requests on the selected instance reaches the configured
+    #     threshold, the endpoint routes the request to an instance with
+    #     more available capacity.
     #   @return [String]
+    #
+    # @!attribute [rw] prefix_aware_routing_config
+    #   The configuration for prefix-aware routing. Specify this parameter
+    #   only when you set `RoutingStrategy` to `PREFIX_AWARE`.
+    #   @return [Types::PrefixAwareRoutingConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/ProductionVariantRoutingConfig AWS API Documentation
     #
     class ProductionVariantRoutingConfig < Struct.new(
-      :routing_strategy)
+      :routing_strategy,
+      :prefix_aware_routing_config)
       SENSITIVE = []
       include Aws::Structure
     end

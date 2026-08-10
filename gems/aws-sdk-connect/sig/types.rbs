@@ -3401,7 +3401,7 @@ module Aws::Connect
     end
 
     class EvaluationFormLanguageConfiguration
-      attr_accessor form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN")
+      attr_accessor form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN" | "ms-MY")
       SENSITIVE: []
     end
 
@@ -3561,7 +3561,7 @@ module Aws::Connect
       attr_accessor latest_version: ::Integer
       attr_accessor active_version: ::Integer
       attr_accessor auto_evaluation_enabled: bool
-      attr_accessor evaluation_form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN")
+      attr_accessor evaluation_form_language: ("de-DE" | "en-US" | "es-ES" | "fr-FR" | "it-IT" | "pt-BR" | "ja-JP" | "ko-KR" | "zh-CN" | "ms-MY")
       attr_accessor contact_interaction_type: ("AGENT" | "AUTOMATED" | "CUSTOMER")
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []

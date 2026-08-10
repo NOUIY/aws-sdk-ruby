@@ -28,7 +28,10 @@ module Aws
         ]?
       }?,
       clipping: {
-        callback_metadata: ::String?
+        callback_metadata: ::String?,
+        data_source_configuration: {
+          fixture_id: ::String
+        }?
       }?,
       subtitling: Params::subtitling_config?
     }
