@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.146.0 (2026-08-11)
+------------------
+
+* Feature - Documentation update for AWS Organizations that clarifies valid input values for the HandshakePartyType parameter in the InviteAccountToOrganization. API ORGANIZATION is valid in responses only. valid input values are ACCOUNT and EMAIL
+
 1.145.0 (2026-08-04)
 ------------------
 

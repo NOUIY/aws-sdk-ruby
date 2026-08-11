@@ -2390,6 +2390,28 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # A filter that is available for use with the metric. Part of an
+    # AvailableFilterList that describes the filters that are available for
+    # use with the metric.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the filter. Valid values: `METRIC_LEVEL` \|
+    #   `RESOURCE_LEVEL`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AvailableFilter AWS API Documentation
+    #
+    class AvailableFilter < Struct.new(
+      :id,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about available phone numbers.
     #
     # @!attribute [rw] phone_number
@@ -3072,6 +3094,40 @@ module Aws::Connect
     class BooleanCondition < Struct.new(
       :field_name,
       :comparison_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a component metric referenced in a custom metric
+    # calculation formula.
+    #
+    # @!attribute [rw] alias
+    #   The alias used to reference this component in the calculation
+    #   expression.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_name
+    #   The name of an AWS-managed metric used in this calculation component
+    #   (for example, `CONTACTS_HANDLED`). Mutually exclusive with
+    #   `MetricId`.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_id
+    #   The ARN of an AWS-managed metric used in this calculation component.
+    #   Mutually exclusive with `MetricName`.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_filters
+    #   The filters applied to the calculation component.
+    #   @return [Array<Types::MetricFilter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CalculationComponent AWS API Documentation
+    #
+    class CalculationComponent < Struct.new(
+      :alias,
+      :metric_name,
+      :metric_id,
+      :metric_filters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6630,6 +6686,96 @@ module Aws::Connect
     end
 
     # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_calculation
+    #   The calculation definition for the metric, including the formula
+    #   expression and the component metrics it references.
+    #   @return [Types::MetricCalculation]
+    #
+    # @!attribute [rw] unit
+    #   The display unit for the metric's data.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The publish status of the metric. Set to `PUBLISHED` to make the
+    #   metric available for use in dashboards and reports, or `SAVED` to
+    #   keep it in draft state.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] positive_trend_indicator
+    #   How an increase in the metric value should be interpreted. Valid
+    #   values: `POSITIVE`, `NEUTRAL`, `NEGATIVE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource. For example, \{ "Tags": \{"key1":"value1",
+    #   "key2":"value2"} }.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateMetricRequest AWS API Documentation
+    #
+    class CreateMetricRequest < Struct.new(
+      :instance_id,
+      :name,
+      :metric_calculation,
+      :unit,
+      :status,
+      :client_token,
+      :description,
+      :positive_trend_indicator,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metric_arn
+    #   The Amazon Resource Name (ARN) of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_id
+    #   The identifier of the metric.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateMetricResponse AWS API Documentation
+    #
+    class CreateMetricResponse < Struct.new(
+      :metric_arn,
+      :metric_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can [find the
     #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
     #
@@ -9720,6 +9866,32 @@ module Aws::Connect
     end
 
     # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_id
+    #   The identifier of the metric to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteMetricRequest AWS API Documentation
+    #
+    class DeleteMetricRequest < Struct.new(
+      :instance_id,
+      :metric_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteMetricResponse AWS API Documentation
+    #
+    class DeleteMetricResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can [find the
     #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
     #
@@ -10918,6 +11090,43 @@ module Aws::Connect
     #
     class DescribeInstanceStorageConfigResponse < Struct.new(
       :storage_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_id
+    #   The identifier of the metric to describe. Adding the `$SAVED`
+    #   qualifier will describe the saved version of the metric. Adding
+    #   `$LATEST` or omitting a qualifier will describe the published
+    #   version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeMetricRequest AWS API Documentation
+    #
+    class DescribeMetricRequest < Struct.new(
+      :instance_id,
+      :metric_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metric
+    #   The metric definition.
+    #   @return [Types::MetricDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeMetricResponse AWS API Documentation
+    #
+    class DescribeMetricResponse < Struct.new(
+      :metric)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22773,6 +22982,59 @@ module Aws::Connect
     end
 
     # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of metrics to list. Valid values: `AWS_MANAGED` \|
+    #   `CUSTOMER_MANAGED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListMetricsRequest AWS API Documentation
+    #
+    class ListMetricsRequest < Struct.new(
+      :instance_id,
+      :type,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metric_summary_list
+    #   The list of metric summaries.
+    #   @return [Array<Types::MetricSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListMetricsResponse AWS API Documentation
+    #
+    class ListMetricsResponse < Struct.new(
+      :metric_summary_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can [find the
     #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
     #
@@ -24975,6 +25237,28 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # Contains the formula and component metrics that define a custom metric
+    # calculation.
+    #
+    # @!attribute [rw] calculation_components
+    #   The list of component metrics referenced in the calculation formula.
+    #   Each component has an alias used in the formula expression.
+    #   @return [Array<Types::CalculationComponent>]
+    #
+    # @!attribute [rw] calculation
+    #   The formula expression that defines how the metric is calculated.
+    #   Uses component aliases (for example, `100 * SUM(M1) / SUM(M2)`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricCalculation AWS API Documentation
+    #
+    class MetricCalculation < Struct.new(
+      :calculation_components,
+      :calculation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the name, thresholds, and metric filters.
     #
     # @!attribute [rw] metric
@@ -24991,6 +25275,260 @@ module Aws::Connect
     class MetricDataV2 < Struct.new(
       :metric,
       :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the full definition of a metric, including its calculation,
+    # unit, status, and trend indicator.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the metric. May be qualified with
+    #   `$SAVED` or `$LATEST`.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The identifier of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_calculation
+    #   The calculation definition for the metric.
+    #   @return [Types::MetricCalculation]
+    #
+    # @!attribute [rw] creation_method
+    #   The method used to create the metric. Valid values:
+    #   `SERVICE_LEVEL_BUILDER` (created with the guided service-level
+    #   experience) \| `METRIC_BUILDER` (created with the free-form metric
+    #   builder).
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The publish status of the metric. Valid values: `PUBLISHED` \|
+    #   `SAVED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the metric. Valid values: `AWS_MANAGED` \|
+    #   `CUSTOMER_MANAGED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] unit
+    #   The display unit for the metric's data.
+    #   @return [String]
+    #
+    # @!attribute [rw] positive_trend_indicator
+    #   How an increase in the metric value should be interpreted. Valid
+    #   values: `POSITIVE`, `NEUTRAL`, `NEGATIVE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] groupings
+    #   The groupings available for this metric.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] filters
+    #   The filters applied to the metric.
+    #   @return [Array<Types::AvailableFilter>]
+    #
+    # @!attribute [rw] effective_time
+    #   The earliest time that can be queried for this metric.
+    #   @return [Time]
+    #
+    # @!attribute [rw] refresh_rate
+    #   The minimum interval, in seconds, between data refreshes for this
+    #   metric.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] category
+    #   The category of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] supported_stats
+    #   The stat aggregations available for this metric.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] default_stat
+    #   The default stat aggregation for the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] supports_preaggregate_calculation
+    #   Specifies whether the metric can be used inside aggregating
+    #   statistical functions (SUM, AVG, etc.) in custom metric
+    #   calculations.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] supports_custom_calculation
+    #   Specifies whether the metric can be used as a component of custom
+    #   metrics.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] primary_event_source
+    #   The primary event source for the metric data.
+    #   @return [String]
+    #
+    # @!attribute [rw] primary_event_source_effective_timestamp_type
+    #   The timestamp type that determines where the metric appears on a
+    #   time series.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The timestamp of when the metric was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_user
+    #   The user that created the metric. The creator for metrics created
+    #   through the CreateMetric API will be `Amazon Connect API`.
+    #   @return [Types::CreatedByInfo]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The region where the metric was last modified.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp of when the metric was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_user
+    #   The user that last modified the metric. For modifications made
+    #   through the API, this will be `Amazon Connect API`.
+    #   @return [Types::CreatedByInfo]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource. For example, \{ "Tags": \{"key1":"value1",
+    #   "key2":"value2"} }.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricDefinition AWS API Documentation
+    #
+    class MetricDefinition < Struct.new(
+      :arn,
+      :id,
+      :name,
+      :description,
+      :metric_calculation,
+      :creation_method,
+      :status,
+      :type,
+      :unit,
+      :positive_trend_indicator,
+      :groupings,
+      :filters,
+      :effective_time,
+      :refresh_rate,
+      :category,
+      :supported_stats,
+      :default_stat,
+      :supports_preaggregate_calculation,
+      :supports_custom_calculation,
+      :primary_event_source,
+      :primary_event_source_effective_timestamp_type,
+      :created_time,
+      :created_user,
+      :last_modified_region,
+      :last_modified_time,
+      :last_modified_user,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter condition applied to a metric component in a calculation.
+    # Filters restrict the data included in the metric computation.
+    #
+    # @!attribute [rw] metric_filter_key
+    #   The key identifying the field to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] negate
+    #   Specifies whether the filter condition is negated. When set to
+    #   `true`, the filter excludes matching data instead of including it.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] number_condition
+    #   A numeric comparison condition.
+    #   @return [Types::MetricFilterNumberCondition]
+    #
+    # @!attribute [rw] string_condition
+    #   A string comparison condition.
+    #   @return [Types::MetricFilterStringCondition]
+    #
+    # @!attribute [rw] boolean_condition
+    #   A boolean comparison condition.
+    #   @return [Types::MetricFilterBooleanCondition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricFilter AWS API Documentation
+    #
+    class MetricFilter < Struct.new(
+      :metric_filter_key,
+      :negate,
+      :number_condition,
+      :string_condition,
+      :boolean_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A boolean comparison condition for metric filters.
+    #
+    # @!attribute [rw] comparison
+    #   The comparison operator. Valid values: `IS_TRUE` (matches when the
+    #   field is true) \| `IS_FALSE` (matches when the field is false).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricFilterBooleanCondition AWS API Documentation
+    #
+    class MetricFilterBooleanCondition < Struct.new(
+      :comparison)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A numeric comparison condition for metric filters.
+    #
+    # @!attribute [rw] comparison
+    #   The comparison operator. Valid values: `LESSER` (less than) \|
+    #   `LESSER_OR_EQUAL` (less than or equal to) \| `GREATER` (greater
+    #   than) \| `GREATER_OR_EQUAL` (greater than or equal to).
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The numeric values to compare against.
+    #   @return [Array<Float>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricFilterNumberCondition AWS API Documentation
+    #
+    class MetricFilterNumberCondition < Struct.new(
+      :comparison,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A string comparison condition for metric filters.
+    #
+    # @!attribute [rw] comparison
+    #   The comparison operator. Valid values: `MATCHES_ANY` (matches any of
+    #   the specified values) \| `MATCHES_NONE` (matches none of the
+    #   specified values).
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The string values to compare against.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricFilterStringCondition AWS API Documentation
+    #
+    class MetricFilterStringCondition < Struct.new(
+      :comparison,
+      :values)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -25119,6 +25657,103 @@ module Aws::Connect
       :dimensions,
       :metric_interval,
       :collections)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the search criteria for filtering metrics.
+    #
+    # @!attribute [rw] or_conditions
+    #   A list of conditions to be met, where at least one condition must be
+    #   satisfied.
+    #   @return [Array<Types::MetricSearchCriteria>]
+    #
+    # @!attribute [rw] and_conditions
+    #   A list of conditions that must all be satisfied.
+    #   @return [Array<Types::MetricSearchCriteria>]
+    #
+    # @!attribute [rw] string_condition
+    #   A leaf node condition which can be used to specify a string
+    #   condition.
+    #   @return [Types::StringCondition]
+    #
+    # @!attribute [rw] boolean_condition
+    #   A boolean search condition for Search APIs.
+    #   @return [Types::BooleanCondition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricSearchCriteria AWS API Documentation
+    #
+    class MetricSearchCriteria < Struct.new(
+      :or_conditions,
+      :and_conditions,
+      :string_condition,
+      :boolean_condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filters to apply when searching for metrics.
+    #
+    # @!attribute [rw] tag_filter
+    #   An object that can be used to specify tag conditions inside the
+    #   `SearchFilter`. This accepts an OR of AND (List of List) input
+    #   where:
+    #
+    #   * The top level list specifies conditions that need to be applied
+    #     with OR operator.
+    #
+    #   * The inner list specifies conditions that need to be applied with
+    #     AND operator.
+    #   @return [Types::ControlPlaneTagFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricSearchFilter AWS API Documentation
+    #
+    class MetricSearchFilter < Struct.new(
+      :tag_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains summary information about a metric.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The identifier of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The publish status of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_region
+    #   The region where the metric was last modified.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The timestamp of when the metric was last modified.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/MetricSummary AWS API Documentation
+    #
+    class MetricSummary < Struct.new(
+      :arn,
+      :id,
+      :name,
+      :status,
+      :type,
+      :last_modified_region,
+      :last_modified_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -30554,6 +31189,69 @@ module Aws::Connect
     end
 
     # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] search_filter
+    #   Filters to be applied to search results.
+    #   @return [Types::MetricSearchFilter]
+    #
+    # @!attribute [rw] search_criteria
+    #   The search criteria to filter the metrics.
+    #   @return [Types::MetricSearchCriteria]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchMetricsRequest AWS API Documentation
+    #
+    class SearchMetricsRequest < Struct.new(
+      :instance_id,
+      :next_token,
+      :max_results,
+      :search_filter,
+      :search_criteria)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metrics
+    #   The metrics that matched the search criteria.
+    #   @return [Array<Types::MetricDefinition>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] approximate_total_count
+    #   The approximate total number of metrics that matched your search
+    #   criteria.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchMetricsResponse AWS API Documentation
+    #
+    class SearchMetricsResponse < Struct.new(
+      :metrics,
+      :next_token,
+      :approximate_total_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can [find the
     #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
     #
@@ -30898,6 +31596,8 @@ module Aws::Connect
     #   * flow- module
     #
     #   * transfer-destination (also known as quick connect)
+    #
+    #   * metric
     #   @return [Array<String>]
     #
     # @!attribute [rw] next_token
@@ -36797,6 +37497,88 @@ module Aws::Connect
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_id
+    #   The identifier of the metric to update. Adding the `$SAVED`
+    #   qualifier will update the saved version of the metric. Adding
+    #   `$LATEST` or omitting a qualifier will update the published version.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_calculation
+    #   The updated calculation definition for the metric.
+    #   @return [Types::MetricCalculation]
+    #
+    # @!attribute [rw] unit
+    #   The updated display unit for the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] positive_trend_indicator
+    #   How an increase in the metric value should be interpreted. Valid
+    #   values: `POSITIVE`, `NEUTRAL`, `NEGATIVE`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateMetricContentRequest AWS API Documentation
+    #
+    class UpdateMetricContentRequest < Struct.new(
+      :instance_id,
+      :metric_id,
+      :metric_calculation,
+      :unit,
+      :positive_trend_indicator)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateMetricContentResponse AWS API Documentation
+    #
+    class UpdateMetricContentResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_id
+    #   The identifier of the metric to update. Adding the `$SAVED`
+    #   qualifier will update the saved version of the metric. Adding
+    #   `$LATEST` or omitting a qualifier will update the published version.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The updated name of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated description of the metric.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateMetricMetadataRequest AWS API Documentation
+    #
+    class UpdateMetricMetadataRequest < Struct.new(
+      :instance_id,
+      :metric_id,
+      :name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateMetricMetadataResponse AWS API Documentation
+    #
+    class UpdateMetricMetadataResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] instance_id
     #   The identifier of the Amazon Connect instance. You can [find the

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.270.0 (2026-08-11)
+------------------
+
+* Feature - Seven new APIs for managing custom metrics, including create, describe, update, and delete. Using Custom Metrics, customers of Amazon Connect Customer can tailor analytics dashboards to their needs by applying custom thresholds, filters, and calculations to one or more out of the box measurements.
+
 1.269.0 (2026-08-10)
 ------------------
 

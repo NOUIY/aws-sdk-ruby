@@ -4072,6 +4072,120 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Creates a new metric definition for the specified Connect Customer
+    # instance. You can create custom metrics that use formulas referencing
+    # existing Amazon Web Services-managed metrics, optionally with filters
+    # applied.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :name
+    #   The name of the metric.
+    #
+    # @option params [required, Types::MetricCalculation] :metric_calculation
+    #   The calculation definition for the metric, including the formula
+    #   expression and the component metrics it references.
+    #
+    # @option params [required, String] :unit
+    #   The display unit for the metric's data.
+    #
+    # @option params [String] :status
+    #   The publish status of the metric. Set to `PUBLISHED` to make the
+    #   metric available for use in dashboards and reports, or `SAVED` to keep
+    #   it in draft state.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency, see
+    #   [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #
+    # @option params [String] :description
+    #   The description of the metric.
+    #
+    # @option params [String] :positive_trend_indicator
+    #   How an increase in the metric value should be interpreted. Valid
+    #   values: `POSITIVE`, `NEUTRAL`, `NEGATIVE`.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags used to organize, track, or control access for this resource.
+    #   For example, \{ "Tags": \{"key1":"value1", "key2":"value2"}
+    #   }.
+    #
+    # @return [Types::CreateMetricResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMetricResponse#metric_arn #metric_arn} => String
+    #   * {Types::CreateMetricResponse#metric_id #metric_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_metric({
+    #     instance_id: "InstanceId", # required
+    #     name: "MetricName", # required
+    #     metric_calculation: { # required
+    #       calculation_components: [ # required
+    #         {
+    #           alias: "ComponentAlias", # required
+    #           metric_name: "MetricName",
+    #           metric_id: "MetricId",
+    #           metric_filters: [
+    #             {
+    #               metric_filter_key: "MetricFilterKey", # required
+    #               negate: false,
+    #               number_condition: {
+    #                 comparison: "LESSER", # required, accepts LESSER, LESSER_OR_EQUAL, GREATER, GREATER_OR_EQUAL
+    #                 values: [1.0], # required
+    #               },
+    #               string_condition: {
+    #                 comparison: "MATCHES_ANY", # required, accepts MATCHES_ANY, MATCHES_NONE
+    #                 values: ["String"], # required
+    #               },
+    #               boolean_condition: {
+    #                 comparison: "IS_TRUE", # required, accepts IS_TRUE, IS_FALSE
+    #               },
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       calculation: "CalculationExpression", # required
+    #     },
+    #     unit: "INTEGER", # required, accepts INTEGER, DOUBLE, PERCENT, SECONDS
+    #     status: "PUBLISHED", # accepts PUBLISHED, SAVED
+    #     client_token: "ClientToken",
+    #     description: "MetricDescription",
+    #     positive_trend_indicator: "POSITIVE", # accepts POSITIVE, NEGATIVE, NEUTRAL
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metric_arn #=> String
+    #   resp.metric_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateMetric AWS API Documentation
+    #
+    # @overload create_metric(params = {})
+    # @param [Hash] params ({})
+    def create_metric(params = {}, options = {})
+      req = build_request(:create_metric, params)
+      req.send_request(options)
+    end
+
     # Creates a new notification to be delivered to specified recipients.
     # Notifications can include localized content with links, and an
     # optional expiration time. Recipients can be specified as individual
@@ -6893,6 +7007,39 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Deletes an existing metric from the specified Connect Customer
+    # instance. This operation fails with `ResourceConflictException` if the
+    # metric is currently in use in a dashboard.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :metric_id
+    #   The identifier of the metric to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_metric({
+    #     instance_id: "InstanceId", # required
+    #     metric_id: "MetricId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteMetric AWS API Documentation
+    #
+    # @overload delete_metric(params = {})
+    # @param [Hash] params ({})
+    def delete_metric(params = {}, options = {})
+      req = build_request(:delete_metric, params)
+      req.send_request(options)
+    end
+
     # Deletes a notification. Once deleted, the notification is no longer
     # visible to all users and cannot be managed through the Admin Website
     # or APIs.
@@ -9031,6 +9178,93 @@ module Aws::Connect
     # @param [Hash] params ({})
     def describe_instance_storage_config(params = {}, options = {})
       req = build_request(:describe_instance_storage_config, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the full definition of an existing metric from the specified
+    # Connect Customer instance.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :metric_id
+    #   The identifier of the metric to describe. Adding the `$SAVED`
+    #   qualifier will describe the saved version of the metric. Adding
+    #   `$LATEST` or omitting a qualifier will describe the published version.
+    #
+    # @return [Types::DescribeMetricResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeMetricResponse#metric #metric} => Types::MetricDefinition
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_metric({
+    #     instance_id: "InstanceId", # required
+    #     metric_id: "MetricId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metric.arn #=> String
+    #   resp.metric.id #=> String
+    #   resp.metric.name #=> String
+    #   resp.metric.description #=> String
+    #   resp.metric.metric_calculation.calculation_components #=> Array
+    #   resp.metric.metric_calculation.calculation_components[0].alias #=> String
+    #   resp.metric.metric_calculation.calculation_components[0].metric_name #=> String
+    #   resp.metric.metric_calculation.calculation_components[0].metric_id #=> String
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters #=> Array
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].metric_filter_key #=> String
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].negate #=> Boolean
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].number_condition.comparison #=> String, one of "LESSER", "LESSER_OR_EQUAL", "GREATER", "GREATER_OR_EQUAL"
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].number_condition.values #=> Array
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].number_condition.values[0] #=> Float
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].string_condition.comparison #=> String, one of "MATCHES_ANY", "MATCHES_NONE"
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].string_condition.values #=> Array
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].string_condition.values[0] #=> String
+    #   resp.metric.metric_calculation.calculation_components[0].metric_filters[0].boolean_condition.comparison #=> String, one of "IS_TRUE", "IS_FALSE"
+    #   resp.metric.metric_calculation.calculation #=> String
+    #   resp.metric.creation_method #=> String, one of "SERVICE_LEVEL_BUILDER", "METRIC_BUILDER"
+    #   resp.metric.status #=> String, one of "PUBLISHED", "SAVED"
+    #   resp.metric.type #=> String, one of "AWS_MANAGED", "CUSTOMER_MANAGED"
+    #   resp.metric.unit #=> String, one of "INTEGER", "DOUBLE", "PERCENT", "SECONDS"
+    #   resp.metric.positive_trend_indicator #=> String, one of "POSITIVE", "NEGATIVE", "NEUTRAL"
+    #   resp.metric.groupings #=> Array
+    #   resp.metric.groupings[0] #=> String
+    #   resp.metric.filters #=> Array
+    #   resp.metric.filters[0].id #=> String
+    #   resp.metric.filters[0].type #=> String, one of "METRIC_LEVEL", "RESOURCE_LEVEL"
+    #   resp.metric.effective_time #=> Time
+    #   resp.metric.refresh_rate #=> Integer
+    #   resp.metric.category #=> String
+    #   resp.metric.supported_stats #=> Array
+    #   resp.metric.supported_stats[0] #=> String
+    #   resp.metric.default_stat #=> String
+    #   resp.metric.supports_preaggregate_calculation #=> Boolean
+    #   resp.metric.supports_custom_calculation #=> Boolean
+    #   resp.metric.primary_event_source #=> String
+    #   resp.metric.primary_event_source_effective_timestamp_type #=> String
+    #   resp.metric.created_time #=> Time
+    #   resp.metric.created_user.connect_user_arn #=> String
+    #   resp.metric.created_user.aws_identity_arn #=> String
+    #   resp.metric.last_modified_region #=> String
+    #   resp.metric.last_modified_time #=> Time
+    #   resp.metric.last_modified_user.connect_user_arn #=> String
+    #   resp.metric.last_modified_user.aws_identity_arn #=> String
+    #   resp.metric.tags #=> Hash
+    #   resp.metric.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeMetric AWS API Documentation
+    #
+    # @overload describe_metric(params = {})
+    # @param [Hash] params ({})
+    def describe_metric(params = {}, options = {})
+      req = build_request(:describe_metric, params)
       req.send_request(options)
     end
 
@@ -17120,6 +17354,67 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Retrieves a paginated list of metric summaries for the specified
+    # Connect Customer instance. Use pagination to ensure that the operation
+    # returns quickly and successfully.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [String] :type
+    #   The type of metrics to list. Valid values: `AWS_MANAGED` \|
+    #   `CUSTOMER_MANAGED`.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @return [Types::ListMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListMetricsResponse#metric_summary_list #metric_summary_list} => Array&lt;Types::MetricSummary&gt;
+    #   * {Types::ListMetricsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_metrics({
+    #     instance_id: "InstanceId", # required
+    #     type: "AWS_MANAGED", # accepts AWS_MANAGED, CUSTOMER_MANAGED
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metric_summary_list #=> Array
+    #   resp.metric_summary_list[0].arn #=> String
+    #   resp.metric_summary_list[0].id #=> String
+    #   resp.metric_summary_list[0].name #=> String
+    #   resp.metric_summary_list[0].status #=> String, one of "PUBLISHED", "SAVED"
+    #   resp.metric_summary_list[0].type #=> String, one of "AWS_MANAGED", "CUSTOMER_MANAGED"
+    #   resp.metric_summary_list[0].last_modified_region #=> String
+    #   resp.metric_summary_list[0].last_modified_time #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListMetrics AWS API Documentation
+    #
+    # @overload list_metrics(params = {})
+    # @param [Hash] params ({})
+    def list_metrics(params = {}, options = {})
+      req = build_request(:list_metrics, params)
+      req.send_request(options)
+    end
+
     # Retrieves a paginated list of all notifications in the Amazon Connect
     # instance.
     #
@@ -21235,6 +21530,154 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Searches for metrics in the specified Connect Customer instance using
+    # search criteria and optional tag-based filters. Use pagination to
+    # ensure that the operation returns quickly and successfully.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @option params [Types::MetricSearchFilter] :search_filter
+    #   Filters to be applied to search results.
+    #
+    # @option params [Types::MetricSearchCriteria] :search_criteria
+    #   The search criteria to filter the metrics.
+    #
+    # @return [Types::SearchMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchMetricsResponse#metrics #metrics} => Array&lt;Types::MetricDefinition&gt;
+    #   * {Types::SearchMetricsResponse#next_token #next_token} => String
+    #   * {Types::SearchMetricsResponse#approximate_total_count #approximate_total_count} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_metrics({
+    #     instance_id: "InstanceId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     search_filter: {
+    #       tag_filter: {
+    #         or_conditions: [
+    #           [
+    #             {
+    #               tag_key: "String",
+    #               tag_value: "String",
+    #             },
+    #           ],
+    #         ],
+    #         and_conditions: [
+    #           {
+    #             tag_key: "String",
+    #             tag_value: "String",
+    #           },
+    #         ],
+    #         tag_condition: {
+    #           tag_key: "String",
+    #           tag_value: "String",
+    #         },
+    #       },
+    #     },
+    #     search_criteria: {
+    #       or_conditions: [
+    #         {
+    #           # recursive MetricSearchCriteria
+    #         },
+    #       ],
+    #       and_conditions: [
+    #         {
+    #           # recursive MetricSearchCriteria
+    #         },
+    #       ],
+    #       string_condition: {
+    #         field_name: "String",
+    #         value: "String",
+    #         comparison_type: "STARTS_WITH", # accepts STARTS_WITH, CONTAINS, EXACT
+    #       },
+    #       boolean_condition: {
+    #         field_name: "String",
+    #         comparison_type: "IS_TRUE", # accepts IS_TRUE, IS_FALSE
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metrics #=> Array
+    #   resp.metrics[0].arn #=> String
+    #   resp.metrics[0].id #=> String
+    #   resp.metrics[0].name #=> String
+    #   resp.metrics[0].description #=> String
+    #   resp.metrics[0].metric_calculation.calculation_components #=> Array
+    #   resp.metrics[0].metric_calculation.calculation_components[0].alias #=> String
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_name #=> String
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_id #=> String
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters #=> Array
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].metric_filter_key #=> String
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].negate #=> Boolean
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].number_condition.comparison #=> String, one of "LESSER", "LESSER_OR_EQUAL", "GREATER", "GREATER_OR_EQUAL"
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].number_condition.values #=> Array
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].number_condition.values[0] #=> Float
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].string_condition.comparison #=> String, one of "MATCHES_ANY", "MATCHES_NONE"
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].string_condition.values #=> Array
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].string_condition.values[0] #=> String
+    #   resp.metrics[0].metric_calculation.calculation_components[0].metric_filters[0].boolean_condition.comparison #=> String, one of "IS_TRUE", "IS_FALSE"
+    #   resp.metrics[0].metric_calculation.calculation #=> String
+    #   resp.metrics[0].creation_method #=> String, one of "SERVICE_LEVEL_BUILDER", "METRIC_BUILDER"
+    #   resp.metrics[0].status #=> String, one of "PUBLISHED", "SAVED"
+    #   resp.metrics[0].type #=> String, one of "AWS_MANAGED", "CUSTOMER_MANAGED"
+    #   resp.metrics[0].unit #=> String, one of "INTEGER", "DOUBLE", "PERCENT", "SECONDS"
+    #   resp.metrics[0].positive_trend_indicator #=> String, one of "POSITIVE", "NEGATIVE", "NEUTRAL"
+    #   resp.metrics[0].groupings #=> Array
+    #   resp.metrics[0].groupings[0] #=> String
+    #   resp.metrics[0].filters #=> Array
+    #   resp.metrics[0].filters[0].id #=> String
+    #   resp.metrics[0].filters[0].type #=> String, one of "METRIC_LEVEL", "RESOURCE_LEVEL"
+    #   resp.metrics[0].effective_time #=> Time
+    #   resp.metrics[0].refresh_rate #=> Integer
+    #   resp.metrics[0].category #=> String
+    #   resp.metrics[0].supported_stats #=> Array
+    #   resp.metrics[0].supported_stats[0] #=> String
+    #   resp.metrics[0].default_stat #=> String
+    #   resp.metrics[0].supports_preaggregate_calculation #=> Boolean
+    #   resp.metrics[0].supports_custom_calculation #=> Boolean
+    #   resp.metrics[0].primary_event_source #=> String
+    #   resp.metrics[0].primary_event_source_effective_timestamp_type #=> String
+    #   resp.metrics[0].created_time #=> Time
+    #   resp.metrics[0].created_user.connect_user_arn #=> String
+    #   resp.metrics[0].created_user.aws_identity_arn #=> String
+    #   resp.metrics[0].last_modified_region #=> String
+    #   resp.metrics[0].last_modified_time #=> Time
+    #   resp.metrics[0].last_modified_user.connect_user_arn #=> String
+    #   resp.metrics[0].last_modified_user.aws_identity_arn #=> String
+    #   resp.metrics[0].tags #=> Hash
+    #   resp.metrics[0].tags["TagKey"] #=> String
+    #   resp.next_token #=> String
+    #   resp.approximate_total_count #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/SearchMetrics AWS API Documentation
+    #
+    # @overload search_metrics(params = {})
+    # @param [Hash] params ({})
+    def search_metrics(params = {}, options = {})
+      req = build_request(:search_metrics, params)
+      req.send_request(options)
+    end
+
     # Searches for notifications based on specified criteria and filters.
     # Returns a paginated list of notifications matching the search
     # parameters, ordered by descending creation time. Supports filtering by
@@ -21811,6 +22254,8 @@ module Aws::Connect
     #   * flow- module
     #
     #   * transfer-destination (also known as quick connect)
+    #
+    #   * metric
     #
     # @option params [String] :next_token
     #   The token for the next set of results. Use the value returned in the
@@ -25753,8 +26198,8 @@ module Aws::Connect
     #
     # Some of the supported resource types are agents, routing profiles,
     # queues, quick connects, flows, agent statuses, hours of operation,
-    # phone numbers, security profiles, and task templates. For a complete
-    # list, see [Tagging resources in Connect Customer][1].
+    # phone numbers, security profiles, task templates, and custom metrics.
+    # For a complete list, see [Tagging resources in Connect Customer][1].
     #
     # For sample policies that use tags, see [Connect Customer
     # Identity-Based Policy Examples][2] in the *Connect Customer
@@ -27855,6 +28300,121 @@ module Aws::Connect
     # @param [Hash] params ({})
     def update_instance_storage_config(params = {}, options = {})
       req = build_request(:update_instance_storage_config, params)
+      req.send_request(options)
+    end
+
+    # Updates the calculation, unit, and/or trend indicator of an existing
+    # metric in the specified Connect Customer instance.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :metric_id
+    #   The identifier of the metric to update. Adding the `$SAVED` qualifier
+    #   will update the saved version of the metric. Adding `$LATEST` or
+    #   omitting a qualifier will update the published version.
+    #
+    # @option params [Types::MetricCalculation] :metric_calculation
+    #   The updated calculation definition for the metric.
+    #
+    # @option params [String] :unit
+    #   The updated display unit for the metric.
+    #
+    # @option params [String] :positive_trend_indicator
+    #   How an increase in the metric value should be interpreted. Valid
+    #   values: `POSITIVE`, `NEUTRAL`, `NEGATIVE`.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_metric_content({
+    #     instance_id: "InstanceId", # required
+    #     metric_id: "MetricId", # required
+    #     metric_calculation: {
+    #       calculation_components: [ # required
+    #         {
+    #           alias: "ComponentAlias", # required
+    #           metric_name: "MetricName",
+    #           metric_id: "MetricId",
+    #           metric_filters: [
+    #             {
+    #               metric_filter_key: "MetricFilterKey", # required
+    #               negate: false,
+    #               number_condition: {
+    #                 comparison: "LESSER", # required, accepts LESSER, LESSER_OR_EQUAL, GREATER, GREATER_OR_EQUAL
+    #                 values: [1.0], # required
+    #               },
+    #               string_condition: {
+    #                 comparison: "MATCHES_ANY", # required, accepts MATCHES_ANY, MATCHES_NONE
+    #                 values: ["String"], # required
+    #               },
+    #               boolean_condition: {
+    #                 comparison: "IS_TRUE", # required, accepts IS_TRUE, IS_FALSE
+    #               },
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       calculation: "CalculationExpression", # required
+    #     },
+    #     unit: "INTEGER", # accepts INTEGER, DOUBLE, PERCENT, SECONDS
+    #     positive_trend_indicator: "POSITIVE", # accepts POSITIVE, NEGATIVE, NEUTRAL
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateMetricContent AWS API Documentation
+    #
+    # @overload update_metric_content(params = {})
+    # @param [Hash] params ({})
+    def update_metric_content(params = {}, options = {})
+      req = build_request(:update_metric_content, params)
+      req.send_request(options)
+    end
+
+    # Updates the name and/or description of an existing metric in the
+    # specified Connect Customer instance.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :metric_id
+    #   The identifier of the metric to update. Adding the `$SAVED` qualifier
+    #   will update the saved version of the metric. Adding `$LATEST` or
+    #   omitting a qualifier will update the published version.
+    #
+    # @option params [String] :name
+    #   The updated name of the metric.
+    #
+    # @option params [String] :description
+    #   The updated description of the metric.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_metric_metadata({
+    #     instance_id: "InstanceId", # required
+    #     metric_id: "MetricId", # required
+    #     name: "MetricName",
+    #     description: "MetricDescription",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateMetricMetadata AWS API Documentation
+    #
+    # @overload update_metric_metadata(params = {})
+    # @param [Hash] params ({})
+    def update_metric_metadata(params = {}, options = {})
+      req = build_request(:update_metric_metadata, params)
       req.send_request(options)
     end
 
@@ -30291,7 +30851,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.269.0'
+      context[:gem_version] = '1.270.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

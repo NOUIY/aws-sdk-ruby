@@ -236,6 +236,203 @@ module Aws::CleanRooms
       include Aws::Structure
     end
 
+    # An export of the redacted Apache Spark logs for a protected query.
+    #
+    # @!attribute [rw] analysis_log_export_id
+    #   The unique identifier of the analysis log export.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_id
+    #   The unique identifier of the protected query that the analysis logs
+    #   were exported for.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_type
+    #   The type of analysis that the logs were exported for. Currently,
+    #   only `PROTECTED_QUERY` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] membership_id
+    #   The unique identifier of the membership that the analysis log export
+    #   belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the analysis log export. Possible values are:
+    #
+    #   * `IN_PROGRESS` – The export is currently running.
+    #
+    #   * `SUCCESS` – The export completed successfully.
+    #
+    #   * `FAILED` – The export failed. See the `error` field for details.
+    #   @return [String]
+    #
+    # @!attribute [rw] result_configuration
+    #   Contains the details needed to write the exported analysis logs.
+    #   @return [Types::AnalysisLogExportResultConfiguration]
+    #
+    # @!attribute [rw] create_time
+    #   The time the analysis log export was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   The time the analysis log export was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] error
+    #   The analysis log export error. This is present only when the export
+    #   `status` is `FAILED`.
+    #   @return [Types::AnalysisLogExportError]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/AnalysisLogExport AWS API Documentation
+    #
+    class AnalysisLogExport < Struct.new(
+      :analysis_log_export_id,
+      :analysis_id,
+      :analysis_type,
+      :membership_id,
+      :status,
+      :result_configuration,
+      :create_time,
+      :update_time,
+      :error)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The analysis log export error.
+    #
+    # @!attribute [rw] code
+    #   The error code for the analysis log export.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The message for the analysis log export error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/AnalysisLogExportError AWS API Documentation
+    #
+    class AnalysisLogExportError < Struct.new(
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains configuration details for analysis log export output.
+    #
+    # @!attribute [rw] s3
+    #   Required configuration for an analysis log export with an `s3`
+    #   output type.
+    #   @return [Types::AnalysisLogExportS3OutputConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/AnalysisLogExportOutputConfiguration AWS API Documentation
+    #
+    class AnalysisLogExportOutputConfiguration < Struct.new(
+      :s3)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains configurations for analysis log export results.
+    #
+    # @!attribute [rw] output_configuration
+    #   The configuration for analysis log export results.
+    #   @return [Types::AnalysisLogExportOutputConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/AnalysisLogExportResultConfiguration AWS API Documentation
+    #
+    class AnalysisLogExportResultConfiguration < Struct.new(
+      :output_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains output information for an analysis log export with an S3
+    # output type.
+    #
+    # The exported logs are written under the bucket and key prefix that you
+    # specify. The path includes the collaboration ID, the protected query
+    # ID, and the analysis log export ID. Because the path includes the
+    # export ID, exporting the same query more than once doesn't overwrite
+    # the logs from an earlier export.
+    #
+    # <note markdown="1"> The exported logs are encrypted using the default encryption
+    # configuration of the destination bucket. Clean Rooms doesn't accept a
+    # KMS key for log export. To encrypt the exported logs with a customer
+    # managed key, configure the bucket's default encryption to use that
+    # key before you export.
+    #
+    #  </note>
+    #
+    # @!attribute [rw] bucket
+    #   The S3 bucket that the exported analysis logs are written to. The
+    #   bucket must be in the same Amazon Web Services Region as the
+    #   collaboration.
+    #   @return [String]
+    #
+    # @!attribute [rw] key_prefix
+    #   The S3 key prefix under which the exported analysis logs are
+    #   written.
+    #
+    #   Only one export can be in progress at a time for a given query and
+    #   destination. To export the same query twice at once, use a different
+    #   key prefix for the second export.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/AnalysisLogExportS3OutputConfiguration AWS API Documentation
+    #
+    class AnalysisLogExportS3OutputConfiguration < Struct.new(
+      :bucket,
+      :key_prefix)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of an analysis log export, including its identifier, status,
+    # analysis type, and creation time. Returned by
+    # `ListAnalysisLogExports`.
+    #
+    # @!attribute [rw] analysis_log_export_id
+    #   The unique identifier of the analysis log export.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_id
+    #   The unique identifier of the protected query that the analysis logs
+    #   were exported for.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_type
+    #   The type of analysis that the logs were exported for. Currently,
+    #   only `PROTECTED_QUERY` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the analysis log export. Possible values are:
+    #
+    #   * `IN_PROGRESS` – The export is currently running.
+    #
+    #   * `SUCCESS` – The export completed successfully.
+    #
+    #   * `FAILED` – The export failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_time
+    #   The time the analysis log export was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/AnalysisLogExportSummary AWS API Documentation
+    #
+    class AnalysisLogExportSummary < Struct.new(
+      :analysis_log_export_id,
+      :analysis_id,
+      :analysis_type,
+      :status,
+      :create_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Optional. The member who can query can provide this placeholder for a
     # literal data value in an analysis template.
     #
@@ -4036,8 +4233,7 @@ module Aws::CleanRooms
     #
     # @!attribute [rw] population_analysis_configuration
     #   The configuration that defines the analysis used to populate the
-    #   intermediate table. This configuration contains the SQL query or
-    #   analysis template reference.
+    #   intermediate table.
     #   @return [Types::PopulationAnalysisConfiguration]
     #
     # @!attribute [rw] kms_key_arn
@@ -4046,8 +4242,7 @@ module Aws::CleanRooms
     #   @return [String]
     #
     # @!attribute [rw] retention_in_days
-    #   The number of days to retain populated data versions. Minimum value
-    #   of 1, maximum value of 365.
+    #   The number of days to retain populated data versions.
     #   @return [Integer]
     #
     # @!attribute [rw] tags
@@ -4896,6 +5091,36 @@ module Aws::CleanRooms
     #
     class ErrorMessageConfiguration < Struct.new(
       :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] membership_identifier
+    #   A unique identifier for the membership that the analysis log export
+    #   belongs to. Currently accepts the membership ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_log_export_identifier
+    #   The unique identifier of the analysis log export to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/GetAnalysisLogExportInput AWS API Documentation
+    #
+    class GetAnalysisLogExportInput < Struct.new(
+      :membership_identifier,
+      :analysis_log_export_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_log_export
+    #   The analysis log export processing metadata.
+    #   @return [Types::AnalysisLogExport]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/GetAnalysisLogExportOutput AWS API Documentation
+    #
+    class GetAnalysisLogExportOutput < Struct.new(
+      :analysis_log_export)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6593,8 +6818,8 @@ module Aws::CleanRooms
       include Aws::Structure
     end
 
-    # The compute configuration for an intermediate table population
-    # operation.
+    # Contains the compute configuration for an intermediate table
+    # population operation.
     #
     # @note IntermediateTableComputeConfiguration is a union - when making an API calls you must set exactly one of the members.
     #
@@ -6632,9 +6857,10 @@ module Aws::CleanRooms
     #   @return [String]
     #
     # @!attribute [rw] parent_type
-    #   Whether the dependency is direct or indirect. A direct dependency is
-    #   a table explicitly referenced in the stored query, while an indirect
-    #   dependency is referenced through another intermediate table.
+    #   The type of dependency, either direct or indirect. A direct
+    #   dependency is a table explicitly referenced in the stored query. An
+    #   indirect dependency is a table referenced through another
+    #   intermediate table.
     #   @return [String]
     #
     # @!attribute [rw] creator_account_id
@@ -6900,6 +7126,60 @@ module Aws::CleanRooms
     #
     class JobComputePaymentConfig < Struct.new(
       :is_responsible)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] membership_identifier
+    #   A unique identifier for the membership to list analysis log exports
+    #   for. Currently accepts the membership ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_identifier
+    #   A filter on the unique identifier of the protected query that the
+    #   analysis logs were exported for.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   A filter on the status of the analysis log export.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token that's used to fetch the next set of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results that are returned for an API request
+    #   call. The service chooses a default number if you don't set one.
+    #   The service might return a `nextToken` even if the `maxResults`
+    #   value has not been met.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ListAnalysisLogExportsInput AWS API Documentation
+    #
+    class ListAnalysisLogExportsInput < Struct.new(
+      :membership_identifier,
+      :analysis_identifier,
+      :status,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token that's used to fetch the next set of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_log_exports
+    #   A list of analysis log exports.
+    #   @return [Array<Types::AnalysisLogExportSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ListAnalysisLogExportsOutput AWS API Documentation
+    #
+    class ListAnalysisLogExportsOutput < Struct.new(
+      :next_token,
+      :analysis_log_exports)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8010,6 +8290,12 @@ module Aws::CleanRooms
     #    Set the value of `memberAbilities` to `[CAN_RECEIVE_RESULTS]` to
     #   allow a member to contribute data and receive results.
     #
+    #    Set the value of `memberAbilities` to
+    #   `[CAN_EXPORT_QUERY_ANALYSIS_LOG]` so that the member can export the
+    #   analysis logs for a protected query. Having this ability isn't
+    #   sufficient on its own: You can export logs only for queries that you
+    #   ran or paid for.
+    #
     #    </note>
     #   @return [Array<String>]
     #
@@ -8778,8 +9064,8 @@ module Aws::CleanRooms
     end
 
     # @!attribute [rw] analysis_id
-    #   The identifier for the protected query execution. Use this value
-    #   with `GetProtectedQuery` to track the population progress.
+    #   The identifier for the protected query execution that populated the
+    #   intermediate table.
     #   @return [String]
     #
     # @!attribute [rw] analysis_type
@@ -8830,7 +9116,6 @@ module Aws::CleanRooms
     #
     # @!attribute [rw] query_string
     #   The SQL query string used to populate the intermediate table.
-    #   Maximum length of 500,000 characters.
     #   @return [String]
     #
     # @!attribute [rw] analysis_template_arn
@@ -10726,6 +11011,53 @@ module Aws::CleanRooms
     class SnowflakeTableSchemaV1 < Struct.new(
       :column_name,
       :column_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] membership_identifier
+    #   A unique identifier for the membership to export the analysis logs
+    #   for. Currently accepts a membership ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_id
+    #   The unique identifier of the protected query that you want to export
+    #   the analysis logs for.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_type
+    #   The type of analysis that the logs are exported for. Currently, only
+    #   `PROTECTED_QUERY` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] result_configuration
+    #   The details needed to write the exported analysis logs.
+    #
+    #   You don't need to create an IAM role for log export. Clean Rooms
+    #   writes the exported logs using your own identity, so Clean Rooms
+    #   writes the exported logs only where your existing permissions allow.
+    #   @return [Types::AnalysisLogExportResultConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/StartAnalysisLogExportInput AWS API Documentation
+    #
+    class StartAnalysisLogExportInput < Struct.new(
+      :membership_identifier,
+      :analysis_id,
+      :analysis_type,
+      :result_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_log_export
+    #   The analysis log export that was started. The `status` is
+    #   `IN_PROGRESS`.
+    #   @return [Types::AnalysisLogExport]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/StartAnalysisLogExportOutput AWS API Documentation
+    #
+    class StartAnalysisLogExportOutput < Struct.new(
+      :analysis_log_export)
       SENSITIVE = []
       include Aws::Structure
     end

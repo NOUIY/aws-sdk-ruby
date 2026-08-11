@@ -388,6 +388,38 @@ module Aws
       }
     }
 
+      type metric_calculation = {
+      calculation_components: Array[
+        Params::calculation_component
+      ],
+      calculation: ::String
+    }
+
+      type calculation_component = {
+      alias: ::String,
+      metric_name: ::String?,
+      metric_id: ::String?,
+      metric_filters: Array[
+        Params::metric_filter
+      ]?
+    }
+
+      type metric_filter = {
+      metric_filter_key: ::String,
+      negate: bool?,
+      number_condition: {
+        comparison: ("LESSER" | "LESSER_OR_EQUAL" | "GREATER" | "GREATER_OR_EQUAL"),
+        values: Array[::Float]
+      }?,
+      string_condition: {
+        comparison: ("MATCHES_ANY" | "MATCHES_NONE"),
+        values: Array[::String]
+      }?,
+      boolean_condition: {
+        comparison: ("IS_TRUE" | "IS_FALSE")
+      }?
+    }
+
       type quick_connect_config = {
       quick_connect_type: ("USER" | "QUEUE" | "PHONE_NUMBER" | "FLOW"),
       user_config: {
@@ -1131,6 +1163,48 @@ module Aws
         field_name: ::String?,
         value: ::String?,
         comparison_type: ("STARTS_WITH" | "CONTAINS" | "EXACT")?
+      }?
+    }
+
+      type metric_search_criteria = {
+      or_conditions: Array[
+        {
+          or_conditions: untyped?,
+          and_conditions: untyped?,
+          string_condition: {
+            field_name: ::String?,
+            value: ::String?,
+            comparison_type: ("STARTS_WITH" | "CONTAINS" | "EXACT")?
+          }?,
+          boolean_condition: {
+            field_name: ::String?,
+            comparison_type: ("IS_TRUE" | "IS_FALSE")?
+          }?
+        }
+      ]?,
+      and_conditions: Array[
+        {
+          or_conditions: untyped?,
+          and_conditions: untyped?,
+          string_condition: {
+            field_name: ::String?,
+            value: ::String?,
+            comparison_type: ("STARTS_WITH" | "CONTAINS" | "EXACT")?
+          }?,
+          boolean_condition: {
+            field_name: ::String?,
+            comparison_type: ("IS_TRUE" | "IS_FALSE")?
+          }?
+        }
+      ]?,
+      string_condition: {
+        field_name: ::String?,
+        value: ::String?,
+        comparison_type: ("STARTS_WITH" | "CONTAINS" | "EXACT")?
+      }?,
+      boolean_condition: {
+        field_name: ::String?,
+        comparison_type: ("IS_TRUE" | "IS_FALSE")?
       }?
     }
 

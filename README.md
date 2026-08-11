@@ -488,6 +488,7 @@ RubyGems.org page under "LINKS" section.
 | AWSMarketplace Metering                               | Aws::MarketplaceMetering                 | aws-sdk-marketplacemetering                 | 2016-01-14  |
 | AWSServerlessApplicationRepository                    | Aws::ServerlessApplicationRepository     | aws-sdk-serverlessapplicationrepository     | 2017-09-08  |
 | Access Analyzer                                       | Aws::AccessAnalyzer                      | aws-sdk-accessanalyzer                      | 2019-11-01  |
+| Account Access                                        | Aws::AccountAccess                       | aws-sdk-accountaccess                       | 2018-05-10  |
 | Agent Registry                                        | Aws::AgentRegistry                       | aws-sdk-agentregistry                       | 2025-12-01  |
 | Agent Registry Control                                | Aws::AgentRegistryControl                | aws-sdk-agentregistrycontrol                | 2025-12-01  |
 | Agents for Amazon Bedrock                             | Aws::BedrockAgent                        | aws-sdk-bedrockagent                        | 2023-06-05  |

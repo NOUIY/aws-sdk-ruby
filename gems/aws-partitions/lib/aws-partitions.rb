@@ -253,6 +253,7 @@ module Aws
             'ARCZonalShift' => 'arc-zonal-shift',
             'AccessAnalyzer' => 'access-analyzer',
             'Account' => 'account',
+            'AccountAccess' => 'account-access',
             'AgentRegistry' => 'agent-registry',
             'AgentRegistryControl' => 'agent-registry-control',
             'Amplify' => 'amplify',

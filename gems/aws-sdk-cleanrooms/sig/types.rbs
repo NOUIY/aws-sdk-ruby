@@ -61,6 +61,50 @@ module Aws::CleanRooms
       SENSITIVE: []
     end
 
+    class AnalysisLogExport
+      attr_accessor analysis_log_export_id: ::String
+      attr_accessor analysis_id: ::String
+      attr_accessor analysis_type: ("PROTECTED_QUERY")
+      attr_accessor membership_id: ::String
+      attr_accessor status: ("IN_PROGRESS" | "SUCCESS" | "FAILED")
+      attr_accessor result_configuration: Types::AnalysisLogExportResultConfiguration
+      attr_accessor create_time: ::Time
+      attr_accessor update_time: ::Time
+      attr_accessor error: Types::AnalysisLogExportError
+      SENSITIVE: []
+    end
+
+    class AnalysisLogExportError
+      attr_accessor code: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class AnalysisLogExportOutputConfiguration
+      attr_accessor s3: Types::AnalysisLogExportS3OutputConfiguration
+      SENSITIVE: []
+    end
+
+    class AnalysisLogExportResultConfiguration
+      attr_accessor output_configuration: Types::AnalysisLogExportOutputConfiguration
+      SENSITIVE: []
+    end
+
+    class AnalysisLogExportS3OutputConfiguration
+      attr_accessor bucket: ::String
+      attr_accessor key_prefix: ::String
+      SENSITIVE: []
+    end
+
+    class AnalysisLogExportSummary
+      attr_accessor analysis_log_export_id: ::String
+      attr_accessor analysis_id: ::String
+      attr_accessor analysis_type: ("PROTECTED_QUERY")
+      attr_accessor status: ("IN_PROGRESS" | "SUCCESS" | "FAILED")
+      attr_accessor create_time: ::Time
+      SENSITIVE: []
+    end
+
     class AnalysisParameter
       attr_accessor name: ::String
       attr_accessor type: ("SMALLINT" | "INTEGER" | "BIGINT" | "DECIMAL" | "REAL" | "DOUBLE_PRECISION" | "BOOLEAN" | "CHAR" | "VARCHAR" | "DATE" | "TIMESTAMP" | "TIMESTAMPTZ" | "TIME" | "TIMETZ" | "VARBYTE" | "BINARY" | "BYTE" | "CHARACTER" | "DOUBLE" | "FLOAT" | "INT" | "LONG" | "NUMERIC" | "SHORT" | "STRING" | "TIMESTAMP_LTZ" | "TIMESTAMP_NTZ" | "TINYINT")
@@ -339,7 +383,7 @@ module Aws::CleanRooms
     class Change
       attr_accessor specification_type: ("MEMBER" | "COLLABORATION")
       attr_accessor specification: Types::ChangeSpecification
-      attr_accessor types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY" | "EDIT_AUTO_APPROVED_CHANGE_TYPES" | "ADD_PAYER_CANDIDATE" | "REMOVE_PAYER_CANDIDATE" | "GRANT_CAN_RECEIVE_MODEL_OUTPUT" | "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT" | "REVOKE_CAN_RECEIVE_MODEL_OUTPUT" | "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT")]
+      attr_accessor types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY" | "EDIT_AUTO_APPROVED_CHANGE_TYPES" | "ADD_PAYER_CANDIDATE" | "REMOVE_PAYER_CANDIDATE" | "GRANT_CAN_RECEIVE_MODEL_OUTPUT" | "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT" | "REVOKE_CAN_RECEIVE_MODEL_OUTPUT" | "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT" | "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY" | "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY")]
       SENSITIVE: []
     end
 
@@ -388,7 +432,7 @@ module Aws::CleanRooms
       attr_accessor query_log_status: ("ENABLED" | "DISABLED")
       attr_accessor job_log_status: ("ENABLED" | "DISABLED")
       attr_accessor analytics_engine: ("SPARK" | "CLEAN_ROOMS_SQL")
-      attr_accessor auto_approved_change_types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY")]
+      attr_accessor auto_approved_change_types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY" | "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY" | "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY")]
       attr_accessor allowed_result_regions: ::Array[("us-west-1" | "us-west-2" | "us-east-1" | "us-east-2" | "af-south-1" | "ap-east-1" | "ap-east-2" | "ap-south-2" | "ap-southeast-1" | "ap-southeast-2" | "ap-southeast-3" | "ap-southeast-5" | "ap-southeast-4" | "ap-southeast-7" | "ap-south-1" | "ap-northeast-3" | "ap-northeast-1" | "ap-northeast-2" | "ca-central-1" | "ca-west-1" | "eu-south-1" | "eu-west-3" | "eu-south-2" | "eu-central-2" | "eu-central-1" | "eu-north-1" | "eu-west-1" | "eu-west-2" | "me-south-1" | "me-central-1" | "il-central-1" | "sa-east-1" | "mx-central-1")]
       attr_accessor is_metrics_enabled: bool
       SENSITIVE: []
@@ -454,7 +498,7 @@ module Aws::CleanRooms
     end
 
     class CollaborationChangeSpecification
-      attr_accessor auto_approved_change_types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY")]
+      attr_accessor auto_approved_change_types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY" | "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY" | "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY")]
       SENSITIVE: []
     end
 
@@ -907,7 +951,7 @@ module Aws::CleanRooms
       attr_accessor members: ::Array[Types::MemberSpecification]
       attr_accessor name: ::String
       attr_accessor description: ::String
-      attr_accessor creator_member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")]
+      attr_accessor creator_member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB" | "CAN_EXPORT_QUERY_ANALYSIS_LOG")]
       attr_accessor creator_ml_member_abilities: Types::MLMemberAbilities
       attr_accessor creator_display_name: ::String
       attr_accessor data_encryption_metadata: Types::DataEncryptionMetadata
@@ -916,7 +960,7 @@ module Aws::CleanRooms
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor creator_payment_configuration: Types::PaymentConfiguration
       attr_accessor analytics_engine: ("SPARK" | "CLEAN_ROOMS_SQL")
-      attr_accessor auto_approved_change_request_types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY")]
+      attr_accessor auto_approved_change_request_types: ::Array[("ADD_MEMBER" | "GRANT_RECEIVE_RESULTS_ABILITY" | "REVOKE_RECEIVE_RESULTS_ABILITY" | "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY" | "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY")]
       attr_accessor allowed_result_regions: ::Array[("us-west-1" | "us-west-2" | "us-east-1" | "us-east-2" | "af-south-1" | "ap-east-1" | "ap-east-2" | "ap-south-2" | "ap-southeast-1" | "ap-southeast-2" | "ap-southeast-3" | "ap-southeast-5" | "ap-southeast-4" | "ap-southeast-7" | "ap-south-1" | "ap-northeast-3" | "ap-northeast-1" | "ap-northeast-2" | "ca-central-1" | "ca-west-1" | "eu-south-1" | "eu-west-3" | "eu-south-2" | "eu-central-2" | "eu-central-1" | "eu-north-1" | "eu-west-1" | "eu-west-2" | "me-south-1" | "me-central-1" | "il-central-1" | "sa-east-1" | "mx-central-1")]
       attr_accessor is_metrics_enabled: bool
       SENSITIVE: []
@@ -1310,6 +1354,17 @@ module Aws::CleanRooms
 
     class ErrorMessageConfiguration
       attr_accessor type: ("DETAILED")
+      SENSITIVE: []
+    end
+
+    class GetAnalysisLogExportInput
+      attr_accessor membership_identifier: ::String
+      attr_accessor analysis_log_export_identifier: ::String
+      SENSITIVE: []
+    end
+
+    class GetAnalysisLogExportOutput
+      attr_accessor analysis_log_export: Types::AnalysisLogExport
       SENSITIVE: []
     end
 
@@ -1897,6 +1952,21 @@ module Aws::CleanRooms
       SENSITIVE: []
     end
 
+    class ListAnalysisLogExportsInput
+      attr_accessor membership_identifier: ::String
+      attr_accessor analysis_identifier: ::String
+      attr_accessor status: ("IN_PROGRESS" | "SUCCESS" | "FAILED")
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListAnalysisLogExportsOutput
+      attr_accessor next_token: ::String
+      attr_accessor analysis_log_exports: ::Array[Types::AnalysisLogExportSummary]
+      SENSITIVE: []
+    end
+
     class ListAnalysisTemplatesInput
       attr_accessor membership_identifier: ::String
       attr_accessor next_token: ::String
@@ -2222,7 +2292,7 @@ module Aws::CleanRooms
 
     class MemberChangeSpecification
       attr_accessor account_id: ::String
-      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")]
+      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB" | "CAN_EXPORT_QUERY_ANALYSIS_LOG")]
       attr_accessor ml_member_abilities: Types::MLMemberAbilities
       attr_accessor payment_configuration: Types::PaymentConfiguration
       attr_accessor display_name: ::String
@@ -2231,7 +2301,7 @@ module Aws::CleanRooms
 
     class MemberSpecification
       attr_accessor account_id: ::String
-      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")]
+      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB" | "CAN_EXPORT_QUERY_ANALYSIS_LOG")]
       attr_accessor ml_member_abilities: Types::MLMemberAbilities
       attr_accessor display_name: ::String
       attr_accessor payment_configuration: Types::PaymentConfiguration
@@ -2242,7 +2312,7 @@ module Aws::CleanRooms
       attr_accessor account_id: ::String
       attr_accessor status: ("INVITED" | "ACTIVE" | "LEFT" | "REMOVED")
       attr_accessor display_name: ::String
-      attr_accessor abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")]
+      attr_accessor abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB" | "CAN_EXPORT_QUERY_ANALYSIS_LOG")]
       attr_accessor ml_abilities: Types::MLMemberAbilities
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
@@ -2263,7 +2333,7 @@ module Aws::CleanRooms
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       attr_accessor status: ("ACTIVE" | "REMOVED" | "COLLABORATION_DELETED")
-      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")]
+      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB" | "CAN_EXPORT_QUERY_ANALYSIS_LOG")]
       attr_accessor ml_member_abilities: Types::MLMemberAbilities
       attr_accessor query_log_status: ("ENABLED" | "DISABLED")
       attr_accessor job_log_status: ("ENABLED" | "DISABLED")
@@ -2353,7 +2423,7 @@ module Aws::CleanRooms
       attr_accessor create_time: ::Time
       attr_accessor update_time: ::Time
       attr_accessor status: ("ACTIVE" | "REMOVED" | "COLLABORATION_DELETED")
-      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB")]
+      attr_accessor member_abilities: ::Array[("CAN_QUERY" | "CAN_RECEIVE_RESULTS" | "CAN_RUN_JOB" | "CAN_EXPORT_QUERY_ANALYSIS_LOG")]
       attr_accessor ml_member_abilities: Types::MLMemberAbilities
       attr_accessor payment_configuration: Types::MembershipPaymentConfiguration
       SENSITIVE: []
@@ -3016,6 +3086,19 @@ module Aws::CleanRooms
     class SnowflakeTableSchemaV1
       attr_accessor column_name: ::String
       attr_accessor column_type: ::String
+      SENSITIVE: []
+    end
+
+    class StartAnalysisLogExportInput
+      attr_accessor membership_identifier: ::String
+      attr_accessor analysis_id: ::String
+      attr_accessor analysis_type: ("PROTECTED_QUERY")
+      attr_accessor result_configuration: Types::AnalysisLogExportResultConfiguration
+      SENSITIVE: []
+    end
+
+    class StartAnalysisLogExportOutput
+      attr_accessor analysis_log_export: Types::AnalysisLogExport
       SENSITIVE: []
     end
 

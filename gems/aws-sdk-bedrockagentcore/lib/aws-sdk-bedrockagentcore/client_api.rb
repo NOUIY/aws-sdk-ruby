@@ -541,6 +541,7 @@ module Aws::BedrockAgentCore
     Oauth2FlowType = Shapes::StringShape.new(name: 'Oauth2FlowType')
     OnlineEvaluationConfigArn = Shapes::StringShape.new(name: 'OnlineEvaluationConfigArn')
     OnlineEvaluationConfigSource = Shapes::StructureShape.new(name: 'OnlineEvaluationConfigSource')
+    OnlineEvaluationTraceConfig = Shapes::StructureShape.new(name: 'OnlineEvaluationTraceConfig')
     OperatorType = Shapes::StringShape.new(name: 'OperatorType')
     OutputConfig = Shapes::UnionShape.new(name: 'OutputConfig')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
@@ -856,10 +857,12 @@ module Aws::BedrockAgentCore
     AgentTracesConfig.add_member(:session_spans, Shapes::ShapeRef.new(shape: Spans, location_name: "sessionSpans"))
     AgentTracesConfig.add_member(:cloudwatch_logs, Shapes::ShapeRef.new(shape: CloudWatchLogsTraceConfig, location_name: "cloudwatchLogs"))
     AgentTracesConfig.add_member(:batch_evaluation, Shapes::ShapeRef.new(shape: BatchEvaluationTraceConfig, location_name: "batchEvaluation"))
+    AgentTracesConfig.add_member(:online_evaluation, Shapes::ShapeRef.new(shape: OnlineEvaluationTraceConfig, location_name: "onlineEvaluation"))
     AgentTracesConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     AgentTracesConfig.add_member_subclass(:session_spans, Types::AgentTracesConfig::SessionSpans)
     AgentTracesConfig.add_member_subclass(:cloudwatch_logs, Types::AgentTracesConfig::CloudwatchLogs)
     AgentTracesConfig.add_member_subclass(:batch_evaluation, Types::AgentTracesConfig::BatchEvaluation)
+    AgentTracesConfig.add_member_subclass(:online_evaluation, Types::AgentTracesConfig::OnlineEvaluation)
     AgentTracesConfig.add_member_subclass(:unknown, Types::AgentTracesConfig::Unknown)
     AgentTracesConfig.struct_class = Types::AgentTracesConfig
 
@@ -2583,6 +2586,11 @@ module Aws::BedrockAgentCore
     OnlineEvaluationConfigSource.add_member(:online_evaluation_config_arn, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigArn, required: true, location_name: "onlineEvaluationConfigArn"))
     OnlineEvaluationConfigSource.add_member(:time_range, Shapes::ShapeRef.new(shape: SessionFilterConfig, location_name: "timeRange"))
     OnlineEvaluationConfigSource.struct_class = Types::OnlineEvaluationConfigSource
+
+    OnlineEvaluationTraceConfig.add_member(:online_evaluation_config_arn, Shapes::ShapeRef.new(shape: OnlineEvaluationConfigArn, required: true, location_name: "onlineEvaluationConfigArn"))
+    OnlineEvaluationTraceConfig.add_member(:start_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "startTime"))
+    OnlineEvaluationTraceConfig.add_member(:end_time, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, required: true, location_name: "endTime"))
+    OnlineEvaluationTraceConfig.struct_class = Types::OnlineEvaluationTraceConfig
 
     OutputConfig.add_member(:cloud_watch_config, Shapes::ShapeRef.new(shape: CloudWatchOutputConfig, location_name: "cloudWatchConfig"))
     OutputConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))

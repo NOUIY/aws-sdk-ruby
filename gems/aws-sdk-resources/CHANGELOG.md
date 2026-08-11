@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.270.0 (2026-08-11)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-accountaccess` gem.
+
 3.269.0 (2026-08-06)
 ------------------
 

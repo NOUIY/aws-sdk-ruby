@@ -2329,6 +2329,9 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.online_evaluation.online_evaluation_config_arn #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.online_evaluation.start_time #=> Time
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.online_evaluation.end_time #=> Time
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators #=> Array
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators[0].evaluator_arn #=> String
     #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools #=> Array
@@ -2353,6 +2356,9 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.online_evaluation.online_evaluation_config_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.online_evaluation.start_time #=> Time
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.online_evaluation.end_time #=> Time
     #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -5849,6 +5855,11 @@ module Aws::BedrockAgentCore
     #           batch_evaluation: {
     #             batch_evaluation_arn: "BatchEvaluationArn", # required
     #           },
+    #           online_evaluation: {
+    #             online_evaluation_config_arn: "OnlineEvaluationConfigArn", # required
+    #             start_time: Time.now, # required
+    #             end_time: Time.now, # required
+    #           },
     #         },
     #         evaluation_config: {
     #           evaluators: [ # required
@@ -5908,6 +5919,11 @@ module Aws::BedrockAgentCore
     #           batch_evaluation: {
     #             batch_evaluation_arn: "BatchEvaluationArn", # required
     #           },
+    #           online_evaluation: {
+    #             online_evaluation_config_arn: "OnlineEvaluationConfigArn", # required
+    #             start_time: Time.now, # required
+    #             end_time: Time.now, # required
+    #           },
     #         },
     #       },
     #     },
@@ -5943,6 +5959,9 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
     #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.online_evaluation.online_evaluation_config_arn #=> String
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.online_evaluation.start_time #=> Time
+    #   resp.recommendation_config.system_prompt_recommendation_config.agent_traces.online_evaluation.end_time #=> Time
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators #=> Array
     #   resp.recommendation_config.system_prompt_recommendation_config.evaluation_config.evaluators[0].evaluator_arn #=> String
     #   resp.recommendation_config.tool_description_recommendation_config.tool_description.tool_description_text.tools #=> Array
@@ -5967,6 +5986,9 @@ module Aws::BedrockAgentCore
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.double_value #=> Float
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.cloudwatch_logs.rule.filters[0].value.boolean_value #=> Boolean
     #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.batch_evaluation.batch_evaluation_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.online_evaluation.online_evaluation_config_arn #=> String
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.online_evaluation.start_time #=> Time
+    #   resp.recommendation_config.tool_description_recommendation_config.agent_traces.online_evaluation.end_time #=> Time
     #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "DELETING"
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
@@ -6384,7 +6406,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.46.0'
+      context[:gem_version] = '1.47.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

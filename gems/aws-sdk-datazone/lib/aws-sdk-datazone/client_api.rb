@@ -1604,6 +1604,7 @@ module Aws::DataZone
     AssetScope.add_member(:asset_id, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "assetId"))
     AssetScope.add_member(:filter_ids, Shapes::ShapeRef.new(shape: FilterIds, required: true, location_name: "filterIds"))
     AssetScope.add_member(:status, Shapes::ShapeRef.new(shape: String, required: true, location_name: "status"))
+    AssetScope.add_member(:scope_name, Shapes::ShapeRef.new(shape: String, location_name: "scopeName"))
     AssetScope.add_member(:error_message, Shapes::ShapeRef.new(shape: String, location_name: "errorMessage"))
     AssetScope.struct_class = Types::AssetScope
 

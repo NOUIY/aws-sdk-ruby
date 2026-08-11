@@ -2582,6 +2582,12 @@ module Aws::Organizations
     #
     # @!attribute [rw] type
     #   The type of ID for the participant.
+    #
+    #   <note markdown="1"> ORGANIZATION is valid only in the response context (identifying the
+    #   inviting organization). Valid input values for the Target parameter
+    #   are ACCOUNT and EMAIL only.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/HandshakeParty AWS API Documentation

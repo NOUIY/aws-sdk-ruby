@@ -82,6 +82,7 @@ module Aws::BedrockAgentCore
       attr_accessor session_spans: ::Array[untyped]
       attr_accessor cloudwatch_logs: Types::CloudWatchLogsTraceConfig
       attr_accessor batch_evaluation: Types::BatchEvaluationTraceConfig
+      attr_accessor online_evaluation: Types::OnlineEvaluationTraceConfig
       attr_accessor unknown: untyped
       SENSITIVE: [:session_spans]
 
@@ -90,6 +91,8 @@ module Aws::BedrockAgentCore
       class CloudwatchLogs < AgentTracesConfig
       end
       class BatchEvaluation < AgentTracesConfig
+      end
+      class OnlineEvaluation < AgentTracesConfig
       end
       class Unknown < AgentTracesConfig
       end
@@ -2341,6 +2344,13 @@ module Aws::BedrockAgentCore
     class OnlineEvaluationConfigSource
       attr_accessor online_evaluation_config_arn: ::String
       attr_accessor time_range: Types::SessionFilterConfig
+      SENSITIVE: []
+    end
+
+    class OnlineEvaluationTraceConfig
+      attr_accessor online_evaluation_config_arn: ::String
+      attr_accessor start_time: ::Time
+      attr_accessor end_time: ::Time
       SENSITIVE: []
     end
 

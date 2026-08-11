@@ -852,6 +852,25 @@ module Aws
                                           ) -> _CreateIntegrationAssociationResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateIntegrationAssociationResponseSuccess
 
+      interface _CreateMetricResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateMetricResponse]
+        def metric_arn: () -> ::String
+        def metric_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#create_metric-instance_method
+      def create_metric: (
+                           instance_id: ::String,
+                           name: ::String,
+                           metric_calculation: Params::metric_calculation,
+                           unit: ("INTEGER" | "DOUBLE" | "PERCENT" | "SECONDS"),
+                           ?status: ("PUBLISHED" | "SAVED"),
+                           ?client_token: ::String,
+                           ?description: ::String,
+                           ?positive_trend_indicator: ("POSITIVE" | "NEGATIVE" | "NEUTRAL"),
+                           ?tags: Hash[::String, ::String]
+                         ) -> _CreateMetricResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateMetricResponseSuccess
+
       interface _CreateNotificationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateNotificationResponse]
         def notification_id: () -> ::String
@@ -1480,6 +1499,16 @@ module Aws
                                           ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      interface _DeleteMetricResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteMetricResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#delete_metric-instance_method
+      def delete_metric: (
+                           instance_id: ::String,
+                           metric_id: ::String
+                         ) -> _DeleteMetricResponseSuccess
+                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteMetricResponseSuccess
+
       interface _DeleteNotificationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteNotificationResponse]
       end
@@ -1877,6 +1906,17 @@ module Aws
                                               resource_type: ("CHAT_TRANSCRIPTS" | "CALL_RECORDINGS" | "SCHEDULED_REPORTS" | "MEDIA_STREAMS" | "CONTACT_TRACE_RECORDS" | "AGENT_EVENTS" | "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS" | "ATTACHMENTS" | "CONTACT_EVALUATIONS" | "SCREEN_RECORDINGS" | "REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS" | "REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS" | "EMAIL_MESSAGES")
                                             ) -> _DescribeInstanceStorageConfigResponseSuccess
                                           | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeInstanceStorageConfigResponseSuccess
+
+      interface _DescribeMetricResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeMetricResponse]
+        def metric: () -> Types::MetricDefinition
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#describe_metric-instance_method
+      def describe_metric: (
+                             instance_id: ::String,
+                             metric_id: ::String
+                           ) -> _DescribeMetricResponseSuccess
+                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeMetricResponseSuccess
 
       interface _DescribeNotificationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeNotificationResponse]
@@ -3094,6 +3134,20 @@ module Aws
                          ) -> _ListLexBotsResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListLexBotsResponseSuccess
 
+      interface _ListMetricsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListMetricsResponse]
+        def metric_summary_list: () -> ::Array[Types::MetricSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#list_metrics-instance_method
+      def list_metrics: (
+                          instance_id: ::String,
+                          ?type: ("AWS_MANAGED" | "CUSTOMER_MANAGED"),
+                          ?max_results: ::Integer,
+                          ?next_token: ::String
+                        ) -> _ListMetricsResponseSuccess
+                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListMetricsResponseSuccess
+
       interface _ListNotificationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListNotificationsResponse]
         def next_token: () -> ::String
@@ -4004,6 +4058,24 @@ module Aws
                                         ?search_criteria: Params::hours_of_operation_search_criteria
                                       ) -> _SearchHoursOfOperationsResponseSuccess
                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchHoursOfOperationsResponseSuccess
+
+      interface _SearchMetricsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::SearchMetricsResponse]
+        def metrics: () -> ::Array[Types::MetricDefinition]
+        def next_token: () -> ::String
+        def approximate_total_count: () -> ::Integer
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#search_metrics-instance_method
+      def search_metrics: (
+                            instance_id: ::String,
+                            ?next_token: ::String,
+                            ?max_results: ::Integer,
+                            ?search_filter: {
+                              tag_filter: Params::control_plane_tag_filter?
+                            },
+                            ?search_criteria: Params::metric_search_criteria
+                          ) -> _SearchMetricsResponseSuccess
+                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SearchMetricsResponseSuccess
 
       interface _SearchNotificationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::SearchNotificationsResponse]
@@ -5375,6 +5447,31 @@ module Aws
                                             ?client_token: ::String
                                           ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
+
+      interface _UpdateMetricContentResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateMetricContentResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_metric_content-instance_method
+      def update_metric_content: (
+                                   instance_id: ::String,
+                                   metric_id: ::String,
+                                   ?metric_calculation: Params::metric_calculation,
+                                   ?unit: ("INTEGER" | "DOUBLE" | "PERCENT" | "SECONDS"),
+                                   ?positive_trend_indicator: ("POSITIVE" | "NEGATIVE" | "NEUTRAL")
+                                 ) -> _UpdateMetricContentResponseSuccess
+                               | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMetricContentResponseSuccess
+
+      interface _UpdateMetricMetadataResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateMetricMetadataResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_metric_metadata-instance_method
+      def update_metric_metadata: (
+                                    instance_id: ::String,
+                                    metric_id: ::String,
+                                    ?name: ::String,
+                                    ?description: ::String
+                                  ) -> _UpdateMetricMetadataResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateMetricMetadataResponseSuccess
 
       interface _UpdateNotificationContentResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateNotificationContentResponse]

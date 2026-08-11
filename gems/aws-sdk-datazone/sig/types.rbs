@@ -329,6 +329,7 @@ module Aws::DataZone
       attr_accessor asset_id: ::String
       attr_accessor filter_ids: ::Array[::String]
       attr_accessor status: ::String
+      attr_accessor scope_name: ::String
       attr_accessor error_message: ::String
       SENSITIVE: []
     end

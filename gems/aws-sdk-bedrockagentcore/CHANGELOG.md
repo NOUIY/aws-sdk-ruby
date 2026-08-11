@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.47.0 (2026-08-11)
+------------------
+
+* Feature - Adding online eval arn as input for recommendation API
+
 1.46.0 (2026-08-06)
 ------------------
 

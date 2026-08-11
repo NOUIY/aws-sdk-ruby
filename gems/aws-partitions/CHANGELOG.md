@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1280.0 (2026-08-11)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::AccountAccess`.
+
 1.1279.0 (2026-08-07)
 ------------------
 

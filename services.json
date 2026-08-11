@@ -26,6 +26,9 @@
   "Account": {
     "models": "account/2021-02-01"
   },
+  "AccountAccess": {
+    "models": "account-access/2018-05-10"
+  },
   "AgentRegistry": {
     "models": "agent-registry/2025-12-01"
   },

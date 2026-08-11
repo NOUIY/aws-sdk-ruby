@@ -257,12 +257,18 @@ module Aws::BedrockAgentCore
     #   Use a completed batch evaluation as the source of agent traces.
     #   @return [Types::BatchEvaluationTraceConfig]
     #
+    # @!attribute [rw] online_evaluation
+    #   Agent traces from an online evaluation configuration over a
+    #   specified time range.
+    #   @return [Types::OnlineEvaluationTraceConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/AgentTracesConfig AWS API Documentation
     #
     class AgentTracesConfig < Struct.new(
       :session_spans,
       :cloudwatch_logs,
       :batch_evaluation,
+      :online_evaluation,
       :unknown)
       SENSITIVE = [:session_spans]
       include Aws::Structure
@@ -271,6 +277,7 @@ module Aws::BedrockAgentCore
       class SessionSpans < AgentTracesConfig; end
       class CloudwatchLogs < AgentTracesConfig; end
       class BatchEvaluation < AgentTracesConfig; end
+      class OnlineEvaluation < AgentTracesConfig; end
       class Unknown < AgentTracesConfig; end
     end
 
@@ -7733,6 +7740,36 @@ module Aws::BedrockAgentCore
     class OnlineEvaluationConfigSource < Struct.new(
       :online_evaluation_config_arn,
       :time_range)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the configuration for reusing agent traces from an online
+    # evaluation configuration for recommendation analysis. Because online
+    # evaluation is a continuous stream, a time range specifies which
+    # evaluated sessions the recommendation includes.
+    #
+    # @!attribute [rw] online_evaluation_config_arn
+    #   The ARN of the online evaluation configuration to reuse sessions
+    #   from.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The start time of the time range. Only sessions evaluated at or
+    #   after this timestamp are included.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The end time of the time range. Only sessions evaluated before this
+    #   timestamp are included.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/OnlineEvaluationTraceConfig AWS API Documentation
+    #
+    class OnlineEvaluationTraceConfig < Struct.new(
+      :online_evaluation_config_arn,
+      :start_time,
+      :end_time)
       SENSITIVE = []
       include Aws::Structure
     end

@@ -1175,6 +1175,10 @@ module Aws::DataZone
     #   The status of the asset scope.
     #   @return [String]
     #
+    # @!attribute [rw] scope_name
+    #   The name of the materialized asset scope.
+    #   @return [String]
+    #
     # @!attribute [rw] error_message
     #   The error message of the asset scope.
     #   @return [String]
@@ -1185,6 +1189,7 @@ module Aws::DataZone
       :asset_id,
       :filter_ids,
       :status,
+      :scope_name,
       :error_message)
       SENSITIVE = []
       include Aws::Structure

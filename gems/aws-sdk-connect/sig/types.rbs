@@ -587,6 +587,12 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class AvailableFilter
+      attr_accessor id: ::String
+      attr_accessor type: ("METRIC_LEVEL" | "RESOURCE_LEVEL")
+      SENSITIVE: []
+    end
+
     class AvailableNumberSummary
       attr_accessor phone_number: ::String
       attr_accessor phone_number_country_code: ("AF" | "AL" | "DZ" | "AS" | "AD" | "AO" | "AI" | "AQ" | "AG" | "AR" | "AM" | "AW" | "AU" | "AT" | "AZ" | "BS" | "BH" | "BD" | "BB" | "BY" | "BE" | "BZ" | "BJ" | "BM" | "BT" | "BO" | "BA" | "BW" | "BR" | "IO" | "VG" | "BN" | "BG" | "BF" | "BI" | "KH" | "CM" | "CA" | "CV" | "KY" | "CF" | "TD" | "CL" | "CN" | "CX" | "CC" | "CO" | "KM" | "CK" | "CR" | "HR" | "CU" | "CW" | "CY" | "CZ" | "CD" | "DK" | "DJ" | "DM" | "DO" | "TL" | "EC" | "EG" | "SV" | "GQ" | "ER" | "EE" | "ET" | "FK" | "FO" | "FJ" | "FI" | "FR" | "PF" | "GA" | "GM" | "GE" | "DE" | "GH" | "GI" | "GR" | "GL" | "GD" | "GU" | "GT" | "GG" | "GN" | "GW" | "GY" | "HT" | "HN" | "HK" | "HU" | "IS" | "IN" | "ID" | "IR" | "IQ" | "IE" | "IM" | "IL" | "IT" | "CI" | "JM" | "JP" | "JE" | "JO" | "KZ" | "KE" | "KI" | "KW" | "KG" | "LA" | "LV" | "LB" | "LS" | "LR" | "LY" | "LI" | "LT" | "LU" | "MO" | "MK" | "MG" | "MW" | "MY" | "MV" | "ML" | "MT" | "MH" | "MR" | "MU" | "YT" | "MX" | "FM" | "MD" | "MC" | "MN" | "ME" | "MS" | "MA" | "MZ" | "MM" | "NA" | "NR" | "NP" | "NL" | "AN" | "NC" | "NZ" | "NI" | "NE" | "NG" | "NU" | "KP" | "MP" | "NO" | "OM" | "PK" | "PW" | "PA" | "PG" | "PY" | "PE" | "PH" | "PN" | "PL" | "PT" | "PR" | "QA" | "CG" | "RE" | "RO" | "RU" | "RW" | "BL" | "SH" | "KN" | "LC" | "MF" | "PM" | "VC" | "WS" | "SM" | "ST" | "SA" | "SN" | "RS" | "SC" | "SL" | "SG" | "SX" | "SK" | "SI" | "SB" | "SO" | "ZA" | "KR" | "ES" | "LK" | "SD" | "SR" | "SJ" | "SZ" | "SE" | "CH" | "SY" | "TW" | "TJ" | "TZ" | "TH" | "TG" | "TK" | "TO" | "TT" | "TN" | "TR" | "TM" | "TC" | "TV" | "VI" | "UG" | "UA" | "AE" | "GB" | "US" | "UY" | "UZ" | "VU" | "VA" | "VE" | "VN" | "WF" | "EH" | "YE" | "ZM" | "ZW")
@@ -775,6 +781,14 @@ module Aws::Connect
     class BooleanCondition
       attr_accessor field_name: ::String
       attr_accessor comparison_type: ("IS_TRUE" | "IS_FALSE")
+      SENSITIVE: []
+    end
+
+    class CalculationComponent
+      attr_accessor alias: ::String
+      attr_accessor metric_name: ::String
+      attr_accessor metric_id: ::String
+      attr_accessor metric_filters: ::Array[Types::MetricFilter]
       SENSITIVE: []
     end
 
@@ -1583,6 +1597,25 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class CreateMetricRequest
+      attr_accessor instance_id: ::String
+      attr_accessor name: ::String
+      attr_accessor metric_calculation: Types::MetricCalculation
+      attr_accessor unit: ("INTEGER" | "DOUBLE" | "PERCENT" | "SECONDS")
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      attr_accessor client_token: ::String
+      attr_accessor description: ::String
+      attr_accessor positive_trend_indicator: ("POSITIVE" | "NEGATIVE" | "NEUTRAL")
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateMetricResponse
+      attr_accessor metric_arn: ::String
+      attr_accessor metric_id: ::String
+      SENSITIVE: []
+    end
+
     class CreateNotificationRequest
       attr_accessor instance_id: ::String
       attr_accessor expires_at: ::Time
@@ -2322,6 +2355,15 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class DeleteMetricRequest
+      attr_accessor instance_id: ::String
+      attr_accessor metric_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteMetricResponse < Aws::EmptyStructure
+    end
+
     class DeleteNotificationRequest
       attr_accessor instance_id: ::String
       attr_accessor notification_id: ::String
@@ -2696,6 +2738,17 @@ module Aws::Connect
 
     class DescribeInstanceStorageConfigResponse
       attr_accessor storage_config: Types::InstanceStorageConfig
+      SENSITIVE: []
+    end
+
+    class DescribeMetricRequest
+      attr_accessor instance_id: ::String
+      attr_accessor metric_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeMetricResponse
+      attr_accessor metric: Types::MetricDefinition
       SENSITIVE: []
     end
 
@@ -5116,6 +5169,20 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ListMetricsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor type: ("AWS_MANAGED" | "CUSTOMER_MANAGED")
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListMetricsResponse
+      attr_accessor metric_summary_list: ::Array[Types::MetricSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListNotificationsRequest
       attr_accessor instance_id: ::String
       attr_accessor next_token: ::String
@@ -5691,9 +5758,72 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class MetricCalculation
+      attr_accessor calculation_components: ::Array[Types::CalculationComponent]
+      attr_accessor calculation: ::String
+      SENSITIVE: []
+    end
+
     class MetricDataV2
       attr_accessor metric: Types::MetricV2
       attr_accessor value: ::Float
+      SENSITIVE: []
+    end
+
+    class MetricDefinition
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor metric_calculation: Types::MetricCalculation
+      attr_accessor creation_method: ("SERVICE_LEVEL_BUILDER" | "METRIC_BUILDER")
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      attr_accessor type: ("AWS_MANAGED" | "CUSTOMER_MANAGED")
+      attr_accessor unit: ("INTEGER" | "DOUBLE" | "PERCENT" | "SECONDS")
+      attr_accessor positive_trend_indicator: ("POSITIVE" | "NEGATIVE" | "NEUTRAL")
+      attr_accessor groupings: ::Array[::String]
+      attr_accessor filters: ::Array[Types::AvailableFilter]
+      attr_accessor effective_time: ::Time
+      attr_accessor refresh_rate: ::Integer
+      attr_accessor category: ::String
+      attr_accessor supported_stats: ::Array[::String]
+      attr_accessor default_stat: ::String
+      attr_accessor supports_preaggregate_calculation: bool
+      attr_accessor supports_custom_calculation: bool
+      attr_accessor primary_event_source: ::String
+      attr_accessor primary_event_source_effective_timestamp_type: ::String
+      attr_accessor created_time: ::Time
+      attr_accessor created_user: Types::CreatedByInfo
+      attr_accessor last_modified_region: ::String
+      attr_accessor last_modified_time: ::Time
+      attr_accessor last_modified_user: Types::CreatedByInfo
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class MetricFilter
+      attr_accessor metric_filter_key: ::String
+      attr_accessor negate: bool
+      attr_accessor number_condition: Types::MetricFilterNumberCondition
+      attr_accessor string_condition: Types::MetricFilterStringCondition
+      attr_accessor boolean_condition: Types::MetricFilterBooleanCondition
+      SENSITIVE: []
+    end
+
+    class MetricFilterBooleanCondition
+      attr_accessor comparison: ("IS_TRUE" | "IS_FALSE")
+      SENSITIVE: []
+    end
+
+    class MetricFilterNumberCondition
+      attr_accessor comparison: ("LESSER" | "LESSER_OR_EQUAL" | "GREATER" | "GREATER_OR_EQUAL")
+      attr_accessor values: ::Array[::Float]
+      SENSITIVE: []
+    end
+
+    class MetricFilterStringCondition
+      attr_accessor comparison: ("MATCHES_ANY" | "MATCHES_NONE")
+      attr_accessor values: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -5715,6 +5845,30 @@ module Aws::Connect
       attr_accessor dimensions: ::Hash[::String, ::String]
       attr_accessor metric_interval: Types::MetricInterval
       attr_accessor collections: ::Array[Types::MetricDataV2]
+      SENSITIVE: []
+    end
+
+    class MetricSearchCriteria
+      attr_accessor or_conditions: ::Array[Types::MetricSearchCriteria]
+      attr_accessor and_conditions: ::Array[Types::MetricSearchCriteria]
+      attr_accessor string_condition: Types::StringCondition
+      attr_accessor boolean_condition: Types::BooleanCondition
+      SENSITIVE: []
+    end
+
+    class MetricSearchFilter
+      attr_accessor tag_filter: Types::ControlPlaneTagFilter
+      SENSITIVE: []
+    end
+
+    class MetricSummary
+      attr_accessor arn: ::String
+      attr_accessor id: ::String
+      attr_accessor name: ::String
+      attr_accessor status: ("PUBLISHED" | "SAVED")
+      attr_accessor type: ("AWS_MANAGED" | "CUSTOMER_MANAGED")
+      attr_accessor last_modified_region: ::String
+      attr_accessor last_modified_time: ::Time
       SENSITIVE: []
     end
 
@@ -7104,6 +7258,22 @@ module Aws::Connect
 
     class SearchHoursOfOperationsResponse
       attr_accessor hours_of_operations: ::Array[Types::HoursOfOperation]
+      attr_accessor next_token: ::String
+      attr_accessor approximate_total_count: ::Integer
+      SENSITIVE: []
+    end
+
+    class SearchMetricsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor search_filter: Types::MetricSearchFilter
+      attr_accessor search_criteria: Types::MetricSearchCriteria
+      SENSITIVE: []
+    end
+
+    class SearchMetricsResponse
+      attr_accessor metrics: ::Array[Types::MetricDefinition]
       attr_accessor next_token: ::String
       attr_accessor approximate_total_count: ::Integer
       SENSITIVE: []
@@ -8568,6 +8738,29 @@ module Aws::Connect
       attr_accessor storage_config: Types::InstanceStorageConfig
       attr_accessor client_token: ::String
       SENSITIVE: []
+    end
+
+    class UpdateMetricContentRequest
+      attr_accessor instance_id: ::String
+      attr_accessor metric_id: ::String
+      attr_accessor metric_calculation: Types::MetricCalculation
+      attr_accessor unit: ("INTEGER" | "DOUBLE" | "PERCENT" | "SECONDS")
+      attr_accessor positive_trend_indicator: ("POSITIVE" | "NEGATIVE" | "NEUTRAL")
+      SENSITIVE: []
+    end
+
+    class UpdateMetricContentResponse < Aws::EmptyStructure
+    end
+
+    class UpdateMetricMetadataRequest
+      attr_accessor instance_id: ::String
+      attr_accessor metric_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateMetricMetadataResponse < Aws::EmptyStructure
     end
 
     class UpdateNotificationContentRequest

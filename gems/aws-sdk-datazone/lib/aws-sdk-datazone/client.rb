@@ -642,6 +642,7 @@ module Aws::DataZone
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listings[0].item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -1143,6 +1144,7 @@ module Aws::DataZone
     #   resp.subscribed_listing.item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listing.item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listing.item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listing.item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listing.item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listing.item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listing.item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -4446,6 +4448,7 @@ module Aws::DataZone
     #   resp.assets[0].asset_scope.filter_ids #=> Array
     #   resp.assets[0].asset_scope.filter_ids[0] #=> String
     #   resp.assets[0].asset_scope.status #=> String
+    #   resp.assets[0].asset_scope.scope_name #=> String
     #   resp.assets[0].asset_scope.error_message #=> String
     #   resp.assets[0].permissions.s3 #=> Array
     #   resp.assets[0].permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -4600,6 +4603,7 @@ module Aws::DataZone
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listings[0].item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -5782,6 +5786,7 @@ module Aws::DataZone
     #   resp.assets[0].asset_scope.filter_ids #=> Array
     #   resp.assets[0].asset_scope.filter_ids[0] #=> String
     #   resp.assets[0].asset_scope.status #=> String
+    #   resp.assets[0].asset_scope.scope_name #=> String
     #   resp.assets[0].asset_scope.error_message #=> String
     #   resp.assets[0].permissions.s3 #=> Array
     #   resp.assets[0].permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -8481,6 +8486,7 @@ module Aws::DataZone
     #   resp.subscribed_listing.item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listing.item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listing.item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listing.item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listing.item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listing.item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listing.item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -8565,6 +8571,7 @@ module Aws::DataZone
     #   resp.assets[0].asset_scope.filter_ids #=> Array
     #   resp.assets[0].asset_scope.filter_ids[0] #=> String
     #   resp.assets[0].asset_scope.status #=> String
+    #   resp.assets[0].asset_scope.scope_name #=> String
     #   resp.assets[0].asset_scope.error_message #=> String
     #   resp.assets[0].permissions.s3 #=> Array
     #   resp.assets[0].permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -8653,6 +8660,7 @@ module Aws::DataZone
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listings[0].item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -11314,6 +11322,7 @@ module Aws::DataZone
     #   resp.items[0].assets[0].asset_scope.filter_ids #=> Array
     #   resp.items[0].assets[0].asset_scope.filter_ids[0] #=> String
     #   resp.items[0].assets[0].asset_scope.status #=> String
+    #   resp.items[0].assets[0].asset_scope.scope_name #=> String
     #   resp.items[0].assets[0].asset_scope.error_message #=> String
     #   resp.items[0].assets[0].permissions.s3 #=> Array
     #   resp.items[0].assets[0].permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -11448,6 +11457,7 @@ module Aws::DataZone
     #   resp.items[0].subscribed_listings[0].item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.items[0].subscribed_listings[0].item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.items[0].subscribed_listings[0].item.asset_listing.asset_scope.status #=> String
+    #   resp.items[0].subscribed_listings[0].item.asset_listing.asset_scope.scope_name #=> String
     #   resp.items[0].subscribed_listings[0].item.asset_listing.asset_scope.error_message #=> String
     #   resp.items[0].subscribed_listings[0].item.asset_listing.permissions.s3 #=> Array
     #   resp.items[0].subscribed_listings[0].item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -11689,6 +11699,7 @@ module Aws::DataZone
     #   resp.items[0].subscribed_listing.item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.items[0].subscribed_listing.item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.items[0].subscribed_listing.item.asset_listing.asset_scope.status #=> String
+    #   resp.items[0].subscribed_listing.item.asset_listing.asset_scope.scope_name #=> String
     #   resp.items[0].subscribed_listing.item.asset_listing.asset_scope.error_message #=> String
     #   resp.items[0].subscribed_listing.item.asset_listing.permissions.s3 #=> Array
     #   resp.items[0].subscribed_listing.item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -12391,6 +12402,7 @@ module Aws::DataZone
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listings[0].item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -12624,6 +12636,7 @@ module Aws::DataZone
     #   resp.subscribed_listing.item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listing.item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listing.item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listing.item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listing.item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listing.item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listing.item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -16304,6 +16317,7 @@ module Aws::DataZone
     #   resp.assets[0].asset_scope.filter_ids #=> Array
     #   resp.assets[0].asset_scope.filter_ids[0] #=> String
     #   resp.assets[0].asset_scope.status #=> String
+    #   resp.assets[0].asset_scope.scope_name #=> String
     #   resp.assets[0].asset_scope.error_message #=> String
     #   resp.assets[0].permissions.s3 #=> Array
     #   resp.assets[0].permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -16395,6 +16409,7 @@ module Aws::DataZone
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.filter_ids[0] #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.status #=> String
+    #   resp.subscribed_listings[0].item.asset_listing.asset_scope.scope_name #=> String
     #   resp.subscribed_listings[0].item.asset_listing.asset_scope.error_message #=> String
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3 #=> Array
     #   resp.subscribed_listings[0].item.asset_listing.permissions.s3[0] #=> String, one of "READ", "WRITE"
@@ -16619,7 +16634,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.86.0'
+      context[:gem_version] = '1.87.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
