@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.32.0 (2026-08-12)
+------------------
+
+* Feature - Improved validation of Kinesis stream ARN format to ensure only valid ARN characters are accepted
+
 1.31.0 (2026-08-04)
 ------------------
 

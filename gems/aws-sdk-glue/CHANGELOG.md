@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.269.0 (2026-08-12)
+------------------
+
+* Feature - Documentation updates for materialized views APIs.
+
 1.268.0 (2026-08-05)
 ------------------
 

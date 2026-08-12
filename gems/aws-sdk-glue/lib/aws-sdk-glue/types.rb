@@ -12987,6 +12987,8 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # The asset metadata returned by the `GetAsset` operation.
+    #
     # @!attribute [rw] id
     #   The unique identifier of the asset.
     #   @return [String]
@@ -13894,6 +13896,9 @@ module Aws::Glue
     #
     class GetDataCatalogExportConfigurationInput < Aws::EmptyStructure; end
 
+    # The export configuration returned by the
+    # `GetDataCatalogExportConfiguration` operation.
+    #
     # @!attribute [rw] export_setting
     #   The export setting for the data catalog. Valid values are `ENABLED`
     #   and `DISABLED`.
@@ -22127,7 +22132,7 @@ module Aws::Glue
     #   @return [String]
     #
     # @!attribute [rw] table_name
-    #   The name of the table for which statistics is generated.
+    #   The name of the materialized view.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -22963,6 +22968,7 @@ module Aws::Glue
     # Exception thrown when stopping a task that is not in running state.
     #
     # @!attribute [rw] message
+    #   A message describing the problem.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/MaterializedViewRefreshTaskNotRunningException AWS API Documentation
@@ -22989,7 +22995,7 @@ module Aws::Glue
     #   @return [String]
     #
     # @!attribute [rw] table_name
-    #   The name of the table for which statistics is generated.
+    #   The name of the materialized view.
     #   @return [String]
     #
     # @!attribute [rw] catalog_id
@@ -22998,7 +23004,8 @@ module Aws::Glue
     #   @return [String]
     #
     # @!attribute [rw] role
-    #   The IAM role that the service assumes to generate statistics.
+    #   The IAM role that the service assumes to run the materialized view
+    #   refresh task.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -23063,6 +23070,7 @@ module Aws::Glue
     # Exception thrown when a task is already in running state.
     #
     # @!attribute [rw] message
+    #   A message describing the problem.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/MaterializedViewRefreshTaskRunningException AWS API Documentation
@@ -23076,6 +23084,7 @@ module Aws::Glue
     # Exception thrown when a task is already in stopping state.
     #
     # @!attribute [rw] message
+    #   A message describing the problem.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/MaterializedViewRefreshTaskStoppingException AWS API Documentation
@@ -24791,6 +24800,9 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # The export configuration returned by the
+    # `PutDataCatalogExportConfiguration` operation.
+    #
     # @!attribute [rw] export_setting
     #   The export setting for the data catalog.
     #   @return [String]
@@ -27647,6 +27659,8 @@ module Aws::Glue
       include Aws::Structure
     end
 
+    # The search results returned by the `SearchAssets` operation.
+    #
     # @!attribute [rw] items
     #   The list of assets matching the search criteria.
     #   @return [Array<Types::SearchResultItem>]
@@ -29487,8 +29501,7 @@ module Aws::Glue
     #   @return [String]
     #
     # @!attribute [rw] table_name
-    #   The name of the table to generate run the materialized view refresh
-    #   task.
+    #   The name of the materialized view to run the refresh task for.
     #   @return [String]
     #
     # @!attribute [rw] full_refresh
@@ -29941,7 +29954,7 @@ module Aws::Glue
     #   @return [String]
     #
     # @!attribute [rw] table_name
-    #   The name of the table to generate statistics.
+    #   The name of the materialized view.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StopMaterializedViewRefreshTaskRunRequest AWS API Documentation

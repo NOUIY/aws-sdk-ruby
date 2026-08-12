@@ -15004,7 +15004,7 @@ module Aws::Glue
     #   The database where the table resides.
     #
     # @option params [String] :table_name
-    #   The name of the table for which statistics is generated.
+    #   The name of the materialized view.
     #
     # @option params [Integer] :max_results
     #   The maximum size of the response.
@@ -18263,8 +18263,8 @@ module Aws::Glue
       req.send_request(options)
     end
 
-    # Starts a materialized view refresh task run, for a specified table and
-    # columns.
+    # Starts a materialized view refresh task run for a specified
+    # materialized view.
     #
     # @option params [required, String] :catalog_id
     #   The ID of the Data Catalog where the table reside. If none is
@@ -18274,8 +18274,7 @@ module Aws::Glue
     #   The name of the database where the table resides.
     #
     # @option params [required, String] :table_name
-    #   The name of the table to generate run the materialized view refresh
-    #   task.
+    #   The name of the materialized view to run the refresh task for.
     #
     # @option params [Boolean] :full_refresh
     #   Specifies whether this is a full refresh of the task run.
@@ -18476,8 +18475,8 @@ module Aws::Glue
       req.send_request(options)
     end
 
-    # Stops a materialized view refresh task run, for a specified table and
-    # columns.
+    # Stops a materialized view refresh task run for a specified
+    # materialized view.
     #
     # @option params [required, String] :catalog_id
     #   The ID of the Data Catalog where the table reside. If none is
@@ -18487,7 +18486,7 @@ module Aws::Glue
     #   The name of the database where the table resides.
     #
     # @option params [required, String] :table_name
-    #   The name of the table to generate statistics.
+    #   The name of the materialized view.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -21069,7 +21068,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.268.0'
+      context[:gem_version] = '1.269.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

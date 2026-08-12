@@ -119,8 +119,13 @@ module Aws::QuickSight
     AppendOperation = Shapes::StructureShape.new(name: 'AppendOperation')
     AppendedColumn = Shapes::StructureShape.new(name: 'AppendedColumn')
     AppendedColumnList = Shapes::ListShape.new(name: 'AppendedColumnList')
+    ApplicableTo = Shapes::StructureShape.new(name: 'ApplicableTo')
+    ApplicableToType = Shapes::StringShape.new(name: 'ApplicableToType')
     ApplicationArn = Shapes::StringShape.new(name: 'ApplicationArn')
     ApplicationTheme = Shapes::StructureShape.new(name: 'ApplicationTheme')
+    ApprovalGroupList = Shapes::ListShape.new(name: 'ApprovalGroupList')
+    ApprovalPolicy = Shapes::StructureShape.new(name: 'ApprovalPolicy')
+    ApprovalPolicyList = Shapes::ListShape.new(name: 'ApprovalPolicyList')
     ArcAxisConfiguration = Shapes::StructureShape.new(name: 'ArcAxisConfiguration')
     ArcAxisDisplayRange = Shapes::StructureShape.new(name: 'ArcAxisDisplayRange')
     ArcConfiguration = Shapes::StructureShape.new(name: 'ArcConfiguration')
@@ -165,6 +170,10 @@ module Aws::QuickSight
     AssetBundleExportJobThemeOverridePropertiesList = Shapes::ListShape.new(name: 'AssetBundleExportJobThemeOverridePropertiesList')
     AssetBundleExportJobThemePropertyToOverride = Shapes::StringShape.new(name: 'AssetBundleExportJobThemePropertyToOverride')
     AssetBundleExportJobThemePropertyToOverrideList = Shapes::ListShape.new(name: 'AssetBundleExportJobThemePropertyToOverrideList')
+    AssetBundleExportJobTopicV2OverrideProperties = Shapes::StructureShape.new(name: 'AssetBundleExportJobTopicV2OverrideProperties')
+    AssetBundleExportJobTopicV2OverridePropertiesList = Shapes::ListShape.new(name: 'AssetBundleExportJobTopicV2OverridePropertiesList')
+    AssetBundleExportJobTopicV2PropertyToOverride = Shapes::StringShape.new(name: 'AssetBundleExportJobTopicV2PropertyToOverride')
+    AssetBundleExportJobTopicV2PropertyToOverrideList = Shapes::ListShape.new(name: 'AssetBundleExportJobTopicV2PropertyToOverrideList')
     AssetBundleExportJobVPCConnectionOverrideProperties = Shapes::StructureShape.new(name: 'AssetBundleExportJobVPCConnectionOverrideProperties')
     AssetBundleExportJobVPCConnectionOverridePropertiesList = Shapes::ListShape.new(name: 'AssetBundleExportJobVPCConnectionOverridePropertiesList')
     AssetBundleExportJobVPCConnectionPropertyToOverride = Shapes::StringShape.new(name: 'AssetBundleExportJobVPCConnectionPropertyToOverride')
@@ -224,6 +233,12 @@ module Aws::QuickSight
     AssetBundleImportJobThemeOverridePermissionsList = Shapes::ListShape.new(name: 'AssetBundleImportJobThemeOverridePermissionsList')
     AssetBundleImportJobThemeOverrideTags = Shapes::StructureShape.new(name: 'AssetBundleImportJobThemeOverrideTags')
     AssetBundleImportJobThemeOverrideTagsList = Shapes::ListShape.new(name: 'AssetBundleImportJobThemeOverrideTagsList')
+    AssetBundleImportJobTopicV2OverrideParameters = Shapes::StructureShape.new(name: 'AssetBundleImportJobTopicV2OverrideParameters')
+    AssetBundleImportJobTopicV2OverrideParametersList = Shapes::ListShape.new(name: 'AssetBundleImportJobTopicV2OverrideParametersList')
+    AssetBundleImportJobTopicV2OverridePermissions = Shapes::StructureShape.new(name: 'AssetBundleImportJobTopicV2OverridePermissions')
+    AssetBundleImportJobTopicV2OverridePermissionsList = Shapes::ListShape.new(name: 'AssetBundleImportJobTopicV2OverridePermissionsList')
+    AssetBundleImportJobTopicV2OverrideTags = Shapes::StructureShape.new(name: 'AssetBundleImportJobTopicV2OverrideTags')
+    AssetBundleImportJobTopicV2OverrideTagsList = Shapes::ListShape.new(name: 'AssetBundleImportJobTopicV2OverrideTagsList')
     AssetBundleImportJobVPCConnectionOverrideParameters = Shapes::StructureShape.new(name: 'AssetBundleImportJobVPCConnectionOverrideParameters')
     AssetBundleImportJobVPCConnectionOverrideParametersList = Shapes::ListShape.new(name: 'AssetBundleImportJobVPCConnectionOverrideParametersList')
     AssetBundleImportJobVPCConnectionOverrideTags = Shapes::StructureShape.new(name: 'AssetBundleImportJobVPCConnectionOverrideTags')
@@ -239,6 +254,8 @@ module Aws::QuickSight
     AssetBundleRestrictiveResourceId = Shapes::StringShape.new(name: 'AssetBundleRestrictiveResourceId')
     AssetBundleRestrictiveResourceIdList = Shapes::ListShape.new(name: 'AssetBundleRestrictiveResourceIdList')
     AssetOptions = Shapes::StructureShape.new(name: 'AssetOptions')
+    AssetType = Shapes::StringShape.new(name: 'AssetType')
+    AssetTypeList = Shapes::ListShape.new(name: 'AssetTypeList')
     AssignmentStatus = Shapes::StringShape.new(name: 'AssignmentStatus')
     AthenaParameters = Shapes::StructureShape.new(name: 'AthenaParameters')
     AttributeAggregationFunction = Shapes::StructureShape.new(name: 'AttributeAggregationFunction')
@@ -302,6 +319,11 @@ module Aws::QuickSight
     BatchDeleteKnowledgeBaseSuccessList = Shapes::ListShape.new(name: 'BatchDeleteKnowledgeBaseSuccessList')
     BatchDeleteTopicReviewedAnswerRequest = Shapes::StructureShape.new(name: 'BatchDeleteTopicReviewedAnswerRequest')
     BatchDeleteTopicReviewedAnswerResponse = Shapes::StructureShape.new(name: 'BatchDeleteTopicReviewedAnswerResponse')
+    BatchDescribeUserLimitsError = Shapes::StructureShape.new(name: 'BatchDescribeUserLimitsError')
+    BatchDescribeUserLimitsErrorList = Shapes::ListShape.new(name: 'BatchDescribeUserLimitsErrorList')
+    BatchDescribeUserLimitsRequest = Shapes::StructureShape.new(name: 'BatchDescribeUserLimitsRequest')
+    BatchDescribeUserLimitsRequestUsersList = Shapes::ListShape.new(name: 'BatchDescribeUserLimitsRequestUsersList')
+    BatchDescribeUserLimitsResponse = Shapes::StructureShape.new(name: 'BatchDescribeUserLimitsResponse')
     BigQueryParameters = Shapes::StructureShape.new(name: 'BigQueryParameters')
     BinCountLimit = Shapes::IntegerShape.new(name: 'BinCountLimit')
     BinCountOptions = Shapes::StructureShape.new(name: 'BinCountOptions')
@@ -507,6 +529,8 @@ module Aws::QuickSight
     CreateAgentResponse = Shapes::StructureShape.new(name: 'CreateAgentResponse')
     CreateAnalysisRequest = Shapes::StructureShape.new(name: 'CreateAnalysisRequest')
     CreateAnalysisResponse = Shapes::StructureShape.new(name: 'CreateAnalysisResponse')
+    CreateApprovalPolicyRequest = Shapes::StructureShape.new(name: 'CreateApprovalPolicyRequest')
+    CreateApprovalPolicyResponse = Shapes::StructureShape.new(name: 'CreateApprovalPolicyResponse')
     CreateBrandRequest = Shapes::StructureShape.new(name: 'CreateBrandRequest')
     CreateBrandResponse = Shapes::StructureShape.new(name: 'CreateBrandResponse')
     CreateColumnsOperation = Shapes::StructureShape.new(name: 'CreateColumnsOperation')
@@ -518,6 +542,8 @@ module Aws::QuickSight
     CreateDataSetResponse = Shapes::StructureShape.new(name: 'CreateDataSetResponse')
     CreateDataSourceRequest = Shapes::StructureShape.new(name: 'CreateDataSourceRequest')
     CreateDataSourceResponse = Shapes::StructureShape.new(name: 'CreateDataSourceResponse')
+    CreateDlpSettingRequest = Shapes::StructureShape.new(name: 'CreateDlpSettingRequest')
+    CreateDlpSettingResponse = Shapes::StructureShape.new(name: 'CreateDlpSettingResponse')
     CreateFlowRequest = Shapes::StructureShape.new(name: 'CreateFlowRequest')
     CreateFlowRequestClientTokenString = Shapes::StringShape.new(name: 'CreateFlowRequestClientTokenString')
     CreateFlowResponse = Shapes::StructureShape.new(name: 'CreateFlowResponse')
@@ -535,6 +561,10 @@ module Aws::QuickSight
     CreateIngestionResponse = Shapes::StructureShape.new(name: 'CreateIngestionResponse')
     CreateKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'CreateKnowledgeBaseRequest')
     CreateKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'CreateKnowledgeBaseResponse')
+    CreateLimitsProfileRequest = Shapes::StructureShape.new(name: 'CreateLimitsProfileRequest')
+    CreateLimitsProfileRequestClientTokenString = Shapes::StringShape.new(name: 'CreateLimitsProfileRequestClientTokenString')
+    CreateLimitsProfileRequestResourceLimitsMap = Shapes::MapShape.new(name: 'CreateLimitsProfileRequestResourceLimitsMap')
+    CreateLimitsProfileResponse = Shapes::StructureShape.new(name: 'CreateLimitsProfileResponse')
     CreateNamespaceRequest = Shapes::StructureShape.new(name: 'CreateNamespaceRequest')
     CreateNamespaceResponse = Shapes::StructureShape.new(name: 'CreateNamespaceResponse')
     CreateOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'CreateOAuthClientApplicationRequest')
@@ -804,6 +834,8 @@ module Aws::QuickSight
     DeleteAgentResponse = Shapes::StructureShape.new(name: 'DeleteAgentResponse')
     DeleteAnalysisRequest = Shapes::StructureShape.new(name: 'DeleteAnalysisRequest')
     DeleteAnalysisResponse = Shapes::StructureShape.new(name: 'DeleteAnalysisResponse')
+    DeleteApprovalPolicyRequest = Shapes::StructureShape.new(name: 'DeleteApprovalPolicyRequest')
+    DeleteApprovalPolicyResponse = Shapes::StructureShape.new(name: 'DeleteApprovalPolicyResponse')
     DeleteBrandAssignmentRequest = Shapes::StructureShape.new(name: 'DeleteBrandAssignmentRequest')
     DeleteBrandAssignmentResponse = Shapes::StructureShape.new(name: 'DeleteBrandAssignmentResponse')
     DeleteBrandRequest = Shapes::StructureShape.new(name: 'DeleteBrandRequest')
@@ -820,6 +852,8 @@ module Aws::QuickSight
     DeleteDataSourceResponse = Shapes::StructureShape.new(name: 'DeleteDataSourceResponse')
     DeleteDefaultQBusinessApplicationRequest = Shapes::StructureShape.new(name: 'DeleteDefaultQBusinessApplicationRequest')
     DeleteDefaultQBusinessApplicationResponse = Shapes::StructureShape.new(name: 'DeleteDefaultQBusinessApplicationResponse')
+    DeleteDlpSettingRequest = Shapes::StructureShape.new(name: 'DeleteDlpSettingRequest')
+    DeleteDlpSettingResponse = Shapes::StructureShape.new(name: 'DeleteDlpSettingResponse')
     DeleteFlowRequest = Shapes::StructureShape.new(name: 'DeleteFlowRequest')
     DeleteFlowResponse = Shapes::StructureShape.new(name: 'DeleteFlowResponse')
     DeleteFolderMembershipRequest = Shapes::StructureShape.new(name: 'DeleteFolderMembershipRequest')
@@ -836,6 +870,8 @@ module Aws::QuickSight
     DeleteIdentityPropagationConfigResponse = Shapes::StructureShape.new(name: 'DeleteIdentityPropagationConfigResponse')
     DeleteKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'DeleteKnowledgeBaseRequest')
     DeleteKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'DeleteKnowledgeBaseResponse')
+    DeleteLimitsProfileRequest = Shapes::StructureShape.new(name: 'DeleteLimitsProfileRequest')
+    DeleteLimitsProfileResponse = Shapes::StructureShape.new(name: 'DeleteLimitsProfileResponse')
     DeleteNamespaceRequest = Shapes::StructureShape.new(name: 'DeleteNamespaceRequest')
     DeleteNamespaceResponse = Shapes::StructureShape.new(name: 'DeleteNamespaceResponse')
     DeleteOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'DeleteOAuthClientApplicationRequest')
@@ -893,6 +929,8 @@ module Aws::QuickSight
     DescribeAnalysisPermissionsResponse = Shapes::StructureShape.new(name: 'DescribeAnalysisPermissionsResponse')
     DescribeAnalysisRequest = Shapes::StructureShape.new(name: 'DescribeAnalysisRequest')
     DescribeAnalysisResponse = Shapes::StructureShape.new(name: 'DescribeAnalysisResponse')
+    DescribeApprovalPolicyRequest = Shapes::StructureShape.new(name: 'DescribeApprovalPolicyRequest')
+    DescribeApprovalPolicyResponse = Shapes::StructureShape.new(name: 'DescribeApprovalPolicyResponse')
     DescribeAssetBundleExportJobRequest = Shapes::StructureShape.new(name: 'DescribeAssetBundleExportJobRequest')
     DescribeAssetBundleExportJobResponse = Shapes::StructureShape.new(name: 'DescribeAssetBundleExportJobResponse')
     DescribeAssetBundleImportJobRequest = Shapes::StructureShape.new(name: 'DescribeAssetBundleImportJobRequest')
@@ -931,6 +969,8 @@ module Aws::QuickSight
     DescribeDataSourceResponse = Shapes::StructureShape.new(name: 'DescribeDataSourceResponse')
     DescribeDefaultQBusinessApplicationRequest = Shapes::StructureShape.new(name: 'DescribeDefaultQBusinessApplicationRequest')
     DescribeDefaultQBusinessApplicationResponse = Shapes::StructureShape.new(name: 'DescribeDefaultQBusinessApplicationResponse')
+    DescribeDlpSettingRequest = Shapes::StructureShape.new(name: 'DescribeDlpSettingRequest')
+    DescribeDlpSettingResponse = Shapes::StructureShape.new(name: 'DescribeDlpSettingResponse')
     DescribeFlowRequest = Shapes::StructureShape.new(name: 'DescribeFlowRequest')
     DescribeFlowResponse = Shapes::StructureShape.new(name: 'DescribeFlowResponse')
     DescribeFolderPermissionsRequest = Shapes::StructureShape.new(name: 'DescribeFolderPermissionsRequest')
@@ -955,6 +995,8 @@ module Aws::QuickSight
     DescribeKnowledgeBasePermissionsResponse = Shapes::StructureShape.new(name: 'DescribeKnowledgeBasePermissionsResponse')
     DescribeKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'DescribeKnowledgeBaseRequest')
     DescribeKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'DescribeKnowledgeBaseResponse')
+    DescribeLimitsProfileRequest = Shapes::StructureShape.new(name: 'DescribeLimitsProfileRequest')
+    DescribeLimitsProfileResponse = Shapes::StructureShape.new(name: 'DescribeLimitsProfileResponse')
     DescribeNamespaceRequest = Shapes::StructureShape.new(name: 'DescribeNamespaceRequest')
     DescribeNamespaceResponse = Shapes::StructureShape.new(name: 'DescribeNamespaceResponse')
     DescribeOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'DescribeOAuthClientApplicationRequest')
@@ -1015,6 +1057,14 @@ module Aws::QuickSight
     DimensionFieldList = Shapes::ListShape.new(name: 'DimensionFieldList')
     DisplayFormat = Shapes::StringShape.new(name: 'DisplayFormat')
     DisplayFormatOptions = Shapes::StructureShape.new(name: 'DisplayFormatOptions')
+    DlpAction = Shapes::StringShape.new(name: 'DlpAction')
+    DlpProviderType = Shapes::StringShape.new(name: 'DlpProviderType')
+    DlpSettingDetails = Shapes::StructureShape.new(name: 'DlpSettingDetails')
+    DlpSettingId = Shapes::StringShape.new(name: 'DlpSettingId')
+    DlpSettingName = Shapes::StringShape.new(name: 'DlpSettingName')
+    DlpSettingStatus = Shapes::StringShape.new(name: 'DlpSettingStatus')
+    DlpSettingSummary = Shapes::StructureShape.new(name: 'DlpSettingSummary')
+    DlpSettingSummaryList = Shapes::ListShape.new(name: 'DlpSettingSummaryList')
     DnsResolverList = Shapes::ListShape.new(name: 'DnsResolverList')
     Domain = Shapes::StringShape.new(name: 'Domain')
     DomainNotWhitelistedException = Shapes::StructureShape.new(name: 'DomainNotWhitelistedException')
@@ -1026,6 +1076,9 @@ module Aws::QuickSight
     DropDownControlDisplayOptions = Shapes::StructureShape.new(name: 'DropDownControlDisplayOptions')
     DynamicDefaultValue = Shapes::StructureShape.new(name: 'DynamicDefaultValue')
     Edition = Shapes::StringShape.new(name: 'Edition')
+    EffectiveLimit = Shapes::StructureShape.new(name: 'EffectiveLimit')
+    EffectiveLimitLimitValueLong = Shapes::IntegerShape.new(name: 'EffectiveLimitLimitValueLong')
+    EffectiveLimitList = Shapes::ListShape.new(name: 'EffectiveLimitList')
     ElementValue = Shapes::StringShape.new(name: 'ElementValue')
     Email = Shapes::StringShape.new(name: 'Email')
     EmbeddingIdentityType = Shapes::StringShape.new(name: 'EmbeddingIdentityType')
@@ -1267,6 +1320,8 @@ module Aws::QuickSight
     GoogleDriveParameters = Shapes::StructureShape.new(name: 'GoogleDriveParameters')
     Governance = Shapes::StructureShape.new(name: 'Governance')
     GovernanceCategoryName = Shapes::StringShape.new(name: 'GovernanceCategoryName')
+    GovernedAction = Shapes::StringShape.new(name: 'GovernedAction')
+    GovernedActionList = Shapes::ListShape.new(name: 'GovernedActionList')
     GradientColor = Shapes::StructureShape.new(name: 'GradientColor')
     GradientStop = Shapes::StructureShape.new(name: 'GradientStop')
     GradientStopList = Shapes::ListShape.new(name: 'GradientStopList')
@@ -1282,6 +1337,7 @@ module Aws::QuickSight
     GridLayoutElementRowSpan = Shapes::IntegerShape.new(name: 'GridLayoutElementRowSpan')
     GridLayoutScreenCanvasSizeOptions = Shapes::StructureShape.new(name: 'GridLayoutScreenCanvasSizeOptions')
     Group = Shapes::StructureShape.new(name: 'Group')
+    GroupArnList = Shapes::ListShape.new(name: 'GroupArnList')
     GroupByColumnNameList = Shapes::ListShape.new(name: 'GroupByColumnNameList')
     GroupDescription = Shapes::StringShape.new(name: 'GroupDescription')
     GroupFilterAttribute = Shapes::StringShape.new(name: 'GroupFilterAttribute')
@@ -1447,6 +1503,10 @@ module Aws::QuickSight
     KnowledgeBaseSortByField = Shapes::StringShape.new(name: 'KnowledgeBaseSortByField')
     KnowledgeBaseSummaries = Shapes::ListShape.new(name: 'KnowledgeBaseSummaries')
     KnowledgeBaseSummary = Shapes::StructureShape.new(name: 'KnowledgeBaseSummary')
+    LabelActionMapping = Shapes::StructureShape.new(name: 'LabelActionMapping')
+    LabelActionMappingList = Shapes::ListShape.new(name: 'LabelActionMappingList')
+    LabelId = Shapes::StringShape.new(name: 'LabelId')
+    LabelName = Shapes::StringShape.new(name: 'LabelName')
     LabelOptions = Shapes::StructureShape.new(name: 'LabelOptions')
     Latitude = Shapes::FloatShape.new(name: 'Latitude')
     LayerCustomAction = Shapes::StructureShape.new(name: 'LayerCustomAction')
@@ -1464,8 +1524,12 @@ module Aws::QuickSight
     LegendPosition = Shapes::StringShape.new(name: 'LegendPosition')
     Length = Shapes::StringShape.new(name: 'Length')
     LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException')
+    LimitSource = Shapes::StringShape.new(name: 'LimitSource')
+    LimitUnit = Shapes::StringShape.new(name: 'LimitUnit')
     LimitedSensitiveString = Shapes::StringShape.new(name: 'LimitedSensitiveString')
     LimitedString = Shapes::StringShape.new(name: 'LimitedString')
+    LimitsProfile = Shapes::StructureShape.new(name: 'LimitsProfile')
+    LimitsProfileList = Shapes::ListShape.new(name: 'LimitsProfileList')
     LineChartAggregatedFieldWells = Shapes::StructureShape.new(name: 'LineChartAggregatedFieldWells')
     LineChartConfiguration = Shapes::StructureShape.new(name: 'LineChartConfiguration')
     LineChartDefaultSeriesSettings = Shapes::StructureShape.new(name: 'LineChartDefaultSeriesSettings')
@@ -1492,6 +1556,8 @@ module Aws::QuickSight
     ListAgentsResponse = Shapes::StructureShape.new(name: 'ListAgentsResponse')
     ListAnalysesRequest = Shapes::StructureShape.new(name: 'ListAnalysesRequest')
     ListAnalysesResponse = Shapes::StructureShape.new(name: 'ListAnalysesResponse')
+    ListApprovalPoliciesRequest = Shapes::StructureShape.new(name: 'ListApprovalPoliciesRequest')
+    ListApprovalPoliciesResponse = Shapes::StructureShape.new(name: 'ListApprovalPoliciesResponse')
     ListAssetBundleExportJobsRequest = Shapes::StructureShape.new(name: 'ListAssetBundleExportJobsRequest')
     ListAssetBundleExportJobsResponse = Shapes::StructureShape.new(name: 'ListAssetBundleExportJobsResponse')
     ListAssetBundleImportJobsRequest = Shapes::StructureShape.new(name: 'ListAssetBundleImportJobsRequest')
@@ -1511,6 +1577,8 @@ module Aws::QuickSight
     ListDataSetsResponse = Shapes::StructureShape.new(name: 'ListDataSetsResponse')
     ListDataSourcesRequest = Shapes::StructureShape.new(name: 'ListDataSourcesRequest')
     ListDataSourcesResponse = Shapes::StructureShape.new(name: 'ListDataSourcesResponse')
+    ListDlpSettingsRequest = Shapes::StructureShape.new(name: 'ListDlpSettingsRequest')
+    ListDlpSettingsResponse = Shapes::StructureShape.new(name: 'ListDlpSettingsResponse')
     ListFlowsInput = Shapes::StructureShape.new(name: 'ListFlowsInput')
     ListFlowsOutput = Shapes::StructureShape.new(name: 'ListFlowsOutput')
     ListFolderMembersRequest = Shapes::StructureShape.new(name: 'ListFolderMembersRequest')
@@ -1534,6 +1602,9 @@ module Aws::QuickSight
     ListIngestionsResponse = Shapes::StructureShape.new(name: 'ListIngestionsResponse')
     ListKnowledgeBasesRequest = Shapes::StructureShape.new(name: 'ListKnowledgeBasesRequest')
     ListKnowledgeBasesResponse = Shapes::StructureShape.new(name: 'ListKnowledgeBasesResponse')
+    ListLimitsProfilesRequest = Shapes::StructureShape.new(name: 'ListLimitsProfilesRequest')
+    ListLimitsProfilesRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListLimitsProfilesRequestMaxResultsInteger')
+    ListLimitsProfilesResponse = Shapes::StructureShape.new(name: 'ListLimitsProfilesResponse')
     ListNamespacesRequest = Shapes::StructureShape.new(name: 'ListNamespacesRequest')
     ListNamespacesResponse = Shapes::StructureShape.new(name: 'ListNamespacesResponse')
     ListOAuthClientApplicationsRequest = Shapes::StructureShape.new(name: 'ListOAuthClientApplicationsRequest')
@@ -1617,6 +1688,8 @@ module Aws::QuickSight
     MemberType = Shapes::StringShape.new(name: 'MemberType')
     MetadataFilesLocation = Shapes::StringShape.new(name: 'MetadataFilesLocation')
     MetricComparisonComputation = Shapes::StructureShape.new(name: 'MetricComparisonComputation')
+    MicrosoftPurviewCredentials = Shapes::StructureShape.new(name: 'MicrosoftPurviewCredentials')
+    MicrosoftPurviewProviderConfig = Shapes::StructureShape.new(name: 'MicrosoftPurviewProviderConfig')
     MinimumLabelType = Shapes::StructureShape.new(name: 'MinimumLabelType')
     MissingDataConfiguration = Shapes::StructureShape.new(name: 'MissingDataConfiguration')
     MissingDataConfigurationList = Shapes::ListShape.new(name: 'MissingDataConfigurationList')
@@ -1707,6 +1780,7 @@ module Aws::QuickSight
     Padding = Shapes::StringShape.new(name: 'Padding')
     PageNumber = Shapes::IntegerShape.new(name: 'PageNumber')
     PaginationConfiguration = Shapes::StructureShape.new(name: 'PaginationConfiguration')
+    PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
     Palette = Shapes::StructureShape.new(name: 'Palette')
     PanelBorderStyle = Shapes::StringShape.new(name: 'PanelBorderStyle')
     PanelConfiguration = Shapes::StructureShape.new(name: 'PanelConfiguration')
@@ -1808,6 +1882,9 @@ module Aws::QuickSight
     PluginVisualProperty = Shapes::StructureShape.new(name: 'PluginVisualProperty')
     PluginVisualSortConfiguration = Shapes::StructureShape.new(name: 'PluginVisualSortConfiguration')
     PluginVisualTableQuerySort = Shapes::StructureShape.new(name: 'PluginVisualTableQuerySort')
+    PolicyDescription = Shapes::StringShape.new(name: 'PolicyDescription')
+    PolicyId = Shapes::StringShape.new(name: 'PolicyId')
+    PolicyName = Shapes::StringShape.new(name: 'PolicyName')
     Port = Shapes::IntegerShape.new(name: 'Port')
     PositiveInteger = Shapes::IntegerShape.new(name: 'PositiveInteger')
     PositiveLong = Shapes::IntegerShape.new(name: 'PositiveLong')
@@ -1825,12 +1902,18 @@ module Aws::QuickSight
     PrincipalList = Shapes::ListShape.new(name: 'PrincipalList')
     PrivateKey = Shapes::StringShape.new(name: 'PrivateKey')
     PrivateKeyPassphrase = Shapes::StringShape.new(name: 'PrivateKeyPassphrase')
+    ProfileDescription = Shapes::StringShape.new(name: 'ProfileDescription')
+    ProfileId = Shapes::StringShape.new(name: 'ProfileId')
+    ProfileLimitValue = Shapes::StructureShape.new(name: 'ProfileLimitValue')
+    ProfileLimitValueMaxValueLong = Shapes::IntegerShape.new(name: 'ProfileLimitValueMaxValueLong')
+    ProfileName = Shapes::StringShape.new(name: 'ProfileName')
     ProgressBarOptions = Shapes::StructureShape.new(name: 'ProgressBarOptions')
     ProjectId = Shapes::StringShape.new(name: 'ProjectId')
     ProjectOperation = Shapes::StructureShape.new(name: 'ProjectOperation')
     ProjectedColumnNameList = Shapes::ListShape.new(name: 'ProjectedColumnNameList')
     PropertyRole = Shapes::StringShape.new(name: 'PropertyRole')
     PropertyUsage = Shapes::StringShape.new(name: 'PropertyUsage')
+    ProviderConfig = Shapes::UnionShape.new(name: 'ProviderConfig')
     PublicSpaceArn = Shapes::StringShape.new(name: 'PublicSpaceArn')
     PublicSpaceId = Shapes::StringShape.new(name: 'PublicSpaceId')
     PurchaseMode = Shapes::StringShape.new(name: 'PurchaseMode')
@@ -1938,11 +2021,14 @@ module Aws::QuickSight
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceExistsException = Shapes::StructureShape.new(name: 'ResourceExistsException')
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
+    ResourceLimitsMap = Shapes::MapShape.new(name: 'ResourceLimitsMap')
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourcePermission = Shapes::StructureShape.new(name: 'ResourcePermission')
     ResourcePermissionList = Shapes::ListShape.new(name: 'ResourcePermissionList')
     ResourceStatus = Shapes::StringShape.new(name: 'ResourceStatus')
+    ResourceType = Shapes::StringShape.new(name: 'ResourceType')
+    ResourceTypeList = Shapes::ListShape.new(name: 'ResourceTypeList')
     ResourceUnavailableException = Shapes::StructureShape.new(name: 'ResourceUnavailableException')
     RestoreAnalysisRequest = Shapes::StructureShape.new(name: 'RestoreAnalysisRequest')
     RestoreAnalysisResponse = Shapes::StructureShape.new(name: 'RestoreAnalysisResponse')
@@ -2026,6 +2112,7 @@ module Aws::QuickSight
     Seasonality = Shapes::IntegerShape.new(name: 'Seasonality')
     SecondaryValueOptions = Shapes::StructureShape.new(name: 'SecondaryValueOptions')
     SecretArn = Shapes::StringShape.new(name: 'SecretArn')
+    SecretManagerArn = Shapes::StringShape.new(name: 'SecretManagerArn')
     SectionAfterPageBreak = Shapes::StructureShape.new(name: 'SectionAfterPageBreak')
     SectionBasedLayoutCanvasSizeOptions = Shapes::StructureShape.new(name: 'SectionBasedLayoutCanvasSizeOptions')
     SectionBasedLayoutConfiguration = Shapes::StructureShape.new(name: 'SectionBasedLayoutConfiguration')
@@ -2411,6 +2498,7 @@ module Aws::QuickSight
     TopicConfigurationList = Shapes::ListShape.new(name: 'TopicConfigurationList')
     TopicConstantValue = Shapes::StructureShape.new(name: 'TopicConstantValue')
     TopicDateRangeFilter = Shapes::StructureShape.new(name: 'TopicDateRangeFilter')
+    TopicDescription = Shapes::StringShape.new(name: 'TopicDescription')
     TopicDetails = Shapes::StructureShape.new(name: 'TopicDetails')
     TopicFilter = Shapes::StructureShape.new(name: 'TopicFilter')
     TopicFilterAttribute = Shapes::StringShape.new(name: 'TopicFilterAttribute')
@@ -2545,6 +2633,8 @@ module Aws::QuickSight
     UpdateAnalysisResponse = Shapes::StructureShape.new(name: 'UpdateAnalysisResponse')
     UpdateApplicationWithTokenExchangeGrantRequest = Shapes::StructureShape.new(name: 'UpdateApplicationWithTokenExchangeGrantRequest')
     UpdateApplicationWithTokenExchangeGrantResponse = Shapes::StructureShape.new(name: 'UpdateApplicationWithTokenExchangeGrantResponse')
+    UpdateApprovalPolicyRequest = Shapes::StructureShape.new(name: 'UpdateApprovalPolicyRequest')
+    UpdateApprovalPolicyResponse = Shapes::StructureShape.new(name: 'UpdateApprovalPolicyResponse')
     UpdateBrandAssignmentRequest = Shapes::StructureShape.new(name: 'UpdateBrandAssignmentRequest')
     UpdateBrandAssignmentResponse = Shapes::StructureShape.new(name: 'UpdateBrandAssignmentResponse')
     UpdateBrandPublishedVersionRequest = Shapes::StructureShape.new(name: 'UpdateBrandPublishedVersionRequest')
@@ -2573,6 +2663,8 @@ module Aws::QuickSight
     UpdateDataSourceResponse = Shapes::StructureShape.new(name: 'UpdateDataSourceResponse')
     UpdateDefaultQBusinessApplicationRequest = Shapes::StructureShape.new(name: 'UpdateDefaultQBusinessApplicationRequest')
     UpdateDefaultQBusinessApplicationResponse = Shapes::StructureShape.new(name: 'UpdateDefaultQBusinessApplicationResponse')
+    UpdateDlpSettingRequest = Shapes::StructureShape.new(name: 'UpdateDlpSettingRequest')
+    UpdateDlpSettingResponse = Shapes::StructureShape.new(name: 'UpdateDlpSettingResponse')
     UpdateFlowPermissionsInput = Shapes::StructureShape.new(name: 'UpdateFlowPermissionsInput')
     UpdateFlowPermissionsInputGrantPermissionsList = Shapes::ListShape.new(name: 'UpdateFlowPermissionsInputGrantPermissionsList')
     UpdateFlowPermissionsInputRevokePermissionsList = Shapes::ListShape.new(name: 'UpdateFlowPermissionsInputRevokePermissionsList')
@@ -2598,6 +2690,8 @@ module Aws::QuickSight
     UpdateKnowledgeBasePermissionsResponse = Shapes::StructureShape.new(name: 'UpdateKnowledgeBasePermissionsResponse')
     UpdateKnowledgeBaseRequest = Shapes::StructureShape.new(name: 'UpdateKnowledgeBaseRequest')
     UpdateKnowledgeBaseResponse = Shapes::StructureShape.new(name: 'UpdateKnowledgeBaseResponse')
+    UpdateLimitsProfileRequest = Shapes::StructureShape.new(name: 'UpdateLimitsProfileRequest')
+    UpdateLimitsProfileResponse = Shapes::StructureShape.new(name: 'UpdateLimitsProfileResponse')
     UpdateLinkPermissionList = Shapes::ListShape.new(name: 'UpdateLinkPermissionList')
     UpdateOAuthClientApplicationRequest = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationRequest')
     UpdateOAuthClientApplicationResponse = Shapes::StructureShape.new(name: 'UpdateOAuthClientApplicationResponse')
@@ -2663,6 +2757,9 @@ module Aws::QuickSight
     UserIndexCapacityList = Shapes::ListShape.new(name: 'UserIndexCapacityList')
     UserIndexCapacitySortBy = Shapes::StringShape.new(name: 'UserIndexCapacitySortBy')
     UserIndexCapacitySortOrder = Shapes::StringShape.new(name: 'UserIndexCapacitySortOrder')
+    UserLimits = Shapes::StructureShape.new(name: 'UserLimits')
+    UserLimitsEntry = Shapes::StructureShape.new(name: 'UserLimitsEntry')
+    UserLimitsList = Shapes::ListShape.new(name: 'UserLimitsList')
     UserList = Shapes::ListShape.new(name: 'UserList')
     UserName = Shapes::StringShape.new(name: 'UserName')
     UserNameOrEmailFilter = Shapes::StructureShape.new(name: 'UserNameOrEmailFilter')
@@ -3071,10 +3168,30 @@ module Aws::QuickSight
 
     AppendedColumnList.member = Shapes::ShapeRef.new(shape: AppendedColumn)
 
+    ApplicableTo.add_member(:type, Shapes::ShapeRef.new(shape: ApplicableToType, required: true, location_name: "Type"))
+    ApplicableTo.add_member(:group_arns, Shapes::ShapeRef.new(shape: GroupArnList, location_name: "GroupArns"))
+    ApplicableTo.struct_class = Types::ApplicableTo
+
     ApplicationTheme.add_member(:brand_color_palette, Shapes::ShapeRef.new(shape: BrandColorPalette, location_name: "BrandColorPalette"))
     ApplicationTheme.add_member(:contextual_accent_palette, Shapes::ShapeRef.new(shape: ContextualAccentPalette, location_name: "ContextualAccentPalette"))
     ApplicationTheme.add_member(:brand_element_style, Shapes::ShapeRef.new(shape: BrandElementStyle, location_name: "BrandElementStyle"))
     ApplicationTheme.struct_class = Types::ApplicationTheme
+
+    ApprovalGroupList.member = Shapes::ShapeRef.new(shape: Arn)
+
+    ApprovalPolicy.add_member(:policy_id, Shapes::ShapeRef.new(shape: PolicyId, required: true, location_name: "PolicyId"))
+    ApprovalPolicy.add_member(:policy_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "PolicyArn"))
+    ApprovalPolicy.add_member(:name, Shapes::ShapeRef.new(shape: PolicyName, required: true, location_name: "Name"))
+    ApprovalPolicy.add_member(:description, Shapes::ShapeRef.new(shape: PolicyDescription, location_name: "Description"))
+    ApprovalPolicy.add_member(:actions, Shapes::ShapeRef.new(shape: GovernedActionList, required: true, location_name: "Actions"))
+    ApprovalPolicy.add_member(:asset_types, Shapes::ShapeRef.new(shape: AssetTypeList, required: true, location_name: "AssetTypes"))
+    ApprovalPolicy.add_member(:applicable_to, Shapes::ShapeRef.new(shape: ApplicableTo, required: true, location_name: "ApplicableTo"))
+    ApprovalPolicy.add_member(:approval_groups, Shapes::ShapeRef.new(shape: ApprovalGroupList, required: true, location_name: "ApprovalGroups"))
+    ApprovalPolicy.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedAt"))
+    ApprovalPolicy.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "UpdatedAt"))
+    ApprovalPolicy.struct_class = Types::ApprovalPolicy
+
+    ApprovalPolicyList.member = Shapes::ShapeRef.new(shape: ApprovalPolicy)
 
     ArcAxisConfiguration.add_member(:range, Shapes::ShapeRef.new(shape: ArcAxisDisplayRange, location_name: "Range"))
     ArcAxisConfiguration.add_member(:reserve_range, Shapes::ShapeRef.new(shape: Integer, location_name: "ReserveRange"))
@@ -3102,6 +3219,7 @@ module Aws::QuickSight
     AssetBundleCloudFormationOverridePropertyConfiguration.add_member(:analyses, Shapes::ShapeRef.new(shape: AssetBundleExportJobAnalysisOverridePropertiesList, location_name: "Analyses"))
     AssetBundleCloudFormationOverridePropertyConfiguration.add_member(:dashboards, Shapes::ShapeRef.new(shape: AssetBundleExportJobDashboardOverridePropertiesList, location_name: "Dashboards"))
     AssetBundleCloudFormationOverridePropertyConfiguration.add_member(:folders, Shapes::ShapeRef.new(shape: AssetBundleExportJobFolderOverridePropertiesList, location_name: "Folders"))
+    AssetBundleCloudFormationOverridePropertyConfiguration.add_member(:topics_v2, Shapes::ShapeRef.new(shape: AssetBundleExportJobTopicV2OverridePropertiesList, location_name: "TopicsV2"))
     AssetBundleCloudFormationOverridePropertyConfiguration.struct_class = Types::AssetBundleCloudFormationOverridePropertyConfiguration
 
     AssetBundleExportJobAnalysisOverrideProperties.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
@@ -3181,6 +3299,14 @@ module Aws::QuickSight
     AssetBundleExportJobThemeOverridePropertiesList.member = Shapes::ShapeRef.new(shape: AssetBundleExportJobThemeOverrideProperties)
 
     AssetBundleExportJobThemePropertyToOverrideList.member = Shapes::ShapeRef.new(shape: AssetBundleExportJobThemePropertyToOverride)
+
+    AssetBundleExportJobTopicV2OverrideProperties.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
+    AssetBundleExportJobTopicV2OverrideProperties.add_member(:properties, Shapes::ShapeRef.new(shape: AssetBundleExportJobTopicV2PropertyToOverrideList, required: true, location_name: "Properties"))
+    AssetBundleExportJobTopicV2OverrideProperties.struct_class = Types::AssetBundleExportJobTopicV2OverrideProperties
+
+    AssetBundleExportJobTopicV2OverridePropertiesList.member = Shapes::ShapeRef.new(shape: AssetBundleExportJobTopicV2OverrideProperties)
+
+    AssetBundleExportJobTopicV2PropertyToOverrideList.member = Shapes::ShapeRef.new(shape: AssetBundleExportJobTopicV2PropertyToOverride)
 
     AssetBundleExportJobVPCConnectionOverrideProperties.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
     AssetBundleExportJobVPCConnectionOverrideProperties.add_member(:properties, Shapes::ShapeRef.new(shape: AssetBundleExportJobVPCConnectionPropertyToOverrideList, required: true, location_name: "Properties"))
@@ -3320,6 +3446,7 @@ module Aws::QuickSight
     AssetBundleImportJobOverrideParameters.add_member(:analyses, Shapes::ShapeRef.new(shape: AssetBundleImportJobAnalysisOverrideParametersList, location_name: "Analyses"))
     AssetBundleImportJobOverrideParameters.add_member(:dashboards, Shapes::ShapeRef.new(shape: AssetBundleImportJobDashboardOverrideParametersList, location_name: "Dashboards"))
     AssetBundleImportJobOverrideParameters.add_member(:folders, Shapes::ShapeRef.new(shape: AssetBundleImportJobFolderOverrideParametersList, location_name: "Folders"))
+    AssetBundleImportJobOverrideParameters.add_member(:topics_v2, Shapes::ShapeRef.new(shape: AssetBundleImportJobTopicV2OverrideParametersList, location_name: "TopicsV2"))
     AssetBundleImportJobOverrideParameters.struct_class = Types::AssetBundleImportJobOverrideParameters
 
     AssetBundleImportJobOverridePermissions.add_member(:data_sources, Shapes::ShapeRef.new(shape: AssetBundleImportJobDataSourceOverridePermissionsList, location_name: "DataSources"))
@@ -3328,6 +3455,7 @@ module Aws::QuickSight
     AssetBundleImportJobOverridePermissions.add_member(:analyses, Shapes::ShapeRef.new(shape: AssetBundleImportJobAnalysisOverridePermissionsList, location_name: "Analyses"))
     AssetBundleImportJobOverridePermissions.add_member(:dashboards, Shapes::ShapeRef.new(shape: AssetBundleImportJobDashboardOverridePermissionsList, location_name: "Dashboards"))
     AssetBundleImportJobOverridePermissions.add_member(:folders, Shapes::ShapeRef.new(shape: AssetBundleImportJobFolderOverridePermissionsList, location_name: "Folders"))
+    AssetBundleImportJobOverridePermissions.add_member(:topics_v2, Shapes::ShapeRef.new(shape: AssetBundleImportJobTopicV2OverridePermissionsList, location_name: "TopicsV2"))
     AssetBundleImportJobOverridePermissions.struct_class = Types::AssetBundleImportJobOverridePermissions
 
     AssetBundleImportJobOverrideTags.add_member(:vpc_connections, Shapes::ShapeRef.new(shape: AssetBundleImportJobVPCConnectionOverrideTagsList, location_name: "VPCConnections"))
@@ -3337,6 +3465,7 @@ module Aws::QuickSight
     AssetBundleImportJobOverrideTags.add_member(:analyses, Shapes::ShapeRef.new(shape: AssetBundleImportJobAnalysisOverrideTagsList, location_name: "Analyses"))
     AssetBundleImportJobOverrideTags.add_member(:dashboards, Shapes::ShapeRef.new(shape: AssetBundleImportJobDashboardOverrideTagsList, location_name: "Dashboards"))
     AssetBundleImportJobOverrideTags.add_member(:folders, Shapes::ShapeRef.new(shape: AssetBundleImportJobFolderOverrideTagsList, location_name: "Folders"))
+    AssetBundleImportJobOverrideTags.add_member(:topics_v2, Shapes::ShapeRef.new(shape: AssetBundleImportJobTopicV2OverrideTagsList, location_name: "TopicsV2"))
     AssetBundleImportJobOverrideTags.struct_class = Types::AssetBundleImportJobOverrideTags
 
     AssetBundleImportJobOverrideValidationStrategy.add_member(:strict_mode_for_all_resources, Shapes::ShapeRef.new(shape: Boolean, location_name: "StrictModeForAllResources"))
@@ -3378,6 +3507,25 @@ module Aws::QuickSight
     AssetBundleImportJobThemeOverrideTags.struct_class = Types::AssetBundleImportJobThemeOverrideTags
 
     AssetBundleImportJobThemeOverrideTagsList.member = Shapes::ShapeRef.new(shape: AssetBundleImportJobThemeOverrideTags)
+
+    AssetBundleImportJobTopicV2OverrideParameters.add_member(:topic_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "TopicId"))
+    AssetBundleImportJobTopicV2OverrideParameters.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
+    AssetBundleImportJobTopicV2OverrideParameters.add_member(:description, Shapes::ShapeRef.new(shape: TopicDescription, location_name: "Description"))
+    AssetBundleImportJobTopicV2OverrideParameters.struct_class = Types::AssetBundleImportJobTopicV2OverrideParameters
+
+    AssetBundleImportJobTopicV2OverrideParametersList.member = Shapes::ShapeRef.new(shape: AssetBundleImportJobTopicV2OverrideParameters)
+
+    AssetBundleImportJobTopicV2OverridePermissions.add_member(:topic_ids, Shapes::ShapeRef.new(shape: AssetBundleRestrictiveResourceIdList, required: true, location_name: "TopicIds"))
+    AssetBundleImportJobTopicV2OverridePermissions.add_member(:permissions, Shapes::ShapeRef.new(shape: AssetBundleResourcePermissions, required: true, location_name: "Permissions"))
+    AssetBundleImportJobTopicV2OverridePermissions.struct_class = Types::AssetBundleImportJobTopicV2OverridePermissions
+
+    AssetBundleImportJobTopicV2OverridePermissionsList.member = Shapes::ShapeRef.new(shape: AssetBundleImportJobTopicV2OverridePermissions)
+
+    AssetBundleImportJobTopicV2OverrideTags.add_member(:topic_ids, Shapes::ShapeRef.new(shape: AssetBundleRestrictiveResourceIdList, required: true, location_name: "TopicIds"))
+    AssetBundleImportJobTopicV2OverrideTags.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, required: true, location_name: "Tags"))
+    AssetBundleImportJobTopicV2OverrideTags.struct_class = Types::AssetBundleImportJobTopicV2OverrideTags
+
+    AssetBundleImportJobTopicV2OverrideTagsList.member = Shapes::ShapeRef.new(shape: AssetBundleImportJobTopicV2OverrideTags)
 
     AssetBundleImportJobVPCConnectionOverrideParameters.add_member(:vpc_connection_id, Shapes::ShapeRef.new(shape: VPCConnectionResourceIdUnrestricted, required: true, location_name: "VPCConnectionId"))
     AssetBundleImportJobVPCConnectionOverrideParameters.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, location_name: "Name"))
@@ -3429,6 +3577,8 @@ module Aws::QuickSight
     AssetOptions.add_member(:custom_action_defaults, Shapes::ShapeRef.new(shape: VisualCustomActionDefaults, location_name: "CustomActionDefaults"))
     AssetOptions.add_member(:visual_messages, Shapes::ShapeRef.new(shape: VisualMessages, location_name: "VisualMessages"))
     AssetOptions.struct_class = Types::AssetOptions
+
+    AssetTypeList.member = Shapes::ShapeRef.new(shape: AssetType)
 
     AthenaParameters.add_member(:work_group, Shapes::ShapeRef.new(shape: WorkGroup, location_name: "WorkGroup"))
     AthenaParameters.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "RoleArn"))
@@ -3668,6 +3818,26 @@ module Aws::QuickSight
     BatchDeleteTopicReviewedAnswerResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     BatchDeleteTopicReviewedAnswerResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     BatchDeleteTopicReviewedAnswerResponse.struct_class = Types::BatchDeleteTopicReviewedAnswerResponse
+
+    BatchDescribeUserLimitsError.add_member(:user_name, Shapes::ShapeRef.new(shape: String, location_name: "userName"))
+    BatchDescribeUserLimitsError.add_member(:namespace, Shapes::ShapeRef.new(shape: String, location_name: "namespace"))
+    BatchDescribeUserLimitsError.add_member(:user_arn, Shapes::ShapeRef.new(shape: String, location_name: "userArn"))
+    BatchDescribeUserLimitsError.add_member(:error_code, Shapes::ShapeRef.new(shape: String, required: true, location_name: "errorCode"))
+    BatchDescribeUserLimitsError.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    BatchDescribeUserLimitsError.struct_class = Types::BatchDescribeUserLimitsError
+
+    BatchDescribeUserLimitsErrorList.member = Shapes::ShapeRef.new(shape: BatchDescribeUserLimitsError)
+
+    BatchDescribeUserLimitsRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "accountId"))
+    BatchDescribeUserLimitsRequest.add_member(:users, Shapes::ShapeRef.new(shape: BatchDescribeUserLimitsRequestUsersList, location_name: "users"))
+    BatchDescribeUserLimitsRequest.add_member(:resource_types, Shapes::ShapeRef.new(shape: ResourceTypeList, location_name: "resourceTypes"))
+    BatchDescribeUserLimitsRequest.struct_class = Types::BatchDescribeUserLimitsRequest
+
+    BatchDescribeUserLimitsRequestUsersList.member = Shapes::ShapeRef.new(shape: UserLimitsEntry)
+
+    BatchDescribeUserLimitsResponse.add_member(:user_limits, Shapes::ShapeRef.new(shape: UserLimitsList, required: true, location_name: "userLimits"))
+    BatchDescribeUserLimitsResponse.add_member(:errors, Shapes::ShapeRef.new(shape: BatchDescribeUserLimitsErrorList, required: true, location_name: "errors"))
+    BatchDescribeUserLimitsResponse.struct_class = Types::BatchDescribeUserLimitsResponse
 
     BigQueryParameters.add_member(:project_id, Shapes::ShapeRef.new(shape: ProjectId, required: true, location_name: "ProjectId"))
     BigQueryParameters.add_member(:data_set_region, Shapes::ShapeRef.new(shape: DataSetRegion, location_name: "DataSetRegion"))
@@ -4622,6 +4792,18 @@ module Aws::QuickSight
     CreateAnalysisResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     CreateAnalysisResponse.struct_class = Types::CreateAnalysisResponse
 
+    CreateApprovalPolicyRequest.add_member(:policy_id, Shapes::ShapeRef.new(shape: PolicyId, required: true, location_name: "PolicyId"))
+    CreateApprovalPolicyRequest.add_member(:name, Shapes::ShapeRef.new(shape: PolicyName, required: true, location_name: "Name"))
+    CreateApprovalPolicyRequest.add_member(:description, Shapes::ShapeRef.new(shape: PolicyDescription, location_name: "Description"))
+    CreateApprovalPolicyRequest.add_member(:actions, Shapes::ShapeRef.new(shape: GovernedActionList, required: true, location_name: "Actions"))
+    CreateApprovalPolicyRequest.add_member(:asset_types, Shapes::ShapeRef.new(shape: AssetTypeList, required: true, location_name: "AssetTypes"))
+    CreateApprovalPolicyRequest.add_member(:applicable_to, Shapes::ShapeRef.new(shape: ApplicableTo, required: true, location_name: "ApplicableTo"))
+    CreateApprovalPolicyRequest.add_member(:approval_groups, Shapes::ShapeRef.new(shape: ApprovalGroupList, required: true, location_name: "ApprovalGroups"))
+    CreateApprovalPolicyRequest.struct_class = Types::CreateApprovalPolicyRequest
+
+    CreateApprovalPolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: ApprovalPolicy, required: true, location_name: "Policy"))
+    CreateApprovalPolicyResponse.struct_class = Types::CreateApprovalPolicyResponse
+
     CreateBrandRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     CreateBrandRequest.add_member(:brand_id, Shapes::ShapeRef.new(shape: ShortRestrictiveResourceId, required: true, location: "uri", location_name: "BrandId"))
     CreateBrandRequest.add_member(:brand_definition, Shapes::ShapeRef.new(shape: BrandDefinition, location_name: "BrandDefinition"))
@@ -4724,6 +4906,21 @@ module Aws::QuickSight
     CreateDataSourceResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     CreateDataSourceResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     CreateDataSourceResponse.struct_class = Types::CreateDataSourceResponse
+
+    CreateDlpSettingRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    CreateDlpSettingRequest.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location: "uri", location_name: "DlpSettingId"))
+    CreateDlpSettingRequest.add_member(:name, Shapes::ShapeRef.new(shape: DlpSettingName, required: true, location_name: "Name"))
+    CreateDlpSettingRequest.add_member(:provider_type, Shapes::ShapeRef.new(shape: DlpProviderType, required: true, location_name: "ProviderType"))
+    CreateDlpSettingRequest.add_member(:provider_config, Shapes::ShapeRef.new(shape: ProviderConfig, required: true, location_name: "ProviderConfig"))
+    CreateDlpSettingRequest.add_member(:provider_outage_action, Shapes::ShapeRef.new(shape: DlpAction, required: true, location_name: "ProviderOutageAction"))
+    CreateDlpSettingRequest.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "Enabled"))
+    CreateDlpSettingRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateDlpSettingRequest.struct_class = Types::CreateDlpSettingRequest
+
+    CreateDlpSettingResponse.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
+    CreateDlpSettingResponse.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location_name: "DlpSettingId"))
+    CreateDlpSettingResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    CreateDlpSettingResponse.struct_class = Types::CreateDlpSettingResponse
 
     CreateFlowRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     CreateFlowRequest.add_member(:name, Shapes::ShapeRef.new(shape: TitleInput, required: true, location_name: "Name"))
@@ -4837,6 +5034,20 @@ module Aws::QuickSight
     CreateKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     CreateKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
     CreateKnowledgeBaseResponse.struct_class = Types::CreateKnowledgeBaseResponse
+
+    CreateLimitsProfileRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "accountId"))
+    CreateLimitsProfileRequest.add_member(:profile_name, Shapes::ShapeRef.new(shape: ProfileName, required: true, location_name: "profileName"))
+    CreateLimitsProfileRequest.add_member(:description, Shapes::ShapeRef.new(shape: ProfileDescription, location_name: "description"))
+    CreateLimitsProfileRequest.add_member(:resource_limits, Shapes::ShapeRef.new(shape: CreateLimitsProfileRequestResourceLimitsMap, required: true, location_name: "resourceLimits"))
+    CreateLimitsProfileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: CreateLimitsProfileRequestClientTokenString, required: true, location_name: "clientToken"))
+    CreateLimitsProfileRequest.struct_class = Types::CreateLimitsProfileRequest
+
+    CreateLimitsProfileRequestResourceLimitsMap.key = Shapes::ShapeRef.new(shape: ResourceType)
+    CreateLimitsProfileRequestResourceLimitsMap.value = Shapes::ShapeRef.new(shape: ProfileLimitValue)
+
+    CreateLimitsProfileResponse.add_member(:arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "arn"))
+    CreateLimitsProfileResponse.add_member(:profile_id, Shapes::ShapeRef.new(shape: ProfileId, required: true, location_name: "profileId"))
+    CreateLimitsProfileResponse.struct_class = Types::CreateLimitsProfileResponse
 
     CreateNamespaceRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     CreateNamespaceRequest.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location_name: "Namespace"))
@@ -5928,6 +6139,11 @@ module Aws::QuickSight
     DeleteAnalysisResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     DeleteAnalysisResponse.struct_class = Types::DeleteAnalysisResponse
 
+    DeleteApprovalPolicyRequest.add_member(:policy_id, Shapes::ShapeRef.new(shape: PolicyId, required: true, location: "uri", location_name: "PolicyId"))
+    DeleteApprovalPolicyRequest.struct_class = Types::DeleteApprovalPolicyRequest
+
+    DeleteApprovalPolicyResponse.struct_class = Types::DeleteApprovalPolicyResponse
+
     DeleteBrandAssignmentRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DeleteBrandAssignmentRequest.struct_class = Types::DeleteBrandAssignmentRequest
 
@@ -5996,6 +6212,15 @@ module Aws::QuickSight
     DeleteDefaultQBusinessApplicationResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     DeleteDefaultQBusinessApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     DeleteDefaultQBusinessApplicationResponse.struct_class = Types::DeleteDefaultQBusinessApplicationResponse
+
+    DeleteDlpSettingRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    DeleteDlpSettingRequest.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location: "uri", location_name: "DlpSettingId"))
+    DeleteDlpSettingRequest.struct_class = Types::DeleteDlpSettingRequest
+
+    DeleteDlpSettingResponse.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
+    DeleteDlpSettingResponse.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location_name: "DlpSettingId"))
+    DeleteDlpSettingResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    DeleteDlpSettingResponse.struct_class = Types::DeleteDlpSettingResponse
 
     DeleteFlowRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DeleteFlowRequest.add_member(:flow_id, Shapes::ShapeRef.new(shape: FlowId, required: true, location: "uri", location_name: "FlowId"))
@@ -6071,6 +6296,13 @@ module Aws::QuickSight
     DeleteKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     DeleteKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
     DeleteKnowledgeBaseResponse.struct_class = Types::DeleteKnowledgeBaseResponse
+
+    DeleteLimitsProfileRequest.add_member(:profile_id, Shapes::ShapeRef.new(shape: ProfileId, required: true, location: "uri", location_name: "profileId"))
+    DeleteLimitsProfileRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "accountId"))
+    DeleteLimitsProfileRequest.struct_class = Types::DeleteLimitsProfileRequest
+
+    DeleteLimitsProfileResponse.add_member(:arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "arn"))
+    DeleteLimitsProfileResponse.struct_class = Types::DeleteLimitsProfileResponse
 
     DeleteNamespaceRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DeleteNamespaceRequest.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location: "uri", location_name: "Namespace"))
@@ -6355,6 +6587,12 @@ module Aws::QuickSight
     DescribeAnalysisResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     DescribeAnalysisResponse.struct_class = Types::DescribeAnalysisResponse
 
+    DescribeApprovalPolicyRequest.add_member(:policy_id, Shapes::ShapeRef.new(shape: PolicyId, required: true, location: "uri", location_name: "PolicyId"))
+    DescribeApprovalPolicyRequest.struct_class = Types::DescribeApprovalPolicyRequest
+
+    DescribeApprovalPolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: ApprovalPolicy, required: true, location_name: "Policy"))
+    DescribeApprovalPolicyResponse.struct_class = Types::DescribeApprovalPolicyResponse
+
     DescribeAssetBundleExportJobRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DescribeAssetBundleExportJobRequest.add_member(:asset_bundle_export_job_id, Shapes::ShapeRef.new(shape: ShortRestrictiveResourceId, required: true, location: "uri", location_name: "AssetBundleExportJobId"))
     DescribeAssetBundleExportJobRequest.struct_class = Types::DescribeAssetBundleExportJobRequest
@@ -6594,6 +6832,14 @@ module Aws::QuickSight
     DescribeDefaultQBusinessApplicationResponse.add_member(:application_id, Shapes::ShapeRef.new(shape: String, location_name: "ApplicationId"))
     DescribeDefaultQBusinessApplicationResponse.struct_class = Types::DescribeDefaultQBusinessApplicationResponse
 
+    DescribeDlpSettingRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    DescribeDlpSettingRequest.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location: "uri", location_name: "DlpSettingId"))
+    DescribeDlpSettingRequest.struct_class = Types::DescribeDlpSettingRequest
+
+    DescribeDlpSettingResponse.add_member(:dlp_setting, Shapes::ShapeRef.new(shape: DlpSettingDetails, required: true, location_name: "DlpSetting"))
+    DescribeDlpSettingResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    DescribeDlpSettingResponse.struct_class = Types::DescribeDlpSettingResponse
+
     DescribeFlowRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DescribeFlowRequest.add_member(:flow_id, Shapes::ShapeRef.new(shape: FlowId, required: true, location: "uri", location_name: "FlowId"))
     DescribeFlowRequest.add_member(:publish_state, Shapes::ShapeRef.new(shape: FlowPublishState, required: true, location: "querystring", location_name: "publish-state"))
@@ -6726,6 +6972,13 @@ module Aws::QuickSight
     DescribeKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     DescribeKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
     DescribeKnowledgeBaseResponse.struct_class = Types::DescribeKnowledgeBaseResponse
+
+    DescribeLimitsProfileRequest.add_member(:profile_id, Shapes::ShapeRef.new(shape: ProfileId, required: true, location: "uri", location_name: "profileId"))
+    DescribeLimitsProfileRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "accountId"))
+    DescribeLimitsProfileRequest.struct_class = Types::DescribeLimitsProfileRequest
+
+    DescribeLimitsProfileResponse.add_member(:profile, Shapes::ShapeRef.new(shape: LimitsProfile, required: true, location_name: "profile"))
+    DescribeLimitsProfileResponse.struct_class = Types::DescribeLimitsProfileResponse
 
     DescribeNamespaceRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     DescribeNamespaceRequest.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location: "uri", location_name: "Namespace"))
@@ -7019,6 +7272,28 @@ module Aws::QuickSight
     DisplayFormatOptions.add_member(:currency_symbol, Shapes::ShapeRef.new(shape: LimitedString, location_name: "CurrencySymbol"))
     DisplayFormatOptions.struct_class = Types::DisplayFormatOptions
 
+    DlpSettingDetails.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location_name: "DlpSettingId"))
+    DlpSettingDetails.add_member(:name, Shapes::ShapeRef.new(shape: DlpSettingName, required: true, location_name: "Name"))
+    DlpSettingDetails.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
+    DlpSettingDetails.add_member(:status, Shapes::ShapeRef.new(shape: DlpSettingStatus, required: true, location_name: "Status"))
+    DlpSettingDetails.add_member(:provider_type, Shapes::ShapeRef.new(shape: DlpProviderType, required: true, location_name: "ProviderType"))
+    DlpSettingDetails.add_member(:provider_config, Shapes::ShapeRef.new(shape: ProviderConfig, required: true, location_name: "ProviderConfig"))
+    DlpSettingDetails.add_member(:provider_outage_action, Shapes::ShapeRef.new(shape: DlpAction, required: true, location_name: "ProviderOutageAction"))
+    DlpSettingDetails.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedAt"))
+    DlpSettingDetails.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "UpdatedAt"))
+    DlpSettingDetails.struct_class = Types::DlpSettingDetails
+
+    DlpSettingSummary.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location_name: "DlpSettingId"))
+    DlpSettingSummary.add_member(:name, Shapes::ShapeRef.new(shape: DlpSettingName, required: true, location_name: "Name"))
+    DlpSettingSummary.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
+    DlpSettingSummary.add_member(:status, Shapes::ShapeRef.new(shape: DlpSettingStatus, required: true, location_name: "Status"))
+    DlpSettingSummary.add_member(:provider_type, Shapes::ShapeRef.new(shape: DlpProviderType, required: true, location_name: "ProviderType"))
+    DlpSettingSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedAt"))
+    DlpSettingSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "UpdatedAt"))
+    DlpSettingSummary.struct_class = Types::DlpSettingSummary
+
+    DlpSettingSummaryList.member = Shapes::ShapeRef.new(shape: DlpSettingSummary)
+
     DnsResolverList.member = Shapes::ShapeRef.new(shape: IPv4Address)
 
     DomainNotWhitelistedException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
@@ -7048,6 +7323,15 @@ module Aws::QuickSight
     DynamicDefaultValue.add_member(:group_name_column, Shapes::ShapeRef.new(shape: ColumnIdentifier, location_name: "GroupNameColumn"))
     DynamicDefaultValue.add_member(:default_value_column, Shapes::ShapeRef.new(shape: ColumnIdentifier, required: true, location_name: "DefaultValueColumn"))
     DynamicDefaultValue.struct_class = Types::DynamicDefaultValue
+
+    EffectiveLimit.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, required: true, location_name: "resourceType"))
+    EffectiveLimit.add_member(:limit_value, Shapes::ShapeRef.new(shape: EffectiveLimitLimitValueLong, required: true, location_name: "limitValue"))
+    EffectiveLimit.add_member(:limit_unit, Shapes::ShapeRef.new(shape: LimitUnit, required: true, location_name: "limitUnit"))
+    EffectiveLimit.add_member(:source, Shapes::ShapeRef.new(shape: LimitSource, required: true, location_name: "source"))
+    EffectiveLimit.add_member(:profile_id, Shapes::ShapeRef.new(shape: ProfileId, required: true, location_name: "profileId"))
+    EffectiveLimit.struct_class = Types::EffectiveLimit
+
+    EffectiveLimitList.member = Shapes::ShapeRef.new(shape: EffectiveLimit)
 
     EmptyVisual.add_member(:visual_id, Shapes::ShapeRef.new(shape: ShortRestrictiveResourceId, required: true, location_name: "VisualId"))
     EmptyVisual.add_member(:data_set_identifier, Shapes::ShapeRef.new(shape: DataSetIdentifier, location_name: "DataSetIdentifier"))
@@ -7965,6 +8249,8 @@ module Aws::QuickSight
     Governance.add_member(:default_category_effects, Shapes::ShapeRef.new(shape: DefaultCategoryEffectsMap, location_name: "DefaultCategoryEffects"))
     Governance.struct_class = Types::Governance
 
+    GovernedActionList.member = Shapes::ShapeRef.new(shape: GovernedAction)
+
     GradientColor.add_member(:stops, Shapes::ShapeRef.new(shape: GradientStopList, location_name: "Stops"))
     GradientColor.struct_class = Types::GradientColor
 
@@ -8016,6 +8302,8 @@ module Aws::QuickSight
     Group.add_member(:description, Shapes::ShapeRef.new(shape: GroupDescription, location_name: "Description"))
     Group.add_member(:principal_id, Shapes::ShapeRef.new(shape: String, location_name: "PrincipalId"))
     Group.struct_class = Types::Group
+
+    GroupArnList.member = Shapes::ShapeRef.new(shape: Arn)
 
     GroupByColumnNameList.member = Shapes::ShapeRef.new(shape: ColumnName)
 
@@ -8513,6 +8801,13 @@ module Aws::QuickSight
     KnowledgeBaseSummary.add_member(:primary_owner_username, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "PrimaryOwnerUsername"))
     KnowledgeBaseSummary.struct_class = Types::KnowledgeBaseSummary
 
+    LabelActionMapping.add_member(:label_id, Shapes::ShapeRef.new(shape: LabelId, required: true, location_name: "LabelId"))
+    LabelActionMapping.add_member(:label_name, Shapes::ShapeRef.new(shape: LabelName, required: true, location_name: "LabelName"))
+    LabelActionMapping.add_member(:action, Shapes::ShapeRef.new(shape: DlpAction, required: true, location_name: "Action"))
+    LabelActionMapping.struct_class = Types::LabelActionMapping
+
+    LabelActionMappingList.member = Shapes::ShapeRef.new(shape: LabelActionMapping)
+
     LabelOptions.add_member(:visibility, Shapes::ShapeRef.new(shape: Visibility, location_name: "Visibility"))
     LabelOptions.add_member(:font_configuration, Shapes::ShapeRef.new(shape: FontConfiguration, location_name: "FontConfiguration"))
     LabelOptions.add_member(:custom_label, Shapes::ShapeRef.new(shape: String, location_name: "CustomLabel"))
@@ -8566,6 +8861,18 @@ module Aws::QuickSight
     LimitExceededException.add_member(:resource_type, Shapes::ShapeRef.new(shape: ExceptionResourceType, location_name: "ResourceType"))
     LimitExceededException.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     LimitExceededException.struct_class = Types::LimitExceededException
+
+    LimitsProfile.add_member(:profile_id, Shapes::ShapeRef.new(shape: ProfileId, required: true, location_name: "profileId"))
+    LimitsProfile.add_member(:arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "arn"))
+    LimitsProfile.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location_name: "accountId"))
+    LimitsProfile.add_member(:profile_name, Shapes::ShapeRef.new(shape: ProfileName, required: true, location_name: "profileName"))
+    LimitsProfile.add_member(:description, Shapes::ShapeRef.new(shape: ProfileDescription, location_name: "description"))
+    LimitsProfile.add_member(:resource_limits, Shapes::ShapeRef.new(shape: ResourceLimitsMap, required: true, location_name: "resourceLimits"))
+    LimitsProfile.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
+    LimitsProfile.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
+    LimitsProfile.struct_class = Types::LimitsProfile
+
+    LimitsProfileList.member = Shapes::ShapeRef.new(shape: LimitsProfile)
 
     LineChartAggregatedFieldWells.add_member(:category, Shapes::ShapeRef.new(shape: DimensionFieldList, location_name: "Category"))
     LineChartAggregatedFieldWells.add_member(:values, Shapes::ShapeRef.new(shape: MeasureFieldList, location_name: "Values"))
@@ -8681,6 +8988,14 @@ module Aws::QuickSight
     ListAnalysesResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     ListAnalysesResponse.struct_class = Types::ListAnalysesResponse
 
+    ListApprovalPoliciesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location: "querystring", location_name: "next-token"))
+    ListApprovalPoliciesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results", metadata: {"box" => true}))
+    ListApprovalPoliciesRequest.struct_class = Types::ListApprovalPoliciesRequest
+
+    ListApprovalPoliciesResponse.add_member(:policies, Shapes::ShapeRef.new(shape: ApprovalPolicyList, required: true, location_name: "Policies"))
+    ListApprovalPoliciesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "NextToken"))
+    ListApprovalPoliciesResponse.struct_class = Types::ListApprovalPoliciesResponse
+
     ListAssetBundleExportJobsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     ListAssetBundleExportJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "next-token"))
     ListAssetBundleExportJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results", metadata: {"box" => true}))
@@ -8779,6 +9094,16 @@ module Aws::QuickSight
     ListDataSourcesResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     ListDataSourcesResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     ListDataSourcesResponse.struct_class = Types::ListDataSourcesResponse
+
+    ListDlpSettingsRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    ListDlpSettingsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location: "querystring", location_name: "next-token"))
+    ListDlpSettingsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "max-results", metadata: {"box" => true}))
+    ListDlpSettingsRequest.struct_class = Types::ListDlpSettingsRequest
+
+    ListDlpSettingsResponse.add_member(:dlp_setting_summaries, Shapes::ShapeRef.new(shape: DlpSettingSummaryList, required: true, location_name: "DlpSettingSummaries"))
+    ListDlpSettingsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: PaginationToken, location_name: "NextToken"))
+    ListDlpSettingsResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    ListDlpSettingsResponse.struct_class = Types::ListDlpSettingsResponse
 
     ListFlowsInput.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     ListFlowsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "next-token"))
@@ -8910,6 +9235,16 @@ module Aws::QuickSight
     ListKnowledgeBasesResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     ListKnowledgeBasesResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
     ListKnowledgeBasesResponse.struct_class = Types::ListKnowledgeBasesResponse
+
+    ListLimitsProfilesRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "accountId"))
+    ListLimitsProfilesRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, location: "querystring", location_name: "resourceType"))
+    ListLimitsProfilesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListLimitsProfilesRequestMaxResultsInteger, location: "querystring", location_name: "maxResults"))
+    ListLimitsProfilesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
+    ListLimitsProfilesRequest.struct_class = Types::ListLimitsProfilesRequest
+
+    ListLimitsProfilesResponse.add_member(:profiles, Shapes::ShapeRef.new(shape: LimitsProfileList, required: true, location_name: "profiles"))
+    ListLimitsProfilesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListLimitsProfilesResponse.struct_class = Types::ListLimitsProfilesResponse
 
     ListNamespacesRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     ListNamespacesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "next-token"))
@@ -9257,6 +9592,14 @@ module Aws::QuickSight
     MetricComparisonComputation.add_member(:from_value, Shapes::ShapeRef.new(shape: MeasureField, location_name: "FromValue"))
     MetricComparisonComputation.add_member(:target_value, Shapes::ShapeRef.new(shape: MeasureField, location_name: "TargetValue"))
     MetricComparisonComputation.struct_class = Types::MetricComparisonComputation
+
+    MicrosoftPurviewCredentials.add_member(:secret_arn, Shapes::ShapeRef.new(shape: SecretManagerArn, required: true, location_name: "SecretArn"))
+    MicrosoftPurviewCredentials.struct_class = Types::MicrosoftPurviewCredentials
+
+    MicrosoftPurviewProviderConfig.add_member(:credentials, Shapes::ShapeRef.new(shape: MicrosoftPurviewCredentials, required: true, location_name: "Credentials"))
+    MicrosoftPurviewProviderConfig.add_member(:label_action_mappings, Shapes::ShapeRef.new(shape: LabelActionMappingList, required: true, location_name: "LabelActionMappings"))
+    MicrosoftPurviewProviderConfig.add_member(:unmapped_action, Shapes::ShapeRef.new(shape: DlpAction, required: true, location_name: "UnmappedAction"))
+    MicrosoftPurviewProviderConfig.struct_class = Types::MicrosoftPurviewProviderConfig
 
     MinimumLabelType.add_member(:visibility, Shapes::ShapeRef.new(shape: Visibility, location_name: "Visibility"))
     MinimumLabelType.struct_class = Types::MinimumLabelType
@@ -9927,6 +10270,10 @@ module Aws::QuickSight
 
     PrincipalList.member = Shapes::ShapeRef.new(shape: String)
 
+    ProfileLimitValue.add_member(:max_value, Shapes::ShapeRef.new(shape: ProfileLimitValueMaxValueLong, required: true, location_name: "maxValue"))
+    ProfileLimitValue.add_member(:unit, Shapes::ShapeRef.new(shape: LimitUnit, required: true, location_name: "unit"))
+    ProfileLimitValue.struct_class = Types::ProfileLimitValue
+
     ProgressBarOptions.add_member(:visibility, Shapes::ShapeRef.new(shape: Visibility, location_name: "Visibility"))
     ProgressBarOptions.struct_class = Types::ProgressBarOptions
 
@@ -9936,6 +10283,12 @@ module Aws::QuickSight
     ProjectOperation.struct_class = Types::ProjectOperation
 
     ProjectedColumnNameList.member = Shapes::ShapeRef.new(shape: String)
+
+    ProviderConfig.add_member(:microsoft_purview, Shapes::ShapeRef.new(shape: MicrosoftPurviewProviderConfig, location_name: "MicrosoftPurview"))
+    ProviderConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ProviderConfig.add_member_subclass(:microsoft_purview, Types::ProviderConfig::MicrosoftPurview)
+    ProviderConfig.add_member_subclass(:unknown, Types::ProviderConfig::Unknown)
+    ProviderConfig.struct_class = Types::ProviderConfig
 
     PutDataSetRefreshPropertiesRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     PutDataSetRefreshPropertiesRequest.add_member(:data_set_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location: "uri", location_name: "DataSetId"))
@@ -10304,6 +10657,9 @@ module Aws::QuickSight
     ResourceExistsException.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     ResourceExistsException.struct_class = Types::ResourceExistsException
 
+    ResourceLimitsMap.key = Shapes::ShapeRef.new(shape: ResourceType)
+    ResourceLimitsMap.value = Shapes::ShapeRef.new(shape: ProfileLimitValue)
+
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     ResourceNotFoundException.add_member(:resource_type, Shapes::ShapeRef.new(shape: ExceptionResourceType, location_name: "ResourceType"))
     ResourceNotFoundException.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
@@ -10314,6 +10670,8 @@ module Aws::QuickSight
     ResourcePermission.struct_class = Types::ResourcePermission
 
     ResourcePermissionList.member = Shapes::ShapeRef.new(shape: ResourcePermission)
+
+    ResourceTypeList.member = Shapes::ShapeRef.new(shape: ResourceType)
 
     ResourceUnavailableException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     ResourceUnavailableException.add_member(:resource_type, Shapes::ShapeRef.new(shape: ExceptionResourceType, location_name: "ResourceType"))
@@ -12420,6 +12778,18 @@ module Aws::QuickSight
     UpdateApplicationWithTokenExchangeGrantResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     UpdateApplicationWithTokenExchangeGrantResponse.struct_class = Types::UpdateApplicationWithTokenExchangeGrantResponse
 
+    UpdateApprovalPolicyRequest.add_member(:policy_id, Shapes::ShapeRef.new(shape: PolicyId, required: true, location: "uri", location_name: "PolicyId"))
+    UpdateApprovalPolicyRequest.add_member(:name, Shapes::ShapeRef.new(shape: PolicyName, location_name: "Name"))
+    UpdateApprovalPolicyRequest.add_member(:description, Shapes::ShapeRef.new(shape: PolicyDescription, location_name: "Description"))
+    UpdateApprovalPolicyRequest.add_member(:actions, Shapes::ShapeRef.new(shape: GovernedActionList, location_name: "Actions"))
+    UpdateApprovalPolicyRequest.add_member(:asset_types, Shapes::ShapeRef.new(shape: AssetTypeList, location_name: "AssetTypes"))
+    UpdateApprovalPolicyRequest.add_member(:applicable_to, Shapes::ShapeRef.new(shape: ApplicableTo, location_name: "ApplicableTo"))
+    UpdateApprovalPolicyRequest.add_member(:approval_groups, Shapes::ShapeRef.new(shape: ApprovalGroupList, location_name: "ApprovalGroups"))
+    UpdateApprovalPolicyRequest.struct_class = Types::UpdateApprovalPolicyRequest
+
+    UpdateApprovalPolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: ApprovalPolicy, required: true, location_name: "Policy"))
+    UpdateApprovalPolicyResponse.struct_class = Types::UpdateApprovalPolicyResponse
+
     UpdateBrandAssignmentRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     UpdateBrandAssignmentRequest.add_member(:brand_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "BrandArn"))
     UpdateBrandAssignmentRequest.struct_class = Types::UpdateBrandAssignmentRequest
@@ -12600,6 +12970,20 @@ module Aws::QuickSight
     UpdateDefaultQBusinessApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status"))
     UpdateDefaultQBusinessApplicationResponse.struct_class = Types::UpdateDefaultQBusinessApplicationResponse
 
+    UpdateDlpSettingRequest.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "AwsAccountId"))
+    UpdateDlpSettingRequest.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location: "uri", location_name: "DlpSettingId"))
+    UpdateDlpSettingRequest.add_member(:name, Shapes::ShapeRef.new(shape: DlpSettingName, location_name: "Name"))
+    UpdateDlpSettingRequest.add_member(:provider_type, Shapes::ShapeRef.new(shape: DlpProviderType, location_name: "ProviderType"))
+    UpdateDlpSettingRequest.add_member(:provider_config, Shapes::ShapeRef.new(shape: ProviderConfig, location_name: "ProviderConfig"))
+    UpdateDlpSettingRequest.add_member(:provider_outage_action, Shapes::ShapeRef.new(shape: DlpAction, location_name: "ProviderOutageAction"))
+    UpdateDlpSettingRequest.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled", metadata: {"box" => true}))
+    UpdateDlpSettingRequest.struct_class = Types::UpdateDlpSettingRequest
+
+    UpdateDlpSettingResponse.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, required: true, location_name: "Arn"))
+    UpdateDlpSettingResponse.add_member(:dlp_setting_id, Shapes::ShapeRef.new(shape: DlpSettingId, required: true, location_name: "DlpSettingId"))
+    UpdateDlpSettingResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
+    UpdateDlpSettingResponse.struct_class = Types::UpdateDlpSettingResponse
+
     UpdateFlowPermissionsInput.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: AccountId, required: true, location: "uri", location_name: "AwsAccountId"))
     UpdateFlowPermissionsInput.add_member(:flow_id, Shapes::ShapeRef.new(shape: FlowId, required: true, location: "uri", location_name: "FlowId"))
     UpdateFlowPermissionsInput.add_member(:grant_permissions, Shapes::ShapeRef.new(shape: UpdateFlowPermissionsInputGrantPermissionsList, location_name: "GrantPermissions"))
@@ -12741,6 +13125,16 @@ module Aws::QuickSight
     UpdateKnowledgeBaseResponse.add_member(:request_id, Shapes::ShapeRef.new(shape: String, location_name: "RequestId"))
     UpdateKnowledgeBaseResponse.add_member(:status, Shapes::ShapeRef.new(shape: StatusCode, location: "statusCode", location_name: "Status", metadata: {"box" => true}))
     UpdateKnowledgeBaseResponse.struct_class = Types::UpdateKnowledgeBaseResponse
+
+    UpdateLimitsProfileRequest.add_member(:profile_id, Shapes::ShapeRef.new(shape: ProfileId, required: true, location: "uri", location_name: "profileId"))
+    UpdateLimitsProfileRequest.add_member(:account_id, Shapes::ShapeRef.new(shape: AwsAccountId, required: true, location: "uri", location_name: "accountId"))
+    UpdateLimitsProfileRequest.add_member(:profile_name, Shapes::ShapeRef.new(shape: ProfileName, location_name: "profileName"))
+    UpdateLimitsProfileRequest.add_member(:description, Shapes::ShapeRef.new(shape: ProfileDescription, location_name: "description"))
+    UpdateLimitsProfileRequest.add_member(:resource_limits, Shapes::ShapeRef.new(shape: ResourceLimitsMap, location_name: "resourceLimits"))
+    UpdateLimitsProfileRequest.struct_class = Types::UpdateLimitsProfileRequest
+
+    UpdateLimitsProfileResponse.add_member(:arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "arn"))
+    UpdateLimitsProfileResponse.struct_class = Types::UpdateLimitsProfileResponse
 
     UpdateLinkPermissionList.member = Shapes::ShapeRef.new(shape: ResourcePermission)
 
@@ -13122,6 +13516,17 @@ module Aws::QuickSight
 
     UserIndexCapacityList.member = Shapes::ShapeRef.new(shape: UserIndexCapacity)
 
+    UserLimits.add_member(:user_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "userName"))
+    UserLimits.add_member(:namespace, Shapes::ShapeRef.new(shape: String, required: true, location_name: "namespace"))
+    UserLimits.add_member(:effective_limits, Shapes::ShapeRef.new(shape: EffectiveLimitList, required: true, location_name: "effectiveLimits"))
+    UserLimits.struct_class = Types::UserLimits
+
+    UserLimitsEntry.add_member(:user_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "userName"))
+    UserLimitsEntry.add_member(:namespace, Shapes::ShapeRef.new(shape: String, required: true, location_name: "namespace"))
+    UserLimitsEntry.struct_class = Types::UserLimitsEntry
+
+    UserLimitsList.member = Shapes::ShapeRef.new(shape: UserLimits)
+
     UserList.member = Shapes::ShapeRef.new(shape: User)
 
     UserNameOrEmailFilter.add_member(:prefix, Shapes::ShapeRef.new(shape: FilterValue, required: true, location_name: "prefix"))
@@ -13457,6 +13862,18 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:batch_describe_user_limits, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "BatchDescribeUserLimits"
+        o.http_method = "POST"
+        o.http_request_uri = "/governance/limits/accounts/{accountId}/user-limits"
+        o.input = Shapes::ShapeRef.new(shape: BatchDescribeUserLimitsRequest)
+        o.output = Shapes::ShapeRef.new(shape: BatchDescribeUserLimitsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:cancel_ingestion, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CancelIngestion"
         o.http_method = "DELETE"
@@ -13550,6 +13967,21 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:create_approval_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateApprovalPolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/governance/approvalworkflows/policies"
+        o.input = Shapes::ShapeRef.new(shape: CreateApprovalPolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateApprovalPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:create_brand, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateBrand"
         o.http_method = "POST"
@@ -13631,6 +14063,21 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: CustomerManagedKeyUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:create_dlp_setting, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateDlpSetting"
+        o.http_method = "POST"
+        o.http_request_uri = "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}"
+        o.input = Shapes::ShapeRef.new(shape: CreateDlpSettingRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateDlpSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceExistsException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
       api.add_operation(:create_flow, Seahorse::Model::Operation.new.tap do |o|
@@ -13759,6 +14206,20 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:create_limits_profile, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateLimitsProfile"
+        o.http_method = "POST"
+        o.http_request_uri = "/governance/limits/accounts/{accountId}/profiles"
+        o.input = Shapes::ShapeRef.new(shape: CreateLimitsProfileRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateLimitsProfileResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
       api.add_operation(:create_namespace, Seahorse::Model::Operation.new.tap do |o|
@@ -14056,6 +14517,19 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:delete_approval_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteApprovalPolicy"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/governance/approvalworkflows/policies/{PolicyId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteApprovalPolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteApprovalPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:delete_brand, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteBrand"
         o.http_method = "DELETE"
@@ -14167,6 +14641,19 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+      end)
+
+      api.add_operation(:delete_dlp_setting, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteDlpSetting"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteDlpSettingRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteDlpSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:delete_flow, Seahorse::Model::Operation.new.tap do |o|
@@ -14284,6 +14771,20 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
+      api.add_operation(:delete_limits_profile, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteLimitsProfile"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/governance/limits/accounts/{accountId}/profiles/{profileId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteLimitsProfileRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteLimitsProfileResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
@@ -14688,6 +15189,19 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:describe_approval_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeApprovalPolicy"
+        o.http_method = "GET"
+        o.http_request_uri = "/governance/approvalworkflows/policies/{PolicyId}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeApprovalPolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeApprovalPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:describe_asset_bundle_export_job, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeAssetBundleExportJob"
         o.http_method = "GET"
@@ -14945,6 +15459,19 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:describe_dlp_setting, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeDlpSetting"
+        o.http_method = "GET"
+        o.http_request_uri = "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeDlpSettingRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeDlpSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:describe_flow, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeFlow"
         o.http_method = "GET"
@@ -15126,6 +15653,19 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:describe_limits_profile, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeLimitsProfile"
+        o.http_method = "GET"
+        o.http_request_uri = "/governance/limits/accounts/{accountId}/profiles/{profileId}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeLimitsProfileRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeLimitsProfileResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
@@ -15643,6 +16183,25 @@ module Aws::QuickSight
         )
       end)
 
+      api.add_operation(:list_approval_policies, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListApprovalPolicies"
+        o.http_method = "GET"
+        o.http_request_uri = "/governance/approvalworkflows/policies"
+        o.input = Shapes::ShapeRef.new(shape: ListApprovalPoliciesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListApprovalPoliciesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_asset_bundle_export_jobs, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListAssetBundleExportJobs"
         o.http_method = "GET"
@@ -15788,6 +16347,24 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidNextTokenException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_dlp_settings, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDlpSettings"
+        o.http_method = "GET"
+        o.http_request_uri = "/accounts/{AwsAccountId}/data-loss-prevention/settings"
+        o.input = Shapes::ShapeRef.new(shape: ListDlpSettingsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDlpSettingsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -16007,6 +16584,24 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_limits_profiles, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListLimitsProfiles"
+        o.http_method = "GET"
+        o.http_request_uri = "/governance/limits/accounts/{accountId}/profiles"
+        o.input = Shapes::ShapeRef.new(shape: ListLimitsProfilesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListLimitsProfilesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
@@ -16974,6 +17569,20 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:update_approval_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateApprovalPolicy"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/governance/approvalworkflows/policies/{PolicyId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateApprovalPolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateApprovalPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:update_brand, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateBrand"
         o.http_method = "PUT"
@@ -17179,6 +17788,20 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
       end)
 
+      api.add_operation(:update_dlp_setting, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateDlpSetting"
+        o.http_method = "PUT"
+        o.http_request_uri = "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateDlpSettingRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateDlpSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
       api.add_operation(:update_flow, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateFlow"
         o.http_method = "PUT"
@@ -17336,6 +17959,20 @@ module Aws::QuickSight
         o.errors << Shapes::ShapeRef.new(shape: PreconditionNotMetException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
+      api.add_operation(:update_limits_profile, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLimitsProfile"
+        o.http_method = "PUT"
+        o.http_request_uri = "/governance/limits/accounts/{accountId}/profiles/{profileId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLimitsProfileRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLimitsProfileResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)

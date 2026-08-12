@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.152.0 (2026-08-12)
+------------------
+
+* Feature - Introduced role manager, an IAM capability that automatically sets up the IAM roles your AWS services need. When you set up a supported service in the console, role manager creates a role for you or reuses an existing one from an AWS-managed template.
+
 1.151.0 (2026-08-04)
 ------------------
 

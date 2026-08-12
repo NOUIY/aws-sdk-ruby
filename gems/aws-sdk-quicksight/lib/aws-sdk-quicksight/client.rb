@@ -1382,6 +1382,67 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes the effective resource limits for one or more Amazon Quick
+    # Sight users, including the limits that apply to each user based on
+    # their profile assignments.
+    #
+    # @option params [required, String] :account_id
+    #   The ID of the Amazon Web Services account that contains the users.
+    #
+    # @option params [Array<Types::UserLimitsEntry>] :users
+    #   A list of users to describe limits for. Each entry contains a user
+    #   name and namespace.
+    #
+    # @option params [Array<String>] :resource_types
+    #   An optional filter that limits the results to specific resource types.
+    #   If you don't specify a value, the operation returns limits for all
+    #   resource types.
+    #
+    # @return [Types::BatchDescribeUserLimitsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDescribeUserLimitsResponse#user_limits #user_limits} => Array&lt;Types::UserLimits&gt;
+    #   * {Types::BatchDescribeUserLimitsResponse#errors #errors} => Array&lt;Types::BatchDescribeUserLimitsError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_describe_user_limits({
+    #     account_id: "AwsAccountId", # required
+    #     users: [
+    #       {
+    #         user_name: "String", # required
+    #         namespace: "String", # required
+    #       },
+    #     ],
+    #     resource_types: ["INDEX_STORAGE"], # accepts INDEX_STORAGE, AGENT_HOURS
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_limits #=> Array
+    #   resp.user_limits[0].user_name #=> String
+    #   resp.user_limits[0].namespace #=> String
+    #   resp.user_limits[0].effective_limits #=> Array
+    #   resp.user_limits[0].effective_limits[0].resource_type #=> String, one of "INDEX_STORAGE", "AGENT_HOURS"
+    #   resp.user_limits[0].effective_limits[0].limit_value #=> Integer
+    #   resp.user_limits[0].effective_limits[0].limit_unit #=> String, one of "MB", "GB", "HOURS", "DAYS"
+    #   resp.user_limits[0].effective_limits[0].source #=> String, one of "DIRECT_USER", "GROUP", "ROLE", "ACCOUNT", "SYSTEM_DEFAULT"
+    #   resp.user_limits[0].effective_limits[0].profile_id #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].user_name #=> String
+    #   resp.errors[0].namespace #=> String
+    #   resp.errors[0].user_arn #=> String
+    #   resp.errors[0].error_code #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDescribeUserLimits AWS API Documentation
+    #
+    # @overload batch_describe_user_limits(params = {})
+    # @param [Hash] params ({})
+    def batch_describe_user_limits(params = {}, options = {})
+      req = build_request(:batch_describe_user_limits, params)
+      req.send_request(options)
+    end
+
     # Cancels an ongoing ingestion of data into SPICE.
     #
     # @option params [required, String] :aws_account_id
@@ -2098,6 +2159,77 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def create_analysis(params = {}, options = {})
       req = build_request(:create_analysis, params)
+      req.send_request(options)
+    end
+
+    # Creates an approval policy in Quick Sight.
+    #
+    # @option params [required, String] :policy_id
+    #   The unique identifier to assign to the approval policy. You cannot
+    #   change this value after you create the policy.
+    #
+    # @option params [required, String] :name
+    #   The name of the approval policy.
+    #
+    # @option params [String] :description
+    #   A description of the approval policy.
+    #
+    # @option params [required, Array<String>] :actions
+    #   The list of governed actions that trigger the approval workflow.
+    #
+    # @option params [required, Array<String>] :asset_types
+    #   The list of asset types that the approval policy applies to.
+    #
+    # @option params [required, Types::ApplicableTo] :applicable_to
+    #   The scoping configuration that determines who the approval policy
+    #   applies to.
+    #
+    # @option params [required, Array<String>] :approval_groups
+    #   The list of group ARNs whose members can approve requests.
+    #
+    # @return [Types::CreateApprovalPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateApprovalPolicyResponse#policy #policy} => Types::ApprovalPolicy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_approval_policy({
+    #     policy_id: "PolicyId", # required
+    #     name: "PolicyName", # required
+    #     description: "PolicyDescription",
+    #     actions: ["SHARE"], # required, accepts SHARE
+    #     asset_types: ["AGENT"], # required, accepts AGENT, SPACE, KNOWLEDGE_BASE
+    #     applicable_to: { # required
+    #       type: "GROUP", # required, accepts GROUP
+    #       group_arns: ["Arn"],
+    #     },
+    #     approval_groups: ["Arn"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy.policy_id #=> String
+    #   resp.policy.policy_arn #=> String
+    #   resp.policy.name #=> String
+    #   resp.policy.description #=> String
+    #   resp.policy.actions #=> Array
+    #   resp.policy.actions[0] #=> String, one of "SHARE"
+    #   resp.policy.asset_types #=> Array
+    #   resp.policy.asset_types[0] #=> String, one of "AGENT", "SPACE", "KNOWLEDGE_BASE"
+    #   resp.policy.applicable_to.type #=> String, one of "GROUP"
+    #   resp.policy.applicable_to.group_arns #=> Array
+    #   resp.policy.applicable_to.group_arns[0] #=> String
+    #   resp.policy.approval_groups #=> Array
+    #   resp.policy.approval_groups[0] #=> String
+    #   resp.policy.created_at #=> Time
+    #   resp.policy.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateApprovalPolicy AWS API Documentation
+    #
+    # @overload create_approval_policy(params = {})
+    # @param [Hash] params ({})
+    def create_approval_policy(params = {}, options = {})
+      req = build_request(:create_approval_policy, params)
       req.send_request(options)
     end
 
@@ -4203,6 +4335,97 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Creates a data loss prevention (DLP) setting configuration for an
+    # Amazon Web Services account. A DLP setting defines the DLP provider,
+    # the enforcement behavior, and the Quick capabilities that the setting
+    # applies to.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account in which to create the DLP
+    #   setting.
+    #
+    # @option params [required, String] :dlp_setting_id
+    #   A unique identifier for the DLP setting.
+    #
+    # @option params [required, String] :name
+    #   A human-readable display name for the DLP setting.
+    #
+    # @option params [required, String] :provider_type
+    #   The type of external DLP provider to use for sensitivity label
+    #   classification. Currently, the only supported value is
+    #   `MICROSOFT_PURVIEW`.
+    #
+    # @option params [required, Types::ProviderConfig] :provider_config
+    #   The provider-specific configuration for the DLP integration. This is a
+    #   union type structure. For this structure to be valid, only one of the
+    #   attributes can be defined.
+    #
+    # @option params [required, String] :provider_outage_action
+    #   The behavior to apply when the DLP provider is unreachable. Valid
+    #   values are `ALLOW`, `WARN`, and `BLOCK`.
+    #
+    # @option params [required, Boolean] :enabled
+    #   Specifies whether DLP enforcement is active for this setting. Set to
+    #   `true` to enable enforcement, or `false` to disable it at time of
+    #   setting creation.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   A list of resource tags to apply to the DLP setting. You can use tags
+    #   to manage access to your Amazon Web Services resources.
+    #
+    # @return [Types::CreateDlpSettingResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateDlpSettingResponse#arn #arn} => String
+    #   * {Types::CreateDlpSettingResponse#dlp_setting_id #dlp_setting_id} => String
+    #   * {Types::CreateDlpSettingResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_dlp_setting({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dlp_setting_id: "DlpSettingId", # required
+    #     name: "DlpSettingName", # required
+    #     provider_type: "MICROSOFT_PURVIEW", # required, accepts MICROSOFT_PURVIEW
+    #     provider_config: { # required
+    #       microsoft_purview: {
+    #         credentials: { # required
+    #           secret_arn: "SecretManagerArn", # required
+    #         },
+    #         label_action_mappings: [ # required
+    #           {
+    #             label_id: "LabelId", # required
+    #             label_name: "LabelName", # required
+    #             action: "ALLOW", # required, accepts ALLOW, WARN, BLOCK
+    #           },
+    #         ],
+    #         unmapped_action: "ALLOW", # required, accepts ALLOW, WARN, BLOCK
+    #       },
+    #     },
+    #     provider_outage_action: "ALLOW", # required, accepts ALLOW, WARN, BLOCK
+    #     enabled: false, # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.dlp_setting_id #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateDlpSetting AWS API Documentation
+    #
+    # @overload create_dlp_setting(params = {})
+    # @param [Hash] params ({})
+    def create_dlp_setting(params = {}, options = {})
+      req = build_request(:create_dlp_setting, params)
+      req.send_request(options)
+    end
+
     # Creates a new flow in the specified Amazon Web Services account.
     # Creates both a DRAFT and PUBLISHED (auto-published) version.
     #
@@ -4786,6 +5009,62 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def create_knowledge_base(params = {}, options = {})
       req = build_request(:create_knowledge_base, params)
+      req.send_request(options)
+    end
+
+    # Creates a limits profile that defines resource usage limits for Amazon
+    # Quick Sight users.
+    #
+    # @option params [required, String] :account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #
+    # @option params [required, String] :profile_name
+    #   A display name for the limits profile.
+    #
+    # @option params [String] :description
+    #   A description for the limits profile.
+    #
+    # @option params [required, Hash<String,Types::ProfileLimitValue>] :resource_limits
+    #   A map of resource types to their limit values for this profile.
+    #
+    # @option params [required, String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #
+    # @return [Types::CreateLimitsProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateLimitsProfileResponse#arn #arn} => String
+    #   * {Types::CreateLimitsProfileResponse#profile_id #profile_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_limits_profile({
+    #     account_id: "AwsAccountId", # required
+    #     profile_name: "ProfileName", # required
+    #     description: "ProfileDescription",
+    #     resource_limits: { # required
+    #       "INDEX_STORAGE" => {
+    #         max_value: 1, # required
+    #         unit: "MB", # required, accepts MB, GB, HOURS, DAYS
+    #       },
+    #     },
+    #     client_token: "CreateLimitsProfileRequestClientTokenString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.profile_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateLimitsProfile AWS API Documentation
+    #
+    # @overload create_limits_profile(params = {})
+    # @param [Hash] params ({})
+    def create_limits_profile(params = {}, options = {})
+      req = build_request(:create_limits_profile, params)
       req.send_request(options)
     end
 
@@ -6404,6 +6683,28 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes an approval policy in Quick Sight.
+    #
+    # @option params [required, String] :policy_id
+    #   The unique identifier of the approval policy to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_approval_policy({
+    #     policy_id: "PolicyId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteApprovalPolicy AWS API Documentation
+    #
+    # @overload delete_approval_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_approval_policy(params = {}, options = {})
+      req = build_request(:delete_approval_policy, params)
+      req.send_request(options)
+    end
+
     # This API permanently deletes the specified Quick Sight brand. When you
     # delete a brand:
     #
@@ -6709,6 +7010,44 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_default_q_business_application(params = {}, options = {})
       req = build_request(:delete_default_q_business_application, params)
+      req.send_request(options)
+    end
+
+    # Deletes a DLP setting configuration from an Amazon Web Services
+    # account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   setting that you want to delete.
+    #
+    # @option params [required, String] :dlp_setting_id
+    #   The ID of the DLP setting that you want to delete.
+    #
+    # @return [Types::DeleteDlpSettingResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDlpSettingResponse#arn #arn} => String
+    #   * {Types::DeleteDlpSettingResponse#dlp_setting_id #dlp_setting_id} => String
+    #   * {Types::DeleteDlpSettingResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_dlp_setting({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dlp_setting_id: "DlpSettingId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.dlp_setting_id #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteDlpSetting AWS API Documentation
+    #
+    # @overload delete_dlp_setting(params = {})
+    # @param [Hash] params ({})
+    def delete_dlp_setting(params = {}, options = {})
+      req = build_request(:delete_dlp_setting, params)
       req.send_request(options)
     end
 
@@ -7032,6 +7371,39 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_knowledge_base(params = {}, options = {})
       req = build_request(:delete_knowledge_base, params)
+      req.send_request(options)
+    end
+
+    # Deletes a limits profile.
+    #
+    # @option params [required, String] :profile_id
+    #   The unique identifier for the limits profile to delete.
+    #
+    # @option params [required, String] :account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #
+    # @return [Types::DeleteLimitsProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteLimitsProfileResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_limits_profile({
+    #     profile_id: "ProfileId", # required
+    #     account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteLimitsProfile AWS API Documentation
+    #
+    # @overload delete_limits_profile(params = {})
+    # @param [Hash] params ({})
+    def delete_limits_profile(params = {}, options = {})
+      req = build_request(:delete_limits_profile, params)
       req.send_request(options)
     end
 
@@ -8375,6 +8747,48 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes an approval policy in Quick Sight.
+    #
+    # @option params [required, String] :policy_id
+    #   The unique identifier of the approval policy to describe.
+    #
+    # @return [Types::DescribeApprovalPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeApprovalPolicyResponse#policy #policy} => Types::ApprovalPolicy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_approval_policy({
+    #     policy_id: "PolicyId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy.policy_id #=> String
+    #   resp.policy.policy_arn #=> String
+    #   resp.policy.name #=> String
+    #   resp.policy.description #=> String
+    #   resp.policy.actions #=> Array
+    #   resp.policy.actions[0] #=> String, one of "SHARE"
+    #   resp.policy.asset_types #=> Array
+    #   resp.policy.asset_types[0] #=> String, one of "AGENT", "SPACE", "KNOWLEDGE_BASE"
+    #   resp.policy.applicable_to.type #=> String, one of "GROUP"
+    #   resp.policy.applicable_to.group_arns #=> Array
+    #   resp.policy.applicable_to.group_arns[0] #=> String
+    #   resp.policy.approval_groups #=> Array
+    #   resp.policy.approval_groups[0] #=> String
+    #   resp.policy.created_at #=> Time
+    #   resp.policy.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeApprovalPolicy AWS API Documentation
+    #
+    # @overload describe_approval_policy(params = {})
+    # @param [Hash] params ({})
+    def describe_approval_policy(params = {}, options = {})
+      req = build_request(:describe_approval_policy, params)
+      req.send_request(options)
+    end
+
     # Describes an existing export job.
     #
     # Poll job descriptions after a job starts to know the status of the
@@ -8471,6 +8885,10 @@ module Aws::QuickSight
     #   resp.cloud_formation_override_property_configuration.folders[0].arn #=> String
     #   resp.cloud_formation_override_property_configuration.folders[0].properties #=> Array
     #   resp.cloud_formation_override_property_configuration.folders[0].properties[0] #=> String, one of "Name", "ParentFolderArn"
+    #   resp.cloud_formation_override_property_configuration.topics_v2 #=> Array
+    #   resp.cloud_formation_override_property_configuration.topics_v2[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.topics_v2[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.topics_v2[0].properties[0] #=> String, one of "Name", "Description"
     #   resp.request_id #=> String
     #   resp.status #=> Integer
     #   resp.include_permissions #=> Boolean
@@ -8708,6 +9126,10 @@ module Aws::QuickSight
     #   resp.override_parameters.folders[0].folder_id #=> String
     #   resp.override_parameters.folders[0].name #=> String
     #   resp.override_parameters.folders[0].parent_folder_arn #=> String
+    #   resp.override_parameters.topics_v2 #=> Array
+    #   resp.override_parameters.topics_v2[0].topic_id #=> String
+    #   resp.override_parameters.topics_v2[0].name #=> String
+    #   resp.override_parameters.topics_v2[0].description #=> String
     #   resp.failure_action #=> String, one of "DO_NOTHING", "ROLLBACK"
     #   resp.request_id #=> String
     #   resp.status #=> Integer
@@ -8757,6 +9179,13 @@ module Aws::QuickSight
     #   resp.override_permissions.folders[0].permissions.principals[0] #=> String
     #   resp.override_permissions.folders[0].permissions.actions #=> Array
     #   resp.override_permissions.folders[0].permissions.actions[0] #=> String
+    #   resp.override_permissions.topics_v2 #=> Array
+    #   resp.override_permissions.topics_v2[0].topic_ids #=> Array
+    #   resp.override_permissions.topics_v2[0].topic_ids[0] #=> String
+    #   resp.override_permissions.topics_v2[0].permissions.principals #=> Array
+    #   resp.override_permissions.topics_v2[0].permissions.principals[0] #=> String
+    #   resp.override_permissions.topics_v2[0].permissions.actions #=> Array
+    #   resp.override_permissions.topics_v2[0].permissions.actions[0] #=> String
     #   resp.override_tags.vpc_connections #=> Array
     #   resp.override_tags.vpc_connections[0].vpc_connection_ids #=> Array
     #   resp.override_tags.vpc_connections[0].vpc_connection_ids[0] #=> String
@@ -8799,6 +9228,12 @@ module Aws::QuickSight
     #   resp.override_tags.folders[0].tags #=> Array
     #   resp.override_tags.folders[0].tags[0].key #=> String
     #   resp.override_tags.folders[0].tags[0].value #=> String
+    #   resp.override_tags.topics_v2 #=> Array
+    #   resp.override_tags.topics_v2[0].topic_ids #=> Array
+    #   resp.override_tags.topics_v2[0].topic_ids[0] #=> String
+    #   resp.override_tags.topics_v2[0].tags #=> Array
+    #   resp.override_tags.topics_v2[0].tags[0].key #=> String
+    #   resp.override_tags.topics_v2[0].tags[0].value #=> String
     #   resp.override_validation_strategy.strict_mode_for_all_resources #=> Boolean
     #   resp.warnings #=> Array
     #   resp.warnings[0].arn #=> String
@@ -10787,6 +11222,55 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes the full configuration of a DLP setting in an Amazon Web
+    # Services account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   setting that you want to describe.
+    #
+    # @option params [required, String] :dlp_setting_id
+    #   The ID of the DLP setting that you want to describe.
+    #
+    # @return [Types::DescribeDlpSettingResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDlpSettingResponse#dlp_setting #dlp_setting} => Types::DlpSettingDetails
+    #   * {Types::DescribeDlpSettingResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_dlp_setting({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dlp_setting_id: "DlpSettingId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dlp_setting.dlp_setting_id #=> String
+    #   resp.dlp_setting.name #=> String
+    #   resp.dlp_setting.arn #=> String
+    #   resp.dlp_setting.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.dlp_setting.provider_type #=> String, one of "MICROSOFT_PURVIEW"
+    #   resp.dlp_setting.provider_config.microsoft_purview.credentials.secret_arn #=> String
+    #   resp.dlp_setting.provider_config.microsoft_purview.label_action_mappings #=> Array
+    #   resp.dlp_setting.provider_config.microsoft_purview.label_action_mappings[0].label_id #=> String
+    #   resp.dlp_setting.provider_config.microsoft_purview.label_action_mappings[0].label_name #=> String
+    #   resp.dlp_setting.provider_config.microsoft_purview.label_action_mappings[0].action #=> String, one of "ALLOW", "WARN", "BLOCK"
+    #   resp.dlp_setting.provider_config.microsoft_purview.unmapped_action #=> String, one of "ALLOW", "WARN", "BLOCK"
+    #   resp.dlp_setting.provider_outage_action #=> String, one of "ALLOW", "WARN", "BLOCK"
+    #   resp.dlp_setting.created_at #=> Time
+    #   resp.dlp_setting.updated_at #=> Time
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDlpSetting AWS API Documentation
+    #
+    # @overload describe_dlp_setting(params = {})
+    # @param [Hash] params ({})
+    def describe_dlp_setting(params = {}, options = {})
+      req = build_request(:describe_dlp_setting, params)
+      req.send_request(options)
+    end
+
     # Returns the full details of a flow for the latest version of the
     # requested publish state.
     #
@@ -11399,6 +11883,48 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_knowledge_base_permissions(params = {}, options = {})
       req = build_request(:describe_knowledge_base_permissions, params)
+      req.send_request(options)
+    end
+
+    # Describes the properties of an existing limits profile.
+    #
+    # @option params [required, String] :profile_id
+    #   The unique identifier for the limits profile.
+    #
+    # @option params [required, String] :account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #
+    # @return [Types::DescribeLimitsProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeLimitsProfileResponse#profile #profile} => Types::LimitsProfile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_limits_profile({
+    #     profile_id: "ProfileId", # required
+    #     account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.profile.profile_id #=> String
+    #   resp.profile.arn #=> String
+    #   resp.profile.account_id #=> String
+    #   resp.profile.profile_name #=> String
+    #   resp.profile.description #=> String
+    #   resp.profile.resource_limits #=> Hash
+    #   resp.profile.resource_limits["ResourceType"].max_value #=> Integer
+    #   resp.profile.resource_limits["ResourceType"].unit #=> String, one of "MB", "GB", "HOURS", "DAYS"
+    #   resp.profile.created_at #=> Time
+    #   resp.profile.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeLimitsProfile AWS API Documentation
+    #
+    # @overload describe_limits_profile(params = {})
+    # @param [Hash] params ({})
+    def describe_limits_profile(params = {}, options = {})
+      req = build_request(:describe_limits_profile, params)
       req.send_request(options)
     end
 
@@ -14004,6 +14530,63 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists all approval policies in the specified Quick Sight account. The
+    # results are paginated. If the response includes a `NextToken` value,
+    # pass it in a subsequent call to retrieve the next set of results.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call. If you
+    #   don't specify a value, the service returns a default number of
+    #   results. Use the `NextToken` value in the response to retrieve
+    #   additional results.
+    #
+    # @return [Types::ListApprovalPoliciesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListApprovalPoliciesResponse#policies #policies} => Array&lt;Types::ApprovalPolicy&gt;
+    #   * {Types::ListApprovalPoliciesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_approval_policies({
+    #     next_token: "PaginationToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policies #=> Array
+    #   resp.policies[0].policy_id #=> String
+    #   resp.policies[0].policy_arn #=> String
+    #   resp.policies[0].name #=> String
+    #   resp.policies[0].description #=> String
+    #   resp.policies[0].actions #=> Array
+    #   resp.policies[0].actions[0] #=> String, one of "SHARE"
+    #   resp.policies[0].asset_types #=> Array
+    #   resp.policies[0].asset_types[0] #=> String, one of "AGENT", "SPACE", "KNOWLEDGE_BASE"
+    #   resp.policies[0].applicable_to.type #=> String, one of "GROUP"
+    #   resp.policies[0].applicable_to.group_arns #=> Array
+    #   resp.policies[0].applicable_to.group_arns[0] #=> String
+    #   resp.policies[0].approval_groups #=> Array
+    #   resp.policies[0].approval_groups[0] #=> String
+    #   resp.policies[0].created_at #=> Time
+    #   resp.policies[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListApprovalPolicies AWS API Documentation
+    #
+    # @overload list_approval_policies(params = {})
+    # @param [Hash] params ({})
+    def list_approval_policies(params = {}, options = {})
+      req = build_request(:list_approval_policies, params)
+      req.send_request(options)
+    end
+
     # Lists all asset bundle export jobs that have been taken place in the
     # last 14 days. Jobs created more than 14 days ago are deleted forever
     # and are not returned. If you are using the same job ID for multiple
@@ -14969,6 +15552,57 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists all DLP settings in an Amazon Web Services account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   settings that you want to list.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per request.
+    #
+    # @return [Types::ListDlpSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDlpSettingsResponse#dlp_setting_summaries #dlp_setting_summaries} => Array&lt;Types::DlpSettingSummary&gt;
+    #   * {Types::ListDlpSettingsResponse#next_token #next_token} => String
+    #   * {Types::ListDlpSettingsResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_dlp_settings({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "PaginationToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dlp_setting_summaries #=> Array
+    #   resp.dlp_setting_summaries[0].dlp_setting_id #=> String
+    #   resp.dlp_setting_summaries[0].name #=> String
+    #   resp.dlp_setting_summaries[0].arn #=> String
+    #   resp.dlp_setting_summaries[0].status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.dlp_setting_summaries[0].provider_type #=> String, one of "MICROSOFT_PURVIEW"
+    #   resp.dlp_setting_summaries[0].created_at #=> Time
+    #   resp.dlp_setting_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListDlpSettings AWS API Documentation
+    #
+    # @overload list_dlp_settings(params = {})
+    # @param [Hash] params ({})
+    def list_dlp_settings(params = {}, options = {})
+      req = build_request(:list_dlp_settings, params)
+      req.send_request(options)
+    end
+
     # Lists flows in an Amazon Web Services account.
     #
     # @option params [required, String] :aws_account_id
@@ -15578,6 +16212,68 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_knowledge_bases(params = {}, options = {})
       req = build_request(:list_knowledge_bases, params)
+      req.send_request(options)
+    end
+
+    # Lists all limits profiles in an Amazon Quick Sight account. Results
+    # are paginated. Use the `maxResults` parameter to limit the number of
+    # results returned in a single call, and use the `nextToken` parameter
+    # to retrieve the next page of results.
+    #
+    # @option params [required, String] :account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profiles.
+    #
+    # @option params [String] :resource_type
+    #   An optional filter that limits the results to profiles that contain
+    #   the specified resource type. If you don't specify a value, the
+    #   operation returns all profiles.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call. If you
+    #   don't specify a value, the service uses the default maximum.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::ListLimitsProfilesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListLimitsProfilesResponse#profiles #profiles} => Array&lt;Types::LimitsProfile&gt;
+    #   * {Types::ListLimitsProfilesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_limits_profiles({
+    #     account_id: "AwsAccountId", # required
+    #     resource_type: "INDEX_STORAGE", # accepts INDEX_STORAGE, AGENT_HOURS
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.profiles #=> Array
+    #   resp.profiles[0].profile_id #=> String
+    #   resp.profiles[0].arn #=> String
+    #   resp.profiles[0].account_id #=> String
+    #   resp.profiles[0].profile_name #=> String
+    #   resp.profiles[0].description #=> String
+    #   resp.profiles[0].resource_limits #=> Hash
+    #   resp.profiles[0].resource_limits["ResourceType"].max_value #=> Integer
+    #   resp.profiles[0].resource_limits["ResourceType"].unit #=> String, one of "MB", "GB", "HOURS", "DAYS"
+    #   resp.profiles[0].created_at #=> Time
+    #   resp.profiles[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListLimitsProfiles AWS API Documentation
+    #
+    # @overload list_limits_profiles(params = {})
+    # @param [Hash] params ({})
+    def list_limits_profiles(params = {}, options = {})
+      req = build_request(:list_limits_profiles, params)
       req.send_request(options)
     end
 
@@ -18637,6 +19333,12 @@ module Aws::QuickSight
     #           properties: ["Name"], # required, accepts Name, ParentFolderArn
     #         },
     #       ],
+    #       topics_v2: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name, Description
+    #         },
+    #       ],
     #     },
     #     include_permissions: false,
     #     include_tags: false,
@@ -19026,6 +19728,13 @@ module Aws::QuickSight
     #           parent_folder_arn: "Arn",
     #         },
     #       ],
+    #       topics_v2: [
+    #         {
+    #           topic_id: "ResourceId", # required
+    #           name: "ResourceName",
+    #           description: "TopicDescription",
+    #         },
+    #       ],
     #     },
     #     failure_action: "DO_NOTHING", # accepts DO_NOTHING, ROLLBACK
     #     override_permissions: {
@@ -19084,6 +19793,15 @@ module Aws::QuickSight
     #         {
     #           folder_ids: ["AssetBundleRestrictiveResourceId"], # required
     #           permissions: {
+    #             principals: ["Principal"], # required
+    #             actions: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #       topics_v2: [
+    #         {
+    #           topic_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           permissions: { # required
     #             principals: ["Principal"], # required
     #             actions: ["String"], # required
     #           },
@@ -19160,6 +19878,17 @@ module Aws::QuickSight
     #       folders: [
     #         {
     #           folder_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       topics_v2: [
+    #         {
+    #           topic_ids: ["AssetBundleRestrictiveResourceId"], # required
     #           tags: [ # required
     #             {
     #               key: "TagKey", # required
@@ -20363,6 +21092,76 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_application_with_token_exchange_grant(params = {}, options = {})
       req = build_request(:update_application_with_token_exchange_grant, params)
+      req.send_request(options)
+    end
+
+    # Updates an approval policy in Quick Sight.
+    #
+    # @option params [required, String] :policy_id
+    #   The unique identifier of the approval policy to update.
+    #
+    # @option params [String] :name
+    #   The name of the approval policy.
+    #
+    # @option params [String] :description
+    #   A description of the approval policy.
+    #
+    # @option params [Array<String>] :actions
+    #   The list of governed actions that trigger the approval workflow.
+    #
+    # @option params [Array<String>] :asset_types
+    #   The list of asset types that the approval policy applies to.
+    #
+    # @option params [Types::ApplicableTo] :applicable_to
+    #   The scoping configuration that determines who the approval policy
+    #   applies to.
+    #
+    # @option params [Array<String>] :approval_groups
+    #   The list of group ARNs whose members can approve requests.
+    #
+    # @return [Types::UpdateApprovalPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateApprovalPolicyResponse#policy #policy} => Types::ApprovalPolicy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_approval_policy({
+    #     policy_id: "PolicyId", # required
+    #     name: "PolicyName",
+    #     description: "PolicyDescription",
+    #     actions: ["SHARE"], # accepts SHARE
+    #     asset_types: ["AGENT"], # accepts AGENT, SPACE, KNOWLEDGE_BASE
+    #     applicable_to: {
+    #       type: "GROUP", # required, accepts GROUP
+    #       group_arns: ["Arn"],
+    #     },
+    #     approval_groups: ["Arn"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy.policy_id #=> String
+    #   resp.policy.policy_arn #=> String
+    #   resp.policy.name #=> String
+    #   resp.policy.description #=> String
+    #   resp.policy.actions #=> Array
+    #   resp.policy.actions[0] #=> String, one of "SHARE"
+    #   resp.policy.asset_types #=> Array
+    #   resp.policy.asset_types[0] #=> String, one of "AGENT", "SPACE", "KNOWLEDGE_BASE"
+    #   resp.policy.applicable_to.type #=> String, one of "GROUP"
+    #   resp.policy.applicable_to.group_arns #=> Array
+    #   resp.policy.applicable_to.group_arns[0] #=> String
+    #   resp.policy.approval_groups #=> Array
+    #   resp.policy.approval_groups[0] #=> String
+    #   resp.policy.created_at #=> Time
+    #   resp.policy.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateApprovalPolicy AWS API Documentation
+    #
+    # @overload update_approval_policy(params = {})
+    # @param [Hash] params ({})
+    def update_approval_policy(params = {}, options = {})
+      req = build_request(:update_approval_policy, params)
       req.send_request(options)
     end
 
@@ -22806,6 +23605,84 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates an existing DLP setting configuration in an Amazon Web
+    # Services account. Fields that are omitted from the request retain
+    # their current values.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   setting that you want to update.
+    #
+    # @option params [required, String] :dlp_setting_id
+    #   The ID of the DLP setting that you want to update.
+    #
+    # @option params [String] :name
+    #   An updated display name for the DLP setting.
+    #
+    # @option params [String] :provider_type
+    #   An updated DLP provider type. Currently, the only supported value is
+    #   `MICROSOFT_PURVIEW`.
+    #
+    # @option params [Types::ProviderConfig] :provider_config
+    #   An updated provider-specific configuration for the DLP integration.
+    #   This is a union type structure. For this structure to be valid, only
+    #   one of the attributes can be defined.
+    #
+    # @option params [String] :provider_outage_action
+    #   An updated behavior to apply when the DLP provider is unreachable.
+    #   Valid values are `ALLOW`, `WARN`, and `BLOCK`.
+    #
+    # @option params [Boolean] :enabled
+    #   Specifies whether DLP enforcement is active for this setting. Set to
+    #   `true` to enable enforcement, or `false` to disable it.
+    #
+    # @return [Types::UpdateDlpSettingResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDlpSettingResponse#arn #arn} => String
+    #   * {Types::UpdateDlpSettingResponse#dlp_setting_id #dlp_setting_id} => String
+    #   * {Types::UpdateDlpSettingResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_dlp_setting({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dlp_setting_id: "DlpSettingId", # required
+    #     name: "DlpSettingName",
+    #     provider_type: "MICROSOFT_PURVIEW", # accepts MICROSOFT_PURVIEW
+    #     provider_config: {
+    #       microsoft_purview: {
+    #         credentials: { # required
+    #           secret_arn: "SecretManagerArn", # required
+    #         },
+    #         label_action_mappings: [ # required
+    #           {
+    #             label_id: "LabelId", # required
+    #             label_name: "LabelName", # required
+    #             action: "ALLOW", # required, accepts ALLOW, WARN, BLOCK
+    #           },
+    #         ],
+    #         unmapped_action: "ALLOW", # required, accepts ALLOW, WARN, BLOCK
+    #       },
+    #     },
+    #     provider_outage_action: "ALLOW", # accepts ALLOW, WARN, BLOCK
+    #     enabled: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.dlp_setting_id #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateDlpSetting AWS API Documentation
+    #
+    # @overload update_dlp_setting(params = {})
+    # @param [Hash] params ({})
+    def update_dlp_setting(params = {}, options = {})
+      req = build_request(:update_dlp_setting, params)
+      req.send_request(options)
+    end
+
     # Updates an existing flow. Supply only the fields you want to change.
     # Updates both DRAFT and PUBLISHED versions. When `FlowDefinition` is
     # provided, all existing steps are replaced with the new definition.
@@ -23480,6 +24357,56 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_knowledge_base_permissions(params = {}, options = {})
       req = build_request(:update_knowledge_base_permissions, params)
+      req.send_request(options)
+    end
+
+    # Updates the properties of an existing limits profile.
+    #
+    # @option params [required, String] :profile_id
+    #   The unique identifier for the limits profile to update.
+    #
+    # @option params [required, String] :account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #
+    # @option params [String] :profile_name
+    #   A new display name for the limits profile.
+    #
+    # @option params [String] :description
+    #   A new description for the limits profile.
+    #
+    # @option params [Hash<String,Types::ProfileLimitValue>] :resource_limits
+    #   A map of resource types to their updated limit values.
+    #
+    # @return [Types::UpdateLimitsProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateLimitsProfileResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_limits_profile({
+    #     profile_id: "ProfileId", # required
+    #     account_id: "AwsAccountId", # required
+    #     profile_name: "ProfileName",
+    #     description: "ProfileDescription",
+    #     resource_limits: {
+    #       "INDEX_STORAGE" => {
+    #         max_value: 1, # required
+    #         unit: "MB", # required, accepts MB, GB, HOURS, DAYS
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateLimitsProfile AWS API Documentation
+    #
+    # @overload update_limits_profile(params = {})
+    # @param [Hash] params ({})
+    def update_limits_profile(params = {}, options = {})
+      req = build_request(:update_limits_profile, params)
       req.send_request(options)
     end
 
@@ -25518,7 +26445,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.194.0'
+      context[:gem_version] = '1.195.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1479,6 +1479,34 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The scoping configuration that determines which principals an approval
+    # policy applies to.
+    #
+    # @!attribute [rw] type
+    #   The type of scoping that determines which principals the approval
+    #   policy applies to. Valid values are defined as follows:
+    #
+    #   * `GROUP`: The policy applies only to principals in the groups
+    #     specified by `GroupArns`. When you use `GROUP`, you must also
+    #     provide a value for `GroupArns`.
+    #
+    #   ^
+    #   @return [String]
+    #
+    # @!attribute [rw] group_arns
+    #   The list of group ARNs that the policy applies to. Required when
+    #   type is GROUP.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ApplicableTo AWS API Documentation
+    #
+    class ApplicableTo < Struct.new(
+      :type,
+      :group_arns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The application theme.
     #
     # @!attribute [rw] brand_color_palette
@@ -1499,6 +1527,68 @@ module Aws::QuickSight
       :brand_color_palette,
       :contextual_accent_palette,
       :brand_element_style)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A governance approval policy that specifies which principals and
+    # governed actions require approval, and which assets the policy applies
+    # to.
+    #
+    # @!attribute [rw] policy_id
+    #   The unique identifier of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_arn
+    #   The Amazon Resource Name (ARN) of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] actions
+    #   The list of governed actions that trigger the approval workflow.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] asset_types
+    #   The list of asset types that the approval policy applies to.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] applicable_to
+    #   The scoping configuration that determines who the approval policy
+    #   applies to.
+    #   @return [Types::ApplicableTo]
+    #
+    # @!attribute [rw] approval_groups
+    #   The list of group ARNs whose members can approve requests.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the approval policy was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the approval policy was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ApprovalPolicy AWS API Documentation
+    #
+    class ApprovalPolicy < Struct.new(
+      :policy_id,
+      :policy_arn,
+      :name,
+      :description,
+      :actions,
+      :asset_types,
+      :applicable_to,
+      :approval_groups,
+      :created_at,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1623,6 +1713,11 @@ module Aws::QuickSight
     #   are parameterized in the returned CloudFormation template.
     #   @return [Array<Types::AssetBundleExportJobFolderOverrideProperties>]
     #
+    # @!attribute [rw] topics_v2
+    #   An optional list of structures that controls how `Topic` resources
+    #   are parameterized in the returned CloudFormation template.
+    #   @return [Array<Types::AssetBundleExportJobTopicV2OverrideProperties>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleCloudFormationOverridePropertyConfiguration AWS API Documentation
     #
     class AssetBundleCloudFormationOverridePropertyConfiguration < Struct.new(
@@ -1634,7 +1729,8 @@ module Aws::QuickSight
       :themes,
       :analyses,
       :dashboards,
-      :folders)
+      :folders,
+      :topics_v2)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1881,6 +1977,28 @@ module Aws::QuickSight
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleExportJobThemeOverrideProperties AWS API Documentation
     #
     class AssetBundleExportJobThemeOverrideProperties < Struct.new(
+      :arn,
+      :properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Controls how a specific `Topic` resource is parameterized in the
+    # returned CloudFormation template.
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the specific `Topic` resource whose override properties
+    #   are configured in this structure.
+    #   @return [String]
+    #
+    # @!attribute [rw] properties
+    #   A list of `Topic` resource properties to generate variables for in
+    #   the returned CloudFormation template.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleExportJobTopicV2OverrideProperties AWS API Documentation
+    #
+    class AssetBundleExportJobTopicV2OverrideProperties < Struct.new(
       :arn,
       :properties)
       SENSITIVE = []
@@ -2415,6 +2533,11 @@ module Aws::QuickSight
     #   the asset bundle that is imported.
     #   @return [Array<Types::AssetBundleImportJobFolderOverrideParameters>]
     #
+    # @!attribute [rw] topics_v2
+    #   A list of overrides for any `Topic` resources that are present in
+    #   the asset bundle that is imported.
+    #   @return [Array<Types::AssetBundleImportJobTopicV2OverrideParameters>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleImportJobOverrideParameters AWS API Documentation
     #
     class AssetBundleImportJobOverrideParameters < Struct.new(
@@ -2426,7 +2549,8 @@ module Aws::QuickSight
       :themes,
       :analyses,
       :dashboards,
-      :folders)
+      :folders,
+      :topics_v2)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2465,6 +2589,11 @@ module Aws::QuickSight
     #   overrides to.
     #   @return [Array<Types::AssetBundleImportJobFolderOverridePermissions>]
     #
+    # @!attribute [rw] topics_v2
+    #   A list of permissions for the topics that you want to apply
+    #   overrides to.
+    #   @return [Array<Types::AssetBundleImportJobTopicV2OverridePermissions>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleImportJobOverridePermissions AWS API Documentation
     #
     class AssetBundleImportJobOverridePermissions < Struct.new(
@@ -2473,7 +2602,8 @@ module Aws::QuickSight
       :themes,
       :analyses,
       :dashboards,
-      :folders)
+      :folders,
+      :topics_v2)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2517,6 +2647,11 @@ module Aws::QuickSight
     #   in the asset bundle that is imported.
     #   @return [Array<Types::AssetBundleImportJobFolderOverrideTags>]
     #
+    # @!attribute [rw] topics_v2
+    #   A list of tag overrides for any `Topic` resources that are present
+    #   in the asset bundle that is imported.
+    #   @return [Array<Types::AssetBundleImportJobTopicV2OverrideTags>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleImportJobOverrideTags AWS API Documentation
     #
     class AssetBundleImportJobOverrideTags < Struct.new(
@@ -2526,7 +2661,8 @@ module Aws::QuickSight
       :themes,
       :analyses,
       :dashboards,
-      :folders)
+      :folders,
+      :topics_v2)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2688,6 +2824,73 @@ module Aws::QuickSight
     #
     class AssetBundleImportJobThemeOverrideTags < Struct.new(
       :theme_ids,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The override parameters for a single topic that is being imported.
+    #
+    # @!attribute [rw] topic_id
+    #   The ID of the topic that you want to apply overrides to.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A new name for the topic.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A new description for the topic.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleImportJobTopicV2OverrideParameters AWS API Documentation
+    #
+    class AssetBundleImportJobTopicV2OverrideParameters < Struct.new(
+      :topic_id,
+      :name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that contains a list of permissions to be applied to a list
+    # of topic IDs.
+    #
+    # @!attribute [rw] topic_ids
+    #   A list of topic IDs that you want to apply overrides to. You can use
+    #   `*` to override all topics in this asset bundle.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] permissions
+    #   A list of permissions for the topics that you want to apply
+    #   overrides to.
+    #   @return [Types::AssetBundleResourcePermissions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleImportJobTopicV2OverridePermissions AWS API Documentation
+    #
+    class AssetBundleImportJobTopicV2OverridePermissions < Struct.new(
+      :topic_ids,
+      :permissions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that contains a list of tags to be assigned to a list of
+    # topic IDs.
+    #
+    # @!attribute [rw] topic_ids
+    #   A list of topic IDs that you want to apply overrides to. You can use
+    #   `*` to override all topics in this asset bundle.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] tags
+    #   A list of tags for the topics that you want to apply overrides to.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/AssetBundleImportJobTopicV2OverrideTags AWS API Documentation
+    #
+    class AssetBundleImportJobTopicV2OverrideTags < Struct.new(
+      :topic_ids,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -4045,6 +4248,84 @@ module Aws::QuickSight
       :invalid_answers,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a user whose limits could not be described in a
+    # batch operation.
+    #
+    # @!attribute [rw] user_name
+    #   The name of the user that failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the user that failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_arn
+    #   The ARN of the user that failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_code
+    #   The error code for the failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message for the failure.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDescribeUserLimitsError AWS API Documentation
+    #
+    class BatchDescribeUserLimitsError < Struct.new(
+      :user_name,
+      :namespace,
+      :user_arn,
+      :error_code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that contains the users.
+    #   @return [String]
+    #
+    # @!attribute [rw] users
+    #   A list of users to describe limits for. Each entry contains a user
+    #   name and namespace.
+    #   @return [Array<Types::UserLimitsEntry>]
+    #
+    # @!attribute [rw] resource_types
+    #   An optional filter that limits the results to specific resource
+    #   types. If you don't specify a value, the operation returns limits
+    #   for all resource types.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDescribeUserLimitsRequest AWS API Documentation
+    #
+    class BatchDescribeUserLimitsRequest < Struct.new(
+      :account_id,
+      :users,
+      :resource_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] user_limits
+    #   A list of user limits results. Each entry contains the effective
+    #   limits for a user.
+    #   @return [Array<Types::UserLimits>]
+    #
+    # @!attribute [rw] errors
+    #   A list of errors for users whose limits could not be described.
+    #   @return [Array<Types::BatchDescribeUserLimitsError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDescribeUserLimitsResponse AWS API Documentation
+    #
+    class BatchDescribeUserLimitsResponse < Struct.new(
+      :user_limits,
+      :errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9145,6 +9426,62 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] policy_id
+    #   The unique identifier to assign to the approval policy. You cannot
+    #   change this value after you create the policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] actions
+    #   The list of governed actions that trigger the approval workflow.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] asset_types
+    #   The list of asset types that the approval policy applies to.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] applicable_to
+    #   The scoping configuration that determines who the approval policy
+    #   applies to.
+    #   @return [Types::ApplicableTo]
+    #
+    # @!attribute [rw] approval_groups
+    #   The list of group ARNs whose members can approve requests.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateApprovalPolicyRequest AWS API Documentation
+    #
+    class CreateApprovalPolicyRequest < Struct.new(
+      :policy_id,
+      :name,
+      :description,
+      :actions,
+      :asset_types,
+      :applicable_to,
+      :approval_groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] policy
+    #   The approval policy that was created.
+    #   @return [Types::ApprovalPolicy]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateApprovalPolicyResponse AWS API Documentation
+    #
+    class CreateApprovalPolicyResponse < Struct.new(
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that owns the brand.
     #   @return [String]
@@ -9745,6 +10082,84 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account in which to create the DLP
+    #   setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   A unique identifier for the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A human-readable display name for the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_type
+    #   The type of external DLP provider to use for sensitivity label
+    #   classification. Currently, the only supported value is
+    #   `MICROSOFT_PURVIEW`.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_config
+    #   The provider-specific configuration for the DLP integration. This is
+    #   a union type structure. For this structure to be valid, only one of
+    #   the attributes can be defined.
+    #   @return [Types::ProviderConfig]
+    #
+    # @!attribute [rw] provider_outage_action
+    #   The behavior to apply when the DLP provider is unreachable. Valid
+    #   values are `ALLOW`, `WARN`, and `BLOCK`.
+    #   @return [String]
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether DLP enforcement is active for this setting. Set to
+    #   `true` to enable enforcement, or `false` to disable it at time of
+    #   setting creation.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] tags
+    #   A list of resource tags to apply to the DLP setting. You can use
+    #   tags to manage access to your Amazon Web Services resources.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateDlpSettingRequest AWS API Documentation
+    #
+    class CreateDlpSettingRequest < Struct.new(
+      :aws_account_id,
+      :dlp_setting_id,
+      :name,
+      :provider_type,
+      :provider_config,
+      :provider_outage_action,
+      :enabled,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the created DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the created DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateDlpSettingResponse AWS API Documentation
+    #
+    class CreateDlpSettingResponse < Struct.new(
+      :arn,
+      :dlp_setting_id,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account where you want to create
     #   the flow.
     #   @return [String]
@@ -10325,6 +10740,59 @@ module Aws::QuickSight
       :creation_status,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_name
+    #   A display name for the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description for the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_limits
+    #   A map of resource types to their limit values for this profile.
+    #   @return [Hash<String,Types::ProfileLimitValue>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateLimitsProfileRequest AWS API Documentation
+    #
+    class CreateLimitsProfileRequest < Struct.new(
+      :account_id,
+      :profile_name,
+      :description,
+      :resource_limits,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the created limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The unique identifier for the created limits profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateLimitsProfileResponse AWS API Documentation
+    #
+    class CreateLimitsProfileResponse < Struct.new(
+      :arn,
+      :profile_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15830,6 +16298,22 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] policy_id
+    #   The unique identifier of the approval policy to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteApprovalPolicyRequest AWS API Documentation
+    #
+    class DeleteApprovalPolicyRequest < Struct.new(
+      :policy_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteApprovalPolicyResponse AWS API Documentation
+    #
+    class DeleteApprovalPolicyResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that owns the brand
     #   assignment.
@@ -16137,6 +16621,46 @@ module Aws::QuickSight
     class DeleteDefaultQBusinessApplicationResponse < Struct.new(
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   setting that you want to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the DLP setting that you want to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteDlpSettingRequest AWS API Documentation
+    #
+    class DeleteDlpSettingRequest < Struct.new(
+      :aws_account_id,
+      :dlp_setting_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the deleted DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the deleted DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteDlpSettingResponse AWS API Documentation
+    #
+    class DeleteDlpSettingResponse < Struct.new(
+      :arn,
+      :dlp_setting_id,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -16474,6 +16998,36 @@ module Aws::QuickSight
       :knowledge_base_id,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] profile_id
+    #   The unique identifier for the limits profile to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteLimitsProfileRequest AWS API Documentation
+    #
+    class DeleteLimitsProfileRequest < Struct.new(
+      :profile_id,
+      :account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the deleted limits profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteLimitsProfileResponse AWS API Documentation
+    #
+    class DeleteLimitsProfileResponse < Struct.new(
+      :arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17832,6 +18386,30 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] policy_id
+    #   The unique identifier of the approval policy to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeApprovalPolicyRequest AWS API Documentation
+    #
+    class DescribeApprovalPolicyRequest < Struct.new(
+      :policy_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] policy
+    #   The approval policy.
+    #   @return [Types::ApprovalPolicy]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeApprovalPolicyResponse AWS API Documentation
+    #
+    class DescribeApprovalPolicyResponse < Struct.new(
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account the export job is executed
     #   in.
@@ -19089,6 +19667,42 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   setting that you want to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the DLP setting that you want to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDlpSettingRequest AWS API Documentation
+    #
+    class DescribeDlpSettingRequest < Struct.new(
+      :aws_account_id,
+      :dlp_setting_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dlp_setting
+    #   The full configuration of the requested DLP setting, returned as a
+    #   `DlpSettingDetails` object.
+    #   @return [Types::DlpSettingDetails]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDlpSettingResponse AWS API Documentation
+    #
+    class DescribeDlpSettingResponse < Struct.new(
+      :dlp_setting,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that contains the flow
     #   that you are describing.
     #   @return [String]
@@ -19694,6 +20308,37 @@ module Aws::QuickSight
       :knowledge_base,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] profile_id
+    #   The unique identifier for the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeLimitsProfileRequest AWS API Documentation
+    #
+    class DescribeLimitsProfileRequest < Struct.new(
+      :profile_id,
+      :account_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] profile
+    #   The details of the requested limits profile, including its name,
+    #   description, resource limits, and metadata.
+    #   @return [Types::LimitsProfile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeLimitsProfileResponse AWS API Documentation
+    #
+    class DescribeLimitsProfileResponse < Struct.new(
+      :profile)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21077,6 +21722,113 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # The full configuration details of a DLP setting.
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name of the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the DLP setting. Valid values are `ACTIVE` and
+    #   `INACTIVE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_type
+    #   The type of external DLP provider used for sensitivity label
+    #   classification.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_config
+    #   The provider-specific configuration for the DLP integration.
+    #   @return [Types::ProviderConfig]
+    #
+    # @!attribute [rw] provider_outage_action
+    #   The behavior applied when the DLP provider is unreachable. Valid
+    #   values are `ALLOW`, `WARN`, and `BLOCK`.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the DLP setting was created, in ISO 8601
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the DLP setting was most recently updated, in
+    #   ISO 8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DlpSettingDetails AWS API Documentation
+    #
+    class DlpSettingDetails < Struct.new(
+      :dlp_setting_id,
+      :name,
+      :arn,
+      :status,
+      :provider_type,
+      :provider_config,
+      :provider_outage_action,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of a DLP setting returned by list operations.
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The display name of the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the DLP setting. Valid values are `ACTIVE` and
+    #   `INACTIVE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_type
+    #   The type of external DLP provider used for sensitivity label
+    #   classification.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the DLP setting was created, in ISO 8601
+    #   format.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the DLP setting was most recently updated, in
+    #   ISO 8601 format.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DlpSettingSummary AWS API Documentation
+    #
+    class DlpSettingSummary < Struct.new(
+      :dlp_setting_id,
+      :name,
+      :arn,
+      :status,
+      :provider_type,
+      :created_at,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The domain specified isn't on the allow list. All domains for
     # embedded dashboards must be added to the approved list by an Amazon
     # Quick Suite admin.
@@ -21216,6 +21968,56 @@ module Aws::QuickSight
       :user_name_column,
       :group_name_column,
       :default_value_column)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The effective limit for a resource type that applies to a user,
+    # considering all applicable profile assignments and inheritance rules.
+    #
+    # @!attribute [rw] resource_type
+    #   The type of resource that the limit applies to.
+    #   @return [String]
+    #
+    # @!attribute [rw] limit_value
+    #   The maximum allowed value for the resource.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] limit_unit
+    #   The unit of measurement for the limit.
+    #   @return [String]
+    #
+    # @!attribute [rw] source
+    #   The source from which this limit was inherited. Possible values:
+    #
+    #   * `DIRECT_USER` – The limit comes from a profile directly assigned
+    #     to the user.
+    #
+    #   * `GROUP` – The limit comes from a profile assigned to a group the
+    #     user belongs to.
+    #
+    #   * `ROLE` – The limit comes from a profile assigned to a role the
+    #     user has.
+    #
+    #   * `ACCOUNT` – The limit comes from the account-level default
+    #     profile.
+    #
+    #   * `SYSTEM_DEFAULT` – The limit comes from the built-in system
+    #     default.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The identifier of the limits profile that defines this limit.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/EffectiveLimit AWS API Documentation
+    #
+    class EffectiveLimit < Struct.new(
+      :resource_type,
+      :limit_value,
+      :limit_unit,
+      :source,
+      :profile_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -27943,10 +28745,50 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
-    # The template configuration for a knowledge base.
+    # The template configuration for a knowledge base. This object contains
+    # connector-specific configuration that defines how data is crawled and
+    # indexed.
     #
     # @!attribute [rw] template
-    #   The template document that defines the knowledge base behavior.
+    #   The connector configuration for the knowledge base data source. The
+    #   structure depends on the connector type of the data source
+    #   referenced by `DataSourceArn`.
+    #
+    #   The template must be a JSON object. The required fields vary by
+    #   connector type:
+    #
+    #   * **Amazon S3** (`S3V2`) – Requires `connectionConfiguration` with
+    #     `bucketName`. Supports `filterConfiguration` for inclusion and
+    #     exclusion prefixes and patterns. Supports
+    #     `accessControlConfiguration` and
+    #     `deletionProtectionConfiguration`.
+    #
+    #   * **Google Drive** (`GOOGLEDRIVEV3`) – Requires
+    #     `connectionConfiguration` with `authType` set to
+    #     `SERVICE_ACCOUNT`. Supports `dataEntityConfiguration` with
+    #     `crawlMyDrive`, `crawlSharedWithMe`, and `crawlSharedDrives`.
+    #
+    #   * **OneDrive** (`ONEDRIVEV3`) – Requires `authType` at the template
+    #     root level set to `TWO_LEGGED_OAUTH`. Requires
+    #     `connectionConfiguration` with `tenantId` in UUID format. Supports
+    #     `dataEntityConfiguration` with `crawlPersonalDrives` and
+    #     `crawlSharedWithMe`.
+    #
+    #   * **SharePoint** (`SHAREPOINTV3`) – Requires
+    #     `connectionConfiguration` with `tenantId` in UUID format. Supports
+    #     `dataEntityConfiguration` with `siteUrls`, `crawlFiles`, and
+    #     `crawlPages`.
+    #
+    #   * **Web Crawler** (`WEBCRAWLERV3`) – Requires
+    #     `connectionConfiguration` with `seedUrls` or `siteMapUrls`
+    #     (mutually exclusive) and `authType`. Supports `crawlConfiguration`
+    #     for crawl depth, rate limits, and scope. Supports
+    #     `filterConfiguration` for file size limits and URL patterns. Valid
+    #     values for `authType`: `NO_AUTH`, `BASIC_AUTH`, `FORM`, `SAML`.
+    #
+    #   The optional `deletionProtectionConfiguration` object is supported
+    #   by all connector types. It contains `enableDeletionProtection` and
+    #   `deletionProtectionThreshold`.
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KbTemplateConfiguration AWS API Documentation
@@ -28096,7 +28938,10 @@ module Aws::QuickSight
     # The configuration settings for a knowledge base.
     #
     # @!attribute [rw] template_configuration
-    #   The template configuration for the knowledge base.
+    #   The template configuration that defines how the data source
+    #   connector crawls and indexes data for the knowledge base. The
+    #   template structure varies by connector type. See
+    #   `KbTemplateConfiguration` for connector-specific details.
     #   @return [Types::KbTemplateConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/KnowledgeBaseConfiguration AWS API Documentation
@@ -28246,6 +29091,32 @@ module Aws::QuickSight
       :primary_owner_arn,
       :primary_owner_username)
       SENSITIVE = [:primary_owner_username]
+      include Aws::Structure
+    end
+
+    # Maps a sensitivity label from Microsoft Purview to an enforcement
+    # action.
+    #
+    # @!attribute [rw] label_id
+    #   The identifier of the sensitivity label from the DLP provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] label_name
+    #   The display name of the sensitivity label from the DLP provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] action
+    #   The enforcement action to apply when content with this sensitivity
+    #   label is detected. Valid values are `ALLOW`, `BLOCK`, and `WARN`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/LabelActionMapping AWS API Documentation
+    #
+    class LabelActionMapping < Struct.new(
+      :label_id,
+      :label_name,
+      :action)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -28529,6 +29400,58 @@ module Aws::QuickSight
       :message,
       :resource_type,
       :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A limits profile that defines resource usage limits for Amazon Quick
+    # Sight users. Limits profiles can be assigned to users, groups, or
+    # roles to control resource consumption.
+    #
+    # @!attribute [rw] profile_id
+    #   The unique identifier for the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_name
+    #   The display name of the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_limits
+    #   A map of resource types to their limit values.
+    #   @return [Hash<String,Types::ProfileLimitValue>]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time that the limits profile was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_at
+    #   The date and time that the limits profile was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/LimitsProfile AWS API Documentation
+    #
+    class LimitsProfile < Struct.new(
+      :profile_id,
+      :arn,
+      :account_id,
+      :profile_name,
+      :description,
+      :resource_limits,
+      :created_at,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -29108,6 +30031,45 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If you
+    #   don't specify a value, the service returns a default number of
+    #   results. Use the `NextToken` value in the response to retrieve
+    #   additional results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListApprovalPoliciesRequest AWS API Documentation
+    #
+    class ListApprovalPoliciesRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] policies
+    #   The list of approval policies.
+    #   @return [Array<Types::ApprovalPolicy>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListApprovalPoliciesResponse AWS API Documentation
+    #
+    class ListApprovalPoliciesResponse < Struct.new(
+      :policies,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that the export jobs were
     #   executed in.
@@ -29576,6 +30538,54 @@ module Aws::QuickSight
       :next_token,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   settings that you want to list.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per request.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListDlpSettingsRequest AWS API Documentation
+    #
+    class ListDlpSettingsRequest < Struct.new(
+      :aws_account_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] dlp_setting_summaries
+    #   A list of `DlpSettingSummary` objects for the DLP settings in the
+    #   account. The list is empty if no DLP settings have been configured.
+    #   @return [Array<Types::DlpSettingSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListDlpSettingsResponse AWS API Documentation
+    #
+    class ListDlpSettingsResponse < Struct.new(
+      :dlp_setting_summaries,
+      :next_token,
+      :request_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -30201,6 +31211,56 @@ module Aws::QuickSight
       :next_token,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profiles.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_type
+    #   An optional filter that limits the results to profiles that contain
+    #   the specified resource type. If you don't specify a value, the
+    #   operation returns all profiles.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in a single call. If you
+    #   don't specify a value, the service uses the default maximum.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListLimitsProfilesRequest AWS API Documentation
+    #
+    class ListLimitsProfilesRequest < Struct.new(
+      :account_id,
+      :resource_type,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] profiles
+    #   A list of limits profiles.
+    #   @return [Array<Types::LimitsProfile>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListLimitsProfilesResponse AWS API Documentation
+    #
+    class ListLimitsProfilesResponse < Struct.new(
+      :profiles,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -31852,6 +32912,54 @@ module Aws::QuickSight
       :time,
       :from_value,
       :target_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The credentials for Microsoft Purview DLP integration. The credentials
+    # are stored in Amazon Web Services Secrets Manager and referenced by
+    # ARN.
+    #
+    # @!attribute [rw] secret_arn
+    #   The ARN of the Amazon Web Services Secrets Manager secret that
+    #   contains the Microsoft Purview OAuth credentials. The secret
+    #   includes the Azure tenant ID, client ID, and client secret or
+    #   certificate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/MicrosoftPurviewCredentials AWS API Documentation
+    #
+    class MicrosoftPurviewCredentials < Struct.new(
+      :secret_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The full configuration for Microsoft Purview DLP integration,
+    # including the provider credentials and the label-action mappings that
+    # define the enforcement policy.
+    #
+    # @!attribute [rw] credentials
+    #   The credentials used to authenticate with Microsoft Purview.
+    #   @return [Types::MicrosoftPurviewCredentials]
+    #
+    # @!attribute [rw] label_action_mappings
+    #   The mappings from Microsoft Purview sensitivity labels to
+    #   enforcement actions.
+    #   @return [Array<Types::LabelActionMapping>]
+    #
+    # @!attribute [rw] unmapped_action
+    #   The default action to apply to content that has no sensitivity label
+    #   or whose label is not mapped. Valid values are `ALLOW`, `BLOCK`, and
+    #   `WARN`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/MicrosoftPurviewProviderConfig AWS API Documentation
+    #
+    class MicrosoftPurviewProviderConfig < Struct.new(
+      :credentials,
+      :label_action_mappings,
+      :unmapped_action)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -35090,6 +36198,26 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # A value that defines a resource usage limit, consisting of a maximum
+    # value and a unit of measurement.
+    #
+    # @!attribute [rw] max_value
+    #   The maximum allowed value for the resource.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unit
+    #   The unit of measurement for the limit value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ProfileLimitValue AWS API Documentation
+    #
+    class ProfileLimitValue < Struct.new(
+      :max_value,
+      :unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The options that determine the presentation of the progress bar of a
     # KPI visual.
     #
@@ -35129,6 +36257,31 @@ module Aws::QuickSight
       :projected_columns)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The provider-specific configuration for a DLP integration. This is a
+    # union type structure. For this structure to be valid, only one of the
+    # attributes can be defined.
+    #
+    # @note ProviderConfig is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ProviderConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ProviderConfig corresponding to the set member.
+    #
+    # @!attribute [rw] microsoft_purview
+    #   The configuration for a Microsoft Purview DLP integration.
+    #   @return [Types::MicrosoftPurviewProviderConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ProviderConfig AWS API Documentation
+    #
+    class ProviderConfig < Struct.new(
+      :microsoft_purview,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class MicrosoftPurview < ProviderConfig; end
+      class Unknown < ProviderConfig; end
     end
 
     # @!attribute [rw] aws_account_id
@@ -47004,6 +48157,61 @@ module Aws::QuickSight
       include Aws::Structure
     end
 
+    # @!attribute [rw] policy_id
+    #   The unique identifier of the approval policy to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the approval policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] actions
+    #   The list of governed actions that trigger the approval workflow.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] asset_types
+    #   The list of asset types that the approval policy applies to.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] applicable_to
+    #   The scoping configuration that determines who the approval policy
+    #   applies to.
+    #   @return [Types::ApplicableTo]
+    #
+    # @!attribute [rw] approval_groups
+    #   The list of group ARNs whose members can approve requests.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateApprovalPolicyRequest AWS API Documentation
+    #
+    class UpdateApprovalPolicyRequest < Struct.new(
+      :policy_id,
+      :name,
+      :description,
+      :actions,
+      :asset_types,
+      :applicable_to,
+      :approval_groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] policy
+    #   The updated approval policy.
+    #   @return [Types::ApprovalPolicy]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateApprovalPolicyResponse AWS API Documentation
+    #
+    class UpdateApprovalPolicyResponse < Struct.new(
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that owns the brand
     #   assignment.
@@ -47933,6 +49141,76 @@ module Aws::QuickSight
     end
 
     # @!attribute [rw] aws_account_id
+    #   The ID of the Amazon Web Services account that contains the DLP
+    #   setting that you want to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the DLP setting that you want to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   An updated display name for the DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_type
+    #   An updated DLP provider type. Currently, the only supported value is
+    #   `MICROSOFT_PURVIEW`.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider_config
+    #   An updated provider-specific configuration for the DLP integration.
+    #   This is a union type structure. For this structure to be valid, only
+    #   one of the attributes can be defined.
+    #   @return [Types::ProviderConfig]
+    #
+    # @!attribute [rw] provider_outage_action
+    #   An updated behavior to apply when the DLP provider is unreachable.
+    #   Valid values are `ALLOW`, `WARN`, and `BLOCK`.
+    #   @return [String]
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether DLP enforcement is active for this setting. Set to
+    #   `true` to enable enforcement, or `false` to disable it.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateDlpSettingRequest AWS API Documentation
+    #
+    class UpdateDlpSettingRequest < Struct.new(
+      :aws_account_id,
+      :dlp_setting_id,
+      :name,
+      :provider_type,
+      :provider_config,
+      :provider_outage_action,
+      :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the updated DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] dlp_setting_id
+    #   The ID of the updated DLP setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_id
+    #   The Amazon Web Services request ID for this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateDlpSettingResponse AWS API Documentation
+    #
+    class UpdateDlpSettingResponse < Struct.new(
+      :arn,
+      :dlp_setting_id,
+      :request_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] aws_account_id
     #   The ID of the Amazon Web Services account that contains the flow you
     #   are updating permissions against.
     #   @return [String]
@@ -48622,6 +49900,51 @@ module Aws::QuickSight
       :knowledge_base_id,
       :request_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] profile_id
+    #   The unique identifier for the limits profile to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that contains the limits
+    #   profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_name
+    #   A new display name for the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A new description for the limits profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_limits
+    #   A map of resource types to their updated limit values.
+    #   @return [Hash<String,Types::ProfileLimitValue>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateLimitsProfileRequest AWS API Documentation
+    #
+    class UpdateLimitsProfileRequest < Struct.new(
+      :profile_id,
+      :account_id,
+      :profile_name,
+      :description,
+      :resource_limits)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the updated limits profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateLimitsProfileResponse AWS API Documentation
+    #
+    class UpdateLimitsProfileResponse < Struct.new(
+      :arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -50511,6 +51834,49 @@ module Aws::QuickSight
       class UserNameOrEmail < UserIndexCapacityFilter; end
       class TotalCapacityBytes < UserIndexCapacityFilter; end
       class Unknown < UserIndexCapacityFilter; end
+    end
+
+    # The effective limits for an Amazon Quick Sight user.
+    #
+    # @!attribute [rw] user_name
+    #   The name of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] effective_limits
+    #   A list of effective limits for the user.
+    #   @return [Array<Types::EffectiveLimit>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UserLimits AWS API Documentation
+    #
+    class UserLimits < Struct.new(
+      :user_name,
+      :namespace,
+      :effective_limits)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Identifies a user for the `BatchDescribeUserLimits` operation.
+    #
+    # @!attribute [rw] user_name
+    #   The name of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the user.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UserLimitsEntry AWS API Documentation
+    #
+    class UserLimitsEntry < Struct.new(
+      :user_name,
+      :namespace)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # A filter that matches users by username or email prefix.

@@ -357,10 +357,30 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ApplicableTo
+      attr_accessor type: ("GROUP")
+      attr_accessor group_arns: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class ApplicationTheme
       attr_accessor brand_color_palette: Types::BrandColorPalette
       attr_accessor contextual_accent_palette: Types::ContextualAccentPalette
       attr_accessor brand_element_style: Types::BrandElementStyle
+      SENSITIVE: []
+    end
+
+    class ApprovalPolicy
+      attr_accessor policy_id: ::String
+      attr_accessor policy_arn: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor actions: ::Array[("SHARE")]
+      attr_accessor asset_types: ::Array[("AGENT" | "SPACE" | "KNOWLEDGE_BASE")]
+      attr_accessor applicable_to: Types::ApplicableTo
+      attr_accessor approval_groups: ::Array[::String]
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
 
@@ -397,6 +417,7 @@ module Aws::QuickSight
       attr_accessor analyses: ::Array[Types::AssetBundleExportJobAnalysisOverrideProperties]
       attr_accessor dashboards: ::Array[Types::AssetBundleExportJobDashboardOverrideProperties]
       attr_accessor folders: ::Array[Types::AssetBundleExportJobFolderOverrideProperties]
+      attr_accessor topics_v2: ::Array[Types::AssetBundleExportJobTopicV2OverrideProperties]
       SENSITIVE: []
     end
 
@@ -463,6 +484,12 @@ module Aws::QuickSight
     class AssetBundleExportJobThemeOverrideProperties
       attr_accessor arn: ::String
       attr_accessor properties: ::Array[("Name")]
+      SENSITIVE: []
+    end
+
+    class AssetBundleExportJobTopicV2OverrideProperties
+      attr_accessor arn: ::String
+      attr_accessor properties: ::Array[("Name" | "Description")]
       SENSITIVE: []
     end
 
@@ -609,6 +636,7 @@ module Aws::QuickSight
       attr_accessor analyses: ::Array[Types::AssetBundleImportJobAnalysisOverrideParameters]
       attr_accessor dashboards: ::Array[Types::AssetBundleImportJobDashboardOverrideParameters]
       attr_accessor folders: ::Array[Types::AssetBundleImportJobFolderOverrideParameters]
+      attr_accessor topics_v2: ::Array[Types::AssetBundleImportJobTopicV2OverrideParameters]
       SENSITIVE: []
     end
 
@@ -619,6 +647,7 @@ module Aws::QuickSight
       attr_accessor analyses: ::Array[Types::AssetBundleImportJobAnalysisOverridePermissions]
       attr_accessor dashboards: ::Array[Types::AssetBundleImportJobDashboardOverridePermissions]
       attr_accessor folders: ::Array[Types::AssetBundleImportJobFolderOverridePermissions]
+      attr_accessor topics_v2: ::Array[Types::AssetBundleImportJobTopicV2OverridePermissions]
       SENSITIVE: []
     end
 
@@ -630,6 +659,7 @@ module Aws::QuickSight
       attr_accessor analyses: ::Array[Types::AssetBundleImportJobAnalysisOverrideTags]
       attr_accessor dashboards: ::Array[Types::AssetBundleImportJobDashboardOverrideTags]
       attr_accessor folders: ::Array[Types::AssetBundleImportJobFolderOverrideTags]
+      attr_accessor topics_v2: ::Array[Types::AssetBundleImportJobTopicV2OverrideTags]
       SENSITIVE: []
     end
 
@@ -673,6 +703,25 @@ module Aws::QuickSight
 
     class AssetBundleImportJobThemeOverrideTags
       attr_accessor theme_ids: ::Array[::String]
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class AssetBundleImportJobTopicV2OverrideParameters
+      attr_accessor topic_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      SENSITIVE: []
+    end
+
+    class AssetBundleImportJobTopicV2OverridePermissions
+      attr_accessor topic_ids: ::Array[::String]
+      attr_accessor permissions: Types::AssetBundleResourcePermissions
+      SENSITIVE: []
+    end
+
+    class AssetBundleImportJobTopicV2OverrideTags
+      attr_accessor topic_ids: ::Array[::String]
       attr_accessor tags: ::Array[Types::Tag]
       SENSITIVE: []
     end
@@ -1042,6 +1091,28 @@ module Aws::QuickSight
       attr_accessor invalid_answers: ::Array[Types::InvalidTopicReviewedAnswer]
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class BatchDescribeUserLimitsError
+      attr_accessor user_name: ::String
+      attr_accessor namespace: ::String
+      attr_accessor user_arn: ::String
+      attr_accessor error_code: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
+    class BatchDescribeUserLimitsRequest
+      attr_accessor account_id: ::String
+      attr_accessor users: ::Array[Types::UserLimitsEntry]
+      attr_accessor resource_types: ::Array[("INDEX_STORAGE" | "AGENT_HOURS")]
+      SENSITIVE: []
+    end
+
+    class BatchDescribeUserLimitsResponse
+      attr_accessor user_limits: ::Array[Types::UserLimits]
+      attr_accessor errors: ::Array[Types::BatchDescribeUserLimitsError]
       SENSITIVE: []
     end
 
@@ -2145,6 +2216,22 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class CreateApprovalPolicyRequest
+      attr_accessor policy_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor actions: ::Array[("SHARE")]
+      attr_accessor asset_types: ::Array[("AGENT" | "SPACE" | "KNOWLEDGE_BASE")]
+      attr_accessor applicable_to: Types::ApplicableTo
+      attr_accessor approval_groups: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class CreateApprovalPolicyResponse
+      attr_accessor policy: Types::ApprovalPolicy
+      SENSITIVE: []
+    end
+
     class CreateBrandRequest
       attr_accessor aws_account_id: ::String
       attr_accessor brand_id: ::String
@@ -2267,6 +2354,25 @@ module Aws::QuickSight
       attr_accessor creation_status: ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class CreateDlpSettingRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor dlp_setting_id: ::String
+      attr_accessor name: ::String
+      attr_accessor provider_type: ("MICROSOFT_PURVIEW")
+      attr_accessor provider_config: Types::ProviderConfig
+      attr_accessor provider_outage_action: ("ALLOW" | "WARN" | "BLOCK")
+      attr_accessor enabled: bool
+      attr_accessor tags: ::Array[Types::Tag]
+      SENSITIVE: []
+    end
+
+    class CreateDlpSettingResponse
+      attr_accessor arn: ::String
+      attr_accessor dlp_setting_id: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -2412,6 +2518,21 @@ module Aws::QuickSight
       attr_accessor creation_status: ("CREATING" | "UPDATING" | "ACTIVE" | "FAILED" | "DELETING")
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class CreateLimitsProfileRequest
+      attr_accessor account_id: ::String
+      attr_accessor profile_name: ::String
+      attr_accessor description: ::String
+      attr_accessor resource_limits: ::Hash[("INDEX_STORAGE" | "AGENT_HOURS"), Types::ProfileLimitValue]
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class CreateLimitsProfileResponse
+      attr_accessor arn: ::String
+      attr_accessor profile_id: ::String
       SENSITIVE: []
     end
 
@@ -3784,6 +3905,14 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DeleteApprovalPolicyRequest
+      attr_accessor policy_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteApprovalPolicyResponse < Aws::EmptyStructure
+    end
+
     class DeleteBrandAssignmentRequest
       attr_accessor aws_account_id: ::String
       SENSITIVE: []
@@ -3882,6 +4011,19 @@ module Aws::QuickSight
     class DeleteDefaultQBusinessApplicationResponse
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DeleteDlpSettingRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor dlp_setting_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteDlpSettingResponse
+      attr_accessor arn: ::String
+      attr_accessor dlp_setting_id: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -3989,6 +4131,17 @@ module Aws::QuickSight
       attr_accessor knowledge_base_id: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DeleteLimitsProfileRequest
+      attr_accessor profile_id: ::String
+      attr_accessor account_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteLimitsProfileResponse
+      attr_accessor arn: ::String
       SENSITIVE: []
     end
 
@@ -4387,6 +4540,16 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DescribeApprovalPolicyRequest
+      attr_accessor policy_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeApprovalPolicyResponse
+      attr_accessor policy: Types::ApprovalPolicy
+      SENSITIVE: []
+    end
+
     class DescribeAssetBundleExportJobRequest
       attr_accessor aws_account_id: ::String
       attr_accessor asset_bundle_export_job_id: ::String
@@ -4702,6 +4865,18 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DescribeDlpSettingRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor dlp_setting_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeDlpSettingResponse
+      attr_accessor dlp_setting: Types::DlpSettingDetails
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class DescribeFlowRequest
       attr_accessor aws_account_id: ::String
       attr_accessor flow_id: ::String
@@ -4880,6 +5055,17 @@ module Aws::QuickSight
       attr_accessor knowledge_base: Types::KnowledgeBase
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class DescribeLimitsProfileRequest
+      attr_accessor profile_id: ::String
+      attr_accessor account_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeLimitsProfileResponse
+      attr_accessor profile: Types::LimitsProfile
       SENSITIVE: []
     end
 
@@ -5276,6 +5462,30 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DlpSettingDetails
+      attr_accessor dlp_setting_id: ::String
+      attr_accessor name: ::String
+      attr_accessor arn: ::String
+      attr_accessor status: ("ACTIVE" | "INACTIVE")
+      attr_accessor provider_type: ("MICROSOFT_PURVIEW")
+      attr_accessor provider_config: Types::ProviderConfig
+      attr_accessor provider_outage_action: ("ALLOW" | "WARN" | "BLOCK")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
+    class DlpSettingSummary
+      attr_accessor dlp_setting_id: ::String
+      attr_accessor name: ::String
+      attr_accessor arn: ::String
+      attr_accessor status: ("ACTIVE" | "INACTIVE")
+      attr_accessor provider_type: ("MICROSOFT_PURVIEW")
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
+      SENSITIVE: []
+    end
+
     class DomainNotWhitelistedException
       attr_accessor message: ::String
       attr_accessor request_id: ::String
@@ -5311,6 +5521,15 @@ module Aws::QuickSight
       attr_accessor user_name_column: Types::ColumnIdentifier
       attr_accessor group_name_column: Types::ColumnIdentifier
       attr_accessor default_value_column: Types::ColumnIdentifier
+      SENSITIVE: []
+    end
+
+    class EffectiveLimit
+      attr_accessor resource_type: ("INDEX_STORAGE" | "AGENT_HOURS")
+      attr_accessor limit_value: ::Integer
+      attr_accessor limit_unit: ("MB" | "GB" | "HOURS" | "DAYS")
+      attr_accessor source: ("DIRECT_USER" | "GROUP" | "ROLE" | "ACCOUNT" | "SYSTEM_DEFAULT")
+      attr_accessor profile_id: ::String
       SENSITIVE: []
     end
 
@@ -7143,6 +7362,13 @@ module Aws::QuickSight
       SENSITIVE: [:primary_owner_username]
     end
 
+    class LabelActionMapping
+      attr_accessor label_id: ::String
+      attr_accessor label_name: ::String
+      attr_accessor action: ("ALLOW" | "WARN" | "BLOCK")
+      SENSITIVE: []
+    end
+
     class LabelOptions
       attr_accessor visibility: ("HIDDEN" | "VISIBLE")
       attr_accessor font_configuration: Types::FontConfiguration
@@ -7204,6 +7430,18 @@ module Aws::QuickSight
       attr_accessor message: ::String
       attr_accessor resource_type: ("USER" | "GROUP" | "NAMESPACE" | "ACCOUNT_SETTINGS" | "IAMPOLICY_ASSIGNMENT" | "DATA_SOURCE" | "DATA_SET" | "VPC_CONNECTION" | "INGESTION")
       attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class LimitsProfile
+      attr_accessor profile_id: ::String
+      attr_accessor arn: ::String
+      attr_accessor account_id: ::String
+      attr_accessor profile_name: ::String
+      attr_accessor description: ::String
+      attr_accessor resource_limits: ::Hash[("INDEX_STORAGE" | "AGENT_HOURS"), Types::ProfileLimitValue]
+      attr_accessor created_at: ::Time
+      attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
 
@@ -7351,6 +7589,18 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ListApprovalPoliciesRequest
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListApprovalPoliciesResponse
+      attr_accessor policies: ::Array[Types::ApprovalPolicy]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListAssetBundleExportJobsRequest
       attr_accessor aws_account_id: ::String
       attr_accessor next_token: ::String
@@ -7485,6 +7735,20 @@ module Aws::QuickSight
       attr_accessor next_token: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListDlpSettingsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor next_token: ::String
+      attr_accessor max_results: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListDlpSettingsResponse
+      attr_accessor dlp_setting_summaries: ::Array[Types::DlpSettingSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
       SENSITIVE: []
     end
 
@@ -7660,6 +7924,20 @@ module Aws::QuickSight
       attr_accessor next_token: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class ListLimitsProfilesRequest
+      attr_accessor account_id: ::String
+      attr_accessor resource_type: ("INDEX_STORAGE" | "AGENT_HOURS")
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListLimitsProfilesResponse
+      attr_accessor profiles: ::Array[Types::LimitsProfile]
+      attr_accessor next_token: ::String
       SENSITIVE: []
     end
 
@@ -8128,6 +8406,18 @@ module Aws::QuickSight
       attr_accessor time: Types::DimensionField
       attr_accessor from_value: Types::MeasureField
       attr_accessor target_value: Types::MeasureField
+      SENSITIVE: []
+    end
+
+    class MicrosoftPurviewCredentials
+      attr_accessor secret_arn: ::String
+      SENSITIVE: []
+    end
+
+    class MicrosoftPurviewProviderConfig
+      attr_accessor credentials: Types::MicrosoftPurviewCredentials
+      attr_accessor label_action_mappings: ::Array[Types::LabelActionMapping]
+      attr_accessor unmapped_action: ("ALLOW" | "WARN" | "BLOCK")
       SENSITIVE: []
     end
 
@@ -8947,6 +9237,12 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ProfileLimitValue
+      attr_accessor max_value: ::Integer
+      attr_accessor unit: ("MB" | "GB" | "HOURS" | "DAYS")
+      SENSITIVE: []
+    end
+
     class ProgressBarOptions
       attr_accessor visibility: ("HIDDEN" | "VISIBLE")
       SENSITIVE: []
@@ -8957,6 +9253,17 @@ module Aws::QuickSight
       attr_accessor source: Types::TransformOperationSource
       attr_accessor projected_columns: ::Array[::String]
       SENSITIVE: []
+    end
+
+    class ProviderConfig
+      attr_accessor microsoft_purview: Types::MicrosoftPurviewProviderConfig
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class MicrosoftPurview < ProviderConfig
+      end
+      class Unknown < ProviderConfig
+      end
     end
 
     class PutDataSetRefreshPropertiesRequest
@@ -11993,6 +12300,22 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class UpdateApprovalPolicyRequest
+      attr_accessor policy_id: ::String
+      attr_accessor name: ::String
+      attr_accessor description: ::String
+      attr_accessor actions: ::Array[("SHARE")]
+      attr_accessor asset_types: ::Array[("AGENT" | "SPACE" | "KNOWLEDGE_BASE")]
+      attr_accessor applicable_to: Types::ApplicableTo
+      attr_accessor approval_groups: ::Array[::String]
+      SENSITIVE: []
+    end
+
+    class UpdateApprovalPolicyResponse
+      attr_accessor policy: Types::ApprovalPolicy
+      SENSITIVE: []
+    end
+
     class UpdateBrandAssignmentRequest
       attr_accessor aws_account_id: ::String
       attr_accessor brand_arn: ::String
@@ -12229,6 +12552,24 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class UpdateDlpSettingRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor dlp_setting_id: ::String
+      attr_accessor name: ::String
+      attr_accessor provider_type: ("MICROSOFT_PURVIEW")
+      attr_accessor provider_config: Types::ProviderConfig
+      attr_accessor provider_outage_action: ("ALLOW" | "WARN" | "BLOCK")
+      attr_accessor enabled: bool
+      SENSITIVE: []
+    end
+
+    class UpdateDlpSettingResponse
+      attr_accessor arn: ::String
+      attr_accessor dlp_setting_id: ::String
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class UpdateFlowPermissionsInput
       attr_accessor aws_account_id: ::String
       attr_accessor flow_id: ::String
@@ -12408,6 +12749,20 @@ module Aws::QuickSight
       attr_accessor knowledge_base_id: ::String
       attr_accessor request_id: ::String
       attr_accessor status: ::Integer
+      SENSITIVE: []
+    end
+
+    class UpdateLimitsProfileRequest
+      attr_accessor profile_id: ::String
+      attr_accessor account_id: ::String
+      attr_accessor profile_name: ::String
+      attr_accessor description: ::String
+      attr_accessor resource_limits: ::Hash[("INDEX_STORAGE" | "AGENT_HOURS"), Types::ProfileLimitValue]
+      SENSITIVE: []
+    end
+
+    class UpdateLimitsProfileResponse
+      attr_accessor arn: ::String
       SENSITIVE: []
     end
 
@@ -12906,6 +13261,19 @@ module Aws::QuickSight
       end
       class Unknown < UserIndexCapacityFilter
       end
+    end
+
+    class UserLimits
+      attr_accessor user_name: ::String
+      attr_accessor namespace: ::String
+      attr_accessor effective_limits: ::Array[Types::EffectiveLimit]
+      SENSITIVE: []
+    end
+
+    class UserLimitsEntry
+      attr_accessor user_name: ::String
+      attr_accessor namespace: ::String
+      SENSITIVE: []
     end
 
     class UserNameOrEmailFilter

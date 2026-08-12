@@ -291,6 +291,54 @@ module Aws::IAM
     #
     class AccountNotManagementOrDelegatedAdministratorException < Aws::EmptyStructure; end
 
+    # @!attribute [rw] template_arn
+    #   The Amazon Resource Name (ARN) of the role template to create the
+    #   role from.
+    #
+    #   For more information about ARNs, see [Amazon Resource Names
+    #   (ARNs)][1] in the *Amazon Web Services General Reference*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+    #   @return [String]
+    #
+    # @!attribute [rw] template_minor_version
+    #   The minor version of the role template to use. If you do not specify
+    #   a minor version, the service uses the template's default minor
+    #   version.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] replacement_values
+    #   A map of values to substitute for the parameters that are defined in
+    #   the role template version. Each key is a parameter name from the
+    #   template, and each value is a structure that contains the
+    #   replacement values for that parameter.
+    #   @return [Hash<String,Types::ReplacementValueEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AcquireRoleRequest AWS API Documentation
+    #
+    class AcquireRoleRequest < Struct.new(
+      :template_arn,
+      :template_minor_version,
+      :replacement_values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] role
+    #   A structure that contains details about the IAM role that was
+    #   created.
+    #   @return [Types::Role]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AcquireRoleResponse AWS API Documentation
+    #
+    class AcquireRoleResponse < Struct.new(
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] open_id_connect_provider_arn
     #   The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC)
     #   provider resource to add the client ID to. You can get a list of
@@ -3804,6 +3852,25 @@ module Aws::IAM
       include Aws::Structure
     end
 
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountPropertiesRequest AWS API Documentation
+    #
+    class GetAccountPropertiesRequest < Aws::EmptyStructure; end
+
+    # @!attribute [rw] properties
+    #   A map of account property key-value pairs. Keys are in the format
+    #   `Namespace/PropertyName`.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountPropertiesResponse AWS API Documentation
+    #
+    class GetAccountPropertiesResponse < Struct.new(
+      :properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the response to a successful [GetAccountSummary][1] request.
     #
     #
@@ -4816,6 +4883,46 @@ module Aws::IAM
       include Aws::Structure
     end
 
+    # @!attribute [rw] template_arn
+    #   The Amazon Resource Name (ARN) of the role template whose version
+    #   you want to retrieve.
+    #
+    #   For more information about ARNs, see [Amazon Resource Names
+    #   (ARNs)][1] in the *Amazon Web Services General Reference*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+    #   @return [String]
+    #
+    # @!attribute [rw] minor_version
+    #   The minor version of the role template to retrieve. If you do not
+    #   specify a minor version, the service returns the template's default
+    #   minor version.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRoleTemplateVersionRequest AWS API Documentation
+    #
+    class GetRoleTemplateVersionRequest < Struct.new(
+      :template_arn,
+      :minor_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] role_template_version
+    #   A structure that contains details about the requested role template
+    #   version.
+    #   @return [Types::RoleTemplateVersion]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRoleTemplateVersionResponse AWS API Documentation
+    #
+    class GetRoleTemplateVersionResponse < Struct.new(
+      :role_template_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] saml_provider_arn
     #   The Amazon Resource Name (ARN) of the SAML provider resource object
     #   in IAM to get information about.
@@ -5538,6 +5645,26 @@ module Aws::IAM
       :create_date,
       :group_policy_list,
       :attached_managed_policies)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains an inline policy template that the service embeds in roles
+    # that you create from a role template.
+    #
+    # @!attribute [rw] policy_name
+    #   The name of the inline policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_document
+    #   The inline policy document.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/InlinePolicy AWS API Documentation
+    #
+    class InlinePolicy < Struct.new(
+      :policy_name,
+      :policy_document)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8850,6 +8977,20 @@ module Aws::IAM
       include Aws::Structure
     end
 
+    # The request was rejected because the resulting role name conflicts
+    # with an existing role in the account.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/NameConflictException AWS API Documentation
+    #
+    class NameConflictException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request was rejected because it referenced a resource entity that
     # does not exist. The error message describes the resource.
     #
@@ -8960,6 +9101,60 @@ module Aws::IAM
     #
     class OrganizationsDecisionDetail < Struct.new(
       :allowed_by_organizations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines a parameter that a role template accepts. You supply values
+    # for these parameters when you create a role with [AcquireRole][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html
+    #
+    # @!attribute [rw] name
+    #   The name of the parameter.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The data type of the parameter. Valid values are `String`,
+    #   `StringList`, `Number`, `NumberList`, `Arn`, and `ArnList`.
+    #   @return [String]
+    #
+    # @!attribute [rw] sub_type
+    #   An optional subtype that further constrains the values that are
+    #   allowed for the parameter.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the parameter.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_required
+    #   Specifies whether you must supply a value for the parameter when you
+    #   create a role from the template.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] default_value
+    #   The value that the service uses for the parameter when you do not
+    #   supply one.
+    #   @return [String]
+    #
+    # @!attribute [rw] immutable
+    #   Specifies whether you can change the parameter value after you
+    #   create the role.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ParameterDefinition AWS API Documentation
+    #
+    class ParameterDefinition < Struct.new(
+      :name,
+      :type,
+      :sub_type,
+      :description,
+      :is_required,
+      :default_value,
+      :immutable)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9645,6 +9840,31 @@ module Aws::IAM
       include Aws::Structure
     end
 
+    # @!attribute [rw] properties
+    #   A map of property key-value pairs to set. All keys must belong to
+    #   the same namespace.
+    #
+    #   Each key uses the format `Namespace/PropertyName`. The key must
+    #   contain exactly one `/` separating the namespace from the property
+    #   name, and cannot start or end with `/`.
+    #
+    #   The service validates each value based on the property key's
+    #   expected type. For example, boolean properties expect `true` or
+    #   `false`.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutAccountPropertiesRequest AWS API Documentation
+    #
+    class PutAccountPropertiesRequest < Struct.new(
+      :properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutAccountPropertiesResponse AWS API Documentation
+    #
+    class PutAccountPropertiesResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] group_name
     #   The name of the group to associate the policy with.
     #
@@ -10017,6 +10237,21 @@ module Aws::IAM
       include Aws::Structure
     end
 
+    # Contains the list of replacement values for a single template
+    # parameter used when creating a role from a role template.
+    #
+    # @!attribute [rw] values
+    #   The list of replacement values for the template parameter.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ReplacementValueEntry AWS API Documentation
+    #
+    class ReplacementValueEntry < Struct.new(
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request failed because the maximum number of concurrent requests
     # for this account are already running.
     #
@@ -10301,6 +10536,16 @@ module Aws::IAM
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period
     #   @return [Types::RoleLastUsed]
     #
+    # @!attribute [rw] source_role_template
+    #   Contains information about the role template that this role was
+    #   created from. This member is present only for roles created with
+    #   [AcquireRole][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html
+    #   @return [Types::SourceRoleTemplate]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/Role AWS API Documentation
     #
     class Role < Struct.new(
@@ -10314,7 +10559,8 @@ module Aws::IAM
       :max_session_duration,
       :permissions_boundary,
       :tags,
-      :role_last_used)
+      :role_last_used,
+      :source_role_template)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10487,6 +10733,219 @@ module Aws::IAM
     class RoleLastUsed < Struct.new(
       :last_used_date,
       :region)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request was rejected because someone modified the role template
+    # while the service was creating the role. Wait a few minutes and try
+    # the request again.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RoleModifiedException AWS API Documentation
+    #
+    class RoleModifiedException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request was rejected because the specified role template is
+    # disabled. A disabled role template cannot be used to create new roles.
+    # Contact your administrator to enable the role template, or use a
+    # different role template.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RoleTemplateDisabledException AWS API Documentation
+    #
+    class RoleTemplateDisabledException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about a version of an IAM role template,
+    # including the configuration that is used to create roles with
+    # [AcquireRole][1]. This structure is returned as a response element by
+    # the [GetRoleTemplateVersion][2] operation.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRoleTemplateVersion.html
+    #
+    # @!attribute [rw] template_arn
+    #   The Amazon Resource Name (ARN) that identifies the role template.
+    #
+    #   For more information about ARNs, see [Amazon Resource Names
+    #   (ARNs)][1] in the *Amazon Web Services General Reference*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+    #   @return [String]
+    #
+    # @!attribute [rw] template_name
+    #   The friendly name that identifies the role template.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_version_id
+    #   The identifier of the role template version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the role template.
+    #   @return [String]
+    #
+    # @!attribute [rw] major_version
+    #   The major version number of the role template.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] default_minor_version
+    #   The minor version that the service uses by default when you create a
+    #   role from this template without specifying a minor version.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] managed_by_type
+    #   Indicates that the role template is managed by an Amazon Web
+    #   Services service.
+    #   @return [String]
+    #
+    # @!attribute [rw] managed_by_value
+    #   The identifier of the Amazon Web Services service that manages the
+    #   role template.
+    #   @return [String]
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether the role template is enabled. When a template is
+    #   disabled, you cannot create roles from it.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] minor_version
+    #   The minor version number of this role template version.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] role_name_pattern
+    #   The pattern that is used to generate the name of a role that is
+    #   created from this template. The pattern can include `@{parameter}`
+    #   placeholders that are replaced with the values you supply in the
+    #   `ReplacementValues` parameter of [AcquireRole][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html
+    #   @return [String]
+    #
+    # @!attribute [rw] role_path_pattern
+    #   The pattern that is used to generate the path of a role that is
+    #   created from this template.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_description_pattern
+    #   The pattern that is used to generate the description of a role that
+    #   is created from this template.
+    #   @return [String]
+    #
+    # @!attribute [rw] assume_role_policy_document_template
+    #   The trust policy template that grants an entity permission to assume
+    #   roles that you create from this template.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_policy_templates
+    #   A list of inline policy templates that the service embeds in roles
+    #   that you create from this template.
+    #   @return [Array<Types::InlinePolicy>]
+    #
+    # @!attribute [rw] managed_policy_arns
+    #   A list of the ARNs of the managed policies that the service attaches
+    #   to roles that you create from this template.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] permission_boundary_arn
+    #   The ARN of the policy that sets the permissions boundary for roles
+    #   that you create from this template.
+    #
+    #   For more information about ARNs, see [Amazon Resource Names
+    #   (ARNs)][1] in the *Amazon Web Services General Reference*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+    #   @return [String]
+    #
+    # @!attribute [rw] parameters_definition
+    #   A list of the parameters that are defined for this role template
+    #   version. You supply values for these parameters when you create a
+    #   role with [AcquireRole][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AcquireRole.html
+    #   @return [Array<Types::ParameterDefinition>]
+    #
+    # @!attribute [rw] role_tags_template
+    #   A list of tag templates that are applied to roles that are created
+    #   from this template.
+    #   @return [Array<Types::TagTemplate>]
+    #
+    # @!attribute [rw] max_session_duration
+    #   The maximum session duration (in seconds) for roles that are created
+    #   from this template.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] version_enabled
+    #   Specifies whether this specific minor version of the role template
+    #   is enabled.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] create_timestamp
+    #   The date and time, in [ISO 8601 date-time format][1], when the role
+    #   template version was created.
+    #
+    #
+    #
+    #   [1]: http://www.iso.org/iso/iso8601
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_timestamp
+    #   The date and time, in [ISO 8601 date-time format][1], when the role
+    #   template version was last updated.
+    #
+    #
+    #
+    #   [1]: http://www.iso.org/iso/iso8601
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RoleTemplateVersion AWS API Documentation
+    #
+    class RoleTemplateVersion < Struct.new(
+      :template_arn,
+      :template_name,
+      :template_version_id,
+      :description,
+      :major_version,
+      :default_minor_version,
+      :managed_by_type,
+      :managed_by_value,
+      :enabled,
+      :minor_version,
+      :role_name_pattern,
+      :role_path_pattern,
+      :role_description_pattern,
+      :assume_role_policy_document_template,
+      :inline_policy_templates,
+      :managed_policy_arns,
+      :permission_boundary_arn,
+      :parameters_definition,
+      :role_tags_template,
+      :max_session_duration,
+      :version_enabled,
+      :create_timestamp,
+      :update_timestamp)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11794,6 +12253,28 @@ module Aws::IAM
       include Aws::Structure
     end
 
+    # Contains information about the role template that a role was created
+    # from.
+    #
+    # @!attribute [rw] template_arn
+    #   The Amazon Resource Name (ARN) of the role template that the role
+    #   was created from.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_minor_version
+    #   The minor version of the role template that was used to create the
+    #   role.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SourceRoleTemplate AWS API Documentation
+    #
+    class SourceRoleTemplate < Struct.new(
+      :template_arn,
+      :template_minor_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains a reference to a `Statement` element in a policy document
     # that determines the result of the simulation.
     #
@@ -12054,6 +12535,28 @@ module Aws::IAM
     class TagServerCertificateRequest < Struct.new(
       :server_certificate_name,
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a tag that is applied to roles that are created from a role
+    # template. The key and value can include `@{parameter}` placeholders
+    # that are replaced with template parameter values when the role is
+    # created.
+    #
+    # @!attribute [rw] key
+    #   The key name of the tag.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value associated with the tag key.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagTemplate AWS API Documentation
+    #
+    class TagTemplate < Struct.new(
+      :key,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
