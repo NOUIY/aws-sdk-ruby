@@ -693,6 +693,19 @@ module Aws::CleanRooms
     #   resp.analysis_rules[0].policy.v1.custom.disallowed_output_columns[0] #=> String
     #   resp.analysis_rules[0].policy.v1.custom.differential_privacy.columns #=> Array
     #   resp.analysis_rules[0].policy.v1.custom.differential_privacy.columns[0].name #=> String
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rules[0].policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rules[0].policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rules[0].policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rules[0].policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rules[0].policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rules[0].policy.v1.custom.allowed_result_receivers #=> Array
     #   resp.analysis_rules[0].policy.v1.custom.allowed_result_receivers[0] #=> String
     #   resp.analysis_rules[0].policy.v1.custom.allowed_additional_analyses #=> Array
@@ -758,6 +771,19 @@ module Aws::CleanRooms
     #   resp.analysis_rules[0].consolidated_policy.v1.custom.disallowed_output_columns[0] #=> String
     #   resp.analysis_rules[0].consolidated_policy.v1.custom.differential_privacy.columns #=> Array
     #   resp.analysis_rules[0].consolidated_policy.v1.custom.differential_privacy.columns[0].name #=> String
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rules[0].consolidated_policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rules[0].consolidated_policy.v1.custom.allowed_result_receivers #=> Array
     #   resp.analysis_rules[0].consolidated_policy.v1.custom.allowed_result_receivers[0] #=> String
     #   resp.analysis_rules[0].consolidated_policy.v1.custom.allowed_additional_analyses #=> Array
@@ -1491,6 +1517,24 @@ module Aws::CleanRooms
     #               },
     #             ],
     #           },
+    #           aggregation_thresholds: [
+    #             {
+    #               identity_columns: ["AnalysisRuleColumnName"], # required
+    #               minimum_identity_count: 1, # required
+    #               type: "COUNT_DISTINCT", # required, accepts COUNT_DISTINCT
+    #               output_column_thresholds: [
+    #                 {
+    #                   output_column_name: "AnalysisRuleColumnName", # required
+    #                   minimum_identity_count: 1, # required
+    #                 },
+    #               ],
+    #               allowed_aggregate_expression_type: "COLUMNS_ONLY", # required, accepts COLUMNS_ONLY, ANY_EXPRESSION
+    #             },
+    #           ],
+    #           comparison_controls: {
+    #             allowed_literal_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #             allowed_column_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #           },
     #           allowed_result_receivers: ["AccountId"],
     #           allowed_additional_analyses: ["AdditionalAnalysesResourceArn"],
     #         },
@@ -1536,6 +1580,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.policy.v1.custom.disallowed_output_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns #=> Array
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns[0].name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers #=> Array
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_additional_analyses #=> Array
@@ -2045,6 +2102,24 @@ module Aws::CleanRooms
     #             ],
     #           },
     #           disallowed_output_columns: ["AnalysisRuleColumnName"],
+    #           aggregation_thresholds: [
+    #             {
+    #               identity_columns: ["AnalysisRuleColumnName"], # required
+    #               minimum_identity_count: 1, # required
+    #               type: "COUNT_DISTINCT", # required, accepts COUNT_DISTINCT
+    #               output_column_thresholds: [
+    #                 {
+    #                   output_column_name: "AnalysisRuleColumnName", # required
+    #                   minimum_identity_count: 1, # required
+    #                 },
+    #               ],
+    #               allowed_aggregate_expression_type: "COLUMNS_ONLY", # required, accepts COLUMNS_ONLY, ANY_EXPRESSION
+    #             },
+    #           ],
+    #           comparison_controls: {
+    #             allowed_literal_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #             allowed_column_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #           },
     #         },
     #       },
     #     },
@@ -2067,6 +2142,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.differential_privacy.columns[0].name #=> String
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.disallowed_output_columns #=> Array
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.disallowed_output_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.analysis_rule_type #=> String, one of "CUSTOM"
     #   resp.analysis_rule.create_time #=> Time
     #   resp.analysis_rule.update_time #=> Time
@@ -3347,6 +3435,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.policy.v1.custom.disallowed_output_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns #=> Array
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns[0].name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers #=> Array
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_additional_analyses #=> Array
@@ -3726,6 +3827,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.differential_privacy.columns[0].name #=> String
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.disallowed_output_columns #=> Array
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.disallowed_output_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.analysis_rule_type #=> String, one of "CUSTOM"
     #   resp.analysis_rule.create_time #=> Time
     #   resp.analysis_rule.update_time #=> Time
@@ -4109,6 +4223,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.policy.v1.custom.disallowed_output_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns #=> Array
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns[0].name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers #=> Array
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_additional_analyses #=> Array
@@ -4174,6 +4301,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.consolidated_policy.v1.custom.disallowed_output_columns[0] #=> String
     #   resp.analysis_rule.consolidated_policy.v1.custom.differential_privacy.columns #=> Array
     #   resp.analysis_rule.consolidated_policy.v1.custom.differential_privacy.columns[0].name #=> String
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.consolidated_policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.consolidated_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.consolidated_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.consolidated_policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.consolidated_policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.consolidated_policy.v1.custom.allowed_result_receivers #=> Array
     #   resp.analysis_rule.consolidated_policy.v1.custom.allowed_result_receivers[0] #=> String
     #   resp.analysis_rule.consolidated_policy.v1.custom.allowed_additional_analyses #=> Array
@@ -6580,6 +6720,24 @@ module Aws::CleanRooms
     #               },
     #             ],
     #           },
+    #           aggregation_thresholds: [
+    #             {
+    #               identity_columns: ["AnalysisRuleColumnName"], # required
+    #               minimum_identity_count: 1, # required
+    #               type: "COUNT_DISTINCT", # required, accepts COUNT_DISTINCT
+    #               output_column_thresholds: [
+    #                 {
+    #                   output_column_name: "AnalysisRuleColumnName", # required
+    #                   minimum_identity_count: 1, # required
+    #                 },
+    #               ],
+    #               allowed_aggregate_expression_type: "COLUMNS_ONLY", # required, accepts COLUMNS_ONLY, ANY_EXPRESSION
+    #             },
+    #           ],
+    #           comparison_controls: {
+    #             allowed_literal_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #             allowed_column_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #           },
     #           allowed_result_receivers: ["AccountId"],
     #           allowed_additional_analyses: ["AdditionalAnalysesResourceArn"],
     #         },
@@ -6625,6 +6783,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.policy.v1.custom.disallowed_output_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns #=> Array
     #   resp.analysis_rule.policy.v1.custom.differential_privacy.columns[0].name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers #=> Array
     #   resp.analysis_rule.policy.v1.custom.allowed_result_receivers[0] #=> String
     #   resp.analysis_rule.policy.v1.custom.allowed_additional_analyses #=> Array
@@ -7072,6 +7243,24 @@ module Aws::CleanRooms
     #             ],
     #           },
     #           disallowed_output_columns: ["AnalysisRuleColumnName"],
+    #           aggregation_thresholds: [
+    #             {
+    #               identity_columns: ["AnalysisRuleColumnName"], # required
+    #               minimum_identity_count: 1, # required
+    #               type: "COUNT_DISTINCT", # required, accepts COUNT_DISTINCT
+    #               output_column_thresholds: [
+    #                 {
+    #                   output_column_name: "AnalysisRuleColumnName", # required
+    #                   minimum_identity_count: 1, # required
+    #                 },
+    #               ],
+    #               allowed_aggregate_expression_type: "COLUMNS_ONLY", # required, accepts COLUMNS_ONLY, ANY_EXPRESSION
+    #             },
+    #           ],
+    #           comparison_controls: {
+    #             allowed_literal_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #             allowed_column_comparison_columns: ["AnalysisRuleColumnName"], # required
+    #           },
     #         },
     #       },
     #     },
@@ -7094,6 +7283,19 @@ module Aws::CleanRooms
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.differential_privacy.columns[0].name #=> String
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.disallowed_output_columns #=> Array
     #   resp.analysis_rule.analysis_rule_policy.v1.custom.disallowed_output_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].identity_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].identity_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].type #=> String, one of "COUNT_DISTINCT"
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].output_column_name #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].output_column_thresholds[0].minimum_identity_count #=> Integer
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.aggregation_thresholds[0].allowed_aggregate_expression_type #=> String, one of "COLUMNS_ONLY", "ANY_EXPRESSION"
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_literal_comparison_columns[0] #=> String
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_column_comparison_columns #=> Array
+    #   resp.analysis_rule.analysis_rule_policy.v1.custom.comparison_controls.allowed_column_comparison_columns[0] #=> String
     #   resp.analysis_rule.analysis_rule_type #=> String, one of "CUSTOM"
     #   resp.analysis_rule.create_time #=> Time
     #   resp.analysis_rule.update_time #=> Time
@@ -7462,7 +7664,7 @@ module Aws::CleanRooms
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cleanrooms'
-      context[:gem_version] = '1.78.0'
+      context[:gem_version] = '1.79.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

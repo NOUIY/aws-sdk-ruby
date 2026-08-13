@@ -4495,6 +4495,36 @@ module Aws
                                           ) -> _SendOutboundWebNotificationResponseSuccess
                                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _SendOutboundWebNotificationResponseSuccess
 
+      interface _StartAssistantContactResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::StartAssistantContactResponse]
+        def contact_id: () -> ::String
+        def participant_id: () -> ::String
+        def participant_token: () -> ::String
+        def continued_from_contact_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#start_assistant_contact-instance_method
+      def start_assistant_contact: (
+                                     instance_id: ::String,
+                                     ai_agent: {
+                                       ai_agent_id: ::String
+                                     },
+                                     participant_details: {
+                                       display_name: ::String
+                                     },
+                                     ?initial_message: {
+                                       content_type: ::String,
+                                       content: ::String
+                                     },
+                                     ?attributes: Hash[::String, ::String],
+                                     ?client_token: ::String,
+                                     ?persistent_chat: {
+                                       rehydration_type: ("ENTIRE_PAST_SESSION" | "FROM_SEGMENT")?,
+                                       source_contact_id: ::String?
+                                     },
+                                     ?related_contact_id: ::String
+                                   ) -> _StartAssistantContactResponseSuccess
+                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartAssistantContactResponseSuccess
+
       interface _StartAttachedFileUploadResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::StartAttachedFileUploadResponse]
         def file_arn: () -> ::String
@@ -4912,7 +4942,8 @@ module Aws
                                        arn: ::String?,
                                        status_reason: ::String?
                                      }],
-                                   ?description: ::String
+                                   ?description: ::String,
+                                   ?segment_attributes: Hash[::String, Params::segment_attribute_value]
                                  ) -> _StartWebRTCContactResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _StartWebRTCContactResponseSuccess
 

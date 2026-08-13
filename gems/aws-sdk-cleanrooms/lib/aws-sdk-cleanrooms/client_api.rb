@@ -33,8 +33,14 @@ module Aws::CleanRooms
     AggregationConstraint = Shapes::StructureShape.new(name: 'AggregationConstraint')
     AggregationConstraintMinimumInteger = Shapes::IntegerShape.new(name: 'AggregationConstraintMinimumInteger')
     AggregationConstraints = Shapes::ListShape.new(name: 'AggregationConstraints')
+    AggregationThreshold = Shapes::StructureShape.new(name: 'AggregationThreshold')
+    AggregationThresholdIdentityColumnsList = Shapes::ListShape.new(name: 'AggregationThresholdIdentityColumnsList')
+    AggregationThresholdList = Shapes::ListShape.new(name: 'AggregationThresholdList')
+    AggregationThresholdMinimumIdentityCountInteger = Shapes::IntegerShape.new(name: 'AggregationThresholdMinimumIdentityCountInteger')
+    AggregationThresholdType = Shapes::StringShape.new(name: 'AggregationThresholdType')
     AggregationType = Shapes::StringShape.new(name: 'AggregationType')
     AllowedAdditionalAnalyses = Shapes::ListShape.new(name: 'AllowedAdditionalAnalyses')
+    AllowedAggregateExpressionType = Shapes::StringShape.new(name: 'AllowedAggregateExpressionType')
     AllowedAnalysesList = Shapes::ListShape.new(name: 'AllowedAnalysesList')
     AllowedAnalysisProviderList = Shapes::ListShape.new(name: 'AllowedAnalysisProviderList')
     AllowedColumnList = Shapes::ListShape.new(name: 'AllowedColumnList')
@@ -180,6 +186,7 @@ module Aws::CleanRooms
     ColumnName = Shapes::StringShape.new(name: 'ColumnName')
     ColumnTypeString = Shapes::StringShape.new(name: 'ColumnTypeString')
     CommercialRegion = Shapes::StringShape.new(name: 'CommercialRegion')
+    ComparisonControls = Shapes::StructureShape.new(name: 'ComparisonControls')
     ComputeConfiguration = Shapes::UnionShape.new(name: 'ComputeConfiguration')
     ConfigurationDetails = Shapes::UnionShape.new(name: 'ConfigurationDetails')
     ConfiguredAudienceModelArn = Shapes::StringShape.new(name: 'ConfiguredAudienceModelArn')
@@ -524,6 +531,9 @@ module Aws::CleanRooms
     MembershipSyntheticDataGenerationPaymentConfig = Shapes::StructureShape.new(name: 'MembershipSyntheticDataGenerationPaymentConfig')
     ModelInferencePaymentConfig = Shapes::StructureShape.new(name: 'ModelInferencePaymentConfig')
     ModelTrainingPaymentConfig = Shapes::StructureShape.new(name: 'ModelTrainingPaymentConfig')
+    OutputColumnThreshold = Shapes::StructureShape.new(name: 'OutputColumnThreshold')
+    OutputColumnThresholdList = Shapes::ListShape.new(name: 'OutputColumnThresholdList')
+    OutputColumnThresholdMinimumIdentityCountInteger = Shapes::IntegerShape.new(name: 'OutputColumnThresholdMinimumIdentityCountInteger')
     PaginationToken = Shapes::StringShape.new(name: 'PaginationToken')
     ParameterMap = Shapes::MapShape.new(name: 'ParameterMap')
     ParameterName = Shapes::StringShape.new(name: 'ParameterName')
@@ -785,6 +795,17 @@ module Aws::CleanRooms
 
     AggregationConstraints.member = Shapes::ShapeRef.new(shape: AggregationConstraint)
 
+    AggregationThreshold.add_member(:identity_columns, Shapes::ShapeRef.new(shape: AggregationThresholdIdentityColumnsList, required: true, location_name: "identityColumns"))
+    AggregationThreshold.add_member(:minimum_identity_count, Shapes::ShapeRef.new(shape: AggregationThresholdMinimumIdentityCountInteger, required: true, location_name: "minimumIdentityCount"))
+    AggregationThreshold.add_member(:type, Shapes::ShapeRef.new(shape: AggregationThresholdType, required: true, location_name: "type"))
+    AggregationThreshold.add_member(:output_column_thresholds, Shapes::ShapeRef.new(shape: OutputColumnThresholdList, location_name: "outputColumnThresholds"))
+    AggregationThreshold.add_member(:allowed_aggregate_expression_type, Shapes::ShapeRef.new(shape: AllowedAggregateExpressionType, required: true, location_name: "allowedAggregateExpressionType"))
+    AggregationThreshold.struct_class = Types::AggregationThreshold
+
+    AggregationThresholdIdentityColumnsList.member = Shapes::ShapeRef.new(shape: AnalysisRuleColumnName)
+
+    AggregationThresholdList.member = Shapes::ShapeRef.new(shape: AggregationThreshold)
+
     AllowedAdditionalAnalyses.member = Shapes::ShapeRef.new(shape: AdditionalAnalysesResourceArn)
 
     AllowedAnalysesList.member = Shapes::ShapeRef.new(shape: AnalysisTemplateArnOrQueryWildcard)
@@ -869,6 +890,8 @@ module Aws::CleanRooms
     AnalysisRuleCustom.add_member(:additional_analyses, Shapes::ShapeRef.new(shape: AdditionalAnalyses, location_name: "additionalAnalyses"))
     AnalysisRuleCustom.add_member(:disallowed_output_columns, Shapes::ShapeRef.new(shape: AnalysisRuleColumnList, location_name: "disallowedOutputColumns"))
     AnalysisRuleCustom.add_member(:differential_privacy, Shapes::ShapeRef.new(shape: DifferentialPrivacyConfiguration, location_name: "differentialPrivacy"))
+    AnalysisRuleCustom.add_member(:aggregation_thresholds, Shapes::ShapeRef.new(shape: AggregationThresholdList, location_name: "aggregationThresholds"))
+    AnalysisRuleCustom.add_member(:comparison_controls, Shapes::ShapeRef.new(shape: ComparisonControls, location_name: "comparisonControls"))
     AnalysisRuleCustom.add_member(:allowed_result_receivers, Shapes::ShapeRef.new(shape: AllowedResultReceivers, location_name: "allowedResultReceivers"))
     AnalysisRuleCustom.add_member(:allowed_additional_analyses, Shapes::ShapeRef.new(shape: AllowedAdditionalAnalyses, location_name: "allowedAdditionalAnalyses"))
     AnalysisRuleCustom.struct_class = Types::AnalysisRuleCustom
@@ -1307,6 +1330,10 @@ module Aws::CleanRooms
 
     ColumnMappingList.member = Shapes::ShapeRef.new(shape: SyntheticDataColumnProperties)
 
+    ComparisonControls.add_member(:allowed_literal_comparison_columns, Shapes::ShapeRef.new(shape: AnalysisRuleColumnList, required: true, location_name: "allowedLiteralComparisonColumns"))
+    ComparisonControls.add_member(:allowed_column_comparison_columns, Shapes::ShapeRef.new(shape: AnalysisRuleColumnList, required: true, location_name: "allowedColumnComparisonColumns"))
+    ComparisonControls.struct_class = Types::ComparisonControls
+
     ComputeConfiguration.add_member(:worker, Shapes::ShapeRef.new(shape: WorkerComputeConfiguration, location_name: "worker"))
     ComputeConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     ComputeConfiguration.add_member_subclass(:worker, Types::ComputeConfiguration::Worker)
@@ -1500,6 +1527,8 @@ module Aws::CleanRooms
     ConsolidatedPolicyCustom.add_member(:additional_analyses, Shapes::ShapeRef.new(shape: AdditionalAnalyses, location_name: "additionalAnalyses"))
     ConsolidatedPolicyCustom.add_member(:disallowed_output_columns, Shapes::ShapeRef.new(shape: AnalysisRuleColumnList, location_name: "disallowedOutputColumns"))
     ConsolidatedPolicyCustom.add_member(:differential_privacy, Shapes::ShapeRef.new(shape: DifferentialPrivacyConfiguration, location_name: "differentialPrivacy"))
+    ConsolidatedPolicyCustom.add_member(:aggregation_thresholds, Shapes::ShapeRef.new(shape: AggregationThresholdList, location_name: "aggregationThresholds"))
+    ConsolidatedPolicyCustom.add_member(:comparison_controls, Shapes::ShapeRef.new(shape: ComparisonControls, location_name: "comparisonControls"))
     ConsolidatedPolicyCustom.add_member(:allowed_result_receivers, Shapes::ShapeRef.new(shape: AllowedResultReceivers, location_name: "allowedResultReceivers"))
     ConsolidatedPolicyCustom.add_member(:allowed_additional_analyses, Shapes::ShapeRef.new(shape: AllowedAdditionalAnalyses, location_name: "allowedAdditionalAnalyses"))
     ConsolidatedPolicyCustom.struct_class = Types::ConsolidatedPolicyCustom
@@ -2204,6 +2233,8 @@ module Aws::CleanRooms
     IntermediateTableAnalysisRuleCustom.add_member(:allowed_result_receivers, Shapes::ShapeRef.new(shape: AllowedResultReceivers, location_name: "allowedResultReceivers"))
     IntermediateTableAnalysisRuleCustom.add_member(:differential_privacy, Shapes::ShapeRef.new(shape: DifferentialPrivacyConfiguration, location_name: "differentialPrivacy"))
     IntermediateTableAnalysisRuleCustom.add_member(:disallowed_output_columns, Shapes::ShapeRef.new(shape: AnalysisRuleColumnList, location_name: "disallowedOutputColumns"))
+    IntermediateTableAnalysisRuleCustom.add_member(:aggregation_thresholds, Shapes::ShapeRef.new(shape: AggregationThresholdList, location_name: "aggregationThresholds"))
+    IntermediateTableAnalysisRuleCustom.add_member(:comparison_controls, Shapes::ShapeRef.new(shape: ComparisonControls, location_name: "comparisonControls"))
     IntermediateTableAnalysisRuleCustom.struct_class = Types::IntermediateTableAnalysisRuleCustom
 
     IntermediateTableAnalysisRulePolicy.add_member(:v1, Shapes::ShapeRef.new(shape: IntermediateTableAnalysisRulePolicyV1, location_name: "v1"))
@@ -2651,6 +2682,12 @@ module Aws::CleanRooms
 
     ModelTrainingPaymentConfig.add_member(:is_responsible, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "isResponsible"))
     ModelTrainingPaymentConfig.struct_class = Types::ModelTrainingPaymentConfig
+
+    OutputColumnThreshold.add_member(:output_column_name, Shapes::ShapeRef.new(shape: AnalysisRuleColumnName, required: true, location_name: "outputColumnName"))
+    OutputColumnThreshold.add_member(:minimum_identity_count, Shapes::ShapeRef.new(shape: OutputColumnThresholdMinimumIdentityCountInteger, required: true, location_name: "minimumIdentityCount"))
+    OutputColumnThreshold.struct_class = Types::OutputColumnThreshold
+
+    OutputColumnThresholdList.member = Shapes::ShapeRef.new(shape: OutputColumnThreshold)
 
     ParameterMap.key = Shapes::ShapeRef.new(shape: ParameterName)
     ParameterMap.value = Shapes::ShapeRef.new(shape: ParameterValue)

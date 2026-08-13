@@ -70,6 +70,7 @@ module Aws::Connect
     AgentsMinOneMaxHundred = Shapes::ListShape.new(name: 'AgentsMinOneMaxHundred')
     AiAgentId = Shapes::StringShape.new(name: 'AiAgentId')
     AiAgentInfo = Shapes::StructureShape.new(name: 'AiAgentInfo')
+    AiAgentInput = Shapes::StructureShape.new(name: 'AiAgentInput')
     AiAgentSearchCriteria = Shapes::StructureShape.new(name: 'AiAgentSearchCriteria')
     AiAgentSearchCriteriaList = Shapes::ListShape.new(name: 'AiAgentSearchCriteriaList')
     AiAgentVersionId = Shapes::StringShape.new(name: 'AiAgentVersionId')
@@ -1882,6 +1883,8 @@ module Aws::Connect
     SourceCampaign = Shapes::StructureShape.new(name: 'SourceCampaign')
     SourceId = Shapes::StringShape.new(name: 'SourceId')
     SourceType = Shapes::StringShape.new(name: 'SourceType')
+    StartAssistantContactRequest = Shapes::StructureShape.new(name: 'StartAssistantContactRequest')
+    StartAssistantContactResponse = Shapes::StructureShape.new(name: 'StartAssistantContactResponse')
     StartAttachedFileUploadRequest = Shapes::StructureShape.new(name: 'StartAttachedFileUploadRequest')
     StartAttachedFileUploadResponse = Shapes::StructureShape.new(name: 'StartAttachedFileUploadResponse')
     StartChatContactRequest = Shapes::StructureShape.new(name: 'StartChatContactRequest')
@@ -2449,6 +2452,9 @@ module Aws::Connect
     AiAgentInfo.add_member(:ai_agent_version_id, Shapes::ShapeRef.new(shape: AiAgentVersionId, location_name: "AiAgentVersionId"))
     AiAgentInfo.add_member(:ai_agent_escalated, Shapes::ShapeRef.new(shape: Boolean, location_name: "AiAgentEscalated"))
     AiAgentInfo.struct_class = Types::AiAgentInfo
+
+    AiAgentInput.add_member(:ai_agent_id, Shapes::ShapeRef.new(shape: AiAgentId, required: true, location_name: "AiAgentId"))
+    AiAgentInput.struct_class = Types::AiAgentInput
 
     AiAgentSearchCriteria.add_member(:id, Shapes::ShapeRef.new(shape: AiAgentId, location_name: "Id"))
     AiAgentSearchCriteria.add_member(:version_number, Shapes::ShapeRef.new(shape: AiAgentVersionNumber, location_name: "VersionNumber", metadata: {"box" => true}))
@@ -8514,6 +8520,22 @@ module Aws::Connect
     SourceCampaign.add_member(:outbound_request_id, Shapes::ShapeRef.new(shape: OutboundRequestId, location_name: "OutboundRequestId"))
     SourceCampaign.struct_class = Types::SourceCampaign
 
+    StartAssistantContactRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "InstanceId"))
+    StartAssistantContactRequest.add_member(:ai_agent, Shapes::ShapeRef.new(shape: AiAgentInput, required: true, location_name: "AiAgent"))
+    StartAssistantContactRequest.add_member(:participant_details, Shapes::ShapeRef.new(shape: ParticipantDetails, required: true, location_name: "ParticipantDetails"))
+    StartAssistantContactRequest.add_member(:initial_message, Shapes::ShapeRef.new(shape: ChatMessage, location_name: "InitialMessage"))
+    StartAssistantContactRequest.add_member(:attributes, Shapes::ShapeRef.new(shape: Attributes, location_name: "Attributes"))
+    StartAssistantContactRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    StartAssistantContactRequest.add_member(:persistent_chat, Shapes::ShapeRef.new(shape: PersistentChat, location_name: "PersistentChat"))
+    StartAssistantContactRequest.add_member(:related_contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "RelatedContactId"))
+    StartAssistantContactRequest.struct_class = Types::StartAssistantContactRequest
+
+    StartAssistantContactResponse.add_member(:contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "ContactId"))
+    StartAssistantContactResponse.add_member(:participant_id, Shapes::ShapeRef.new(shape: ParticipantId, location_name: "ParticipantId"))
+    StartAssistantContactResponse.add_member(:participant_token, Shapes::ShapeRef.new(shape: ParticipantToken, location_name: "ParticipantToken"))
+    StartAssistantContactResponse.add_member(:continued_from_contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "ContinuedFromContactId"))
+    StartAssistantContactResponse.struct_class = Types::StartAssistantContactResponse
+
     StartAttachedFileUploadRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     StartAttachedFileUploadRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     StartAttachedFileUploadRequest.add_member(:file_name, Shapes::ShapeRef.new(shape: FileName, required: true, location_name: "FileName"))
@@ -8728,6 +8750,7 @@ module Aws::Connect
     StartWebRTCContactRequest.add_member(:related_contact_id, Shapes::ShapeRef.new(shape: ContactId, location_name: "RelatedContactId"))
     StartWebRTCContactRequest.add_member(:references, Shapes::ShapeRef.new(shape: ContactReferences, location_name: "References"))
     StartWebRTCContactRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
+    StartWebRTCContactRequest.add_member(:segment_attributes, Shapes::ShapeRef.new(shape: SegmentAttributes, location_name: "SegmentAttributes"))
     StartWebRTCContactRequest.struct_class = Types::StartWebRTCContactRequest
 
     StartWebRTCContactResponse.add_member(:connection_data, Shapes::ShapeRef.new(shape: ConnectionData, location_name: "ConnectionData"))
@@ -14610,6 +14633,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
+      api.add_operation(:start_assistant_contact, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartAssistantContact"
+        o.http_method = "PUT"
+        o.http_request_uri = "/contact/assistant"
+        o.input = Shapes::ShapeRef.new(shape: StartAssistantContactRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartAssistantContactResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+      end)
+
       api.add_operation(:start_attached_file_upload, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StartAttachedFileUpload"
         o.http_method = "PUT"
@@ -14834,6 +14871,7 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:stop_contact, Seahorse::Model::Operation.new.tap do |o|

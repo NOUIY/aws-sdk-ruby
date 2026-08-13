@@ -649,6 +649,21 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # The AI agent that participates in the contact, including its
+    # identifier.
+    #
+    # @!attribute [rw] ai_agent_id
+    #   The identifier of the AI agent that participates in the contact.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AiAgentInput AWS API Documentation
+    #
+    class AiAgentInput < Struct.new(
+      :ai_agent_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The search criteria based on AI Agents metadata.
     #
     # @!attribute [rw] id
@@ -25914,7 +25929,7 @@ module Aws::Connect
     #   @return [Array<String>]
     #
     # @!attribute [rw] participant_details
-    #   The customer's details.
+    #   The details of the participant, including their display name.
     #   @return [Types::ParticipantDetails]
     #
     # @!attribute [rw] attributes
@@ -26705,7 +26720,7 @@ module Aws::Connect
       include Aws::Structure
     end
 
-    # The customer's details.
+    # The details of the participant, including their display name.
     #
     # @!attribute [rw] display_name
     #   Display name of the participant.
@@ -33133,6 +33148,122 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] ai_agent
+    #   The AI agent that participates in the contact.
+    #   @return [Types::AiAgentInput]
+    #
+    # @!attribute [rw] participant_details
+    #   The display name and other details that identify the chat
+    #   participant.
+    #   @return [Types::ParticipantDetails]
+    #
+    # @!attribute [rw] initial_message
+    #   The initial message to send to the newly created chat.
+    #   @return [Types::ChatMessage]
+    #
+    # @!attribute [rw] attributes
+    #   A map of key-value pairs to associate with the contact. Amazon
+    #   Connect makes these attributes available to flows as standard
+    #   contact attributes.
+    #
+    #   You can provide up to 32,768 UTF-8 bytes across all key-value pairs
+    #   per contact. Attribute keys can contain only alphanumeric
+    #   characters, dashes, and underscores.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency,
+    #   see [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #   @return [String]
+    #
+    # @!attribute [rw] persistent_chat
+    #   The configuration that enables persistent chat. For more information
+    #   about persistent chat and its use cases, see [Enable persistent
+    #   chat][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html
+    #   @return [Types::PersistentChat]
+    #
+    # @!attribute [rw] related_contact_id
+    #   The identifier of an Connect Customer contact related to the new
+    #   assistant contact.
+    #
+    #   <note markdown="1"> You cannot provide both `RelatedContactId` and `PersistentChat`.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartAssistantContactRequest AWS API Documentation
+    #
+    class StartAssistantContactRequest < Struct.new(
+      :instance_id,
+      :ai_agent,
+      :participant_details,
+      :initial_message,
+      :attributes,
+      :client_token,
+      :persistent_chat,
+      :related_contact_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] contact_id
+    #   The identifier of the contact within the Connect Customer instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] participant_id
+    #   The identifier of the chat participant. The participant identifier
+    #   remains the same throughout the chat lifecycle.
+    #   @return [String]
+    #
+    # @!attribute [rw] participant_token
+    #   The token that the chat participant uses to call the
+    #   [CreateParticipantConnection][1] API. The token remains valid for
+    #   the lifetime of the chat participant.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html
+    #   @return [String]
+    #
+    # @!attribute [rw] continued_from_contact_id
+    #   For a persistent chat, the identifier of the contact from which the
+    #   chat continues. Amazon Connect returns this field only for
+    #   persistent chats.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartAssistantContactResponse AWS API Documentation
+    #
+    class StartAssistantContactResponse < Struct.new(
+      :contact_id,
+      :participant_id,
+      :participant_token,
+      :continued_from_contact_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
     #   idempotency of the request. If not provided, the Amazon Web Services
@@ -33949,7 +34080,7 @@ module Aws::Connect
     #   @return [Integer]
     #
     # @!attribute [rw] participant_details
-    #   The customer's details.
+    #   The details of the participant, including their display name.
     #   @return [Types::ParticipantDetails]
     #
     # @!attribute [rw] initial_system_message
@@ -34582,7 +34713,7 @@ module Aws::Connect
     #   @return [Types::AllowedCapabilities]
     #
     # @!attribute [rw] participant_details
-    #   The customer's details.
+    #   The details of the participant, including their display name.
     #   @return [Types::ParticipantDetails]
     #
     # @!attribute [rw] related_contact_id
@@ -34603,6 +34734,15 @@ module Aws::Connect
     #   Control Panel (CCP).
     #   @return [String]
     #
+    # @!attribute [rw] segment_attributes
+    #   Use this map to specify system-defined attributes for the WebRTC
+    #   contact segment. Use the `connect:Subtype` attribute to specify the
+    #   channel subtype, such as `connect:WebRTC`.
+    #
+    #   Attribute keys can contain only alphanumeric characters, hyphens,
+    #   and underscores.
+    #   @return [Hash<String,Types::SegmentAttributeValue>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartWebRTCContactRequest AWS API Documentation
     #
     class StartWebRTCContactRequest < Struct.new(
@@ -34614,7 +34754,8 @@ module Aws::Connect
       :participant_details,
       :related_contact_id,
       :references,
-      :description)
+      :description,
+      :segment_attributes)
       SENSITIVE = [:description]
       include Aws::Structure
     end

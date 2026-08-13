@@ -49,6 +49,7 @@ module Aws::AutoScaling
 
     class ActivityType
       attr_accessor activity: Types::Activity
+      attr_accessor activities: ::Array[Types::Activity]
       SENSITIVE: []
     end
 
@@ -715,6 +716,11 @@ module Aws::AutoScaling
       attr_accessor policy_name: ::String
       attr_accessor start_time: ::Time
       attr_accessor end_time: ::Time
+      SENSITIVE: []
+    end
+
+    class IdempotentCallInProgressFault
+      attr_accessor message: ::String
       SENSITIVE: []
     end
 
@@ -1471,6 +1477,8 @@ module Aws::AutoScaling
 
     class TerminateInstanceInAutoScalingGroupType
       attr_accessor instance_id: ::String
+      attr_accessor instance_ids: ::Array[::String]
+      attr_accessor auto_scaling_group_name: ::String
       attr_accessor should_decrement_desired_capacity: bool
       SENSITIVE: []
     end

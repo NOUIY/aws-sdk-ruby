@@ -236,6 +236,63 @@ module Aws::CleanRooms
       include Aws::Structure
     end
 
+    # Specifies the minimum number of distinct identities that each query
+    # output group must represent.
+    #
+    # @!attribute [rw] identity_columns
+    #   The identity column, such as `user_id`, whose distinct values Clean
+    #   Rooms counts to enforce minimum aggregation thresholds. Currently,
+    #   you can specify only one column, and its data type must be string,
+    #   varchar, or char.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] minimum_identity_count
+    #   The minimum number of distinct identities that each query output
+    #   group must represent. This threshold applies to all output columns
+    #   in the table. To override this threshold for a specific column, use
+    #   `outputColumnThresholds`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] type
+    #   The type of aggregation that the threshold enforces. Currently, the
+    #   only supported value is `COUNT_DISTINCT`, which counts the distinct
+    #   values in the identity column.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_column_thresholds
+    #   The per-column overrides of `minimumIdentityCount`. An output column
+    #   without an override uses `minimumIdentityCount`.
+    #   @return [Array<Types::OutputColumnThreshold>]
+    #
+    # @!attribute [rw] allowed_aggregate_expression_type
+    #   Specifies whether a query can aggregate a transformed column. This
+    #   applies to the arguments of both aggregate and window functions.
+    #   Valid values are:
+    #
+    #   `COLUMNS_ONLY` – A query can aggregate only a direct column
+    #   reference, such as `SUM(amount)`, or a constant. Clean Rooms rejects
+    #   a query that transforms a column and then aggregates it, such as
+    #   `SUM(amount * 2)` or `SUM(ROUND(amount))`.
+    #
+    #   `ANY_EXPRESSION` – A query can aggregate any expression. This
+    #   includes arithmetic, such as `SUM(price * quantity)`; a cast, such
+    #   as `SUM(CAST(amount AS DECIMAL))`; a nested function call, such as
+    #   `SUM(COALESCE(amount, 0))`; and a conditional, such as `SUM(CASE
+    #   WHEN region = 'EU' THEN amount ELSE 0 END)`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/AggregationThreshold AWS API Documentation
+    #
+    class AggregationThreshold < Struct.new(
+      :identity_columns,
+      :minimum_identity_count,
+      :type,
+      :output_column_thresholds,
+      :allowed_aggregate_expression_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An export of the redacted Apache Spark logs for a protected query.
     #
     # @!attribute [rw] analysis_log_export_id
@@ -577,7 +634,7 @@ module Aws::CleanRooms
 
     # A type of analysis rule that enables the table owner to approve custom
     # SQL queries on their configured tables. It supports differential
-    # privacy.
+    # privacy, minimum aggregation thresholds, and comparison controls.
     #
     # @!attribute [rw] allowed_analyses
     #   The ARN of the analysis templates that are allowed by the custom
@@ -604,6 +661,20 @@ module Aws::CleanRooms
     #   The differential privacy configuration.
     #   @return [Types::DifferentialPrivacyConfiguration]
     #
+    # @!attribute [rw] aggregation_thresholds
+    #   The aggregation thresholds that each query output group must
+    #   satisfy. Clean Rooms filters out any group that represents fewer
+    #   than the specified number of distinct identities. You can specify at
+    #   most one threshold. You can't use aggregation thresholds with
+    #   differential privacy, or when `allowedAnalyses` allows only jobs.
+    #   @return [Array<Types::AggregationThreshold>]
+    #
+    # @!attribute [rw] comparison_controls
+    #   The controls that restrict how a query can compare the columns in
+    #   the configured table. You can't use comparison controls with
+    #   differential privacy, or when `allowedAnalyses` allows only jobs.
+    #   @return [Types::ComparisonControls]
+    #
     # @!attribute [rw] allowed_result_receivers
     #   The list of Amazon Web Services account IDs that are allowed to
     #   receive results from queries run on the configured table.
@@ -622,6 +693,8 @@ module Aws::CleanRooms
       :additional_analyses,
       :disallowed_output_columns,
       :differential_privacy,
+      :aggregation_thresholds,
+      :comparison_controls,
       :allowed_result_receivers,
       :allowed_additional_analyses)
       SENSITIVE = []
@@ -2553,6 +2626,34 @@ module Aws::CleanRooms
       include Aws::Structure
     end
 
+    # Specifies how a query can compare the columns in a table, including
+    # literal comparisons and column-to-column comparisons.
+    #
+    # @!attribute [rw] allowed_literal_comparison_columns
+    #   The columns that a query can compare to literal values, for example,
+    #   in a WHERE clause. Clean Rooms rejects a query that compares any
+    #   other column to a literal value. Specify an empty list to block
+    #   literal comparison on every column. You can't specify a column that
+    #   you also use as an identity column in an aggregation threshold.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] allowed_column_comparison_columns
+    #   The columns that a query can compare to another column, for example,
+    #   in a join, a WHERE clause, a GROUP BY clause, or a window function.
+    #   Clean Rooms rejects a query that uses any other column in a
+    #   column-to-column comparison. Specify an empty list to block
+    #   column-to-column comparison on every column.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ComparisonControls AWS API Documentation
+    #
+    class ComparisonControls < Struct.new(
+      :allowed_literal_comparison_columns,
+      :allowed_column_comparison_columns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The configuration of the compute resources for an analysis with the
     # Spark analytics engine.
     #
@@ -2910,7 +3011,8 @@ module Aws::CleanRooms
     # @!attribute [rw] custom
     #   A type of analysis rule that enables the table owner to approve
     #   custom SQL queries on their configured tables. It supports
-    #   differential privacy.
+    #   differential privacy, minimum aggregation thresholds, and comparison
+    #   controls.
     #   @return [Types::AnalysisRuleCustom]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/ConfiguredTableAnalysisRulePolicyV1 AWS API Documentation
@@ -3462,6 +3564,14 @@ module Aws::CleanRooms
     #   Specifies the unique identifier for your users.
     #   @return [Types::DifferentialPrivacyConfiguration]
     #
+    # @!attribute [rw] aggregation_thresholds
+    #   The aggregation thresholds for the consolidated policy.
+    #   @return [Array<Types::AggregationThreshold>]
+    #
+    # @!attribute [rw] comparison_controls
+    #   The comparison controls for the consolidated policy.
+    #   @return [Types::ComparisonControls]
+    #
     # @!attribute [rw] allowed_result_receivers
     #   The allowed result receivers.
     #   @return [Array<String>]
@@ -3478,6 +3588,8 @@ module Aws::CleanRooms
       :additional_analyses,
       :disallowed_output_columns,
       :differential_privacy,
+      :aggregation_thresholds,
+      :comparison_controls,
       :allowed_result_receivers,
       :allowed_additional_analyses)
       SENSITIVE = []
@@ -6739,6 +6851,20 @@ module Aws::CleanRooms
     #   The list of columns that are not allowed in the query output.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] aggregation_thresholds
+    #   The aggregation thresholds that each query output group must
+    #   satisfy. Clean Rooms filters out any group that represents fewer
+    #   than the specified number of distinct identities. You can specify at
+    #   most one threshold. You can't use aggregation thresholds with
+    #   differential privacy, or when `allowedAnalyses` allows only jobs.
+    #   @return [Array<Types::AggregationThreshold>]
+    #
+    # @!attribute [rw] comparison_controls
+    #   The controls that restrict how a query can compare the columns in
+    #   the intermediate table. You can't use comparison controls with
+    #   differential privacy, or when `allowedAnalyses` allows only jobs.
+    #   @return [Types::ComparisonControls]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/IntermediateTableAnalysisRuleCustom AWS API Documentation
     #
     class IntermediateTableAnalysisRuleCustom < Struct.new(
@@ -6748,7 +6874,9 @@ module Aws::CleanRooms
       :allowed_analysis_providers,
       :allowed_result_receivers,
       :differential_privacy,
-      :disallowed_output_columns)
+      :disallowed_output_columns,
+      :aggregation_thresholds,
+      :comparison_controls)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8941,6 +9069,31 @@ module Aws::CleanRooms
     #
     class ModelTrainingPaymentConfig < Struct.new(
       :is_responsible)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the minimum number of distinct identities for an individual
+    # output column. This value overrides the table-wide
+    # `minimumIdentityCount` that you set in `AggregationThreshold`.
+    #
+    # @!attribute [rw] output_column_name
+    #   The name of the output column that the override applies to. You can
+    #   specify each column only once.
+    #   @return [String]
+    #
+    # @!attribute [rw] minimum_identity_count
+    #   The minimum number of distinct identities that each query output
+    #   group must represent for this column. Specify 0 to exempt the column
+    #   from the threshold, or a value of 2 or greater to enforce a
+    #   threshold.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cleanrooms-2022-02-17/OutputColumnThreshold AWS API Documentation
+    #
+    class OutputColumnThreshold < Struct.new(
+      :output_column_name,
+      :minimum_identity_count)
       SENSITIVE = []
       include Aws::Structure
     end

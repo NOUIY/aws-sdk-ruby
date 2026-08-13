@@ -169,6 +169,11 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class AiAgentInput
+      attr_accessor ai_agent_id: ::String
+      SENSITIVE: []
+    end
+
     class AiAgentSearchCriteria
       attr_accessor id: ::String
       attr_accessor version_number: ::Integer
@@ -7749,6 +7754,26 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class StartAssistantContactRequest
+      attr_accessor instance_id: ::String
+      attr_accessor ai_agent: Types::AiAgentInput
+      attr_accessor participant_details: Types::ParticipantDetails
+      attr_accessor initial_message: Types::ChatMessage
+      attr_accessor attributes: ::Hash[::String, ::String]
+      attr_accessor client_token: ::String
+      attr_accessor persistent_chat: Types::PersistentChat
+      attr_accessor related_contact_id: ::String
+      SENSITIVE: []
+    end
+
+    class StartAssistantContactResponse
+      attr_accessor contact_id: ::String
+      attr_accessor participant_id: ::String
+      attr_accessor participant_token: ::String
+      attr_accessor continued_from_contact_id: ::String
+      SENSITIVE: []
+    end
+
     class StartAttachedFileUploadRequest
       attr_accessor client_token: ::String
       attr_accessor instance_id: ::String
@@ -8021,6 +8046,7 @@ module Aws::Connect
       attr_accessor related_contact_id: ::String
       attr_accessor references: ::Hash[::String, Types::Reference]
       attr_accessor description: ::String
+      attr_accessor segment_attributes: ::Hash[::String, Types::SegmentAttributeValue]
       SENSITIVE: [:description]
     end
 

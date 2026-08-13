@@ -182,6 +182,7 @@ module Aws::AutoScaling
     HealthCheckGracePeriod = Shapes::IntegerShape.new(name: 'HealthCheckGracePeriod')
     HeartbeatTimeout = Shapes::IntegerShape.new(name: 'HeartbeatTimeout')
     HonorCooldown = Shapes::BooleanShape.new(name: 'HonorCooldown')
+    IdempotentCallInProgressFault = Shapes::StructureShape.new(name: 'IdempotentCallInProgressFault', error: {"code" => "IdempotentCallInProgress", "httpStatusCode" => 500, "senderFault" => true})
     IdempotentParameterMismatchError = Shapes::StructureShape.new(name: 'IdempotentParameterMismatchError', error: {"code" => "IdempotentParameterMismatch", "httpStatusCode" => 400, "senderFault" => true})
     ImageId = Shapes::StringShape.new(name: 'ImageId')
     ImpairedZoneHealthCheckBehavior = Shapes::StringShape.new(name: 'ImpairedZoneHealthCheckBehavior')
@@ -407,6 +408,7 @@ module Aws::AutoScaling
     TargetTrackingMetricDataQuery = Shapes::StructureShape.new(name: 'TargetTrackingMetricDataQuery')
     TargetTrackingMetricStat = Shapes::StructureShape.new(name: 'TargetTrackingMetricStat')
     TerminateInstanceInAutoScalingGroupType = Shapes::StructureShape.new(name: 'TerminateInstanceInAutoScalingGroupType')
+    TerminationInstanceIds = Shapes::ListShape.new(name: 'TerminationInstanceIds')
     TerminationPolicies = Shapes::ListShape.new(name: 'TerminationPolicies')
     TimestampType = Shapes::TimestampShape.new(name: 'TimestampType')
     TotalLocalStorageGBRequest = Shapes::StructureShape.new(name: 'TotalLocalStorageGBRequest')
@@ -478,6 +480,7 @@ module Aws::AutoScaling
     ActivityIds.member = Shapes::ShapeRef.new(shape: XmlString)
 
     ActivityType.add_member(:activity, Shapes::ShapeRef.new(shape: Activity, location_name: "Activity"))
+    ActivityType.add_member(:activities, Shapes::ShapeRef.new(shape: Activities, location_name: "Activities"))
     ActivityType.struct_class = Types::ActivityType
 
     AdjustmentType.add_member(:adjustment_type, Shapes::ShapeRef.new(shape: XmlStringMaxLen255, location_name: "AdjustmentType"))
@@ -1012,6 +1015,9 @@ module Aws::AutoScaling
     GetPredictiveScalingForecastType.add_member(:start_time, Shapes::ShapeRef.new(shape: TimestampType, required: true, location_name: "StartTime"))
     GetPredictiveScalingForecastType.add_member(:end_time, Shapes::ShapeRef.new(shape: TimestampType, required: true, location_name: "EndTime"))
     GetPredictiveScalingForecastType.struct_class = Types::GetPredictiveScalingForecastType
+
+    IdempotentCallInProgressFault.add_member(:message, Shapes::ShapeRef.new(shape: XmlStringMaxLen255, location_name: "Message"))
+    IdempotentCallInProgressFault.struct_class = Types::IdempotentCallInProgressFault
 
     IdempotentParameterMismatchError.add_member(:message, Shapes::ShapeRef.new(shape: XmlStringMaxLen255, location_name: "Message"))
     IdempotentParameterMismatchError.struct_class = Types::IdempotentParameterMismatchError
@@ -1662,9 +1668,13 @@ module Aws::AutoScaling
     TargetTrackingMetricStat.add_member(:period, Shapes::ShapeRef.new(shape: MetricGranularityInSeconds, location_name: "Period"))
     TargetTrackingMetricStat.struct_class = Types::TargetTrackingMetricStat
 
-    TerminateInstanceInAutoScalingGroupType.add_member(:instance_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen19, required: true, location_name: "InstanceId"))
+    TerminateInstanceInAutoScalingGroupType.add_member(:instance_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen19, location_name: "InstanceId"))
+    TerminateInstanceInAutoScalingGroupType.add_member(:instance_ids, Shapes::ShapeRef.new(shape: TerminationInstanceIds, location_name: "InstanceIds"))
+    TerminateInstanceInAutoScalingGroupType.add_member(:auto_scaling_group_name, Shapes::ShapeRef.new(shape: XmlStringMaxLen255, location_name: "AutoScalingGroupName"))
     TerminateInstanceInAutoScalingGroupType.add_member(:should_decrement_desired_capacity, Shapes::ShapeRef.new(shape: ShouldDecrementDesiredCapacity, required: true, location_name: "ShouldDecrementDesiredCapacity"))
     TerminateInstanceInAutoScalingGroupType.struct_class = Types::TerminateInstanceInAutoScalingGroupType
+
+    TerminationInstanceIds.member = Shapes::ShapeRef.new(shape: XmlStringMaxLen19)
 
     TerminationPolicies.member = Shapes::ShapeRef.new(shape: XmlStringMaxLen1600)
 
@@ -2328,6 +2338,7 @@ module Aws::AutoScaling
         o.output = Shapes::ShapeRef.new(shape: LaunchInstancesResult)
         o.errors << Shapes::ShapeRef.new(shape: ResourceContentionFault)
         o.errors << Shapes::ShapeRef.new(shape: IdempotentParameterMismatchError)
+        o.errors << Shapes::ShapeRef.new(shape: IdempotentCallInProgressFault)
       end)
 
       api.add_operation(:put_lifecycle_hook, Seahorse::Model::Operation.new.tap do |o|

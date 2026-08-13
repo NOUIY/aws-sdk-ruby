@@ -679,6 +679,7 @@ module Aws::SecurityAgent
     #   resp.deleted[0].clean_up_strategy #=> String, one of "BEST_EFFORT_DELETE", "RETAIN_ALL"
     #   resp.deleted[0].disable_managed_skills #=> Array
     #   resp.deleted[0].disable_managed_skills[0] #=> String, one of "FINDING_PERSONALIZATION", "LOGIN_OPTIMIZATION"
+    #   resp.deleted[0].max_task_hours #=> Float
     #   resp.deleted[0].created_at #=> Time
     #   resp.deleted[0].updated_at #=> Time
     #   resp.failed #=> Array
@@ -972,6 +973,7 @@ module Aws::SecurityAgent
     #   resp.code_review_jobs[0].integrated_repositories[0].provider_resource_id #=> String
     #   resp.code_review_jobs[0].integrated_repositories[0].branch #=> String
     #   resp.code_review_jobs[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
+    #   resp.code_review_jobs[0].max_task_hours #=> Float
     #   resp.code_review_jobs[0].created_at #=> Time
     #   resp.code_review_jobs[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1041,6 +1043,7 @@ module Aws::SecurityAgent
     #   resp.code_reviews[0].log_config.log_stream #=> String
     #   resp.code_reviews[0].code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
     #   resp.code_reviews[0].validation_mode #=> String, one of "DISABLED", "SIMULATED"
+    #   resp.code_reviews[0].max_task_hours #=> Float
     #   resp.code_reviews[0].created_at #=> Time
     #   resp.code_reviews[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1116,6 +1119,9 @@ module Aws::SecurityAgent
     #   resp.findings[0].verification_script.env_vars[0].name #=> String
     #   resp.findings[0].verification_script.env_vars[0].value #=> String
     #   resp.findings[0].alignment_rationale #=> String
+    #   resp.findings[0].revalidation_job_ids #=> Array
+    #   resp.findings[0].revalidation_job_ids[0] #=> String
+    #   resp.findings[0].original_finding_id #=> String
     #   resp.findings[0].created_at #=> Time
     #   resp.findings[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1271,6 +1277,10 @@ module Aws::SecurityAgent
     #   resp.pentest_jobs[0].clean_up_strategy #=> String, one of "BEST_EFFORT_DELETE", "RETAIN_ALL"
     #   resp.pentest_jobs[0].disable_managed_skills #=> Array
     #   resp.pentest_jobs[0].disable_managed_skills[0] #=> String, one of "FINDING_PERSONALIZATION", "LOGIN_OPTIMIZATION"
+    #   resp.pentest_jobs[0].max_task_hours #=> Float
+    #   resp.pentest_jobs[0].job_type #=> String, one of "FULL", "REVALIDATION"
+    #   resp.pentest_jobs[0].selected_finding_ids #=> Array
+    #   resp.pentest_jobs[0].selected_finding_ids[0] #=> String
     #   resp.pentest_jobs[0].created_at #=> Time
     #   resp.pentest_jobs[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1354,6 +1364,7 @@ module Aws::SecurityAgent
     #   resp.pentests[0].clean_up_strategy #=> String, one of "BEST_EFFORT_DELETE", "RETAIN_ALL"
     #   resp.pentests[0].disable_managed_skills #=> Array
     #   resp.pentests[0].disable_managed_skills[0] #=> String, one of "FINDING_PERSONALIZATION", "LOGIN_OPTIMIZATION"
+    #   resp.pentests[0].max_task_hours #=> Float
     #   resp.pentests[0].created_at #=> Time
     #   resp.pentests[0].updated_at #=> Time
     #   resp.not_found #=> Array
@@ -1933,6 +1944,11 @@ module Aws::SecurityAgent
     #   The validation mode for the code review. Valid values are SIMULATED
     #   and DISABLED.
     #
+    # @option params [Float] :max_task_hours
+    #   The maximum number of billable task hours allowed for jobs started
+    #   from this code review. Must be a positive number. If not set, jobs run
+    #   to completion with no budget cap.
+    #
     # @return [Types::CreateCodeReviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateCodeReviewOutput#code_review_id #code_review_id} => String
@@ -1945,6 +1961,7 @@ module Aws::SecurityAgent
     #   * {Types::CreateCodeReviewOutput#agent_space_id #agent_space_id} => String
     #   * {Types::CreateCodeReviewOutput#code_remediation_strategy #code_remediation_strategy} => String
     #   * {Types::CreateCodeReviewOutput#validation_mode #validation_mode} => String
+    #   * {Types::CreateCodeReviewOutput#max_task_hours #max_task_hours} => Float
     #
     # @example Request syntax with placeholder values
     #
@@ -2000,6 +2017,7 @@ module Aws::SecurityAgent
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
     #     validation_mode: "DISABLED", # accepts DISABLED, SIMULATED
+    #     max_task_hours: 1.0,
     #   })
     #
     # @example Response structure
@@ -2036,6 +2054,7 @@ module Aws::SecurityAgent
     #   resp.agent_space_id #=> String
     #   resp.code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
     #   resp.validation_mode #=> String, one of "DISABLED", "SIMULATED"
+    #   resp.max_task_hours #=> Float
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CreateCodeReview AWS API Documentation
     #
@@ -2208,6 +2227,11 @@ module Aws::SecurityAgent
     #   A list of managed skills to disable for this pentest. Valid values
     #   include FINDING\_PERSONALIZATION and LOGIN\_OPTIMIZATION.
     #
+    # @option params [Float] :max_task_hours
+    #   The maximum number of billable task hours allowed for jobs started
+    #   from this pentest. Must be a positive number. If not set, jobs run to
+    #   completion with no budget cap.
+    #
     # @return [Types::CreatePentestOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreatePentestOutput#pentest_id #pentest_id} => String
@@ -2295,6 +2319,7 @@ module Aws::SecurityAgent
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
     #     disable_managed_skills: ["FINDING_PERSONALIZATION"], # accepts FINDING_PERSONALIZATION, LOGIN_OPTIMIZATION
+    #     max_task_hours: 1.0,
     #   })
     #
     # @example Response structure
@@ -4710,6 +4735,16 @@ module Aws::SecurityAgent
     # @option params [required, String] :pentest_id
     #   The unique identifier of the pentest to start a job for.
     #
+    # @option params [String] :job_type
+    #   The type of pentest job to start. Valid values are FULL and
+    #   REVALIDATION. When set to REVALIDATION, the selectedFindingIds
+    #   parameter is required.
+    #
+    # @option params [Array<String>] :selected_finding_ids
+    #   The list of finding identifiers to revalidate. Required when jobType
+    #   is REVALIDATION. Each finding must belong to the same agent space and
+    #   pentest.
+    #
     # @return [Types::StartPentestJobOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartPentestJobOutput#title #title} => String
@@ -4725,6 +4760,8 @@ module Aws::SecurityAgent
     #   resp = client.start_pentest_job({
     #     agent_space_id: "String", # required
     #     pentest_id: "String", # required
+    #     job_type: "FULL", # accepts FULL, REVALIDATION
+    #     selected_finding_ids: ["String"],
     #   })
     #
     # @example Response structure
@@ -5088,6 +5125,10 @@ module Aws::SecurityAgent
     #   The updated validation mode for the code review. Valid values are
     #   SIMULATED and DISABLED.
     #
+    # @option params [Float] :max_task_hours
+    #   The updated maximum number of billable task hours allowed for jobs
+    #   started from this code review.
+    #
     # @return [Types::UpdateCodeReviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateCodeReviewOutput#code_review_id #code_review_id} => String
@@ -5100,6 +5141,7 @@ module Aws::SecurityAgent
     #   * {Types::UpdateCodeReviewOutput#agent_space_id #agent_space_id} => String
     #   * {Types::UpdateCodeReviewOutput#code_remediation_strategy #code_remediation_strategy} => String
     #   * {Types::UpdateCodeReviewOutput#validation_mode #validation_mode} => String
+    #   * {Types::UpdateCodeReviewOutput#max_task_hours #max_task_hours} => Float
     #
     # @example Request syntax with placeholder values
     #
@@ -5156,6 +5198,7 @@ module Aws::SecurityAgent
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
     #     validation_mode: "DISABLED", # accepts DISABLED, SIMULATED
+    #     max_task_hours: 1.0,
     #   })
     #
     # @example Response structure
@@ -5192,6 +5235,7 @@ module Aws::SecurityAgent
     #   resp.agent_space_id #=> String
     #   resp.code_remediation_strategy #=> String, one of "AUTOMATIC", "DISABLED"
     #   resp.validation_mode #=> String, one of "DISABLED", "SIMULATED"
+    #   resp.max_task_hours #=> Float
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/UpdateCodeReview AWS API Documentation
     #
@@ -5374,6 +5418,10 @@ module Aws::SecurityAgent
     #   The updated list of managed skills to disable for this pentest. Valid
     #   values include FINDING\_PERSONALIZATION and LOGIN\_OPTIMIZATION.
     #
+    # @option params [Float] :max_task_hours
+    #   The updated maximum number of billable task hours allowed for jobs
+    #   started from this pentest.
+    #
     # @return [Types::UpdatePentestOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdatePentestOutput#pentest_id #pentest_id} => String
@@ -5462,6 +5510,7 @@ module Aws::SecurityAgent
     #     },
     #     code_remediation_strategy: "AUTOMATIC", # accepts AUTOMATIC, DISABLED
     #     disable_managed_skills: ["FINDING_PERSONALIZATION"], # accepts FINDING_PERSONALIZATION, LOGIN_OPTIMIZATION
+    #     max_task_hours: 1.0,
     #   })
     #
     # @example Response structure
@@ -6018,7 +6067,7 @@ module Aws::SecurityAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-securityagent'
-      context[:gem_version] = '1.11.0'
+      context[:gem_version] = '1.12.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

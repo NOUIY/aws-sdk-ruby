@@ -172,10 +172,16 @@ module Aws::AutoScaling
     #   A scaling activity.
     #   @return [Types::Activity]
     #
+    # @!attribute [rw] activities
+    #   The scaling activities related to terminating the instances from the
+    #   Auto Scaling group.
+    #   @return [Array<Types::Activity>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ActivityType AWS API Documentation
     #
     class ActivityType < Struct.new(
-      :activity)
+      :activity,
+      :activities)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3597,6 +3603,21 @@ module Aws::AutoScaling
       :policy_name,
       :start_time,
       :end_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The service is currently processing another request with the same
+    # client token. Retry the request with the same client token—the
+    # in-flight operation will complete and return its result.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/IdempotentCallInProgressFault AWS API Documentation
+    #
+    class IdempotentCallInProgressFault < Struct.new(
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7317,6 +7338,17 @@ module Aws::AutoScaling
     #   If you do not specify this property, the default is 100 percent, or
     #   the percentage set in the instance maintenance policy for the Auto
     #   Scaling group, if defined.
+    #
+    #   Explicitly setting `MaxHealthyPercentage` to 100 is not equivalent
+    #   to omitting it. When `MaxHealthyPercentage` is explicitly set and it
+    #   is mathematically impossible to replace instances while honoring
+    #   both `MinHealthyPercentage` and `MaxHealthyPercentage` bounds
+    #   simultaneously, Auto Scaling launches a new instance before
+    #   terminating an old one (temporarily exceeding the desired capacity).
+    #   When `MaxHealthyPercentage` is omitted, Auto Scaling terminates an
+    #   instance and launches its replacement simultaneously. This
+    #   behavioral difference can affect workflows that depend on instance
+    #   replacement ordering.
     #   @return [Integer]
     #
     # @!attribute [rw] bake_time
@@ -8362,6 +8394,18 @@ module Aws::AutoScaling
     #   The ID of the instance.
     #   @return [String]
     #
+    # @!attribute [rw] instance_ids
+    #   The IDs of the instances. You can specify up to 100 instances.
+    #
+    #   This parameter requires that you also specify
+    #   `AutoScalingGroupName`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] auto_scaling_group_name
+    #   The name of the Auto Scaling group. Required when using
+    #   `InstanceIds`.
+    #   @return [String]
+    #
     # @!attribute [rw] should_decrement_desired_capacity
     #   Indicates whether terminating the instance also decrements the size
     #   of the Auto Scaling group.
@@ -8371,6 +8415,8 @@ module Aws::AutoScaling
     #
     class TerminateInstanceInAutoScalingGroupType < Struct.new(
       :instance_id,
+      :instance_ids,
+      :auto_scaling_group_name,
       :should_decrement_desired_capacity)
       SENSITIVE = []
       include Aws::Structure

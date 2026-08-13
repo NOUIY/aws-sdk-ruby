@@ -61,6 +61,15 @@ module Aws::CleanRooms
       SENSITIVE: []
     end
 
+    class AggregationThreshold
+      attr_accessor identity_columns: ::Array[::String]
+      attr_accessor minimum_identity_count: ::Integer
+      attr_accessor type: ("COUNT_DISTINCT")
+      attr_accessor output_column_thresholds: ::Array[Types::OutputColumnThreshold]
+      attr_accessor allowed_aggregate_expression_type: ("COLUMNS_ONLY" | "ANY_EXPRESSION")
+      SENSITIVE: []
+    end
+
     class AnalysisLogExport
       attr_accessor analysis_log_export_id: ::String
       attr_accessor analysis_id: ::String
@@ -142,6 +151,8 @@ module Aws::CleanRooms
       attr_accessor additional_analyses: ("ALLOWED" | "REQUIRED" | "NOT_ALLOWED")
       attr_accessor disallowed_output_columns: ::Array[::String]
       attr_accessor differential_privacy: Types::DifferentialPrivacyConfiguration
+      attr_accessor aggregation_thresholds: ::Array[Types::AggregationThreshold]
+      attr_accessor comparison_controls: Types::ComparisonControls
       attr_accessor allowed_result_receivers: ::Array[::String]
       attr_accessor allowed_additional_analyses: ::Array[::String]
       SENSITIVE: []
@@ -636,6 +647,12 @@ module Aws::CleanRooms
       SENSITIVE: []
     end
 
+    class ComparisonControls
+      attr_accessor allowed_literal_comparison_columns: ::Array[::String]
+      attr_accessor allowed_column_comparison_columns: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class ComputeConfiguration
       attr_accessor worker: Types::WorkerComputeConfiguration
       attr_accessor unknown: untyped
@@ -885,6 +902,8 @@ module Aws::CleanRooms
       attr_accessor additional_analyses: ("ALLOWED" | "REQUIRED" | "NOT_ALLOWED")
       attr_accessor disallowed_output_columns: ::Array[::String]
       attr_accessor differential_privacy: Types::DifferentialPrivacyConfiguration
+      attr_accessor aggregation_thresholds: ::Array[Types::AggregationThreshold]
+      attr_accessor comparison_controls: Types::ComparisonControls
       attr_accessor allowed_result_receivers: ::Array[::String]
       attr_accessor allowed_additional_analyses: ::Array[::String]
       SENSITIVE: []
@@ -1837,6 +1856,8 @@ module Aws::CleanRooms
       attr_accessor allowed_result_receivers: ::Array[::String]
       attr_accessor differential_privacy: Types::DifferentialPrivacyConfiguration
       attr_accessor disallowed_output_columns: ::Array[::String]
+      attr_accessor aggregation_thresholds: ::Array[Types::AggregationThreshold]
+      attr_accessor comparison_controls: Types::ComparisonControls
       SENSITIVE: []
     end
 
@@ -2441,6 +2462,12 @@ module Aws::CleanRooms
 
     class ModelTrainingPaymentConfig
       attr_accessor is_responsible: bool
+      SENSITIVE: []
+    end
+
+    class OutputColumnThreshold
+      attr_accessor output_column_name: ::String
+      attr_accessor minimum_identity_count: ::Integer
       SENSITIVE: []
     end
 

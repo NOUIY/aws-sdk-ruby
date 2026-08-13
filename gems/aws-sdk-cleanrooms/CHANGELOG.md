@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.79.0 (2026-08-13)
+------------------
+
+* Feature - This release adds support for minimum aggregation thresholds and comparison controls to the Custom analysis rule type.
+
 1.78.0 (2026-08-11)
 ------------------
 

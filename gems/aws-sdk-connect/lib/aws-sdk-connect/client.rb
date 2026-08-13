@@ -23869,6 +23869,129 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Starts a chat contact with an AI agent.
+    #
+    # Use the returned `ParticipantToken` to call the
+    # [CreateParticipantConnection][1] API.
+    #
+    # For more information about chat, see the following topics in the
+    # *Connect Customer Administrator Guide*:
+    #
+    # * [Concepts: Web and mobile messaging capabilities in Connect
+    #   Customer][2]
+    #
+    # * [Connect Customer Chat security best practices][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html
+    # [2]: https://docs.aws.amazon.com/connect/latest/adminguide/web-and-mobile-chat.html
+    # [3]: https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, Types::AiAgentInput] :ai_agent
+    #   The AI agent that participates in the contact.
+    #
+    # @option params [required, Types::ParticipantDetails] :participant_details
+    #   The display name and other details that identify the chat participant.
+    #
+    # @option params [Types::ChatMessage] :initial_message
+    #   The initial message to send to the newly created chat.
+    #
+    # @option params [Hash<String,String>] :attributes
+    #   A map of key-value pairs to associate with the contact. Amazon Connect
+    #   makes these attributes available to flows as standard contact
+    #   attributes.
+    #
+    #   You can provide up to 32,768 UTF-8 bytes across all key-value pairs
+    #   per contact. Attribute keys can contain only alphanumeric characters,
+    #   dashes, and underscores.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field. For more information about idempotency, see
+    #   [Making retries safe with idempotent APIs][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+    #
+    # @option params [Types::PersistentChat] :persistent_chat
+    #   The configuration that enables persistent chat. For more information
+    #   about persistent chat and its use cases, see [Enable persistent
+    #   chat][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html
+    #
+    # @option params [String] :related_contact_id
+    #   The identifier of an Connect Customer contact related to the new
+    #   assistant contact.
+    #
+    #   <note markdown="1"> You cannot provide both `RelatedContactId` and `PersistentChat`.
+    #
+    #    </note>
+    #
+    # @return [Types::StartAssistantContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartAssistantContactResponse#contact_id #contact_id} => String
+    #   * {Types::StartAssistantContactResponse#participant_id #participant_id} => String
+    #   * {Types::StartAssistantContactResponse#participant_token #participant_token} => String
+    #   * {Types::StartAssistantContactResponse#continued_from_contact_id #continued_from_contact_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_assistant_contact({
+    #     instance_id: "InstanceId", # required
+    #     ai_agent: { # required
+    #       ai_agent_id: "AiAgentId", # required
+    #     },
+    #     participant_details: { # required
+    #       display_name: "DisplayName", # required
+    #     },
+    #     initial_message: {
+    #       content_type: "ChatContentType", # required
+    #       content: "ChatContent", # required
+    #     },
+    #     attributes: {
+    #       "AttributeName" => "AttributeValue",
+    #     },
+    #     client_token: "ClientToken",
+    #     persistent_chat: {
+    #       rehydration_type: "ENTIRE_PAST_SESSION", # accepts ENTIRE_PAST_SESSION, FROM_SEGMENT
+    #       source_contact_id: "ContactId",
+    #     },
+    #     related_contact_id: "ContactId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.contact_id #=> String
+    #   resp.participant_id #=> String
+    #   resp.participant_token #=> String
+    #   resp.continued_from_contact_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartAssistantContact AWS API Documentation
+    #
+    # @overload start_assistant_contact(params = {})
+    # @param [Hash] params ({})
+    def start_assistant_contact(params = {}, options = {})
+      req = build_request(:start_assistant_contact, params)
+      req.send_request(options)
+    end
+
     # Provides a pre-signed Amazon S3 URL in response for uploading your
     # content.
     #
@@ -24892,7 +25015,7 @@ module Aws::Connect
     #   10,080 minutes (7 days).
     #
     # @option params [Types::ParticipantDetails] :participant_details
-    #   The customer's details.
+    #   The details of the participant, including their display name.
     #
     # @option params [Types::ChatMessage] :initial_system_message
     #   A chat message.
@@ -25709,7 +25832,7 @@ module Aws::Connect
     #   (customer, agent).
     #
     # @option params [required, Types::ParticipantDetails] :participant_details
-    #   The customer's details.
+    #   The details of the participant, including their display name.
     #
     # @option params [String] :related_contact_id
     #   The unique identifier for an Connect Customer contact. This identifier
@@ -25724,6 +25847,14 @@ module Aws::Connect
     # @option params [String] :description
     #   A description of the task that is shown to an agent in the Contact
     #   Control Panel (CCP).
+    #
+    # @option params [Hash<String,Types::SegmentAttributeValue>] :segment_attributes
+    #   Use this map to specify system-defined attributes for the WebRTC
+    #   contact segment. Use the `connect:Subtype` attribute to specify the
+    #   channel subtype, such as `connect:WebRTC`.
+    #
+    #   Attribute keys can contain only alphanumeric characters, hyphens, and
+    #   underscores.
     #
     # @return [Types::StartWebRTCContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -25765,6 +25896,23 @@ module Aws::Connect
     #       },
     #     },
     #     description: "Description",
+    #     segment_attributes: {
+    #       "SegmentAttributeName" => {
+    #         value_string: "SegmentAttributeValueString",
+    #         value_map: {
+    #           "SegmentAttributeName" => {
+    #             # recursive SegmentAttributeValue
+    #           },
+    #         },
+    #         value_integer: 1,
+    #         value_list: [
+    #           {
+    #             # recursive SegmentAttributeValue
+    #           },
+    #         ],
+    #         value_arn: "SegmentAttributeValueString",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -30851,7 +30999,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.270.0'
+      context[:gem_version] = '1.271.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

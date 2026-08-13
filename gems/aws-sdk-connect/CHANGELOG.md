@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.271.0 (2026-08-13)
+------------------
+
+* Feature - Adds the StartAssistantContact API to start chat contacts handled by an AI agent. Adds SegmentAttributes to StartWebRTCContact, and corrects its error response to now receive AccessDeniedException (previously returned as an internal server error due to a missing error declaration).
+
 1.270.0 (2026-08-11)
 ------------------
 
