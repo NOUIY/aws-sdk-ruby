@@ -85,6 +85,7 @@ module Aws::ObservabilityAdmin
     GetTelemetryRuleForOrganizationOutput = Shapes::StructureShape.new(name: 'GetTelemetryRuleForOrganizationOutput')
     GetTelemetryRuleInput = Shapes::StructureShape.new(name: 'GetTelemetryRuleInput')
     GetTelemetryRuleOutput = Shapes::StructureShape.new(name: 'GetTelemetryRuleOutput')
+    IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     IntegrationStatus = Shapes::StringShape.new(name: 'IntegrationStatus')
     IntegrationSummaries = Shapes::ListShape.new(name: 'IntegrationSummaries')
@@ -177,10 +178,14 @@ module Aws::ObservabilityAdmin
     StopTelemetryEnrichmentOutput = Shapes::StructureShape.new(name: 'StopTelemetryEnrichmentOutput')
     String = Shapes::StringShape.new(name: 'String')
     StringList = Shapes::ListShape.new(name: 'StringList')
+    TagConflictResolutionStrategy = Shapes::StringShape.new(name: 'TagConflictResolutionStrategy')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
     TagMapInput = Shapes::MapShape.new(name: 'TagMapInput')
     TagMapOutput = Shapes::MapShape.new(name: 'TagMapOutput')
+    TagPropagationConfiguration = Shapes::StructureShape.new(name: 'TagPropagationConfiguration')
+    TagPropagationFailureReason = Shapes::StringShape.new(name: 'TagPropagationFailureReason')
+    TagPropagationStatus = Shapes::StringShape.new(name: 'TagPropagationStatus')
     TagResourceInput = Shapes::StructureShape.new(name: 'TagResourceInput')
     TagValue = Shapes::StringShape.new(name: 'TagValue')
     TelemetryConfiguration = Shapes::StructureShape.new(name: 'TelemetryConfiguration')
@@ -275,6 +280,8 @@ module Aws::ObservabilityAdmin
     CentralizationRuleSummary.add_member(:last_update_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "LastUpdateTimeStamp"))
     CentralizationRuleSummary.add_member(:rule_health, Shapes::ShapeRef.new(shape: RuleHealth, location_name: "RuleHealth"))
     CentralizationRuleSummary.add_member(:failure_reason, Shapes::ShapeRef.new(shape: CentralizationFailureReason, location_name: "FailureReason"))
+    CentralizationRuleSummary.add_member(:tag_propagation_status, Shapes::ShapeRef.new(shape: TagPropagationStatus, location_name: "TagPropagationStatus"))
+    CentralizationRuleSummary.add_member(:tag_propagation_failure_reason, Shapes::ShapeRef.new(shape: TagPropagationFailureReason, location_name: "TagPropagationFailureReason"))
     CentralizationRuleSummary.add_member(:destination_account_id, Shapes::ShapeRef.new(shape: String, location_name: "DestinationAccountId"))
     CentralizationRuleSummary.add_member(:destination_region, Shapes::ShapeRef.new(shape: Region, location_name: "DestinationRegion"))
     CentralizationRuleSummary.struct_class = Types::CentralizationRuleSummary
@@ -366,6 +373,7 @@ module Aws::ObservabilityAdmin
     DestinationLogsConfiguration.add_member(:logs_encryption_configuration, Shapes::ShapeRef.new(shape: LogsEncryptionConfiguration, location_name: "LogsEncryptionConfiguration"))
     DestinationLogsConfiguration.add_member(:backup_configuration, Shapes::ShapeRef.new(shape: LogsBackupConfiguration, location_name: "BackupConfiguration"))
     DestinationLogsConfiguration.add_member(:log_group_name_configuration, Shapes::ShapeRef.new(shape: LogGroupNameConfiguration, location_name: "LogGroupNameConfiguration"))
+    DestinationLogsConfiguration.add_member(:tag_propagation_configuration, Shapes::ShapeRef.new(shape: TagPropagationConfiguration, location_name: "TagPropagationConfiguration"))
     DestinationLogsConfiguration.struct_class = Types::DestinationLogsConfiguration
 
     DestinationMetricsConfiguration.add_member(:backup_configuration, Shapes::ShapeRef.new(shape: MetricsBackupConfiguration, location_name: "BackupConfiguration"))
@@ -408,6 +416,8 @@ module Aws::ObservabilityAdmin
     GetCentralizationRuleForOrganizationOutput.add_member(:last_update_time_stamp, Shapes::ShapeRef.new(shape: Long, location_name: "LastUpdateTimeStamp"))
     GetCentralizationRuleForOrganizationOutput.add_member(:rule_health, Shapes::ShapeRef.new(shape: RuleHealth, location_name: "RuleHealth"))
     GetCentralizationRuleForOrganizationOutput.add_member(:failure_reason, Shapes::ShapeRef.new(shape: CentralizationFailureReason, location_name: "FailureReason"))
+    GetCentralizationRuleForOrganizationOutput.add_member(:tag_propagation_status, Shapes::ShapeRef.new(shape: TagPropagationStatus, location_name: "TagPropagationStatus"))
+    GetCentralizationRuleForOrganizationOutput.add_member(:tag_propagation_failure_reason, Shapes::ShapeRef.new(shape: TagPropagationFailureReason, location_name: "TagPropagationFailureReason"))
     GetCentralizationRuleForOrganizationOutput.add_member(:centralization_rule, Shapes::ShapeRef.new(shape: CentralizationRule, location_name: "CentralizationRule"))
     GetCentralizationRuleForOrganizationOutput.struct_class = Types::GetCentralizationRuleForOrganizationOutput
 
@@ -680,6 +690,10 @@ module Aws::ObservabilityAdmin
 
     TagMapOutput.key = Shapes::ShapeRef.new(shape: String)
     TagMapOutput.value = Shapes::ShapeRef.new(shape: String)
+
+    TagPropagationConfiguration.add_member(:destination_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "DestinationRoleArn"))
+    TagPropagationConfiguration.add_member(:tag_conflict_resolution_strategy, Shapes::ShapeRef.new(shape: TagConflictResolutionStrategy, location_name: "TagConflictResolutionStrategy"))
+    TagPropagationConfiguration.struct_class = Types::TagPropagationConfiguration
 
     TagResourceInput.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location_name: "ResourceARN"))
     TagResourceInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagMapInput, required: true, location_name: "Tags"))

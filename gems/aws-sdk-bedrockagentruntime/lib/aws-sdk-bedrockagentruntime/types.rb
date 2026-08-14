@@ -1469,6 +1469,50 @@ module Aws::BedrockAgentRuntime
       class Unknown < Caller; end
     end
 
+    # @!attribute [rw] data_source_id
+    #   The unique identifier of the data source that contains the document.
+    #   @return [String]
+    #
+    # @!attribute [rw] document_id
+    #   The unique identifier of the document to check access for.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier of the knowledge base that contains the
+    #   document.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_context
+    #   The context object containing identity information for access
+    #   control filtering, including user ID and optional group memberships
+    #   used to evaluate the document access control list (ACL).
+    #   @return [Types::UserContext]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/CheckIngestedDocumentAclRequest AWS API Documentation
+    #
+    class CheckIngestedDocumentAclRequest < Struct.new(
+      :data_source_id,
+      :document_id,
+      :knowledge_base_id,
+      :user_context)
+      SENSITIVE = [:user_context]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] has_access
+    #   Specifies whether the user has access to the document based on the
+    #   ingested access control list (ACL). Returns `true` if the user is
+    #   allowed access, and `false` otherwise.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/CheckIngestedDocumentAclResponse AWS API Documentation
+    #
+    class CheckIngestedDocumentAclResponse < Struct.new(
+      :has_access)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object containing a segment of the generated response that is based
     # on a source in the knowledge base, alongside information about the
     # source.
@@ -2033,6 +2077,114 @@ module Aws::BedrockAgentRuntime
       :message,
       :resource_name,
       :event_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The access control list for a document, containing allow and deny
+    # membership lists. Each list specifies conditions that determine which
+    # users and groups are granted or denied access.
+    #
+    # @!attribute [rw] allow_list
+    #   The list of principals allowed access to the document.
+    #   @return [Types::DocumentAclMembership]
+    #
+    # @!attribute [rw] deny_list
+    #   The list of principals denied access to the document.
+    #   @return [Types::DocumentAclMembership]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/DocumentAcl AWS API Documentation
+    #
+    class DocumentAcl < Struct.new(
+      :allow_list,
+      :deny_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A condition within a document access control list (ACL) membership,
+    # specifying users and groups that are evaluated together.
+    #
+    # @!attribute [rw] condition_operator
+    #   The logical operator for combining users and groups within this
+    #   condition. Valid values: `AND` – Both a user match and a group match
+    #   are required. `OR` – Either a user match or a group match is
+    #   sufficient.
+    #   @return [String]
+    #
+    # @!attribute [rw] groups
+    #   The list of group entries in this condition.
+    #   @return [Array<Types::DocumentAclGroup>]
+    #
+    # @!attribute [rw] users
+    #   The list of user entries in this condition.
+    #   @return [Array<Types::DocumentAclUser>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/DocumentAclCondition AWS API Documentation
+    #
+    class DocumentAclCondition < Struct.new(
+      :condition_operator,
+      :groups,
+      :users)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A group entry within a document access control list (ACL) condition.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the group.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The membership type indicating the scope of the group entry.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/DocumentAclGroup AWS API Documentation
+    #
+    class DocumentAclGroup < Struct.new(
+      :id,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The membership entry for a document access control list (ACL),
+    # containing conditions and their logical relation.
+    #
+    # @!attribute [rw] conditions
+    #   The list of conditions that determine membership.
+    #   @return [Array<Types::DocumentAclCondition>]
+    #
+    # @!attribute [rw] member_relation
+    #   The logical relation between conditions. Valid values: `AND` – All
+    #   conditions must match. `OR` – At least one condition must match.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/DocumentAclMembership AWS API Documentation
+    #
+    class DocumentAclMembership < Struct.new(
+      :conditions,
+      :member_relation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A user entry within a document access control list (ACL) condition.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the user.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The membership type indicating the scope of the user entry.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/DocumentAclUser AWS API Documentation
+    #
+    class DocumentAclUser < Struct.new(
+      :id,
+      :type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3710,10 +3862,9 @@ module Aws::BedrockAgentRuntime
     #   @return [String]
     #
     # @!attribute [rw] user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that results only include
+    #   documents the user is authorized to access.
     #   @return [Types::UserContext]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/GetDocumentContentRequest AWS API Documentation
@@ -3897,6 +4048,43 @@ module Aws::BedrockAgentRuntime
       :started_at,
       :status)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_source_id
+    #   The unique identifier of the data source that contains the document.
+    #   @return [String]
+    #
+    # @!attribute [rw] document_id
+    #   The unique identifier of the document to retrieve the ingested
+    #   access control list (ACL) for.
+    #   @return [String]
+    #
+    # @!attribute [rw] knowledge_base_id
+    #   The unique identifier of the knowledge base that contains the
+    #   document.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/GetIngestedDocumentAclRequest AWS API Documentation
+    #
+    class GetIngestedDocumentAclRequest < Struct.new(
+      :data_source_id,
+      :document_id,
+      :knowledge_base_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] document_acl
+    #   The ingested document access control list (ACL) containing allow and
+    #   deny membership information.
+    #   @return [Types::DocumentAcl]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/GetIngestedDocumentAclResponse AWS API Documentation
+    #
+    class GetIngestedDocumentAclResponse < Struct.new(
+      :document_acl)
+      SENSITIVE = [:document_acl]
       include Aws::Structure
     end
 
@@ -6183,22 +6371,8 @@ module Aws::BedrockAgentRuntime
     # store configuration.
     #
     # @!attribute [rw] filter
-    #   Specifies the filters to use on the metadata attributes in the
-    #   knowledge base data sources before returning results. For more
-    #   information, see [Query configurations][1]. See the examples below
-    #   to see how to use these filters.
-    #
-    #   This data type is used in the following API operations:
-    #
-    #   * [Retrieve request][2] – in the `filter` field
-    #
-    #   * [RetrieveAndGenerate request][3] – in the `filter` field
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html
-    #   [2]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax
-    #   [3]: https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax
+    #   Filters the metadata of the retrieved results so that Amazon Bedrock
+    #   returns only results that match the filter.
     #   @return [Types::RetrievalFilter]
     #
     # @!attribute [rw] number_of_results
@@ -8846,10 +9020,9 @@ module Aws::BedrockAgentRuntime
     #   @return [String]
     #
     # @!attribute [rw] user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that retrieval results only
+    #   include documents the user is authorized to access.
     #   @return [Types::UserContext]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/RetrieveAndGenerateRequest AWS API Documentation
@@ -8950,10 +9123,9 @@ module Aws::BedrockAgentRuntime
     #   @return [String]
     #
     # @!attribute [rw] user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that retrieval results only
+    #   include documents the user is authorized to access.
     #   @return [Types::UserContext]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/RetrieveAndGenerateStreamRequest AWS API Documentation
@@ -9013,10 +9185,9 @@ module Aws::BedrockAgentRuntime
     #   @return [Types::KnowledgeBaseQuery]
     #
     # @!attribute [rw] user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that retrieval results only
+    #   include documents the user is authorized to access.
     #   @return [Types::UserContext]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/RetrieveRequest AWS API Documentation

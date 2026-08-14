@@ -38,6 +38,7 @@ module Aws::BedrockAgentCoreControl
   # * {RetryableConflictException}
   # * {ServiceException}
   # * {ServiceQuotaExceededException}
+  # * {SubscriptionRequiredException}
   # * {ThrottledException}
   # * {ThrottlingException}
   # * {UnauthorizedException}
@@ -219,6 +220,31 @@ module Aws::BedrockAgentCoreControl
       # @return [String]
       def message
         @message || @data[:message]
+      end
+    end
+
+    class SubscriptionRequiredException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::BedrockAgentCoreControl::Types::SubscriptionRequiredException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+
+      # @return [String]
+      def subscription_url
+        @data[:subscription_url]
+      end
+
+      # @return [String]
+      def product_name
+        @data[:product_name]
       end
     end
 

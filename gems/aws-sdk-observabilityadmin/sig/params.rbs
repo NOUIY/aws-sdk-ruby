@@ -34,6 +34,10 @@ module Aws
       }?,
       log_group_name_configuration: {
         log_group_name_pattern: ::String
+      }?,
+      tag_propagation_configuration: {
+        destination_role_arn: ::String,
+        tag_conflict_resolution_strategy: ("IN_SYNC" | "ADD_ONLY" | "UPDATE_SYNC")?
       }?
     }
 

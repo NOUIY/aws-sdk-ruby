@@ -845,7 +845,7 @@ module Aws::BedrockAgentCoreControl
     #       },
     #     ],
     #     capacity_provider_configuration: {
-    #       capacity_provider_arn: "CapacityProviderArn",
+    #       capacity_provider_arn: "CapacityProviderArn", # required
     #     },
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -4446,6 +4446,16 @@ module Aws::BedrockAgentCoreControl
     #   These configurations specify how the connector authenticates with the
     #   payment provider.
     #
+    # @option params [String] :provision_mode
+    #   The provision mode for creating the payment connector. If you don't
+    #   specify a value, the default is `MANUAL`.
+    #
+    #   * `MANUAL` - You provide the credential provider configurations
+    #     directly.
+    #
+    #   * `QUICK_CREATE` - The service orchestrates OAuth consent and
+    #     provisions the credential provider for you.
+    #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If you don't specify this field, a
@@ -4469,6 +4479,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreatePaymentConnectorResponse#credential_provider_configurations #credential_provider_configurations} => Array&lt;Types::CredentialsProviderConfiguration&gt;
     #   * {Types::CreatePaymentConnectorResponse#created_at #created_at} => Time
     #   * {Types::CreatePaymentConnectorResponse#status #status} => String
+    #   * {Types::CreatePaymentConnectorResponse#authorization_url #authorization_url} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -4487,6 +4498,7 @@ module Aws::BedrockAgentCoreControl
     #         },
     #       },
     #     ],
+    #     provision_mode: "MANUAL", # accepts MANUAL, QUICK_CREATE
     #     client_token: "ClientToken",
     #   })
     #
@@ -4500,7 +4512,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].coinbase_cdp.credential_provider_arn #=> String
     #   resp.credential_provider_configurations[0].stripe_privy.credential_provider_arn #=> String
     #   resp.created_at #=> Time
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED", "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED", "PENDING_AUTHENTICATION", "PROVISIONING", "AUTHENTICATION_EXPIRED", "AUTHENTICATION_FAILED"
+    #   resp.authorization_url #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePaymentConnector AWS API Documentation
     #
@@ -4653,6 +4666,12 @@ module Aws::BedrockAgentCoreControl
     # @option params [Hash<String,String>] :tags
     #   A map of tag keys and values to assign to the payment manager.
     #
+    # @option params [String] :kms_key_arn
+    #   The Amazon Resource Name (ARN) of the customer managed KMS key to use
+    #   for encrypting sensitive payment manager data at rest. If you don't
+    #   specify a key, the data is encrypted with an Amazon Web Services owned
+    #   key.
+    #
     # @return [Types::CreatePaymentManagerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreatePaymentManagerResponse#payment_manager_arn #payment_manager_arn} => String
@@ -4665,6 +4684,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::CreatePaymentManagerResponse#created_at #created_at} => Time
     #   * {Types::CreatePaymentManagerResponse#status #status} => String
     #   * {Types::CreatePaymentManagerResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::CreatePaymentManagerResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -4744,6 +4764,7 @@ module Aws::BedrockAgentCoreControl
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
+    #     kms_key_arn: "KmsKeyArn",
     #   })
     #
     # @example Response structure
@@ -4800,6 +4821,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePaymentManager AWS API Documentation
     #
@@ -6341,7 +6363,7 @@ module Aws::BedrockAgentCoreControl
     #
     # @example Response structure
     #
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED", "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED", "PENDING_AUTHENTICATION", "PROVISIONING", "AUTHENTICATION_EXPIRED", "AUTHENTICATION_FAILED"
     #   resp.payment_connector_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeletePaymentConnector AWS API Documentation
@@ -8454,6 +8476,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetPaymentConnectorResponse#created_at #created_at} => Time
     #   * {Types::GetPaymentConnectorResponse#last_updated_at #last_updated_at} => Time
     #   * {Types::GetPaymentConnectorResponse#status #status} => String
+    #   * {Types::GetPaymentConnectorResponse#authorization_url #authorization_url} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -8473,7 +8496,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].stripe_privy.credential_provider_arn #=> String
     #   resp.created_at #=> Time
     #   resp.last_updated_at #=> Time
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED", "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED", "PENDING_AUTHENTICATION", "PROVISIONING", "AUTHENTICATION_EXPIRED", "AUTHENTICATION_FAILED"
+    #   resp.authorization_url #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetPaymentConnector AWS API Documentation
     #
@@ -8558,6 +8582,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetPaymentManagerResponse#last_updated_at #last_updated_at} => Time
     #   * {Types::GetPaymentManagerResponse#status #status} => String
     #   * {Types::GetPaymentManagerResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::GetPaymentManagerResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -8621,6 +8646,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetPaymentManager AWS API Documentation
     #
@@ -10562,7 +10588,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.payment_connectors[0].payment_connector_id #=> String
     #   resp.payment_connectors[0].name #=> String
     #   resp.payment_connectors[0].type #=> String, one of "CoinbaseCDP", "StripePrivy"
-    #   resp.payment_connectors[0].status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.payment_connectors[0].status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED", "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED", "PENDING_AUTHENTICATION", "PROVISIONING", "AUTHENTICATION_EXPIRED", "AUTHENTICATION_FAILED"
     #   resp.payment_connectors[0].last_updated_at #=> Time
     #   resp.next_token #=> String
     #
@@ -10656,6 +10682,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.payment_managers[0].status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.payment_managers[0].created_at #=> Time
     #   resp.payment_managers[0].last_updated_at #=> Time
+    #   resp.payment_managers[0].kms_key_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListPaymentManagers AWS API Documentation
@@ -11984,7 +12011,7 @@ module Aws::BedrockAgentCoreControl
     #       },
     #     ],
     #     capacity_provider_configuration: {
-    #       capacity_provider_arn: "CapacityProviderArn",
+    #       capacity_provider_arn: "CapacityProviderArn", # required
     #     },
     #     client_token: "ClientToken",
     #   })
@@ -15216,6 +15243,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdatePaymentConnectorResponse#credential_provider_configurations #credential_provider_configurations} => Array&lt;Types::CredentialsProviderConfiguration&gt;
     #   * {Types::UpdatePaymentConnectorResponse#last_updated_at #last_updated_at} => Time
     #   * {Types::UpdatePaymentConnectorResponse#status #status} => String
+    #   * {Types::UpdatePaymentConnectorResponse#authorization_url #authorization_url} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -15247,7 +15275,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.credential_provider_configurations[0].coinbase_cdp.credential_provider_arn #=> String
     #   resp.credential_provider_configurations[0].stripe_privy.credential_provider_arn #=> String
     #   resp.last_updated_at #=> Time
-    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED", "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED", "PENDING_AUTHENTICATION", "PROVISIONING", "AUTHENTICATION_EXPIRED", "AUTHENTICATION_FAILED"
+    #   resp.authorization_url #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePaymentConnector AWS API Documentation
     #
@@ -15385,6 +15414,10 @@ module Aws::BedrockAgentCoreControl
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
     #
+    # @option params [String] :kms_key_arn
+    #   The updated Amazon Resource Name (ARN) of the customer managed KMS key
+    #   used to encrypt sensitive payment manager data at rest.
+    #
     # @return [Types::UpdatePaymentManagerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdatePaymentManagerResponse#payment_manager_arn #payment_manager_arn} => String
@@ -15395,6 +15428,7 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::UpdatePaymentManagerResponse#workload_identity_details #workload_identity_details} => Types::WorkloadIdentityDetails
     #   * {Types::UpdatePaymentManagerResponse#last_updated_at #last_updated_at} => Time
     #   * {Types::UpdatePaymentManagerResponse#status #status} => String
+    #   * {Types::UpdatePaymentManagerResponse#kms_key_arn #kms_key_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -15471,6 +15505,7 @@ module Aws::BedrockAgentCoreControl
     #     },
     #     role_arn: "RoleArn",
     #     client_token: "ClientToken",
+    #     kms_key_arn: "KmsKeyArn",
     #   })
     #
     # @example Response structure
@@ -15483,6 +15518,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.workload_identity_details.workload_identity_arn #=> String
     #   resp.last_updated_at #=> Time
     #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "READY", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
+    #   resp.kms_key_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePaymentManager AWS API Documentation
     #
@@ -16160,7 +16196,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.63.0'
+      context[:gem_version] = '1.64.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

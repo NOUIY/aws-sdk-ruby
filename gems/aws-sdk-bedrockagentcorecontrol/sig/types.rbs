@@ -1038,6 +1038,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: ::String
       attr_accessor type: ("CoinbaseCDP" | "StripePrivy")
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialsProviderConfiguration]
+      attr_accessor provision_mode: ("MANUAL" | "QUICK_CREATE")
       attr_accessor client_token: ::String
       SENSITIVE: []
     end
@@ -1049,7 +1050,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor type: ("CoinbaseCDP" | "StripePrivy")
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialsProviderConfiguration]
       attr_accessor created_at: ::Time
-      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
+      attr_accessor authorization_url: ::String
       SENSITIVE: []
     end
 
@@ -1077,6 +1079,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor role_arn: ::String
       attr_accessor client_token: ::String
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -1091,6 +1094,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor created_at: ::Time
       attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -1724,7 +1728,7 @@ module Aws::BedrockAgentCoreControl
     end
 
     class DeletePaymentConnectorResponse
-      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
       attr_accessor payment_connector_id: ::String
       SENSITIVE: []
     end
@@ -2604,7 +2608,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialsProviderConfiguration]
       attr_accessor created_at: ::Time
       attr_accessor last_updated_at: ::Time
-      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
+      attr_accessor authorization_url: ::String
       SENSITIVE: []
     end
 
@@ -2642,6 +2647,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor last_updated_at: ::Time
       attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor tags: ::Hash[::String, ::String]
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -4527,7 +4533,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor payment_connector_id: ::String
       attr_accessor name: ::String
       attr_accessor type: ("CoinbaseCDP" | "StripePrivy")
-      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
       attr_accessor last_updated_at: ::Time
       SENSITIVE: []
     end
@@ -4556,6 +4562,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor created_at: ::Time
       attr_accessor last_updated_at: ::Time
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -5293,6 +5300,13 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE: []
     end
 
+    class SubscriptionRequiredException
+      attr_accessor message: ::String
+      attr_accessor subscription_url: ::String
+      attr_accessor product_name: ::String
+      SENSITIVE: []
+    end
+
     class SummaryConsolidationOverride
       attr_accessor append_to_prompt: ::String
       attr_accessor model_id: ::String
@@ -5923,7 +5937,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor type: ("CoinbaseCDP" | "StripePrivy")
       attr_accessor credential_provider_configurations: ::Array[Types::CredentialsProviderConfiguration]
       attr_accessor last_updated_at: ::Time
-      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
+      attr_accessor authorization_url: ::String
       SENSITIVE: []
     end
 
@@ -5951,6 +5966,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor authorizer_configuration: Types::AuthorizerConfiguration
       attr_accessor role_arn: ::String
       attr_accessor client_token: ::String
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 
@@ -5963,6 +5979,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor workload_identity_details: Types::WorkloadIdentityDetails
       attr_accessor last_updated_at: ::Time
       attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+      attr_accessor kms_key_arn: ::String
       SENSITIVE: []
     end
 

@@ -421,6 +421,19 @@ module Aws::BedrockAgentRuntime
       end
     end
 
+    class CheckIngestedDocumentAclRequest
+      attr_accessor data_source_id: ::String
+      attr_accessor document_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      attr_accessor user_context: Types::UserContext
+      SENSITIVE: [:user_context]
+    end
+
+    class CheckIngestedDocumentAclResponse
+      attr_accessor has_access: bool
+      SENSITIVE: []
+    end
+
     class Citation
       attr_accessor generated_response_part: Types::GeneratedResponsePart
       attr_accessor retrieved_references: ::Array[Types::RetrievedReference]
@@ -576,6 +589,37 @@ module Aws::BedrockAgentRuntime
       attr_accessor message: ::String
       attr_accessor resource_name: ::String
       attr_accessor event_type: untyped
+      SENSITIVE: []
+    end
+
+    class DocumentAcl
+      attr_accessor allow_list: Types::DocumentAclMembership
+      attr_accessor deny_list: Types::DocumentAclMembership
+      SENSITIVE: []
+    end
+
+    class DocumentAclCondition
+      attr_accessor condition_operator: ("AND" | "OR")
+      attr_accessor groups: ::Array[Types::DocumentAclGroup]
+      attr_accessor users: ::Array[Types::DocumentAclUser]
+      SENSITIVE: []
+    end
+
+    class DocumentAclGroup
+      attr_accessor id: ::String
+      attr_accessor type: ("KNOWLEDGE_BASE" | "DATA_SOURCE")
+      SENSITIVE: []
+    end
+
+    class DocumentAclMembership
+      attr_accessor conditions: ::Array[Types::DocumentAclCondition]
+      attr_accessor member_relation: ("AND" | "OR")
+      SENSITIVE: []
+    end
+
+    class DocumentAclUser
+      attr_accessor id: ::String
+      attr_accessor type: ("KNOWLEDGE_BASE" | "DATA_SOURCE")
       SENSITIVE: []
     end
 
@@ -1094,6 +1138,18 @@ module Aws::BedrockAgentRuntime
       attr_accessor started_at: ::Time
       attr_accessor status: ("Running" | "Succeeded" | "Failed" | "TimedOut" | "Aborted")
       SENSITIVE: []
+    end
+
+    class GetIngestedDocumentAclRequest
+      attr_accessor data_source_id: ::String
+      attr_accessor document_id: ::String
+      attr_accessor knowledge_base_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetIngestedDocumentAclResponse
+      attr_accessor document_acl: Types::DocumentAcl
+      SENSITIVE: [:document_acl]
     end
 
     class GetInvocationStepRequest

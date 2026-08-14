@@ -1064,7 +1064,7 @@ module Aws::BedrockAgentCore
     #   resp.payment_instrument.payment_instrument_details.embedded_crypto_wallet.wallet_address #=> String
     #   resp.payment_instrument.payment_instrument_details.embedded_crypto_wallet.redirect_url #=> String
     #   resp.payment_instrument.created_at #=> Time
-    #   resp.payment_instrument.status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED"
+    #   resp.payment_instrument.status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED", "BLOCKED"
     #   resp.payment_instrument.updated_at #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CreatePaymentInstrument AWS API Documentation
@@ -1364,7 +1364,7 @@ module Aws::BedrockAgentCore
     #
     # @example Response structure
     #
-    #   resp.status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED"
+    #   resp.status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED", "BLOCKED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeletePaymentInstrument AWS API Documentation
     #
@@ -2156,7 +2156,7 @@ module Aws::BedrockAgentCore
     #   resp.payment_instrument.payment_instrument_details.embedded_crypto_wallet.wallet_address #=> String
     #   resp.payment_instrument.payment_instrument_details.embedded_crypto_wallet.redirect_url #=> String
     #   resp.payment_instrument.created_at #=> Time
-    #   resp.payment_instrument.status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED"
+    #   resp.payment_instrument.status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED", "BLOCKED"
     #   resp.payment_instrument.updated_at #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetPaymentInstrument AWS API Documentation
@@ -4690,7 +4690,7 @@ module Aws::BedrockAgentCore
     #   resp.payment_instruments[0].payment_connector_id #=> String
     #   resp.payment_instruments[0].user_id #=> String
     #   resp.payment_instruments[0].payment_instrument_type #=> String, one of "EMBEDDED_CRYPTO_WALLET"
-    #   resp.payment_instruments[0].status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED"
+    #   resp.payment_instruments[0].status #=> String, one of "INITIATED", "ACTIVE", "FAILED", "DELETED", "BLOCKED"
     #   resp.payment_instruments[0].created_at #=> Time
     #   resp.payment_instruments[0].updated_at #=> Time
     #   resp.next_token #=> String
@@ -4929,12 +4929,18 @@ module Aws::BedrockAgentCore
     #     payment_manager_arn: "PaymentManagerArn", # required
     #     payment_session_id: "PaymentSessionId", # required
     #     payment_instrument_id: "PaymentInstrumentId", # required
-    #     payment_type: "CRYPTO_X402", # required, accepts CRYPTO_X402
+    #     payment_type: "CRYPTO_X402", # required, accepts CRYPTO_X402, MPP
     #     payment_input: { # required
     #       crypto_x402: {
     #         version: "String", # required
     #         payload: { # required
     #         },
+    #         permit2_allowance_limit: "Permit2AllowanceLimit",
+    #       },
+    #       mpp: {
+    #         version: "Version", # required
+    #         www_authenticate_headers: ["WwwAuthenticateHeader"], # required
+    #         buyer_pays_gas_fees: false,
     #       },
     #     },
     #     client_token: "ClientToken",
@@ -4946,9 +4952,12 @@ module Aws::BedrockAgentCore
     #   resp.payment_manager_arn #=> String
     #   resp.payment_session_id #=> String
     #   resp.payment_instrument_id #=> String
-    #   resp.payment_type #=> String, one of "CRYPTO_X402"
+    #   resp.payment_type #=> String, one of "CRYPTO_X402", "MPP"
     #   resp.status #=> String, one of "PROOF_GENERATED"
     #   resp.payment_output.crypto_x402.version #=> String
+    #   resp.payment_output.mpp.version #=> String
+    #   resp.payment_output.mpp.selected_payment_id #=> String
+    #   resp.payment_output.mpp.payment_credential #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
     #
@@ -6406,7 +6415,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.47.0'
+      context[:gem_version] = '1.48.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

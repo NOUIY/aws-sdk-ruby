@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.64.0 (2026-08-14)
+------------------
+
+* Feature - Adds AgentCore Payments support for CMK, Marketplace Subscriptions and QuickCreate
+
 1.63.0 (2026-08-06)
 ------------------
 

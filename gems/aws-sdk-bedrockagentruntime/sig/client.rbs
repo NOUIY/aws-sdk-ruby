@@ -144,6 +144,21 @@ module Aws
                                    ) ?{ (*untyped) -> void } -> _AgenticRetrieveStreamResponseSuccess
                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _AgenticRetrieveStreamResponseSuccess
 
+      interface _CheckIngestedDocumentAclResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CheckIngestedDocumentAclResponse]
+        def has_access: () -> bool
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentRuntime/Client.html#check_ingested_document_acl-instance_method
+      def check_ingested_document_acl: (
+                                         data_source_id: ::String,
+                                         document_id: ::String,
+                                         knowledge_base_id: ::String,
+                                         user_context: {
+                                           user_id: ::String
+                                         }
+                                       ) -> _CheckIngestedDocumentAclResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CheckIngestedDocumentAclResponseSuccess
+
       interface _CreateInvocationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateInvocationResponse]
         def created_at: () -> ::Time
@@ -297,6 +312,18 @@ module Aws
                                 flow_identifier: ::String
                               ) -> _GetFlowExecutionResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetFlowExecutionResponseSuccess
+
+      interface _GetIngestedDocumentAclResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetIngestedDocumentAclResponse]
+        def document_acl: () -> Types::DocumentAcl
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentRuntime/Client.html#get_ingested_document_acl-instance_method
+      def get_ingested_document_acl: (
+                                       data_source_id: ::String,
+                                       document_id: ::String,
+                                       knowledge_base_id: ::String
+                                     ) -> _GetIngestedDocumentAclResponseSuccess
+                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetIngestedDocumentAclResponseSuccess
 
       interface _GetInvocationStepResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetInvocationStepResponse]

@@ -149,7 +149,7 @@ module Aws
                                     Params::filesystem_configuration
                                   ],
                                   ?capacity_provider_configuration: {
-                                    capacity_provider_arn: ::String?
+                                    capacity_provider_arn: ::String
                                   },
                                   ?tags: Hash[::String, ::String]
                                 ) -> _CreateAgentRuntimeResponseSuccess
@@ -770,7 +770,8 @@ module Aws
         def type: () -> ("CoinbaseCDP" | "StripePrivy")
         def credential_provider_configurations: () -> ::Array[Types::CredentialsProviderConfiguration]
         def created_at: () -> ::Time
-        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
+        def authorization_url: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_payment_connector-instance_method
       def create_payment_connector: (
@@ -781,6 +782,7 @@ module Aws
                                       credential_provider_configurations: Array[
                                         Params::credentials_provider_configuration
                                       ],
+                                      ?provision_mode: ("MANUAL" | "QUICK_CREATE"),
                                       ?client_token: ::String
                                     ) -> _CreatePaymentConnectorResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePaymentConnectorResponseSuccess
@@ -813,6 +815,7 @@ module Aws
         def created_at: () -> ::Time
         def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
         def tags: () -> ::Hash[::String, ::String]
+        def kms_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#create_payment_manager-instance_method
       def create_payment_manager: (
@@ -822,7 +825,8 @@ module Aws
                                     ?authorizer_configuration: Params::authorizer_configuration,
                                     role_arn: ::String,
                                     ?client_token: ::String,
-                                    ?tags: Hash[::String, ::String]
+                                    ?tags: Hash[::String, ::String],
+                                    ?kms_key_arn: ::String
                                   ) -> _CreatePaymentManagerResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreatePaymentManagerResponseSuccess
 
@@ -1206,7 +1210,7 @@ module Aws
 
       interface _DeletePaymentConnectorResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeletePaymentConnectorResponse]
-        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
         def payment_connector_id: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#delete_payment_connector-instance_method
@@ -1737,7 +1741,8 @@ module Aws
         def credential_provider_configurations: () -> ::Array[Types::CredentialsProviderConfiguration]
         def created_at: () -> ::Time
         def last_updated_at: () -> ::Time
-        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
+        def authorization_url: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_payment_connector-instance_method
       def get_payment_connector: (
@@ -1776,6 +1781,7 @@ module Aws
         def last_updated_at: () -> ::Time
         def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
         def tags: () -> ::Hash[::String, ::String]
+        def kms_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#get_payment_manager-instance_method
       def get_payment_manager: (
@@ -2615,7 +2621,7 @@ module Aws
                                     Params::filesystem_configuration
                                   ],
                                   ?capacity_provider_configuration: {
-                                    capacity_provider_arn: ::String?
+                                    capacity_provider_arn: ::String
                                   },
                                   ?client_token: ::String
                                 ) -> _UpdateAgentRuntimeResponseSuccess
@@ -3123,7 +3129,8 @@ module Aws
         def type: () -> ("CoinbaseCDP" | "StripePrivy")
         def credential_provider_configurations: () -> ::Array[Types::CredentialsProviderConfiguration]
         def last_updated_at: () -> ::Time
-        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED" | "AWS_MARKETPLACE_SUBSCRIPTION_REQUIRED" | "PENDING_AUTHENTICATION" | "PROVISIONING" | "AUTHENTICATION_EXPIRED" | "AUTHENTICATION_FAILED")
+        def authorization_url: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_payment_connector-instance_method
       def update_payment_connector: (
@@ -3165,6 +3172,7 @@ module Aws
         def workload_identity_details: () -> Types::WorkloadIdentityDetails
         def last_updated_at: () -> ::Time
         def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "READY" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
+        def kms_key_arn: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCoreControl/Client.html#update_payment_manager-instance_method
       def update_payment_manager: (
@@ -3173,7 +3181,8 @@ module Aws
                                     ?authorizer_type: ("CUSTOM_JWT" | "AWS_IAM"),
                                     ?authorizer_configuration: Params::authorizer_configuration,
                                     ?role_arn: ::String,
-                                    ?client_token: ::String
+                                    ?client_token: ::String,
+                                    ?kms_key_arn: ::String
                                   ) -> _UpdatePaymentManagerResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdatePaymentManagerResponseSuccess
 

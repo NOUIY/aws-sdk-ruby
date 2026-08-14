@@ -1996,11 +1996,15 @@ module Aws::Glue
     AssetTypeItemList.member = Shapes::ShapeRef.new(shape: AssetTypeItem)
 
     AssociateGlossaryTermsRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
+    AssociateGlossaryTermsRequest.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    AssociateGlossaryTermsRequest.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     AssociateGlossaryTermsRequest.add_member(:glossary_term_identifiers, Shapes::ShapeRef.new(shape: GlossaryTermIdList, required: true, location_name: "GlossaryTermIdentifiers"))
     AssociateGlossaryTermsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     AssociateGlossaryTermsRequest.struct_class = Types::AssociateGlossaryTermsRequest
 
     AssociateGlossaryTermsResponse.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetIdentifier"))
+    AssociateGlossaryTermsResponse.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    AssociateGlossaryTermsResponse.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     AssociateGlossaryTermsResponse.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
     AssociateGlossaryTermsResponse.struct_class = Types::AssociateGlossaryTermsResponse
 
@@ -3833,6 +3837,8 @@ module Aws::Glue
     DeleteAttachmentRequest.struct_class = Types::DeleteAttachmentRequest
 
     DeleteAttachmentResponse.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetIdentifier"))
+    DeleteAttachmentResponse.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    DeleteAttachmentResponse.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     DeleteAttachmentResponse.struct_class = Types::DeleteAttachmentResponse
 
     DeleteBlueprintRequest.add_member(:name, Shapes::ShapeRef.new(shape: NameString, required: true, location_name: "Name"))
@@ -4201,11 +4207,15 @@ module Aws::Glue
     DirectSchemaChangePolicy.struct_class = Types::DirectSchemaChangePolicy
 
     DisassociateGlossaryTermsRequest.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, required: true, location_name: "AssetIdentifier"))
+    DisassociateGlossaryTermsRequest.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    DisassociateGlossaryTermsRequest.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     DisassociateGlossaryTermsRequest.add_member(:glossary_term_identifiers, Shapes::ShapeRef.new(shape: GlossaryTermIdList, required: true, location_name: "GlossaryTermIdentifiers"))
     DisassociateGlossaryTermsRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: HashString, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     DisassociateGlossaryTermsRequest.struct_class = Types::DisassociateGlossaryTermsRequest
 
     DisassociateGlossaryTermsResponse.add_member(:asset_identifier, Shapes::ShapeRef.new(shape: AssetId, location_name: "AssetIdentifier"))
+    DisassociateGlossaryTermsResponse.add_member(:iterable_form_name, Shapes::ShapeRef.new(shape: IterableFormName, location_name: "IterableFormName"))
+    DisassociateGlossaryTermsResponse.add_member(:item_identifier, Shapes::ShapeRef.new(shape: ItemIdentifier, location_name: "ItemIdentifier"))
     DisassociateGlossaryTermsResponse.add_member(:glossary_terms, Shapes::ShapeRef.new(shape: GlossaryTermIdList, location_name: "GlossaryTerms"))
     DisassociateGlossaryTermsResponse.struct_class = Types::DisassociateGlossaryTermsResponse
 
@@ -11976,6 +11986,7 @@ module Aws::Glue
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidInputException)
+        o.errors << Shapes::ShapeRef.new(shape: EntityNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ConcurrentModificationException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)

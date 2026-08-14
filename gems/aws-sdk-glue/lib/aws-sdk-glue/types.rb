@@ -512,6 +512,17 @@ module Aws::Glue
     #   The unique identifier of the asset to associate glossary terms with.
     #   @return [String]
     #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the glossary terms are associated with an item
+    #   within the iterable form rather than the asset itself.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
+    #   @return [String]
+    #
     # @!attribute [rw] glossary_term_identifiers
     #   The list of glossary term identifiers to associate with the asset.
     #   @return [Array<String>]
@@ -528,6 +539,8 @@ module Aws::Glue
     #
     class AssociateGlossaryTermsRequest < Struct.new(
       :asset_identifier,
+      :iterable_form_name,
+      :item_identifier,
       :glossary_term_identifiers,
       :client_token)
       SENSITIVE = []
@@ -538,6 +551,14 @@ module Aws::Glue
     #   The unique identifier of the asset.
     #   @return [String]
     #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form, if the association targets an item.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form, if applicable.
+    #   @return [String]
+    #
     # @!attribute [rw] glossary_terms
     #   The glossary terms now associated with the asset.
     #   @return [Array<String>]
@@ -546,6 +567,8 @@ module Aws::Glue
     #
     class AssociateGlossaryTermsResponse < Struct.new(
       :asset_identifier,
+      :iterable_form_name,
+      :item_identifier,
       :glossary_terms)
       SENSITIVE = []
       include Aws::Structure
@@ -9806,10 +9829,20 @@ module Aws::Glue
     #   The unique identifier of the asset.
     #   @return [String]
     #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form, if the deletion targets an item.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form, if applicable.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachmentResponse AWS API Documentation
     #
     class DeleteAttachmentResponse < Struct.new(
-      :asset_identifier)
+      :asset_identifier,
+      :iterable_form_name,
+      :item_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11454,6 +11487,17 @@ module Aws::Glue
     #   from.
     #   @return [String]
     #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the glossary terms are disassociated from an item
+    #   within the iterable form rather than the asset itself.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
+    #   @return [String]
+    #
     # @!attribute [rw] glossary_term_identifiers
     #   The list of glossary term identifiers to disassociate from the
     #   asset.
@@ -11471,6 +11515,8 @@ module Aws::Glue
     #
     class DisassociateGlossaryTermsRequest < Struct.new(
       :asset_identifier,
+      :iterable_form_name,
+      :item_identifier,
       :glossary_term_identifiers,
       :client_token)
       SENSITIVE = []
@@ -11481,6 +11527,15 @@ module Aws::Glue
     #   The unique identifier of the asset.
     #   @return [String]
     #
+    # @!attribute [rw] iterable_form_name
+    #   The name of the iterable form, if the disassociation targets an
+    #   item.
+    #   @return [String]
+    #
+    # @!attribute [rw] item_identifier
+    #   The identifier of the item within the iterable form, if applicable.
+    #   @return [String]
+    #
     # @!attribute [rw] glossary_terms
     #   The remaining glossary terms associated with the asset.
     #   @return [Array<String>]
@@ -11489,6 +11544,8 @@ module Aws::Glue
     #
     class DisassociateGlossaryTermsResponse < Struct.new(
       :asset_identifier,
+      :iterable_form_name,
+      :item_identifier,
       :glossary_terms)
       SENSITIVE = []
       include Aws::Structure

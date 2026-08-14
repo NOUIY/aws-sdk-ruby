@@ -487,6 +487,15 @@ module Aws::Glue
     # @option params [required, String] :asset_identifier
     #   The unique identifier of the asset to associate glossary terms with.
     #
+    # @option params [String] :iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the glossary terms are associated with an item
+    #   within the iterable form rather than the asset itself.
+    #
+    # @option params [String] :item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
+    #
     # @option params [required, Array<String>] :glossary_term_identifiers
     #   The list of glossary term identifiers to associate with the asset.
     #
@@ -500,12 +509,16 @@ module Aws::Glue
     # @return [Types::AssociateGlossaryTermsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::AssociateGlossaryTermsResponse#asset_identifier #asset_identifier} => String
+    #   * {Types::AssociateGlossaryTermsResponse#iterable_form_name #iterable_form_name} => String
+    #   * {Types::AssociateGlossaryTermsResponse#item_identifier #item_identifier} => String
     #   * {Types::AssociateGlossaryTermsResponse#glossary_terms #glossary_terms} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.associate_glossary_terms({
     #     asset_identifier: "AssetId", # required
+    #     iterable_form_name: "IterableFormName",
+    #     item_identifier: "ItemIdentifier",
     #     glossary_term_identifiers: ["GlossaryTermId"], # required
     #     client_token: "HashString",
     #   })
@@ -513,6 +526,8 @@ module Aws::Glue
     # @example Response structure
     #
     #   resp.asset_identifier #=> String
+    #   resp.iterable_form_name #=> String
+    #   resp.item_identifier #=> String
     #   resp.glossary_terms #=> Array
     #   resp.glossary_terms[0] #=> String
     #
@@ -5238,6 +5253,8 @@ module Aws::Glue
     # @return [Types::DeleteAttachmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteAttachmentResponse#asset_identifier #asset_identifier} => String
+    #   * {Types::DeleteAttachmentResponse#iterable_form_name #iterable_form_name} => String
+    #   * {Types::DeleteAttachmentResponse#item_identifier #item_identifier} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -5251,6 +5268,8 @@ module Aws::Glue
     # @example Response structure
     #
     #   resp.asset_identifier #=> String
+    #   resp.iterable_form_name #=> String
+    #   resp.item_identifier #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteAttachment AWS API Documentation
     #
@@ -7022,6 +7041,15 @@ module Aws::Glue
     #   The unique identifier of the asset to disassociate glossary terms
     #   from.
     #
+    # @option params [String] :iterable_form_name
+    #   The name of the iterable form. When specified along with
+    #   `itemIdentifier`, the glossary terms are disassociated from an item
+    #   within the iterable form rather than the asset itself.
+    #
+    # @option params [String] :item_identifier
+    #   The identifier of the item within the iterable form. Required when
+    #   `iterableFormName` is specified.
+    #
     # @option params [required, Array<String>] :glossary_term_identifiers
     #   The list of glossary term identifiers to disassociate from the asset.
     #
@@ -7035,12 +7063,16 @@ module Aws::Glue
     # @return [Types::DisassociateGlossaryTermsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DisassociateGlossaryTermsResponse#asset_identifier #asset_identifier} => String
+    #   * {Types::DisassociateGlossaryTermsResponse#iterable_form_name #iterable_form_name} => String
+    #   * {Types::DisassociateGlossaryTermsResponse#item_identifier #item_identifier} => String
     #   * {Types::DisassociateGlossaryTermsResponse#glossary_terms #glossary_terms} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.disassociate_glossary_terms({
     #     asset_identifier: "AssetId", # required
+    #     iterable_form_name: "IterableFormName",
+    #     item_identifier: "ItemIdentifier",
     #     glossary_term_identifiers: ["GlossaryTermId"], # required
     #     client_token: "HashString",
     #   })
@@ -7048,6 +7080,8 @@ module Aws::Glue
     # @example Response structure
     #
     #   resp.asset_identifier #=> String
+    #   resp.iterable_form_name #=> String
+    #   resp.item_identifier #=> String
     #   resp.glossary_terms #=> Array
     #   resp.glossary_terms[0] #=> String
     #
@@ -21068,7 +21102,7 @@ module Aws::Glue
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-glue'
-      context[:gem_version] = '1.269.0'
+      context[:gem_version] = '1.270.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

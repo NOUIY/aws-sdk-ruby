@@ -125,6 +125,8 @@ module Aws::BedrockAgentRuntime
     ByteContentFile = Shapes::StructureShape.new(name: 'ByteContentFile')
     Caller = Shapes::UnionShape.new(name: 'Caller')
     CallerChain = Shapes::ListShape.new(name: 'CallerChain')
+    CheckIngestedDocumentAclRequest = Shapes::StructureShape.new(name: 'CheckIngestedDocumentAclRequest')
+    CheckIngestedDocumentAclResponse = Shapes::StructureShape.new(name: 'CheckIngestedDocumentAclResponse')
     Citation = Shapes::StructureShape.new(name: 'Citation')
     CitationEvent = Shapes::StructureShape.new(name: 'CitationEvent')
     Citations = Shapes::ListShape.new(name: 'Citations')
@@ -162,6 +164,18 @@ module Aws::BedrockAgentRuntime
     DeleteSessionResponse = Shapes::StructureShape.new(name: 'DeleteSessionResponse')
     DependencyFailedException = Shapes::StructureShape.new(name: 'DependencyFailedException')
     Document = Shapes::DocumentShape.new(name: 'Document', document: true)
+    DocumentAcl = Shapes::StructureShape.new(name: 'DocumentAcl')
+    DocumentAclCondition = Shapes::StructureShape.new(name: 'DocumentAclCondition')
+    DocumentAclConditionGroupsList = Shapes::ListShape.new(name: 'DocumentAclConditionGroupsList')
+    DocumentAclConditionUsersList = Shapes::ListShape.new(name: 'DocumentAclConditionUsersList')
+    DocumentAclGroup = Shapes::StructureShape.new(name: 'DocumentAclGroup')
+    DocumentAclGroupIdString = Shapes::StringShape.new(name: 'DocumentAclGroupIdString')
+    DocumentAclMemberRelation = Shapes::StringShape.new(name: 'DocumentAclMemberRelation')
+    DocumentAclMembership = Shapes::StructureShape.new(name: 'DocumentAclMembership')
+    DocumentAclMembershipConditionsList = Shapes::ListShape.new(name: 'DocumentAclMembershipConditionsList')
+    DocumentAclMembershipType = Shapes::StringShape.new(name: 'DocumentAclMembershipType')
+    DocumentAclUser = Shapes::StructureShape.new(name: 'DocumentAclUser')
+    DocumentAclUserIdString = Shapes::StringShape.new(name: 'DocumentAclUserIdString')
     DocumentId = Shapes::StringShape.new(name: 'DocumentId')
     DocumentOutputFormat = Shapes::StringShape.new(name: 'DocumentOutputFormat')
     Double = Shapes::FloatShape.new(name: 'Double')
@@ -277,6 +291,8 @@ module Aws::BedrockAgentRuntime
     GetExecutionFlowSnapshotResponse = Shapes::StructureShape.new(name: 'GetExecutionFlowSnapshotResponse')
     GetFlowExecutionRequest = Shapes::StructureShape.new(name: 'GetFlowExecutionRequest')
     GetFlowExecutionResponse = Shapes::StructureShape.new(name: 'GetFlowExecutionResponse')
+    GetIngestedDocumentAclRequest = Shapes::StructureShape.new(name: 'GetIngestedDocumentAclRequest')
+    GetIngestedDocumentAclResponse = Shapes::StructureShape.new(name: 'GetIngestedDocumentAclResponse')
     GetInvocationStepRequest = Shapes::StructureShape.new(name: 'GetInvocationStepRequest')
     GetInvocationStepResponse = Shapes::StructureShape.new(name: 'GetInvocationStepResponse')
     GetSessionRequest = Shapes::StructureShape.new(name: 'GetSessionRequest')
@@ -1011,6 +1027,15 @@ module Aws::BedrockAgentRuntime
 
     CallerChain.member = Shapes::ShapeRef.new(shape: Caller)
 
+    CheckIngestedDocumentAclRequest.add_member(:data_source_id, Shapes::ShapeRef.new(shape: DataSourceId, required: true, location: "uri", location_name: "dataSourceId"))
+    CheckIngestedDocumentAclRequest.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, required: true, location_name: "documentId"))
+    CheckIngestedDocumentAclRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseIdentifier, required: true, location: "uri", location_name: "knowledgeBaseId"))
+    CheckIngestedDocumentAclRequest.add_member(:user_context, Shapes::ShapeRef.new(shape: UserContext, required: true, location_name: "userContext"))
+    CheckIngestedDocumentAclRequest.struct_class = Types::CheckIngestedDocumentAclRequest
+
+    CheckIngestedDocumentAclResponse.add_member(:has_access, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "hasAccess"))
+    CheckIngestedDocumentAclResponse.struct_class = Types::CheckIngestedDocumentAclResponse
+
     Citation.add_member(:generated_response_part, Shapes::ShapeRef.new(shape: GeneratedResponsePart, location_name: "generatedResponsePart"))
     Citation.add_member(:retrieved_references, Shapes::ShapeRef.new(shape: RetrievedReferences, location_name: "retrievedReferences"))
     Citation.struct_class = Types::Citation
@@ -1129,6 +1154,33 @@ module Aws::BedrockAgentRuntime
     DependencyFailedException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     DependencyFailedException.add_member(:resource_name, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "resourceName"))
     DependencyFailedException.struct_class = Types::DependencyFailedException
+
+    DocumentAcl.add_member(:allow_list, Shapes::ShapeRef.new(shape: DocumentAclMembership, location_name: "allowList"))
+    DocumentAcl.add_member(:deny_list, Shapes::ShapeRef.new(shape: DocumentAclMembership, location_name: "denyList"))
+    DocumentAcl.struct_class = Types::DocumentAcl
+
+    DocumentAclCondition.add_member(:condition_operator, Shapes::ShapeRef.new(shape: DocumentAclMemberRelation, location_name: "conditionOperator"))
+    DocumentAclCondition.add_member(:groups, Shapes::ShapeRef.new(shape: DocumentAclConditionGroupsList, location_name: "groups"))
+    DocumentAclCondition.add_member(:users, Shapes::ShapeRef.new(shape: DocumentAclConditionUsersList, location_name: "users"))
+    DocumentAclCondition.struct_class = Types::DocumentAclCondition
+
+    DocumentAclConditionGroupsList.member = Shapes::ShapeRef.new(shape: DocumentAclGroup)
+
+    DocumentAclConditionUsersList.member = Shapes::ShapeRef.new(shape: DocumentAclUser)
+
+    DocumentAclGroup.add_member(:id, Shapes::ShapeRef.new(shape: DocumentAclGroupIdString, required: true, location_name: "id"))
+    DocumentAclGroup.add_member(:type, Shapes::ShapeRef.new(shape: DocumentAclMembershipType, required: true, location_name: "type"))
+    DocumentAclGroup.struct_class = Types::DocumentAclGroup
+
+    DocumentAclMembership.add_member(:conditions, Shapes::ShapeRef.new(shape: DocumentAclMembershipConditionsList, location_name: "conditions"))
+    DocumentAclMembership.add_member(:member_relation, Shapes::ShapeRef.new(shape: DocumentAclMemberRelation, location_name: "memberRelation"))
+    DocumentAclMembership.struct_class = Types::DocumentAclMembership
+
+    DocumentAclMembershipConditionsList.member = Shapes::ShapeRef.new(shape: DocumentAclCondition)
+
+    DocumentAclUser.add_member(:id, Shapes::ShapeRef.new(shape: DocumentAclUserIdString, required: true, location_name: "id"))
+    DocumentAclUser.add_member(:type, Shapes::ShapeRef.new(shape: DocumentAclMembershipType, required: true, location_name: "type"))
+    DocumentAclUser.struct_class = Types::DocumentAclUser
 
     EndSessionRequest.add_member(:session_identifier, Shapes::ShapeRef.new(shape: SessionIdentifier, required: true, location: "uri", location_name: "sessionIdentifier"))
     EndSessionRequest.struct_class = Types::EndSessionRequest
@@ -1529,6 +1581,14 @@ module Aws::BedrockAgentRuntime
     GetFlowExecutionResponse.add_member(:started_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "startedAt"))
     GetFlowExecutionResponse.add_member(:status, Shapes::ShapeRef.new(shape: FlowExecutionStatus, required: true, location_name: "status"))
     GetFlowExecutionResponse.struct_class = Types::GetFlowExecutionResponse
+
+    GetIngestedDocumentAclRequest.add_member(:data_source_id, Shapes::ShapeRef.new(shape: DataSourceId, required: true, location: "uri", location_name: "dataSourceId"))
+    GetIngestedDocumentAclRequest.add_member(:document_id, Shapes::ShapeRef.new(shape: DocumentId, required: true, location_name: "documentId"))
+    GetIngestedDocumentAclRequest.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: KnowledgeBaseIdentifier, required: true, location: "uri", location_name: "knowledgeBaseId"))
+    GetIngestedDocumentAclRequest.struct_class = Types::GetIngestedDocumentAclRequest
+
+    GetIngestedDocumentAclResponse.add_member(:document_acl, Shapes::ShapeRef.new(shape: DocumentAcl, required: true, location_name: "documentAcl"))
+    GetIngestedDocumentAclResponse.struct_class = Types::GetIngestedDocumentAclResponse
 
     GetInvocationStepRequest.add_member(:invocation_identifier, Shapes::ShapeRef.new(shape: InvocationIdentifier, required: true, location_name: "invocationIdentifier"))
     GetInvocationStepRequest.add_member(:invocation_step_id, Shapes::ShapeRef.new(shape: Uuid, required: true, location: "uri", location_name: "invocationStepId"))
@@ -2844,6 +2904,19 @@ module Aws::BedrockAgentRuntime
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
       end)
 
+      api.add_operation(:check_ingested_document_acl, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CheckIngestedDocumentAcl"
+        o.http_method = "POST"
+        o.http_request_uri = "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/check-ingested-document-acl"
+        o.input = Shapes::ShapeRef.new(shape: CheckIngestedDocumentAclRequest)
+        o.output = Shapes::ShapeRef.new(shape: CheckIngestedDocumentAclResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:create_invocation, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateInvocation"
         o.http_method = "PUT"
@@ -2990,6 +3063,19 @@ module Aws::BedrockAgentRuntime
         o.http_request_uri = "/flows/{flowIdentifier}/aliases/{flowAliasIdentifier}/executions/{executionIdentifier}"
         o.input = Shapes::ShapeRef.new(shape: GetFlowExecutionRequest)
         o.output = Shapes::ShapeRef.new(shape: GetFlowExecutionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:get_ingested_document_acl, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetIngestedDocumentAcl"
+        o.http_method = "POST"
+        o.http_request_uri = "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/get-ingested-document-acl"
+        o.input = Shapes::ShapeRef.new(shape: GetIngestedDocumentAclRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetIngestedDocumentAclResponse)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)

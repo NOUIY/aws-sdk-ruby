@@ -530,6 +530,10 @@ module Aws::ObservabilityAdmin
     #           log_group_name_configuration: {
     #             log_group_name_pattern: "LogGroupNamePattern", # required
     #           },
+    #           tag_propagation_configuration: {
+    #             destination_role_arn: "IamRoleArn", # required
+    #             tag_conflict_resolution_strategy: "IN_SYNC", # accepts IN_SYNC, ADD_ONLY, UPDATE_SYNC
+    #           },
     #         },
     #         destination_metrics_configuration: {
     #           backup_configuration: {
@@ -1044,6 +1048,8 @@ module Aws::ObservabilityAdmin
     #   * {Types::GetCentralizationRuleForOrganizationOutput#last_update_time_stamp #last_update_time_stamp} => Integer
     #   * {Types::GetCentralizationRuleForOrganizationOutput#rule_health #rule_health} => String
     #   * {Types::GetCentralizationRuleForOrganizationOutput#failure_reason #failure_reason} => String
+    #   * {Types::GetCentralizationRuleForOrganizationOutput#tag_propagation_status #tag_propagation_status} => String
+    #   * {Types::GetCentralizationRuleForOrganizationOutput#tag_propagation_failure_reason #tag_propagation_failure_reason} => String
     #   * {Types::GetCentralizationRuleForOrganizationOutput#centralization_rule #centralization_rule} => Types::CentralizationRule
     #
     # @example Request syntax with placeholder values
@@ -1062,6 +1068,8 @@ module Aws::ObservabilityAdmin
     #   resp.last_update_time_stamp #=> Integer
     #   resp.rule_health #=> String, one of "Healthy", "Unhealthy", "Provisioning"
     #   resp.failure_reason #=> String, one of "TRUSTED_ACCESS_NOT_ENABLED", "DESTINATION_ACCOUNT_NOT_IN_ORGANIZATION", "INTERNAL_SERVER_ERROR"
+    #   resp.tag_propagation_status #=> String, one of "Healthy", "Unhealthy"
+    #   resp.tag_propagation_failure_reason #=> String, one of "RoleNotAssumable", "RoleLacksPermissions"
     #   resp.centralization_rule.source.regions #=> Array
     #   resp.centralization_rule.source.regions[0] #=> String
     #   resp.centralization_rule.source.scope #=> String
@@ -1078,6 +1086,8 @@ module Aws::ObservabilityAdmin
     #   resp.centralization_rule.destination.destination_logs_configuration.backup_configuration.region #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.backup_configuration.kms_key_arn #=> String
     #   resp.centralization_rule.destination.destination_logs_configuration.log_group_name_configuration.log_group_name_pattern #=> String
+    #   resp.centralization_rule.destination.destination_logs_configuration.tag_propagation_configuration.destination_role_arn #=> String
+    #   resp.centralization_rule.destination.destination_logs_configuration.tag_propagation_configuration.tag_conflict_resolution_strategy #=> String, one of "IN_SYNC", "ADD_ONLY", "UPDATE_SYNC"
     #   resp.centralization_rule.destination.destination_metrics_configuration.backup_configuration.region #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/GetCentralizationRuleForOrganization AWS API Documentation
@@ -1495,6 +1505,8 @@ module Aws::ObservabilityAdmin
     #   resp.centralization_rule_summaries[0].last_update_time_stamp #=> Integer
     #   resp.centralization_rule_summaries[0].rule_health #=> String, one of "Healthy", "Unhealthy", "Provisioning"
     #   resp.centralization_rule_summaries[0].failure_reason #=> String, one of "TRUSTED_ACCESS_NOT_ENABLED", "DESTINATION_ACCOUNT_NOT_IN_ORGANIZATION", "INTERNAL_SERVER_ERROR"
+    #   resp.centralization_rule_summaries[0].tag_propagation_status #=> String, one of "Healthy", "Unhealthy"
+    #   resp.centralization_rule_summaries[0].tag_propagation_failure_reason #=> String, one of "RoleNotAssumable", "RoleLacksPermissions"
     #   resp.centralization_rule_summaries[0].destination_account_id #=> String
     #   resp.centralization_rule_summaries[0].destination_region #=> String
     #   resp.next_token #=> String
@@ -2228,6 +2240,10 @@ module Aws::ObservabilityAdmin
     #           log_group_name_configuration: {
     #             log_group_name_pattern: "LogGroupNamePattern", # required
     #           },
+    #           tag_propagation_configuration: {
+    #             destination_role_arn: "IamRoleArn", # required
+    #             tag_conflict_resolution_strategy: "IN_SYNC", # accepts IN_SYNC, ADD_ONLY, UPDATE_SYNC
+    #           },
     #         },
     #         destination_metrics_configuration: {
     #           backup_configuration: {
@@ -2636,7 +2652,7 @@ module Aws::ObservabilityAdmin
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-observabilityadmin'
-      context[:gem_version] = '1.36.0'
+      context[:gem_version] = '1.37.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

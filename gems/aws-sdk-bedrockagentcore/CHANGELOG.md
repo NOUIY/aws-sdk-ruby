@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.48.0 (2026-08-14)
+------------------
+
+* Feature - Add support for the Machine Payments Protocol (MPP) and x402 upto scheme payments protocol in Amazon Bedrock AgentCore Payments. Customers can now pay for MPP-gated resources and also pay services which requires upto scheme in x402
+
 1.47.0 (2026-08-11)
 ------------------
 

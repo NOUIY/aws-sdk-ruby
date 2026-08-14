@@ -247,6 +247,18 @@ module Aws::ObservabilityAdmin
     #   UNHEALTHY.
     #   @return [String]
     #
+    # @!attribute [rw] tag_propagation_status
+    #   The health status of tag propagation for this rule. This status is
+    #   independent of the overall `RuleHealth` for log delivery. Returns
+    #   `Healthy` when the most recent tag-propagation attempt succeeded, or
+    #   `Unhealthy` when the most recent attempt failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_propagation_failure_reason
+    #   The reason tag propagation is unhealthy for this rule. Only present
+    #   when `TagPropagationStatus` is `Unhealthy`.
+    #   @return [String]
+    #
     # @!attribute [rw] destination_account_id
     #   The primary destination account of the organization centralization
     #   rule.
@@ -268,6 +280,8 @@ module Aws::ObservabilityAdmin
       :last_update_time_stamp,
       :rule_health,
       :failure_reason,
+      :tag_propagation_status,
+      :tag_propagation_failure_reason,
       :destination_account_id,
       :destination_region)
       SENSITIVE = []
@@ -686,12 +700,20 @@ module Aws::ObservabilityAdmin
     #   when log groups are created.
     #   @return [Types::LogGroupNameConfiguration]
     #
+    # @!attribute [rw] tag_propagation_configuration
+    #   Specifies the tag propagation configuration for this centralization
+    #   rule. When present, `LogGroupNameConfiguration` must use a
+    #   `LogGroupNamePattern` that contains `${source.logGroup}`,
+    #   `${source.accountId}`, and `${source.region}`.
+    #   @return [Types::TagPropagationConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/DestinationLogsConfiguration AWS API Documentation
     #
     class DestinationLogsConfiguration < Struct.new(
       :logs_encryption_configuration,
       :backup_configuration,
-      :log_group_name_configuration)
+      :log_group_name_configuration,
+      :tag_propagation_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -863,6 +885,18 @@ module Aws::ObservabilityAdmin
     #   UNHEALTHY.
     #   @return [String]
     #
+    # @!attribute [rw] tag_propagation_status
+    #   The health status of tag propagation for this rule. This status is
+    #   independent of the overall `RuleHealth` for log delivery. Returns
+    #   `Healthy` when the most recent tag-propagation attempt succeeded, or
+    #   `Unhealthy` when the most recent attempt failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_propagation_failure_reason
+    #   The reason tag propagation is unhealthy for this rule. Only present
+    #   when `TagPropagationStatus` is `Unhealthy`.
+    #   @return [String]
+    #
     # @!attribute [rw] centralization_rule
     #   The configuration details for the organization centralization rule.
     #   @return [Types::CentralizationRule]
@@ -878,6 +912,8 @@ module Aws::ObservabilityAdmin
       :last_update_time_stamp,
       :rule_health,
       :failure_reason,
+      :tag_propagation_status,
+      :tag_propagation_failure_reason,
       :centralization_rule)
       SENSITIVE = []
       include Aws::Structure
@@ -2172,6 +2208,43 @@ module Aws::ObservabilityAdmin
     #
     class StopTelemetryEnrichmentOutput < Struct.new(
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies configuration for propagating resource tags from source log
+    # groups to centralized destination log groups. The service uses a
+    # customer-managed IAM role in the destination account to add, update,
+    # and remove tags on destination log groups.
+    #
+    # @!attribute [rw] destination_role_arn
+    #   The ARN of a customer-managed IAM role in the destination account.
+    #   The service assumes this role to propagate tags to destination log
+    #   groups. You must have `iam:PassRole` permission on this role.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_conflict_resolution_strategy
+    #   The strategy for resolving conflicts when a tag key exists on both
+    #   the source and destination log groups. If not specified, defaults to
+    #   `UPDATE_SYNC`.
+    #
+    #   * `ADD_ONLY` – Only adds new tags from the source without modifying
+    #     existing destination tags.
+    #
+    #   * `UPDATE_SYNC` – Adds new tags and updates existing tags from the
+    #     source. Does not remove destination tags that are absent from the
+    #     source.
+    #
+    #   * `IN_SYNC` – Keeps destination tags fully synchronized with source
+    #     tags, including removing destination tags that do not exist on the
+    #     source.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/observabilityadmin-2018-05-10/TagPropagationConfiguration AWS API Documentation
+    #
+    class TagPropagationConfiguration < Struct.new(
+      :destination_role_arn,
+      :tag_conflict_resolution_strategy)
       SENSITIVE = []
       include Aws::Structure
     end

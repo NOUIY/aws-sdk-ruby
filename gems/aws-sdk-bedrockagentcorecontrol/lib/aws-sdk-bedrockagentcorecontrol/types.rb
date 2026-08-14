@@ -4077,6 +4077,17 @@ module Aws::BedrockAgentCoreControl
     #   the payment provider.
     #   @return [Array<Types::CredentialsProviderConfiguration>]
     #
+    # @!attribute [rw] provision_mode
+    #   The provision mode for creating the payment connector. If you don't
+    #   specify a value, the default is `MANUAL`.
+    #
+    #   * `MANUAL` - You provide the credential provider configurations
+    #     directly.
+    #
+    #   * `QUICK_CREATE` - The service orchestrates OAuth consent and
+    #     provisions the credential provider for you.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier to ensure that the API request
     #   completes no more than one time. If you don't specify this field, a
@@ -4101,6 +4112,7 @@ module Aws::BedrockAgentCoreControl
       :description,
       :type,
       :credential_provider_configurations,
+      :provision_mode,
       :client_token)
       SENSITIVE = []
       include Aws::Structure
@@ -4137,6 +4149,12 @@ module Aws::BedrockAgentCoreControl
     #   `UPDATE_FAILED`, and `DELETE_FAILED`.
     #   @return [String]
     #
+    # @!attribute [rw] authorization_url
+    #   The URL that the user must open to complete OAuth consent. This
+    #   field is only present when the payment connector status is
+    #   `PENDING_AUTHENTICATION`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePaymentConnectorResponse AWS API Documentation
     #
     class CreatePaymentConnectorResponse < Struct.new(
@@ -4146,7 +4164,8 @@ module Aws::BedrockAgentCoreControl
       :type,
       :credential_provider_configurations,
       :created_at,
-      :status)
+      :status,
+      :authorization_url)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4254,6 +4273,13 @@ module Aws::BedrockAgentCoreControl
     #   A map of tag keys and values to assign to the payment manager.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the customer managed KMS key to
+    #   use for encrypting sensitive payment manager data at rest. If you
+    #   don't specify a key, the data is encrypted with an Amazon Web
+    #   Services owned key.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePaymentManagerRequest AWS API Documentation
     #
     class CreatePaymentManagerRequest < Struct.new(
@@ -4263,7 +4289,8 @@ module Aws::BedrockAgentCoreControl
       :authorizer_configuration,
       :role_arn,
       :client_token,
-      :tags)
+      :tags,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4312,6 +4339,11 @@ module Aws::BedrockAgentCoreControl
     #   The tags associated with the created payment manager.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt
+    #   sensitive payment manager data at rest, if configured.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreatePaymentManagerResponse AWS API Documentation
     #
     class CreatePaymentManagerResponse < Struct.new(
@@ -4324,7 +4356,8 @@ module Aws::BedrockAgentCoreControl
       :workload_identity_details,
       :created_at,
       :status,
-      :tags)
+      :tags,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9806,6 +9839,12 @@ module Aws::BedrockAgentCoreControl
     #   `UPDATE_FAILED`, and `DELETE_FAILED`.
     #   @return [String]
     #
+    # @!attribute [rw] authorization_url
+    #   The URL that the user must open to complete OAuth consent. This
+    #   field is only present when the payment connector status is
+    #   `PENDING_AUTHENTICATION`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetPaymentConnectorResponse AWS API Documentation
     #
     class GetPaymentConnectorResponse < Struct.new(
@@ -9816,7 +9855,8 @@ module Aws::BedrockAgentCoreControl
       :credential_provider_configurations,
       :created_at,
       :last_updated_at,
-      :status)
+      :status,
+      :authorization_url)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9945,6 +9985,11 @@ module Aws::BedrockAgentCoreControl
     #   The tags associated with the payment manager.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt
+    #   sensitive payment manager data at rest, if configured.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetPaymentManagerResponse AWS API Documentation
     #
     class GetPaymentManagerResponse < Struct.new(
@@ -9959,7 +10004,8 @@ module Aws::BedrockAgentCoreControl
       :created_at,
       :last_updated_at,
       :status,
-      :tags)
+      :tags,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -16472,6 +16518,11 @@ module Aws::BedrockAgentCoreControl
     #   The timestamp when the payment manager was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt
+    #   sensitive payment manager data at rest, if configured.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PaymentManagerSummary AWS API Documentation
     #
     class PaymentManagerSummary < Struct.new(
@@ -16483,7 +16534,8 @@ module Aws::BedrockAgentCoreControl
       :role_arn,
       :status,
       :created_at,
-      :last_updated_at)
+      :last_updated_at,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -19113,6 +19165,31 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # The request failed because it requires an active Amazon Web Services
+    # Marketplace subscription that is not present. Subscribe to the
+    # required product in Amazon Web Services Marketplace and try again.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @!attribute [rw] subscription_url
+    #   URL to the Marketplace listing for subscription
+    #   @return [String]
+    #
+    # @!attribute [rw] product_name
+    #   The product requiring subscription
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/SubscriptionRequiredException AWS API Documentation
+    #
+    class SubscriptionRequiredException < Struct.new(
+      :message,
+      :subscription_url,
+      :product_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains summary consolidation override configuration.
     #
     # @!attribute [rw] append_to_prompt
@@ -21555,6 +21632,12 @@ module Aws::BedrockAgentCoreControl
     #   `CREATE_FAILED`, `UPDATE_FAILED`, and `DELETE_FAILED`.
     #   @return [String]
     #
+    # @!attribute [rw] authorization_url
+    #   The URL that the user must open to complete OAuth consent. This
+    #   field is only present when the payment connector status is
+    #   `PENDING_AUTHENTICATION`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePaymentConnectorResponse AWS API Documentation
     #
     class UpdatePaymentConnectorResponse < Struct.new(
@@ -21564,7 +21647,8 @@ module Aws::BedrockAgentCoreControl
       :type,
       :credential_provider_configurations,
       :last_updated_at,
-      :status)
+      :status,
+      :authorization_url)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21668,6 +21752,11 @@ module Aws::BedrockAgentCoreControl
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
     #   @return [String]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The updated Amazon Resource Name (ARN) of the customer managed KMS
+    #   key used to encrypt sensitive payment manager data at rest.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePaymentManagerRequest AWS API Documentation
     #
     class UpdatePaymentManagerRequest < Struct.new(
@@ -21676,7 +21765,8 @@ module Aws::BedrockAgentCoreControl
       :authorizer_type,
       :authorizer_configuration,
       :role_arn,
-      :client_token)
+      :client_token,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21716,6 +21806,11 @@ module Aws::BedrockAgentCoreControl
     #   `CREATE_FAILED`, `UPDATE_FAILED`, and `DELETE_FAILED`.
     #   @return [String]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt
+    #   sensitive payment manager data at rest, if configured.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdatePaymentManagerResponse AWS API Documentation
     #
     class UpdatePaymentManagerResponse < Struct.new(
@@ -21726,7 +21821,8 @@ module Aws::BedrockAgentCoreControl
       :role_arn,
       :workload_identity_details,
       :last_updated_at,
-      :status)
+      :status,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end

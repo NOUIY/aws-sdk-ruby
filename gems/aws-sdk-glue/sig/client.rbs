@@ -82,11 +82,15 @@ module Aws
       interface _AssociateGlossaryTermsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::AssociateGlossaryTermsResponse]
         def asset_identifier: () -> ::String
+        def iterable_form_name: () -> ::String
+        def item_identifier: () -> ::String
         def glossary_terms: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#associate_glossary_terms-instance_method
       def associate_glossary_terms: (
                                       asset_identifier: ::String,
+                                      ?iterable_form_name: ::String,
+                                      ?item_identifier: ::String,
                                       glossary_term_identifiers: Array[::String],
                                       ?client_token: ::String
                                     ) -> _AssociateGlossaryTermsResponseSuccess
@@ -1136,6 +1140,8 @@ module Aws
       interface _DeleteAttachmentResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DeleteAttachmentResponse]
         def asset_identifier: () -> ::String
+        def iterable_form_name: () -> ::String
+        def item_identifier: () -> ::String
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#delete_attachment-instance_method
       def delete_attachment: (
@@ -1618,11 +1624,15 @@ module Aws
       interface _DisassociateGlossaryTermsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DisassociateGlossaryTermsResponse]
         def asset_identifier: () -> ::String
+        def iterable_form_name: () -> ::String
+        def item_identifier: () -> ::String
         def glossary_terms: () -> ::Array[::String]
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Glue/Client.html#disassociate_glossary_terms-instance_method
       def disassociate_glossary_terms: (
                                          asset_identifier: ::String,
+                                         ?iterable_form_name: ::String,
+                                         ?item_identifier: ::String,
                                          glossary_term_identifiers: Array[::String],
                                          ?client_token: ::String
                                        ) -> _DisassociateGlossaryTermsResponseSuccess

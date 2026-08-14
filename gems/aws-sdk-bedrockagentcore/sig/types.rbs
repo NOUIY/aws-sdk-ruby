@@ -553,6 +553,7 @@ module Aws::BedrockAgentCore
     class CryptoX402PaymentInput
       attr_accessor version: ::String
       attr_accessor payload: untyped
+      attr_accessor permit2_allowance_limit: ::String
       SENSITIVE: [:payload]
     end
 
@@ -651,7 +652,7 @@ module Aws::BedrockAgentCore
     end
 
     class DeletePaymentInstrumentResponse
-      attr_accessor status: ("INITIATED" | "ACTIVE" | "FAILED" | "DELETED")
+      attr_accessor status: ("INITIATED" | "ACTIVE" | "FAILED" | "DELETED" | "BLOCKED")
       SENSITIVE: []
     end
 
@@ -2324,6 +2325,20 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class MppPaymentInput
+      attr_accessor version: ::String
+      attr_accessor www_authenticate_headers: ::Array[::String]
+      attr_accessor buyer_pays_gas_fees: bool
+      SENSITIVE: []
+    end
+
+    class MppPaymentOutput
+      attr_accessor version: ::String
+      attr_accessor selected_payment_id: ::String
+      attr_accessor payment_credential: ::String
+      SENSITIVE: [:payment_credential]
+    end
+
     class OAuth2Authentication
       attr_accessor sub: ::String
       attr_accessor email_address: ::String
@@ -2381,10 +2396,13 @@ module Aws::BedrockAgentCore
 
     class PaymentInput
       attr_accessor crypto_x402: Types::CryptoX402PaymentInput
+      attr_accessor mpp: Types::MppPaymentInput
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class CryptoX402 < PaymentInput
+      end
+      class Mpp < PaymentInput
       end
       class Unknown < PaymentInput
       end
@@ -2398,7 +2416,7 @@ module Aws::BedrockAgentCore
       attr_accessor payment_instrument_type: ("EMBEDDED_CRYPTO_WALLET")
       attr_accessor payment_instrument_details: Types::PaymentInstrumentDetails
       attr_accessor created_at: ::Time
-      attr_accessor status: ("INITIATED" | "ACTIVE" | "FAILED" | "DELETED")
+      attr_accessor status: ("INITIATED" | "ACTIVE" | "FAILED" | "DELETED" | "BLOCKED")
       attr_accessor updated_at: ::Time
       SENSITIVE: []
     end
@@ -2420,7 +2438,7 @@ module Aws::BedrockAgentCore
       attr_accessor payment_connector_id: ::String
       attr_accessor user_id: ::String
       attr_accessor payment_instrument_type: ("EMBEDDED_CRYPTO_WALLET")
-      attr_accessor status: ("INITIATED" | "ACTIVE" | "FAILED" | "DELETED")
+      attr_accessor status: ("INITIATED" | "ACTIVE" | "FAILED" | "DELETED" | "BLOCKED")
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
       SENSITIVE: []
@@ -2428,10 +2446,13 @@ module Aws::BedrockAgentCore
 
     class PaymentOutput
       attr_accessor crypto_x402: Types::CryptoX402PaymentOutput
+      attr_accessor mpp: Types::MppPaymentOutput
       attr_accessor unknown: untyped
       SENSITIVE: []
 
       class CryptoX402 < PaymentOutput
+      end
+      class Mpp < PaymentOutput
       end
       class Unknown < PaymentOutput
       end
@@ -2499,7 +2520,7 @@ module Aws::BedrockAgentCore
       attr_accessor payment_manager_arn: ::String
       attr_accessor payment_session_id: ::String
       attr_accessor payment_instrument_id: ::String
-      attr_accessor payment_type: ("CRYPTO_X402")
+      attr_accessor payment_type: ("CRYPTO_X402" | "MPP")
       attr_accessor payment_input: Types::PaymentInput
       attr_accessor client_token: ::String
       SENSITIVE: []
@@ -2510,7 +2531,7 @@ module Aws::BedrockAgentCore
       attr_accessor payment_manager_arn: ::String
       attr_accessor payment_session_id: ::String
       attr_accessor payment_instrument_id: ::String
-      attr_accessor payment_type: ("CRYPTO_X402")
+      attr_accessor payment_type: ("CRYPTO_X402" | "MPP")
       attr_accessor status: ("PROOF_GENERATED")
       attr_accessor payment_output: Types::PaymentOutput
       attr_accessor created_at: ::Time
@@ -3032,6 +3053,13 @@ module Aws::BedrockAgentCore
       attr_accessor app_id: ::String
       attr_accessor basic_auth_token: ::String
       SENSITIVE: [:authorization_signature, :basic_auth_token]
+    end
+
+    class SubscriptionRequiredException
+      attr_accessor message: ::String
+      attr_accessor subscription_url: ::String
+      attr_accessor product_name: ::String
+      SENSITIVE: []
     end
 
     class SystemPromptConfig

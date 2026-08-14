@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.79.0 (2026-08-14)
+------------------
+
+* Feature - Adds CheckIngestedDocumentAcl and GetIngestedDocumentAcl APIs to Amazon Bedrock Knowledge Bases. Customers can verify user access to documents based on ingested ACLs and retrieve full ACL details including allow and deny entries, enabling validation of ACL ingestion without test retrievals.
+
 1.78.0 (2026-07-09)
 ------------------
 

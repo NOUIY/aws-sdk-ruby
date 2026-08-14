@@ -948,6 +948,55 @@ module Aws::BedrockAgentRuntime
       req.send_request(options, &block)
     end
 
+    # Checks whether a user has access to a specific document by verifying
+    # against the ingested access control list (ACL) in a knowledge base.
+    # Use this operation to validate that document-level access control is
+    # working as expected after ingestion. To use this operation, you must
+    # have the `bedrock:CheckIngestedDocumentAcl` permission.
+    #
+    # @option params [required, String] :data_source_id
+    #   The unique identifier of the data source that contains the document.
+    #
+    # @option params [required, String] :document_id
+    #   The unique identifier of the document to check access for.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier of the knowledge base that contains the
+    #   document.
+    #
+    # @option params [required, Types::UserContext] :user_context
+    #   The context object containing identity information for access control
+    #   filtering, including user ID and optional group memberships used to
+    #   evaluate the document access control list (ACL).
+    #
+    # @return [Types::CheckIngestedDocumentAclResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CheckIngestedDocumentAclResponse#has_access #has_access} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.check_ingested_document_acl({
+    #     data_source_id: "DataSourceId", # required
+    #     document_id: "DocumentId", # required
+    #     knowledge_base_id: "KnowledgeBaseIdentifier", # required
+    #     user_context: { # required
+    #       user_id: "String", # required
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.has_access #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/CheckIngestedDocumentAcl AWS API Documentation
+    #
+    # @overload check_ingested_document_acl(params = {})
+    # @param [Hash] params ({})
+    def check_ingested_document_acl(params = {}, options = {})
+      req = build_request(:check_ingested_document_acl, params)
+      req.send_request(options)
+    end
+
     # Creates a new invocation within a session. An invocation groups the
     # related invocation steps that store the content from a conversation.
     # For more information about sessions, see [Store and retrieve
@@ -1345,10 +1394,9 @@ module Aws::BedrockAgentRuntime
     #   file. `EXTRACTED` returns parsed text as JSON. Defaults to `RAW`.
     #
     # @option params [Types::UserContext] :user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that results only include
+    #   documents the user is authorized to access.
     #
     # @return [Types::GetDocumentContentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1493,6 +1541,65 @@ module Aws::BedrockAgentRuntime
       req.send_request(options)
     end
 
+    # Retrieves the ingested access control list (ACL) for a specific
+    # document in a knowledge base. Use this operation to inspect the allow
+    # and deny lists that were ingested for a document to troubleshoot
+    # access control issues. To use this operation, you must have the
+    # `bedrock:GetIngestedDocumentAcl` permission.
+    #
+    # @option params [required, String] :data_source_id
+    #   The unique identifier of the data source that contains the document.
+    #
+    # @option params [required, String] :document_id
+    #   The unique identifier of the document to retrieve the ingested access
+    #   control list (ACL) for.
+    #
+    # @option params [required, String] :knowledge_base_id
+    #   The unique identifier of the knowledge base that contains the
+    #   document.
+    #
+    # @return [Types::GetIngestedDocumentAclResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetIngestedDocumentAclResponse#document_acl #document_acl} => Types::DocumentAcl
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_ingested_document_acl({
+    #     data_source_id: "DataSourceId", # required
+    #     document_id: "DocumentId", # required
+    #     knowledge_base_id: "KnowledgeBaseIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.document_acl.allow_list.conditions #=> Array
+    #   resp.document_acl.allow_list.conditions[0].condition_operator #=> String, one of "AND", "OR"
+    #   resp.document_acl.allow_list.conditions[0].groups #=> Array
+    #   resp.document_acl.allow_list.conditions[0].groups[0].id #=> String
+    #   resp.document_acl.allow_list.conditions[0].groups[0].type #=> String, one of "KNOWLEDGE_BASE", "DATA_SOURCE"
+    #   resp.document_acl.allow_list.conditions[0].users #=> Array
+    #   resp.document_acl.allow_list.conditions[0].users[0].id #=> String
+    #   resp.document_acl.allow_list.conditions[0].users[0].type #=> String, one of "KNOWLEDGE_BASE", "DATA_SOURCE"
+    #   resp.document_acl.allow_list.member_relation #=> String, one of "AND", "OR"
+    #   resp.document_acl.deny_list.conditions #=> Array
+    #   resp.document_acl.deny_list.conditions[0].condition_operator #=> String, one of "AND", "OR"
+    #   resp.document_acl.deny_list.conditions[0].groups #=> Array
+    #   resp.document_acl.deny_list.conditions[0].groups[0].id #=> String
+    #   resp.document_acl.deny_list.conditions[0].groups[0].type #=> String, one of "KNOWLEDGE_BASE", "DATA_SOURCE"
+    #   resp.document_acl.deny_list.conditions[0].users #=> Array
+    #   resp.document_acl.deny_list.conditions[0].users[0].id #=> String
+    #   resp.document_acl.deny_list.conditions[0].users[0].type #=> String, one of "KNOWLEDGE_BASE", "DATA_SOURCE"
+    #   resp.document_acl.deny_list.member_relation #=> String, one of "AND", "OR"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime-2023-07-26/GetIngestedDocumentAcl AWS API Documentation
+    #
+    # @overload get_ingested_document_acl(params = {})
+    # @param [Hash] params ({})
+    def get_ingested_document_acl(params = {}, options = {})
+      req = build_request(:get_ingested_document_acl, params)
+      req.send_request(options)
+    end
+
     # Retrieves the details of a specific invocation step within an
     # invocation in a session. For more information about sessions, see
     # [Store and retrieve conversation history and context with Amazon
@@ -1595,7 +1702,16 @@ module Aws::BedrockAgentRuntime
       req.send_request(options)
     end
 
-    # <note> </note>
+    # <note markdown="1"> Amazon Bedrock Agents (now Amazon Bedrock Agents
+    # Classic) is no longer
+    # open to new customers. For capabilities similar to Bedrock Agents
+    # Classic, explore Amazon Bedrock AgentCore. Existing customers can
+    # continue to use the service as normal. For more information, see
+    # [Amazon Bedrock Agents Classic availability change][1].
+    #
+    #  </note>
+    #
+    #  <note> </note>
     #
     #  Sends a prompt for the agent to process and respond to. Note the
     # following fields for the request:
@@ -1607,7 +1723,7 @@ module Aws::BedrockAgentRuntime
     #   enablement helps you follow the agent's reasoning process that led
     #   it to the information it processed, the actions it took, and the
     #   final result it yielded. For more information, see [Trace
-    #   enablement][1].
+    #   enablement][2].
     #
     # * End a conversation by setting `endSession` to `true`.
     #
@@ -1635,7 +1751,8 @@ module Aws::BedrockAgentRuntime
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events
+    # [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/agents-classic-maintenance-mode.html
+    # [2]: https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events
     #
     # @option params [required, String] :agent_alias_id
     #   The alias of the agent to use.
@@ -6684,10 +6801,9 @@ module Aws::BedrockAgentRuntime
     #   Contains the query to send the knowledge base.
     #
     # @option params [Types::UserContext] :user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that retrieval results only
+    #   include documents the user is authorized to access.
     #
     # @return [Types::RetrieveResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7009,10 +7125,9 @@ module Aws::BedrockAgentRuntime
     #   explicitly set the `sessionId` yourself.
     #
     # @option params [Types::UserContext] :user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that retrieval results only
+    #   include documents the user is authorized to access.
     #
     # @return [Types::RetrieveAndGenerateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7428,10 +7543,9 @@ module Aws::BedrockAgentRuntime
     #   explicitly set the `sessionId` yourself.
     #
     # @option params [Types::UserContext] :user_context
-    #   Contains information about the user making the request. Use this to
-    #   pass user identity information for access control filtering, so that
-    #   retrieval results only include documents the user is authorized to
-    #   access.
+    #   Contains information about the user making the request. This is used
+    #   for access control filtering to ensure that retrieval results only
+    #   include documents the user is authorized to access.
     #
     # @return [Types::RetrieveAndGenerateStreamResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -8313,7 +8427,7 @@ module Aws::BedrockAgentRuntime
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentruntime'
-      context[:gem_version] = '1.78.0'
+      context[:gem_version] = '1.79.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

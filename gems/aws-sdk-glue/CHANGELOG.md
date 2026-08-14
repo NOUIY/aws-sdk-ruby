@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.270.0 (2026-08-14)
+------------------
+
+* Feature - Added support for associating glossary terms with iterable form items, such as table columns.
+
 1.269.0 (2026-08-12)
 ------------------
 
