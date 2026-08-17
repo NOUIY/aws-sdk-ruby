@@ -40,6 +40,9 @@ module Aws::BedrockAgentRuntime
     AgentCollaboratorInvocationOutput = Shapes::StructureShape.new(name: 'AgentCollaboratorInvocationOutput')
     AgentCollaboratorOutputPayload = Shapes::StructureShape.new(name: 'AgentCollaboratorOutputPayload')
     AgentCollaboratorPayloadString = Shapes::StringShape.new(name: 'AgentCollaboratorPayloadString')
+    AgentCoreMemoryActorId = Shapes::StringShape.new(name: 'AgentCoreMemoryActorId')
+    AgentCoreMemoryId = Shapes::StringShape.new(name: 'AgentCoreMemoryId')
+    AgentCoreMemorySessionId = Shapes::StringShape.new(name: 'AgentCoreMemorySessionId')
     AgentId = Shapes::StringShape.new(name: 'AgentId')
     AgentTraces = Shapes::ListShape.new(name: 'AgentTraces')
     AgentVersion = Shapes::StringShape.new(name: 'AgentVersion')
@@ -62,6 +65,22 @@ module Aws::BedrockAgentRuntime
     AgenticRetrieveFullDocExpansionDetails = Shapes::StructureShape.new(name: 'AgenticRetrieveFullDocExpansionDetails')
     AgenticRetrieveGeneratedResponse = Shapes::StructureShape.new(name: 'AgenticRetrieveGeneratedResponse')
     AgenticRetrieveGuardrailWarning = Shapes::StructureShape.new(name: 'AgenticRetrieveGuardrailWarning')
+    AgenticRetrieveMemoryConfiguration = Shapes::StructureShape.new(name: 'AgenticRetrieveMemoryConfiguration')
+    AgenticRetrieveMemoryMetadataFilter = Shapes::StructureShape.new(name: 'AgenticRetrieveMemoryMetadataFilter')
+    AgenticRetrieveMemoryMetadataFilterLeft = Shapes::UnionShape.new(name: 'AgenticRetrieveMemoryMetadataFilterLeft')
+    AgenticRetrieveMemoryMetadataFilterList = Shapes::ListShape.new(name: 'AgenticRetrieveMemoryMetadataFilterList')
+    AgenticRetrieveMemoryMetadataFilterOperator = Shapes::StringShape.new(name: 'AgenticRetrieveMemoryMetadataFilterOperator')
+    AgenticRetrieveMemoryMetadataFilterRight = Shapes::UnionShape.new(name: 'AgenticRetrieveMemoryMetadataFilterRight')
+    AgenticRetrieveMemoryMetadataKey = Shapes::StringShape.new(name: 'AgenticRetrieveMemoryMetadataKey')
+    AgenticRetrieveMemoryMetadataStringList = Shapes::ListShape.new(name: 'AgenticRetrieveMemoryMetadataStringList')
+    AgenticRetrieveMemoryMetadataStringListItem = Shapes::StringShape.new(name: 'AgenticRetrieveMemoryMetadataStringListItem')
+    AgenticRetrieveMemoryMetadataStringValue = Shapes::StringShape.new(name: 'AgenticRetrieveMemoryMetadataStringValue')
+    AgenticRetrieveMemoryMetadataValue = Shapes::UnionShape.new(name: 'AgenticRetrieveMemoryMetadataValue')
+    AgenticRetrieveMemoryPersistenceMode = Shapes::StringShape.new(name: 'AgenticRetrieveMemoryPersistenceMode')
+    AgenticRetrieveMemoryRetrievalConfig = Shapes::StructureShape.new(name: 'AgenticRetrieveMemoryRetrievalConfig')
+    AgenticRetrieveMemoryRetrievalConfigList = Shapes::ListShape.new(name: 'AgenticRetrieveMemoryRetrievalConfigList')
+    AgenticRetrieveMemoryRetrieveDetails = Shapes::StructureShape.new(name: 'AgenticRetrieveMemoryRetrieveDetails')
+    AgenticRetrieveMemorySessionBinding = Shapes::StructureShape.new(name: 'AgenticRetrieveMemorySessionBinding')
     AgenticRetrieveMessage = Shapes::StructureShape.new(name: 'AgenticRetrieveMessage')
     AgenticRetrieveMessageContent = Shapes::StructureShape.new(name: 'AgenticRetrieveMessageContent')
     AgenticRetrieveMetadata = Shapes::MapShape.new(name: 'AgenticRetrieveMetadata')
@@ -433,7 +452,9 @@ module Aws::BedrockAgentRuntime
     Memories = Shapes::ListShape.new(name: 'Memories')
     Memory = Shapes::UnionShape.new(name: 'Memory')
     MemoryId = Shapes::StringShape.new(name: 'MemoryId')
+    MemoryNamespace = Shapes::StringShape.new(name: 'MemoryNamespace')
     MemorySessionSummary = Shapes::StructureShape.new(name: 'MemorySessionSummary')
+    MemoryStrategyId = Shapes::StringShape.new(name: 'MemoryStrategyId')
     MemoryType = Shapes::StringShape.new(name: 'MemoryType')
     Message = Shapes::StructureShape.new(name: 'Message')
     Messages = Shapes::ListShape.new(name: 'Messages')
@@ -664,6 +685,7 @@ module Aws::BedrockAgentRuntime
     TextToSqlConfigurationType = Shapes::StringShape.new(name: 'TextToSqlConfigurationType')
     TextToSqlKnowledgeBaseConfiguration = Shapes::StructureShape.new(name: 'TextToSqlKnowledgeBaseConfiguration')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
+    Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     TopK = Shapes::IntegerShape.new(name: 'TopK')
     TopP = Shapes::FloatShape.new(name: 'TopP')
     Trace = Shapes::UnionShape.new(name: 'Trace')
@@ -765,6 +787,7 @@ module Aws::BedrockAgentRuntime
     AgentTraces.member = Shapes::ShapeRef.new(shape: TracePart, event: true)
 
     AgenticRetrieveAction.add_member(:full_document_expansion, Shapes::ShapeRef.new(shape: AgenticRetrieveFullDocExpansionDetails, location_name: "fullDocumentExpansion"))
+    AgenticRetrieveAction.add_member(:memory_retrieve, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryRetrieveDetails, location_name: "memoryRetrieve"))
     AgenticRetrieveAction.add_member(:retrieve, Shapes::ShapeRef.new(shape: AgenticRetrieveActionDetails, location_name: "retrieve"))
     AgenticRetrieveAction.struct_class = Types::AgenticRetrieveAction
 
@@ -822,6 +845,64 @@ module Aws::BedrockAgentRuntime
     AgenticRetrieveGuardrailWarning.add_member(:version, Shapes::ShapeRef.new(shape: String, required: true, location_name: "version"))
     AgenticRetrieveGuardrailWarning.struct_class = Types::AgenticRetrieveGuardrailWarning
 
+    AgenticRetrieveMemoryConfiguration.add_member(:memory_id, Shapes::ShapeRef.new(shape: AgentCoreMemoryId, required: true, location_name: "memoryId"))
+    AgenticRetrieveMemoryConfiguration.add_member(:persistence_mode, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryPersistenceMode, location_name: "persistenceMode"))
+    AgenticRetrieveMemoryConfiguration.add_member(:retrieval_configs, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryRetrievalConfigList, location_name: "retrievalConfigs"))
+    AgenticRetrieveMemoryConfiguration.add_member(:session_binding, Shapes::ShapeRef.new(shape: AgenticRetrieveMemorySessionBinding, location_name: "sessionBinding"))
+    AgenticRetrieveMemoryConfiguration.struct_class = Types::AgenticRetrieveMemoryConfiguration
+
+    AgenticRetrieveMemoryMetadataFilter.add_member(:left, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataFilterLeft, required: true, location_name: "left"))
+    AgenticRetrieveMemoryMetadataFilter.add_member(:operator, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataFilterOperator, required: true, location_name: "operator"))
+    AgenticRetrieveMemoryMetadataFilter.add_member(:right, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataFilterRight, location_name: "right"))
+    AgenticRetrieveMemoryMetadataFilter.struct_class = Types::AgenticRetrieveMemoryMetadataFilter
+
+    AgenticRetrieveMemoryMetadataFilterLeft.add_member(:metadata_key, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataKey, location_name: "metadataKey"))
+    AgenticRetrieveMemoryMetadataFilterLeft.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AgenticRetrieveMemoryMetadataFilterLeft.add_member_subclass(:metadata_key, Types::AgenticRetrieveMemoryMetadataFilterLeft::MetadataKey)
+    AgenticRetrieveMemoryMetadataFilterLeft.add_member_subclass(:unknown, Types::AgenticRetrieveMemoryMetadataFilterLeft::Unknown)
+    AgenticRetrieveMemoryMetadataFilterLeft.struct_class = Types::AgenticRetrieveMemoryMetadataFilterLeft
+
+    AgenticRetrieveMemoryMetadataFilterList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataFilter)
+
+    AgenticRetrieveMemoryMetadataFilterRight.add_member(:metadata_value, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataValue, location_name: "metadataValue"))
+    AgenticRetrieveMemoryMetadataFilterRight.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AgenticRetrieveMemoryMetadataFilterRight.add_member_subclass(:metadata_value, Types::AgenticRetrieveMemoryMetadataFilterRight::MetadataValue)
+    AgenticRetrieveMemoryMetadataFilterRight.add_member_subclass(:unknown, Types::AgenticRetrieveMemoryMetadataFilterRight::Unknown)
+    AgenticRetrieveMemoryMetadataFilterRight.struct_class = Types::AgenticRetrieveMemoryMetadataFilterRight
+
+    AgenticRetrieveMemoryMetadataStringList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataStringListItem)
+
+    AgenticRetrieveMemoryMetadataValue.add_member(:date_time_value, Shapes::ShapeRef.new(shape: Timestamp, location_name: "dateTimeValue"))
+    AgenticRetrieveMemoryMetadataValue.add_member(:number_value, Shapes::ShapeRef.new(shape: Double, location_name: "numberValue"))
+    AgenticRetrieveMemoryMetadataValue.add_member(:string_list_value, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataStringList, location_name: "stringListValue"))
+    AgenticRetrieveMemoryMetadataValue.add_member(:string_value, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataStringValue, location_name: "stringValue"))
+    AgenticRetrieveMemoryMetadataValue.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    AgenticRetrieveMemoryMetadataValue.add_member_subclass(:date_time_value, Types::AgenticRetrieveMemoryMetadataValue::DateTimeValue)
+    AgenticRetrieveMemoryMetadataValue.add_member_subclass(:number_value, Types::AgenticRetrieveMemoryMetadataValue::NumberValue)
+    AgenticRetrieveMemoryMetadataValue.add_member_subclass(:string_list_value, Types::AgenticRetrieveMemoryMetadataValue::StringListValue)
+    AgenticRetrieveMemoryMetadataValue.add_member_subclass(:string_value, Types::AgenticRetrieveMemoryMetadataValue::StringValue)
+    AgenticRetrieveMemoryMetadataValue.add_member_subclass(:unknown, Types::AgenticRetrieveMemoryMetadataValue::Unknown)
+    AgenticRetrieveMemoryMetadataValue.struct_class = Types::AgenticRetrieveMemoryMetadataValue
+
+    AgenticRetrieveMemoryRetrievalConfig.add_member(:metadata_filters, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryMetadataFilterList, location_name: "metadataFilters"))
+    AgenticRetrieveMemoryRetrievalConfig.add_member(:namespace, Shapes::ShapeRef.new(shape: MemoryNamespace, location_name: "namespace"))
+    AgenticRetrieveMemoryRetrievalConfig.add_member(:namespace_path, Shapes::ShapeRef.new(shape: MemoryNamespace, location_name: "namespacePath"))
+    AgenticRetrieveMemoryRetrievalConfig.add_member(:strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, location_name: "strategyId"))
+    AgenticRetrieveMemoryRetrievalConfig.struct_class = Types::AgenticRetrieveMemoryRetrievalConfig
+
+    AgenticRetrieveMemoryRetrievalConfigList.member = Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryRetrievalConfig)
+
+    AgenticRetrieveMemoryRetrieveDetails.add_member(:input_query, Shapes::ShapeRef.new(shape: AgenticRetrieveMessageContent, required: true, location_name: "inputQuery"))
+    AgenticRetrieveMemoryRetrieveDetails.add_member(:memory_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "memoryId"))
+    AgenticRetrieveMemoryRetrieveDetails.add_member(:namespace, Shapes::ShapeRef.new(shape: String, location_name: "namespace"))
+    AgenticRetrieveMemoryRetrieveDetails.add_member(:namespace_path, Shapes::ShapeRef.new(shape: String, location_name: "namespacePath"))
+    AgenticRetrieveMemoryRetrieveDetails.add_member(:strategy_id, Shapes::ShapeRef.new(shape: String, location_name: "strategyId"))
+    AgenticRetrieveMemoryRetrieveDetails.struct_class = Types::AgenticRetrieveMemoryRetrieveDetails
+
+    AgenticRetrieveMemorySessionBinding.add_member(:actor_id, Shapes::ShapeRef.new(shape: AgentCoreMemoryActorId, required: true, location_name: "actorId"))
+    AgenticRetrieveMemorySessionBinding.add_member(:session_id, Shapes::ShapeRef.new(shape: AgentCoreMemorySessionId, required: true, location_name: "sessionId"))
+    AgenticRetrieveMemorySessionBinding.struct_class = Types::AgenticRetrieveMemorySessionBinding
+
     AgenticRetrieveMessage.add_member(:content, Shapes::ShapeRef.new(shape: AgenticRetrieveMessageContent, required: true, location_name: "content"))
     AgenticRetrieveMessage.add_member(:role, Shapes::ShapeRef.new(shape: ConversationRole, required: true, location_name: "role"))
     AgenticRetrieveMessage.struct_class = Types::AgenticRetrieveMessage
@@ -867,6 +948,7 @@ module Aws::BedrockAgentRuntime
 
     AgenticRetrieveStreamRequest.add_member(:agentic_retrieve_configuration, Shapes::ShapeRef.new(shape: AgenticRetrieveConfiguration, required: true, location_name: "agenticRetrieveConfiguration"))
     AgenticRetrieveStreamRequest.add_member(:generate_response, Shapes::ShapeRef.new(shape: Boolean, location_name: "generateResponse"))
+    AgenticRetrieveStreamRequest.add_member(:memory_configuration, Shapes::ShapeRef.new(shape: AgenticRetrieveMemoryConfiguration, location_name: "memoryConfiguration"))
     AgenticRetrieveStreamRequest.add_member(:messages, Shapes::ShapeRef.new(shape: AgenticRetrieveStreamRequestMessagesList, required: true, location_name: "messages"))
     AgenticRetrieveStreamRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     AgenticRetrieveStreamRequest.add_member(:policy_configuration, Shapes::ShapeRef.new(shape: AgenticRetrievePolicyConfiguration, location_name: "policyConfiguration"))

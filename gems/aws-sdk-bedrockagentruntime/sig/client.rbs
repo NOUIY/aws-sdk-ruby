@@ -109,6 +109,37 @@ module Aws
                                        reranking_model_type: ("CUSTOM" | "MANAGED" | "NONE")?
                                      },
                                      ?generate_response: bool,
+                                     ?memory_configuration: {
+                                       memory_id: ::String,
+                                       persistence_mode: ("DEFAULT" | "NONE")?,
+                                       retrieval_configs: Array[
+                                         {
+                                           metadata_filters: Array[
+                                             {
+                                               left: {
+                                                 metadata_key: ::String?
+                                               },
+                                               operator: ("EQUALS_TO" | "EXISTS" | "NOT_EXISTS" | "BEFORE" | "AFTER" | "CONTAINS" | "GREATER_THAN" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN" | "LESS_THAN_OR_EQUALS"),
+                                               right: {
+                                                 metadata_value: {
+                                                   date_time_value: ::Time?,
+                                                   number_value: ::Float?,
+                                                   string_list_value: Array[::String]?,
+                                                   string_value: ::String?
+                                                 }?
+                                               }?
+                                             }
+                                           ]?,
+                                           namespace: ::String?,
+                                           namespace_path: ::String?,
+                                           strategy_id: ::String?
+                                         }
+                                       ]?,
+                                       session_binding: {
+                                         actor_id: ::String,
+                                         session_id: ::String
+                                       }?
+                                     },
                                      messages: Array[
                                        {
                                          content: {

@@ -515,11 +515,19 @@ module Aws::Organizations
     # `joinedMethod:INVITED` and `joinedTime` are logged in their respective
     # management accounts.
     #
+    # When a billing transfer (`TRANSFER_RESPONSIBILITY`) handshake is
+    # accepted, Organizations publishes a `ResponsibilityTransferAccepted`
+    # service event to CloudTrail. Each affected account receives this
+    # event, including upstream participants such as distributors in a
+    # chained transfer. For an example log entry, see [Example log entries:
+    # AcceptResponsibilityTransfer][4] in the *Organizations User Guide*.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite
     # [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_transfer_billing-respond-invitation.html
     # [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html
+    # [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html#Log-entries-accept-responsibility-transfer
     #
     # @option params [required, String] :handshake_id
     #   ID for the handshake that you want to accept.
@@ -1246,8 +1254,8 @@ module Aws::Organizations
     # can successfully access the account. To check the status of the
     # request, do one of the following:
     #
-    # * Use the `OperationId` response element from this operation to
-    #   provide as a parameter to the DescribeCreateAccountStatus operation.
+    # * Use the `Id` response element from this operation to provide as a
+    #   parameter to the DescribeCreateAccountStatus operation.
     #
     # * Check the CloudTrail log for the `CreateAccountResult` event. For
     #   information on using CloudTrail with Organizations, see [Logging and
@@ -6372,6 +6380,17 @@ module Aws::Organizations
     # accounts where one account designates the other with specified
     # responsibilities for their organization.
     #
+    # When a transfer ends, Organizations publishes a
+    # `ResponsibilityTransferTerminated` service event to CloudTrail. Each
+    # affected account receives this event, including upstream participants
+    # such as distributors in a chained transfer. For an example log entry,
+    # see [Example log entries: TerminateResponsibilityTransfer][1] in the
+    # *Organizations User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html#Log-entries-terminate-responsibility-transfer
+    #
     # @option params [required, String] :id
     #   ID for the transfer.
     #
@@ -6793,7 +6812,7 @@ module Aws::Organizations
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-organizations'
-      context[:gem_version] = '1.146.0'
+      context[:gem_version] = '1.147.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

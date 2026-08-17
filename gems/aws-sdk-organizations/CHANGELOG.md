@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.147.0 (2026-08-17)
+------------------
+
+* Feature - Add new Transfer Responsibility error codes and document related CloudTrail events for accepting and terminating a Transfer Responsibility.
+
 1.146.0 (2026-08-11)
 ------------------
 

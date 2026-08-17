@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.65.0 (2026-08-17)
+------------------
+
+* Feature - Adds implementations of third-party evaluators, both managed-as-a-service and as templates within custom evaluators.
+
 1.64.0 (2026-08-14)
 ------------------
 

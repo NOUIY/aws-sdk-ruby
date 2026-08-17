@@ -1637,7 +1637,7 @@ module Aws::BedrockAgentCoreControl
     #         s3_uri: "S3Uri", # required
     #       },
     #     },
-    #     schema_type: "AGENTCORE_EVALUATION_PREDEFINED_V1", # required, accepts AGENTCORE_EVALUATION_PREDEFINED_V1, AGENTCORE_EVALUATION_SIMULATED_V1
+    #     schema_type: "AGENTCORE_EVALUATION_PREDEFINED_V1", # required, accepts AGENTCORE_EVALUATION_PREDEFINED_V1, AGENTCORE_EVALUATION_SIMULATED_V1, GENERIC_EVALUATION_PREDEFINED_V1
     #     kms_key_arn: "KmsKeyArn",
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -1827,6 +1827,31 @@ module Aws::BedrockAgentCoreControl
     #         lambda_config: {
     #           lambda_arn: "LambdaArn", # required
     #           lambda_timeout_in_seconds: 1,
+    #         },
+    #       },
+    #       derived: {
+    #         base_evaluator_id: "EvaluatorId", # required
+    #         model_config: { # required
+    #           bedrock_evaluator_model_config: {
+    #             model_id: "ModelId", # required
+    #             inference_config: {
+    #               max_tokens: 1,
+    #               temperature: 1.0,
+    #               top_p: 1.0,
+    #               stop_sequences: ["NonEmptyString"],
+    #             },
+    #             additional_model_request_fields: {
+    #             },
+    #           },
+    #           responses_evaluator_model_config: {
+    #             model_id: "ModelId", # required
+    #             max_output_tokens: 1,
+    #             temperature: 1.0,
+    #             top_p: 1.0,
+    #             reasoning: {
+    #               effort: "ReasoningConfigurationEffortString",
+    #             },
+    #           },
     #         },
     #       },
     #     },
@@ -4844,9 +4869,17 @@ module Aws::BedrockAgentCoreControl
     # asynchronous operation. Use the [GetPolicy][1] operation to poll the
     # `status` field to track completion.
     #
+    # If the new policy is a temporal policy, creating it invalidates the
+    # policy engine's active temporal sessions. For more information about
+    # temporal policy sessions, see [session-based temporal policies][2].
+    # The policy engine returns an HTTP 409 `ConflictException` to in-flight
+    # sessions. To resume, you must start a new session with a new session
+    # ID.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_GetPolicy.html
+    # [2]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-session-based-temporal.html
     #
     # @option params [required, String] :name
     #   The customer-assigned immutable name for the policy. Must be unique
@@ -7336,7 +7369,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.draft_status #=> String, one of "MODIFIED", "UNMODIFIED"
     #   resp.failure_reason #=> String
-    #   resp.schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1"
+    #   resp.schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1", "GENERIC_EVALUATION_PREDEFINED_V1"
     #   resp.kms_key_arn #=> String
     #   resp.example_count #=> Integer
     #   resp.download_url #=> String
@@ -7378,6 +7411,8 @@ module Aws::BedrockAgentCoreControl
     #   * {Types::GetEvaluatorResponse#evaluator_name #evaluator_name} => String
     #   * {Types::GetEvaluatorResponse#description #description} => String
     #   * {Types::GetEvaluatorResponse#evaluator_config #evaluator_config} => Types::EvaluatorConfig
+    #   * {Types::GetEvaluatorResponse#evaluator_type #evaluator_type} => String
+    #   * {Types::GetEvaluatorResponse#provider #provider} => String
     #   * {Types::GetEvaluatorResponse#level #level} => String
     #   * {Types::GetEvaluatorResponse#status #status} => String
     #   * {Types::GetEvaluatorResponse#created_at #created_at} => Time
@@ -7419,6 +7454,20 @@ module Aws::BedrockAgentCoreControl
     #   resp.evaluator_config.llm_as_a_judge.model_config.responses_evaluator_model_config.reasoning.effort #=> String
     #   resp.evaluator_config.code_based.lambda_config.lambda_arn #=> String
     #   resp.evaluator_config.code_based.lambda_config.lambda_timeout_in_seconds #=> Integer
+    #   resp.evaluator_config.derived.base_evaluator_id #=> String
+    #   resp.evaluator_config.derived.model_config.bedrock_evaluator_model_config.model_id #=> String
+    #   resp.evaluator_config.derived.model_config.bedrock_evaluator_model_config.inference_config.max_tokens #=> Integer
+    #   resp.evaluator_config.derived.model_config.bedrock_evaluator_model_config.inference_config.temperature #=> Float
+    #   resp.evaluator_config.derived.model_config.bedrock_evaluator_model_config.inference_config.top_p #=> Float
+    #   resp.evaluator_config.derived.model_config.bedrock_evaluator_model_config.inference_config.stop_sequences #=> Array
+    #   resp.evaluator_config.derived.model_config.bedrock_evaluator_model_config.inference_config.stop_sequences[0] #=> String
+    #   resp.evaluator_config.derived.model_config.responses_evaluator_model_config.model_id #=> String
+    #   resp.evaluator_config.derived.model_config.responses_evaluator_model_config.max_output_tokens #=> Integer
+    #   resp.evaluator_config.derived.model_config.responses_evaluator_model_config.temperature #=> Float
+    #   resp.evaluator_config.derived.model_config.responses_evaluator_model_config.top_p #=> Float
+    #   resp.evaluator_config.derived.model_config.responses_evaluator_model_config.reasoning.effort #=> String
+    #   resp.evaluator_type #=> String, one of "Builtin", "ThirdParty", "Custom", "CustomCode", "CustomDerived"
+    #   resp.provider #=> String, one of "AWS", "DeepEval", "AutoEval", "Custom"
     #   resp.level #=> String, one of "TOOL_CALL", "TRACE", "SESSION"
     #   resp.status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
     #   resp.created_at #=> Time
@@ -9956,7 +10005,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.datasets[0].description #=> String
     #   resp.datasets[0].status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.datasets[0].draft_status #=> String, one of "MODIFIED", "UNMODIFIED"
-    #   resp.datasets[0].schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1"
+    #   resp.datasets[0].schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1", "GENERIC_EVALUATION_PREDEFINED_V1"
     #   resp.datasets[0].example_count #=> Integer
     #   resp.datasets[0].created_at #=> Time
     #   resp.datasets[0].updated_at #=> Time
@@ -10002,7 +10051,8 @@ module Aws::BedrockAgentCoreControl
     #   resp.evaluators[0].evaluator_id #=> String
     #   resp.evaluators[0].evaluator_name #=> String
     #   resp.evaluators[0].description #=> String
-    #   resp.evaluators[0].evaluator_type #=> String, one of "Builtin", "Custom", "CustomCode"
+    #   resp.evaluators[0].evaluator_type #=> String, one of "Builtin", "ThirdParty", "Custom", "CustomCode", "CustomDerived"
+    #   resp.evaluators[0].provider #=> String, one of "AWS", "DeepEval", "AutoEval", "Custom"
     #   resp.evaluators[0].level #=> String, one of "TOOL_CALL", "TRACE", "SESSION"
     #   resp.evaluators[0].status #=> String, one of "ACTIVE", "CREATING", "CREATE_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING"
     #   resp.evaluators[0].created_at #=> Time
@@ -12541,6 +12591,31 @@ module Aws::BedrockAgentCoreControl
     #         lambda_config: {
     #           lambda_arn: "LambdaArn", # required
     #           lambda_timeout_in_seconds: 1,
+    #         },
+    #       },
+    #       derived: {
+    #         base_evaluator_id: "EvaluatorId", # required
+    #         model_config: { # required
+    #           bedrock_evaluator_model_config: {
+    #             model_id: "ModelId", # required
+    #             inference_config: {
+    #               max_tokens: 1,
+    #               temperature: 1.0,
+    #               top_p: 1.0,
+    #               stop_sequences: ["NonEmptyString"],
+    #             },
+    #             additional_model_request_fields: {
+    #             },
+    #           },
+    #           responses_evaluator_model_config: {
+    #             model_id: "ModelId", # required
+    #             max_output_tokens: 1,
+    #             temperature: 1.0,
+    #             top_p: 1.0,
+    #             reasoning: {
+    #               effort: "ReasoningConfigurationEffortString",
+    #             },
+    #           },
     #         },
     #       },
     #     },
@@ -15536,6 +15611,18 @@ module Aws::BedrockAgentCoreControl
     # asynchronous operation. Use the `GetPolicy` operation to poll the
     # `status` field to track completion.
     #
+    # If the updated policy is a temporal policy, the policy engine
+    # invalidates all active temporal sessions. If the update adds or
+    # removes temporal operators, the policy engine also invalidates active
+    # temporal sessions. For more information about temporal policy
+    # sessions, see [session-based temporal policies][1]. The policy engine
+    # returns an HTTP 409 `ConflictException` to in-flight sessions. To
+    # resume, you must start a new session with a new session ID.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy-session-based-temporal.html
+    #
     # @option params [required, String] :policy_engine_id
     #   The identifier of the policy engine that manages the policy to be
     #   updated. This ensures the policy is updated within the correct policy
@@ -16196,7 +16283,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.64.0'
+      context[:gem_version] = '1.65.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

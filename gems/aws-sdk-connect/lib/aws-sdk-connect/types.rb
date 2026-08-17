@@ -6412,6 +6412,73 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A unique name of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_configuration
+    #   The configuration that defines how data is extracted, including the
+    #   prompt hint and not-found behavior.
+    #   @return [Types::ExtractionConfiguration]
+    #
+    # @!attribute [rw] display
+    #   The display settings for the extraction definition, including the
+    #   label shown in the agent workspace.
+    #   @return [Types::ExtractionDefinitionDisplay]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateExtractionDefinitionRequest AWS API Documentation
+    #
+    class CreateExtractionDefinitionRequest < Struct.new(
+      :client_token,
+      :instance_id,
+      :name,
+      :extraction_configuration,
+      :display,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] extraction_definition_arn
+    #   The Amazon Resource Name (ARN) of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_id
+    #   The identifier of the extraction definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateExtractionDefinitionResponse AWS API Documentation
+    #
+    class CreateExtractionDefinitionResponse < Struct.new(
+      :extraction_definition_arn,
+      :extraction_definition_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] instance_id
     #   The identifier of the Connect Customer instance.
     #   @return [String]
@@ -9783,6 +9850,32 @@ module Aws::Connect
     end
 
     # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_id
+    #   The identifier of the extraction definition to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteExtractionDefinitionRequest AWS API Documentation
+    #
+    class DeleteExtractionDefinitionRequest < Struct.new(
+      :instance_id,
+      :extraction_definition_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteExtractionDefinitionResponse AWS API Documentation
+    #
+    class DeleteExtractionDefinitionResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
     #   The identifier of the Connect Customer instance.
     #   @return [String]
     #
@@ -10919,6 +11012,40 @@ module Aws::Connect
     #
     class DescribeEvaluationFormResponse < Struct.new(
       :evaluation_form)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_id
+    #   The identifier of the extraction definition to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeExtractionDefinitionRequest AWS API Documentation
+    #
+    class DescribeExtractionDefinitionRequest < Struct.new(
+      :instance_id,
+      :extraction_definition_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] extraction_definition
+    #   The extraction definition.
+    #   @return [Types::ExtractionDefinition]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeExtractionDefinitionResponse AWS API Documentation
+    #
+    class DescribeExtractionDefinitionResponse < Struct.new(
+      :extraction_definition)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15429,6 +15556,178 @@ module Aws::Connect
     #
     class ExternalInvocationConfiguration < Struct.new(
       :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the extract information action, which references
+    # extraction definitions to use when extracting structured data from
+    # customer interactions.
+    #
+    # @!attribute [rw] rules_extraction_definitions
+    #   The list of extraction definition identifiers that specify what data
+    #   to extract.
+    #   @return [Array<Types::RulesExtractionDefinitionIdentifier>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExtractInformationActionDefinition AWS API Documentation
+    #
+    class ExtractInformationActionDefinition < Struct.new(
+      :rules_extraction_definitions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The extraction configuration that defines how data is extracted from
+    # customer interactions.
+    #
+    # @!attribute [rw] prompt_hint
+    #   The prompt hint that guides the extraction. This text tells the
+    #   generative AI model what data to look for in the customer
+    #   interaction.
+    #   @return [String]
+    #
+    # @!attribute [rw] not_found_behavior
+    #   The behavior when the extraction cannot find the specified data in
+    #   the interaction.
+    #   @return [Types::ExtractionDefinitionNotFoundBehavior]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExtractionConfiguration AWS API Documentation
+    #
+    class ExtractionConfiguration < Struct.new(
+      :prompt_hint,
+      :not_found_behavior)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about an extraction definition.
+    #
+    # @!attribute [rw] name
+    #   The name of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_id
+    #   The identifier of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_arn
+    #   The Amazon Resource Name (ARN) of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_configuration
+    #   The configuration that defines how data is extracted.
+    #   @return [Types::ExtractionConfiguration]
+    #
+    # @!attribute [rw] display
+    #   The display settings for the extraction definition.
+    #   @return [Types::ExtractionDefinitionDisplay]
+    #
+    # @!attribute [rw] created_time
+    #   The timestamp when the extraction definition was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The timestamp when the extraction definition was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_by
+    #   The Amazon Resource Name (ARN) of the user who last updated the
+    #   extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExtractionDefinition AWS API Documentation
+    #
+    class ExtractionDefinition < Struct.new(
+      :name,
+      :extraction_definition_id,
+      :extraction_definition_arn,
+      :extraction_configuration,
+      :display,
+      :created_time,
+      :last_updated_time,
+      :last_updated_by,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The display configuration for an extraction definition.
+    #
+    # @!attribute [rw] label
+    #   The label displayed in the agent workspace for this extraction
+    #   definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExtractionDefinitionDisplay AWS API Documentation
+    #
+    class ExtractionDefinitionDisplay < Struct.new(
+      :label)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The behavior configuration when an extraction definition cannot find
+    # the target value.
+    #
+    # @!attribute [rw] behavior
+    #   The behavior type. `USE_DEFAULT_VALUE` returns the specified default
+    #   value. `OMIT` excludes the field from the output.
+    #   @return [String]
+    #
+    # @!attribute [rw] default_value
+    #   The default value to use when the behavior is `USE_DEFAULT_VALUE`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExtractionDefinitionNotFoundBehavior AWS API Documentation
+    #
+    class ExtractionDefinitionNotFoundBehavior < Struct.new(
+      :behavior,
+      :default_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about an extraction definition.
+    #
+    # @!attribute [rw] name
+    #   The name of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_id
+    #   The identifier of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_arn
+    #   The Amazon Resource Name (ARN) of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The timestamp when the extraction definition was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The timestamp when the extraction definition was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_by
+    #   The Amazon Resource Name (ARN) of the user who last updated the
+    #   extraction definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ExtractionDefinitionSummary AWS API Documentation
+    #
+    class ExtractionDefinitionSummary < Struct.new(
+      :name,
+      :extraction_definition_id,
+      :extraction_definition_arn,
+      :created_time,
+      :last_updated_time,
+      :last_updated_by)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -22543,6 +22842,54 @@ module Aws::Connect
     #
     class ListEvaluationFormsResponse < Struct.new(
       :evaluation_form_summary_list,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page. The default
+    #   MaxResult size is 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListExtractionDefinitionsRequest AWS API Documentation
+    #
+    class ListExtractionDefinitionsRequest < Struct.new(
+      :instance_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] extraction_definition_summary_list
+    #   Information about the extraction definitions.
+    #   @return [Array<Types::ExtractionDefinitionSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   If there are additional results, this is the token for the next set
+    #   of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListExtractionDefinitionsResponse AWS API Documentation
+    #
+    class ListExtractionDefinitionsResponse < Struct.new(
+      :extraction_definition_summary_list,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -30006,6 +30353,10 @@ module Aws::Connect
     #   Information about the submit automated evaluation action.
     #   @return [Types::SubmitAutoEvaluationActionDefinition]
     #
+    # @!attribute [rw] extract_information_action
+    #   Information about the extract information action.
+    #   @return [Types::ExtractInformationActionDefinition]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RuleAction AWS API Documentation
     #
     class RuleAction < Struct.new(
@@ -30018,7 +30369,8 @@ module Aws::Connect
       :update_case_action,
       :assign_sla_action,
       :end_associated_tasks_action,
-      :submit_auto_evaluation_action)
+      :submit_auto_evaluation_action,
+      :extract_information_action)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -30233,6 +30585,20 @@ module Aws::Connect
     #
     class RulesConfiguration < Struct.new(
       :behavior)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An identifier that references an extraction definition resource.
+    #
+    # @!attribute [rw] identifier
+    #   The identifier of the extraction definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RulesExtractionDefinitionIdentifier AWS API Documentation
+    #
+    class RulesExtractionDefinitionIdentifier < Struct.new(
+      :identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -33158,7 +33524,7 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] ai_agent
-    #   The AI agent that participates in the contact.
+    #   The AI agent configuration for this contact.
     #   @return [Types::AiAgentInput]
     #
     # @!attribute [rw] participant_details
@@ -33171,13 +33537,11 @@ module Aws::Connect
     #   @return [Types::ChatMessage]
     #
     # @!attribute [rw] attributes
-    #   A map of key-value pairs to associate with the contact. Amazon
-    #   Connect makes these attributes available to flows as standard
-    #   contact attributes.
+    #   A map of key-value pairs to associate with the contact. We make
+    #   these attributes available to flows as standard contact attributes.
     #
     #   You can provide up to 32,768 UTF-8 bytes across all key-value pairs
-    #   per contact. Attribute keys can contain only alphanumeric
-    #   characters, dashes, and underscores.
+    #   for each contact.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] client_token
@@ -33238,9 +33602,9 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] participant_token
-    #   The token that the chat participant uses to call the
-    #   [CreateParticipantConnection][1] API. The token remains valid for
-    #   the lifetime of the chat participant.
+    #   The token that the chat participant uses with the
+    #   [CreateParticipantConnection][1] operation. The token remains valid
+    #   for the lifetime of the chat participant.
     #
     #
     #
@@ -33248,9 +33612,8 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] continued_from_contact_id
-    #   For a persistent chat, the identifier of the contact from which the
-    #   chat continues. Amazon Connect returns this field only for
-    #   persistent chats.
+    #   The identifier of the contact from which the chat continues,
+    #   returned only for persistent chats.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartAssistantContactResponse AWS API Documentation
@@ -34735,12 +35098,9 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] segment_attributes
-    #   Use this map to specify system-defined attributes for the WebRTC
-    #   contact segment. Use the `connect:Subtype` attribute to specify the
-    #   channel subtype, such as `connect:WebRTC`.
-    #
-    #   Attribute keys can contain only alphanumeric characters, hyphens,
-    #   and underscores.
+    #   A map of system-defined attributes for the WebRTC contact segment.
+    #   Use the `connect:Subtype` attribute to specify the channel subtype,
+    #   such as `connect:WebRTC`.
     #   @return [Hash<String,Types::SegmentAttributeValue>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/StartWebRTCContactRequest AWS API Documentation
@@ -37425,6 +37785,58 @@ module Aws::Connect
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_id
+    #   The identifier of the extraction definition to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the extraction definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_configuration
+    #   The configuration that defines how data is extracted, including the
+    #   prompt hint and not-found behavior.
+    #   @return [Types::ExtractionConfiguration]
+    #
+    # @!attribute [rw] display
+    #   The display settings for the extraction definition.
+    #   @return [Types::ExtractionDefinitionDisplay]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateExtractionDefinitionRequest AWS API Documentation
+    #
+    class UpdateExtractionDefinitionRequest < Struct.new(
+      :client_token,
+      :extraction_definition_id,
+      :instance_id,
+      :name,
+      :extraction_configuration,
+      :display)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateExtractionDefinitionResponse AWS API Documentation
+    #
+    class UpdateExtractionDefinitionResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] instance_id
     #   The identifier of the Connect Customer instance.

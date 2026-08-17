@@ -405,6 +405,8 @@ module Aws::Connect
     CreateEmailAddressResponse = Shapes::StructureShape.new(name: 'CreateEmailAddressResponse')
     CreateEvaluationFormRequest = Shapes::StructureShape.new(name: 'CreateEvaluationFormRequest')
     CreateEvaluationFormResponse = Shapes::StructureShape.new(name: 'CreateEvaluationFormResponse')
+    CreateExtractionDefinitionRequest = Shapes::StructureShape.new(name: 'CreateExtractionDefinitionRequest')
+    CreateExtractionDefinitionResponse = Shapes::StructureShape.new(name: 'CreateExtractionDefinitionResponse')
     CreateHoursOfOperationOverrideRequest = Shapes::StructureShape.new(name: 'CreateHoursOfOperationOverrideRequest')
     CreateHoursOfOperationOverrideResponse = Shapes::StructureShape.new(name: 'CreateHoursOfOperationOverrideResponse')
     CreateHoursOfOperationRequest = Shapes::StructureShape.new(name: 'CreateHoursOfOperationRequest')
@@ -548,6 +550,8 @@ module Aws::Connect
     DeleteEmailAddressRequest = Shapes::StructureShape.new(name: 'DeleteEmailAddressRequest')
     DeleteEmailAddressResponse = Shapes::StructureShape.new(name: 'DeleteEmailAddressResponse')
     DeleteEvaluationFormRequest = Shapes::StructureShape.new(name: 'DeleteEvaluationFormRequest')
+    DeleteExtractionDefinitionRequest = Shapes::StructureShape.new(name: 'DeleteExtractionDefinitionRequest')
+    DeleteExtractionDefinitionResponse = Shapes::StructureShape.new(name: 'DeleteExtractionDefinitionResponse')
     DeleteHoursOfOperationOverrideRequest = Shapes::StructureShape.new(name: 'DeleteHoursOfOperationOverrideRequest')
     DeleteHoursOfOperationRequest = Shapes::StructureShape.new(name: 'DeleteHoursOfOperationRequest')
     DeleteInstanceRequest = Shapes::StructureShape.new(name: 'DeleteInstanceRequest')
@@ -612,6 +616,8 @@ module Aws::Connect
     DescribeEmailAddressResponse = Shapes::StructureShape.new(name: 'DescribeEmailAddressResponse')
     DescribeEvaluationFormRequest = Shapes::StructureShape.new(name: 'DescribeEvaluationFormRequest')
     DescribeEvaluationFormResponse = Shapes::StructureShape.new(name: 'DescribeEvaluationFormResponse')
+    DescribeExtractionDefinitionRequest = Shapes::StructureShape.new(name: 'DescribeExtractionDefinitionRequest')
+    DescribeExtractionDefinitionResponse = Shapes::StructureShape.new(name: 'DescribeExtractionDefinitionResponse')
     DescribeHoursOfOperationOverrideRequest = Shapes::StructureShape.new(name: 'DescribeHoursOfOperationOverrideRequest')
     DescribeHoursOfOperationOverrideResponse = Shapes::StructureShape.new(name: 'DescribeHoursOfOperationOverrideResponse')
     DescribeHoursOfOperationRequest = Shapes::StructureShape.new(name: 'DescribeHoursOfOperationRequest')
@@ -922,6 +928,17 @@ module Aws::Connect
     Expressions = Shapes::ListShape.new(name: 'Expressions')
     ExtensionConfiguration = Shapes::StructureShape.new(name: 'ExtensionConfiguration')
     ExternalInvocationConfiguration = Shapes::StructureShape.new(name: 'ExternalInvocationConfiguration')
+    ExtractInformationActionDefinition = Shapes::StructureShape.new(name: 'ExtractInformationActionDefinition')
+    ExtractionConfiguration = Shapes::StructureShape.new(name: 'ExtractionConfiguration')
+    ExtractionDefinition = Shapes::StructureShape.new(name: 'ExtractionDefinition')
+    ExtractionDefinitionDisplay = Shapes::StructureShape.new(name: 'ExtractionDefinitionDisplay')
+    ExtractionDefinitionDisplayLabel = Shapes::StringShape.new(name: 'ExtractionDefinitionDisplayLabel')
+    ExtractionDefinitionId = Shapes::StringShape.new(name: 'ExtractionDefinitionId')
+    ExtractionDefinitionName = Shapes::StringShape.new(name: 'ExtractionDefinitionName')
+    ExtractionDefinitionNotFoundBehavior = Shapes::StructureShape.new(name: 'ExtractionDefinitionNotFoundBehavior')
+    ExtractionDefinitionPromptHint = Shapes::StringShape.new(name: 'ExtractionDefinitionPromptHint')
+    ExtractionDefinitionSummary = Shapes::StructureShape.new(name: 'ExtractionDefinitionSummary')
+    ExtractionDefinitionSummaryList = Shapes::ListShape.new(name: 'ExtractionDefinitionSummaryList')
     FailedBatchAssociationSummary = Shapes::StructureShape.new(name: 'FailedBatchAssociationSummary')
     FailedBatchAssociationSummaryList = Shapes::ListShape.new(name: 'FailedBatchAssociationSummaryList')
     FailedRequest = Shapes::StructureShape.new(name: 'FailedRequest')
@@ -1176,6 +1193,8 @@ module Aws::Connect
     ListEvaluationFormVersionsResponse = Shapes::StructureShape.new(name: 'ListEvaluationFormVersionsResponse')
     ListEvaluationFormsRequest = Shapes::StructureShape.new(name: 'ListEvaluationFormsRequest')
     ListEvaluationFormsResponse = Shapes::StructureShape.new(name: 'ListEvaluationFormsResponse')
+    ListExtractionDefinitionsRequest = Shapes::StructureShape.new(name: 'ListExtractionDefinitionsRequest')
+    ListExtractionDefinitionsResponse = Shapes::StructureShape.new(name: 'ListExtractionDefinitionsResponse')
     ListFlowAssociationResourceType = Shapes::StringShape.new(name: 'ListFlowAssociationResourceType')
     ListFlowAssociationsRequest = Shapes::StructureShape.new(name: 'ListFlowAssociationsRequest')
     ListFlowAssociationsResponse = Shapes::StructureShape.new(name: 'ListFlowAssociationsResponse')
@@ -1365,6 +1384,8 @@ module Aws::Connect
     NextContacts = Shapes::ListShape.new(name: 'NextContacts')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NextToken2500 = Shapes::StringShape.new(name: 'NextToken2500')
+    NotFoundBehaviorType = Shapes::StringShape.new(name: 'NotFoundBehaviorType')
+    NotFoundDefaultValue = Shapes::StringShape.new(name: 'NotFoundDefaultValue')
     Notification = Shapes::StructureShape.new(name: 'Notification')
     NotificationContent = Shapes::MapShape.new(name: 'NotificationContent')
     NotificationContentType = Shapes::StringShape.new(name: 'NotificationContentType')
@@ -1732,6 +1753,9 @@ module Aws::Connect
     RuleSummaryList = Shapes::ListShape.new(name: 'RuleSummaryList')
     RuleTriggerEventSource = Shapes::StructureShape.new(name: 'RuleTriggerEventSource')
     RulesConfiguration = Shapes::StructureShape.new(name: 'RulesConfiguration')
+    RulesExtractionDefinitionId = Shapes::StringShape.new(name: 'RulesExtractionDefinitionId')
+    RulesExtractionDefinitionIdentifier = Shapes::StructureShape.new(name: 'RulesExtractionDefinitionIdentifier')
+    RulesExtractionDefinitionIdentifierList = Shapes::ListShape.new(name: 'RulesExtractionDefinitionIdentifierList')
     RulesSearchConditionList = Shapes::ListShape.new(name: 'RulesSearchConditionList')
     RulesSearchCriteria = Shapes::StructureShape.new(name: 'RulesSearchCriteria')
     RulesSearchFilter = Shapes::StructureShape.new(name: 'RulesSearchFilter')
@@ -2106,6 +2130,8 @@ module Aws::Connect
     UpdateEmailAddressMetadataResponse = Shapes::StructureShape.new(name: 'UpdateEmailAddressMetadataResponse')
     UpdateEvaluationFormRequest = Shapes::StructureShape.new(name: 'UpdateEvaluationFormRequest')
     UpdateEvaluationFormResponse = Shapes::StructureShape.new(name: 'UpdateEvaluationFormResponse')
+    UpdateExtractionDefinitionRequest = Shapes::StructureShape.new(name: 'UpdateExtractionDefinitionRequest')
+    UpdateExtractionDefinitionResponse = Shapes::StructureShape.new(name: 'UpdateExtractionDefinitionResponse')
     UpdateHoursOfOperationDescription = Shapes::StringShape.new(name: 'UpdateHoursOfOperationDescription')
     UpdateHoursOfOperationOverrideRequest = Shapes::StructureShape.new(name: 'UpdateHoursOfOperationOverrideRequest')
     UpdateHoursOfOperationRequest = Shapes::StructureShape.new(name: 'UpdateHoursOfOperationRequest')
@@ -3608,6 +3634,18 @@ module Aws::Connect
     CreateEvaluationFormResponse.add_member(:evaluation_form_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "EvaluationFormArn"))
     CreateEvaluationFormResponse.struct_class = Types::CreateEvaluationFormResponse
 
+    CreateExtractionDefinitionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    CreateExtractionDefinitionRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    CreateExtractionDefinitionRequest.add_member(:name, Shapes::ShapeRef.new(shape: ExtractionDefinitionName, required: true, location_name: "Name"))
+    CreateExtractionDefinitionRequest.add_member(:extraction_configuration, Shapes::ShapeRef.new(shape: ExtractionConfiguration, required: true, location_name: "ExtractionConfiguration"))
+    CreateExtractionDefinitionRequest.add_member(:display, Shapes::ShapeRef.new(shape: ExtractionDefinitionDisplay, location_name: "Display"))
+    CreateExtractionDefinitionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
+    CreateExtractionDefinitionRequest.struct_class = Types::CreateExtractionDefinitionRequest
+
+    CreateExtractionDefinitionResponse.add_member(:extraction_definition_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "ExtractionDefinitionArn"))
+    CreateExtractionDefinitionResponse.add_member(:extraction_definition_id, Shapes::ShapeRef.new(shape: ExtractionDefinitionId, required: true, location_name: "ExtractionDefinitionId"))
+    CreateExtractionDefinitionResponse.struct_class = Types::CreateExtractionDefinitionResponse
+
     CreateHoursOfOperationOverrideRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     CreateHoursOfOperationOverrideRequest.add_member(:hours_of_operation_id, Shapes::ShapeRef.new(shape: HoursOfOperationId, required: true, location: "uri", location_name: "HoursOfOperationId"))
     CreateHoursOfOperationOverrideRequest.add_member(:name, Shapes::ShapeRef.new(shape: CommonHumanReadableName, required: true, location_name: "Name"))
@@ -4236,6 +4274,12 @@ module Aws::Connect
     DeleteEvaluationFormRequest.add_member(:evaluation_form_version, Shapes::ShapeRef.new(shape: VersionNumber, location: "querystring", location_name: "version", metadata: {"box" => true}))
     DeleteEvaluationFormRequest.struct_class = Types::DeleteEvaluationFormRequest
 
+    DeleteExtractionDefinitionRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    DeleteExtractionDefinitionRequest.add_member(:extraction_definition_id, Shapes::ShapeRef.new(shape: ExtractionDefinitionId, required: true, location: "uri", location_name: "ExtractionDefinitionId"))
+    DeleteExtractionDefinitionRequest.struct_class = Types::DeleteExtractionDefinitionRequest
+
+    DeleteExtractionDefinitionResponse.struct_class = Types::DeleteExtractionDefinitionResponse
+
     DeleteHoursOfOperationOverrideRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     DeleteHoursOfOperationOverrideRequest.add_member(:hours_of_operation_id, Shapes::ShapeRef.new(shape: HoursOfOperationId, required: true, location: "uri", location_name: "HoursOfOperationId"))
     DeleteHoursOfOperationOverrideRequest.add_member(:hours_of_operation_override_id, Shapes::ShapeRef.new(shape: HoursOfOperationOverrideId, required: true, location: "uri", location_name: "HoursOfOperationOverrideId"))
@@ -4473,6 +4517,13 @@ module Aws::Connect
 
     DescribeEvaluationFormResponse.add_member(:evaluation_form, Shapes::ShapeRef.new(shape: EvaluationForm, required: true, location_name: "EvaluationForm"))
     DescribeEvaluationFormResponse.struct_class = Types::DescribeEvaluationFormResponse
+
+    DescribeExtractionDefinitionRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    DescribeExtractionDefinitionRequest.add_member(:extraction_definition_id, Shapes::ShapeRef.new(shape: ExtractionDefinitionId, required: true, location: "uri", location_name: "ExtractionDefinitionId"))
+    DescribeExtractionDefinitionRequest.struct_class = Types::DescribeExtractionDefinitionRequest
+
+    DescribeExtractionDefinitionResponse.add_member(:extraction_definition, Shapes::ShapeRef.new(shape: ExtractionDefinition, required: true, location_name: "ExtractionDefinition"))
+    DescribeExtractionDefinitionResponse.struct_class = Types::DescribeExtractionDefinitionResponse
 
     DescribeHoursOfOperationOverrideRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     DescribeHoursOfOperationOverrideRequest.add_member(:hours_of_operation_id, Shapes::ShapeRef.new(shape: HoursOfOperationId, required: true, location: "uri", location_name: "HoursOfOperationId"))
@@ -5467,6 +5518,41 @@ module Aws::Connect
     ExternalInvocationConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "Enabled"))
     ExternalInvocationConfiguration.struct_class = Types::ExternalInvocationConfiguration
 
+    ExtractInformationActionDefinition.add_member(:rules_extraction_definitions, Shapes::ShapeRef.new(shape: RulesExtractionDefinitionIdentifierList, required: true, location_name: "RulesExtractionDefinitions"))
+    ExtractInformationActionDefinition.struct_class = Types::ExtractInformationActionDefinition
+
+    ExtractionConfiguration.add_member(:prompt_hint, Shapes::ShapeRef.new(shape: ExtractionDefinitionPromptHint, required: true, location_name: "PromptHint"))
+    ExtractionConfiguration.add_member(:not_found_behavior, Shapes::ShapeRef.new(shape: ExtractionDefinitionNotFoundBehavior, location_name: "NotFoundBehavior"))
+    ExtractionConfiguration.struct_class = Types::ExtractionConfiguration
+
+    ExtractionDefinition.add_member(:name, Shapes::ShapeRef.new(shape: ExtractionDefinitionName, required: true, location_name: "Name"))
+    ExtractionDefinition.add_member(:extraction_definition_id, Shapes::ShapeRef.new(shape: ExtractionDefinitionId, required: true, location_name: "ExtractionDefinitionId"))
+    ExtractionDefinition.add_member(:extraction_definition_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "ExtractionDefinitionArn"))
+    ExtractionDefinition.add_member(:extraction_configuration, Shapes::ShapeRef.new(shape: ExtractionConfiguration, required: true, location_name: "ExtractionConfiguration"))
+    ExtractionDefinition.add_member(:display, Shapes::ShapeRef.new(shape: ExtractionDefinitionDisplay, location_name: "Display"))
+    ExtractionDefinition.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedTime"))
+    ExtractionDefinition.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastUpdatedTime"))
+    ExtractionDefinition.add_member(:last_updated_by, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "LastUpdatedBy"))
+    ExtractionDefinition.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
+    ExtractionDefinition.struct_class = Types::ExtractionDefinition
+
+    ExtractionDefinitionDisplay.add_member(:label, Shapes::ShapeRef.new(shape: ExtractionDefinitionDisplayLabel, location_name: "Label"))
+    ExtractionDefinitionDisplay.struct_class = Types::ExtractionDefinitionDisplay
+
+    ExtractionDefinitionNotFoundBehavior.add_member(:behavior, Shapes::ShapeRef.new(shape: NotFoundBehaviorType, required: true, location_name: "Behavior"))
+    ExtractionDefinitionNotFoundBehavior.add_member(:default_value, Shapes::ShapeRef.new(shape: NotFoundDefaultValue, location_name: "DefaultValue"))
+    ExtractionDefinitionNotFoundBehavior.struct_class = Types::ExtractionDefinitionNotFoundBehavior
+
+    ExtractionDefinitionSummary.add_member(:name, Shapes::ShapeRef.new(shape: ExtractionDefinitionName, required: true, location_name: "Name"))
+    ExtractionDefinitionSummary.add_member(:extraction_definition_id, Shapes::ShapeRef.new(shape: ExtractionDefinitionId, required: true, location_name: "ExtractionDefinitionId"))
+    ExtractionDefinitionSummary.add_member(:extraction_definition_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "ExtractionDefinitionArn"))
+    ExtractionDefinitionSummary.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedTime"))
+    ExtractionDefinitionSummary.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastUpdatedTime"))
+    ExtractionDefinitionSummary.add_member(:last_updated_by, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "LastUpdatedBy"))
+    ExtractionDefinitionSummary.struct_class = Types::ExtractionDefinitionSummary
+
+    ExtractionDefinitionSummaryList.member = Shapes::ShapeRef.new(shape: ExtractionDefinitionSummary)
+
     FailedBatchAssociationSummary.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "ResourceArn"))
     FailedBatchAssociationSummary.add_member(:error_code, Shapes::ShapeRef.new(shape: WorkspaceErrorCode, location_name: "ErrorCode"))
     FailedBatchAssociationSummary.add_member(:error_message, Shapes::ShapeRef.new(shape: WorkspaceBatchErrorMessage, location_name: "ErrorMessage"))
@@ -6319,6 +6405,15 @@ module Aws::Connect
     ListEvaluationFormsResponse.add_member(:evaluation_form_summary_list, Shapes::ShapeRef.new(shape: EvaluationFormSummaryList, required: true, location_name: "EvaluationFormSummaryList"))
     ListEvaluationFormsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListEvaluationFormsResponse.struct_class = Types::ListEvaluationFormsResponse
+
+    ListExtractionDefinitionsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    ListExtractionDefinitionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResult100, location: "querystring", location_name: "maxResults", metadata: {"box" => true}))
+    ListExtractionDefinitionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    ListExtractionDefinitionsRequest.struct_class = Types::ListExtractionDefinitionsRequest
+
+    ListExtractionDefinitionsResponse.add_member(:extraction_definition_summary_list, Shapes::ShapeRef.new(shape: ExtractionDefinitionSummaryList, required: true, location_name: "ExtractionDefinitionSummaryList"))
+    ListExtractionDefinitionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
+    ListExtractionDefinitionsResponse.struct_class = Types::ListExtractionDefinitionsResponse
 
     ListFlowAssociationsRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     ListFlowAssociationsRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: ListFlowAssociationResourceType, location: "querystring", location_name: "ResourceType"))
@@ -7888,6 +7983,7 @@ module Aws::Connect
     RuleAction.add_member(:assign_sla_action, Shapes::ShapeRef.new(shape: AssignSlaActionDefinition, location_name: "AssignSlaAction"))
     RuleAction.add_member(:end_associated_tasks_action, Shapes::ShapeRef.new(shape: EndAssociatedTasksActionDefinition, location_name: "EndAssociatedTasksAction"))
     RuleAction.add_member(:submit_auto_evaluation_action, Shapes::ShapeRef.new(shape: SubmitAutoEvaluationActionDefinition, location_name: "SubmitAutoEvaluationAction"))
+    RuleAction.add_member(:extract_information_action, Shapes::ShapeRef.new(shape: ExtractInformationActionDefinition, location_name: "ExtractInformationAction"))
     RuleAction.struct_class = Types::RuleAction
 
     RuleActions.member = Shapes::ShapeRef.new(shape: RuleAction)
@@ -7938,6 +8034,11 @@ module Aws::Connect
 
     RulesConfiguration.add_member(:behavior, Shapes::ShapeRef.new(shape: Behavior, location_name: "Behavior"))
     RulesConfiguration.struct_class = Types::RulesConfiguration
+
+    RulesExtractionDefinitionIdentifier.add_member(:identifier, Shapes::ShapeRef.new(shape: RulesExtractionDefinitionId, required: true, location_name: "Identifier"))
+    RulesExtractionDefinitionIdentifier.struct_class = Types::RulesExtractionDefinitionIdentifier
+
+    RulesExtractionDefinitionIdentifierList.member = Shapes::ShapeRef.new(shape: RulesExtractionDefinitionIdentifier)
 
     RulesSearchConditionList.member = Shapes::ShapeRef.new(shape: RulesSearchCriteria)
 
@@ -9301,6 +9402,16 @@ module Aws::Connect
     UpdateEvaluationFormResponse.add_member(:evaluation_form_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "EvaluationFormArn"))
     UpdateEvaluationFormResponse.add_member(:evaluation_form_version, Shapes::ShapeRef.new(shape: VersionNumber, required: true, location_name: "EvaluationFormVersion"))
     UpdateEvaluationFormResponse.struct_class = Types::UpdateEvaluationFormResponse
+
+    UpdateExtractionDefinitionRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    UpdateExtractionDefinitionRequest.add_member(:extraction_definition_id, Shapes::ShapeRef.new(shape: ExtractionDefinitionId, required: true, location: "uri", location_name: "ExtractionDefinitionId"))
+    UpdateExtractionDefinitionRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
+    UpdateExtractionDefinitionRequest.add_member(:name, Shapes::ShapeRef.new(shape: ExtractionDefinitionName, required: true, location_name: "Name"))
+    UpdateExtractionDefinitionRequest.add_member(:extraction_configuration, Shapes::ShapeRef.new(shape: ExtractionConfiguration, required: true, location_name: "ExtractionConfiguration"))
+    UpdateExtractionDefinitionRequest.add_member(:display, Shapes::ShapeRef.new(shape: ExtractionDefinitionDisplay, location_name: "Display"))
+    UpdateExtractionDefinitionRequest.struct_class = Types::UpdateExtractionDefinitionRequest
+
+    UpdateExtractionDefinitionResponse.struct_class = Types::UpdateExtractionDefinitionResponse
 
     UpdateHoursOfOperationOverrideRequest.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location: "uri", location_name: "InstanceId"))
     UpdateHoursOfOperationOverrideRequest.add_member(:hours_of_operation_id, Shapes::ShapeRef.new(shape: HoursOfOperationId, required: true, location: "uri", location_name: "HoursOfOperationId"))
@@ -10753,6 +10864,21 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ResourceConflictException)
       end)
 
+      api.add_operation(:create_extraction_definition, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateExtractionDefinition"
+        o.http_method = "POST"
+        o.http_request_uri = "/extraction-definitions/{InstanceId}"
+        o.input = Shapes::ShapeRef.new(shape: CreateExtractionDefinitionRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateExtractionDefinitionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+      end)
+
       api.add_operation(:create_hours_of_operation, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateHoursOfOperation"
         o.http_method = "PUT"
@@ -11343,6 +11469,19 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ResourceConflictException)
       end)
 
+      api.add_operation(:delete_extraction_definition, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteExtractionDefinition"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/extraction-definitions/{InstanceId}/{ExtractionDefinitionId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteExtractionDefinitionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteExtractionDefinitionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
       api.add_operation(:delete_hours_of_operation, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteHoursOfOperation"
         o.http_method = "DELETE"
@@ -11867,6 +12006,19 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+      end)
+
+      api.add_operation(:describe_extraction_definition, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeExtractionDefinition"
+        o.http_method = "GET"
+        o.http_request_uri = "/extraction-definitions/{InstanceId}/{ExtractionDefinitionId}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeExtractionDefinitionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeExtractionDefinitionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:describe_hours_of_operation, Seahorse::Model::Operation.new.tap do |o|
@@ -13126,6 +13278,25 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_extraction_definitions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListExtractionDefinitions"
+        o.http_method = "GET"
+        o.http_request_uri = "/extraction-definitions/{InstanceId}"
+        o.input = Shapes::ShapeRef.new(shape: ListExtractionDefinitionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListExtractionDefinitionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -14643,6 +14814,7 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
       end)
@@ -15322,6 +15494,20 @@ module Aws::Connect
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceConflictException)
+      end)
+
+      api.add_operation(:update_extraction_definition, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateExtractionDefinition"
+        o.http_method = "PUT"
+        o.http_request_uri = "/extraction-definitions/{InstanceId}/{ExtractionDefinitionId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateExtractionDefinitionRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateExtractionDefinitionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceConflictException)
       end)
 

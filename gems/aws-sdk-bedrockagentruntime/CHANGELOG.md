@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.80.0 (2026-08-17)
+------------------
+
+* Feature - AgenticRetrieveStream API now supports Amazon Bedrock AgentCore Memory. Use the new memoryConfiguration parameter to continue a session from short-term memory and retrieve from long-term memory.
+
 1.79.0 (2026-08-14)
 ------------------
 

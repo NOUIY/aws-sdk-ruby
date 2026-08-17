@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.272.0 (2026-08-17)
+------------------
+
+* Feature - This release adds new APIs to create, describe, update, delete, and list extraction definitions, enabling customers to manage lifecycle of extraction definition resources. Additionally, this release adds new event sources for Rules related to ACW and new action to Extract Information.
+
 1.271.0 (2026-08-13)
 ------------------
 

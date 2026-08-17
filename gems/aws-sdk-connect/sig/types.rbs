@@ -14,7 +14,7 @@ module Aws::Connect
     end
 
     class ActionSummary
-      attr_accessor action_type: ("CREATE_TASK" | "ASSIGN_CONTACT_CATEGORY" | "GENERATE_EVENTBRIDGE_EVENT" | "SEND_NOTIFICATION" | "CREATE_CASE" | "UPDATE_CASE" | "ASSIGN_SLA" | "END_ASSOCIATED_TASKS" | "SUBMIT_AUTO_EVALUATION")
+      attr_accessor action_type: ("CREATE_TASK" | "ASSIGN_CONTACT_CATEGORY" | "GENERATE_EVENTBRIDGE_EVENT" | "SEND_NOTIFICATION" | "CREATE_CASE" | "UPDATE_CASE" | "ASSIGN_SLA" | "END_ASSOCIATED_TASKS" | "SUBMIT_AUTO_EVALUATION" | "EXTRACT_INFORMATION")
       SENSITIVE: []
     end
 
@@ -1533,6 +1533,22 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class CreateExtractionDefinitionRequest
+      attr_accessor client_token: ::String
+      attr_accessor instance_id: ::String
+      attr_accessor name: ::String
+      attr_accessor extraction_configuration: Types::ExtractionConfiguration
+      attr_accessor display: Types::ExtractionDefinitionDisplay
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class CreateExtractionDefinitionResponse
+      attr_accessor extraction_definition_arn: ::String
+      attr_accessor extraction_definition_id: ::String
+      SENSITIVE: []
+    end
+
     class CreateHoursOfOperationOverrideRequest
       attr_accessor instance_id: ::String
       attr_accessor hours_of_operation_id: ::String
@@ -2335,6 +2351,15 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class DeleteExtractionDefinitionRequest
+      attr_accessor instance_id: ::String
+      attr_accessor extraction_definition_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteExtractionDefinitionResponse < Aws::EmptyStructure
+    end
+
     class DeleteHoursOfOperationOverrideRequest
       attr_accessor instance_id: ::String
       attr_accessor hours_of_operation_id: ::String
@@ -2686,6 +2711,17 @@ module Aws::Connect
 
     class DescribeEvaluationFormResponse
       attr_accessor evaluation_form: Types::EvaluationForm
+      SENSITIVE: []
+    end
+
+    class DescribeExtractionDefinitionRequest
+      attr_accessor instance_id: ::String
+      attr_accessor extraction_definition_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeExtractionDefinitionResponse
+      attr_accessor extraction_definition: Types::ExtractionDefinition
       SENSITIVE: []
     end
 
@@ -3960,6 +3996,51 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ExtractInformationActionDefinition
+      attr_accessor rules_extraction_definitions: ::Array[Types::RulesExtractionDefinitionIdentifier]
+      SENSITIVE: []
+    end
+
+    class ExtractionConfiguration
+      attr_accessor prompt_hint: ::String
+      attr_accessor not_found_behavior: Types::ExtractionDefinitionNotFoundBehavior
+      SENSITIVE: []
+    end
+
+    class ExtractionDefinition
+      attr_accessor name: ::String
+      attr_accessor extraction_definition_id: ::String
+      attr_accessor extraction_definition_arn: ::String
+      attr_accessor extraction_configuration: Types::ExtractionConfiguration
+      attr_accessor display: Types::ExtractionDefinitionDisplay
+      attr_accessor created_time: ::Time
+      attr_accessor last_updated_time: ::Time
+      attr_accessor last_updated_by: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class ExtractionDefinitionDisplay
+      attr_accessor label: ::String
+      SENSITIVE: []
+    end
+
+    class ExtractionDefinitionNotFoundBehavior
+      attr_accessor behavior: ("USE_DEFAULT_VALUE" | "OMIT")
+      attr_accessor default_value: ::String
+      SENSITIVE: []
+    end
+
+    class ExtractionDefinitionSummary
+      attr_accessor name: ::String
+      attr_accessor extraction_definition_id: ::String
+      attr_accessor extraction_definition_arn: ::String
+      attr_accessor created_time: ::Time
+      attr_accessor last_updated_time: ::Time
+      attr_accessor last_updated_by: ::String
+      SENSITIVE: []
+    end
+
     class FailedBatchAssociationSummary
       attr_accessor resource_arn: ::String
       attr_accessor error_code: ::String
@@ -5051,6 +5132,19 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class ListExtractionDefinitionsRequest
+      attr_accessor instance_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListExtractionDefinitionsResponse
+      attr_accessor extraction_definition_summary_list: ::Array[Types::ExtractionDefinitionSummary]
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
     class ListFlowAssociationsRequest
       attr_accessor instance_id: ::String
       attr_accessor resource_type: ("WHATSAPP_MESSAGING_PHONE_NUMBER" | "VOICE_PHONE_NUMBER" | "INBOUND_EMAIL" | "OUTBOUND_EMAIL" | "ANALYTICS_CONNECTOR")
@@ -5398,7 +5492,7 @@ module Aws::Connect
     class ListRulesRequest
       attr_accessor instance_id: ::String
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
-      attr_accessor event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity")
+      attr_accessor event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnAfterCallWorkAvailable" | "OnAfterChatWorkAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity")
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
       SENSITIVE: []
@@ -6964,7 +7058,7 @@ module Aws::Connect
     end
 
     class RuleAction
-      attr_accessor action_type: ("CREATE_TASK" | "ASSIGN_CONTACT_CATEGORY" | "GENERATE_EVENTBRIDGE_EVENT" | "SEND_NOTIFICATION" | "CREATE_CASE" | "UPDATE_CASE" | "ASSIGN_SLA" | "END_ASSOCIATED_TASKS" | "SUBMIT_AUTO_EVALUATION")
+      attr_accessor action_type: ("CREATE_TASK" | "ASSIGN_CONTACT_CATEGORY" | "GENERATE_EVENTBRIDGE_EVENT" | "SEND_NOTIFICATION" | "CREATE_CASE" | "UPDATE_CASE" | "ASSIGN_SLA" | "END_ASSOCIATED_TASKS" | "SUBMIT_AUTO_EVALUATION" | "EXTRACT_INFORMATION")
       attr_accessor task_action: Types::TaskActionDefinition
       attr_accessor event_bridge_action: Types::EventBridgeActionDefinition
       attr_accessor assign_contact_category_action: Types::AssignContactCategoryActionDefinition
@@ -6974,6 +7068,7 @@ module Aws::Connect
       attr_accessor assign_sla_action: Types::AssignSlaActionDefinition
       attr_accessor end_associated_tasks_action: Types::EndAssociatedTasksActionDefinition
       attr_accessor submit_auto_evaluation_action: Types::SubmitAutoEvaluationActionDefinition
+      attr_accessor extract_information_action: Types::ExtractInformationActionDefinition
       SENSITIVE: []
     end
 
@@ -7008,7 +7103,7 @@ module Aws::Connect
       attr_accessor name: ::String
       attr_accessor rule_id: ::String
       attr_accessor rule_arn: ::String
-      attr_accessor event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity")
+      attr_accessor event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnAfterCallWorkAvailable" | "OnAfterChatWorkAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity")
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
       attr_accessor rule_capability_tiers: ::Array[("GenerativeAI")]
       attr_accessor action_summaries: ::Array[Types::ActionSummary]
@@ -7018,13 +7113,18 @@ module Aws::Connect
     end
 
     class RuleTriggerEventSource
-      attr_accessor event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity")
+      attr_accessor event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnAfterCallWorkAvailable" | "OnAfterChatWorkAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity")
       attr_accessor integration_association_id: ::String
       SENSITIVE: []
     end
 
     class RulesConfiguration
       attr_accessor behavior: ("Enable" | "Disable")
+      SENSITIVE: []
+    end
+
+    class RulesExtractionDefinitionIdentifier
+      attr_accessor identifier: ::String
       SENSITIVE: []
     end
 
@@ -8723,6 +8823,19 @@ module Aws::Connect
       attr_accessor evaluation_form_arn: ::String
       attr_accessor evaluation_form_version: ::Integer
       SENSITIVE: []
+    end
+
+    class UpdateExtractionDefinitionRequest
+      attr_accessor client_token: ::String
+      attr_accessor extraction_definition_id: ::String
+      attr_accessor instance_id: ::String
+      attr_accessor name: ::String
+      attr_accessor extraction_configuration: Types::ExtractionConfiguration
+      attr_accessor display: Types::ExtractionDefinitionDisplay
+      SENSITIVE: []
+    end
+
+    class UpdateExtractionDefinitionResponse < Aws::EmptyStructure
     end
 
     class UpdateHoursOfOperationOverrideRequest

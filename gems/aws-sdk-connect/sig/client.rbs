@@ -775,6 +775,30 @@ module Aws
                                   ) -> _CreateEvaluationFormResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateEvaluationFormResponseSuccess
 
+      interface _CreateExtractionDefinitionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::CreateExtractionDefinitionResponse]
+        def extraction_definition_arn: () -> ::String
+        def extraction_definition_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#create_extraction_definition-instance_method
+      def create_extraction_definition: (
+                                          ?client_token: ::String,
+                                          instance_id: ::String,
+                                          name: ::String,
+                                          extraction_configuration: {
+                                            prompt_hint: ::String,
+                                            not_found_behavior: {
+                                              behavior: ("USE_DEFAULT_VALUE" | "OMIT"),
+                                              default_value: ::String?
+                                            }?
+                                          },
+                                          ?display: {
+                                            label: ::String?
+                                          },
+                                          ?tags: Hash[::String, ::String]
+                                        ) -> _CreateExtractionDefinitionResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateExtractionDefinitionResponseSuccess
+
       interface _CreateHoursOfOperationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::CreateHoursOfOperationResponse]
         def hours_of_operation_id: () -> ::String
@@ -1063,7 +1087,7 @@ module Aws
                          instance_id: ::String,
                          name: ::String,
                          trigger_event_source: {
-                           event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity"),
+                           event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnAfterCallWorkAvailable" | "OnAfterChatWorkAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity"),
                            integration_association_id: ::String?
                          },
                          function: ::String,
@@ -1470,6 +1494,16 @@ module Aws
                                   ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 
+      interface _DeleteExtractionDefinitionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DeleteExtractionDefinitionResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#delete_extraction_definition-instance_method
+      def delete_extraction_definition: (
+                                          instance_id: ::String,
+                                          extraction_definition_id: ::String
+                                        ) -> _DeleteExtractionDefinitionResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteExtractionDefinitionResponseSuccess
+
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#delete_hours_of_operation-instance_method
       def delete_hours_of_operation: (
                                        instance_id: ::String,
@@ -1849,6 +1883,17 @@ module Aws
                                       ?evaluation_form_version: ::Integer
                                     ) -> _DescribeEvaluationFormResponseSuccess
                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeEvaluationFormResponseSuccess
+
+      interface _DescribeExtractionDefinitionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::DescribeExtractionDefinitionResponse]
+        def extraction_definition: () -> Types::ExtractionDefinition
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#describe_extraction_definition-instance_method
+      def describe_extraction_definition: (
+                                            instance_id: ::String,
+                                            extraction_definition_id: ::String
+                                          ) -> _DescribeExtractionDefinitionResponseSuccess
+                                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DescribeExtractionDefinitionResponseSuccess
 
       interface _DescribeHoursOfOperationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::DescribeHoursOfOperationResponse]
@@ -3011,6 +3056,19 @@ module Aws
                                  ) -> _ListEvaluationFormsResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListEvaluationFormsResponseSuccess
 
+      interface _ListExtractionDefinitionsResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ListExtractionDefinitionsResponse]
+        def extraction_definition_summary_list: () -> ::Array[Types::ExtractionDefinitionSummary]
+        def next_token: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#list_extraction_definitions-instance_method
+      def list_extraction_definitions: (
+                                         instance_id: ::String,
+                                         ?max_results: ::Integer,
+                                         ?next_token: ::String
+                                       ) -> _ListExtractionDefinitionsResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ListExtractionDefinitionsResponseSuccess
+
       interface _ListFlowAssociationsResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListFlowAssociationsResponse]
         def flow_association_summary_list: () -> ::Array[Types::FlowAssociationSummary]
@@ -3351,7 +3409,7 @@ module Aws
       def list_rules: (
                         instance_id: ::String,
                         ?publish_status: ("DRAFT" | "PUBLISHED"),
-                        ?event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity"),
+                        ?event_source_name: ("OnPostCallAnalysisAvailable" | "OnRealTimeCallAnalysisAvailable" | "OnRealTimeChatAnalysisAvailable" | "OnPostChatAnalysisAvailable" | "OnAfterCallWorkAvailable" | "OnAfterChatWorkAvailable" | "OnEmailAnalysisAvailable" | "OnZendeskTicketCreate" | "OnZendeskTicketStatusUpdate" | "OnSalesforceCaseCreate" | "OnContactEvaluationSubmit" | "OnMetricDataUpdate" | "OnCaseCreate" | "OnCaseUpdate" | "OnSlaBreach" | "OnAlertUpdate" | "OnSchedulePublish" | "OnScheduleUpdate" | "OnScheduleTimeOffRequestActivity"),
                         ?max_results: ::Integer,
                         ?next_token: ::String
                       ) -> _ListRulesResponseSuccess
@@ -5429,6 +5487,28 @@ module Aws
                                     }
                                   ) -> _UpdateEvaluationFormResponseSuccess
                                 | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateEvaluationFormResponseSuccess
+
+      interface _UpdateExtractionDefinitionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateExtractionDefinitionResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_extraction_definition-instance_method
+      def update_extraction_definition: (
+                                          ?client_token: ::String,
+                                          extraction_definition_id: ::String,
+                                          instance_id: ::String,
+                                          name: ::String,
+                                          extraction_configuration: {
+                                            prompt_hint: ::String,
+                                            not_found_behavior: {
+                                              behavior: ("USE_DEFAULT_VALUE" | "OMIT"),
+                                              default_value: ::String?
+                                            }?
+                                          },
+                                          ?display: {
+                                            label: ::String?
+                                          }
+                                        ) -> _UpdateExtractionDefinitionResponseSuccess
+                                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateExtractionDefinitionResponseSuccess
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_hours_of_operation-instance_method
       def update_hours_of_operation: (

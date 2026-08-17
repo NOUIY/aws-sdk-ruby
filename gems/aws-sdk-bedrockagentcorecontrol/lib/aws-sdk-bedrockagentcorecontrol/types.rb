@@ -6835,6 +6835,27 @@ module Aws::BedrockAgentCoreControl
     #
     class DeleteWorkloadIdentityResponse < Aws::EmptyStructure; end
 
+    # The configuration for a derived evaluator. It reuses an existing
+    # evaluator's logic on your own model.
+    #
+    # @!attribute [rw] base_evaluator_id
+    #   The identifier of the base evaluator whose logic to run (a
+    #   `Builtin.*` or `ThirdParty.*` evaluator).
+    #   @return [String]
+    #
+    # @!attribute [rw] model_config
+    #   The configuration of the evaluator model that you supply.
+    #   @return [Types::EvaluatorModelConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DerivedEvaluatorConfig AWS API Documentation
+    #
+    class DerivedEvaluatorConfig < Struct.new(
+      :base_evaluator_id,
+      :model_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains descriptor-type-specific configurations for a registry
     # record. Only the descriptor matching the record's `descriptorType`
     # should be populated.
@@ -7450,11 +7471,18 @@ module Aws::BedrockAgentCoreControl
     #   performance.
     #   @return [Types::CodeBasedEvaluatorConfig]
     #
+    # @!attribute [rw] derived
+    #   The configuration for an evaluator derived from an existing base
+    #   evaluator (a built-in or third-party evaluator), run on your own
+    #   model. The base evaluator supplies the prompt and scoring.
+    #   @return [Types::DerivedEvaluatorConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/EvaluatorConfig AWS API Documentation
     #
     class EvaluatorConfig < Struct.new(
       :llm_as_a_judge,
       :code_based,
+      :derived,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -7462,6 +7490,7 @@ module Aws::BedrockAgentCoreControl
 
       class LlmAsAJudge < EvaluatorConfig; end
       class CodeBased < EvaluatorConfig; end
+      class Derived < EvaluatorConfig; end
       class Unknown < EvaluatorConfig; end
     end
 
@@ -7544,6 +7573,11 @@ module Aws::BedrockAgentCoreControl
     #   provided by the service or a custom evaluator created by the user.
     #   @return [String]
     #
+    # @!attribute [rw] provider
+    #   The source of the evaluator's logic: Amazon Web Services, a
+    #   third-party library, or you.
+    #   @return [String]
+    #
     # @!attribute [rw] level
     #   The evaluation level (`TOOL_CALL`, `TRACE`, or `SESSION`) that
     #   determines the scope of evaluation.
@@ -7580,6 +7614,7 @@ module Aws::BedrockAgentCoreControl
       :evaluator_name,
       :description,
       :evaluator_type,
+      :provider,
       :level,
       :status,
       :created_at,
@@ -9063,6 +9098,27 @@ module Aws::BedrockAgentCoreControl
     #   code-based settings.
     #   @return [Types::EvaluatorConfig]
     #
+    # @!attribute [rw] evaluator_type
+    #   The kind of evaluator resource. Valid values:
+    #
+    #   * `Builtin` – An Amazon Web Services-managed global evaluator.
+    #
+    #   * `ThirdParty` – An Amazon Web Services-managed global evaluator
+    #     from a third-party provider.
+    #
+    #   * `Custom` – A customer-created evaluator.
+    #
+    #   * `CustomCode` – A customer-created code-based evaluator.
+    #
+    #   * `CustomDerived` – A customer-created evaluator derived from an
+    #     existing base evaluator.
+    #   @return [String]
+    #
+    # @!attribute [rw] provider
+    #   The source of the evaluator's logic: Amazon Web Services, a
+    #   third-party library, or you.
+    #   @return [String]
+    #
     # @!attribute [rw] level
     #   The evaluation level (`TOOL_CALL`, `TRACE`, or `SESSION`) that
     #   determines the scope of evaluation.
@@ -9099,6 +9155,8 @@ module Aws::BedrockAgentCoreControl
       :evaluator_name,
       :description,
       :evaluator_config,
+      :evaluator_type,
+      :provider,
       :level,
       :status,
       :created_at,

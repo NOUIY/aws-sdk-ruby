@@ -210,6 +210,11 @@ module Aws
       model_config: Params::evaluator_model_config
     }
 
+      type derived_evaluator_config = {
+      base_evaluator_id: ::String,
+      model_config: Params::evaluator_model_config
+    }
+
       type evaluator_config = {
       llm_as_a_judge: Params::llm_as_a_judge_evaluator_config?,
       code_based: {
@@ -217,7 +222,8 @@ module Aws
           lambda_arn: ::String,
           lambda_timeout_in_seconds: ::Integer?
         }?
-      }?
+      }?,
+      derived: Params::derived_evaluator_config?
     }
 
       type mcp_gateway_configuration = {

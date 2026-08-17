@@ -503,6 +503,10 @@ module Aws::BedrockAgentRuntime
     # @option params [Boolean] :generate_response
     #   Whether to generate a response based on the retrieved results.
     #
+    # @option params [Types::AgenticRetrieveMemoryConfiguration] :memory_configuration
+    #   The configuration for using an Amazon Bedrock AgentCore Memory
+    #   resource with this retrieval.
+    #
     # @option params [required, Array<Types::AgenticRetrieveMessage>] :messages
     #   The list of messages for the agentic retrieval conversation.
     #
@@ -737,6 +741,37 @@ module Aws::BedrockAgentRuntime
     #       reranking_model_type: "CUSTOM", # accepts CUSTOM, MANAGED, NONE
     #     },
     #     generate_response: false,
+    #     memory_configuration: {
+    #       memory_id: "AgentCoreMemoryId", # required
+    #       persistence_mode: "DEFAULT", # accepts DEFAULT, NONE
+    #       retrieval_configs: [
+    #         {
+    #           metadata_filters: [
+    #             {
+    #               left: { # required
+    #                 metadata_key: "AgenticRetrieveMemoryMetadataKey",
+    #               },
+    #               operator: "EQUALS_TO", # required, accepts EQUALS_TO, EXISTS, NOT_EXISTS, BEFORE, AFTER, CONTAINS, GREATER_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN, LESS_THAN_OR_EQUALS
+    #               right: {
+    #                 metadata_value: {
+    #                   date_time_value: Time.now,
+    #                   number_value: 1.0,
+    #                   string_list_value: ["AgenticRetrieveMemoryMetadataStringListItem"],
+    #                   string_value: "AgenticRetrieveMemoryMetadataStringValue",
+    #                 },
+    #               },
+    #             },
+    #           ],
+    #           namespace: "MemoryNamespace",
+    #           namespace_path: "MemoryNamespace",
+    #           strategy_id: "MemoryStrategyId",
+    #         },
+    #       ],
+    #       session_binding: {
+    #         actor_id: "AgentCoreMemoryActorId", # required
+    #         session_id: "AgentCoreMemorySessionId", # required
+    #       },
+    #     },
     #     messages: [ # required
     #       {
     #         content: { # required
@@ -892,6 +927,11 @@ module Aws::BedrockAgentRuntime
     #   event.attributes.actions #=> Array
     #   event.attributes.actions[0].full_document_expansion.document_id #=> String
     #   event.attributes.actions[0].full_document_expansion.source_retriever.identifier #=> String
+    #   event.attributes.actions[0].memory_retrieve.input_query.text #=> String
+    #   event.attributes.actions[0].memory_retrieve.memory_id #=> String
+    #   event.attributes.actions[0].memory_retrieve.namespace #=> String
+    #   event.attributes.actions[0].memory_retrieve.namespace_path #=> String
+    #   event.attributes.actions[0].memory_retrieve.strategy_id #=> String
     #   event.attributes.actions[0].retrieve.input_query.text #=> String
     #   event.attributes.actions[0].retrieve.source_retrievers #=> Array
     #   event.attributes.actions[0].retrieve.source_retrievers[0].identifier #=> String
@@ -900,7 +940,7 @@ module Aws::BedrockAgentRuntime
     #   event.attributes.message #=> String
     #   event.attributes.retrieval_metadata #=> Array
     #   event.attributes.retrieval_metadata[0].identifier #=> String
-    #   event.attributes.retrieval_metadata[0].retrieval_type #=> String, one of "BedrockKnowledgeBase"
+    #   event.attributes.retrieval_metadata[0].retrieval_type #=> String, one of "BedrockKnowledgeBase", "BedrockAgentCoreMemory"
     #   event.attributes.retrieval_response #=> Array
     #   event.attributes.retrieval_response[0].content.byte_content #=> String
     #   event.attributes.retrieval_response[0].content.mime_type #=> String
@@ -908,7 +948,7 @@ module Aws::BedrockAgentRuntime
     #   event.attributes.retrieval_response[0].metadata #=> Hash
     #   event.attributes.retrieval_response[0].source_retriever.identifier #=> String
     #   event.attributes.status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
-    #   event.attributes.step #=> String, one of "Planning", "Retrieval", "SpeculativeRetrieval", "FullDocumentExpansion"
+    #   event.attributes.step #=> String, one of "Planning", "Retrieval", "SpeculativeRetrieval", "FullDocumentExpansion", "SessionHistoryLoad"
     #   event.attributes.warnings #=> Array
     #   event.attributes.warnings[0].guardrail.action #=> String, one of "INTERVENED", "NONE"
     #   event.attributes.warnings[0].guardrail.id #=> String
@@ -8427,7 +8467,7 @@ module Aws::BedrockAgentRuntime
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentruntime'
-      context[:gem_version] = '1.79.0'
+      context[:gem_version] = '1.80.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

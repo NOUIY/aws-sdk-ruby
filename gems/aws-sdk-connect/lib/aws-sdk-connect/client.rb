@@ -3741,6 +3741,82 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Creates an extraction definition in the specified Connect Customer
+    # instance. An extraction definition specifies how structured data is
+    # extracted from customer interactions using generative AI, including
+    # the prompt hint that guides extraction and the behavior when a value
+    # cannot be found.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :name
+    #   A unique name of the extraction definition.
+    #
+    # @option params [required, Types::ExtractionConfiguration] :extraction_configuration
+    #   The configuration that defines how data is extracted, including the
+    #   prompt hint and not-found behavior.
+    #
+    # @option params [Types::ExtractionDefinitionDisplay] :display
+    #   The display settings for the extraction definition, including the
+    #   label shown in the agent workspace.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags used to organize, track, or control access for this resource.
+    #
+    # @return [Types::CreateExtractionDefinitionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateExtractionDefinitionResponse#extraction_definition_arn #extraction_definition_arn} => String
+    #   * {Types::CreateExtractionDefinitionResponse#extraction_definition_id #extraction_definition_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_extraction_definition({
+    #     client_token: "ClientToken",
+    #     instance_id: "InstanceId", # required
+    #     name: "ExtractionDefinitionName", # required
+    #     extraction_configuration: { # required
+    #       prompt_hint: "ExtractionDefinitionPromptHint", # required
+    #       not_found_behavior: {
+    #         behavior: "USE_DEFAULT_VALUE", # required, accepts USE_DEFAULT_VALUE, OMIT
+    #         default_value: "NotFoundDefaultValue",
+    #       },
+    #     },
+    #     display: {
+    #       label: "ExtractionDefinitionDisplayLabel",
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.extraction_definition_arn #=> String
+    #   resp.extraction_definition_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/CreateExtractionDefinition AWS API Documentation
+    #
+    # @overload create_extraction_definition(params = {})
+    # @param [Hash] params ({})
+    def create_extraction_definition(params = {}, options = {})
+      req = build_request(:create_extraction_definition, params)
+      req.send_request(options)
+    end
+
     # Creates hours of operation.
     #
     # @option params [required, String] :instance_id
@@ -5058,13 +5134,13 @@ module Aws::Connect
     #     instance_id: "InstanceId", # required
     #     name: "RuleName", # required
     #     trigger_event_source: { # required
-    #       event_source_name: "OnPostCallAnalysisAvailable", # required, accepts OnPostCallAnalysisAvailable, OnRealTimeCallAnalysisAvailable, OnRealTimeChatAnalysisAvailable, OnPostChatAnalysisAvailable, OnEmailAnalysisAvailable, OnZendeskTicketCreate, OnZendeskTicketStatusUpdate, OnSalesforceCaseCreate, OnContactEvaluationSubmit, OnMetricDataUpdate, OnCaseCreate, OnCaseUpdate, OnSlaBreach, OnAlertUpdate, OnSchedulePublish, OnScheduleUpdate, OnScheduleTimeOffRequestActivity
+    #       event_source_name: "OnPostCallAnalysisAvailable", # required, accepts OnPostCallAnalysisAvailable, OnRealTimeCallAnalysisAvailable, OnRealTimeChatAnalysisAvailable, OnPostChatAnalysisAvailable, OnAfterCallWorkAvailable, OnAfterChatWorkAvailable, OnEmailAnalysisAvailable, OnZendeskTicketCreate, OnZendeskTicketStatusUpdate, OnSalesforceCaseCreate, OnContactEvaluationSubmit, OnMetricDataUpdate, OnCaseCreate, OnCaseUpdate, OnSlaBreach, OnAlertUpdate, OnSchedulePublish, OnScheduleUpdate, OnScheduleTimeOffRequestActivity
     #       integration_association_id: "IntegrationAssociationId",
     #     },
     #     function: "RuleFunction", # required
     #     actions: [ # required
     #       {
-    #         action_type: "CREATE_TASK", # required, accepts CREATE_TASK, ASSIGN_CONTACT_CATEGORY, GENERATE_EVENTBRIDGE_EVENT, SEND_NOTIFICATION, CREATE_CASE, UPDATE_CASE, ASSIGN_SLA, END_ASSOCIATED_TASKS, SUBMIT_AUTO_EVALUATION
+    #         action_type: "CREATE_TASK", # required, accepts CREATE_TASK, ASSIGN_CONTACT_CATEGORY, GENERATE_EVENTBRIDGE_EVENT, SEND_NOTIFICATION, CREATE_CASE, UPDATE_CASE, ASSIGN_SLA, END_ASSOCIATED_TASKS, SUBMIT_AUTO_EVALUATION, EXTRACT_INFORMATION
     #         task_action: {
     #           name: "TaskNameExpression", # required
     #           description: "TaskDescriptionExpression",
@@ -5153,6 +5229,13 @@ module Aws::Connect
     #         },
     #         submit_auto_evaluation_action: {
     #           evaluation_form_id: "EvaluationFormId", # required
+    #         },
+    #         extract_information_action: {
+    #           rules_extraction_definitions: [ # required
+    #             {
+    #               identifier: "RulesExtractionDefinitionId", # required
+    #             },
+    #           ],
     #         },
     #       },
     #     ],
@@ -6852,6 +6935,38 @@ module Aws::Connect
     # @param [Hash] params ({})
     def delete_evaluation_form(params = {}, options = {})
       req = build_request(:delete_evaluation_form, params)
+      req.send_request(options)
+    end
+
+    # Deletes an extraction definition from the specified Connect Customer
+    # instance.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :extraction_definition_id
+    #   The identifier of the extraction definition to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_extraction_definition({
+    #     instance_id: "InstanceId", # required
+    #     extraction_definition_id: "ExtractionDefinitionId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DeleteExtractionDefinition AWS API Documentation
+    #
+    # @overload delete_extraction_definition(params = {})
+    # @param [Hash] params ({})
+    def delete_extraction_definition(params = {}, options = {})
+      req = build_request(:delete_extraction_definition, params)
       req.send_request(options)
     end
 
@@ -8909,6 +9024,55 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Describes an extraction definition in the specified Connect Customer
+    # instance.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :extraction_definition_id
+    #   The identifier of the extraction definition to describe.
+    #
+    # @return [Types::DescribeExtractionDefinitionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeExtractionDefinitionResponse#extraction_definition #extraction_definition} => Types::ExtractionDefinition
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_extraction_definition({
+    #     instance_id: "InstanceId", # required
+    #     extraction_definition_id: "ExtractionDefinitionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.extraction_definition.name #=> String
+    #   resp.extraction_definition.extraction_definition_id #=> String
+    #   resp.extraction_definition.extraction_definition_arn #=> String
+    #   resp.extraction_definition.extraction_configuration.prompt_hint #=> String
+    #   resp.extraction_definition.extraction_configuration.not_found_behavior.behavior #=> String, one of "USE_DEFAULT_VALUE", "OMIT"
+    #   resp.extraction_definition.extraction_configuration.not_found_behavior.default_value #=> String
+    #   resp.extraction_definition.display.label #=> String
+    #   resp.extraction_definition.created_time #=> Time
+    #   resp.extraction_definition.last_updated_time #=> Time
+    #   resp.extraction_definition.last_updated_by #=> String
+    #   resp.extraction_definition.tags #=> Hash
+    #   resp.extraction_definition.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/DescribeExtractionDefinition AWS API Documentation
+    #
+    # @overload describe_extraction_definition(params = {})
+    # @param [Hash] params ({})
+    def describe_extraction_definition(params = {}, options = {})
+      req = build_request(:describe_extraction_definition, params)
+      req.send_request(options)
+    end
+
     # Describes the hours of operation.
     #
     # @option params [required, String] :instance_id
@@ -9678,13 +9842,13 @@ module Aws::Connect
     #   resp.rule.name #=> String
     #   resp.rule.rule_id #=> String
     #   resp.rule.rule_arn #=> String
-    #   resp.rule.trigger_event_source.event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
+    #   resp.rule.trigger_event_source.event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnAfterCallWorkAvailable", "OnAfterChatWorkAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
     #   resp.rule.trigger_event_source.integration_association_id #=> String
     #   resp.rule.rule_capability_tiers #=> Array
     #   resp.rule.rule_capability_tiers[0] #=> String, one of "GenerativeAI"
     #   resp.rule.function #=> String
     #   resp.rule.actions #=> Array
-    #   resp.rule.actions[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION"
+    #   resp.rule.actions[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION", "EXTRACT_INFORMATION"
     #   resp.rule.actions[0].task_action.name #=> String
     #   resp.rule.actions[0].task_action.description #=> String
     #   resp.rule.actions[0].task_action.contact_flow_id #=> String
@@ -9728,6 +9892,8 @@ module Aws::Connect
     #   resp.rule.actions[0].assign_sla_action.case_sla_configuration.target_field_values[0].string_value #=> String
     #   resp.rule.actions[0].assign_sla_action.case_sla_configuration.target_sla_minutes #=> Integer
     #   resp.rule.actions[0].submit_auto_evaluation_action.evaluation_form_id #=> String
+    #   resp.rule.actions[0].extract_information_action.rules_extraction_definitions #=> Array
+    #   resp.rule.actions[0].extract_information_action.rules_extraction_definitions[0].identifier #=> String
     #   resp.rule.publish_status #=> String, one of "DRAFT", "PUBLISHED"
     #   resp.rule.created_time #=> Time
     #   resp.rule.last_updated_time #=> Time
@@ -16817,6 +16983,61 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Lists extraction definitions in the specified Connect Customer
+    # instance.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page. The default
+    #   MaxResult size is 100.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @return [Types::ListExtractionDefinitionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListExtractionDefinitionsResponse#extraction_definition_summary_list #extraction_definition_summary_list} => Array&lt;Types::ExtractionDefinitionSummary&gt;
+    #   * {Types::ListExtractionDefinitionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_extraction_definitions({
+    #     instance_id: "InstanceId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.extraction_definition_summary_list #=> Array
+    #   resp.extraction_definition_summary_list[0].name #=> String
+    #   resp.extraction_definition_summary_list[0].extraction_definition_id #=> String
+    #   resp.extraction_definition_summary_list[0].extraction_definition_arn #=> String
+    #   resp.extraction_definition_summary_list[0].created_time #=> Time
+    #   resp.extraction_definition_summary_list[0].last_updated_time #=> Time
+    #   resp.extraction_definition_summary_list[0].last_updated_by #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListExtractionDefinitions AWS API Documentation
+    #
+    # @overload list_extraction_definitions(params = {})
+    # @param [Hash] params ({})
+    def list_extraction_definitions(params = {}, options = {})
+      req = build_request(:list_extraction_definitions, params)
+      req.send_request(options)
+    end
+
     # List the flow association based on the filters.
     #
     # @option params [required, String] :instance_id
@@ -18421,7 +18642,7 @@ module Aws::Connect
     #   resp = client.list_rules({
     #     instance_id: "InstanceId", # required
     #     publish_status: "DRAFT", # accepts DRAFT, PUBLISHED
-    #     event_source_name: "OnPostCallAnalysisAvailable", # accepts OnPostCallAnalysisAvailable, OnRealTimeCallAnalysisAvailable, OnRealTimeChatAnalysisAvailable, OnPostChatAnalysisAvailable, OnEmailAnalysisAvailable, OnZendeskTicketCreate, OnZendeskTicketStatusUpdate, OnSalesforceCaseCreate, OnContactEvaluationSubmit, OnMetricDataUpdate, OnCaseCreate, OnCaseUpdate, OnSlaBreach, OnAlertUpdate, OnSchedulePublish, OnScheduleUpdate, OnScheduleTimeOffRequestActivity
+    #     event_source_name: "OnPostCallAnalysisAvailable", # accepts OnPostCallAnalysisAvailable, OnRealTimeCallAnalysisAvailable, OnRealTimeChatAnalysisAvailable, OnPostChatAnalysisAvailable, OnAfterCallWorkAvailable, OnAfterChatWorkAvailable, OnEmailAnalysisAvailable, OnZendeskTicketCreate, OnZendeskTicketStatusUpdate, OnSalesforceCaseCreate, OnContactEvaluationSubmit, OnMetricDataUpdate, OnCaseCreate, OnCaseUpdate, OnSlaBreach, OnAlertUpdate, OnSchedulePublish, OnScheduleUpdate, OnScheduleTimeOffRequestActivity
     #     max_results: 1,
     #     next_token: "NextToken",
     #   })
@@ -18432,12 +18653,12 @@ module Aws::Connect
     #   resp.rule_summary_list[0].name #=> String
     #   resp.rule_summary_list[0].rule_id #=> String
     #   resp.rule_summary_list[0].rule_arn #=> String
-    #   resp.rule_summary_list[0].event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
+    #   resp.rule_summary_list[0].event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnAfterCallWorkAvailable", "OnAfterChatWorkAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
     #   resp.rule_summary_list[0].publish_status #=> String, one of "DRAFT", "PUBLISHED"
     #   resp.rule_summary_list[0].rule_capability_tiers #=> Array
     #   resp.rule_summary_list[0].rule_capability_tiers[0] #=> String, one of "GenerativeAI"
     #   resp.rule_summary_list[0].action_summaries #=> Array
-    #   resp.rule_summary_list[0].action_summaries[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION"
+    #   resp.rule_summary_list[0].action_summaries[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION", "EXTRACT_INFORMATION"
     #   resp.rule_summary_list[0].created_time #=> Time
     #   resp.rule_summary_list[0].last_updated_time #=> Time
     #   resp.next_token #=> String
@@ -22577,10 +22798,10 @@ module Aws::Connect
     #   resp.rules[0].name #=> String
     #   resp.rules[0].rule_id #=> String
     #   resp.rules[0].rule_arn #=> String
-    #   resp.rules[0].trigger_event_source.event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
+    #   resp.rules[0].trigger_event_source.event_source_name #=> String, one of "OnPostCallAnalysisAvailable", "OnRealTimeCallAnalysisAvailable", "OnRealTimeChatAnalysisAvailable", "OnPostChatAnalysisAvailable", "OnAfterCallWorkAvailable", "OnAfterChatWorkAvailable", "OnEmailAnalysisAvailable", "OnZendeskTicketCreate", "OnZendeskTicketStatusUpdate", "OnSalesforceCaseCreate", "OnContactEvaluationSubmit", "OnMetricDataUpdate", "OnCaseCreate", "OnCaseUpdate", "OnSlaBreach", "OnAlertUpdate", "OnSchedulePublish", "OnScheduleUpdate", "OnScheduleTimeOffRequestActivity"
     #   resp.rules[0].trigger_event_source.integration_association_id #=> String
     #   resp.rules[0].action_summaries #=> Array
-    #   resp.rules[0].action_summaries[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION"
+    #   resp.rules[0].action_summaries[0].action_type #=> String, one of "CREATE_TASK", "ASSIGN_CONTACT_CATEGORY", "GENERATE_EVENTBRIDGE_EVENT", "SEND_NOTIFICATION", "CREATE_CASE", "UPDATE_CASE", "ASSIGN_SLA", "END_ASSOCIATED_TASKS", "SUBMIT_AUTO_EVALUATION", "EXTRACT_INFORMATION"
     #   resp.rules[0].rule_capability_tiers #=> Array
     #   resp.rules[0].rule_capability_tiers[0] #=> String, one of "GenerativeAI"
     #   resp.rules[0].publish_status #=> String, one of "DRAFT", "PUBLISHED"
@@ -23871,8 +24092,8 @@ module Aws::Connect
 
     # Starts a chat contact with an AI agent.
     #
-    # Use the returned `ParticipantToken` to call the
-    # [CreateParticipantConnection][1] API.
+    # Use the returned `ParticipantToken` with the
+    # [CreateParticipantConnection][1] operation.
     #
     # For more information about chat, see the following topics in the
     # *Connect Customer Administrator Guide*:
@@ -23897,7 +24118,7 @@ module Aws::Connect
     #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
     #
     # @option params [required, Types::AiAgentInput] :ai_agent
-    #   The AI agent that participates in the contact.
+    #   The AI agent configuration for this contact.
     #
     # @option params [required, Types::ParticipantDetails] :participant_details
     #   The display name and other details that identify the chat participant.
@@ -23906,13 +24127,11 @@ module Aws::Connect
     #   The initial message to send to the newly created chat.
     #
     # @option params [Hash<String,String>] :attributes
-    #   A map of key-value pairs to associate with the contact. Amazon Connect
-    #   makes these attributes available to flows as standard contact
-    #   attributes.
+    #   A map of key-value pairs to associate with the contact. We make these
+    #   attributes available to flows as standard contact attributes.
     #
     #   You can provide up to 32,768 UTF-8 bytes across all key-value pairs
-    #   per contact. Attribute keys can contain only alphanumeric characters,
-    #   dashes, and underscores.
+    #   for each contact.
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
@@ -25849,12 +26068,9 @@ module Aws::Connect
     #   Control Panel (CCP).
     #
     # @option params [Hash<String,Types::SegmentAttributeValue>] :segment_attributes
-    #   Use this map to specify system-defined attributes for the WebRTC
-    #   contact segment. Use the `connect:Subtype` attribute to specify the
-    #   channel subtype, such as `connect:WebRTC`.
-    #
-    #   Attribute keys can contain only alphanumeric characters, hyphens, and
-    #   underscores.
+    #   A map of system-defined attributes for the WebRTC contact segment. Use
+    #   the `connect:Subtype` attribute to specify the channel subtype, such
+    #   as `connect:WebRTC`.
     #
     # @return [Types::StartWebRTCContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -28157,6 +28373,68 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Updates an extraction definition in the specified Connect Customer
+    # instance.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If not provided, the Amazon Web Services
+    #   SDK populates this field.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :extraction_definition_id
+    #   The identifier of the extraction definition to update.
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, String] :name
+    #   The name of the extraction definition.
+    #
+    # @option params [required, Types::ExtractionConfiguration] :extraction_configuration
+    #   The configuration that defines how data is extracted, including the
+    #   prompt hint and not-found behavior.
+    #
+    # @option params [Types::ExtractionDefinitionDisplay] :display
+    #   The display settings for the extraction definition.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_extraction_definition({
+    #     client_token: "ClientToken",
+    #     extraction_definition_id: "ExtractionDefinitionId", # required
+    #     instance_id: "InstanceId", # required
+    #     name: "ExtractionDefinitionName", # required
+    #     extraction_configuration: { # required
+    #       prompt_hint: "ExtractionDefinitionPromptHint", # required
+    #       not_found_behavior: {
+    #         behavior: "USE_DEFAULT_VALUE", # required, accepts USE_DEFAULT_VALUE, OMIT
+    #         default_value: "NotFoundDefaultValue",
+    #       },
+    #     },
+    #     display: {
+    #       label: "ExtractionDefinitionDisplayLabel",
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateExtractionDefinition AWS API Documentation
+    #
+    # @overload update_extraction_definition(params = {})
+    # @param [Hash] params ({})
+    def update_extraction_definition(params = {}, options = {})
+      req = build_request(:update_extraction_definition, params)
+      req.send_request(options)
+    end
+
     # Updates the hours of operation.
     #
     # @option params [required, String] :instance_id
@@ -29587,7 +29865,7 @@ module Aws::Connect
     #     function: "RuleFunction", # required
     #     actions: [ # required
     #       {
-    #         action_type: "CREATE_TASK", # required, accepts CREATE_TASK, ASSIGN_CONTACT_CATEGORY, GENERATE_EVENTBRIDGE_EVENT, SEND_NOTIFICATION, CREATE_CASE, UPDATE_CASE, ASSIGN_SLA, END_ASSOCIATED_TASKS, SUBMIT_AUTO_EVALUATION
+    #         action_type: "CREATE_TASK", # required, accepts CREATE_TASK, ASSIGN_CONTACT_CATEGORY, GENERATE_EVENTBRIDGE_EVENT, SEND_NOTIFICATION, CREATE_CASE, UPDATE_CASE, ASSIGN_SLA, END_ASSOCIATED_TASKS, SUBMIT_AUTO_EVALUATION, EXTRACT_INFORMATION
     #         task_action: {
     #           name: "TaskNameExpression", # required
     #           description: "TaskDescriptionExpression",
@@ -29676,6 +29954,13 @@ module Aws::Connect
     #         },
     #         submit_auto_evaluation_action: {
     #           evaluation_form_id: "EvaluationFormId", # required
+    #         },
+    #         extract_information_action: {
+    #           rules_extraction_definitions: [ # required
+    #             {
+    #               identifier: "RulesExtractionDefinitionId", # required
+    #             },
+    #           ],
     #         },
     #       },
     #     ],
@@ -30999,7 +31284,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.271.0'
+      context[:gem_version] = '1.272.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

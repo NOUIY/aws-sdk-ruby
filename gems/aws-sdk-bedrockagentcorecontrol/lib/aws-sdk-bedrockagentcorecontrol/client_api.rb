@@ -373,6 +373,7 @@ module Aws::BedrockAgentCoreControl
     DeleteResourcePolicyResponse = Shapes::StructureShape.new(name: 'DeleteResourcePolicyResponse')
     DeleteWorkloadIdentityRequest = Shapes::StructureShape.new(name: 'DeleteWorkloadIdentityRequest')
     DeleteWorkloadIdentityResponse = Shapes::StructureShape.new(name: 'DeleteWorkloadIdentityResponse')
+    DerivedEvaluatorConfig = Shapes::StructureShape.new(name: 'DerivedEvaluatorConfig')
     Description = Shapes::StringShape.new(name: 'Description')
     DescriptorType = Shapes::StringShape.new(name: 'DescriptorType')
     Descriptors = Shapes::StructureShape.new(name: 'Descriptors')
@@ -1009,6 +1010,7 @@ module Aws::BedrockAgentCoreControl
     PrivateKeySource = Shapes::UnionShape.new(name: 'PrivateKeySource')
     Prompt = Shapes::StringShape.new(name: 'Prompt')
     ProtocolConfiguration = Shapes::StructureShape.new(name: 'ProtocolConfiguration')
+    Provider = Shapes::StringShape.new(name: 'Provider')
     ProviderPrefix = Shapes::StructureShape.new(name: 'ProviderPrefix')
     ProviderPrefixSeparatorString = Shapes::StringShape.new(name: 'ProviderPrefixSeparatorString')
     PutResourcePolicyRequest = Shapes::StructureShape.new(name: 'PutResourcePolicyRequest')
@@ -2768,6 +2770,10 @@ module Aws::BedrockAgentCoreControl
 
     DeleteWorkloadIdentityResponse.struct_class = Types::DeleteWorkloadIdentityResponse
 
+    DerivedEvaluatorConfig.add_member(:base_evaluator_id, Shapes::ShapeRef.new(shape: EvaluatorId, required: true, location_name: "baseEvaluatorId"))
+    DerivedEvaluatorConfig.add_member(:model_config, Shapes::ShapeRef.new(shape: EvaluatorModelConfig, required: true, location_name: "modelConfig"))
+    DerivedEvaluatorConfig.struct_class = Types::DerivedEvaluatorConfig
+
     Descriptors.add_member(:mcp, Shapes::ShapeRef.new(shape: McpDescriptor, location_name: "mcp"))
     Descriptors.add_member(:a2a, Shapes::ShapeRef.new(shape: A2aDescriptor, location_name: "a2a"))
     Descriptors.add_member(:custom, Shapes::ShapeRef.new(shape: CustomDescriptor, location_name: "custom"))
@@ -2881,9 +2887,11 @@ module Aws::BedrockAgentCoreControl
 
     EvaluatorConfig.add_member(:llm_as_a_judge, Shapes::ShapeRef.new(shape: LlmAsAJudgeEvaluatorConfig, location_name: "llmAsAJudge"))
     EvaluatorConfig.add_member(:code_based, Shapes::ShapeRef.new(shape: CodeBasedEvaluatorConfig, location_name: "codeBased"))
+    EvaluatorConfig.add_member(:derived, Shapes::ShapeRef.new(shape: DerivedEvaluatorConfig, location_name: "derived"))
     EvaluatorConfig.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     EvaluatorConfig.add_member_subclass(:llm_as_a_judge, Types::EvaluatorConfig::LlmAsAJudge)
     EvaluatorConfig.add_member_subclass(:code_based, Types::EvaluatorConfig::CodeBased)
+    EvaluatorConfig.add_member_subclass(:derived, Types::EvaluatorConfig::Derived)
     EvaluatorConfig.add_member_subclass(:unknown, Types::EvaluatorConfig::Unknown)
     EvaluatorConfig.struct_class = Types::EvaluatorConfig
 
@@ -2908,6 +2916,7 @@ module Aws::BedrockAgentCoreControl
     EvaluatorSummary.add_member(:evaluator_name, Shapes::ShapeRef.new(shape: EvaluatorName, required: true, location_name: "evaluatorName"))
     EvaluatorSummary.add_member(:description, Shapes::ShapeRef.new(shape: EvaluatorDescription, location_name: "description"))
     EvaluatorSummary.add_member(:evaluator_type, Shapes::ShapeRef.new(shape: EvaluatorType, required: true, location_name: "evaluatorType"))
+    EvaluatorSummary.add_member(:provider, Shapes::ShapeRef.new(shape: Provider, location_name: "provider"))
     EvaluatorSummary.add_member(:level, Shapes::ShapeRef.new(shape: EvaluatorLevel, location_name: "level"))
     EvaluatorSummary.add_member(:status, Shapes::ShapeRef.new(shape: EvaluatorStatus, required: true, location_name: "status"))
     EvaluatorSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
@@ -3237,6 +3246,8 @@ module Aws::BedrockAgentCoreControl
     GetEvaluatorResponse.add_member(:evaluator_name, Shapes::ShapeRef.new(shape: EvaluatorName, required: true, location_name: "evaluatorName"))
     GetEvaluatorResponse.add_member(:description, Shapes::ShapeRef.new(shape: EvaluatorDescription, location_name: "description"))
     GetEvaluatorResponse.add_member(:evaluator_config, Shapes::ShapeRef.new(shape: EvaluatorConfig, required: true, location_name: "evaluatorConfig"))
+    GetEvaluatorResponse.add_member(:evaluator_type, Shapes::ShapeRef.new(shape: EvaluatorType, location_name: "evaluatorType"))
+    GetEvaluatorResponse.add_member(:provider, Shapes::ShapeRef.new(shape: Provider, location_name: "provider"))
     GetEvaluatorResponse.add_member(:level, Shapes::ShapeRef.new(shape: EvaluatorLevel, required: true, location_name: "level"))
     GetEvaluatorResponse.add_member(:status, Shapes::ShapeRef.new(shape: EvaluatorStatus, required: true, location_name: "status"))
     GetEvaluatorResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "createdAt"))
