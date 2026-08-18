@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.164.0 (2026-08-18)
+------------------
+
+* Feature - Amazon WorkSpaces now supports nested virtualization, allowing you to run hypervisors and virtualization-based workloads within your WorkSpaces. You can enable or disable nested virtualization when creating a WorkSpace or by modifying an existing WorkSpace's properties.
+
 1.163.0 (2026-08-04)
 ------------------
 

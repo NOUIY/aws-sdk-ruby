@@ -1713,8 +1713,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Integer]
     #
@@ -1769,8 +1769,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/commandline/run/
     #   @return [Boolean]
     #
@@ -1786,8 +1786,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Array<Types::Ulimit>]
     #
@@ -1809,8 +1809,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [String]
     #
@@ -1906,8 +1906,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.docker.com/engine/admin/logging/overview/
     #   [5]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html
@@ -2130,8 +2130,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [String]
     #
@@ -2150,8 +2150,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Integer]
     #
@@ -2176,8 +2176,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.docker.com/engine/reference/builder/#cmd
     #   @return [Array<String>]
@@ -2223,8 +2223,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Array<Types::KeyValuePair>]
     #
@@ -2235,8 +2235,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Array<Types::MountPoint>]
     #
@@ -2248,8 +2248,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   @return [Boolean]
     #
     # @!attribute [rw] privileged
@@ -2267,8 +2267,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Boolean]
     #
@@ -2284,8 +2284,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Array<Types::Ulimit>]
     #
@@ -2296,8 +2296,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [String]
     #
@@ -2359,8 +2359,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.docker.com/engine/admin/logging/overview/
     #   [5]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html
@@ -4341,6 +4341,11 @@ module Aws::Batch
     #   If no value is specified, then the IPC resource namespace sharing
     #   depends on the Docker daemon setting on the container instance. For
     #   more information, see [IPC settings][1] in the Docker run reference.
+    #
+    #   <note markdown="1"> This parameter is not supported for jobs that run on Fargate
+    #   resources.
+    #
+    #    </note>
     #
     #
     #
@@ -7157,8 +7162,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Array<Types::Device>]
     #
@@ -8092,7 +8097,7 @@ module Aws::Batch
     #
     #
     #
-    # [1]: https://docs.docker.com/engine/api/v1.43/#tag/Container/operation/ContainerCreate
+    # [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
     #
     # @!attribute [rw] container_path
     #   The path on the container where the host volume is mounted.
@@ -8970,17 +8975,29 @@ module Aws::Batch
     #
     #     : `VCPU` = 4 or 8
     #
-    #     value = 36864, 45056, 53248, or 61440
+    #     value = 36864, 45056, or 53248
     #
     #     : `VCPU` = 8
+    #
+    #     value = 61440
+    #
+    #     : `VCPU` = 8 or 32
     #
     #     value = 32768, 40960, 49152, or 57344
     #
     #     : `VCPU` = 8 or 16
     #
-    #     value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
+    #     value = 65536, 73728, 81920, 90112, 98304, 106496, or 114688
     #
     #     : `VCPU` = 16
+    #
+    #     value = 122880
+    #
+    #     : `VCPU` = 16 or 32
+    #
+    #     value = 249856
+    #
+    #     : `VCPU` = 32
     #
     #   type="VCPU"
     #
@@ -8999,7 +9016,7 @@ module Aws::Batch
     #     For jobs that are running on Fargate resources, then `value` must
     #     match one of the supported values and the `MEMORY` values must be
     #     one of the values supported for that `VCPU` value. The supported
-    #     values are 0.25, 0.5, 1, 2, 4, 8, and 16
+    #     values are 0.25, 0.5, 1, 2, 4, 8, 16, and 32.
     #
     #     value = 0.25
     #
@@ -9034,10 +9051,14 @@ module Aws::Batch
     #     : `MEMORY` = 32768, 40960, 49152, 57344, 65536, 73728, 81920,
     #       90112, 98304, 106496, 114688, or 122880
     #
+    #     value = 32
+    #
+    #     : `MEMORY` = 61440, 122880, or 249856
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html
     #   [5]: https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate
@@ -10133,8 +10154,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.docker.com/engine/reference/builder/#cmd
     #   @return [Array<String>]
@@ -10153,8 +10174,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Array<Types::KeyValuePair>]
     #
@@ -10202,8 +10223,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [String]
     #
@@ -10263,8 +10284,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   [4]: https://docs.docker.com/engine/admin/logging/overview/
     #   [5]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
@@ -10283,8 +10304,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Array<Types::MountPoint>]
     #
@@ -10306,8 +10327,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Boolean]
     #
@@ -10323,8 +10344,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Boolean]
     #
@@ -10373,8 +10394,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Array<Types::Ulimit>]
     #
@@ -10545,8 +10566,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.docker.com/engine/reference/builder/#cmd
     #   @return [Array<String>]
@@ -10570,8 +10591,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
-    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   @return [Array<Types::KeyValuePair>]
     #
@@ -10619,8 +10640,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [String]
     #
@@ -10676,8 +10697,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   [4]: https://docs.docker.com/engine/admin/logging/overview/
     #   [5]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
@@ -10696,8 +10717,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Array<Types::MountPoint>]
     #
@@ -10720,8 +10741,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Boolean]
     #
@@ -10737,8 +10758,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Boolean]
     #
@@ -10787,8 +10808,8 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
-    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [1]: https://docs.docker.com/engine/api/latest/#tag/Container/operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/latest/
     #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
     #   @return [Array<Types::Ulimit>]
     #

@@ -1130,6 +1130,9 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -1385,7 +1388,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -1426,7 +1429,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -1496,7 +1499,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -1560,7 +1563,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -1610,7 +1613,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -1669,7 +1672,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -1727,7 +1730,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -2715,6 +2718,9 @@ module Aws::MediaLive
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -2970,7 +2976,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -3011,7 +3017,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -3081,7 +3087,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -3145,7 +3151,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -3195,7 +3201,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -3254,7 +3260,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -3312,7 +3318,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -4023,6 +4029,9 @@ module Aws::MediaLive
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -4278,7 +4287,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -4319,7 +4328,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -4389,7 +4398,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -4453,7 +4462,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -4503,7 +4512,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -4562,7 +4571,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -4620,7 +4629,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -6624,6 +6633,9 @@ module Aws::MediaLive
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -6879,7 +6891,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -6920,7 +6932,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -6990,7 +7002,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -7054,7 +7066,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -7104,7 +7116,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -7163,7 +7175,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -7221,7 +7233,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -7739,6 +7751,9 @@ module Aws::MediaLive
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -7994,7 +8009,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -8035,7 +8050,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -8105,7 +8120,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -8169,7 +8184,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -8219,7 +8234,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -8278,7 +8293,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -8336,7 +8351,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -8899,6 +8914,9 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -9154,7 +9172,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -9195,7 +9213,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -9265,7 +9283,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -9329,7 +9347,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -9379,7 +9397,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -9438,7 +9456,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -9496,7 +9514,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -9938,6 +9956,9 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.channel.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.channel.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -10193,7 +10214,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -10234,7 +10255,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.channel.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -10304,7 +10325,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -10368,7 +10389,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -10418,7 +10439,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -10477,7 +10498,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -10535,7 +10556,7 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.channel.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -11585,6 +11606,9 @@ module Aws::MediaLive
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.check_digit_string #=> String
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.sid #=> Float
     #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_naes_ii_nw_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.check_digit_string #=> String
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.sid #=> Float
+    #   resp.encoder_settings.audio_descriptions[0].audio_watermarking_settings.nielsen_watermarks_settings.nielsen_nw_only_settings.timezone #=> String, one of "AMERICA_PUERTO_RICO", "US_ALASKA", "US_ARIZONA", "US_CENTRAL", "US_EASTERN", "US_HAWAII", "US_MOUNTAIN", "US_PACIFIC", "US_SAMOA", "UTC"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.bitrate #=> Float
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.coding_mode #=> String, one of "AD_RECEIVER_MIX", "CODING_MODE_1_0", "CODING_MODE_1_1", "CODING_MODE_2_0", "CODING_MODE_5_1"
     #   resp.encoder_settings.audio_descriptions[0].codec_settings.aac_settings.input_type #=> String, one of "BROADCASTER_MIXED_AD", "NORMAL"
@@ -11840,7 +11864,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.id_3_behavior #=> String, one of "DISABLED", "ENABLED"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.klv_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.media_package_group_settings.mediapackage_v2_group_settings.timed_metadata_id_3_frame #=> String, one of "NONE", "PRIV", "TDRL"
@@ -11881,7 +11905,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].output_group_settings.udp_group_settings.timed_metadata_id_3_period #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.destination.destination_ref_id #=> String
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
-    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION"
+    #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.scte_35_type #=> String, one of "NONE", "SCTE_35_WITHOUT_SEGMENTATION", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length #=> Integer
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.segment_length_units #=> String, one of "MILLISECONDS", "SECONDS"
     #   resp.encoder_settings.output_groups[0].output_group_settings.cmaf_ingest_group_settings.send_delay_ms #=> Integer
@@ -11951,7 +11975,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.archive_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -12015,7 +12039,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.nielsen_id_3_behavior #=> String, one of "NO_PASSTHROUGH", "PASSTHROUGH"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_control #=> String, one of "CONFIGURED_PCR_PERIOD", "PCR_EVERY_PES_PACKET"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.pcr_period #=> Integer
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.multiplex_output_settings.container_settings.multiplex_m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.certificate_mode #=> String, one of "SELF_SIGNED", "VERIFY_AUTHENTICITY"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.rtmp_output_settings.connection_retry_interval #=> Integer
@@ -12065,7 +12089,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.udp_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -12124,7 +12148,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.srt_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -12182,7 +12206,7 @@ module Aws::MediaLive
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.program_num #=> Integer
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.rate_mode #=> String, one of "CBR", "VBR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_27_pids #=> String
-    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH"
+    #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_control #=> String, one of "NONE", "PASSTHROUGH", "SCTE_35_WITHOUT_IDR"
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_pid #=> String
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.scte_35_preroll_pullup_milliseconds #=> Float
     #   resp.encoder_settings.output_groups[0].outputs[0].output_settings.media_connect_router_output_settings.container_settings.m2ts_settings.segmentation_markers #=> String, one of "EBP", "EBP_LEGACY", "NONE", "PSI_SEGSTART", "RAI_ADAPT", "RAI_SEGSTART"
@@ -15841,7 +15865,7 @@ module Aws::MediaLive
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-medialive'
-      context[:gem_version] = '1.192.0'
+      context[:gem_version] = '1.193.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

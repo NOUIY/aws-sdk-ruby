@@ -9012,6 +9012,12 @@ module Aws::EC2
     # * If the source instance is in a Local Zone, you can create the
     #   snapshots in the same Local Zone or in its parent Region.
     #
+    # * If the source instance is on an Outpost that supports local
+    #   snapshots, you can create the snapshots on the same Outpost or in
+    #   the parent Region of that Outpost. In this case, you must use the
+    #   `SnapshotLocation` parameter to specify where to create the
+    #   snapshots.
+    #
     # For more information, see [Create an Amazon EBS-backed AMI][1] in the
     # *Amazon Elastic Compute Cloud User Guide*.
     #
@@ -9040,20 +9046,28 @@ module Aws::EC2
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html
     #
     # @option params [String] :snapshot_location
-    #   <note markdown="1"> Only supported for instances in Local Zones. If the source instance is
-    #   not in a Local Zone, omit this parameter.
+    #   <note markdown="1"> Only supported for instances in Local Zones and for instances on
+    #   Outposts that support local snapshots. If the source instance is not
+    #   in one of these locations, omit this parameter.
     #
     #    </note>
     #
     #   The Amazon S3 location where the snapshots will be stored.
     #
-    #   * To create local snapshots in the same Local Zone as the source
-    #     instance, specify `local`.
+    #   * To create local snapshots in the same Local Zone or on the same
+    #     Outpost as the source instance, specify `local`.
     #
-    #   * To create regional snapshots in the parent Region of the Local Zone,
-    #     specify `regional` or omit this parameter.
+    #   * To create regional snapshots in the parent Region of the Local Zone
+    #     or Outpost, specify `regional`.
     #
-    #   Default: `regional`
+    #   If the source instance is in a Local Zone and you omit this parameter,
+    #   regional snapshots are created in the parent Region of the Local Zone.
+    #
+    #   If the source instance is on an Outpost that supports local snapshots,
+    #   this parameter is required. If you omit it, the request fails with an
+    #   `InvalidParameterValue` error.
+    #
+    #   Default: `regional` (for instances in Local Zones only)
     #
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
@@ -77163,7 +77177,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.636.0'
+      context[:gem_version] = '1.637.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

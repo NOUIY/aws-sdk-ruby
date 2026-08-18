@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.637.0 (2026-08-18)
+------------------
+
+* Feature - Doc release for CreateImage support for instances with local snapshots in Outpost
+
 1.636.0 (2026-08-07)
 ------------------
 

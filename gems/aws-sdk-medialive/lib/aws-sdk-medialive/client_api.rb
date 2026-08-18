@@ -787,6 +787,7 @@ module Aws::MediaLive
     NielsenCBET = Shapes::StructureShape.new(name: 'NielsenCBET')
     NielsenConfiguration = Shapes::StructureShape.new(name: 'NielsenConfiguration')
     NielsenNaesIiNw = Shapes::StructureShape.new(name: 'NielsenNaesIiNw')
+    NielsenNwOnly = Shapes::StructureShape.new(name: 'NielsenNwOnly')
     NielsenPcmToId3TaggingState = Shapes::StringShape.new(name: 'NielsenPcmToId3TaggingState')
     NielsenWatermarkTimezones = Shapes::StringShape.new(name: 'NielsenWatermarkTimezones')
     NielsenWatermarksCbetStepaside = Shapes::StringShape.new(name: 'NielsenWatermarksCbetStepaside')
@@ -4543,9 +4544,15 @@ module Aws::MediaLive
     NielsenNaesIiNw.add_member(:timezone, Shapes::ShapeRef.new(shape: NielsenWatermarkTimezones, location_name: "timezone"))
     NielsenNaesIiNw.struct_class = Types::NielsenNaesIiNw
 
+    NielsenNwOnly.add_member(:check_digit_string, Shapes::ShapeRef.new(shape: __stringMin2Max2, required: true, location_name: "checkDigitString"))
+    NielsenNwOnly.add_member(:sid, Shapes::ShapeRef.new(shape: __doubleMin1Max65535, required: true, location_name: "sid"))
+    NielsenNwOnly.add_member(:timezone, Shapes::ShapeRef.new(shape: NielsenWatermarkTimezones, location_name: "timezone"))
+    NielsenNwOnly.struct_class = Types::NielsenNwOnly
+
     NielsenWatermarksSettings.add_member(:nielsen_cbet_settings, Shapes::ShapeRef.new(shape: NielsenCBET, location_name: "nielsenCbetSettings"))
     NielsenWatermarksSettings.add_member(:nielsen_distribution_type, Shapes::ShapeRef.new(shape: NielsenWatermarksDistributionTypes, location_name: "nielsenDistributionType"))
     NielsenWatermarksSettings.add_member(:nielsen_naes_ii_nw_settings, Shapes::ShapeRef.new(shape: NielsenNaesIiNw, location_name: "nielsenNaesIiNwSettings"))
+    NielsenWatermarksSettings.add_member(:nielsen_nw_only_settings, Shapes::ShapeRef.new(shape: NielsenNwOnly, location_name: "nielsenNwOnlySettings"))
     NielsenWatermarksSettings.struct_class = Types::NielsenWatermarksSettings
 
     NodeConfigurationValidationError.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))

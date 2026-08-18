@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.109.0 (2026-08-18)
+------------------
+
+* Feature - AWS Outposts now supports VPC Endpoint configuration in CreatePrivateConnectivityConfig, enabling scoped private connectivity with provisioning role creation for secure outpost installations
+
 1.108.0 (2026-07-31)
 ------------------
 

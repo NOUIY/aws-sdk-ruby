@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.148.0 (2026-08-18)
+------------------
+
+* Feature - Update AWS Batch documentation with newer Fargate Supported configurations, notes, and fix broken Docker link re-directs.
+
 1.147.0 (2026-07-09)
 ------------------
 

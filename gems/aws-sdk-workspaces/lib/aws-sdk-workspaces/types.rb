@@ -3824,7 +3824,7 @@ module Aws::WorkSpaces
     # Describes a WorkSpace modification.
     #
     # @!attribute [rw] resource
-    #   The resource.
+    #   The WorkSpace property being modified.
     #   @return [String]
     #
     # @!attribute [rw] state
@@ -6220,6 +6220,18 @@ module Aws::WorkSpaces
     #   Indicates the Global Accelerator properties.
     #   @return [Types::GlobalAcceleratorForWorkSpace]
     #
+    # @!attribute [rw] nested_virtualization_enabled
+    #   Specifies whether nested virtualization is enabled for the
+    #   WorkSpace.
+    #
+    #   For more information, see [Nested virtualization for Amazon
+    #   WorkSpaces][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/workspaces/latest/adminguide/nested-virtualization.html
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-2015-04-08/WorkspaceProperties AWS API Documentation
     #
     class WorkspaceProperties < Struct.new(
@@ -6230,7 +6242,8 @@ module Aws::WorkSpaces
       :compute_type_name,
       :protocols,
       :operating_system_name,
-      :global_accelerator)
+      :global_accelerator,
+      :nested_virtualization_enabled)
       SENSITIVE = []
       include Aws::Structure
     end

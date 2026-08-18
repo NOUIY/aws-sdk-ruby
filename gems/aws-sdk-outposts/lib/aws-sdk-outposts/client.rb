@@ -666,6 +666,60 @@ module Aws::Outposts
       req.send_request(options)
     end
 
+    # Creates the private connectivity configuration for the specified
+    # Outpost. Private connectivity establishes a service link VPN
+    # connection between the Outpost and its home Amazon Web Services Region
+    # using a VPC and subnet that you specify, which allows the service link
+    # traffic to flow through your VPC and minimizes public internet
+    # exposure.
+    #
+    # @option params [required, String] :outpost_id
+    #   The ID or ARN of the Outpost.
+    #
+    # @option params [required, Array<Types::VpcInformation>] :vpc_information_list
+    #   Information about the VPC used for private connectivity, including the
+    #   VPC, its subnets, and an associated VPC endpoint. You can specify at
+    #   most one entry.
+    #
+    # @return [Types::CreatePrivateConnectivityConfigOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreatePrivateConnectivityConfigOutput#private_connectivity_config #private_connectivity_config} => Types::PrivateConnectivityConfig
+    #   * {Types::CreatePrivateConnectivityConfigOutput#outpost_id #outpost_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_private_connectivity_config({
+    #     outpost_id: "OutpostId", # required
+    #     vpc_information_list: [ # required
+    #       {
+    #         vpc_id: "VpcId",
+    #         subnet_ids: ["SubnetId"],
+    #         vpc_endpoint_id: "VpcEndpointId",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.private_connectivity_config.role_arn #=> String
+    #   resp.private_connectivity_config.private_connectivity_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.private_connectivity_config.vpc_information_list #=> Array
+    #   resp.private_connectivity_config.vpc_information_list[0].vpc_id #=> String
+    #   resp.private_connectivity_config.vpc_information_list[0].subnet_ids #=> Array
+    #   resp.private_connectivity_config.vpc_information_list[0].subnet_ids[0] #=> String
+    #   resp.private_connectivity_config.vpc_information_list[0].vpc_endpoint_id #=> String
+    #   resp.private_connectivity_config.provisioning_role_arn #=> String
+    #   resp.outpost_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CreatePrivateConnectivityConfig AWS API Documentation
+    #
+    # @overload create_private_connectivity_config(params = {})
+    # @param [Hash] params ({})
+    def create_private_connectivity_config(params = {}, options = {})
+      req = build_request(:create_private_connectivity_config, params)
+      req.send_request(options)
+    end
+
     # Creates a quote for an Outpost. A quote provides pricing and
     # configuration options based on the requested capacity. You can
     # optionally associate the quote with an existing Outpost or create a
@@ -1464,6 +1518,41 @@ module Aws::Outposts
     # @param [Hash] params ({})
     def get_outpost_supported_instance_types(params = {}, options = {})
       req = build_request(:get_outpost_supported_instance_types, params)
+      req.send_request(options)
+    end
+
+    # Gets the private connectivity configuration for the specified Outpost.
+    #
+    # @option params [required, String] :outpost_id
+    #   The ID or ARN of the Outpost.
+    #
+    # @return [Types::GetPrivateConnectivityConfigOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetPrivateConnectivityConfigOutput#private_connectivity_config #private_connectivity_config} => Types::PrivateConnectivityConfig
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_private_connectivity_config({
+    #     outpost_id: "OutpostId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.private_connectivity_config.role_arn #=> String
+    #   resp.private_connectivity_config.private_connectivity_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.private_connectivity_config.vpc_information_list #=> Array
+    #   resp.private_connectivity_config.vpc_information_list[0].vpc_id #=> String
+    #   resp.private_connectivity_config.vpc_information_list[0].subnet_ids #=> Array
+    #   resp.private_connectivity_config.vpc_information_list[0].subnet_ids[0] #=> String
+    #   resp.private_connectivity_config.vpc_information_list[0].vpc_endpoint_id #=> String
+    #   resp.private_connectivity_config.provisioning_role_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetPrivateConnectivityConfig AWS API Documentation
+    #
+    # @overload get_private_connectivity_config(params = {})
+    # @param [Hash] params ({})
+    def get_private_connectivity_config(params = {}, options = {})
+      req = build_request(:get_private_connectivity_config, params)
       req.send_request(options)
     end
 
@@ -3182,7 +3271,7 @@ module Aws::Outposts
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-outposts'
-      context[:gem_version] = '1.108.0'
+      context[:gem_version] = '1.109.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
