@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.194.0 (2026-08-19)
+------------------
+
+* Feature - AWS Elemental MediaLive now supports video cropping and output positioning. Use cropRectangle and outputPositionRectangle to position the encoded video within the output frame, with the surrounding area filled with black.
+
 1.193.0 (2026-08-18)
 ------------------
 

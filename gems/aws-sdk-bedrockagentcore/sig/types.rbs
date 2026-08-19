@@ -511,6 +511,7 @@ module Aws::BedrockAgentCore
       attr_accessor client_token: ::String
       attr_accessor metadata: ::Hash[::String, Types::MetadataValue]
       attr_accessor extraction_mode: ("SKIP")
+      attr_accessor extraction_config: Types::ExtractionConfig
       SENSITIVE: []
     end
 
@@ -635,6 +636,7 @@ module Aws::BedrockAgentCore
     class DeleteMemoryRecordInput
       attr_accessor memory_id: ::String
       attr_accessor memory_record_id: ::String
+      attr_accessor namespace: ::String
       SENSITIVE: []
     end
 
@@ -878,6 +880,11 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class ExtractionConfig
+      attr_accessor namespace_variables: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
     class ExtractionJob
       attr_accessor job_id: ::String
       SENSITIVE: []
@@ -1099,6 +1106,7 @@ module Aws::BedrockAgentCore
     class GetMemoryRecordInput
       attr_accessor memory_id: ::String
       attr_accessor memory_record_id: ::String
+      attr_accessor namespace: ::String
       SENSITIVE: []
     end
 
@@ -2149,6 +2157,11 @@ module Aws::BedrockAgentCore
       end
     end
 
+    class MemoryJsonData
+      attr_accessor content: untyped
+      SENSITIVE: [:content]
+    end
+
     class MemoryMetadataFilterExpression
       attr_accessor left: Types::MemoryRecordLeftExpression
       attr_accessor operator: ("EQUALS_TO" | "EXISTS" | "NOT_EXISTS" | "BEFORE" | "AFTER" | "CONTAINS" | "GREATER_THAN" | "GREATER_THAN_OR_EQUALS" | "LESS_THAN" | "LESS_THAN_OR_EQUALS")
@@ -2178,6 +2191,7 @@ module Aws::BedrockAgentCore
 
     class MemoryRecordDeleteInput
       attr_accessor memory_record_id: ::String
+      attr_accessor namespace: ::String
       SENSITIVE: []
     end
 
@@ -2248,6 +2262,7 @@ module Aws::BedrockAgentCore
       attr_accessor timestamp: ::Time
       attr_accessor content: Types::MemoryContent
       attr_accessor namespaces: ::Array[::String]
+      attr_accessor source_namespaces: ::Array[::String]
       attr_accessor memory_strategy_id: ::String
       attr_accessor metadata: ::Hash[::String, Types::MemoryRecordMetadataValue]
       SENSITIVE: []
@@ -2383,12 +2398,15 @@ module Aws::BedrockAgentCore
     class PayloadType
       attr_accessor conversational: Types::Conversational
       attr_accessor blob: untyped
+      attr_accessor json: Types::MemoryJsonData
       attr_accessor unknown: untyped
-      SENSITIVE: [:blob]
+      SENSITIVE: [:blob, :json]
 
       class Conversational < PayloadType
       end
       class Blob < PayloadType
+      end
+      class Json < PayloadType
       end
       class Unknown < PayloadType
       end

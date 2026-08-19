@@ -898,6 +898,13 @@ module Aws::BedrockAgentCoreControl
     MountPath = Shapes::StringShape.new(name: 'MountPath')
     Name = Shapes::StringShape.new(name: 'Name')
     Namespace = Shapes::StringShape.new(name: 'Namespace')
+    NamespaceAllowedValue = Shapes::StringShape.new(name: 'NamespaceAllowedValue')
+    NamespaceAllowedValuesList = Shapes::ListShape.new(name: 'NamespaceAllowedValuesList')
+    NamespaceKeyEntry = Shapes::StructureShape.new(name: 'NamespaceKeyEntry')
+    NamespaceKeyValidation = Shapes::StructureShape.new(name: 'NamespaceKeyValidation')
+    NamespaceKeysList = Shapes::ListShape.new(name: 'NamespaceKeysList')
+    NamespaceRegexPattern = Shapes::StringShape.new(name: 'NamespaceRegexPattern')
+    NamespaceVariableKey = Shapes::StringShape.new(name: 'NamespaceVariableKey')
     NamespacesList = Shapes::ListShape.new(name: 'NamespacesList')
     NaturalLanguage = Shapes::StringShape.new(name: 'NaturalLanguage')
     NetworkConfiguration = Shapes::StructureShape.new(name: 'NetworkConfiguration')
@@ -2150,6 +2157,7 @@ module Aws::BedrockAgentCoreControl
     CreateMemoryInput.add_member(:event_expiry_duration, Shapes::ShapeRef.new(shape: CreateMemoryInputEventExpiryDurationInteger, required: true, location_name: "eventExpiryDuration"))
     CreateMemoryInput.add_member(:memory_strategies, Shapes::ShapeRef.new(shape: MemoryStrategyInputList, location_name: "memoryStrategies"))
     CreateMemoryInput.add_member(:indexed_keys, Shapes::ShapeRef.new(shape: IndexedKeysList, location_name: "indexedKeys"))
+    CreateMemoryInput.add_member(:namespace_keys, Shapes::ShapeRef.new(shape: NamespaceKeysList, location_name: "namespaceKeys"))
     CreateMemoryInput.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     CreateMemoryInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     CreateMemoryInput.struct_class = Types::CreateMemoryInput
@@ -4552,6 +4560,7 @@ module Aws::BedrockAgentCoreControl
     Memory.add_member(:updated_at, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "updatedAt"))
     Memory.add_member(:strategies, Shapes::ShapeRef.new(shape: MemoryStrategyList, location_name: "strategies"))
     Memory.add_member(:indexed_keys, Shapes::ShapeRef.new(shape: IndexedKeysList, location_name: "indexedKeys"))
+    Memory.add_member(:namespace_keys, Shapes::ShapeRef.new(shape: NamespaceKeysList, location_name: "namespaceKeys"))
     Memory.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     Memory.add_member(:managed_by_resource_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "managedByResourceArn"))
     Memory.struct_class = Types::Memory
@@ -4687,6 +4696,18 @@ module Aws::BedrockAgentCoreControl
     ModifyStrategyConfiguration.add_member(:reflection, Shapes::ShapeRef.new(shape: ModifyReflectionConfiguration, location_name: "reflection"))
     ModifyStrategyConfiguration.add_member(:self_managed_configuration, Shapes::ShapeRef.new(shape: ModifySelfManagedConfiguration, location_name: "selfManagedConfiguration"))
     ModifyStrategyConfiguration.struct_class = Types::ModifyStrategyConfiguration
+
+    NamespaceAllowedValuesList.member = Shapes::ShapeRef.new(shape: NamespaceAllowedValue)
+
+    NamespaceKeyEntry.add_member(:key, Shapes::ShapeRef.new(shape: NamespaceVariableKey, required: true, location_name: "key"))
+    NamespaceKeyEntry.add_member(:validation, Shapes::ShapeRef.new(shape: NamespaceKeyValidation, location_name: "validation"))
+    NamespaceKeyEntry.struct_class = Types::NamespaceKeyEntry
+
+    NamespaceKeyValidation.add_member(:allowed_values, Shapes::ShapeRef.new(shape: NamespaceAllowedValuesList, location_name: "allowedValues"))
+    NamespaceKeyValidation.add_member(:regex_pattern, Shapes::ShapeRef.new(shape: NamespaceRegexPattern, location_name: "regexPattern"))
+    NamespaceKeyValidation.struct_class = Types::NamespaceKeyValidation
+
+    NamespaceKeysList.member = Shapes::ShapeRef.new(shape: NamespaceKeyEntry)
 
     NamespacesList.member = Shapes::ShapeRef.new(shape: Namespace)
 
@@ -5869,6 +5890,7 @@ module Aws::BedrockAgentCoreControl
     UpdateMemoryInput.add_member(:memory_execution_role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "memoryExecutionRoleArn"))
     UpdateMemoryInput.add_member(:memory_strategies, Shapes::ShapeRef.new(shape: ModifyMemoryStrategies, location_name: "memoryStrategies"))
     UpdateMemoryInput.add_member(:add_indexed_keys, Shapes::ShapeRef.new(shape: IndexedKeysList, location_name: "addIndexedKeys"))
+    UpdateMemoryInput.add_member(:namespace_keys, Shapes::ShapeRef.new(shape: NamespaceKeysList, location_name: "namespaceKeys"))
     UpdateMemoryInput.add_member(:stream_delivery_resources, Shapes::ShapeRef.new(shape: StreamDeliveryResources, location_name: "streamDeliveryResources"))
     UpdateMemoryInput.struct_class = Types::UpdateMemoryInput
 

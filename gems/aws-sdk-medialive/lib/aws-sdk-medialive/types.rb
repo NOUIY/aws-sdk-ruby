@@ -13990,6 +13990,25 @@ module Aws::MediaLive
     #   height and width are required.
     #   @return [Integer]
     #
+    # @!attribute [rw] crop_rectangle
+    #   Region of the input video to crop before scaling. If not specified,
+    #   the entire input frame is used. Note: Unlike \{@link
+    #   outputPositionRectangle}, the bounds of cropRectangle are validated
+    #   at ingest time by the encoder/scaler rather than at the API level,
+    #   because the input resolution is not known until the source is
+    #   probed. Field-level constraints on (x, y, width, height) defined on
+    #   \{@link VideoPositionRectangle} still apply.
+    #   @return [Types::VideoPositionRectangle]
+    #
+    # @!attribute [rw] output_position_rectangle
+    #   Position of the encoded video within the output frame. The area
+    #   outside the rectangle is filled with black. If not specified, the
+    #   video fills the entire output frame. When used, both \{@link width}
+    #   and \{@link height} of the VideoDescription must be explicitly
+    #   specified so that the rectangle can be validated against the output
+    #   frame.
+    #   @return [Types::VideoPositionRectangle]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/VideoDescription AWS API Documentation
     #
     class VideoDescription < Struct.new(
@@ -13999,7 +14018,9 @@ module Aws::MediaLive
       :respond_to_afd,
       :scaling_behavior,
       :sharpness,
-      :width)
+      :width,
+      :crop_rectangle,
+      :output_position_rectangle)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -23359,6 +23380,36 @@ module Aws::MediaLive
       :check_digit_string,
       :sid,
       :timezone)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A rectangle defined by position (x, y) and dimensions (width, height)
+    # in pixels. Used for output positioning and input cropping.
+    #
+    # @!attribute [rw] height
+    #   Height in pixels. Must be an even number.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] width
+    #   Width in pixels. Must be an even number.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] x
+    #   Left offset in pixels. Must be an even number.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] y
+    #   Top offset in pixels. Must be an even number.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/VideoPositionRectangle AWS API Documentation
+    #
+    class VideoPositionRectangle < Struct.new(
+      :height,
+      :width,
+      :x,
+      :y)
       SENSITIVE = []
       include Aws::Structure
     end

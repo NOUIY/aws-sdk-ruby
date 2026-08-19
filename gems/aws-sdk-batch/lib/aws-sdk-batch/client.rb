@@ -709,6 +709,11 @@ module Aws::Batch
     # @option params [String] :context
     #   Reserved.
     #
+    # @option params [Types::EcsSettings] :ecs_settings
+    #   The Amazon ECS settings for the compute environment. These settings
+    #   control CloudWatch Container Insights collection for the compute
+    #   environment.
+    #
     # @return [Types::CreateComputeEnvironmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateComputeEnvironmentResponse#compute_environment_name #compute_environment_name} => String
@@ -862,6 +867,9 @@ module Aws::Batch
     #       kubernetes_namespace: "String", # required
     #     },
     #     context: "String",
+    #     ecs_settings: {
+    #       container_insights: "ENABLED", # accepts ENABLED, ENHANCED, DISABLED
+    #     },
     #   })
     #
     # @example Response structure
@@ -1764,6 +1772,7 @@ module Aws::Batch
     #   resp.compute_environments[0].container_orchestration_type #=> String, one of "ECS", "EKS"
     #   resp.compute_environments[0].uuid #=> String
     #   resp.compute_environments[0].context #=> String
+    #   resp.compute_environments[0].ecs_settings.container_insights #=> String, one of "ENABLED", "ENHANCED", "DISABLED"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeComputeEnvironments AWS API Documentation
@@ -6152,6 +6161,11 @@ module Aws::Batch
     # @option params [String] :context
     #   Reserved.
     #
+    # @option params [Types::EcsSettings] :ecs_settings
+    #   The Amazon ECS settings for the compute environment. These settings
+    #   control CloudWatch Container Insights collection for the compute
+    #   environment.
+    #
     # @return [Types::UpdateComputeEnvironmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateComputeEnvironmentResponse#compute_environment_name #compute_environment_name} => String
@@ -6230,6 +6244,9 @@ module Aws::Batch
     #       job_execution_timeout_minutes: 1,
     #     },
     #     context: "String",
+    #     ecs_settings: {
+    #       container_insights: "ENABLED", # accepts ENABLED, ENHANCED, DISABLED
+    #     },
     #   })
     #
     # @example Response structure
@@ -6664,7 +6681,7 @@ module Aws::Batch
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-batch'
-      context[:gem_version] = '1.148.0'
+      context[:gem_version] = '1.149.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

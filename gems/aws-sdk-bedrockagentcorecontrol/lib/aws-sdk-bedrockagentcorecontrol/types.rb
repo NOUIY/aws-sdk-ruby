@@ -742,8 +742,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] rate_limits
-    #   Complete set of rate limits for this gateway. Replaces all existing
-    #   limits atomically.
+    #   The complete set of rate limits for this gateway. This operation
+    #   replaces all existing rate limits in a single request. If the
+    #   operation fails, no rate limits are changed.
     #   @return [Array<Types::BatchPutLimitEntry>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/BatchPutGatewayRateLimitsRequest AWS API Documentation
@@ -768,24 +769,28 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # A limit definition within a BatchPut request (rateLimitId used for
-    # upsert matching)
+    # A rate limit definition within a batch put request. If you provide a
+    # `rateLimitId`, the service uses it for upsert matching against
+    # existing rate limits.
     #
     # @!attribute [rw] rate_limit_id
-    #   Optional — if provided, used for upsert matching against existing
-    #   limits.
+    #   The unique identifier of the rate limit. If provided, the service
+    #   uses it for upsert matching against existing rate limits.
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Optional human-readable description for this limit.
+    #   An optional human-readable description for this rate limit. If not
+    #   provided, the rate limit is created without a description.
     #   @return [String]
     #
     # @!attribute [rw] dimension_keys
-    #   Ordered list of dimension key names defining the scope of a limit
+    #   The ordered list of dimension key names that define the scope of
+    #   this rate limit.
     #   @return [Array<String>]
     #
     # @!attribute [rw] entries
-    #   List of rule entries within a limit
+    #   The list of rule entries that map dimension values to rate
+    #   configurations.
     #   @return [Array<Types::LimitEntry>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/BatchPutLimitEntry AWS API Documentation
@@ -2975,21 +2980,23 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] rate_limit_id
-    #   Optional customer-defined limit ID. If not provided, system
-    #   generates one.
+    #   An optional customer-defined identifier for the rate limit. If not
+    #   provided, the system generates one.
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Optional human-readable description for this limit.
+    #   An optional human-readable description for this rate limit. If not
+    #   provided, the rate limit is created without a description.
     #   @return [String]
     #
     # @!attribute [rw] dimension_keys
-    #   Ordered list of dimension names defining the scope of this limit.
-    #   Unique per gateway — no two limits can share the same dimensionKeys.
+    #   The ordered list of dimension key names that define the scope of
+    #   this rate limit. Must be unique per gateway—no two rate limits can
+    #   share the same dimension keys.
     #   @return [Array<String>]
     #
     # @!attribute [rw] entries
-    #   Rule entries mapping dimension values to rate configurations.
+    #   The rule entries that map dimension values to rate configurations.
     #   @return [Array<Types::LimitEntry>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateGatewayRateLimitRequest AWS API Documentation
@@ -3005,11 +3012,10 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Shared fields for GatewayRateLimit responses
+    # Shared fields for `GatewayRateLimit` responses.
     #
     # @!attribute [rw] rate_limit_id
-    #   Limit identifier. Optional on Create (system-generates if not
-    #   provided by customer). Always present in responses.
+    #   The unique identifier of the created rate limit.
     #   @return [String]
     #
     # @!attribute [rw] gateway_identifier
@@ -3017,19 +3023,21 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Optional human-readable description for this limit.
+    #   The human-readable description of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] dimension_keys
-    #   Ordered list of dimension key names defining the scope of a limit
+    #   The ordered list of dimension key names that define the scope of
+    #   this rate limit.
     #   @return [Array<String>]
     #
     # @!attribute [rw] entries
-    #   List of rule entries within a limit
+    #   The list of rule entries that map dimension values to rate
+    #   configurations.
     #   @return [Array<Types::LimitEntry>]
     #
     # @!attribute [rw] status
-    #   Status of a gateway limit
+    #   The current status of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] created_at
@@ -3785,6 +3793,12 @@ module Aws::BedrockAgentCoreControl
     #   cannot be removed.
     #   @return [Array<Types::IndexedKey>]
     #
+    # @!attribute [rw] namespace_keys
+    #   The namespace variable key definitions with optional validation
+    #   rules. Use these `namespaceKeys` in `namespaceTemplates` to control
+    #   namespace hierarchy.
+    #   @return [Array<Types::NamespaceKeyEntry>]
+    #
     # @!attribute [rw] stream_delivery_resources
     #   Configuration for streaming memory record data to external
     #   resources.
@@ -3807,6 +3821,7 @@ module Aws::BedrockAgentCoreControl
       :event_expiry_duration,
       :memory_strategies,
       :indexed_keys,
+      :namespace_keys,
       :stream_delivery_resources,
       :tags)
       SENSITIVE = [:description]
@@ -5349,10 +5364,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] private_key_jwt_config
-    #   Configuration for private\_key\_jwt client authentication (RFC
-    #   7523). On Create: privateKeySource and signingAlgorithm are required
-    #   (enforced server-side). On Update: all fields are optional — only
-    #   provided fields are updated.
+    #   The private\_key\_jwt client authentication configuration for this
+    #   credential provider. When specified, the credential provider uses
+    #   JWT client assertions to authenticate with the token endpoint.
     #   @return [Types::PrivateKeyJwtConfig]
     #
     # @!attribute [rw] private_endpoint
@@ -5414,10 +5428,8 @@ module Aws::BedrockAgentCoreControl
     #   @return [Array<Types::PrivateEndpointOverride>]
     #
     # @!attribute [rw] private_key_jwt_config
-    #   Configuration for private\_key\_jwt client authentication (RFC
-    #   7523). On Create: privateKeySource and signingAlgorithm are required
-    #   (enforced server-side). On Update: all fields are optional — only
-    #   provided fields are updated.
+    #   The configuration for private\_key\_jwt client authentication used
+    #   by this OAuth2 credential provider.
     #   @return [Types::PrivateKeyJwtConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CustomOauth2ProviderConfigOutput AWS API Documentation
@@ -6146,12 +6158,11 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] rate_limit_id
-    #   Limit identifier. Optional on Create (system-generates if not
-    #   provided by customer). Always present in responses.
+    #   The unique identifier of the deleted rate limit.
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   Status of a gateway limit
+    #   The current status of the rate limit deletion.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteGatewayRateLimitResponse AWS API Documentation
@@ -7925,11 +7936,11 @@ module Aws::BedrockAgentCoreControl
       class Unknown < GatewayProtocolConfiguration; end
     end
 
-    # Shared fields for GatewayRateLimit responses
+    # Contains detailed information about a gateway rate limit, including
+    # its configuration and current status.
     #
     # @!attribute [rw] rate_limit_id
-    #   Limit identifier. Optional on Create (system-generates if not
-    #   provided by customer). Always present in responses.
+    #   The unique identifier of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] gateway_identifier
@@ -7937,19 +7948,21 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Optional human-readable description for this limit.
+    #   The human-readable description of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] dimension_keys
-    #   Ordered list of dimension key names defining the scope of a limit
+    #   The ordered list of dimension key names that define the scope of
+    #   this rate limit.
     #   @return [Array<String>]
     #
     # @!attribute [rw] entries
-    #   List of rule entries within a limit
+    #   The list of rule entries that map dimension values to rate
+    #   configurations.
     #   @return [Array<Types::LimitEntry>]
     #
     # @!attribute [rw] status
-    #   Status of a gateway limit
+    #   The current status of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] created_at
@@ -9184,11 +9197,10 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Shared fields for GatewayRateLimit responses
+    # Shared fields for `GatewayRateLimit` responses.
     #
     # @!attribute [rw] rate_limit_id
-    #   Limit identifier. Optional on Create (system-generates if not
-    #   provided by customer). Always present in responses.
+    #   The unique identifier of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] gateway_identifier
@@ -9196,19 +9208,21 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Optional human-readable description for this limit.
+    #   The human-readable description of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] dimension_keys
-    #   Ordered list of dimension key names defining the scope of a limit
+    #   The ordered list of dimension key names that define the scope of
+    #   this rate limit.
     #   @return [Array<String>]
     #
     # @!attribute [rw] entries
-    #   List of rule entries within a limit
+    #   The list of rule entries that map dimension values to rate
+    #   configurations.
     #   @return [Array<Types::LimitEntry>]
     #
     # @!attribute [rw] status
-    #   Status of a gateway limit
+    #   The current status of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] created_at
@@ -13002,27 +13016,30 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # A single rule entry within a limit, mapping dimension values to rate
-    # configurations
+    # A single rule entry within a rate limit that maps dimension values to
+    # rate configurations. Each entry defines the rate limits for a specific
+    # combination of dimension values.
     #
     # @!attribute [rw] dimensions
-    #   Map of dimension name to dimension value, matching the parent
-    #   limit's dimensionKeys. Keys must exactly match the dimensionKeys.
-    #   Values may be "*" as a wildcard. "*" may only appear at trailing
-    #   positions (based on dimensionKeys ordering).
+    #   A map of dimension names to dimension values for this rule entry.
+    #   Keys must match the parent rate limit's dimension keys. Values may
+    #   use `*` as a wildcard, but only in trailing positions based on the
+    #   dimension keys ordering.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] requests
-    #   Request rate limits (RPS or RPM). Limited to 1 entry for now.
+    #   The request rate limit configuration. Specifies the maximum number
+    #   of requests allowed per time period.
     #   @return [Array<Types::RateConfig>]
     #
     # @!attribute [rw] tokens
-    #   Token rate limits (TPM). Limited to 1 entry for now. — P1
+    #   The token rate limit configuration. Specifies the maximum number of
+    #   tokens allowed per time period.
     #   @return [Array<Types::RateConfig>]
     #
     # @!attribute [rw] connections
-    #   Connection rate limits (per second only). Limited to 1 entry for
-    #   now. — P2
+    #   The connection rate limit configuration. Specifies the maximum
+    #   number of concurrent connections allowed.
     #   @return [Array<Types::RateConfig>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/LimitEntry AWS API Documentation
@@ -15293,6 +15310,12 @@ module Aws::BedrockAgentCoreControl
     #   used in metadata filters.
     #   @return [Array<Types::IndexedKey>]
     #
+    # @!attribute [rw] namespace_keys
+    #   The namespace variable key definitions for this memory. Namespace
+    #   keys define custom variables used in `namespaceTemplates` with
+    #   optional validation rules.
+    #   @return [Array<Types::NamespaceKeyEntry>]
+    #
     # @!attribute [rw] stream_delivery_resources
     #   Configuration for streaming memory record data to external
     #   resources.
@@ -15320,6 +15343,7 @@ module Aws::BedrockAgentCoreControl
       :updated_at,
       :strategies,
       :indexed_keys,
+      :namespace_keys,
       :stream_delivery_resources,
       :managed_by_resource_arn)
       SENSITIVE = [:description]
@@ -15872,6 +15896,48 @@ module Aws::BedrockAgentCoreControl
       :consolidation,
       :reflection,
       :self_managed_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A namespace variable key definition with optional
+    # `NamespaceKeyValidation` rules.
+    #
+    # @!attribute [rw] key
+    #   The namespace variable key name.
+    #   @return [String]
+    #
+    # @!attribute [rw] validation
+    #   The validation rules that constrain values for this namespace
+    #   variable at runtime (`CreateEvent` API).
+    #   @return [Types::NamespaceKeyValidation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/NamespaceKeyEntry AWS API Documentation
+    #
+    class NamespaceKeyEntry < Struct.new(
+      :key,
+      :validation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The validation rules for namespace variable values. When you specify
+    # multiple rules, the service enforces a logical `AND` across all
+    # provided key-value pairs.
+    #
+    # @!attribute [rw] allowed_values
+    #   The allowed values for this namespace variable key.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] regex_pattern
+    #   A regex pattern that the namespace variable key-value must match.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/NamespaceKeyValidation AWS API Documentation
+    #
+    class NamespaceKeyValidation < Struct.new(
+      :allowed_values,
+      :regex_pattern)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17279,10 +17345,8 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Configuration for private\_key\_jwt client authentication (RFC 7523).
-    # On Create: privateKeySource and signingAlgorithm are required
-    # (enforced server-side). On Update: all fields are optional — only
-    # provided fields are updated.
+    # The private key configuration for private\_key\_jwt client
+    # authentication.
     #
     # @!attribute [rw] private_key_source
     #   The private key source for the JWT client assertion.
@@ -17410,7 +17474,8 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Rate configuration for a metric (requests or tokens)
+    # Contains the rate configuration for a rate limit metric, specifying
+    # the allowed rate and time period.
     #
     # @!attribute [rw] rate
     #   The rate value for the limit. For request limits, this is the number
@@ -17420,7 +17485,11 @@ module Aws::BedrockAgentCoreControl
     #   @return [Float]
     #
     # @!attribute [rw] period
-    #   Time period for rate limiting
+    #   The time period for the rate limit. Valid values:
+    #
+    #   * `second`—Measures the rate limit over a one-second window.
+    #
+    #   * `minute`—Measures the rate limit over a one-minute window.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/RateConfig AWS API Documentation
@@ -20623,12 +20692,12 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Optional human-readable description for this limit.
+    #   The updated human-readable description for this rate limit.
     #   @return [String]
     #
     # @!attribute [rw] entries
-    #   Updated rule entries. key and dimensionKeys are immutable and cannot
-    #   be changed.
+    #   The updated rule entries. The dimension keys are immutable after
+    #   creation and cannot be changed.
     #   @return [Array<Types::LimitEntry>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateGatewayRateLimitRequest AWS API Documentation
@@ -20642,11 +20711,10 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # Shared fields for GatewayRateLimit responses
+    # Shared fields for `GatewayRateLimit` responses.
     #
     # @!attribute [rw] rate_limit_id
-    #   Limit identifier. Optional on Create (system-generates if not
-    #   provided by customer). Always present in responses.
+    #   The unique identifier of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] gateway_identifier
@@ -20654,19 +20722,21 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Optional human-readable description for this limit.
+    #   The human-readable description of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] dimension_keys
-    #   Ordered list of dimension key names defining the scope of a limit
+    #   The ordered list of dimension key names that define the scope of
+    #   this rate limit.
     #   @return [Array<String>]
     #
     # @!attribute [rw] entries
-    #   List of rule entries within a limit
+    #   The list of rule entries that map dimension values to rate
+    #   configurations.
     #   @return [Array<Types::LimitEntry>]
     #
     # @!attribute [rw] status
-    #   Status of a gateway limit
+    #   The current status of the rate limit.
     #   @return [String]
     #
     # @!attribute [rw] created_at
@@ -21371,6 +21441,12 @@ module Aws::BedrockAgentCoreControl
     #   removed.
     #   @return [Array<Types::IndexedKey>]
     #
+    # @!attribute [rw] namespace_keys
+    #   The namespace variable key definitions with validation rules for
+    #   this memory. Use this parameter to update existing `namespaceKey`
+    #   validation rules or add new keys when namespace templates change.
+    #   @return [Array<Types::NamespaceKeyEntry>]
+    #
     # @!attribute [rw] stream_delivery_resources
     #   Configuration for streaming memory record data to external
     #   resources.
@@ -21386,6 +21462,7 @@ module Aws::BedrockAgentCoreControl
       :memory_execution_role_arn,
       :memory_strategies,
       :add_indexed_keys,
+      :namespace_keys,
       :stream_delivery_resources)
       SENSITIVE = [:description]
       include Aws::Structure

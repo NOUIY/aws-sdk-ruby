@@ -3559,6 +3559,8 @@ module Aws::MediaLive
       attr_accessor scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "SMART_CROP")
       attr_accessor sharpness: ::Integer
       attr_accessor width: ::Integer
+      attr_accessor crop_rectangle: Types::VideoPositionRectangle
+      attr_accessor output_position_rectangle: Types::VideoPositionRectangle
       SENSITIVE: []
     end
 
@@ -6044,6 +6046,14 @@ module Aws::MediaLive
       attr_accessor check_digit_string: ::String
       attr_accessor sid: ::Float
       attr_accessor timezone: ("AMERICA_PUERTO_RICO" | "US_ALASKA" | "US_ARIZONA" | "US_CENTRAL" | "US_EASTERN" | "US_HAWAII" | "US_MOUNTAIN" | "US_PACIFIC" | "US_SAMOA" | "UTC")
+      SENSITIVE: []
+    end
+
+    class VideoPositionRectangle
+      attr_accessor height: ::Integer
+      attr_accessor width: ::Integer
+      attr_accessor x: ::Integer
+      attr_accessor y: ::Integer
       SENSITIVE: []
     end
   end

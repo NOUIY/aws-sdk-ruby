@@ -51,6 +51,7 @@ module Aws::Batch
     ConsumableResourceSummary = Shapes::StructureShape.new(name: 'ConsumableResourceSummary')
     ConsumableResourceSummaryList = Shapes::ListShape.new(name: 'ConsumableResourceSummaryList')
     ContainerDetail = Shapes::StructureShape.new(name: 'ContainerDetail')
+    ContainerInsights = Shapes::StringShape.new(name: 'ContainerInsights')
     ContainerOverrides = Shapes::StructureShape.new(name: 'ContainerOverrides')
     ContainerProperties = Shapes::StructureShape.new(name: 'ContainerProperties')
     ContainerSummary = Shapes::StructureShape.new(name: 'ContainerSummary')
@@ -112,6 +113,7 @@ module Aws::Batch
     EcsProperties = Shapes::StructureShape.new(name: 'EcsProperties')
     EcsPropertiesDetail = Shapes::StructureShape.new(name: 'EcsPropertiesDetail')
     EcsPropertiesOverride = Shapes::StructureShape.new(name: 'EcsPropertiesOverride')
+    EcsSettings = Shapes::StructureShape.new(name: 'EcsSettings')
     EcsTaskDetails = Shapes::StructureShape.new(name: 'EcsTaskDetails')
     EcsTaskProperties = Shapes::StructureShape.new(name: 'EcsTaskProperties')
     EksAnnotationsMap = Shapes::MapShape.new(name: 'EksAnnotationsMap')
@@ -451,6 +453,7 @@ module Aws::Batch
     ComputeEnvironmentDetail.add_member(:container_orchestration_type, Shapes::ShapeRef.new(shape: OrchestrationType, location_name: "containerOrchestrationType"))
     ComputeEnvironmentDetail.add_member(:uuid, Shapes::ShapeRef.new(shape: String, location_name: "uuid"))
     ComputeEnvironmentDetail.add_member(:context, Shapes::ShapeRef.new(shape: String, location_name: "context"))
+    ComputeEnvironmentDetail.add_member(:ecs_settings, Shapes::ShapeRef.new(shape: EcsSettings, location_name: "ecsSettings"))
     ComputeEnvironmentDetail.struct_class = Types::ComputeEnvironmentDetail
 
     ComputeEnvironmentDetailList.member = Shapes::ShapeRef.new(shape: ComputeEnvironmentDetail)
@@ -601,6 +604,7 @@ module Aws::Batch
     CreateComputeEnvironmentRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagrisTagsMap, location_name: "tags"))
     CreateComputeEnvironmentRequest.add_member(:eks_configuration, Shapes::ShapeRef.new(shape: EksConfiguration, location_name: "eksConfiguration"))
     CreateComputeEnvironmentRequest.add_member(:context, Shapes::ShapeRef.new(shape: String, location_name: "context"))
+    CreateComputeEnvironmentRequest.add_member(:ecs_settings, Shapes::ShapeRef.new(shape: EcsSettings, location_name: "ecsSettings"))
     CreateComputeEnvironmentRequest.struct_class = Types::CreateComputeEnvironmentRequest
 
     CreateComputeEnvironmentResponse.add_member(:compute_environment_name, Shapes::ShapeRef.new(shape: String, location_name: "computeEnvironmentName"))
@@ -843,6 +847,9 @@ module Aws::Batch
 
     EcsPropertiesOverride.add_member(:task_properties, Shapes::ShapeRef.new(shape: ListTaskPropertiesOverride, location_name: "taskProperties"))
     EcsPropertiesOverride.struct_class = Types::EcsPropertiesOverride
+
+    EcsSettings.add_member(:container_insights, Shapes::ShapeRef.new(shape: ContainerInsights, location_name: "containerInsights"))
+    EcsSettings.struct_class = Types::EcsSettings
 
     EcsTaskDetails.add_member(:containers, Shapes::ShapeRef.new(shape: ListTaskContainerDetails, location_name: "containers"))
     EcsTaskDetails.add_member(:container_instance_arn, Shapes::ShapeRef.new(shape: String, location_name: "containerInstanceArn"))
@@ -1817,6 +1824,7 @@ module Aws::Batch
     UpdateComputeEnvironmentRequest.add_member(:service_role, Shapes::ShapeRef.new(shape: String, location_name: "serviceRole"))
     UpdateComputeEnvironmentRequest.add_member(:update_policy, Shapes::ShapeRef.new(shape: UpdatePolicy, location_name: "updatePolicy"))
     UpdateComputeEnvironmentRequest.add_member(:context, Shapes::ShapeRef.new(shape: String, location_name: "context"))
+    UpdateComputeEnvironmentRequest.add_member(:ecs_settings, Shapes::ShapeRef.new(shape: EcsSettings, location_name: "ecsSettings"))
     UpdateComputeEnvironmentRequest.struct_class = Types::UpdateComputeEnvironmentRequest
 
     UpdateComputeEnvironmentResponse.add_member(:compute_environment_name, Shapes::ShapeRef.new(shape: String, location_name: "computeEnvironmentName"))

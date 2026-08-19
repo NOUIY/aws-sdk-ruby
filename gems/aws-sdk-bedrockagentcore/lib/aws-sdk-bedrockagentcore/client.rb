@@ -579,6 +579,7 @@ module Aws::BedrockAgentCore
     #     records: [ # required
     #       {
     #         memory_record_id: "MemoryRecordId", # required
+    #         namespace: "Namespace",
     #       },
     #     ],
     #   })
@@ -634,6 +635,7 @@ module Aws::BedrockAgentCore
     #           text: "MemoryContentTextString",
     #         },
     #         namespaces: ["Namespace"],
+    #         source_namespaces: ["Namespace"],
     #         memory_strategy_id: "MemoryStrategyId",
     #         metadata: {
     #           "MetadataKey" => {
@@ -849,8 +851,8 @@ module Aws::BedrockAgentCore
     #   time is used.
     #
     # @option params [required, Array<Types::PayloadType>] :payload
-    #   The content payload of the event. This can include conversational data
-    #   or binary content.
+    #   The content payload of the event. This can include conversational
+    #   data, JSON data, or binary content.
     #
     # @option params [Types::Branch] :branch
     #   The branch information for this event. Branches allow for organizing
@@ -873,6 +875,11 @@ module Aws::BedrockAgentCore
     #   long-term memory extraction. If not specified, the event is processed
     #   for extraction as usual.
     #
+    # @option params [Types::ExtractionConfig] :extraction_config
+    #   The extraction configuration for long-term memory records. Use this
+    #   parameter to specify namespace variable keys and their values for
+    #   namespace substitution during extraction.
+    #
     # @return [Types::CreateEventOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateEventOutput#event #event} => Types::Event
@@ -894,6 +901,10 @@ module Aws::BedrockAgentCore
     #         },
     #         blob: {
     #         },
+    #         json: {
+    #           content: { # required
+    #           },
+    #         },
     #       },
     #     ],
     #     branch: {
@@ -907,6 +918,11 @@ module Aws::BedrockAgentCore
     #       },
     #     },
     #     extraction_mode: "SKIP", # accepts SKIP
+    #     extraction_config: {
+    #       namespace_variables: {
+    #         "NamespaceVariableName" => "NamespaceVariableValue",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1307,6 +1323,10 @@ module Aws::BedrockAgentCore
     # @option params [required, String] :memory_record_id
     #   The identifier of the memory record to delete.
     #
+    # @option params [String] :namespace
+    #   The namespace of the memory record to delete. This value is used for
+    #   IAM condition key authorization.
+    #
     # @return [Types::DeleteMemoryRecordOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteMemoryRecordOutput#memory_record_id #memory_record_id} => String
@@ -1316,6 +1336,7 @@ module Aws::BedrockAgentCore
     #   resp = client.delete_memory_record({
     #     memory_id: "MemoryId", # required
     #     memory_record_id: "MemoryRecordId", # required
+    #     namespace: "Namespace",
     #   })
     #
     # @example Response structure
@@ -2054,6 +2075,10 @@ module Aws::BedrockAgentCore
     # @option params [required, String] :memory_record_id
     #   The identifier of the memory record to retrieve.
     #
+    # @option params [String] :namespace
+    #   The namespace of the memory record to retrieve. This value is used for
+    #   IAM condition key authorization.
+    #
     # @return [Types::GetMemoryRecordOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetMemoryRecordOutput#memory_record #memory_record} => Types::MemoryRecord
@@ -2063,6 +2088,7 @@ module Aws::BedrockAgentCore
     #   resp = client.get_memory_record({
     #     memory_id: "MemoryId", # required
     #     memory_record_id: "MemoryRecordId", # required
+    #     namespace: "Namespace",
     #   })
     #
     # @example Response structure
@@ -6415,7 +6441,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.48.0'
+      context[:gem_version] = '1.49.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

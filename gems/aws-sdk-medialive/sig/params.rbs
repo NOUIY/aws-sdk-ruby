@@ -1189,7 +1189,19 @@ module Aws
       respond_to_afd: ("NONE" | "PASSTHROUGH" | "RESPOND")?,
       scaling_behavior: ("DEFAULT" | "STRETCH_TO_OUTPUT" | "SMART_CROP")?,
       sharpness: ::Integer?,
-      width: ::Integer?
+      width: ::Integer?,
+      crop_rectangle: {
+        height: ::Integer,
+        width: ::Integer,
+        x: ::Integer,
+        y: ::Integer
+      }?,
+      output_position_rectangle: {
+        height: ::Integer,
+        width: ::Integer,
+        x: ::Integer,
+        y: ::Integer
+      }?
     }
 
       type automatic_input_failover_settings = {

@@ -232,6 +232,7 @@ module Aws::BedrockAgentCore
     ExecutionSummaryClusteringResultContent = Shapes::StructureShape.new(name: 'ExecutionSummaryClusteringResultContent')
     ExternalProxy = Shapes::StructureShape.new(name: 'ExternalProxy')
     ExternalProxyPortInteger = Shapes::IntegerShape.new(name: 'ExternalProxyPortInteger')
+    ExtractionConfig = Shapes::StructureShape.new(name: 'ExtractionConfig')
     ExtractionJob = Shapes::StructureShape.new(name: 'ExtractionJob')
     ExtractionJobFilterInput = Shapes::StructureShape.new(name: 'ExtractionJobFilterInput')
     ExtractionJobMessages = Shapes::UnionShape.new(name: 'ExtractionJobMessages')
@@ -477,6 +478,8 @@ module Aws::BedrockAgentCore
     MemoryContentTextString = Shapes::StringShape.new(name: 'MemoryContentTextString')
     MemoryDocument = Shapes::DocumentShape.new(name: 'MemoryDocument', document: true)
     MemoryId = Shapes::StringShape.new(name: 'MemoryId')
+    MemoryJsonData = Shapes::StructureShape.new(name: 'MemoryJsonData')
+    MemoryJsonDataContent = Shapes::DocumentShape.new(name: 'MemoryJsonDataContent', document: true)
     MemoryMetadataFilterExpression = Shapes::StructureShape.new(name: 'MemoryMetadataFilterExpression')
     MemoryMetadataFilterList = Shapes::ListShape.new(name: 'MemoryMetadataFilterList')
     MemoryRecord = Shapes::StructureShape.new(name: 'MemoryRecord')
@@ -526,6 +529,9 @@ module Aws::BedrockAgentCore
     MppPaymentOutputSelectedPaymentIdString = Shapes::StringShape.new(name: 'MppPaymentOutputSelectedPaymentIdString')
     Name = Shapes::StringShape.new(name: 'Name')
     Namespace = Shapes::StringShape.new(name: 'Namespace')
+    NamespaceVariableName = Shapes::StringShape.new(name: 'NamespaceVariableName')
+    NamespaceVariableValue = Shapes::StringShape.new(name: 'NamespaceVariableValue')
+    NamespaceVariablesMap = Shapes::MapShape.new(name: 'NamespaceVariablesMap')
     NamespacesList = Shapes::ListShape.new(name: 'NamespacesList')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NonBlankString = Shapes::StringShape.new(name: 'NonBlankString')
@@ -1198,6 +1204,7 @@ module Aws::BedrockAgentCore
     CreateEventInput.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     CreateEventInput.add_member(:metadata, Shapes::ShapeRef.new(shape: MetadataMap, location_name: "metadata"))
     CreateEventInput.add_member(:extraction_mode, Shapes::ShapeRef.new(shape: ExtractionMode, location_name: "extractionMode"))
+    CreateEventInput.add_member(:extraction_config, Shapes::ShapeRef.new(shape: ExtractionConfig, location_name: "extractionConfig"))
     CreateEventInput.struct_class = Types::CreateEventInput
 
     CreateEventOutput.add_member(:event, Shapes::ShapeRef.new(shape: Event, required: true, location_name: "event"))
@@ -1285,6 +1292,7 @@ module Aws::BedrockAgentCore
 
     DeleteMemoryRecordInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     DeleteMemoryRecordInput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location: "uri", location_name: "memoryRecordId"))
+    DeleteMemoryRecordInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location: "querystring", location_name: "namespace"))
     DeleteMemoryRecordInput.struct_class = Types::DeleteMemoryRecordInput
 
     DeleteMemoryRecordOutput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location_name: "memoryRecordId"))
@@ -1478,6 +1486,9 @@ module Aws::BedrockAgentCore
     ExternalProxy.add_member(:credentials, Shapes::ShapeRef.new(shape: ProxyCredentials, location_name: "credentials"))
     ExternalProxy.struct_class = Types::ExternalProxy
 
+    ExtractionConfig.add_member(:namespace_variables, Shapes::ShapeRef.new(shape: NamespaceVariablesMap, location_name: "namespaceVariables"))
+    ExtractionConfig.struct_class = Types::ExtractionConfig
+
     ExtractionJob.add_member(:job_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "jobId"))
     ExtractionJob.struct_class = Types::ExtractionJob
 
@@ -1654,6 +1665,7 @@ module Aws::BedrockAgentCore
 
     GetMemoryRecordInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
     GetMemoryRecordInput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location: "uri", location_name: "memoryRecordId"))
+    GetMemoryRecordInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location: "querystring", location_name: "namespace"))
     GetMemoryRecordInput.struct_class = Types::GetMemoryRecordInput
 
     GetMemoryRecordOutput.add_member(:memory_record, Shapes::ShapeRef.new(shape: MemoryRecord, required: true, location_name: "memoryRecord"))
@@ -2434,6 +2446,9 @@ module Aws::BedrockAgentCore
     MemoryContent.add_member_subclass(:unknown, Types::MemoryContent::Unknown)
     MemoryContent.struct_class = Types::MemoryContent
 
+    MemoryJsonData.add_member(:content, Shapes::ShapeRef.new(shape: MemoryJsonDataContent, required: true, location_name: "content"))
+    MemoryJsonData.struct_class = Types::MemoryJsonData
+
     MemoryMetadataFilterExpression.add_member(:left, Shapes::ShapeRef.new(shape: MemoryRecordLeftExpression, required: true, location_name: "left"))
     MemoryMetadataFilterExpression.add_member(:operator, Shapes::ShapeRef.new(shape: MemoryRecordOperatorType, required: true, location_name: "operator"))
     MemoryMetadataFilterExpression.add_member(:right, Shapes::ShapeRef.new(shape: MemoryRecordRightExpression, location_name: "right"))
@@ -2458,6 +2473,7 @@ module Aws::BedrockAgentCore
     MemoryRecordCreateInput.struct_class = Types::MemoryRecordCreateInput
 
     MemoryRecordDeleteInput.add_member(:memory_record_id, Shapes::ShapeRef.new(shape: MemoryRecordId, required: true, location_name: "memoryRecordId"))
+    MemoryRecordDeleteInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location_name: "namespace"))
     MemoryRecordDeleteInput.struct_class = Types::MemoryRecordDeleteInput
 
     MemoryRecordLeftExpression.add_member(:metadata_key, Shapes::ShapeRef.new(shape: MetadataKey, location_name: "metadataKey"))
@@ -2509,6 +2525,7 @@ module Aws::BedrockAgentCore
     MemoryRecordUpdateInput.add_member(:timestamp, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "timestamp"))
     MemoryRecordUpdateInput.add_member(:content, Shapes::ShapeRef.new(shape: MemoryContent, location_name: "content"))
     MemoryRecordUpdateInput.add_member(:namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "namespaces"))
+    MemoryRecordUpdateInput.add_member(:source_namespaces, Shapes::ShapeRef.new(shape: NamespacesList, location_name: "sourceNamespaces"))
     MemoryRecordUpdateInput.add_member(:memory_strategy_id, Shapes::ShapeRef.new(shape: MemoryStrategyId, location_name: "memoryStrategyId"))
     MemoryRecordUpdateInput.add_member(:metadata, Shapes::ShapeRef.new(shape: MemoryRecordMetadataMap, location_name: "metadata"))
     MemoryRecordUpdateInput.struct_class = Types::MemoryRecordUpdateInput
@@ -2585,6 +2602,9 @@ module Aws::BedrockAgentCore
     MppPaymentOutput.add_member(:payment_credential, Shapes::ShapeRef.new(shape: MppPaymentCredential, required: true, location_name: "paymentCredential"))
     MppPaymentOutput.struct_class = Types::MppPaymentOutput
 
+    NamespaceVariablesMap.key = Shapes::ShapeRef.new(shape: NamespaceVariableName)
+    NamespaceVariablesMap.value = Shapes::ShapeRef.new(shape: NamespaceVariableValue)
+
     NamespacesList.member = Shapes::ShapeRef.new(shape: Namespace)
 
     OAuth2Authentication.add_member(:sub, Shapes::ShapeRef.new(shape: OAuth2AuthenticationSubString, required: true, location_name: "sub"))
@@ -2622,9 +2642,11 @@ module Aws::BedrockAgentCore
 
     PayloadType.add_member(:conversational, Shapes::ShapeRef.new(shape: Conversational, location_name: "conversational"))
     PayloadType.add_member(:blob, Shapes::ShapeRef.new(shape: MemoryDocument, location_name: "blob"))
+    PayloadType.add_member(:json, Shapes::ShapeRef.new(shape: MemoryJsonData, location_name: "json"))
     PayloadType.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     PayloadType.add_member_subclass(:conversational, Types::PayloadType::Conversational)
     PayloadType.add_member_subclass(:blob, Types::PayloadType::Blob)
+    PayloadType.add_member_subclass(:json, Types::PayloadType::Json)
     PayloadType.add_member_subclass(:unknown, Types::PayloadType::Unknown)
     PayloadType.struct_class = Types::PayloadType
 

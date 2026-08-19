@@ -1650,7 +1650,7 @@ module Aws::BedrockAgentCore
     #
     # @!attribute [rw] payload
     #   The content payload of the event. This can include conversational
-    #   data or binary content.
+    #   data, JSON data, or binary content.
     #   @return [Array<Types::PayloadType>]
     #
     # @!attribute [rw] branch
@@ -1679,6 +1679,12 @@ module Aws::BedrockAgentCore
     #   processed for extraction as usual.
     #   @return [String]
     #
+    # @!attribute [rw] extraction_config
+    #   The extraction configuration for long-term memory records. Use this
+    #   parameter to specify namespace variable keys and their values for
+    #   namespace substitution during extraction.
+    #   @return [Types::ExtractionConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/CreateEventInput AWS API Documentation
     #
     class CreateEventInput < Struct.new(
@@ -1690,7 +1696,8 @@ module Aws::BedrockAgentCore
       :branch,
       :client_token,
       :metadata,
-      :extraction_mode)
+      :extraction_mode,
+      :extraction_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2084,11 +2091,17 @@ module Aws::BedrockAgentCore
     #   The identifier of the memory record to delete.
     #   @return [String]
     #
+    # @!attribute [rw] namespace
+    #   The namespace of the memory record to delete. This value is used for
+    #   IAM condition key authorization.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/DeleteMemoryRecordInput AWS API Documentation
     #
     class DeleteMemoryRecordInput < Struct.new(
       :memory_id,
-      :memory_record_id)
+      :memory_record_id,
+      :namespace)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2957,6 +2970,24 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The configuration for extraction behavior. Use this structure to
+    # specify namespace variable keys and their values for namespace
+    # substitution during long-term memory extraction.
+    #
+    # @!attribute [rw] namespace_variables
+    #   A map of `namespaceKeys` to their values. The service substitutes
+    #   these values into `namespaceTemplates` during long-term memory
+    #   extraction to control namespace hierarchy.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ExtractionConfig AWS API Documentation
+    #
+    class ExtractionConfig < Struct.new(
+      :namespace_variables)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Represents the metadata of a memory extraction job such as the message
     # identifiers that compose this job.
     #
@@ -3760,11 +3791,17 @@ module Aws::BedrockAgentCore
     #   The identifier of the memory record to retrieve.
     #   @return [String]
     #
+    # @!attribute [rw] namespace
+    #   The namespace of the memory record to retrieve. This value is used
+    #   for IAM condition key authorization.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/GetMemoryRecordInput AWS API Documentation
     #
     class GetMemoryRecordInput < Struct.new(
       :memory_id,
-      :memory_record_id)
+      :memory_record_id,
+      :namespace)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7109,6 +7146,23 @@ module Aws::BedrockAgentCore
       class Unknown < MemoryContent; end
     end
 
+    # Contains non-conversational, JSON-formatted content for an event
+    # payload. JSON payloads are extracted into long-term memory.
+    #
+    # @!attribute [rw] content
+    #   The JSON content of the payload. Accepts any JSON value, including
+    #   objects, arrays, strings, numbers, booleans, and null. The maximum
+    #   size is 100 KB.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryJsonData AWS API Documentation
+    #
+    class MemoryJsonData < Struct.new(
+      :content)
+      SENSITIVE = [:content]
+      include Aws::Structure
+    end
+
     # Filters to apply to metadata associated with a memory. Specify the
     # metadata key and value in the `left` and `right` fields and use the
     # `operator` field to define the relationship to match.
@@ -7226,10 +7280,16 @@ module Aws::BedrockAgentCore
     #   The unique ID of the memory record to be deleted.
     #   @return [String]
     #
+    # @!attribute [rw] namespace
+    #   The namespace of the memory record being deleted. This value is used
+    #   for IAM condition key authorization.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/MemoryRecordDeleteInput AWS API Documentation
     #
     class MemoryRecordDeleteInput < Struct.new(
-      :memory_record_id)
+      :memory_record_id,
+      :namespace)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7419,6 +7479,11 @@ module Aws::BedrockAgentCore
     #   memory record.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] source_namespaces
+    #   The namespaces of the source memory record being updated. This value
+    #   is used for IAM condition key authorization.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] memory_strategy_id
     #   The updated ID of the memory strategy that defines how this memory
     #   record is grouped.
@@ -7435,6 +7500,7 @@ module Aws::BedrockAgentCore
       :timestamp,
       :content,
       :namespaces,
+      :source_namespaces,
       :memory_strategy_id,
       :metadata)
       SENSITIVE = []
@@ -7894,18 +7960,26 @@ module Aws::BedrockAgentCore
     #   The binary content of the payload.
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
+    # @!attribute [rw] json
+    #   The JSON content of the payload. Use this type to store
+    #   non-conversational, JSON-formatted data, such as behavioral events,
+    #   activity logs, or system events.
+    #   @return [Types::MemoryJsonData]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/PayloadType AWS API Documentation
     #
     class PayloadType < Struct.new(
       :conversational,
       :blob,
+      :json,
       :unknown)
-      SENSITIVE = [:blob]
+      SENSITIVE = [:blob, :json]
       include Aws::Structure
       include Aws::Structure::Union
 
       class Conversational < PayloadType; end
       class Blob < PayloadType; end
+      class Json < PayloadType; end
       class Unknown < PayloadType; end
     end
 

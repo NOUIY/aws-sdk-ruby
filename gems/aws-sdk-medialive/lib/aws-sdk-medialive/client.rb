@@ -1899,6 +1899,14 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.channel.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.channel.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.channel.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.channel.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -3487,6 +3495,14 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -4798,6 +4814,14 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -7402,6 +7426,14 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -8520,6 +8552,14 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -9683,6 +9723,14 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.channel.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.channel.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.channel.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.channel.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -10725,6 +10773,14 @@ module Aws::MediaLive
     #   resp.channel.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.channel.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.channel.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.channel.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.channel.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.channel.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.channel.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -12375,6 +12431,14 @@ module Aws::MediaLive
     #   resp.encoder_settings.video_descriptions[0].scaling_behavior #=> String, one of "DEFAULT", "STRETCH_TO_OUTPUT", "SMART_CROP"
     #   resp.encoder_settings.video_descriptions[0].sharpness #=> Integer
     #   resp.encoder_settings.video_descriptions[0].width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].crop_rectangle.y #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.height #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.width #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.x #=> Integer
+    #   resp.encoder_settings.video_descriptions[0].output_position_rectangle.y #=> Integer
     #   resp.encoder_settings.thumbnail_configuration.state #=> String, one of "AUTO", "DISABLED"
     #   resp.encoder_settings.color_correction_settings.global_color_corrections #=> Array
     #   resp.encoder_settings.color_correction_settings.global_color_corrections[0].input_color_space #=> String, one of "HDR10", "HLG_2020", "REC_601", "REC_709"
@@ -15865,7 +15929,7 @@ module Aws::MediaLive
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-medialive'
-      context[:gem_version] = '1.193.0'
+      context[:gem_version] = '1.194.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.66.0 (2026-08-19)
+------------------
+
+* Feature - AgentCore Memory now supports Flexible Namespaces
+
 1.65.0 (2026-08-17)
 ------------------
 

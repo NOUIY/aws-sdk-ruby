@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.149.0 (2026-08-19)
+------------------
+
+* Feature - AWS Batch now supports managing CloudWatch Container Insights on compute environments via CreateComputeEnvironment and UpdateComputeEnvironment.
+
 1.148.0 (2026-08-18)
 ------------------
 

@@ -455,6 +455,11 @@ module Aws::Batch
     #   Reserved.
     #   @return [String]
     #
+    # @!attribute [rw] ecs_settings
+    #   The Amazon ECS settings for the compute environment. These settings
+    #   control CloudWatch Container Insights collection.
+    #   @return [Types::EcsSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ComputeEnvironmentDetail AWS API Documentation
     #
     class ComputeEnvironmentDetail < Struct.new(
@@ -473,7 +478,8 @@ module Aws::Batch
       :eks_configuration,
       :container_orchestration_type,
       :uuid,
-      :context)
+      :context,
+      :ecs_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2604,6 +2610,12 @@ module Aws::Batch
     #   Reserved.
     #   @return [String]
     #
+    # @!attribute [rw] ecs_settings
+    #   The Amazon ECS settings for the compute environment. These settings
+    #   control CloudWatch Container Insights collection for the compute
+    #   environment.
+    #   @return [Types::EcsSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateComputeEnvironmentRequest AWS API Documentation
     #
     class CreateComputeEnvironmentRequest < Struct.new(
@@ -2615,7 +2627,8 @@ module Aws::Batch
       :service_role,
       :tags,
       :eks_configuration,
-      :context)
+      :context,
+      :ecs_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4167,6 +4180,44 @@ module Aws::Batch
     #
     class EcsPropertiesOverride < Struct.new(
       :task_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon ECS settings for a compute environment, including the
+    # CloudWatch Container Insights mode. Use this structure with
+    # `CreateComputeEnvironment` and `UpdateComputeEnvironment`.
+    #
+    # @!attribute [rw] container_insights
+    #   Specifies the CloudWatch Container Insights mode for the compute
+    #   environment. Valid values are:
+    #
+    #   ENABLED
+    #
+    #   : Turns on standard Container Insights, which collects CPU, memory,
+    #     disk, and network utilization metrics for the compute environment.
+    #
+    #   ENHANCED
+    #
+    #   : Turns on enhanced Container Insights, which collects the standard
+    #     metrics along with additional per-task observability metrics.
+    #
+    #   DISABLED
+    #
+    #   : Turns off Container Insights for the compute environment.
+    #
+    #   If you don't specify a value, the default is `DISABLED`. For more
+    #   information, see [Container Insights][1] in the *Batch User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/cloudwatch-container-insights.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EcsSettings AWS API Documentation
+    #
+    class EcsSettings < Struct.new(
+      :container_insights)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11164,6 +11215,12 @@ module Aws::Batch
     #   Reserved.
     #   @return [String]
     #
+    # @!attribute [rw] ecs_settings
+    #   The Amazon ECS settings for the compute environment. These settings
+    #   control CloudWatch Container Insights collection for the compute
+    #   environment.
+    #   @return [Types::EcsSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateComputeEnvironmentRequest AWS API Documentation
     #
     class UpdateComputeEnvironmentRequest < Struct.new(
@@ -11173,7 +11230,8 @@ module Aws::Batch
       :compute_resources,
       :service_role,
       :update_policy,
-      :context)
+      :context,
+      :ecs_settings)
       SENSITIVE = []
       include Aws::Structure
     end

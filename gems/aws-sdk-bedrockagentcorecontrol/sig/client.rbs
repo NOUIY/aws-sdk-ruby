@@ -696,6 +696,15 @@ module Aws
                                type: ("STRING" | "STRINGLIST" | "NUMBER")
                              }
                            ],
+                           ?namespace_keys: Array[
+                             {
+                               key: ::String,
+                               validation: {
+                                 allowed_values: Array[::String]?,
+                                 regex_pattern: ::String?
+                               }?
+                             }
+                           ],
                            ?stream_delivery_resources: Params::stream_delivery_resources,
                            ?tags: Hash[::String, ::String]
                          ) -> _CreateMemoryResponseSuccess
@@ -3056,6 +3065,15 @@ module Aws
                              {
                                key: ::String,
                                type: ("STRING" | "STRINGLIST" | "NUMBER")
+                             }
+                           ],
+                           ?namespace_keys: Array[
+                             {
+                               key: ::String,
+                               validation: {
+                                 allowed_values: Array[::String]?,
+                                 regex_pattern: ::String?
+                               }?
                              }
                            ],
                            ?stream_delivery_resources: Params::stream_delivery_resources

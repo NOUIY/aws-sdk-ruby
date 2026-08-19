@@ -569,8 +569,9 @@ module Aws::BedrockAgentCoreControl
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
     #
     # @option params [required, Array<Types::BatchPutLimitEntry>] :rate_limits
-    #   Complete set of rate limits for this gateway. Replaces all existing
-    #   limits atomically.
+    #   The complete set of rate limits for this gateway. This operation
+    #   replaces all existing rate limits in a single request. If the
+    #   operation fails, no rate limits are changed.
     #
     # @return [Types::BatchPutGatewayRateLimitsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2213,18 +2214,20 @@ module Aws::BedrockAgentCoreControl
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html
     #
     # @option params [String] :rate_limit_id
-    #   Optional customer-defined limit ID. If not provided, system generates
-    #   one.
+    #   An optional customer-defined identifier for the rate limit. If not
+    #   provided, the system generates one.
     #
     # @option params [String] :description
-    #   Optional human-readable description for this limit.
+    #   An optional human-readable description for this rate limit. If not
+    #   provided, the rate limit is created without a description.
     #
     # @option params [required, Array<String>] :dimension_keys
-    #   Ordered list of dimension names defining the scope of this limit.
-    #   Unique per gateway — no two limits can share the same dimensionKeys.
+    #   The ordered list of dimension key names that define the scope of this
+    #   rate limit. Must be unique per gateway—no two rate limits can share
+    #   the same dimension keys.
     #
     # @option params [required, Array<Types::LimitEntry>] :entries
-    #   Rule entries mapping dimension values to rate configurations.
+    #   The rule entries that map dimension values to rate configurations.
     #
     # @return [Types::CreateGatewayRateLimitResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3512,6 +3515,11 @@ module Aws::BedrockAgentCoreControl
     #   Metadata keys to index for filtering. Once declared, indexed keys
     #   cannot be removed.
     #
+    # @option params [Array<Types::NamespaceKeyEntry>] :namespace_keys
+    #   The namespace variable key definitions with optional validation rules.
+    #   Use these `namespaceKeys` in `namespaceTemplates` to control namespace
+    #   hierarchy.
+    #
     # @option params [Types::StreamDeliveryResources] :stream_delivery_resources
     #   Configuration for streaming memory record data to external resources.
     #
@@ -3837,6 +3845,15 @@ module Aws::BedrockAgentCoreControl
     #         type: "STRING", # required, accepts STRING, STRINGLIST, NUMBER
     #       },
     #     ],
+    #     namespace_keys: [
+    #       {
+    #         key: "NamespaceVariableKey", # required
+    #         validation: {
+    #           allowed_values: ["NamespaceAllowedValue"],
+    #           regex_pattern: "NamespaceRegexPattern",
+    #         },
+    #       },
+    #     ],
     #     stream_delivery_resources: {
     #       resources: [ # required
     #         {
@@ -3956,6 +3973,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.indexed_keys #=> Array
     #   resp.memory.indexed_keys[0].key #=> String
     #   resp.memory.indexed_keys[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.namespace_keys #=> Array
+    #   resp.memory.namespace_keys[0].key #=> String
+    #   resp.memory.namespace_keys[0].validation.allowed_values #=> Array
+    #   resp.memory.namespace_keys[0].validation.allowed_values[0] #=> String
+    #   resp.memory.namespace_keys[0].validation.regex_pattern #=> String
     #   resp.memory.stream_delivery_resources.resources #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
@@ -8249,6 +8271,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.indexed_keys #=> Array
     #   resp.memory.indexed_keys[0].key #=> String
     #   resp.memory.indexed_keys[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.namespace_keys #=> Array
+    #   resp.memory.namespace_keys[0].key #=> String
+    #   resp.memory.namespace_keys[0].validation.allowed_values #=> Array
+    #   resp.memory.namespace_keys[0].validation.allowed_values[0] #=> String
+    #   resp.memory.namespace_keys[0].validation.regex_pattern #=> String
     #   resp.memory.stream_delivery_resources.resources #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
@@ -12946,11 +12973,11 @@ module Aws::BedrockAgentCoreControl
     #   The unique identifier of the rate limit to update.
     #
     # @option params [String] :description
-    #   Optional human-readable description for this limit.
+    #   The updated human-readable description for this rate limit.
     #
     # @option params [required, Array<Types::LimitEntry>] :entries
-    #   Updated rule entries. key and dimensionKeys are immutable and cannot
-    #   be changed.
+    #   The updated rule entries. The dimension keys are immutable after
+    #   creation and cannot be changed.
     #
     # @return [Types::UpdateGatewayRateLimitResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -14207,6 +14234,11 @@ module Aws::BedrockAgentCoreControl
     #   Additional metadata keys to index. Previously indexed keys cannot be
     #   removed.
     #
+    # @option params [Array<Types::NamespaceKeyEntry>] :namespace_keys
+    #   The namespace variable key definitions with validation rules for this
+    #   memory. Use this parameter to update existing `namespaceKey`
+    #   validation rules or add new keys when namespace templates change.
+    #
     # @option params [Types::StreamDeliveryResources] :stream_delivery_resources
     #   Configuration for streaming memory record data to external resources.
     #
@@ -14697,6 +14729,15 @@ module Aws::BedrockAgentCoreControl
     #         type: "STRING", # required, accepts STRING, STRINGLIST, NUMBER
     #       },
     #     ],
+    #     namespace_keys: [
+    #       {
+    #         key: "NamespaceVariableKey", # required
+    #         validation: {
+    #           allowed_values: ["NamespaceAllowedValue"],
+    #           regex_pattern: "NamespaceRegexPattern",
+    #         },
+    #       },
+    #     ],
     #     stream_delivery_resources: {
     #       resources: [ # required
     #         {
@@ -14813,6 +14854,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.memory.indexed_keys #=> Array
     #   resp.memory.indexed_keys[0].key #=> String
     #   resp.memory.indexed_keys[0].type #=> String, one of "STRING", "STRINGLIST", "NUMBER"
+    #   resp.memory.namespace_keys #=> Array
+    #   resp.memory.namespace_keys[0].key #=> String
+    #   resp.memory.namespace_keys[0].validation.allowed_values #=> Array
+    #   resp.memory.namespace_keys[0].validation.allowed_values[0] #=> String
+    #   resp.memory.namespace_keys[0].validation.regex_pattern #=> String
     #   resp.memory.stream_delivery_resources.resources #=> Array
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.data_stream_arn #=> String
     #   resp.memory.stream_delivery_resources.resources[0].kinesis.content_configurations #=> Array
@@ -16283,7 +16329,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.65.0'
+      context[:gem_version] = '1.66.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.49.0 (2026-08-19)
+------------------
+
+* Feature - AgentCore Memory now supports Flexible Namespaces and Non-Conversational Payloads in CreateEvent API
+
 1.48.0 (2026-08-14)
 ------------------
 

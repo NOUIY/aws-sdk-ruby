@@ -22,6 +22,9 @@ module Aws::EKS
     AccessPolicy = Shapes::StructureShape.new(name: 'AccessPolicy')
     AccessScope = Shapes::StructureShape.new(name: 'AccessScope')
     AccessScopeType = Shapes::StringShape.new(name: 'AccessScopeType')
+    ActivateCertificateAuthorityRequest = Shapes::StructureShape.new(name: 'ActivateCertificateAuthorityRequest')
+    ActivateCertificateAuthorityResponse = Shapes::StructureShape.new(name: 'ActivateCertificateAuthorityResponse')
+    ActiveCertificateAuthority = Shapes::StructureShape.new(name: 'ActiveCertificateAuthority')
     AdditionalInfoMap = Shapes::MapShape.new(name: 'AdditionalInfoMap')
     Addon = Shapes::StructureShape.new(name: 'Addon')
     AddonCompatibilityDetail = Shapes::StructureShape.new(name: 'AddonCompatibilityDetail')
@@ -89,6 +92,16 @@ module Aws::EKS
     Category = Shapes::StringShape.new(name: 'Category')
     CategoryList = Shapes::ListShape.new(name: 'CategoryList')
     Certificate = Shapes::StructureShape.new(name: 'Certificate')
+    CertificateAuthority = Shapes::StructureShape.new(name: 'CertificateAuthority')
+    CertificateAuthorityActivatedBy = Shapes::StringShape.new(name: 'CertificateAuthorityActivatedBy')
+    CertificateAuthorityCreatedBy = Shapes::StringShape.new(name: 'CertificateAuthorityCreatedBy')
+    CertificateAuthorityDistributionStatus = Shapes::StringShape.new(name: 'CertificateAuthorityDistributionStatus')
+    CertificateAuthorityMaxResults = Shapes::IntegerShape.new(name: 'CertificateAuthorityMaxResults')
+    CertificateAuthorityScheduledEvents = Shapes::StructureShape.new(name: 'CertificateAuthorityScheduledEvents')
+    CertificateAuthoritySigningStatus = Shapes::StringShape.new(name: 'CertificateAuthoritySigningStatus')
+    CertificateAuthoritySummary = Shapes::StructureShape.new(name: 'CertificateAuthoritySummary')
+    CertificateAuthoritySummaryList = Shapes::ListShape.new(name: 'CertificateAuthoritySummaryList')
+    CertificateAuthorityValidity = Shapes::StructureShape.new(name: 'CertificateAuthorityValidity')
     ClientException = Shapes::StructureShape.new(name: 'ClientException')
     ClientStat = Shapes::StructureShape.new(name: 'ClientStat')
     ClientStats = Shapes::ListShape.new(name: 'ClientStats')
@@ -123,6 +136,8 @@ module Aws::EKS
     CreateAddonResponse = Shapes::StructureShape.new(name: 'CreateAddonResponse')
     CreateCapabilityRequest = Shapes::StructureShape.new(name: 'CreateCapabilityRequest')
     CreateCapabilityResponse = Shapes::StructureShape.new(name: 'CreateCapabilityResponse')
+    CreateCertificateAuthorityRequest = Shapes::StructureShape.new(name: 'CreateCertificateAuthorityRequest')
+    CreateCertificateAuthorityResponse = Shapes::StructureShape.new(name: 'CreateCertificateAuthorityResponse')
     CreateClusterRequest = Shapes::StructureShape.new(name: 'CreateClusterRequest')
     CreateClusterResponse = Shapes::StructureShape.new(name: 'CreateClusterResponse')
     CreateEksAnywhereSubscriptionRequest = Shapes::StructureShape.new(name: 'CreateEksAnywhereSubscriptionRequest')
@@ -139,6 +154,8 @@ module Aws::EKS
     DeleteAddonResponse = Shapes::StructureShape.new(name: 'DeleteAddonResponse')
     DeleteCapabilityRequest = Shapes::StructureShape.new(name: 'DeleteCapabilityRequest')
     DeleteCapabilityResponse = Shapes::StructureShape.new(name: 'DeleteCapabilityResponse')
+    DeleteCertificateAuthorityRequest = Shapes::StructureShape.new(name: 'DeleteCertificateAuthorityRequest')
+    DeleteCertificateAuthorityResponse = Shapes::StructureShape.new(name: 'DeleteCertificateAuthorityResponse')
     DeleteClusterRequest = Shapes::StructureShape.new(name: 'DeleteClusterRequest')
     DeleteClusterResponse = Shapes::StructureShape.new(name: 'DeleteClusterResponse')
     DeleteEksAnywhereSubscriptionRequest = Shapes::StructureShape.new(name: 'DeleteEksAnywhereSubscriptionRequest')
@@ -164,6 +181,8 @@ module Aws::EKS
     DescribeAddonVersionsResponse = Shapes::StructureShape.new(name: 'DescribeAddonVersionsResponse')
     DescribeCapabilityRequest = Shapes::StructureShape.new(name: 'DescribeCapabilityRequest')
     DescribeCapabilityResponse = Shapes::StructureShape.new(name: 'DescribeCapabilityResponse')
+    DescribeCertificateAuthorityRequest = Shapes::StructureShape.new(name: 'DescribeCertificateAuthorityRequest')
+    DescribeCertificateAuthorityResponse = Shapes::StructureShape.new(name: 'DescribeCertificateAuthorityResponse')
     DescribeClusterRequest = Shapes::StructureShape.new(name: 'DescribeClusterRequest')
     DescribeClusterResponse = Shapes::StructureShape.new(name: 'DescribeClusterResponse')
     DescribeClusterVersionMaxResults = Shapes::IntegerShape.new(name: 'DescribeClusterVersionMaxResults')
@@ -273,6 +292,8 @@ module Aws::EKS
     ListCapabilitiesRequest = Shapes::StructureShape.new(name: 'ListCapabilitiesRequest')
     ListCapabilitiesRequestMaxResults = Shapes::IntegerShape.new(name: 'ListCapabilitiesRequestMaxResults')
     ListCapabilitiesResponse = Shapes::StructureShape.new(name: 'ListCapabilitiesResponse')
+    ListCertificateAuthoritiesRequest = Shapes::StructureShape.new(name: 'ListCertificateAuthoritiesRequest')
+    ListCertificateAuthoritiesResponse = Shapes::StructureShape.new(name: 'ListCertificateAuthoritiesResponse')
     ListClustersRequest = Shapes::StructureShape.new(name: 'ListClustersRequest')
     ListClustersRequestMaxResults = Shapes::IntegerShape.new(name: 'ListClustersRequestMaxResults')
     ListClustersResponse = Shapes::StructureShape.new(name: 'ListClustersResponse')
@@ -465,6 +486,19 @@ module Aws::EKS
     AccessScope.add_member(:type, Shapes::ShapeRef.new(shape: AccessScopeType, location_name: "type"))
     AccessScope.add_member(:namespaces, Shapes::ShapeRef.new(shape: StringList, location_name: "namespaces"))
     AccessScope.struct_class = Types::AccessScope
+
+    ActivateCertificateAuthorityRequest.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "name"))
+    ActivateCertificateAuthorityRequest.add_member(:certificate_authority_id, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "certificateAuthorityId"))
+    ActivateCertificateAuthorityRequest.add_member(:client_request_token, Shapes::ShapeRef.new(shape: String, location_name: "clientRequestToken", metadata: {"idempotencyToken" => true}))
+    ActivateCertificateAuthorityRequest.struct_class = Types::ActivateCertificateAuthorityRequest
+
+    ActivateCertificateAuthorityResponse.add_member(:update, Shapes::ShapeRef.new(shape: Update, location_name: "update"))
+    ActivateCertificateAuthorityResponse.add_member(:certificate_authority, Shapes::ShapeRef.new(shape: CertificateAuthoritySummary, location_name: "certificateAuthority"))
+    ActivateCertificateAuthorityResponse.struct_class = Types::ActivateCertificateAuthorityResponse
+
+    ActiveCertificateAuthority.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "id"))
+    ActiveCertificateAuthority.add_member(:activated_by, Shapes::ShapeRef.new(shape: CertificateAuthorityActivatedBy, location_name: "activatedBy"))
+    ActiveCertificateAuthority.struct_class = Types::ActiveCertificateAuthority
 
     AdditionalInfoMap.key = Shapes::ShapeRef.new(shape: String)
     AdditionalInfoMap.value = Shapes::ShapeRef.new(shape: String)
@@ -685,7 +719,40 @@ module Aws::EKS
     CategoryList.member = Shapes::ShapeRef.new(shape: Category)
 
     Certificate.add_member(:data, Shapes::ShapeRef.new(shape: String, location_name: "data"))
+    Certificate.add_member(:active, Shapes::ShapeRef.new(shape: ActiveCertificateAuthority, location_name: "active"))
     Certificate.struct_class = Types::Certificate
+
+    CertificateAuthority.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "id"))
+    CertificateAuthority.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
+    CertificateAuthority.add_member(:created_by, Shapes::ShapeRef.new(shape: CertificateAuthorityCreatedBy, location_name: "createdBy"))
+    CertificateAuthority.add_member(:activated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "activatedAt"))
+    CertificateAuthority.add_member(:activated_by, Shapes::ShapeRef.new(shape: CertificateAuthorityActivatedBy, location_name: "activatedBy"))
+    CertificateAuthority.add_member(:signing_status, Shapes::ShapeRef.new(shape: CertificateAuthoritySigningStatus, location_name: "signingStatus"))
+    CertificateAuthority.add_member(:distribution_status, Shapes::ShapeRef.new(shape: CertificateAuthorityDistributionStatus, location_name: "distributionStatus"))
+    CertificateAuthority.add_member(:validity, Shapes::ShapeRef.new(shape: CertificateAuthorityValidity, location_name: "validity"))
+    CertificateAuthority.add_member(:scheduled_events, Shapes::ShapeRef.new(shape: CertificateAuthorityScheduledEvents, location_name: "scheduledEvents"))
+    CertificateAuthority.add_member(:rollback_available, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "rollbackAvailable"))
+    CertificateAuthority.add_member(:data, Shapes::ShapeRef.new(shape: String, location_name: "data"))
+    CertificateAuthority.struct_class = Types::CertificateAuthority
+
+    CertificateAuthorityScheduledEvents.add_member(:first_auto_activation, Shapes::ShapeRef.new(shape: Timestamp, location_name: "firstAutoActivation"))
+    CertificateAuthorityScheduledEvents.add_member(:final_auto_activation, Shapes::ShapeRef.new(shape: Timestamp, location_name: "finalAutoActivation"))
+    CertificateAuthorityScheduledEvents.struct_class = Types::CertificateAuthorityScheduledEvents
+
+    CertificateAuthoritySummary.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "id"))
+    CertificateAuthoritySummary.add_member(:created_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "createdAt"))
+    CertificateAuthoritySummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CertificateAuthorityCreatedBy, location_name: "createdBy"))
+    CertificateAuthoritySummary.add_member(:activated_at, Shapes::ShapeRef.new(shape: Timestamp, location_name: "activatedAt"))
+    CertificateAuthoritySummary.add_member(:activated_by, Shapes::ShapeRef.new(shape: CertificateAuthorityActivatedBy, location_name: "activatedBy"))
+    CertificateAuthoritySummary.add_member(:signing_status, Shapes::ShapeRef.new(shape: CertificateAuthoritySigningStatus, location_name: "signingStatus"))
+    CertificateAuthoritySummary.add_member(:distribution_status, Shapes::ShapeRef.new(shape: CertificateAuthorityDistributionStatus, location_name: "distributionStatus"))
+    CertificateAuthoritySummary.struct_class = Types::CertificateAuthoritySummary
+
+    CertificateAuthoritySummaryList.member = Shapes::ShapeRef.new(shape: CertificateAuthoritySummary)
+
+    CertificateAuthorityValidity.add_member(:not_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "notBefore"))
+    CertificateAuthorityValidity.add_member(:not_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "notAfter"))
+    CertificateAuthorityValidity.struct_class = Types::CertificateAuthorityValidity
 
     ClientException.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, location_name: "clusterName"))
     ClientException.add_member(:nodegroup_name, Shapes::ShapeRef.new(shape: String, location_name: "nodegroupName"))
@@ -857,6 +924,14 @@ module Aws::EKS
     CreateCapabilityResponse.add_member(:capability, Shapes::ShapeRef.new(shape: Capability, location_name: "capability"))
     CreateCapabilityResponse.struct_class = Types::CreateCapabilityResponse
 
+    CreateCertificateAuthorityRequest.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "name"))
+    CreateCertificateAuthorityRequest.add_member(:client_request_token, Shapes::ShapeRef.new(shape: String, location_name: "clientRequestToken", metadata: {"idempotencyToken" => true}))
+    CreateCertificateAuthorityRequest.struct_class = Types::CreateCertificateAuthorityRequest
+
+    CreateCertificateAuthorityResponse.add_member(:update, Shapes::ShapeRef.new(shape: Update, location_name: "update"))
+    CreateCertificateAuthorityResponse.add_member(:certificate_authority, Shapes::ShapeRef.new(shape: CertificateAuthoritySummary, location_name: "certificateAuthority"))
+    CreateCertificateAuthorityResponse.struct_class = Types::CreateCertificateAuthorityResponse
+
     CreateClusterRequest.add_member(:name, Shapes::ShapeRef.new(shape: ClusterName, required: true, location_name: "name"))
     CreateClusterRequest.add_member(:version, Shapes::ShapeRef.new(shape: String, location_name: "version"))
     CreateClusterRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: String, required: true, location_name: "roleArn"))
@@ -968,6 +1043,15 @@ module Aws::EKS
     DeleteCapabilityResponse.add_member(:capability, Shapes::ShapeRef.new(shape: Capability, location_name: "capability"))
     DeleteCapabilityResponse.struct_class = Types::DeleteCapabilityResponse
 
+    DeleteCertificateAuthorityRequest.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "name"))
+    DeleteCertificateAuthorityRequest.add_member(:certificate_authority_id, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "certificateAuthorityId"))
+    DeleteCertificateAuthorityRequest.add_member(:client_request_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "clientRequestToken", metadata: {"idempotencyToken" => true}))
+    DeleteCertificateAuthorityRequest.struct_class = Types::DeleteCertificateAuthorityRequest
+
+    DeleteCertificateAuthorityResponse.add_member(:update, Shapes::ShapeRef.new(shape: Update, location_name: "update"))
+    DeleteCertificateAuthorityResponse.add_member(:certificate_authority, Shapes::ShapeRef.new(shape: CertificateAuthoritySummary, location_name: "certificateAuthority"))
+    DeleteCertificateAuthorityResponse.struct_class = Types::DeleteCertificateAuthorityResponse
+
     DeleteClusterRequest.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "name"))
     DeleteClusterRequest.struct_class = Types::DeleteClusterRequest
 
@@ -1059,6 +1143,13 @@ module Aws::EKS
 
     DescribeCapabilityResponse.add_member(:capability, Shapes::ShapeRef.new(shape: Capability, location_name: "capability"))
     DescribeCapabilityResponse.struct_class = Types::DescribeCapabilityResponse
+
+    DescribeCertificateAuthorityRequest.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "name"))
+    DescribeCertificateAuthorityRequest.add_member(:certificate_authority_id, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "certificateAuthorityId"))
+    DescribeCertificateAuthorityRequest.struct_class = Types::DescribeCertificateAuthorityRequest
+
+    DescribeCertificateAuthorityResponse.add_member(:certificate_authority, Shapes::ShapeRef.new(shape: CertificateAuthority, location_name: "certificateAuthority"))
+    DescribeCertificateAuthorityResponse.struct_class = Types::DescribeCertificateAuthorityResponse
 
     DescribeClusterRequest.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "name"))
     DescribeClusterRequest.struct_class = Types::DescribeClusterRequest
@@ -1439,6 +1530,15 @@ module Aws::EKS
     ListCapabilitiesResponse.add_member(:capabilities, Shapes::ShapeRef.new(shape: CapabilitySummaryList, location_name: "capabilities"))
     ListCapabilitiesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
     ListCapabilitiesResponse.struct_class = Types::ListCapabilitiesResponse
+
+    ListCertificateAuthoritiesRequest.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, required: true, location: "uri", location_name: "name"))
+    ListCertificateAuthoritiesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: CertificateAuthorityMaxResults, location: "querystring", location_name: "maxResults"))
+    ListCertificateAuthoritiesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
+    ListCertificateAuthoritiesRequest.struct_class = Types::ListCertificateAuthoritiesRequest
+
+    ListCertificateAuthoritiesResponse.add_member(:certificate_authorities, Shapes::ShapeRef.new(shape: CertificateAuthoritySummaryList, location_name: "certificateAuthorities"))
+    ListCertificateAuthoritiesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "nextToken"))
+    ListCertificateAuthoritiesResponse.struct_class = Types::ListCertificateAuthoritiesResponse
 
     ListClustersRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: ListClustersRequestMaxResults, location: "querystring", location_name: "maxResults"))
     ListClustersRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "nextToken"))
@@ -2048,6 +2148,18 @@ module Aws::EKS
         "uid" => "eks-2017-11-01",
       }
 
+      api.add_operation(:activate_certificate_authority, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ActivateCertificateAuthority"
+        o.http_method = "POST"
+        o.http_request_uri = "/clusters/{name}/certificate-authorities/{certificateAuthorityId}/activate"
+        o.input = Shapes::ShapeRef.new(shape: ActivateCertificateAuthorityRequest)
+        o.output = Shapes::ShapeRef.new(shape: ActivateCertificateAuthorityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+      end)
+
       api.add_operation(:associate_access_policy, Seahorse::Model::Operation.new.tap do |o|
         o.name = "AssociateAccessPolicy"
         o.http_method = "POST"
@@ -2147,6 +2259,20 @@ module Aws::EKS
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
+      api.add_operation(:create_certificate_authority, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateCertificateAuthority"
+        o.http_method = "POST"
+        o.http_request_uri = "/clusters/{name}/certificate-authorities"
+        o.input = Shapes::ShapeRef.new(shape: CreateCertificateAuthorityRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateCertificateAuthorityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
       api.add_operation(:create_cluster, Seahorse::Model::Operation.new.tap do |o|
@@ -2255,6 +2381,19 @@ module Aws::EKS
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
+      api.add_operation(:delete_certificate_authority, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteCertificateAuthority"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/clusters/{name}/certificate-authorities/{certificateAuthorityId}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteCertificateAuthorityRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteCertificateAuthorityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
       api.add_operation(:delete_cluster, Seahorse::Model::Operation.new.tap do |o|
@@ -2397,6 +2536,17 @@ module Aws::EKS
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+      end)
+
+      api.add_operation(:describe_certificate_authority, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeCertificateAuthority"
+        o.http_method = "GET"
+        o.http_request_uri = "/clusters/{name}/certificate-authorities/{certificateAuthorityId}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeCertificateAuthorityRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeCertificateAuthorityResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
       end)
 
       api.add_operation(:describe_cluster, Seahorse::Model::Operation.new.tap do |o|
@@ -2629,6 +2779,24 @@ module Aws::EKS
         o.output = Shapes::ShapeRef.new(shape: ListCapabilitiesResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_certificate_authorities, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListCertificateAuthorities"
+        o.http_method = "GET"
+        o.http_request_uri = "/clusters/{name}/certificate-authorities"
+        o.input = Shapes::ShapeRef.new(shape: ListCertificateAuthoritiesRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListCertificateAuthoritiesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.174.0 (2026-08-19)
+------------------
+
+* Feature - Adds support for EKS cluster certificate authorities (CA)
+
 1.173.0 (2026-08-11)
 ------------------
 

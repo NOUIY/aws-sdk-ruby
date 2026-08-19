@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.73.0 (2026-08-19)
+------------------
+
+* Feature - Amazon Redshift Enhanced System Table Retention that allows customers to store their system table data directly in S3 Tables in customer's account instead of Redshift Managed Storage
+
 1.72.0 (2026-08-14)
 ------------------
 
