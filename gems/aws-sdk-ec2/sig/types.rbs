@@ -10328,7 +10328,7 @@ module Aws::EC2
     class GetInstanceUefiDataResult
       attr_accessor instance_id: ::String
       attr_accessor uefi_data: ::String
-      SENSITIVE: []
+      SENSITIVE: [:uefi_data]
     end
 
     class GetIpamAddressHistoryRequest
@@ -16208,7 +16208,7 @@ module Aws::EC2
       attr_accessor virtualization_type: ::String
       attr_accessor sriov_net_support: ::String
       attr_accessor ena_support: bool
-      SENSITIVE: []
+      SENSITIVE: [:uefi_data]
     end
 
     class RegisterImageResult

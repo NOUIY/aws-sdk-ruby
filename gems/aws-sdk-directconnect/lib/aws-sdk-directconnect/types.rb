@@ -955,6 +955,30 @@ module Aws::DirectConnect
     #   MAC Security (MACsec).
     #   @return [Boolean]
     #
+    # @!attribute [rw] prefix_pool_size_ipv_4
+    #   The total number of inbound IPv4 route prefixes you can allocate
+    #   across the virtual interfaces on the connection. Not applicable to
+    #   hosted connections or interconnects.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_size_ipv_6
+    #   The total number of inbound IPv6 route prefixes you can allocate
+    #   across the virtual interfaces on the connection. Not applicable to
+    #   hosted connections or interconnects.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_unallocated_count_ipv_4
+    #   The number of inbound IPv4 route prefixes in the connection prefix
+    #   pool not yet allocated to a virtual interface. Not applicable to
+    #   hosted connections or interconnects.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_unallocated_count_ipv_6
+    #   The number of inbound IPv6 route prefixes in the connection prefix
+    #   pool not yet allocated to a virtual interface. Not applicable to
+    #   hosted connections or interconnects.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/Connection AWS API Documentation
     #
     class Connection < Struct.new(
@@ -981,7 +1005,11 @@ module Aws::DirectConnect
       :encryption_mode,
       :mac_sec_keys,
       :rate_limiter_status,
-      :partner_interconnect_mac_sec_capable)
+      :partner_interconnect_mac_sec_capable,
+      :prefix_pool_size_ipv_4,
+      :prefix_pool_size_ipv_6,
+      :prefix_pool_unallocated_count_ipv_4,
+      :prefix_pool_unallocated_count_ipv_6)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2314,6 +2342,12 @@ module Aws::DirectConnect
     #   The error message if the state of an object failed to advance.
     #   @return [String]
     #
+    # @!attribute [rw] total_prefix_pool_allocations
+    #   The total number of inbound route prefixes allocated to the
+    #   attachments on the Direct Connect gateway. The count combines the
+    #   IPv4 and IPv6 address families.
+    #   @return [Integer]
+    #
     # @!attribute [rw] tags
     #   Information about a tag.
     #   @return [Array<Types::Tag>]
@@ -2327,6 +2361,7 @@ module Aws::DirectConnect
       :owner_account,
       :direct_connect_gateway_state,
       :state_change_error,
+      :total_prefix_pool_allocations,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -2882,6 +2917,30 @@ module Aws::DirectConnect
     #   The MAC Security (MACsec) security keys associated with the LAG.
     #   @return [Array<Types::MacSecKey>]
     #
+    # @!attribute [rw] prefix_pool_size_ipv_4
+    #   The total number of inbound IPv4 route prefixes you can allocate
+    #   across the virtual interfaces on the LAG. Not applicable to LAGs
+    #   that are interconnects and support hosted connections.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_size_ipv_6
+    #   The total number of inbound IPv6 route prefixes you can allocate
+    #   across the virtual interfaces on the LAG. Not applicable to LAGs
+    #   that are interconnects and support hosted connections.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_unallocated_count_ipv_4
+    #   The number of inbound IPv4 route prefixes in the LAG prefix pool not
+    #   yet allocated to a virtual interface. Not applicable to LAGs that
+    #   are interconnects and support hosted connections.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_unallocated_count_ipv_6
+    #   The number of inbound IPv6 route prefixes in the LAG prefix pool not
+    #   yet allocated to a virtual interface. Not applicable to LAGs that
+    #   are interconnects and support hosted connections.
+    #   @return [Integer]
+    #
     # @!attribute [rw] rate_limiter_status
     #   The rate limiter status for the LAG, including how many rate
     #   limiters are in use and the maximum allowed.
@@ -2911,6 +2970,10 @@ module Aws::DirectConnect
       :mac_sec_capable,
       :encryption_mode,
       :mac_sec_keys,
+      :prefix_pool_size_ipv_4,
+      :prefix_pool_size_ipv_6,
+      :prefix_pool_unallocated_count_ipv_4,
+      :prefix_pool_unallocated_count_ipv_6,
       :rate_limiter_status)
       SENSITIVE = []
       include Aws::Structure
@@ -3316,6 +3379,16 @@ module Aws::DirectConnect
     #   Indicates whether to enable or disable SiteLink.
     #   @return [Boolean]
     #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_4
+    #   The number of inbound IPv4 route prefixes to allocate to the virtual
+    #   interface.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_6
+    #   The number of inbound IPv6 route prefixes to allocate to the virtual
+    #   interface.
+    #   @return [Integer]
+    #
     # @!attribute [rw] rate_limit
     #   The rate limit (bandwidth allocation) to apply to the virtual
     #   interface. The rate limit restricts the maximum bandwidth that the
@@ -3338,6 +3411,8 @@ module Aws::DirectConnect
       :direct_connect_gateway_id,
       :tags,
       :enable_site_link,
+      :prefix_pool_allocated_count_ipv_4,
+      :prefix_pool_allocated_count_ipv_6,
       :rate_limit)
       SENSITIVE = []
       include Aws::Structure
@@ -3753,6 +3828,16 @@ module Aws::DirectConnect
     #   Indicates whether to enable or disable SiteLink.
     #   @return [Boolean]
     #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_4
+    #   The number of inbound IPv4 route prefixes to allocate to the virtual
+    #   interface.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_6
+    #   The number of inbound IPv6 route prefixes to allocate to the virtual
+    #   interface.
+    #   @return [Integer]
+    #
     # @!attribute [rw] rate_limit
     #   The rate limit (bandwidth allocation) to apply to the virtual
     #   interface. The rate limit restricts the maximum bandwidth that the
@@ -3774,6 +3859,8 @@ module Aws::DirectConnect
       :direct_connect_gateway_id,
       :tags,
       :enable_site_link,
+      :prefix_pool_allocated_count_ipv_4,
+      :prefix_pool_allocated_count_ipv_6,
       :rate_limit)
       SENSITIVE = []
       include Aws::Structure
@@ -4363,6 +4450,16 @@ module Aws::DirectConnect
     #   The name of the virtual private interface.
     #   @return [String]
     #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_4
+    #   The number of inbound IPv4 route prefixes to allocate to the virtual
+    #   interface. Not applicable to public virtual interfaces.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_6
+    #   The number of inbound IPv6 route prefixes to allocate to the virtual
+    #   interface. Not applicable to public virtual interfaces.
+    #   @return [Integer]
+    #
     # @!attribute [rw] rate_limit
     #   The rate limit (bandwidth allocation) to apply to the virtual
     #   interface. Use this to update the bandwidth allocation on an
@@ -4376,6 +4473,8 @@ module Aws::DirectConnect
       :mtu,
       :enable_site_link,
       :virtual_interface_name,
+      :prefix_pool_allocated_count_ipv_4,
+      :prefix_pool_allocated_count_ipv_6,
       :rate_limit)
       SENSITIVE = []
       include Aws::Structure
@@ -4618,6 +4717,16 @@ module Aws::DirectConnect
     #   Indicates whether SiteLink is enabled.
     #   @return [Boolean]
     #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_4
+    #   The number of inbound IPv4 route prefixes allocated to the virtual
+    #   interface. Not applicable to public virtual interfaces.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] prefix_pool_allocated_count_ipv_6
+    #   The number of inbound IPv6 route prefixes allocated to the virtual
+    #   interface. Not applicable to public virtual interfaces.
+    #   @return [Integer]
+    #
     # @!attribute [rw] rate_limit
     #   The rate limit (bandwidth allocation) applied to the virtual
     #   interface. The value must be one of the supported bandwidth values
@@ -4666,6 +4775,8 @@ module Aws::DirectConnect
       :aws_logical_device_id,
       :tags,
       :site_link_enabled,
+      :prefix_pool_allocated_count_ipv_4,
+      :prefix_pool_allocated_count_ipv_6,
       :rate_limit)
       SENSITIVE = []
       include Aws::Structure

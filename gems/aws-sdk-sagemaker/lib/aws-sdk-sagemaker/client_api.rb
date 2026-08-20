@@ -163,6 +163,7 @@ module Aws::SageMaker
     AppSpecification = Shapes::StructureShape.new(name: 'AppSpecification')
     AppStatus = Shapes::StringShape.new(name: 'AppStatus')
     AppType = Shapes::StringShape.new(name: 'AppType')
+    ApplicationArn = Shapes::StringShape.new(name: 'ApplicationArn')
     ApprovalDescription = Shapes::StringShape.new(name: 'ApprovalDescription')
     ArnOrName = Shapes::StringShape.new(name: 'ArnOrName')
     ArtifactArn = Shapes::StringShape.new(name: 'ArtifactArn')
@@ -1424,6 +1425,8 @@ module Aws::SageMaker
     IPAddressType = Shapes::StringShape.new(name: 'IPAddressType')
     IamIdentity = Shapes::StructureShape.new(name: 'IamIdentity')
     IamPolicyConstraints = Shapes::StructureShape.new(name: 'IamPolicyConstraints')
+    IdcConfigInput = Shapes::StructureShape.new(name: 'IdcConfigInput')
+    IdcConfigOutput = Shapes::StructureShape.new(name: 'IdcConfigOutput')
     IdempotencyToken = Shapes::StringShape.new(name: 'IdempotencyToken')
     IdentityProviderOAuthSetting = Shapes::StructureShape.new(name: 'IdentityProviderOAuthSetting')
     IdentityProviderOAuthSettings = Shapes::ListShape.new(name: 'IdentityProviderOAuthSettings')
@@ -1526,6 +1529,7 @@ module Aws::SageMaker
     InputDataConfig = Shapes::ListShape.new(name: 'InputDataConfig')
     InputMode = Shapes::StringShape.new(name: 'InputMode')
     InputModes = Shapes::ListShape.new(name: 'InputModes')
+    InstanceArn = Shapes::StringShape.new(name: 'InstanceArn')
     InstanceCount = Shapes::IntegerShape.new(name: 'InstanceCount')
     InstanceGroup = Shapes::StructureShape.new(name: 'InstanceGroup')
     InstanceGroupHealthCheckConfiguration = Shapes::StructureShape.new(name: 'InstanceGroupHealthCheckConfiguration')
@@ -5063,6 +5067,7 @@ module Aws::SageMaker
     CreateMlflowAppRequest.add_member(:name, Shapes::ShapeRef.new(shape: MlflowAppName, required: true, location_name: "Name"))
     CreateMlflowAppRequest.add_member(:artifact_store_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "ArtifactStoreUri"))
     CreateMlflowAppRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "RoleArn"))
+    CreateMlflowAppRequest.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "KmsKeyId"))
     CreateMlflowAppRequest.add_member(:model_registration_mode, Shapes::ShapeRef.new(shape: ModelRegistrationMode, location_name: "ModelRegistrationMode"))
     CreateMlflowAppRequest.add_member(:weekly_maintenance_window_start, Shapes::ShapeRef.new(shape: WeeklyMaintenanceWindowStart, location_name: "WeeklyMaintenanceWindowStart"))
     CreateMlflowAppRequest.add_member(:account_default_status, Shapes::ShapeRef.new(shape: AccountDefaultStatus, location_name: "AccountDefaultStatus"))
@@ -5275,6 +5280,7 @@ module Aws::SageMaker
     CreatePartnerAppRequest.add_member(:maintenance_config, Shapes::ShapeRef.new(shape: PartnerAppMaintenanceConfig, location_name: "MaintenanceConfig"))
     CreatePartnerAppRequest.add_member(:tier, Shapes::ShapeRef.new(shape: NonEmptyString64, required: true, location_name: "Tier"))
     CreatePartnerAppRequest.add_member(:application_config, Shapes::ShapeRef.new(shape: PartnerAppConfig, location_name: "ApplicationConfig"))
+    CreatePartnerAppRequest.add_member(:idc_config, Shapes::ShapeRef.new(shape: IdcConfigInput, location_name: "IdcConfig"))
     CreatePartnerAppRequest.add_member(:auth_type, Shapes::ShapeRef.new(shape: PartnerAppAuthType, required: true, location_name: "AuthType"))
     CreatePartnerAppRequest.add_member(:enable_iam_session_based_identity, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnableIamSessionBasedIdentity", metadata: {"box" => true}))
     CreatePartnerAppRequest.add_member(:enable_auto_minor_version_upgrade, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnableAutoMinorVersionUpgrade", metadata: {"box" => true}))
@@ -6763,6 +6769,7 @@ module Aws::SageMaker
     DescribeMlflowAppResponse.add_member(:artifact_store_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "ArtifactStoreUri"))
     DescribeMlflowAppResponse.add_member(:mlflow_version, Shapes::ShapeRef.new(shape: MlflowVersion, location_name: "MlflowVersion"))
     DescribeMlflowAppResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, location_name: "RoleArn"))
+    DescribeMlflowAppResponse.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "KmsKeyId"))
     DescribeMlflowAppResponse.add_member(:status, Shapes::ShapeRef.new(shape: MlflowAppStatus, location_name: "Status"))
     DescribeMlflowAppResponse.add_member(:model_registration_mode, Shapes::ShapeRef.new(shape: ModelRegistrationMode, location_name: "ModelRegistrationMode"))
     DescribeMlflowAppResponse.add_member(:account_default_status, Shapes::ShapeRef.new(shape: AccountDefaultStatus, location_name: "AccountDefaultStatus"))
@@ -7045,6 +7052,7 @@ module Aws::SageMaker
     DescribePartnerAppResponse.add_member(:enable_auto_minor_version_upgrade, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnableAutoMinorVersionUpgrade", metadata: {"box" => true}))
     DescribePartnerAppResponse.add_member(:current_version_eol_date, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CurrentVersionEolDate"))
     DescribePartnerAppResponse.add_member(:available_upgrade, Shapes::ShapeRef.new(shape: AvailableUpgrade, location_name: "AvailableUpgrade"))
+    DescribePartnerAppResponse.add_member(:idc_config, Shapes::ShapeRef.new(shape: IdcConfigOutput, location_name: "IdcConfig"))
     DescribePartnerAppResponse.struct_class = Types::DescribePartnerAppResponse
 
     DescribePipelineDefinitionForExecutionRequest.add_member(:pipeline_execution_arn, Shapes::ShapeRef.new(shape: PipelineExecutionArn, required: true, location_name: "PipelineExecutionArn"))
@@ -8285,6 +8293,13 @@ module Aws::SageMaker
     IamPolicyConstraints.add_member(:source_ip, Shapes::ShapeRef.new(shape: EnabledOrDisabled, location_name: "SourceIp"))
     IamPolicyConstraints.add_member(:vpc_source_ip, Shapes::ShapeRef.new(shape: EnabledOrDisabled, location_name: "VpcSourceIp"))
     IamPolicyConstraints.struct_class = Types::IamPolicyConstraints
+
+    IdcConfigInput.add_member(:instance_arn, Shapes::ShapeRef.new(shape: InstanceArn, required: true, location_name: "InstanceArn"))
+    IdcConfigInput.struct_class = Types::IdcConfigInput
+
+    IdcConfigOutput.add_member(:instance_arn, Shapes::ShapeRef.new(shape: InstanceArn, required: true, location_name: "InstanceArn"))
+    IdcConfigOutput.add_member(:application_arn, Shapes::ShapeRef.new(shape: ApplicationArn, location_name: "ApplicationArn"))
+    IdcConfigOutput.struct_class = Types::IdcConfigOutput
 
     IdentityProviderOAuthSetting.add_member(:data_source_name, Shapes::ShapeRef.new(shape: DataSourceName, location_name: "DataSourceName"))
     IdentityProviderOAuthSetting.add_member(:status, Shapes::ShapeRef.new(shape: FeatureStatus, location_name: "Status"))
@@ -13117,6 +13132,8 @@ module Aws::SageMaker
     UpdatePartnerAppRequest.add_member(:maintenance_config, Shapes::ShapeRef.new(shape: PartnerAppMaintenanceConfig, location_name: "MaintenanceConfig"))
     UpdatePartnerAppRequest.add_member(:tier, Shapes::ShapeRef.new(shape: NonEmptyString64, location_name: "Tier"))
     UpdatePartnerAppRequest.add_member(:application_config, Shapes::ShapeRef.new(shape: PartnerAppConfig, location_name: "ApplicationConfig"))
+    UpdatePartnerAppRequest.add_member(:idc_config, Shapes::ShapeRef.new(shape: IdcConfigInput, location_name: "IdcConfig"))
+    UpdatePartnerAppRequest.add_member(:auth_type, Shapes::ShapeRef.new(shape: PartnerAppAuthType, location_name: "AuthType"))
     UpdatePartnerAppRequest.add_member(:enable_iam_session_based_identity, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnableIamSessionBasedIdentity", metadata: {"box" => true}))
     UpdatePartnerAppRequest.add_member(:enable_auto_minor_version_upgrade, Shapes::ShapeRef.new(shape: Boolean, location_name: "EnableAutoMinorVersionUpgrade", metadata: {"box" => true}))
     UpdatePartnerAppRequest.add_member(:app_version, Shapes::ShapeRef.new(shape: MajorMinorVersion, location_name: "AppVersion"))

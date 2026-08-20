@@ -2443,6 +2443,7 @@ module Aws::SageMaker
       attr_accessor name: ::String
       attr_accessor artifact_store_uri: ::String
       attr_accessor role_arn: ::String
+      attr_accessor kms_key_id: ::String
       attr_accessor model_registration_mode: ("AutoModelRegistrationEnabled" | "AutoModelRegistrationDisabled")
       attr_accessor weekly_maintenance_window_start: ::String
       attr_accessor account_default_status: ("ENABLED" | "DISABLED")
@@ -2715,7 +2716,8 @@ module Aws::SageMaker
       attr_accessor maintenance_config: Types::PartnerAppMaintenanceConfig
       attr_accessor tier: ::String
       attr_accessor application_config: Types::PartnerAppConfig
-      attr_accessor auth_type: ("IAM")
+      attr_accessor idc_config: Types::IdcConfigInput
+      attr_accessor auth_type: ("IAM" | "IDC")
       attr_accessor enable_iam_session_based_identity: bool
       attr_accessor enable_auto_minor_version_upgrade: bool
       attr_accessor client_token: ::String
@@ -4646,6 +4648,7 @@ module Aws::SageMaker
       attr_accessor artifact_store_uri: ::String
       attr_accessor mlflow_version: ::String
       attr_accessor role_arn: ::String
+      attr_accessor kms_key_id: ::String
       attr_accessor status: ("Creating" | "Created" | "CreateFailed" | "Updating" | "Updated" | "UpdateFailed" | "Deleting" | "DeleteFailed" | "Deleted")
       attr_accessor model_registration_mode: ("AutoModelRegistrationEnabled" | "AutoModelRegistrationDisabled")
       attr_accessor account_default_status: ("ENABLED" | "DISABLED")
@@ -4978,12 +4981,13 @@ module Aws::SageMaker
       attr_accessor tier: ::String
       attr_accessor version: ::String
       attr_accessor application_config: Types::PartnerAppConfig
-      attr_accessor auth_type: ("IAM")
+      attr_accessor auth_type: ("IAM" | "IDC")
       attr_accessor enable_iam_session_based_identity: bool
       attr_accessor error: Types::ErrorInfo
       attr_accessor enable_auto_minor_version_upgrade: bool
       attr_accessor current_version_eol_date: ::Time
       attr_accessor available_upgrade: Types::AvailableUpgrade
+      attr_accessor idc_config: Types::IdcConfigOutput
       SENSITIVE: []
     end
 
@@ -6428,6 +6432,17 @@ module Aws::SageMaker
     class IamPolicyConstraints
       attr_accessor source_ip: ("Enabled" | "Disabled")
       attr_accessor vpc_source_ip: ("Enabled" | "Disabled")
+      SENSITIVE: []
+    end
+
+    class IdcConfigInput
+      attr_accessor instance_arn: ::String
+      SENSITIVE: []
+    end
+
+    class IdcConfigOutput
+      attr_accessor instance_arn: ::String
+      attr_accessor application_arn: ::String
       SENSITIVE: []
     end
 
@@ -12361,6 +12376,8 @@ module Aws::SageMaker
       attr_accessor maintenance_config: Types::PartnerAppMaintenanceConfig
       attr_accessor tier: ::String
       attr_accessor application_config: Types::PartnerAppConfig
+      attr_accessor idc_config: Types::IdcConfigInput
+      attr_accessor auth_type: ("IAM" | "IDC")
       attr_accessor enable_iam_session_based_identity: bool
       attr_accessor enable_auto_minor_version_upgrade: bool
       attr_accessor app_version: ::String

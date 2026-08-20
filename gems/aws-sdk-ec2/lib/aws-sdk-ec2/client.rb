@@ -1928,16 +1928,18 @@ module Aws::EC2
     #   but not both. Specifying both results in an
     #   `InvalidParameterCombination` error.
     #
-    # * The application status check must already exist and belong to your
-    #   account.
+    # * You must own the application status check. The check must already
+    #   exist in your account.
     #
-    # * Tag keys must not be blank.
+    # * You must not leave tag keys blank.
     #
-    # * Maximum 50 tag associations per application status check.
+    # * You can create a maximum of 50 tag associations for each application
+    #   status check.
     #
-    # * Use `DisassociateApplicationStatusCheck` to remove associations.
+    # * You can use `DisassociateApplicationStatusCheck` to remove
+    #   associations.
     #
-    # * When you associate [tags][1], the application status check
+    # * You can associate [tags][1] so that the application status check
     #   automatically monitors all current and future instances that have
     #   the specified tags.
     #
@@ -1963,9 +1965,10 @@ module Aws::EC2
     #   check.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
-    #   idempotency][1].
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a request
+    #   with the same token, the service ignores the request but does not
+    #   return an error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -6003,24 +6006,24 @@ module Aws::EC2
     # protocol, port, path, and thresholds for the health check. The
     # following rules apply:
     #
-    # * You can create a maximum of 50 application status checks per
+    # * You can create a maximum of 50 application status checks for each
     #   account.
     #
-    # * Health checks do not start until you associate the check with
-    #   instances or tags using `AssociateApplicationStatusCheck`.
+    # * You must associate the check with instances or tags using
+    #   `AssociateApplicationStatusCheck` before health checks start.
     #
-    # * The `Timeout` value must be less than the `Interval` value.
+    # * You must set the `Timeout` value to less than the `Interval` value.
     #
-    # * The `Path` must start with a forward slash (`/`). Default: `/`.
+    # * You must start the `Path` with a forward slash (`/`). Default: `/`.
     #
-    # * If you do not specify `Aggregation`, it defaults to `included`,
-    #   which means the check contributes to the instance-level application
-    #   status.
+    # * You can specify `Aggregation` as `included` or `excluded`. If you do
+    #   not specify a value, it defaults to `included`, which means the
+    #   check contributes to the instance-level application status.
     #
-    # * Default values: `Interval` is 60 seconds, `Timeout` is 6 seconds,
-    #   `FailureThreshold` is 2, `SuccessThreshold` is 2,
-    #   `StatusCodeMatcher` is `200`, `InitializationGracePeriodSeconds` is
-    #   300 seconds.
+    # * You can use the following default values: `Interval` is 60 seconds,
+    #   `Timeout` is 6 seconds, `FailureThreshold` is 2, `SuccessThreshold`
+    #   is 2, `StatusCodeMatcher` is `200`,
+    #   `InitializationGracePeriodSeconds` is 300 seconds.
     #
     # * You can tag the application status check during creation. For more
     #   information, see [Tag your Amazon EC2 resources][1].
@@ -6097,9 +6100,10 @@ module Aws::EC2
     #   The tags to apply to the application status check.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
-    #   idempotency][1].
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a request
+    #   with the same token, the service ignores the request but does not
+    #   return an error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -20404,9 +20408,10 @@ module Aws::EC2
     #   The ID of the application status check to delete.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
-    #   idempotency][1].
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a request
+    #   with the same token, the service ignores the request but does not
+    #   return an error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -26355,9 +26360,8 @@ module Aws::EC2
       req.send_request(options)
     end
 
-    # Describes the application status for the specified instances. Returns
-    # the aggregated application health status for each instance. The
-    # following rules apply:
+    # Describes the aggregated application health status for the specified
+    # instances. The following rules apply:
     #
     # * The instance-level status is derived from all application status
     #   checks with the aggregation setting set to `included`.
@@ -26652,9 +26656,10 @@ module Aws::EC2
       req.send_request(options)
     end
 
-    # Describes one or more application status checks. Returns configuration
-    # details for your application status checks, including protocol, port,
-    # path, thresholds, and associations. The following rules apply:
+    # Describes application status checks, including configuration details
+    # such as protocol, port, path, thresholds, and associations. Results
+    # are paginated. Use the `NextToken` parameter to retrieve additional
+    # results. The following rules apply:
     #
     # * If you do not specify any application status check IDs, all checks
     #   in your account are returned.
@@ -49889,16 +49894,17 @@ module Aws::EC2
     # Disables suppression of application status checks for the specified
     # instances. After suppression is disabled, health check results resume
     # affecting the instance-level application status. You can specify a
-    # maximum of 100 instance IDs per request.
+    # maximum of 100 instance IDs for each request.
     #
     # @option params [Array<String>] :instance_ids
     #   The IDs of the instances for which to disable application status check
     #   suppression.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
-    #   idempotency][1].
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a request
+    #   with the same token, the service ignores the request but does not
+    #   return an error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -51008,9 +51014,10 @@ module Aws::EC2
     #   check.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
-    #   idempotency][1].
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a request
+    #   with the same token, the service ignores the request but does not
+    #   return an error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -52088,7 +52095,7 @@ module Aws::EC2
     # While suppressed, health checks continue to run but do not affect the
     # instance-level application status. The following rules apply:
     #
-    # * Maximum 100 instance IDs per request.
+    # * You can specify a maximum of 100 instance IDs for each request.
     #
     # * Use `DisableApplicationStatusCheckSuppression` to resume normal
     #   health check reporting.
@@ -52108,9 +52115,10 @@ module Aws::EC2
     #   `DisableApplicationStatusCheckSuppression`.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
-    #   idempotency][1].
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a request
+    #   with the same token, the service ignores the request but does not
+    #   return an error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -60937,9 +60945,10 @@ module Aws::EC2
     #   instance is launched. Valid values: 1 to 600.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
-    #   idempotency][1].
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a request
+    #   with the same token, the service ignores the request but does not
+    #   return an error. For more information, see [Ensuring idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -77177,7 +77186,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.637.0'
+      context[:gem_version] = '1.638.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

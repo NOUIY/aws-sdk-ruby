@@ -2999,6 +2999,42 @@ module Aws::Lambda
       req.send_request(options)
     end
 
+    # Deletes a [resource-based policy][1] from a Lambda resource.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the Lambda resource you want to
+    #   delete the policy from. You can use a qualified or an unqualified ARN.
+    #   The value must be a complete ARN, and the operation does not accept
+    #   wildcard characters.
+    #
+    # @option params [String] :revision_id
+    #   The revision ID that the existing policy must match for the deletion
+    #   to proceed. If the revision ID doesn't match, the operation fails
+    #   with a `PreconditionFailedException` error. To retrieve the current
+    #   revision ID, use the GetResourcePolicy operation.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "PolicyResourceArn", # required
+    #     revision_id: "RevisionId",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Retrieves details about your account's [limits][1] and usage in an
     # Amazon Web Services Region.
     #
@@ -4762,9 +4798,9 @@ module Aws::Lambda
     #   * {Types::GetProvisionedConcurrencyConfigResponse#last_modified #last_modified} => Time
     #
     #
-    # @example Example: To get a provisioned concurrency configuration
+    # @example Example: To view a provisioned concurrency configuration
     #
-    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -4781,9 +4817,9 @@ module Aws::Lambda
     #     status: "READY", 
     #   }
     #
-    # @example Example: To view a provisioned concurrency configuration
+    # @example Example: To get a provisioned concurrency configuration
     #
-    #   # The following example displays details for the provisioned concurrency configuration for the BLUE alias of the specified
+    #   # The following example returns details for the provisioned concurrency configuration for the BLUE alias of the specified
     #   # function.
     #
     #   resp = client.get_provisioned_concurrency_config({
@@ -4822,6 +4858,44 @@ module Aws::Lambda
     # @param [Hash] params ({})
     def get_provisioned_concurrency_config(params = {}, options = {})
       req = build_request(:get_provisioned_concurrency_config, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the [resource-based policy][1] attached to a Lambda
+    # resource.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the Lambda resource you want to
+    #   retrieve the policy for. You can use a qualified or an unqualified
+    #   ARN. The value must be a complete ARN, and the operation does not
+    #   accept wildcard characters.
+    #
+    # @return [Types::GetResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyResponse#policy #policy} => String
+    #   * {Types::GetResourcePolicyResponse#revision_id #revision_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "PolicyResourceArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy #=> String
+    #   resp.revision_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
       req.send_request(options)
     end
 
@@ -7737,6 +7811,73 @@ module Aws::Lambda
       req.send_request(options)
     end
 
+    # Adds a [resource-based policy][1] to a Lambda resource. Resource-based
+    # policies grant access to other [Amazon Web Services accounts][2],
+    # [organizations][3], or [services][4]. Resource-based policies apply to
+    # a single Lambda resource (for example, a function, function version,
+    # or function alias).
+    #
+    # This operation replaces any existing policy on the Lambda resource. If
+    # you previously added permissions using the AddPermission operation,
+    # the new policy overwrites those permissions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html
+    # [2]: https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-cross-account.html
+    # [3]: https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-organization.html
+    # [4]: https://docs.aws.amazon.com/lambda/latest/dg/permissions-function-services.html
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the Lambda resource you want to add
+    #   the policy to. You can use a qualified or an unqualified ARN. The
+    #   value must be a complete ARN, and the operation does not accept
+    #   wildcard characters.
+    #
+    # @option params [required, String] :policy
+    #   The policy document you want to add to your Lambda resource. This is
+    #   formatted as a JSON string.
+    #
+    #   For more information, see [Working with resource-based policies in
+    #   Lambda][1] in the *Lambda Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html
+    #
+    # @option params [String] :revision_id
+    #   The revision ID that the existing policy must match for the
+    #   replacement to proceed. If the revision ID doesn't match, the
+    #   operation fails with a `PreconditionFailedException` error. To
+    #   retrieve the current revision ID, use the GetResourcePolicy operation.
+    #
+    # @return [Types::PutResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePolicyResponse#policy #policy} => String
+    #   * {Types::PutResourcePolicyResponse#revision_id #revision_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "PolicyResourceArn", # required
+    #     policy: "ResourcePolicy", # required
+    #     revision_id: "RevisionId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy #=> String
+    #   resp.revision_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Sets the runtime management configuration for a function's version.
     # For more information, see [Runtime updates][1].
     #
@@ -9875,7 +10016,7 @@ module Aws::Lambda
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-lambda'
-      context[:gem_version] = '1.192.0'
+      context[:gem_version] = '1.193.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1792,6 +1792,7 @@ module Aws
                                name: ::String,
                                artifact_store_uri: ::String,
                                role_arn: ::String,
+                               ?kms_key_id: ::String,
                                ?model_registration_mode: ("AutoModelRegistrationEnabled" | "AutoModelRegistrationDisabled"),
                                ?weekly_maintenance_window_start: ::String,
                                ?account_default_status: ("ENABLED" | "DISABLED"),
@@ -2375,7 +2376,10 @@ module Aws
                                 },
                                 tier: ::String,
                                 ?application_config: Params::partner_app_config,
-                                auth_type: ("IAM"),
+                                ?idc_config: {
+                                  instance_arn: ::String
+                                },
+                                auth_type: ("IAM" | "IDC"),
                                 ?enable_iam_session_based_identity: bool,
                                 ?enable_auto_minor_version_upgrade: bool,
                                 ?client_token: ::String,
@@ -4463,6 +4467,7 @@ module Aws
         def artifact_store_uri: () -> ::String
         def mlflow_version: () -> ::String
         def role_arn: () -> ::String
+        def kms_key_id: () -> ::String
         def status: () -> ("Creating" | "Created" | "CreateFailed" | "Updating" | "Updated" | "UpdateFailed" | "Deleting" | "DeleteFailed" | "Deleted")
         def model_registration_mode: () -> ("AutoModelRegistrationEnabled" | "AutoModelRegistrationDisabled")
         def account_default_status: () -> ("ENABLED" | "DISABLED")
@@ -4794,11 +4799,12 @@ module Aws
         def tier: () -> ::String
         def version: () -> ::String
         def application_config: () -> Types::PartnerAppConfig
-        def auth_type: () -> ("IAM")
+        def auth_type: () -> ("IAM" | "IDC")
         def enable_iam_session_based_identity: () -> bool
         def enable_auto_minor_version_upgrade: () -> bool
         def current_version_eol_date: () -> ::Time
         def available_upgrade: () -> Types::AvailableUpgrade
+        def idc_config: () -> Types::IdcConfigOutput
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SageMaker/Client.html#describe_partner_app-instance_method
       def describe_partner_app: (
@@ -8023,6 +8029,10 @@ module Aws
                                 },
                                 ?tier: ::String,
                                 ?application_config: Params::partner_app_config,
+                                ?idc_config: {
+                                  instance_arn: ::String
+                                },
+                                ?auth_type: ("IAM" | "IDC"),
                                 ?enable_iam_session_based_identity: bool,
                                 ?enable_auto_minor_version_upgrade: bool,
                                 ?app_version: ::String,

@@ -212,6 +212,9 @@ module Aws::DirectConnect
     Platform = Shapes::StringShape.new(name: 'Platform')
     PortEncryptionStatus = Shapes::StringShape.new(name: 'PortEncryptionStatus')
     PortSpeed = Shapes::StringShape.new(name: 'PortSpeed')
+    PrefixPoolAllocatedCount = Shapes::IntegerShape.new(name: 'PrefixPoolAllocatedCount')
+    PrefixPoolSize = Shapes::IntegerShape.new(name: 'PrefixPoolSize')
+    PrefixPoolUnallocatedCount = Shapes::IntegerShape.new(name: 'PrefixPoolUnallocatedCount')
     ProviderList = Shapes::ListShape.new(name: 'ProviderList')
     ProviderName = Shapes::StringShape.new(name: 'ProviderName')
     RateLimit = Shapes::StringShape.new(name: 'RateLimit')
@@ -452,6 +455,10 @@ module Aws::DirectConnect
     Connection.add_member(:mac_sec_keys, Shapes::ShapeRef.new(shape: MacSecKeyList, location_name: "macSecKeys"))
     Connection.add_member(:rate_limiter_status, Shapes::ShapeRef.new(shape: RateLimiterStatus, location_name: "rateLimiterStatus"))
     Connection.add_member(:partner_interconnect_mac_sec_capable, Shapes::ShapeRef.new(shape: PartnerInterconnectMacSecCapable, location_name: "partnerInterconnectMacSecCapable"))
+    Connection.add_member(:prefix_pool_size_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolSize, location_name: "prefixPoolSizeIpv4"))
+    Connection.add_member(:prefix_pool_size_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolSize, location_name: "prefixPoolSizeIpv6"))
+    Connection.add_member(:prefix_pool_unallocated_count_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolUnallocatedCount, location_name: "prefixPoolUnallocatedCountIpv4"))
+    Connection.add_member(:prefix_pool_unallocated_count_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolUnallocatedCount, location_name: "prefixPoolUnallocatedCountIpv6"))
     Connection.struct_class = Types::Connection
 
     ConnectionList.member = Shapes::ShapeRef.new(shape: Connection)
@@ -711,6 +718,7 @@ module Aws::DirectConnect
     DirectConnectGateway.add_member(:owner_account, Shapes::ShapeRef.new(shape: OwnerAccount, location_name: "ownerAccount"))
     DirectConnectGateway.add_member(:direct_connect_gateway_state, Shapes::ShapeRef.new(shape: DirectConnectGatewayState, location_name: "directConnectGatewayState"))
     DirectConnectGateway.add_member(:state_change_error, Shapes::ShapeRef.new(shape: StateChangeError, location_name: "stateChangeError"))
+    DirectConnectGateway.add_member(:total_prefix_pool_allocations, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "totalPrefixPoolAllocations"))
     DirectConnectGateway.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     DirectConnectGateway.struct_class = Types::DirectConnectGateway
 
@@ -818,6 +826,10 @@ module Aws::DirectConnect
     Lag.add_member(:mac_sec_capable, Shapes::ShapeRef.new(shape: MacSecCapable, location_name: "macSecCapable"))
     Lag.add_member(:encryption_mode, Shapes::ShapeRef.new(shape: EncryptionMode, location_name: "encryptionMode"))
     Lag.add_member(:mac_sec_keys, Shapes::ShapeRef.new(shape: MacSecKeyList, location_name: "macSecKeys"))
+    Lag.add_member(:prefix_pool_size_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolSize, location_name: "prefixPoolSizeIpv4"))
+    Lag.add_member(:prefix_pool_size_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolSize, location_name: "prefixPoolSizeIpv6"))
+    Lag.add_member(:prefix_pool_unallocated_count_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolUnallocatedCount, location_name: "prefixPoolUnallocatedCountIpv4"))
+    Lag.add_member(:prefix_pool_unallocated_count_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolUnallocatedCount, location_name: "prefixPoolUnallocatedCountIpv6"))
     Lag.add_member(:rate_limiter_status, Shapes::ShapeRef.new(shape: RateLimiterStatus, location_name: "rateLimiterStatus"))
     Lag.struct_class = Types::Lag
 
@@ -898,6 +910,8 @@ module Aws::DirectConnect
     NewPrivateVirtualInterface.add_member(:direct_connect_gateway_id, Shapes::ShapeRef.new(shape: DirectConnectGatewayId, location_name: "directConnectGatewayId"))
     NewPrivateVirtualInterface.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     NewPrivateVirtualInterface.add_member(:enable_site_link, Shapes::ShapeRef.new(shape: EnableSiteLink, location_name: "enableSiteLink"))
+    NewPrivateVirtualInterface.add_member(:prefix_pool_allocated_count_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv4"))
+    NewPrivateVirtualInterface.add_member(:prefix_pool_allocated_count_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv6"))
     NewPrivateVirtualInterface.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewPrivateVirtualInterface.struct_class = Types::NewPrivateVirtualInterface
 
@@ -952,6 +966,8 @@ module Aws::DirectConnect
     NewTransitVirtualInterface.add_member(:direct_connect_gateway_id, Shapes::ShapeRef.new(shape: DirectConnectGatewayId, location_name: "directConnectGatewayId"))
     NewTransitVirtualInterface.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     NewTransitVirtualInterface.add_member(:enable_site_link, Shapes::ShapeRef.new(shape: EnableSiteLink, location_name: "enableSiteLink"))
+    NewTransitVirtualInterface.add_member(:prefix_pool_allocated_count_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv4"))
+    NewTransitVirtualInterface.add_member(:prefix_pool_allocated_count_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv6"))
     NewTransitVirtualInterface.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     NewTransitVirtualInterface.struct_class = Types::NewTransitVirtualInterface
 
@@ -1083,6 +1099,8 @@ module Aws::DirectConnect
     UpdateVirtualInterfaceAttributesRequest.add_member(:mtu, Shapes::ShapeRef.new(shape: MTU, location_name: "mtu"))
     UpdateVirtualInterfaceAttributesRequest.add_member(:enable_site_link, Shapes::ShapeRef.new(shape: EnableSiteLink, location_name: "enableSiteLink"))
     UpdateVirtualInterfaceAttributesRequest.add_member(:virtual_interface_name, Shapes::ShapeRef.new(shape: VirtualInterfaceName, location_name: "virtualInterfaceName"))
+    UpdateVirtualInterfaceAttributesRequest.add_member(:prefix_pool_allocated_count_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv4"))
+    UpdateVirtualInterfaceAttributesRequest.add_member(:prefix_pool_allocated_count_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv6"))
     UpdateVirtualInterfaceAttributesRequest.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     UpdateVirtualInterfaceAttributesRequest.struct_class = Types::UpdateVirtualInterfaceAttributesRequest
 
@@ -1122,6 +1140,8 @@ module Aws::DirectConnect
     VirtualInterface.add_member(:aws_logical_device_id, Shapes::ShapeRef.new(shape: AwsLogicalDeviceId, location_name: "awsLogicalDeviceId"))
     VirtualInterface.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
     VirtualInterface.add_member(:site_link_enabled, Shapes::ShapeRef.new(shape: SiteLinkEnabled, location_name: "siteLinkEnabled"))
+    VirtualInterface.add_member(:prefix_pool_allocated_count_ipv_4, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv4"))
+    VirtualInterface.add_member(:prefix_pool_allocated_count_ipv_6, Shapes::ShapeRef.new(shape: PrefixPoolAllocatedCount, location_name: "prefixPoolAllocatedCountIpv6"))
     VirtualInterface.add_member(:rate_limit, Shapes::ShapeRef.new(shape: RateLimit, location_name: "rateLimit"))
     VirtualInterface.struct_class = Types::VirtualInterface
 

@@ -2647,8 +2647,10 @@ module Aws::EC2
     #   @return [Array<String>]
     #
     # @!attribute [rw] client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a
+    #   request with the same token, the service ignores the request but
+    #   does not return an error. For more information, see [Ensuring
     #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -9658,8 +9660,10 @@ module Aws::EC2
     #   @return [Array<Types::TagSpecification>]
     #
     # @!attribute [rw] client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a
+    #   request with the same token, the service ignores the request but
+    #   does not return an error. For more information, see [Ensuring
     #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -19076,8 +19080,10 @@ module Aws::EC2
     #   @return [String]
     #
     # @!attribute [rw] client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a
+    #   request with the same token, the service ignores the request but
+    #   does not return an error. For more information, see [Ensuring
     #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -38524,8 +38530,10 @@ module Aws::EC2
     #   @return [Array<String>]
     #
     # @!attribute [rw] client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a
+    #   request with the same token, the service ignores the request but
+    #   does not return an error. For more information, see [Ensuring
     #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -39488,8 +39496,10 @@ module Aws::EC2
     #   @return [Array<String>]
     #
     # @!attribute [rw] client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a
+    #   request with the same token, the service ignores the request but
+    #   does not return an error. For more information, see [Ensuring
     #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -41605,8 +41615,10 @@ module Aws::EC2
     #   @return [Integer]
     #
     # @!attribute [rw] client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a
+    #   request with the same token, the service ignores the request but
+    #   does not return an error. For more information, see [Ensuring
     #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -47093,7 +47105,7 @@ module Aws::EC2
     class GetInstanceUefiDataResult < Struct.new(
       :instance_id,
       :uefi_data)
-      SENSITIVE = []
+      SENSITIVE = [:uefi_data]
       include Aws::Structure
     end
 
@@ -64288,8 +64300,10 @@ module Aws::EC2
     #   @return [Integer]
     #
     # @!attribute [rw] client_token
-    #   Unique, case-sensitive identifier that you provide to ensure the
-    #   idempotency of the request. For more information, see [Ensuring
+    #   A unique, case-sensitive identifier that you provide to ensure that
+    #   the operation completes no more than one time. If you retry a
+    #   request with the same token, the service ignores the request but
+    #   does not return an error. For more information, see [Ensuring
     #   idempotency][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -74991,7 +75005,7 @@ module Aws::EC2
       :virtualization_type,
       :sriov_net_support,
       :ena_support)
-      SENSITIVE = []
+      SENSITIVE = [:uefi_data]
       include Aws::Structure
     end
 

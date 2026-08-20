@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.150.0 (2026-08-20)
+------------------
+
+* Feature - AWS Batch now supports a new compute environment type that provides fully managed EC2 capacity with broader compute flexibility than Fargate, including GPU instances, bare metal, and specific instance type selection, without infrastructure management overhead.
+
 1.149.0 (2026-08-19)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.193.0 (2026-08-20)
+------------------
+
+* Feature - Adds support for full JSON resource-based policies, enabling customers to create, retrieve, update, and delete function resource policies as complete JSON documents.
+
 1.192.0 (2026-07-30)
 ------------------
 

@@ -100,7 +100,7 @@ module Aws
                                         ?state: ("ENABLED" | "DISABLED"),
                                         ?unmanagedv_cpus: ::Integer,
                                         ?compute_resources: {
-                                          type: ("EC2" | "SPOT" | "FARGATE" | "FARGATE_SPOT"),
+                                          type: ("EC2" | "SPOT" | "FARGATE" | "FARGATE_SPOT" | "ECS_MANAGED_INSTANCES"),
                                           allocation_strategy: ("BEST_FIT" | "BEST_FIT_PROGRESSIVE" | "BEST_FIT_PROGRESSIVE_ORDERED" | "SPOT_CAPACITY_OPTIMIZED" | "SPOT_PRICE_CAPACITY_OPTIMIZED" | "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED")?,
                                           minv_cpus: ::Integer?,
                                           maxv_cpus: ::Integer,
@@ -126,7 +126,39 @@ module Aws
                                           ]?,
                                           scaling_policy: {
                                             min_scale_down_delay_minutes: ::Integer?
-                                          }?
+                                          }?,
+                                          managed_instances_provider: {
+                                            propagate_tags: ::String?,
+                                            infrastructure_role_arn: ::String,
+                                            instance_launch_template: {
+                                              ec2_instance_profile_arn: ::String,
+                                              network_configuration: {
+                                                subnets: Array[::String],
+                                                security_groups: Array[::String]
+                                              },
+                                              instance_requirements: {
+                                                allowed_instance_types: Array[::String]?
+                                              }?,
+                                              capacity_option_type: ::String?,
+                                              storage_configuration: {
+                                                storage_size_gi_b: ::Integer?
+                                              }?,
+                                              monitoring: ::String?,
+                                              fips_enabled: bool?,
+                                              capacity_reservations: {
+                                                reservation_group_arn: ::String?,
+                                                reservation_preference: ::String?
+                                              }?,
+                                              instance_metadata_tags_propagation: bool?,
+                                              local_storage_configuration: {
+                                                use_local_storage: bool?
+                                              }?
+                                            },
+                                            infrastructure_optimization: {
+                                              scale_in_after: ::Integer?
+                                            }?
+                                          }?,
+                                          capacity_tags: Hash[::String, ::String]?
                                         },
                                         ?service_role: ::String,
                                         ?tags: Hash[::String, ::String],
@@ -178,7 +210,7 @@ module Aws
                                   service_environment: ::String
                                 }
                               ],
-                              ?job_queue_type: ("EKS" | "ECS" | "ECS_FARGATE" | "SAGEMAKER_TRAINING"),
+                              ?job_queue_type: ("EKS" | "ECS" | "ECS_FARGATE" | "SAGEMAKER_TRAINING" | "ECS_MANAGED_INSTANCES"),
                               ?tags: Hash[::String, ::String],
                               ?job_state_time_limit_actions: Array[
                                 {
@@ -625,7 +657,7 @@ module Aws
                                        attempt_duration_seconds: ::Integer?
                                      },
                                      ?tags: Hash[::String, ::String],
-                                     ?platform_capabilities: Array[("EC2" | "FARGATE")],
+                                     ?platform_capabilities: Array[("EC2" | "FARGATE" | "MANAGED_INSTANCES")],
                                      ?eks_properties: Params::eks_properties,
                                      ?ecs_properties: Params::ecs_properties,
                                      ?consumable_resource_properties: {
@@ -810,11 +842,41 @@ module Aws
                                             }
                                           ]?,
                                           update_to_latest_image_version: bool?,
-                                          type: ("EC2" | "SPOT" | "FARGATE" | "FARGATE_SPOT")?,
+                                          type: ("EC2" | "SPOT" | "FARGATE" | "FARGATE_SPOT" | "ECS_MANAGED_INSTANCES")?,
                                           image_id: ::String?,
                                           scaling_policy: {
                                             min_scale_down_delay_minutes: ::Integer?
-                                          }?
+                                          }?,
+                                          managed_instances_provider: {
+                                            propagate_tags: ::String?,
+                                            infrastructure_role_arn: ::String?,
+                                            instance_launch_template: {
+                                              ec2_instance_profile_arn: ::String?,
+                                              network_configuration: {
+                                                subnets: Array[::String],
+                                                security_groups: Array[::String]
+                                              }?,
+                                              instance_requirements: {
+                                                allowed_instance_types: Array[::String]?
+                                              }?,
+                                              storage_configuration: {
+                                                storage_size_gi_b: ::Integer?
+                                              }?,
+                                              monitoring: ::String?,
+                                              capacity_reservations: {
+                                                reservation_group_arn: ::String?,
+                                                reservation_preference: ::String?
+                                              }?,
+                                              instance_metadata_tags_propagation: bool?,
+                                              local_storage_configuration: {
+                                                use_local_storage: bool?
+                                              }?
+                                            }?,
+                                            infrastructure_optimization: {
+                                              scale_in_after: ::Integer?
+                                            }?
+                                          }?,
+                                          capacity_tags: Hash[::String, ::String]?
                                         },
                                         ?service_role: ::String,
                                         ?update_policy: {

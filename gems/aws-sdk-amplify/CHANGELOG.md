@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.106.0 (2026-08-20)
+------------------
+
+* Feature - Increased the maximum allowed length from 255 to 4,096 characters to support longer access tokens.
+
 1.105.0 (2026-08-07)
 ------------------
 

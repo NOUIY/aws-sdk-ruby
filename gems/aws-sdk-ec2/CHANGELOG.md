@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.638.0 (2026-08-20)
+------------------
+
+* Feature - EC2 marks UEFI instance metadata field as sensitive.
+
 1.637.0 (2026-08-18)
 ------------------
 

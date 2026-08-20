@@ -7264,6 +7264,11 @@ module Aws::SageMaker
     #   the MLflow App uses to access the artifact store in Amazon S3. The
     #   role should have the `AmazonS3FullAccess` permission.
     #
+    # @option params [String] :kms_key_id
+    #   The ID of the Amazon Web Services KMS key used to encrypt the data at
+    #   rest associated with the MLflow App. If you don't specify a value,
+    #   the MLflow App is not encrypted with a customer-managed key.
+    #
     # @option params [String] :model_registration_mode
     #   Whether to enable or disable automatic registration of new MLflow
     #   models to the SageMaker Model Registry. To enable automatic model
@@ -7300,6 +7305,7 @@ module Aws::SageMaker
     #     name: "MlflowAppName", # required
     #     artifact_store_uri: "S3Uri", # required
     #     role_arn: "RoleArn", # required
+    #     kms_key_id: "KmsKeyId",
     #     model_registration_mode: "AutoModelRegistrationEnabled", # accepts AutoModelRegistrationEnabled, AutoModelRegistrationDisabled
     #     weekly_maintenance_window_start: "WeeklyMaintenanceWindowStart",
     #     account_default_status: "ENABLED", # accepts ENABLED, DISABLED
@@ -9608,9 +9614,22 @@ module Aws::SageMaker
     # @option params [Types::PartnerAppConfig] :application_config
     #   Configuration settings for the SageMaker Partner AI App.
     #
+    # @option params [Types::IdcConfigInput] :idc_config
+    #   Specifies the Amazon Web Services IAM Identity Center configuration
+    #   for the SageMaker Partner AI App. Specify this parameter when
+    #   `AuthType` is `IDC`. Apps that use `IAM` authorization don't use this
+    #   parameter.
+    #
     # @option params [required, String] :auth_type
     #   The authorization type that users use to access the SageMaker Partner
-    #   AI App.
+    #   AI App. Valid values:
+    #
+    #   * `IAM`: Users access the SageMaker Partner AI App with their Amazon
+    #     Web Services IAM identity.
+    #
+    #   * `IDC`: Users access the SageMaker Partner AI App with their Amazon
+    #     Web Services IAM Identity Center identity. Specify the Identity
+    #     Center instance to use in `IdcConfig`.
     #
     # @option params [Boolean] :enable_iam_session_based_identity
     #   When set to `TRUE`, the SageMaker Partner AI App sets the Amazon Web
@@ -9661,7 +9680,10 @@ module Aws::SageMaker
     #         },
     #       ],
     #     },
-    #     auth_type: "IAM", # required, accepts IAM
+    #     idc_config: {
+    #       instance_arn: "InstanceArn", # required
+    #     },
+    #     auth_type: "IAM", # required, accepts IAM, IDC
     #     enable_iam_session_based_identity: false,
     #     enable_auto_minor_version_upgrade: false,
     #     client_token: "ClientToken",
@@ -18169,6 +18191,7 @@ module Aws::SageMaker
     #   * {Types::DescribeMlflowAppResponse#artifact_store_uri #artifact_store_uri} => String
     #   * {Types::DescribeMlflowAppResponse#mlflow_version #mlflow_version} => String
     #   * {Types::DescribeMlflowAppResponse#role_arn #role_arn} => String
+    #   * {Types::DescribeMlflowAppResponse#kms_key_id #kms_key_id} => String
     #   * {Types::DescribeMlflowAppResponse#status #status} => String
     #   * {Types::DescribeMlflowAppResponse#model_registration_mode #model_registration_mode} => String
     #   * {Types::DescribeMlflowAppResponse#account_default_status #account_default_status} => String
@@ -18193,6 +18216,7 @@ module Aws::SageMaker
     #   resp.artifact_store_uri #=> String
     #   resp.mlflow_version #=> String
     #   resp.role_arn #=> String
+    #   resp.kms_key_id #=> String
     #   resp.status #=> String, one of "Creating", "Created", "CreateFailed", "Updating", "Updated", "UpdateFailed", "Deleting", "DeleteFailed", "Deleted"
     #   resp.model_registration_mode #=> String, one of "AutoModelRegistrationEnabled", "AutoModelRegistrationDisabled"
     #   resp.account_default_status #=> String, one of "ENABLED", "DISABLED"
@@ -19563,6 +19587,7 @@ module Aws::SageMaker
     #   * {Types::DescribePartnerAppResponse#enable_auto_minor_version_upgrade #enable_auto_minor_version_upgrade} => Boolean
     #   * {Types::DescribePartnerAppResponse#current_version_eol_date #current_version_eol_date} => Time
     #   * {Types::DescribePartnerAppResponse#available_upgrade #available_upgrade} => Types::AvailableUpgrade
+    #   * {Types::DescribePartnerAppResponse#idc_config #idc_config} => Types::IdcConfigOutput
     #
     # @example Request syntax with placeholder values
     #
@@ -19595,7 +19620,7 @@ module Aws::SageMaker
     #   resp.application_config.role_group_assignments[0].role_name #=> String
     #   resp.application_config.role_group_assignments[0].group_patterns #=> Array
     #   resp.application_config.role_group_assignments[0].group_patterns[0] #=> String
-    #   resp.auth_type #=> String, one of "IAM"
+    #   resp.auth_type #=> String, one of "IAM", "IDC"
     #   resp.enable_iam_session_based_identity #=> Boolean
     #   resp.error.code #=> String
     #   resp.error.reason #=> String
@@ -19604,6 +19629,8 @@ module Aws::SageMaker
     #   resp.available_upgrade.version #=> String
     #   resp.available_upgrade.release_notes #=> Array
     #   resp.available_upgrade.release_notes[0] #=> String
+    #   resp.idc_config.instance_arn #=> String
+    #   resp.idc_config.application_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/DescribePartnerApp AWS API Documentation
     #
@@ -33387,6 +33414,24 @@ module Aws::SageMaker
     # @option params [Types::PartnerAppConfig] :application_config
     #   Configuration settings for the SageMaker Partner AI App.
     #
+    # @option params [Types::IdcConfigInput] :idc_config
+    #   Specifies the Amazon Web Services IAM Identity Center configuration
+    #   for the SageMaker Partner AI App. Specify this parameter when
+    #   `AuthType` is `IDC`. Apps that use `IAM` authorization don't use this
+    #   parameter.
+    #
+    # @option params [String] :auth_type
+    #   The authorization type that users use to access the SageMaker Partner
+    #   AI App. Use this parameter to migrate an existing SageMaker Partner AI
+    #   App from `IAM` authorization to `IDC` authorization. Valid values:
+    #
+    #   * `IAM`: Users access the SageMaker Partner AI App with their Amazon
+    #     Web Services IAM identity.
+    #
+    #   * `IDC`: Users access the SageMaker Partner AI App with their Amazon
+    #     Web Services IAM Identity Center identity. Specify the Identity
+    #     Center instance to use in `IdcConfig`.
+    #
     # @option params [Boolean] :enable_iam_session_based_identity
     #   When set to `TRUE`, the SageMaker Partner AI App sets the Amazon Web
     #   Services IAM session name or the authenticated IAM user as the
@@ -33439,6 +33484,10 @@ module Aws::SageMaker
     #         },
     #       ],
     #     },
+    #     idc_config: {
+    #       instance_arn: "InstanceArn", # required
+    #     },
+    #     auth_type: "IAM", # accepts IAM, IDC
     #     enable_iam_session_based_identity: false,
     #     enable_auto_minor_version_upgrade: false,
     #     app_version: "MajorMinorVersion",
@@ -34583,7 +34632,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.385.0'
+      context[:gem_version] = '1.386.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

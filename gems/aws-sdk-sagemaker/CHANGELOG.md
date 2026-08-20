@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.386.0 (2026-08-20)
+------------------
+
+* Feature - Added IAM Identity Center (IdC) support to CreatePartnerApp and UpdatePartnerApp APIs. Added Customer Managed Key (CMK) support to CreateMlflowApp and DescribeMlflowApp.
+
 1.385.0 (2026-08-14)
 ------------------
 

@@ -542,6 +542,12 @@ module Aws::Lambda
       SENSITIVE: []
     end
 
+    class DeleteResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      attr_accessor revision_id: ::String
+      SENSITIVE: []
+    end
+
     class DestinationConfig
       attr_accessor on_success: Types::OnSuccess
       attr_accessor on_failure: Types::OnFailure
@@ -1168,6 +1174,17 @@ module Aws::Lambda
       attr_accessor status: ("IN_PROGRESS" | "READY" | "FAILED")
       attr_accessor status_reason: ::String
       attr_accessor last_modified: ::Time
+      SENSITIVE: []
+    end
+
+    class GetResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      SENSITIVE: []
+    end
+
+    class GetResourcePolicyResponse
+      attr_accessor policy: ::String
+      attr_accessor revision_id: ::String
       SENSITIVE: []
     end
 
@@ -1834,6 +1851,19 @@ module Aws::Lambda
       attr_accessor status: ("IN_PROGRESS" | "READY" | "FAILED")
       attr_accessor status_reason: ::String
       attr_accessor last_modified: ::Time
+      SENSITIVE: []
+    end
+
+    class PutResourcePolicyRequest
+      attr_accessor resource_arn: ::String
+      attr_accessor policy: ::String
+      attr_accessor revision_id: ::String
+      SENSITIVE: []
+    end
+
+    class PutResourcePolicyResponse
+      attr_accessor policy: ::String
+      attr_accessor revision_id: ::String
       SENSITIVE: []
     end
 
