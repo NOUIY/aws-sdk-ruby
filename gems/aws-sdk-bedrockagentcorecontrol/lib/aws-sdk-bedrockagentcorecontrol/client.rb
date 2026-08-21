@@ -1638,7 +1638,7 @@ module Aws::BedrockAgentCoreControl
     #         s3_uri: "S3Uri", # required
     #       },
     #     },
-    #     schema_type: "AGENTCORE_EVALUATION_PREDEFINED_V1", # required, accepts AGENTCORE_EVALUATION_PREDEFINED_V1, AGENTCORE_EVALUATION_SIMULATED_V1, GENERIC_EVALUATION_PREDEFINED_V1
+    #     schema_type: "AGENTCORE_EVALUATION_PREDEFINED_V1", # required, accepts AGENTCORE_EVALUATION_PREDEFINED_V1, AGENTCORE_EVALUATION_SIMULATED_V1, THIRD_PARTY_EVALUATION_V1
     #     kms_key_arn: "KmsKeyArn",
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -2680,7 +2680,12 @@ module Aws::BedrockAgentCoreControl
     #           stickiness_configuration: {
     #             identifier: "StickinessConfigurationIdentifierString", # required
     #             timeout: 1,
+    #             composite_identifier: ["CompositeIdentifierEntry"],
     #           },
+    #           static_query_parameters: {
+    #             "StaticQueryParameterName" => "StaticQueryParameterValue",
+    #           },
+    #           static_query_parameter_conflict_resolution: "CLIENT_OVERRIDE", # accepts CLIENT_OVERRIDE, STATIC_OVERRIDE
     #         },
     #         connector: {
     #           source: { # required
@@ -2844,6 +2849,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.composite_identifier #=> Array
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.composite_identifier[0] #=> String
+    #   resp.target_configuration.http.passthrough.static_query_parameters #=> Hash
+    #   resp.target_configuration.http.passthrough.static_query_parameters["StaticQueryParameterName"] #=> String
+    #   resp.target_configuration.http.passthrough.static_query_parameter_conflict_resolution #=> String, one of "CLIENT_OVERRIDE", "STATIC_OVERRIDE"
     #   resp.target_configuration.http.connector.source.connector_id #=> String
     #   resp.target_configuration.http.connector.parameters #=> Hash
     #   resp.target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
@@ -6286,7 +6296,8 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Deletes an Amazon Bedrock AgentCore Memory resource.
+    # Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a
+    # memory resource, it is permanently removed.
     #
     # @option params [String] :client_token
     #   A client token is used for keeping track of idempotent requests. It
@@ -7391,7 +7402,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.draft_status #=> String, one of "MODIFIED", "UNMODIFIED"
     #   resp.failure_reason #=> String
-    #   resp.schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1", "GENERIC_EVALUATION_PREDEFINED_V1"
+    #   resp.schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1", "THIRD_PARTY_EVALUATION_V1"
     #   resp.kms_key_arn #=> String
     #   resp.example_count #=> Integer
     #   resp.download_url #=> String
@@ -7872,6 +7883,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.composite_identifier #=> Array
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.composite_identifier[0] #=> String
+    #   resp.target_configuration.http.passthrough.static_query_parameters #=> Hash
+    #   resp.target_configuration.http.passthrough.static_query_parameters["StaticQueryParameterName"] #=> String
+    #   resp.target_configuration.http.passthrough.static_query_parameter_conflict_resolution #=> String, one of "CLIENT_OVERRIDE", "STATIC_OVERRIDE"
     #   resp.target_configuration.http.connector.source.connector_id #=> String
     #   resp.target_configuration.http.connector.parameters #=> Hash
     #   resp.target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
@@ -10032,7 +10048,7 @@ module Aws::BedrockAgentCoreControl
     #   resp.datasets[0].description #=> String
     #   resp.datasets[0].status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "CREATE_FAILED", "UPDATE_FAILED", "DELETE_FAILED"
     #   resp.datasets[0].draft_status #=> String, one of "MODIFIED", "UNMODIFIED"
-    #   resp.datasets[0].schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1", "GENERIC_EVALUATION_PREDEFINED_V1"
+    #   resp.datasets[0].schema_type #=> String, one of "AGENTCORE_EVALUATION_PREDEFINED_V1", "AGENTCORE_EVALUATION_SIMULATED_V1", "THIRD_PARTY_EVALUATION_V1"
     #   resp.datasets[0].example_count #=> Integer
     #   resp.datasets[0].created_at #=> Time
     #   resp.datasets[0].updated_at #=> Time
@@ -11763,6 +11779,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.targets[0].target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.composite_identifier #=> Array
+    #   resp.targets[0].target_configuration.http.passthrough.stickiness_configuration.composite_identifier[0] #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.static_query_parameters #=> Hash
+    #   resp.targets[0].target_configuration.http.passthrough.static_query_parameters["StaticQueryParameterName"] #=> String
+    #   resp.targets[0].target_configuration.http.passthrough.static_query_parameter_conflict_resolution #=> String, one of "CLIENT_OVERRIDE", "STATIC_OVERRIDE"
     #   resp.targets[0].target_configuration.http.connector.source.connector_id #=> String
     #   resp.targets[0].target_configuration.http.connector.parameters #=> Hash
     #   resp.targets[0].target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
@@ -13405,7 +13426,12 @@ module Aws::BedrockAgentCoreControl
     #           stickiness_configuration: {
     #             identifier: "StickinessConfigurationIdentifierString", # required
     #             timeout: 1,
+    #             composite_identifier: ["CompositeIdentifierEntry"],
     #           },
+    #           static_query_parameters: {
+    #             "StaticQueryParameterName" => "StaticQueryParameterValue",
+    #           },
+    #           static_query_parameter_conflict_resolution: "CLIENT_OVERRIDE", # accepts CLIENT_OVERRIDE, STATIC_OVERRIDE
     #         },
     #         connector: {
     #           source: { # required
@@ -13569,6 +13595,11 @@ module Aws::BedrockAgentCoreControl
     #   resp.target_configuration.http.passthrough.schema.source.inline_payload #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.identifier #=> String
     #   resp.target_configuration.http.passthrough.stickiness_configuration.timeout #=> Integer
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.composite_identifier #=> Array
+    #   resp.target_configuration.http.passthrough.stickiness_configuration.composite_identifier[0] #=> String
+    #   resp.target_configuration.http.passthrough.static_query_parameters #=> Hash
+    #   resp.target_configuration.http.passthrough.static_query_parameters["StaticQueryParameterName"] #=> String
+    #   resp.target_configuration.http.passthrough.static_query_parameter_conflict_resolution #=> String, one of "CLIENT_OVERRIDE", "STATIC_OVERRIDE"
     #   resp.target_configuration.http.connector.source.connector_id #=> String
     #   resp.target_configuration.http.connector.parameters #=> Hash
     #   resp.target_configuration.http.connector.parameters["ConnectorParameterName"] #=> String
@@ -14236,8 +14267,9 @@ module Aws::BedrockAgentCoreControl
     #
     # @option params [Array<Types::NamespaceKeyEntry>] :namespace_keys
     #   The namespace variable key definitions with validation rules for this
-    #   memory. Use this parameter to update existing `namespaceKey`
-    #   validation rules or add new keys when namespace templates change.
+    #   memory. This value fully replaces the existing set — any key you omit
+    #   is removed. Any referenced `namespaceKey` omission will throw
+    #   ValidationException.
     #
     # @option params [Types::StreamDeliveryResources] :stream_delivery_resources
     #   Configuration for streaming memory record data to external resources.
@@ -16329,7 +16361,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.66.0'
+      context[:gem_version] = '1.67.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

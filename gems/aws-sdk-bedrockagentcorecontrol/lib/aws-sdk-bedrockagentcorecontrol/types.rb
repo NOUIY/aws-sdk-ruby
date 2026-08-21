@@ -16498,14 +16498,35 @@ module Aws::BedrockAgentCoreControl
     #   same target.
     #   @return [Types::StickinessConfiguration]
     #
+    # @!attribute [rw] static_query_parameters
+    #   A map of static query parameters that the gateway always appends to
+    #   the outbound URL when forwarding requests to the target. The total
+    #   outbound URL length, which includes the endpoint and the
+    #   percent-encoded query parameters, is enforced by the service.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] static_query_parameter_conflict_resolution
+    #   Controls precedence when a client request supplies a query parameter
+    #   whose name matches a configured static query parameter. If not set,
+    #   defaults to `CLIENT_OVERRIDE`:
+    #
+    #   * `CLIENT_OVERRIDE` - The client-supplied value overrides the
+    #     configured static value for that parameter name.
+    #
+    #   * `STATIC_OVERRIDE` - The configured static value is retained,
+    #     overriding the client-supplied value for that parameter name.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PassthroughTargetConfiguration AWS API Documentation
     #
     class PassthroughTargetConfiguration < Struct.new(
       :endpoint,
       :protocol_type,
       :schema,
-      :stickiness_configuration)
-      SENSITIVE = []
+      :stickiness_configuration,
+      :static_query_parameters,
+      :static_query_parameter_conflict_resolution)
+      SENSITIVE = [:static_query_parameters]
       include Aws::Structure
     end
 
@@ -18991,11 +19012,18 @@ module Aws::BedrockAgentCoreControl
     #   to 86400.
     #   @return [Integer]
     #
+    # @!attribute [rw] composite_identifier
+    #   Additional headers to include in session affinity routing. When set,
+    #   requests are only considered part of the same session if both the
+    #   `identifier` and all composite identifier values match.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/StickinessConfiguration AWS API Documentation
     #
     class StickinessConfiguration < Struct.new(
       :identifier,
-      :timeout)
+      :timeout,
+      :composite_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -21443,8 +21471,9 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] namespace_keys
     #   The namespace variable key definitions with validation rules for
-    #   this memory. Use this parameter to update existing `namespaceKey`
-    #   validation rules or add new keys when namespace templates change.
+    #   this memory. This value fully replaces the existing set — any key
+    #   you omit is removed. Any referenced `namespaceKey` omission will
+    #   throw ValidationException.
     #   @return [Array<Types::NamespaceKeyEntry>]
     #
     # @!attribute [rw] stream_delivery_resources

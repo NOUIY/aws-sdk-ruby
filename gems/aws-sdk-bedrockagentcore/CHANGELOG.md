@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.50.0 (2026-08-21)
+------------------
+
+* Feature - Increase spans count from 1k to 20k
+
 1.49.0 (2026-08-19)
 ------------------
 

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.67.0 (2026-08-21)
+------------------
+
+* Feature - Update Dataset schema to THIRDPARTYEVALUATIONV1
+
 1.66.0 (2026-08-19)
 ------------------
 

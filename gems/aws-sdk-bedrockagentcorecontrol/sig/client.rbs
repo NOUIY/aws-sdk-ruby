@@ -444,7 +444,7 @@ module Aws
                             dataset_name: ::String,
                             ?description: ::String,
                             source: Params::data_source_type,
-                            schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "GENERIC_EVALUATION_PREDEFINED_V1"),
+                            schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "THIRD_PARTY_EVALUATION_V1"),
                             ?kms_key_arn: ::String,
                             ?tags: Hash[::String, ::String]
                           ) -> _CreateDatasetResponseSuccess
@@ -1530,7 +1530,7 @@ module Aws
         def status: () -> ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
         def draft_status: () -> ("MODIFIED" | "UNMODIFIED")
         def failure_reason: () -> ::String
-        def schema_type: () -> ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "GENERIC_EVALUATION_PREDEFINED_V1")
+        def schema_type: () -> ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "THIRD_PARTY_EVALUATION_V1")
         def kms_key_arn: () -> ::String
         def example_count: () -> ::Integer
         def download_url: () -> ::String

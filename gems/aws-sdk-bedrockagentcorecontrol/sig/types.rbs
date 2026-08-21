@@ -757,7 +757,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor dataset_name: ::String
       attr_accessor description: ::String
       attr_accessor source: Types::DataSourceType
-      attr_accessor schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "GENERIC_EVALUATION_PREDEFINED_V1")
+      attr_accessor schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "THIRD_PARTY_EVALUATION_V1")
       attr_accessor kms_key_arn: ::String
       attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
@@ -1448,7 +1448,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor description: ::String
       attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor draft_status: ("MODIFIED" | "UNMODIFIED")
-      attr_accessor schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "GENERIC_EVALUATION_PREDEFINED_V1")
+      attr_accessor schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "THIRD_PARTY_EVALUATION_V1")
       attr_accessor example_count: ::Integer
       attr_accessor created_at: ::Time
       attr_accessor updated_at: ::Time
@@ -2399,7 +2399,7 @@ module Aws::BedrockAgentCoreControl
       attr_accessor status: ("CREATING" | "UPDATING" | "DELETING" | "ACTIVE" | "CREATE_FAILED" | "UPDATE_FAILED" | "DELETE_FAILED")
       attr_accessor draft_status: ("MODIFIED" | "UNMODIFIED")
       attr_accessor failure_reason: ::String
-      attr_accessor schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "GENERIC_EVALUATION_PREDEFINED_V1")
+      attr_accessor schema_type: ("AGENTCORE_EVALUATION_PREDEFINED_V1" | "AGENTCORE_EVALUATION_SIMULATED_V1" | "THIRD_PARTY_EVALUATION_V1")
       attr_accessor kms_key_arn: ::String
       attr_accessor example_count: ::Integer
       attr_accessor download_url: ::String
@@ -4552,6 +4552,8 @@ module Aws::BedrockAgentCoreControl
       attr_accessor protocol_type: ("MCP" | "A2A" | "INFERENCE" | "CUSTOM")
       attr_accessor schema: Types::HttpApiSchemaConfiguration
       attr_accessor stickiness_configuration: Types::StickinessConfiguration
+      attr_accessor static_query_parameters: ::Hash[::String, ::String]
+      attr_accessor static_query_parameter_conflict_resolution: ("CLIENT_OVERRIDE" | "STATIC_OVERRIDE")
       SENSITIVE: []
     end
 
@@ -5243,6 +5245,7 @@ module Aws::BedrockAgentCoreControl
     class StickinessConfiguration
       attr_accessor identifier: ::String
       attr_accessor timeout: ::Integer
+      attr_accessor composite_identifier: ::Array[::String]
       SENSITIVE: []
     end
 

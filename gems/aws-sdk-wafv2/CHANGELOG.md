@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.137.0 (2026-08-21)
+------------------
+
+* Feature - DataProtectionConfig field Key Documentation Update
+
 1.136.0 (2026-08-03)
 ------------------
 

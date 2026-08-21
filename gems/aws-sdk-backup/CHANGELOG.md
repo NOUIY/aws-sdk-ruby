@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.117.0 (2026-08-21)
+------------------
+
+* Feature - Updating CLI Docs for Backup Audit Manager List Job Summaries APIs.
+
 1.116.0 (2026-08-06)
 ------------------
 

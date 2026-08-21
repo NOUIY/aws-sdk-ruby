@@ -163,6 +163,8 @@ module Aws::BedrockAgentCoreControl
     ComponentConfiguration = Shapes::StructureShape.new(name: 'ComponentConfiguration')
     ComponentConfigurationMap = Shapes::MapShape.new(name: 'ComponentConfigurationMap')
     ComponentIdentifier = Shapes::StringShape.new(name: 'ComponentIdentifier')
+    CompositeIdentifierEntry = Shapes::StringShape.new(name: 'CompositeIdentifierEntry')
+    CompositeIdentifierList = Shapes::ListShape.new(name: 'CompositeIdentifierList')
     ComputeConfiguration = Shapes::UnionShape.new(name: 'ComputeConfiguration')
     ConcurrentModificationException = Shapes::StructureShape.new(name: 'ConcurrentModificationException')
     Condition = Shapes::UnionShape.new(name: 'Condition')
@@ -1156,6 +1158,10 @@ module Aws::BedrockAgentCoreControl
     Statement = Shapes::StringShape.new(name: 'Statement')
     StaticOverride = Shapes::StructureShape.new(name: 'StaticOverride')
     StaticOverrideBundleVersionString = Shapes::StringShape.new(name: 'StaticOverrideBundleVersionString')
+    StaticQueryParameterConflictResolution = Shapes::StringShape.new(name: 'StaticQueryParameterConflictResolution')
+    StaticQueryParameterName = Shapes::StringShape.new(name: 'StaticQueryParameterName')
+    StaticQueryParameterValue = Shapes::StringShape.new(name: 'StaticQueryParameterValue')
+    StaticQueryParameters = Shapes::MapShape.new(name: 'StaticQueryParameters')
     StaticRoute = Shapes::StructureShape.new(name: 'StaticRoute')
     Status = Shapes::StringShape.new(name: 'Status')
     StatusReason = Shapes::StringShape.new(name: 'StatusReason')
@@ -1739,6 +1745,8 @@ module Aws::BedrockAgentCoreControl
 
     ComponentConfigurationMap.key = Shapes::ShapeRef.new(shape: ComponentIdentifier)
     ComponentConfigurationMap.value = Shapes::ShapeRef.new(shape: ComponentConfiguration)
+
+    CompositeIdentifierList.member = Shapes::ShapeRef.new(shape: CompositeIdentifierEntry)
 
     ComputeConfiguration.add_member(:ec2_configuration, Shapes::ShapeRef.new(shape: Ec2Configuration, location_name: "ec2Configuration"))
     ComputeConfiguration.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -4843,6 +4851,8 @@ module Aws::BedrockAgentCoreControl
     PassthroughTargetConfiguration.add_member(:protocol_type, Shapes::ShapeRef.new(shape: PassthroughProtocolType, required: true, location_name: "protocolType"))
     PassthroughTargetConfiguration.add_member(:schema, Shapes::ShapeRef.new(shape: HttpApiSchemaConfiguration, location_name: "schema"))
     PassthroughTargetConfiguration.add_member(:stickiness_configuration, Shapes::ShapeRef.new(shape: StickinessConfiguration, location_name: "stickinessConfiguration"))
+    PassthroughTargetConfiguration.add_member(:static_query_parameters, Shapes::ShapeRef.new(shape: StaticQueryParameters, location_name: "staticQueryParameters"))
+    PassthroughTargetConfiguration.add_member(:static_query_parameter_conflict_resolution, Shapes::ShapeRef.new(shape: StaticQueryParameterConflictResolution, location_name: "staticQueryParameterConflictResolution"))
     PassthroughTargetConfiguration.struct_class = Types::PassthroughTargetConfiguration
 
     PaymentConnectorSummaries.member = Shapes::ShapeRef.new(shape: PaymentConnectorSummary)
@@ -5366,6 +5376,9 @@ module Aws::BedrockAgentCoreControl
     StaticOverride.add_member(:bundle_version, Shapes::ShapeRef.new(shape: StaticOverrideBundleVersionString, required: true, location_name: "bundleVersion"))
     StaticOverride.struct_class = Types::StaticOverride
 
+    StaticQueryParameters.key = Shapes::ShapeRef.new(shape: StaticQueryParameterName)
+    StaticQueryParameters.value = Shapes::ShapeRef.new(shape: StaticQueryParameterValue)
+
     StaticRoute.add_member(:target_name, Shapes::ShapeRef.new(shape: TargetName, required: true, location_name: "targetName"))
     StaticRoute.struct_class = Types::StaticRoute
 
@@ -5373,6 +5386,7 @@ module Aws::BedrockAgentCoreControl
 
     StickinessConfiguration.add_member(:identifier, Shapes::ShapeRef.new(shape: StickinessConfigurationIdentifierString, required: true, location_name: "identifier"))
     StickinessConfiguration.add_member(:timeout, Shapes::ShapeRef.new(shape: StickinessTimeout, location_name: "timeout"))
+    StickinessConfiguration.add_member(:composite_identifier, Shapes::ShapeRef.new(shape: CompositeIdentifierList, location_name: "compositeIdentifier"))
     StickinessConfiguration.struct_class = Types::StickinessConfiguration
 
     StrategyConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: OverrideType, location_name: "type"))

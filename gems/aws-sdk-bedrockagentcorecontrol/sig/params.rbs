@@ -435,8 +435,11 @@ module Aws
       schema: Params::http_api_schema_configuration?,
       stickiness_configuration: {
         identifier: ::String,
-        timeout: ::Integer?
-      }?
+        timeout: ::Integer?,
+        composite_identifier: Array[::String]?
+      }?,
+      static_query_parameters: Hash[::String, ::String]?,
+      static_query_parameter_conflict_resolution: ("CLIENT_OVERRIDE" | "STATIC_OVERRIDE")?
     }
 
       type http_target_configuration = {
