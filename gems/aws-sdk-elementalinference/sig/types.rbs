@@ -83,6 +83,7 @@ module Aws::ElementalInference
       attr_accessor id: ::String
       attr_accessor data_endpoints: ::Array[::String]
       attr_accessor outputs: ::Array[Types::GetOutput]
+      attr_accessor access_role_arn: ::String
       attr_accessor status: ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
       attr_accessor association: Types::FeedAssociation
       attr_accessor tags: ::Hash[::String, ::String]
@@ -219,9 +220,25 @@ module Aws::ElementalInference
       attr_accessor id: ::String
       attr_accessor data_endpoints: ::Array[::String]
       attr_accessor outputs: ::Array[Types::GetOutput]
+      attr_accessor access_role_arn: ::String
       attr_accessor status: ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
       attr_accessor association: Types::FeedAssociation
       attr_accessor tags: ::Hash[::String, ::String]
+      SENSITIVE: []
+    end
+
+    class GetFixtureRequest
+      attr_accessor fixture_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetFixtureResponse
+      attr_accessor fixture_id: ::String
+      attr_accessor name: ::String
+      attr_accessor fixture_group: ::String
+      attr_accessor scheduled_start: ::Time
+      attr_accessor status: ::String
+      attr_accessor competitors: ::Array[Types::Competitor]
       SENSITIVE: []
     end
 
@@ -391,6 +408,7 @@ module Aws::ElementalInference
       attr_accessor id: ::String
       attr_accessor data_endpoints: ::Array[::String]
       attr_accessor outputs: ::Array[Types::GetOutput]
+      attr_accessor access_role_arn: ::String
       attr_accessor status: ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
       attr_accessor association: Types::FeedAssociation
       attr_accessor tags: ::Hash[::String, ::String]

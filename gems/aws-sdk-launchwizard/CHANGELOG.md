@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.41.0 (2026-08-24)
+------------------
+
+* Feature - Added accountConstraints and patternType to GetWorkload, ListWorkloads, GetWorkloadDeploymentPattern and ListWorkloadDeploymentPatterns for Launch Wizard
+
 1.40.0 (2026-07-09)
 ------------------
 

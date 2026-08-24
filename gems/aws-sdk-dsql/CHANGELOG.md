@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.33.0 (2026-08-24)
+------------------
+
+* Feature - Corrected the validation pattern on the ServiceName response field in the GetVpcEndpointServiceName API to match the values Amazon Aurora DSQL actually returns.
+
 1.32.0 (2026-08-12)
 ------------------
 

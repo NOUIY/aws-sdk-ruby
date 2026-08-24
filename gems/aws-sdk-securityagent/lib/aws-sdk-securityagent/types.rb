@@ -363,6 +363,13 @@ module Aws::SecurityAgent
     #   The list of integrated repositories associated with the pentest.
     #   @return [Array<Types::IntegratedRepository>]
     #
+    # @!attribute [rw] trusted_ca_certificates
+    #   The trust anchors used to validate target endpoint TLS certificates.
+    #   Provide these for endpoints served by a private or internal
+    #   certificate authority (CA), an intermediate CA, or a self-signed
+    #   certificate.
+    #   @return [Array<Types::TrustedCaCertificate>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/Assets AWS API Documentation
     #
     class Assets < Struct.new(
@@ -370,8 +377,9 @@ module Aws::SecurityAgent
       :actors,
       :documents,
       :source_code,
-      :integrated_repositories)
-      SENSITIVE = []
+      :integrated_repositories,
+      :trusted_ca_certificates)
+      SENSITIVE = [:trusted_ca_certificates]
       include Aws::Structure
     end
 
@@ -1414,6 +1422,42 @@ module Aws::SecurityAgent
       :remediate_code)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The source of a trusted CA certificate. Exactly one member must be
+    # set.
+    #
+    # @note CaCertificateSource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note CaCertificateSource is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CaCertificateSource corresponding to the set member.
+    #
+    # @!attribute [rw] inline_pem
+    #   A PEM-encoded X.509 certificate supplied inline.
+    #   @return [String]
+    #
+    # @!attribute [rw] artifact_id
+    #   The artifact ID of an uploaded certificate file.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_location
+    #   The Amazon S3 location URI of a customer-staged certificate.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/CaCertificateSource AWS API Documentation
+    #
+    class CaCertificateSource < Struct.new(
+      :inline_pem,
+      :artifact_id,
+      :s3_location,
+      :unknown)
+      SENSITIVE = [:inline_pem]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class InlinePem < CaCertificateSource; end
+      class ArtifactId < CaCertificateSource; end
+      class S3Location < CaCertificateSource; end
+      class Unknown < CaCertificateSource; end
     end
 
     # Represents a category assigned to a security testing task.
@@ -6288,6 +6332,11 @@ module Aws::SecurityAgent
     #   The list of integrated repositories associated with the pentest job.
     #   @return [Array<Types::IntegratedRepository>]
     #
+    # @!attribute [rw] trusted_ca_certificates
+    #   The trust anchors used to validate target endpoint TLS certificates
+    #   during the pentest job.
+    #   @return [Array<Types::TrustedCaCertificate>]
+    #
     # @!attribute [rw] code_remediation_strategy
     #   The code remediation strategy for the pentest job.
     #   @return [String]
@@ -6347,6 +6396,7 @@ module Aws::SecurityAgent
       :network_traffic_config,
       :error_information,
       :integrated_repositories,
+      :trusted_ca_certificates,
       :code_remediation_strategy,
       :clean_up_strategy,
       :disable_managed_skills,
@@ -6355,7 +6405,7 @@ module Aws::SecurityAgent
       :selected_finding_ids,
       :created_at,
       :updated_at)
-      SENSITIVE = []
+      SENSITIVE = [:trusted_ca_certificates]
       include Aws::Structure
     end
 
@@ -8055,6 +8105,21 @@ module Aws::SecurityAgent
       :message,
       :service_code,
       :quota_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A trust anchor used when validating a target endpoint's TLS
+    # certificate.
+    #
+    # @!attribute [rw] source
+    #   The source that AWS Security Agent reads the certificate from.
+    #   @return [Types::CaCertificateSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/securityagent-2025-09-06/TrustedCaCertificate AWS API Documentation
+    #
+    class TrustedCaCertificate < Struct.new(
+      :source)
       SENSITIVE = []
       include Aws::Structure
     end

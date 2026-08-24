@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.47.0 (2026-08-24)
+------------------
+
+* Feature - Service-managed parameter groups now only apply optimized defaults to DB Clusters automatically. New field effectiveDbParameterGroupIdentifier surfaces the parameter group actually applied.
+
 1.46.0 (2026-08-03)
 ------------------
 

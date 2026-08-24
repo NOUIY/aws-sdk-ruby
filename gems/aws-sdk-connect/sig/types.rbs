@@ -5432,7 +5432,7 @@ module Aws::Connect
       attr_accessor max_results: ::Integer
       attr_accessor next_token: ::String
       attr_accessor output_type: ("Raw" | "Redacted")
-      attr_accessor segment_types: ::Array[("Transcript" | "Categories" | "Issues" | "Event" | "Attachments" | "PostContactSummary")]
+      attr_accessor segment_types: ::Array[("Transcript" | "Categories" | "Issues" | "Event" | "Attachments" | "PostContactSummary" | "ExtractedInformation")]
       SENSITIVE: []
     end
 
@@ -6633,6 +6633,12 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class RealTimeContactAnalysisExtractedInformationValue
+      attr_accessor content: ::String
+      attr_accessor points_of_interest: ::Array[Types::RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]
+      SENSITIVE: []
+    end
+
     class RealTimeContactAnalysisIssueDetected
       attr_accessor transcript_items: ::Array[Types::RealTimeContactAnalysisTranscriptItemWithContent]
       SENSITIVE: []
@@ -6665,6 +6671,15 @@ module Aws::Connect
       attr_accessor display_name: ::String
       attr_accessor event_type: ::String
       attr_accessor time: Types::RealTimeContactAnalysisTimeData
+      SENSITIVE: []
+    end
+
+    class RealTimeContactAnalysisSegmentExtractedInformation
+      attr_accessor extraction_definition_id: ::String
+      attr_accessor extraction_definition_name: ::String
+      attr_accessor extraction_definition_display_label: ::String
+      attr_accessor extracted_values: ::Array[Types::RealTimeContactAnalysisExtractedInformationValue]
+      attr_accessor failure_code: ("QUOTA_EXCEEDED" | "INSUFFICIENT_CONVERSATION_CONTENT" | "FAILED_SAFETY_GUIDELINES" | "INTERNAL_ERROR" | "MAX_PACKAGE_FEATURE_ONLY")
       SENSITIVE: []
     end
 
@@ -6729,6 +6744,7 @@ module Aws::Connect
       attr_accessor event: Types::RealTimeContactAnalysisSegmentEvent
       attr_accessor attachments: Types::RealTimeContactAnalysisSegmentAttachments
       attr_accessor post_contact_summary: Types::RealTimeContactAnalysisSegmentPostContactSummary
+      attr_accessor extracted_information: Types::RealTimeContactAnalysisSegmentExtractedInformation
       attr_accessor unknown: untyped
       SENSITIVE: []
 
@@ -6743,6 +6759,8 @@ module Aws::Connect
       class Attachments < RealtimeContactAnalysisSegment
       end
       class PostContactSummary < RealtimeContactAnalysisSegment
+      end
+      class ExtractedInformation < RealtimeContactAnalysisSegment
       end
       class Unknown < RealtimeContactAnalysisSegment
       end

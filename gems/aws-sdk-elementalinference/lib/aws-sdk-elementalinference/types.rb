@@ -301,6 +301,12 @@ module Aws::ElementalInference
     #   Repeats the outputs that you specified in the request.
     #   @return [Array<Types::GetOutput>]
     #
+    # @!attribute [rw] access_role_arn
+    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
+    #   Management (IAM) role that you specified in the request. This
+    #   property is absent if you didn't specify an IAM role.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The current status of the feed. After creation of the feed has
     #   succeeded, the status will be AVAILABLE.
@@ -324,6 +330,7 @@ module Aws::ElementalInference
       :id,
       :data_endpoints,
       :outputs,
+      :access_role_arn,
       :status,
       :association,
       :tags)
@@ -783,6 +790,14 @@ module Aws::ElementalInference
     #   An array of the outputs in the feed.
     #   @return [Array<Types::GetOutput>]
     #
+    # @!attribute [rw] access_role_arn
+    #   The Amazon Resource Name (ARN) of an AWS Identity and Access
+    #   Management (IAM) role that Elemental Inference assumes. Elemental
+    #   Inference uses this role to access resources in your account on your
+    #   behalf. This property is absent if the feed doesn't have an IAM
+    #   role.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The status of the feed.
     #   @return [String]
@@ -805,9 +820,65 @@ module Aws::ElementalInference
       :id,
       :data_endpoints,
       :outputs,
+      :access_role_arn,
       :status,
       :association,
       :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] fixture_id
+    #   The ID of the fixture to retrieve, as returned by SearchFixtures.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetFixtureRequest AWS API Documentation
+    #
+    class GetFixtureRequest < Struct.new(
+      :fixture_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] fixture_id
+    #   The ID that you specified in the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the fixture, as provided by the data source. For
+    #   example, the names of the two competing teams.
+    #   @return [String]
+    #
+    # @!attribute [rw] fixture_group
+    #   The group that the fixture belongs to, such as the competition,
+    #   league, or tournament. The data source doesn't provide this
+    #   information for every fixture.
+    #   @return [String]
+    #
+    # @!attribute [rw] scheduled_start
+    #   The scheduled start time of the fixture, as provided by the data
+    #   source. The actual start time might differ.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the fixture in its lifecycle, as provided by the data
+    #   source. For example, Scheduled or Completed.
+    #   @return [String]
+    #
+    # @!attribute [rw] competitors
+    #   An array of the competitors (the teams or individuals) in the
+    #   fixture.
+    #   @return [Array<Types::Competitor>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetFixtureResponse AWS API Documentation
+    #
+    class GetFixtureResponse < Struct.new(
+      :fixture_id,
+      :name,
+      :fixture_group,
+      :scheduled_start,
+      :status,
+      :competitors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1410,6 +1481,12 @@ module Aws::ElementalInference
     #   unchanged, or you might have changed it.
     #   @return [Array<Types::GetOutput>]
     #
+    # @!attribute [rw] access_role_arn
+    #   The Amazon Resource Name (ARN) of the AWS Identity and Access
+    #   Management (IAM) role for the feed, after the update. This property
+    #   is absent if the feed doesn't have an IAM role.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The status of the feed.
     #   @return [String]
@@ -1431,6 +1508,7 @@ module Aws::ElementalInference
       :id,
       :data_endpoints,
       :outputs,
+      :access_role_arn,
       :status,
       :association,
       :tags)

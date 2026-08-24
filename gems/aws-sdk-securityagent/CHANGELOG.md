@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.13.0 (2026-08-24)
+------------------
+
+* Feature - Adding private and self-signed certificate configuration support for penetration tests
+
 1.12.0 (2026-08-13)
 ------------------
 

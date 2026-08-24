@@ -674,7 +674,7 @@ module Aws::Bedrock
     #     ],
     #     model_configurations: [ # required
     #       {
-    #         model_id: "BedrockModelId", # required
+    #         model_id: "AdvancedPromptOptimizationModelIdentifier", # required
     #         inference_config: {
     #           max_tokens: 1,
     #           temperature: 1.0,
@@ -8346,7 +8346,7 @@ module Aws::Bedrock
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrock'
-      context[:gem_version] = '1.90.0'
+      context[:gem_version] = '1.91.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

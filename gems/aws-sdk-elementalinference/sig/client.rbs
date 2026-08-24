@@ -120,6 +120,7 @@ module Aws
         def id: () -> ::String
         def data_endpoints: () -> ::Array[::String]
         def outputs: () -> ::Array[Types::GetOutput]
+        def access_role_arn: () -> ::String
         def status: () -> ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
         def association: () -> Types::FeedAssociation
         def tags: () -> ::Hash[::String, ::String]
@@ -205,6 +206,7 @@ module Aws
         def id: () -> ::String
         def data_endpoints: () -> ::Array[::String]
         def outputs: () -> ::Array[Types::GetOutput]
+        def access_role_arn: () -> ::String
         def status: () -> ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
         def association: () -> Types::FeedAssociation
         def tags: () -> ::Hash[::String, ::String]
@@ -214,6 +216,21 @@ module Aws
                       id: ::String
                     ) -> _GetFeedResponseSuccess
                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetFeedResponseSuccess
+
+      interface _GetFixtureResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetFixtureResponse]
+        def fixture_id: () -> ::String
+        def name: () -> ::String
+        def fixture_group: () -> ::String
+        def scheduled_start: () -> ::Time
+        def status: () -> ::String
+        def competitors: () -> ::Array[Types::Competitor]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ElementalInference/Client.html#get_fixture-instance_method
+      def get_fixture: (
+                         fixture_id: ::String
+                       ) -> _GetFixtureResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetFixtureResponseSuccess
 
       interface _ListDictionariesResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ListDictionariesResponse]
@@ -310,6 +327,7 @@ module Aws
         def id: () -> ::String
         def data_endpoints: () -> ::Array[::String]
         def outputs: () -> ::Array[Types::GetOutput]
+        def access_role_arn: () -> ::String
         def status: () -> ("CREATING" | "AVAILABLE" | "ACTIVE" | "UPDATING" | "DELETING" | "DELETED" | "ARCHIVED")
         def association: () -> Types::FeedAssociation
         def tags: () -> ::Hash[::String, ::String]

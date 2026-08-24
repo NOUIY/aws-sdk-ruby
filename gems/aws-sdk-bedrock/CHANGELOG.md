@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.91.0 (2026-08-24)
+------------------
+
+* Feature - Adds support for specifying an inference profile ID or ARN, or an application inference profile ARN as the target model in CreateAdvancedPromptOptimizationJob.
+
 1.90.0 (2026-07-09)
 ------------------
 

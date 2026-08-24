@@ -683,6 +683,7 @@ module Aws::ElementalInference
     #   * {Types::CreateFeedResponse#id #id} => String
     #   * {Types::CreateFeedResponse#data_endpoints #data_endpoints} => Array&lt;String&gt;
     #   * {Types::CreateFeedResponse#outputs #outputs} => Array&lt;Types::GetOutput&gt;
+    #   * {Types::CreateFeedResponse#access_role_arn #access_role_arn} => String
     #   * {Types::CreateFeedResponse#status #status} => String
     #   * {Types::CreateFeedResponse#association #association} => Types::FeedAssociation
     #   * {Types::CreateFeedResponse#tags #tags} => Hash&lt;String,String&gt;
@@ -752,6 +753,7 @@ module Aws::ElementalInference
     #   resp.outputs[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.outputs[0].description #=> String
     #   resp.outputs[0].from_association #=> Boolean
+    #   resp.access_role_arn #=> String
     #   resp.status #=> String, one of "CREATING", "AVAILABLE", "ACTIVE", "UPDATING", "DELETING", "DELETED", "ARCHIVED"
     #   resp.association.associated_resource_name #=> String
     #   resp.tags #=> Hash
@@ -965,6 +967,7 @@ module Aws::ElementalInference
     #   * {Types::GetFeedResponse#id #id} => String
     #   * {Types::GetFeedResponse#data_endpoints #data_endpoints} => Array&lt;String&gt;
     #   * {Types::GetFeedResponse#outputs #outputs} => Array&lt;Types::GetOutput&gt;
+    #   * {Types::GetFeedResponse#access_role_arn #access_role_arn} => String
     #   * {Types::GetFeedResponse#status #status} => String
     #   * {Types::GetFeedResponse#association #association} => Types::FeedAssociation
     #   * {Types::GetFeedResponse#tags #tags} => Hash&lt;String,String&gt;
@@ -998,6 +1001,7 @@ module Aws::ElementalInference
     #   resp.outputs[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.outputs[0].description #=> String
     #   resp.outputs[0].from_association #=> Boolean
+    #   resp.access_role_arn #=> String
     #   resp.status #=> String, one of "CREATING", "AVAILABLE", "ACTIVE", "UPDATING", "DELETING", "DELETED", "ARCHIVED"
     #   resp.association.associated_resource_name #=> String
     #   resp.tags #=> Hash
@@ -1014,6 +1018,48 @@ module Aws::ElementalInference
     # @param [Hash] params ({})
     def get_feed(params = {}, options = {})
       req = build_request(:get_feed, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about the specified fixture (a sports event,
+    # such as a specific basketball game). You obtain a fixtureId from
+    # SearchFixtures, or from the clipping output of a feed.
+    #
+    # @option params [required, String] :fixture_id
+    #   The ID of the fixture to retrieve, as returned by SearchFixtures.
+    #
+    # @return [Types::GetFixtureResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetFixtureResponse#fixture_id #fixture_id} => String
+    #   * {Types::GetFixtureResponse#name #name} => String
+    #   * {Types::GetFixtureResponse#fixture_group #fixture_group} => String
+    #   * {Types::GetFixtureResponse#scheduled_start #scheduled_start} => Time
+    #   * {Types::GetFixtureResponse#status #status} => String
+    #   * {Types::GetFixtureResponse#competitors #competitors} => Array&lt;Types::Competitor&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_fixture({
+    #     fixture_id: "FixtureId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.fixture_id #=> String
+    #   resp.name #=> String
+    #   resp.fixture_group #=> String
+    #   resp.scheduled_start #=> Time
+    #   resp.status #=> String
+    #   resp.competitors #=> Array
+    #   resp.competitors[0].name #=> String
+    #   resp.competitors[0].is_home #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elementalinference-2018-11-14/GetFixture AWS API Documentation
+    #
+    # @overload get_fixture(params = {})
+    # @param [Hash] params ({})
+    def get_fixture(params = {}, options = {})
+      req = build_request(:get_fixture, params)
       req.send_request(options)
     end
 
@@ -1396,6 +1442,7 @@ module Aws::ElementalInference
     #   * {Types::UpdateFeedResponse#id #id} => String
     #   * {Types::UpdateFeedResponse#data_endpoints #data_endpoints} => Array&lt;String&gt;
     #   * {Types::UpdateFeedResponse#outputs #outputs} => Array&lt;Types::GetOutput&gt;
+    #   * {Types::UpdateFeedResponse#access_role_arn #access_role_arn} => String
     #   * {Types::UpdateFeedResponse#status #status} => String
     #   * {Types::UpdateFeedResponse#association #association} => Types::FeedAssociation
     #   * {Types::UpdateFeedResponse#tags #tags} => Hash&lt;String,String&gt;
@@ -1464,6 +1511,7 @@ module Aws::ElementalInference
     #   resp.outputs[0].status #=> String, one of "ENABLED", "DISABLED"
     #   resp.outputs[0].description #=> String
     #   resp.outputs[0].from_association #=> Boolean
+    #   resp.access_role_arn #=> String
     #   resp.status #=> String, one of "CREATING", "AVAILABLE", "ACTIVE", "UPDATING", "DELETING", "DELETED", "ARCHIVED"
     #   resp.association.associated_resource_name #=> String
     #   resp.tags #=> Hash
@@ -1496,7 +1544,7 @@ module Aws::ElementalInference
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-elementalinference'
-      context[:gem_version] = '1.9.0'
+      context[:gem_version] = '1.10.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

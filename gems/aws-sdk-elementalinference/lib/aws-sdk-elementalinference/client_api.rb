@@ -67,6 +67,8 @@ module Aws::ElementalInference
     GetDictionaryResponse = Shapes::StructureShape.new(name: 'GetDictionaryResponse')
     GetFeedRequest = Shapes::StructureShape.new(name: 'GetFeedRequest')
     GetFeedResponse = Shapes::StructureShape.new(name: 'GetFeedResponse')
+    GetFixtureRequest = Shapes::StructureShape.new(name: 'GetFixtureRequest')
+    GetFixtureResponse = Shapes::StructureShape.new(name: 'GetFixtureResponse')
     GetOutput = Shapes::StructureShape.new(name: 'GetOutput')
     GetOutputList = Shapes::ListShape.new(name: 'GetOutputList')
     IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
@@ -174,6 +176,7 @@ module Aws::ElementalInference
     CreateFeedResponse.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location_name: "id"))
     CreateFeedResponse.add_member(:data_endpoints, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "dataEndpoints"))
     CreateFeedResponse.add_member(:outputs, Shapes::ShapeRef.new(shape: GetOutputList, required: true, location_name: "outputs"))
+    CreateFeedResponse.add_member(:access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "accessRoleArn"))
     CreateFeedResponse.add_member(:status, Shapes::ShapeRef.new(shape: FeedStatus, required: true, location_name: "status"))
     CreateFeedResponse.add_member(:association, Shapes::ShapeRef.new(shape: FeedAssociation, location_name: "association"))
     CreateFeedResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
@@ -282,10 +285,22 @@ module Aws::ElementalInference
     GetFeedResponse.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location_name: "id"))
     GetFeedResponse.add_member(:data_endpoints, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "dataEndpoints"))
     GetFeedResponse.add_member(:outputs, Shapes::ShapeRef.new(shape: GetOutputList, required: true, location_name: "outputs"))
+    GetFeedResponse.add_member(:access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "accessRoleArn"))
     GetFeedResponse.add_member(:status, Shapes::ShapeRef.new(shape: FeedStatus, required: true, location_name: "status"))
     GetFeedResponse.add_member(:association, Shapes::ShapeRef.new(shape: FeedAssociation, location_name: "association"))
     GetFeedResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     GetFeedResponse.struct_class = Types::GetFeedResponse
+
+    GetFixtureRequest.add_member(:fixture_id, Shapes::ShapeRef.new(shape: FixtureId, required: true, location: "uri", location_name: "fixtureId"))
+    GetFixtureRequest.struct_class = Types::GetFixtureRequest
+
+    GetFixtureResponse.add_member(:fixture_id, Shapes::ShapeRef.new(shape: FixtureId, required: true, location_name: "fixtureId"))
+    GetFixtureResponse.add_member(:name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "name"))
+    GetFixtureResponse.add_member(:fixture_group, Shapes::ShapeRef.new(shape: String, location_name: "fixtureGroup"))
+    GetFixtureResponse.add_member(:scheduled_start, Shapes::ShapeRef.new(shape: SyntheticTimestamp_date_time, location_name: "scheduledStart"))
+    GetFixtureResponse.add_member(:status, Shapes::ShapeRef.new(shape: String, required: true, location_name: "status"))
+    GetFixtureResponse.add_member(:competitors, Shapes::ShapeRef.new(shape: CompetitorList, required: true, location_name: "competitors"))
+    GetFixtureResponse.struct_class = Types::GetFixtureResponse
 
     GetOutput.add_member(:name, Shapes::ShapeRef.new(shape: ResourceName, required: true, location_name: "name"))
     GetOutput.add_member(:output_config, Shapes::ShapeRef.new(shape: OutputConfig, required: true, location_name: "outputConfig"))
@@ -416,6 +431,7 @@ module Aws::ElementalInference
     UpdateFeedResponse.add_member(:id, Shapes::ShapeRef.new(shape: FeedId, required: true, location_name: "id"))
     UpdateFeedResponse.add_member(:data_endpoints, Shapes::ShapeRef.new(shape: StringList, required: true, location_name: "dataEndpoints"))
     UpdateFeedResponse.add_member(:outputs, Shapes::ShapeRef.new(shape: GetOutputList, required: true, location_name: "outputs"))
+    UpdateFeedResponse.add_member(:access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "accessRoleArn"))
     UpdateFeedResponse.add_member(:status, Shapes::ShapeRef.new(shape: FeedStatus, required: true, location_name: "status"))
     UpdateFeedResponse.add_member(:association, Shapes::ShapeRef.new(shape: FeedAssociation, location_name: "association"))
     UpdateFeedResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
@@ -573,6 +589,21 @@ module Aws::ElementalInference
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+      end)
+
+      api.add_operation(:get_fixture, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetFixture"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/fixtures/{fixtureId}"
+        o.input = Shapes::ShapeRef.new(shape: GetFixtureRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetFixtureResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: GatewayTimedOutException)
       end)
 
       api.add_operation(:list_dictionaries, Seahorse::Model::Operation.new.tap do |o|

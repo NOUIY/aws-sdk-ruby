@@ -11859,6 +11859,11 @@ module Aws::Batch
     # environment. For more information about infrastructure updates, see
     # [Updating compute environments][1] in the *Batch User Guide*.
     #
+    # The `updatePolicy` property applies only to Amazon EC2 managed compute
+    # environments. Batch doesn't support `updatePolicy` for Fargate
+    # compute environments. If you specify it for a Fargate compute
+    # environment, Batch ignores it.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html

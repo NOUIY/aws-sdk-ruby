@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.151.0 (2026-08-24)
+------------------
+
+* Feature - Doc Update, Add note that UpdatePolicy applies only to EC2 managed compute environments
+
 1.150.0 (2026-08-20)
 ------------------
 

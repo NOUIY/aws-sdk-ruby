@@ -101,6 +101,8 @@ module Aws::SecurityAgent
     BitbucketWorkspace = Shapes::StringShape.new(name: 'BitbucketWorkspace')
     Blob = Shapes::BlobShape.new(name: 'Blob')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
+    CaCertificatePem = Shapes::StringShape.new(name: 'CaCertificatePem')
+    CaCertificateSource = Shapes::UnionShape.new(name: 'CaCertificateSource')
     Category = Shapes::StructureShape.new(name: 'Category')
     CategoryList = Shapes::ListShape.new(name: 'CategoryList')
     CertificateChain = Shapes::StringShape.new(name: 'CertificateChain')
@@ -470,6 +472,8 @@ module Aws::SecurityAgent
     ThreatSummary = Shapes::StructureShape.new(name: 'ThreatSummary')
     ThreatSummaryList = Shapes::ListShape.new(name: 'ThreatSummaryList')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
+    TrustedCaCertificate = Shapes::StructureShape.new(name: 'TrustedCaCertificate')
+    TrustedCaCertificateList = Shapes::ListShape.new(name: 'TrustedCaCertificateList')
     UntagResourceInput = Shapes::StructureShape.new(name: 'UntagResourceInput')
     UntagResourceOutput = Shapes::StructureShape.new(name: 'UntagResourceOutput')
     UpdateAgentSpaceInput = Shapes::StructureShape.new(name: 'UpdateAgentSpaceInput')
@@ -602,6 +606,7 @@ module Aws::SecurityAgent
     Assets.add_member(:documents, Shapes::ShapeRef.new(shape: DocumentList, location_name: "documents"))
     Assets.add_member(:source_code, Shapes::ShapeRef.new(shape: SourceCodeRepositoryList, location_name: "sourceCode"))
     Assets.add_member(:integrated_repositories, Shapes::ShapeRef.new(shape: IntegratedRepositoryList, location_name: "integratedRepositories"))
+    Assets.add_member(:trusted_ca_certificates, Shapes::ShapeRef.new(shape: TrustedCaCertificateList, location_name: "trustedCaCertificates"))
     Assets.struct_class = Types::Assets
 
     Authentication.add_member(:provider_type, Shapes::ShapeRef.new(shape: AuthenticationProviderType, location_name: "providerType"))
@@ -823,6 +828,16 @@ module Aws::SecurityAgent
     BitbucketResourceCapabilities.add_member(:leave_comments, Shapes::ShapeRef.new(shape: Boolean, location_name: "leaveComments"))
     BitbucketResourceCapabilities.add_member(:remediate_code, Shapes::ShapeRef.new(shape: Boolean, location_name: "remediateCode"))
     BitbucketResourceCapabilities.struct_class = Types::BitbucketResourceCapabilities
+
+    CaCertificateSource.add_member(:inline_pem, Shapes::ShapeRef.new(shape: CaCertificatePem, location_name: "inlinePem"))
+    CaCertificateSource.add_member(:artifact_id, Shapes::ShapeRef.new(shape: String, location_name: "artifactId"))
+    CaCertificateSource.add_member(:s3_location, Shapes::ShapeRef.new(shape: String, location_name: "s3Location"))
+    CaCertificateSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    CaCertificateSource.add_member_subclass(:inline_pem, Types::CaCertificateSource::InlinePem)
+    CaCertificateSource.add_member_subclass(:artifact_id, Types::CaCertificateSource::ArtifactId)
+    CaCertificateSource.add_member_subclass(:s3_location, Types::CaCertificateSource::S3Location)
+    CaCertificateSource.add_member_subclass(:unknown, Types::CaCertificateSource::Unknown)
+    CaCertificateSource.struct_class = Types::CaCertificateSource
 
     Category.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
     Category.add_member(:is_primary, Shapes::ShapeRef.new(shape: Boolean, location_name: "isPrimary"))
@@ -1882,6 +1897,7 @@ module Aws::SecurityAgent
     PentestJob.add_member(:network_traffic_config, Shapes::ShapeRef.new(shape: NetworkTrafficConfig, location_name: "networkTrafficConfig"))
     PentestJob.add_member(:error_information, Shapes::ShapeRef.new(shape: ErrorInformation, location_name: "errorInformation"))
     PentestJob.add_member(:integrated_repositories, Shapes::ShapeRef.new(shape: IntegratedRepositoryList, location_name: "integratedRepositories"))
+    PentestJob.add_member(:trusted_ca_certificates, Shapes::ShapeRef.new(shape: TrustedCaCertificateList, location_name: "trustedCaCertificates"))
     PentestJob.add_member(:code_remediation_strategy, Shapes::ShapeRef.new(shape: CodeRemediationStrategy, location_name: "codeRemediationStrategy"))
     PentestJob.add_member(:clean_up_strategy, Shapes::ShapeRef.new(shape: CleanUpStrategy, location_name: "cleanUpStrategy"))
     PentestJob.add_member(:disable_managed_skills, Shapes::ShapeRef.new(shape: SkillTypeList, location_name: "disableManagedSkills"))
@@ -2329,6 +2345,11 @@ module Aws::SecurityAgent
     ThrottlingException.add_member(:service_code, Shapes::ShapeRef.new(shape: String, location_name: "serviceCode"))
     ThrottlingException.add_member(:quota_code, Shapes::ShapeRef.new(shape: String, location_name: "quotaCode"))
     ThrottlingException.struct_class = Types::ThrottlingException
+
+    TrustedCaCertificate.add_member(:source, Shapes::ShapeRef.new(shape: CaCertificateSource, required: true, location_name: "source"))
+    TrustedCaCertificate.struct_class = Types::TrustedCaCertificate
+
+    TrustedCaCertificateList.member = Shapes::ShapeRef.new(shape: TrustedCaCertificate)
 
     UntagResourceInput.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, required: true, location: "uri", location_name: "resourceArn"))
     UntagResourceInput.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeyList, required: true, location: "querystring", location_name: "tagKeys"))

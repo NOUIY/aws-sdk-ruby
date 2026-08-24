@@ -102,6 +102,7 @@ module Aws::SecurityAgent
       attr_accessor documents: ::Array[Types::DocumentInfo]
       attr_accessor source_code: ::Array[Types::SourceCodeRepository]
       attr_accessor integrated_repositories: ::Array[Types::IntegratedRepository]
+      attr_accessor trusted_ca_certificates: ::Array[Types::TrustedCaCertificate]
       SENSITIVE: []
     end
 
@@ -417,6 +418,23 @@ module Aws::SecurityAgent
       attr_accessor leave_comments: bool
       attr_accessor remediate_code: bool
       SENSITIVE: []
+    end
+
+    class CaCertificateSource
+      attr_accessor inline_pem: ::String
+      attr_accessor artifact_id: ::String
+      attr_accessor s3_location: ::String
+      attr_accessor unknown: untyped
+      SENSITIVE: [:inline_pem]
+
+      class InlinePem < CaCertificateSource
+      end
+      class ArtifactId < CaCertificateSource
+      end
+      class S3Location < CaCertificateSource
+      end
+      class Unknown < CaCertificateSource
+      end
     end
 
     class Category
@@ -1747,6 +1765,7 @@ module Aws::SecurityAgent
       attr_accessor network_traffic_config: Types::NetworkTrafficConfig
       attr_accessor error_information: Types::ErrorInformation
       attr_accessor integrated_repositories: ::Array[Types::IntegratedRepository]
+      attr_accessor trusted_ca_certificates: ::Array[Types::TrustedCaCertificate]
       attr_accessor code_remediation_strategy: ("AUTOMATIC" | "DISABLED")
       attr_accessor clean_up_strategy: ("BEST_EFFORT_DELETE" | "RETAIN_ALL")
       attr_accessor disable_managed_skills: ::Array[("FINDING_PERSONALIZATION" | "LOGIN_OPTIMIZATION")]
@@ -2211,6 +2230,11 @@ module Aws::SecurityAgent
       attr_accessor message: ::String
       attr_accessor service_code: ::String
       attr_accessor quota_code: ::String
+      SENSITIVE: []
+    end
+
+    class TrustedCaCertificate
+      attr_accessor source: Types::CaCertificateSource
       SENSITIVE: []
     end
 

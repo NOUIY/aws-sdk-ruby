@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.10.0 (2026-08-24)
+------------------
+
+* Feature - Added support for the GetFixture API, enabling customers to retrieve the details of a fixture from its fixture ID, and added the access role ARN to the CreateFeed, GetFeed, and UpdateFeed responses.
+
 1.9.0 (2026-08-10)
 ------------------
 

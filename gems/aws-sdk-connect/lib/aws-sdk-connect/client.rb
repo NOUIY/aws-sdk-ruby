@@ -18332,7 +18332,7 @@ module Aws::Connect
     #     max_results: 1,
     #     next_token: "LargeNextToken",
     #     output_type: "Raw", # required, accepts Raw, Redacted
-    #     segment_types: ["Transcript"], # required, accepts Transcript, Categories, Issues, Event, Attachments, PostContactSummary
+    #     segment_types: ["Transcript"], # required, accepts Transcript, Categories, Issues, Event, Attachments, PostContactSummary, ExtractedInformation
     #   })
     #
     # @example Response structure
@@ -18382,6 +18382,16 @@ module Aws::Connect
     #   resp.segments[0].post_contact_summary.content #=> String
     #   resp.segments[0].post_contact_summary.status #=> String, one of "FAILED", "COMPLETED"
     #   resp.segments[0].post_contact_summary.failure_code #=> String, one of "QUOTA_EXCEEDED", "INSUFFICIENT_CONVERSATION_CONTENT", "FAILED_SAFETY_GUIDELINES", "INVALID_ANALYSIS_CONFIGURATION", "INTERNAL_ERROR"
+    #   resp.segments[0].extracted_information.extraction_definition_id #=> String
+    #   resp.segments[0].extracted_information.extraction_definition_name #=> String
+    #   resp.segments[0].extracted_information.extraction_definition_display_label #=> String
+    #   resp.segments[0].extracted_information.extracted_values #=> Array
+    #   resp.segments[0].extracted_information.extracted_values[0].content #=> String
+    #   resp.segments[0].extracted_information.extracted_values[0].points_of_interest #=> Array
+    #   resp.segments[0].extracted_information.extracted_values[0].points_of_interest[0].id #=> String
+    #   resp.segments[0].extracted_information.extracted_values[0].points_of_interest[0].character_offsets.begin_offset_char #=> Integer
+    #   resp.segments[0].extracted_information.extracted_values[0].points_of_interest[0].character_offsets.end_offset_char #=> Integer
+    #   resp.segments[0].extracted_information.failure_code #=> String, one of "QUOTA_EXCEEDED", "INSUFFICIENT_CONVERSATION_CONTENT", "FAILED_SAFETY_GUIDELINES", "INTERNAL_ERROR", "MAX_PACKAGE_FEATURE_ONLY"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/ListRealtimeContactAnalysisSegmentsV2 AWS API Documentation
@@ -31284,7 +31294,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.272.0'
+      context[:gem_version] = '1.273.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

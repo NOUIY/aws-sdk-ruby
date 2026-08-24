@@ -28624,6 +28624,27 @@ module Aws::Connect
       include Aws::Structure
     end
 
+    # An individual value extracted from the conversation, including its
+    # content and the locations where it was found.
+    #
+    # @!attribute [rw] content
+    #   The text content of the extracted value.
+    #   @return [String]
+    #
+    # @!attribute [rw] points_of_interest
+    #   The sections in the conversation that indicate where the extracted
+    #   value was found.
+    #   @return [Array<Types::RealTimeContactAnalysisTranscriptItemWithCharacterOffsets>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RealTimeContactAnalysisExtractedInformationValue AWS API Documentation
+    #
+    class RealTimeContactAnalysisExtractedInformationValue < Struct.new(
+      :content,
+      :points_of_interest)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Potential issues that are detected based on an artificial intelligence
     # analysis of each turn in the conversation.
     #
@@ -28750,6 +28771,61 @@ module Aws::Connect
       :display_name,
       :event_type,
       :time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Segment containing information extracted from the conversation. Each
+    # segment represents the results for a single extraction definition.
+    #
+    # @!attribute [rw] extraction_definition_id
+    #   The identifier of the extraction definition that produced this
+    #   result.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_name
+    #   The name of the extraction definition that produced this result.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_definition_display_label
+    #   The display label of the extraction definition that produced this
+    #   result.
+    #   @return [String]
+    #
+    # @!attribute [rw] extracted_values
+    #   The list of values extracted from the conversation for this
+    #   extraction definition. This field is empty when a `FailureCode` is
+    #   present.
+    #   @return [Array<Types::RealTimeContactAnalysisExtractedInformationValue>]
+    #
+    # @!attribute [rw] failure_code
+    #   If the information failed to be extracted, one of the following
+    #   failure codes occurs:
+    #
+    #   * `QUOTA_EXCEEDED`: The number of concurrent analytics jobs reached
+    #     your service quota.
+    #
+    #   * `INSUFFICIENT_CONVERSATION_CONTENT`: Information extraction
+    #     requires a conversation with at least one turn from each
+    #     participant.
+    #
+    #   * `FAILED_SAFETY_GUIDELINES`: The extracted information cannot be
+    #     provided because it failed to meet system safety guidelines.
+    #
+    #   * `INTERNAL_ERROR`: Internal system error.
+    #
+    #   * `MAX_PACKAGE_FEATURE_ONLY`: Information extraction is only
+    #     available in Amazon Connect Customer instances.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RealTimeContactAnalysisSegmentExtractedInformation AWS API Documentation
+    #
+    class RealTimeContactAnalysisSegmentExtractedInformation < Struct.new(
+      :extraction_definition_id,
+      :extraction_definition_name,
+      :extraction_definition_display_label,
+      :extracted_values,
+      :failure_code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -28996,6 +29072,10 @@ module Aws::Connect
     #   Information about the post-contact summary.
     #   @return [Types::RealTimeContactAnalysisSegmentPostContactSummary]
     #
+    # @!attribute [rw] extracted_information
+    #   The extracted information from the conversation.
+    #   @return [Types::RealTimeContactAnalysisSegmentExtractedInformation]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/RealtimeContactAnalysisSegment AWS API Documentation
     #
     class RealtimeContactAnalysisSegment < Struct.new(
@@ -29005,6 +29085,7 @@ module Aws::Connect
       :event,
       :attachments,
       :post_contact_summary,
+      :extracted_information,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -29016,6 +29097,7 @@ module Aws::Connect
       class Event < RealtimeContactAnalysisSegment; end
       class Attachments < RealtimeContactAnalysisSegment; end
       class PostContactSummary < RealtimeContactAnalysisSegment; end
+      class ExtractedInformation < RealtimeContactAnalysisSegment; end
       class Unknown < RealtimeContactAnalysisSegment; end
     end
 

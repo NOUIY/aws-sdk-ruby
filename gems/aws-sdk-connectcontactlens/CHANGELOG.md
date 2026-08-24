@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.61.0 (2026-08-24)
+------------------
+
+* Feature - This release adds the ExtractedInformation segment to the ListRealtimeContactAnalysisSegments API, enabling customers to retrieve information extracted from real-time contact analysis.
+
 1.60.0 (2026-07-09)
 ------------------
 

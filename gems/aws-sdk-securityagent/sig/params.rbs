@@ -46,6 +46,15 @@ module Aws
           provider_resource_id: ::String,
           branch: ::String?
         }
+      ]?,
+      trusted_ca_certificates: Array[
+        {
+          source: {
+            inline_pem: ::String?,
+            artifact_id: ::String?,
+            s3_location: ::String?
+          }
+        }
       ]?
     }
 
