@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.24.0 (2026-08-25)
+------------------
+
+* Feature - EVS now supports i7i.metal-48xl EC2 bare metal instance type, delivering high random IOPS performance with real-time latency, ideal for IO intensive and latency-sensitive workloads such as transactional databases, real-time analytics, and AI ML pre-processing.
+
 1.23.0 (2026-07-09)
 ------------------
 

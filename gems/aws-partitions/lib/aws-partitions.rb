@@ -429,6 +429,7 @@ module Aws
             'Health' => 'health',
             'HealthLake' => 'healthlake',
             'IAM' => 'iam',
+            'IAMToolbox' => 'iam-toolbox',
             'IVS' => 'ivs',
             'IVSRealTime' => 'ivsrealtime',
             'IdentityStore' => 'identitystore',

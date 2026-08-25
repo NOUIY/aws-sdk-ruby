@@ -5288,6 +5288,44 @@ module Aws::EKS
       include Aws::Structure
     end
 
+    # Constraints for an integer parameter specifying allowed range.
+    #
+    # @!attribute [rw] min
+    #   The minimum allowed value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max
+    #   The maximum allowed value.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/IntegerConstraints AWS API Documentation
+    #
+    class IntegerConstraints < Struct.new(
+      :min,
+      :max)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An integer parameter configuration with default value and constraints.
+    #
+    # @!attribute [rw] default_value
+    #   The default value for the integer parameter.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] constraints
+    #   The constraints for the integer parameter.
+    #   @return [Types::IntegerConstraints]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/IntegerParameterConfig AWS API Documentation
+    #
+    class IntegerParameterConfig < Struct.new(
+      :default_value,
+      :constraints)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An integer range constraint specifying minimum and maximum allowed
     # values.
     #
@@ -5575,6 +5613,10 @@ module Aws::EKS
     # The configuration for the Kubernetes controller manager on an Amazon
     # EKS cluster.
     #
+    # @!attribute [rw] pod_gc_controller_config
+    #   The pod garbage collection controller configuration.
+    #   @return [Types::PodGcControllerConfigRequest]
+    #
     # @!attribute [rw] horizontal_pod_autoscaler_controller_config
     #   The horizontal pod autoscaler controller configuration.
     #   @return [Types::HorizontalPodAutoscalerControllerConfigRequest]
@@ -5582,6 +5624,7 @@ module Aws::EKS
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/KubeControllerManagerConfigRequest AWS API Documentation
     #
     class KubeControllerManagerConfigRequest < Struct.new(
+      :pod_gc_controller_config,
       :horizontal_pod_autoscaler_controller_config)
       SENSITIVE = []
       include Aws::Structure
@@ -5590,6 +5633,10 @@ module Aws::EKS
     # The Kubernetes controller manager configuration for an Amazon EKS
     # cluster.
     #
+    # @!attribute [rw] pod_gc_controller_config
+    #   The pod garbage collection controller configuration.
+    #   @return [Types::PodGcControllerConfigResponse]
+    #
     # @!attribute [rw] horizontal_pod_autoscaler_controller_config
     #   The horizontal pod autoscaler controller configuration.
     #   @return [Types::HorizontalPodAutoscalerControllerConfigResponse]
@@ -5597,6 +5644,7 @@ module Aws::EKS
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/KubeControllerManagerConfigResponse AWS API Documentation
     #
     class KubeControllerManagerConfigResponse < Struct.new(
+      :pod_gc_controller_config,
       :horizontal_pod_autoscaler_controller_config)
       SENSITIVE = []
       include Aws::Structure
@@ -5604,6 +5652,11 @@ module Aws::EKS
 
     # The Kubernetes controller manager version-specific configuration
     # defaults and constraints.
+    #
+    # @!attribute [rw] pod_gc_controller_config
+    #   The pod garbage collection controller configuration with default
+    #   value and constraints.
+    #   @return [Types::PodGcControllerVersionConfig]
     #
     # @!attribute [rw] horizontal_pod_autoscaler_controller_config
     #   The horizontal pod autoscaler controller configuration with default
@@ -5613,6 +5666,7 @@ module Aws::EKS
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/KubeControllerManagerVersionConfig AWS API Documentation
     #
     class KubeControllerManagerVersionConfig < Struct.new(
+      :pod_gc_controller_config,
       :horizontal_pod_autoscaler_controller_config)
       SENSITIVE = []
       include Aws::Structure
@@ -7666,6 +7720,53 @@ module Aws::EKS
       :control_plane_placement,
       :etcd_instance_type,
       :etcd_placement)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The pod garbage collection controller configuration for the Kubernetes
+    # controller manager.
+    #
+    # @!attribute [rw] terminated_pod_gc_threshold
+    #   The number of terminated pods that can exist before the garbage
+    #   collector starts deleting them.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/PodGcControllerConfigRequest AWS API Documentation
+    #
+    class PodGcControllerConfigRequest < Struct.new(
+      :terminated_pod_gc_threshold)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The pod garbage collection controller configuration for the Kubernetes
+    # controller manager.
+    #
+    # @!attribute [rw] terminated_pod_gc_threshold
+    #   The number of terminated pods that can exist before the garbage
+    #   collector starts deleting them.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/PodGcControllerConfigResponse AWS API Documentation
+    #
+    class PodGcControllerConfigResponse < Struct.new(
+      :terminated_pod_gc_threshold)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The pod garbage collection controller version configuration.
+    #
+    # @!attribute [rw] terminated_pod_gc_threshold
+    #   The terminated pod garbage collection threshold configuration with
+    #   default value and constraints.
+    #   @return [Types::IntegerParameterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/PodGcControllerVersionConfig AWS API Documentation
+    #
+    class PodGcControllerVersionConfig < Struct.new(
+      :terminated_pod_gc_threshold)
       SENSITIVE = []
       include Aws::Structure
     end

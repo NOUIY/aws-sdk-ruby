@@ -337,11 +337,7 @@ module Aws
                               }?
                             },
                             ?kube_scheduler_config: Params::kube_scheduler_config_request,
-                            ?kube_controller_manager_config: {
-                              horizontal_pod_autoscaler_controller_config: {
-                                horizontal_pod_autoscaler_sync_period: ::String?
-                              }?
-                            }
+                            ?kube_controller_manager_config: Params::kube_controller_manager_config_request
                           ) -> _CreateClusterResponseSuccess
                         | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateClusterResponseSuccess
 
@@ -1181,11 +1177,7 @@ module Aws
                                      }?
                                    },
                                    ?kube_scheduler_config: Params::kube_scheduler_config_request,
-                                   ?kube_controller_manager_config: {
-                                     horizontal_pod_autoscaler_controller_config: {
-                                       horizontal_pod_autoscaler_sync_period: ::String?
-                                     }?
-                                   }
+                                   ?kube_controller_manager_config: Params::kube_controller_manager_config_request
                                  ) -> _UpdateClusterConfigResponseSuccess
                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateClusterConfigResponseSuccess
 

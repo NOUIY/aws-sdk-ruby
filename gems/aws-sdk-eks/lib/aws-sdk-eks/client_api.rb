@@ -256,6 +256,8 @@ module Aws::EKS
     InsightsFilter = Shapes::StructureShape.new(name: 'InsightsFilter')
     InsightsRefreshStatus = Shapes::StringShape.new(name: 'InsightsRefreshStatus')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
+    IntegerConstraints = Shapes::StructureShape.new(name: 'IntegerConstraints')
+    IntegerParameterConfig = Shapes::StructureShape.new(name: 'IntegerParameterConfig')
     IntegerRangeConstraint = Shapes::StructureShape.new(name: 'IntegerRangeConstraint')
     InvalidParameterException = Shapes::StructureShape.new(name: 'InvalidParameterException')
     InvalidRequestException = Shapes::StructureShape.new(name: 'InvalidRequestException')
@@ -346,6 +348,9 @@ module Aws::EKS
     OutpostConfigRequest = Shapes::StructureShape.new(name: 'OutpostConfigRequest')
     OutpostConfigResponse = Shapes::StructureShape.new(name: 'OutpostConfigResponse')
     PercentCapacity = Shapes::IntegerShape.new(name: 'PercentCapacity')
+    PodGcControllerConfigRequest = Shapes::StructureShape.new(name: 'PodGcControllerConfigRequest')
+    PodGcControllerConfigResponse = Shapes::StructureShape.new(name: 'PodGcControllerConfigResponse')
+    PodGcControllerVersionConfig = Shapes::StructureShape.new(name: 'PodGcControllerVersionConfig')
     PodIdentityAssociation = Shapes::StructureShape.new(name: 'PodIdentityAssociation')
     PodIdentityAssociationSummaries = Shapes::ListShape.new(name: 'PodIdentityAssociationSummaries')
     PodIdentityAssociationSummary = Shapes::StructureShape.new(name: 'PodIdentityAssociationSummary')
@@ -401,6 +406,7 @@ module Aws::EKS
     TagValue = Shapes::StringShape.new(name: 'TagValue')
     Taint = Shapes::StructureShape.new(name: 'Taint')
     TaintEffect = Shapes::StringShape.new(name: 'TaintEffect')
+    TerminatedPodGcThresholdValue = Shapes::IntegerShape.new(name: 'TerminatedPodGcThresholdValue')
     ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     UnsupportedAvailabilityZoneException = Shapes::StructureShape.new(name: 'UnsupportedAvailabilityZoneException')
@@ -1401,6 +1407,14 @@ module Aws::EKS
     InsightsFilter.add_member(:statuses, Shapes::ShapeRef.new(shape: InsightStatusValueList, location_name: "statuses"))
     InsightsFilter.struct_class = Types::InsightsFilter
 
+    IntegerConstraints.add_member(:min, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "min"))
+    IntegerConstraints.add_member(:max, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "max"))
+    IntegerConstraints.struct_class = Types::IntegerConstraints
+
+    IntegerParameterConfig.add_member(:default_value, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "defaultValue"))
+    IntegerParameterConfig.add_member(:constraints, Shapes::ShapeRef.new(shape: IntegerConstraints, location_name: "constraints"))
+    IntegerParameterConfig.struct_class = Types::IntegerParameterConfig
+
     IntegerRangeConstraint.add_member(:min, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "min"))
     IntegerRangeConstraint.add_member(:max, Shapes::ShapeRef.new(shape: BoxedInteger, location_name: "max"))
     IntegerRangeConstraint.struct_class = Types::IntegerRangeConstraint
@@ -1443,12 +1457,15 @@ module Aws::EKS
     KubeApiServerVersionConfig.add_member(:service_node_port_range, Shapes::ShapeRef.new(shape: PortRangeParameterConfig, location_name: "serviceNodePortRange"))
     KubeApiServerVersionConfig.struct_class = Types::KubeApiServerVersionConfig
 
+    KubeControllerManagerConfigRequest.add_member(:pod_gc_controller_config, Shapes::ShapeRef.new(shape: PodGcControllerConfigRequest, location_name: "podGcControllerConfig"))
     KubeControllerManagerConfigRequest.add_member(:horizontal_pod_autoscaler_controller_config, Shapes::ShapeRef.new(shape: HorizontalPodAutoscalerControllerConfigRequest, location_name: "horizontalPodAutoscalerControllerConfig"))
     KubeControllerManagerConfigRequest.struct_class = Types::KubeControllerManagerConfigRequest
 
+    KubeControllerManagerConfigResponse.add_member(:pod_gc_controller_config, Shapes::ShapeRef.new(shape: PodGcControllerConfigResponse, location_name: "podGcControllerConfig"))
     KubeControllerManagerConfigResponse.add_member(:horizontal_pod_autoscaler_controller_config, Shapes::ShapeRef.new(shape: HorizontalPodAutoscalerControllerConfigResponse, location_name: "horizontalPodAutoscalerControllerConfig"))
     KubeControllerManagerConfigResponse.struct_class = Types::KubeControllerManagerConfigResponse
 
+    KubeControllerManagerVersionConfig.add_member(:pod_gc_controller_config, Shapes::ShapeRef.new(shape: PodGcControllerVersionConfig, location_name: "podGcControllerConfig"))
     KubeControllerManagerVersionConfig.add_member(:horizontal_pod_autoscaler_controller_config, Shapes::ShapeRef.new(shape: HorizontalPodAutoscalerControllerVersionConfig, location_name: "horizontalPodAutoscalerControllerConfig"))
     KubeControllerManagerVersionConfig.struct_class = Types::KubeControllerManagerVersionConfig
 
@@ -1748,6 +1765,15 @@ module Aws::EKS
     OutpostConfigResponse.add_member(:etcd_instance_type, Shapes::ShapeRef.new(shape: String, location_name: "etcdInstanceType"))
     OutpostConfigResponse.add_member(:etcd_placement, Shapes::ShapeRef.new(shape: EtcdPlacementResponse, location_name: "etcdPlacement"))
     OutpostConfigResponse.struct_class = Types::OutpostConfigResponse
+
+    PodGcControllerConfigRequest.add_member(:terminated_pod_gc_threshold, Shapes::ShapeRef.new(shape: TerminatedPodGcThresholdValue, location_name: "terminatedPodGcThreshold"))
+    PodGcControllerConfigRequest.struct_class = Types::PodGcControllerConfigRequest
+
+    PodGcControllerConfigResponse.add_member(:terminated_pod_gc_threshold, Shapes::ShapeRef.new(shape: TerminatedPodGcThresholdValue, location_name: "terminatedPodGcThreshold"))
+    PodGcControllerConfigResponse.struct_class = Types::PodGcControllerConfigResponse
+
+    PodGcControllerVersionConfig.add_member(:terminated_pod_gc_threshold, Shapes::ShapeRef.new(shape: IntegerParameterConfig, location_name: "terminatedPodGcThreshold"))
+    PodGcControllerVersionConfig.struct_class = Types::PodGcControllerVersionConfig
 
     PodIdentityAssociation.add_member(:cluster_name, Shapes::ShapeRef.new(shape: String, location_name: "clusterName"))
     PodIdentityAssociation.add_member(:namespace, Shapes::ShapeRef.new(shape: String, location_name: "namespace"))

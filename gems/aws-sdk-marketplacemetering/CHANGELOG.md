@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.103.0 (2026-08-25)
+------------------
+
+* Feature - Updated documentation to clarify duplicate-billing prevention and BatchMeterUsage retry guidance
+
 1.102.0 (2026-07-20)
 ------------------
 

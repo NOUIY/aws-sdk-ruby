@@ -8382,7 +8382,15 @@ module Aws::EC2
     #       max_total_price: "String",
     #     },
     #     reserved_capacity_options: {
-    #       reservation_types: ["interruptible-capacity-reservation"], # accepts interruptible-capacity-reservation
+    #       allocation_strategy: "prioritized", # accepts prioritized
+    #       reservation_types: ["on-demand-capacity-reservation"], # accepts on-demand-capacity-reservation, capacity-block, interruptible-capacity-reservation
+    #       capacity_reservation_target: {
+    #         capacity_reservation_ids: ["CapacityReservationId"],
+    #         capacity_reservation_resource_group_arns: ["ResourceGroupName"],
+    #       },
+    #       reserved_capacity_fallback_options: {
+    #         market_types: ["on-demand"], # accepts on-demand
+    #       },
     #     },
     #     excess_capacity_termination_policy: "no-termination", # accepts no-termination, termination
     #     launch_template_configs: [ # required
@@ -11340,7 +11348,7 @@ module Aws::EC2
     #       security_group_ids: ["SecurityGroupId"],
     #       security_groups: ["SecurityGroupName"],
     #       instance_market_options: {
-    #         market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation
+    #         market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation, on-demand
     #         spot_options: {
     #           max_price: "String",
     #           spot_instance_type: "one-time", # accepts one-time, persistent
@@ -11789,7 +11797,7 @@ module Aws::EC2
     #       security_group_ids: ["SecurityGroupId"],
     #       security_groups: ["SecurityGroupName"],
     #       instance_market_options: {
-    #         market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation
+    #         market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation, on-demand
     #         spot_options: {
     #           max_price: "String",
     #           spot_instance_type: "one-time", # accepts one-time, persistent
@@ -12022,7 +12030,7 @@ module Aws::EC2
     #   resp.launch_template_version.launch_template_data.security_group_ids[0] #=> String
     #   resp.launch_template_version.launch_template_data.security_groups #=> Array
     #   resp.launch_template_version.launch_template_data.security_groups[0] #=> String
-    #   resp.launch_template_version.launch_template_data.instance_market_options.market_type #=> String, one of "spot", "capacity-block", "interruptible-capacity-reservation"
+    #   resp.launch_template_version.launch_template_data.instance_market_options.market_type #=> String, one of "spot", "capacity-block", "interruptible-capacity-reservation", "on-demand"
     #   resp.launch_template_version.launch_template_data.instance_market_options.spot_options.max_price #=> String
     #   resp.launch_template_version.launch_template_data.instance_market_options.spot_options.spot_instance_type #=> String, one of "one-time", "persistent"
     #   resp.launch_template_version.launch_template_data.instance_market_options.spot_options.block_duration_minutes #=> Integer
@@ -30246,8 +30254,11 @@ module Aws::EC2
     #   resp.fleets[0].on_demand_options.single_availability_zone #=> Boolean
     #   resp.fleets[0].on_demand_options.min_target_capacity #=> Integer
     #   resp.fleets[0].on_demand_options.max_total_price #=> String
+    #   resp.fleets[0].reserved_capacity_options.allocation_strategy #=> String, one of "prioritized"
     #   resp.fleets[0].reserved_capacity_options.reservation_types #=> Array
-    #   resp.fleets[0].reserved_capacity_options.reservation_types[0] #=> String, one of "interruptible-capacity-reservation"
+    #   resp.fleets[0].reserved_capacity_options.reservation_types[0] #=> String, one of "on-demand-capacity-reservation", "capacity-block", "interruptible-capacity-reservation"
+    #   resp.fleets[0].reserved_capacity_options.reserved_capacity_fallback_options.market_types #=> Array
+    #   resp.fleets[0].reserved_capacity_options.reserved_capacity_fallback_options.market_types[0] #=> String, one of "on-demand"
     #   resp.fleets[0].tags #=> Array
     #   resp.fleets[0].tags[0].key #=> String
     #   resp.fleets[0].tags[0].value #=> String
@@ -36420,7 +36431,7 @@ module Aws::EC2
     #   resp.launch_template_versions[0].launch_template_data.security_group_ids[0] #=> String
     #   resp.launch_template_versions[0].launch_template_data.security_groups #=> Array
     #   resp.launch_template_versions[0].launch_template_data.security_groups[0] #=> String
-    #   resp.launch_template_versions[0].launch_template_data.instance_market_options.market_type #=> String, one of "spot", "capacity-block", "interruptible-capacity-reservation"
+    #   resp.launch_template_versions[0].launch_template_data.instance_market_options.market_type #=> String, one of "spot", "capacity-block", "interruptible-capacity-reservation", "on-demand"
     #   resp.launch_template_versions[0].launch_template_data.instance_market_options.spot_options.max_price #=> String
     #   resp.launch_template_versions[0].launch_template_data.instance_market_options.spot_options.spot_instance_type #=> String, one of "one-time", "persistent"
     #   resp.launch_template_versions[0].launch_template_data.instance_market_options.spot_options.block_duration_minutes #=> Integer
@@ -57096,7 +57107,7 @@ module Aws::EC2
     #   resp.launch_template_data.security_group_ids[0] #=> String
     #   resp.launch_template_data.security_groups #=> Array
     #   resp.launch_template_data.security_groups[0] #=> String
-    #   resp.launch_template_data.instance_market_options.market_type #=> String, one of "spot", "capacity-block", "interruptible-capacity-reservation"
+    #   resp.launch_template_data.instance_market_options.market_type #=> String, one of "spot", "capacity-block", "interruptible-capacity-reservation", "on-demand"
     #   resp.launch_template_data.instance_market_options.spot_options.max_price #=> String
     #   resp.launch_template_data.instance_market_options.spot_options.spot_instance_type #=> String, one of "one-time", "persistent"
     #   resp.launch_template_data.instance_market_options.spot_options.block_duration_minutes #=> Integer
@@ -74003,7 +74014,7 @@ module Aws::EC2
     #       version: "String",
     #     },
     #     instance_market_options: {
-    #       market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation
+    #       market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation, on-demand
     #       spot_options: {
     #         max_price: "String",
     #         spot_instance_type: "one-time", # accepts one-time, persistent
@@ -77186,7 +77197,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.638.0'
+      context[:gem_version] = '1.639.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

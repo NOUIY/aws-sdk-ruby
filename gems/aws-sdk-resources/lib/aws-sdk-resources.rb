@@ -190,6 +190,7 @@ module Aws
   autoload :Health, 'aws-sdk-health'
   autoload :HealthLake, 'aws-sdk-healthlake'
   autoload :IAM, 'aws-sdk-iam'
+  autoload :IAMToolbox, 'aws-sdk-iamtoolbox'
   autoload :IVS, 'aws-sdk-ivs'
   autoload :IVSRealTime, 'aws-sdk-ivsrealtime'
   autoload :IdentityStore, 'aws-sdk-identitystore'

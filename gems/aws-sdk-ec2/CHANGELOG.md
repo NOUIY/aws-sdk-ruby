@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.639.0 (2026-08-25)
+------------------
+
+* Feature - Fleet feature to support Capacity Reservation Resource Groups with Amazon EC2 Capacity Blocks and interruptible Capacity Reservations
+
 1.638.0 (2026-08-20)
 ------------------
 

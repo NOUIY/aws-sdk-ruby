@@ -1212,6 +1212,18 @@ module Aws::EKS
       SENSITIVE: []
     end
 
+    class IntegerConstraints
+      attr_accessor min: ::Integer
+      attr_accessor max: ::Integer
+      SENSITIVE: []
+    end
+
+    class IntegerParameterConfig
+      attr_accessor default_value: ::Integer
+      attr_accessor constraints: Types::IntegerConstraints
+      SENSITIVE: []
+    end
+
     class IntegerRangeConstraint
       attr_accessor min: ::Integer
       attr_accessor max: ::Integer
@@ -1269,16 +1281,19 @@ module Aws::EKS
     end
 
     class KubeControllerManagerConfigRequest
+      attr_accessor pod_gc_controller_config: Types::PodGcControllerConfigRequest
       attr_accessor horizontal_pod_autoscaler_controller_config: Types::HorizontalPodAutoscalerControllerConfigRequest
       SENSITIVE: []
     end
 
     class KubeControllerManagerConfigResponse
+      attr_accessor pod_gc_controller_config: Types::PodGcControllerConfigResponse
       attr_accessor horizontal_pod_autoscaler_controller_config: Types::HorizontalPodAutoscalerControllerConfigResponse
       SENSITIVE: []
     end
 
     class KubeControllerManagerVersionConfig
+      attr_accessor pod_gc_controller_config: Types::PodGcControllerVersionConfig
       attr_accessor horizontal_pod_autoscaler_controller_config: Types::HorizontalPodAutoscalerControllerVersionConfig
       SENSITIVE: []
     end
@@ -1679,6 +1694,21 @@ module Aws::EKS
       attr_accessor control_plane_placement: Types::ControlPlanePlacementResponse
       attr_accessor etcd_instance_type: ::String
       attr_accessor etcd_placement: Types::EtcdPlacementResponse
+      SENSITIVE: []
+    end
+
+    class PodGcControllerConfigRequest
+      attr_accessor terminated_pod_gc_threshold: ::Integer
+      SENSITIVE: []
+    end
+
+    class PodGcControllerConfigResponse
+      attr_accessor terminated_pod_gc_threshold: ::Integer
+      SENSITIVE: []
+    end
+
+    class PodGcControllerVersionConfig
+      attr_accessor terminated_pod_gc_threshold: Types::IntegerParameterConfig
       SENSITIVE: []
     end
 

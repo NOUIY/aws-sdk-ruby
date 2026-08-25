@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+3.271.0 (2026-08-25)
+------------------
+
+* Feature - Added a dependency on the new `aws-sdk-iamtoolbox` gem.
+
 3.270.0 (2026-08-11)
 ------------------
 

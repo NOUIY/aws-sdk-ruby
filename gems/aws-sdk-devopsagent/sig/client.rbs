@@ -109,7 +109,8 @@ module Aws
                                 ?locale: ::String,
                                 ?kms_key_arn: ::String,
                                 ?client_token: ::String,
-                                ?tags: Hash[::String, ::String]
+                                ?tags: Hash[::String, ::String],
+                                ?preferences: Hash[("elevatedActionsEnabled"), bool]
                               ) -> _CreateAgentSpaceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateAgentSpaceResponseSuccess
 
@@ -585,7 +586,7 @@ module Aws
                                   created_after: ::Time?,
                                   created_before: ::Time?,
                                   priority: Array[("CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "MINIMAL")]?,
-                                  status: Array[("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED")]?,
+                                  status: Array[("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED" | "WAITING")]?,
                                   task_type: Array[("INVESTIGATION" | "EVALUATION" | "RELEASE_READINESS_REVIEW" | "RELEASE_TESTING")]?,
                                   primary_task_id: ::String?
                                 },
@@ -799,7 +800,7 @@ module Aws
                                     api_key: {
                                       api_key: ::String,
                                       account_id: ::String,
-                                      region: ("US" | "EU"),
+                                      region: ("US" | "EU" | "JP"),
                                       application_ids: Array[::String]?,
                                       entity_guids: Array[::String]?,
                                       alert_policy_ids: Array[::String]?
@@ -901,10 +902,18 @@ module Aws
                           ?context: {
                             current_page: ::String?,
                             last_message: ::String?,
-                            user_action_response: ::String?
+                            user_action_response: ::String?,
+                            approval_action: {
+                              tool_use_id: ::String?,
+                              interrupt_id: ::String?,
+                              approval_id: ::String?,
+                              button_text: ::String?,
+                              action: ("APPROVED" | "REJECTED")?
+                            }?
                           },
                           ?user_id: ::String,
-                          ?asset_ids: Array[::String]
+                          ?asset_ids: Array[::String],
+                          ?model_tier: ::String
                         ) ?{ (*untyped) -> void } -> _SendMessageResponseSuccess
                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) ?{ (*untyped) -> void } -> _SendMessageResponseSuccess
 
@@ -937,9 +946,31 @@ module Aws
                                 agent_space_id: ::String,
                                 ?name: ::String,
                                 ?description: ::String,
-                                ?locale: ::String
+                                ?locale: ::String,
+                                ?preferences: Hash[("elevatedActionsEnabled"), bool]
                               ) -> _UpdateAgentSpaceResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAgentSpaceResponseSuccess
+
+      interface _UpdateApprovalActionResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateApprovalActionResponse]
+        def approval_id: () -> ::String
+        def status: () -> ("PENDING" | "APPROVED" | "REJECTED" | "REVOKED" | "REDEEMED")
+        def expires_at: () -> ::Time
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DevOpsAgent/Client.html#update_approval_action-instance_method
+      def update_approval_action: (
+                                    agent_space_id: ::String,
+                                    approval_id: ::String,
+                                    action: ("APPROVED" | "REJECTED"),
+                                    ?final_pattern: {
+                                      tool: ::String,
+                                      argument_pins: Hash[::String, ::String]
+                                    },
+                                    ?reason: ::String,
+                                    ?ttl_seconds: ::Integer,
+                                    ?single_use: bool
+                                  ) -> _UpdateApprovalActionResponseSuccess
+                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateApprovalActionResponseSuccess
 
       interface _UpdateAssetResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateAssetResponse]
@@ -999,7 +1030,7 @@ module Aws
       def update_backlog_task: (
                                  agent_space_id: ::String,
                                  task_id: ::String,
-                                 ?task_status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED"),
+                                 ?task_status: ("PENDING_TRIAGE" | "LINKED" | "PENDING_START" | "IN_PROGRESS" | "PENDING_CUSTOMER_APPROVAL" | "COMPLETED" | "FAILED" | "TIMED_OUT" | "CANCELED" | "SKIPPED" | "WAITING"),
                                  ?client_token: ::String
                                ) -> _UpdateBacklogTaskResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateBacklogTaskResponseSuccess

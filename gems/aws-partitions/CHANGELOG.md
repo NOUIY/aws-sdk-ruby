@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1282.0 (2026-08-25)
+------------------
+
+* Feature - Added support for enumerating regions for `Aws::IAMToolbox`.
+
 1.1281.0 (2026-08-14)
 ------------------
 

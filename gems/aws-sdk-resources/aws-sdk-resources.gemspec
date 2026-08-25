@@ -200,6 +200,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('aws-sdk-health', '~> 1')
   spec.add_dependency('aws-sdk-healthlake', '~> 1')
   spec.add_dependency('aws-sdk-iam', '~> 1')
+  spec.add_dependency('aws-sdk-iamtoolbox', '~> 1')
   spec.add_dependency('aws-sdk-ivs', '~> 1')
   spec.add_dependency('aws-sdk-ivsrealtime', '~> 1')
   spec.add_dependency('aws-sdk-identitystore', '~> 1')

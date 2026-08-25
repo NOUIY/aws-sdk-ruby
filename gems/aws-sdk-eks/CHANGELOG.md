@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.175.0 (2026-08-25)
+------------------
+
+* Feature - This feature would give customers the ability to tune TerminatedPodGcThreshold configuration in an Amazon EKS cluster.
+
 1.174.0 (2026-08-19)
 ------------------
 

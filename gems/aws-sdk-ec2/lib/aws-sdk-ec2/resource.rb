@@ -165,7 +165,7 @@ module Aws::EC2
     #       version: "String",
     #     },
     #     instance_market_options: {
-    #       market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation
+    #       market_type: "spot", # accepts spot, capacity-block, interruptible-capacity-reservation, on-demand
     #       spot_options: {
     #         max_price: "String",
     #         spot_instance_type: "one-time", # accepts one-time, persistent

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.166.0 (2026-08-25)
+------------------
+
+* Feature - Adds support for Distribution Segments in mixed instances policies, providing ordered prioritization across On-Demand Capacity Reservations, Capacity Blocks, interruptible Capacity Reservations, and On-Demand capacity.
+
 1.165.0 (2026-08-13)
 ------------------
 

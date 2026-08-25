@@ -601,6 +601,9 @@
   "IAM": {
     "models": "iam/2010-05-08"
   },
+  "IAMToolbox": {
+    "models": "iam-toolbox/2018-05-10"
+  },
   "IVS": {
     "models": "ivs/2020-07-14"
   },

@@ -410,6 +410,7 @@ module Aws::EC2
     CapacityReservationOptions = Shapes::StructureShape.new(name: 'CapacityReservationOptions')
     CapacityReservationOptionsRequest = Shapes::StructureShape.new(name: 'CapacityReservationOptionsRequest')
     CapacityReservationPreference = Shapes::StringShape.new(name: 'CapacityReservationPreference')
+    CapacityReservationResourceGroupArnSet = Shapes::ListShape.new(name: 'CapacityReservationResourceGroupArnSet')
     CapacityReservationSet = Shapes::ListShape.new(name: 'CapacityReservationSet')
     CapacityReservationSpecification = Shapes::StructureShape.new(name: 'CapacityReservationSpecification')
     CapacityReservationSpecificationResponse = Shapes::StructureShape.new(name: 'CapacityReservationSpecificationResponse')
@@ -1818,6 +1819,7 @@ module Aws::EC2
     FleetBlockDeviceMappingRequestList = Shapes::ListShape.new(name: 'FleetBlockDeviceMappingRequestList')
     FleetCapacityReservation = Shapes::StructureShape.new(name: 'FleetCapacityReservation')
     FleetCapacityReservationSet = Shapes::ListShape.new(name: 'FleetCapacityReservationSet')
+    FleetCapacityReservationTargetRequest = Shapes::StructureShape.new(name: 'FleetCapacityReservationTargetRequest')
     FleetCapacityReservationTenancy = Shapes::StringShape.new(name: 'FleetCapacityReservationTenancy')
     FleetCapacityReservationUsageStrategy = Shapes::StringShape.new(name: 'FleetCapacityReservationUsageStrategy')
     FleetData = Shapes::StructureShape.new(name: 'FleetData')
@@ -3375,6 +3377,11 @@ module Aws::EC2
     ReservationTypeList = Shapes::ListShape.new(name: 'ReservationTypeList')
     ReservationTypeListRequest = Shapes::ListShape.new(name: 'ReservationTypeListRequest')
     ReservationValue = Shapes::StructureShape.new(name: 'ReservationValue')
+    ReservedCapacityAllocationStrategy = Shapes::StringShape.new(name: 'ReservedCapacityAllocationStrategy')
+    ReservedCapacityFallbackMarketType = Shapes::StringShape.new(name: 'ReservedCapacityFallbackMarketType')
+    ReservedCapacityFallbackMarketTypeList = Shapes::ListShape.new(name: 'ReservedCapacityFallbackMarketTypeList')
+    ReservedCapacityFallbackOptions = Shapes::StructureShape.new(name: 'ReservedCapacityFallbackOptions')
+    ReservedCapacityFallbackOptionsRequest = Shapes::StructureShape.new(name: 'ReservedCapacityFallbackOptionsRequest')
     ReservedCapacityOptions = Shapes::StructureShape.new(name: 'ReservedCapacityOptions')
     ReservedCapacityOptionsRequest = Shapes::StructureShape.new(name: 'ReservedCapacityOptionsRequest')
     ReservedInstanceIdSet = Shapes::ListShape.new(name: 'ReservedInstanceIdSet')
@@ -3416,6 +3423,7 @@ module Aws::EC2
     ResetSnapshotAttributeRequest = Shapes::StructureShape.new(name: 'ResetSnapshotAttributeRequest')
     ResourceArn = Shapes::StringShape.new(name: 'ResourceArn')
     ResourceConfigurationArn = Shapes::StringShape.new(name: 'ResourceConfigurationArn')
+    ResourceGroupName = Shapes::StringShape.new(name: 'ResourceGroupName')
     ResourceIdList = Shapes::ListShape.new(name: 'ResourceIdList')
     ResourceList = Shapes::ListShape.new(name: 'ResourceList')
     ResourceStatement = Shapes::StructureShape.new(name: 'ResourceStatement')
@@ -5623,6 +5631,8 @@ module Aws::EC2
 
     CapacityReservationOptionsRequest.add_member(:usage_strategy, Shapes::ShapeRef.new(shape: FleetCapacityReservationUsageStrategy, location_name: "UsageStrategy"))
     CapacityReservationOptionsRequest.struct_class = Types::CapacityReservationOptionsRequest
+
+    CapacityReservationResourceGroupArnSet.member = Shapes::ShapeRef.new(shape: ResourceGroupName, location_name: "item")
 
     CapacityReservationSet.member = Shapes::ShapeRef.new(shape: CapacityReservation, location_name: "item")
 
@@ -11687,6 +11697,10 @@ module Aws::EC2
 
     FleetCapacityReservationSet.member = Shapes::ShapeRef.new(shape: FleetCapacityReservation, location_name: "item")
 
+    FleetCapacityReservationTargetRequest.add_member(:capacity_reservation_ids, Shapes::ShapeRef.new(shape: CapacityReservationIdSet, location_name: "CapacityReservationId"))
+    FleetCapacityReservationTargetRequest.add_member(:capacity_reservation_resource_group_arns, Shapes::ShapeRef.new(shape: CapacityReservationResourceGroupArnSet, location_name: "CapacityReservationResourceGroupArn"))
+    FleetCapacityReservationTargetRequest.struct_class = Types::FleetCapacityReservationTargetRequest
+
     FleetData.add_member(:activity_status, Shapes::ShapeRef.new(shape: FleetActivityStatus, location_name: "activityStatus"))
     FleetData.add_member(:create_time, Shapes::ShapeRef.new(shape: DateTime, location_name: "createTime"))
     FleetData.add_member(:fleet_id, Shapes::ShapeRef.new(shape: FleetId, location_name: "fleetId"))
@@ -17639,10 +17653,23 @@ module Aws::EC2
     ReservationValue.add_member(:remaining_upfront_value, Shapes::ShapeRef.new(shape: String, location_name: "remainingUpfrontValue"))
     ReservationValue.struct_class = Types::ReservationValue
 
+    ReservedCapacityFallbackMarketTypeList.member = Shapes::ShapeRef.new(shape: ReservedCapacityFallbackMarketType, location_name: "item")
+
+    ReservedCapacityFallbackOptions.add_member(:market_types, Shapes::ShapeRef.new(shape: ReservedCapacityFallbackMarketTypeList, location_name: "marketTypeSet"))
+    ReservedCapacityFallbackOptions.struct_class = Types::ReservedCapacityFallbackOptions
+
+    ReservedCapacityFallbackOptionsRequest.add_member(:market_types, Shapes::ShapeRef.new(shape: ReservedCapacityFallbackMarketTypeList, location_name: "MarketType"))
+    ReservedCapacityFallbackOptionsRequest.struct_class = Types::ReservedCapacityFallbackOptionsRequest
+
+    ReservedCapacityOptions.add_member(:allocation_strategy, Shapes::ShapeRef.new(shape: ReservedCapacityAllocationStrategy, location_name: "allocationStrategy"))
     ReservedCapacityOptions.add_member(:reservation_types, Shapes::ShapeRef.new(shape: ReservationTypeList, location_name: "reservationTypeSet"))
+    ReservedCapacityOptions.add_member(:reserved_capacity_fallback_options, Shapes::ShapeRef.new(shape: ReservedCapacityFallbackOptions, location_name: "reservedCapacityFallbackOptions"))
     ReservedCapacityOptions.struct_class = Types::ReservedCapacityOptions
 
+    ReservedCapacityOptionsRequest.add_member(:allocation_strategy, Shapes::ShapeRef.new(shape: ReservedCapacityAllocationStrategy, location_name: "AllocationStrategy"))
     ReservedCapacityOptionsRequest.add_member(:reservation_types, Shapes::ShapeRef.new(shape: ReservationTypeListRequest, location_name: "ReservationType"))
+    ReservedCapacityOptionsRequest.add_member(:capacity_reservation_target, Shapes::ShapeRef.new(shape: FleetCapacityReservationTargetRequest, location_name: "CapacityReservationTarget"))
+    ReservedCapacityOptionsRequest.add_member(:reserved_capacity_fallback_options, Shapes::ShapeRef.new(shape: ReservedCapacityFallbackOptionsRequest, location_name: "ReservedCapacityFallbackOptions"))
     ReservedCapacityOptionsRequest.struct_class = Types::ReservedCapacityOptionsRequest
 
     ReservedInstanceIdSet.member = Shapes::ShapeRef.new(shape: ReservationId, location_name: "ReservedInstanceId")

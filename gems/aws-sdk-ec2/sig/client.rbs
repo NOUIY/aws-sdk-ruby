@@ -1633,7 +1633,15 @@ module Aws
                             max_total_price: ::String?
                           },
                           ?reserved_capacity_options: {
-                            reservation_types: Array[("interruptible-capacity-reservation")]?
+                            allocation_strategy: ("prioritized")?,
+                            reservation_types: Array[("on-demand-capacity-reservation" | "capacity-block" | "interruptible-capacity-reservation")]?,
+                            capacity_reservation_target: {
+                              capacity_reservation_ids: Array[::String]?,
+                              capacity_reservation_resource_group_arns: Array[::String]?
+                            }?,
+                            reserved_capacity_fallback_options: {
+                              market_types: Array[("on-demand")]?
+                            }?
                           },
                           ?excess_capacity_termination_policy: ("no-termination" | "termination"),
                           launch_template_configs: Array[
@@ -14352,7 +14360,7 @@ module Aws
                              version: ::String?
                            },
                            ?instance_market_options: {
-                             market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation")?,
+                             market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation" | "on-demand")?,
                              spot_options: {
                                max_price: ::String?,
                                spot_instance_type: ("one-time" | "persistent")?,

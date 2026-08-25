@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.12.0 (2026-08-25)
+------------------
+
+* Feature - Adds the UpdateApprovalAction API for resolving agent action approvals in AWS DevOps Agent agent spaces.
+
 1.11.0 (2026-07-09)
 ------------------
 

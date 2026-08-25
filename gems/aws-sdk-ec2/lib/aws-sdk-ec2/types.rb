@@ -11132,8 +11132,10 @@ module Aws::EC2
     #
     # @!attribute [rw] lifecycle
     #   Indicates if the instance that could not be launched was a Spot,
-    #   On-Demand, Capacity Block, or Interruptible Capacity Reservation
-    #   instance.
+    #   On-Demand, Capacity Block for ML, or interruptible Capacity
+    #   Reservation instance. If you are using `ReservedCapacityOptions`
+    #   with `on-demand-capacity-reservation` in the `ReservationTypes`
+    #   list, the value can also be `on-demand-capacity-reservation`.
     #   @return [String]
     #
     # @!attribute [rw] error_code
@@ -11177,7 +11179,8 @@ module Aws::EC2
     #
     # @!attribute [rw] lifecycle
     #   Indicates if the instance that was launched is a Spot, On-Demand,
-    #   Capacity Block, or Interruptible Capacity Reservation instance.
+    #   Capacity Block for ML, or interruptible Capacity Reservation
+    #   instance.
     #   @return [String]
     #
     # @!attribute [rw] instance_ids
@@ -25838,8 +25841,10 @@ module Aws::EC2
     #
     # @!attribute [rw] lifecycle
     #   Indicates if the instance that could not be launched was a Spot,
-    #   On-Demand, Capacity Block, or Interruptible Capacity Reservation
-    #   instance.
+    #   On-Demand, Capacity Block for ML, or interruptible Capacity
+    #   Reservation instance. If you are using `ReservedCapacityOptions`
+    #   with `on-demand-capacity-reservation` in the `ReservationTypes`
+    #   list, the value can also be `on-demand-capacity-reservation`.
     #   @return [String]
     #
     # @!attribute [rw] error_code
@@ -26043,7 +26048,8 @@ module Aws::EC2
     #
     # @!attribute [rw] lifecycle
     #   Indicates if the instance that was launched is a Spot, On-Demand,
-    #   Capacity Block, or Interruptible Capacity Reservation instance.
+    #   Capacity Block for ML, or interruptible Capacity Reservation
+    #   instance.
     #   @return [String]
     #
     # @!attribute [rw] instance_ids
@@ -44239,6 +44245,30 @@ module Aws::EC2
       :create_date,
       :weight,
       :priority)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the target Capacity Reservations or Capacity Reservation
+    # Resource Groups for an EC2 Fleet that launches into reserved capacity.
+    # You can specify Capacity Reservation IDs or a Capacity Reservation
+    # Resource Group ARN, but not both.
+    #
+    # @!attribute [rw] capacity_reservation_ids
+    #   The IDs of the Capacity Reservations in which to launch the
+    #   instances.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] capacity_reservation_resource_group_arns
+    #   The ARNs of the Capacity Reservation Resource Groups in which to
+    #   launch the instances.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/FleetCapacityReservationTargetRequest AWS API Documentation
+    #
+    class FleetCapacityReservationTargetRequest < Struct.new(
+      :capacity_reservation_ids,
+      :capacity_reservation_resource_group_arns)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -77122,24 +77152,86 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # Describes the fallback behavior for an EC2 Fleet that uses reserved
+    # capacity when the reserved capacity is not enough to meet the target
+    # capacity. If you don't specify fallback options, EC2 Fleet does not
+    # fall back to any other market type after the specified reservation
+    # types are exhausted.
+    #
+    # @!attribute [rw] market_types
+    #   The instance purchasing options to fall back to when the reserved
+    #   capacity is not enough to meet the target capacity. The only
+    #   supported value is `on-demand`, which launches On-Demand Instances
+    #   to fulfill the remaining target capacity.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReservedCapacityFallbackOptions AWS API Documentation
+    #
+    class ReservedCapacityFallbackOptions < Struct.new(
+      :market_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the fallback behavior for an EC2 Fleet that uses reserved
+    # capacity when the reserved capacity is not enough to meet the target
+    # capacity. If you don't specify fallback options, EC2 Fleet does not
+    # fall back to any other market type after the specified reservation
+    # types are exhausted.
+    #
+    # @!attribute [rw] market_types
+    #   The instance purchasing options to fall back to when the reserved
+    #   capacity is not enough to meet the target capacity. The only
+    #   supported value is `on-demand`, which launches On-Demand Instances
+    #   to fulfill the remaining target capacity.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReservedCapacityFallbackOptionsRequest AWS API Documentation
+    #
+    class ReservedCapacityFallbackOptionsRequest < Struct.new(
+      :market_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Defines EC2 Fleet preferences for utilizing reserved capacity when
-    # DefaultTargetCapacityType is set to `reserved-capacity`.
+    # `DefaultTargetCapacityType` is set to `reserved-capacity`. EC2 Fleet
+    # can fulfill reserved capacity using On-Demand Capacity Reservations,
+    # Capacity Blocks for ML, and interruptible Capacity Reservations.
+    #
+    # @!attribute [rw] allocation_strategy
+    #   The strategy that determines the order in which EC2 Fleet launches
+    #   instances across the reservation types that you specify. The only
+    #   supported value is `prioritized`, which launches instances in the
+    #   priority order that you specify in your launch template overrides.
+    #   If you don't specify an allocation strategy, instances are launched
+    #   in a random order.
+    #   @return [String]
     #
     # @!attribute [rw] reservation_types
     #   The types of Capacity Reservations used for fulfilling the EC2 Fleet
     #   request.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] reserved_capacity_fallback_options
+    #   The fallback behavior for the EC2 Fleet when there is not enough
+    #   reserved capacity available to meet the target capacity.
+    #   @return [Types::ReservedCapacityFallbackOptions]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReservedCapacityOptions AWS API Documentation
     #
     class ReservedCapacityOptions < Struct.new(
-      :reservation_types)
+      :allocation_strategy,
+      :reservation_types,
+      :reserved_capacity_fallback_options)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Defines EC2 Fleet preferences for utilizing reserved capacity when
-    # DefaultTargetCapacityType is set to `reserved-capacity`.
+    # `DefaultTargetCapacityType` is set to `reserved-capacity`. EC2 Fleet
+    # can fulfill reserved capacity using On-Demand Capacity Reservations,
+    # Capacity Blocks for ML, and interruptible Capacity Reservations.
     #
     # <note markdown="1"> This configuration can only be used if the EC2 Fleet is of type
     # `instant`.
@@ -77150,23 +77242,52 @@ module Aws::EC2
     # `DefaultTargetCapacityType` to `reserved-capacity` in the
     # `TargetCapacitySpecification`.
     #
-    # For more information about Interruptible Capacity Reservations, see
-    # [Launch instances into an Interruptible Capacity Reservation][1] in
+    # For more information about interruptible Capacity Reservations, see
+    # [Launch instances into an interruptible Capacity Reservation][1] in
     # the *Amazon EC2 User Guide*.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-launch-instances-interruptible-cr-walkthrough.html
     #
+    # @!attribute [rw] allocation_strategy
+    #   The strategy that determines the order in which EC2 Fleet launches
+    #   instances across the reservation types that you specify. The only
+    #   supported value is `prioritized`, which launches instances in the
+    #   priority order that you specify in your launch template overrides.
+    #   If you don't specify an allocation strategy, instances are launched
+    #   in a random order.
+    #   @return [String]
+    #
     # @!attribute [rw] reservation_types
     #   The types of Capacity Reservations to use for fulfilling the EC2
-    #   Fleet request.
+    #   Fleet request. This is an ordered list: EC2 Fleet attempts to launch
+    #   instances into each Capacity Reservation type in the order that you
+    #   specify them before moving on to the next type.
     #   @return [Array<String>]
+    #
+    # @!attribute [rw] capacity_reservation_target
+    #   The Capacity Reservations or Capacity Reservation Resource Groups to
+    #   use for fulfilling the EC2 Fleet request. You can specify Capacity
+    #   Reservation IDs or a Capacity Reservation Resource Group ARN, but
+    #   not both.
+    #   @return [Types::FleetCapacityReservationTargetRequest]
+    #
+    # @!attribute [rw] reserved_capacity_fallback_options
+    #   The fallback behavior for the EC2 Fleet when there is not enough
+    #   reserved capacity available to meet the target capacity. This member
+    #   takes a `ReservedCapacityFallbackOptionsRequest` structure, in which
+    #   you set `MarketTypes` to the instance purchasing options to fall
+    #   back to.
+    #   @return [Types::ReservedCapacityFallbackOptionsRequest]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReservedCapacityOptionsRequest AWS API Documentation
     #
     class ReservedCapacityOptionsRequest < Struct.new(
-      :reservation_types)
+      :allocation_strategy,
+      :reservation_types,
+      :capacity_reservation_target,
+      :reserved_capacity_fallback_options)
       SENSITIVE = []
       include Aws::Structure
     end

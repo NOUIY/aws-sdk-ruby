@@ -9745,6 +9745,12 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class FleetCapacityReservationTargetRequest
+      attr_accessor capacity_reservation_ids: ::Array[::String]
+      attr_accessor capacity_reservation_resource_group_arns: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class FleetData
       attr_accessor activity_status: ("error" | "pending_fulfillment" | "pending_termination" | "fulfilled")
       attr_accessor create_time: ::Time
@@ -11987,7 +11993,7 @@ module Aws::EC2
     end
 
     class InstanceMarketOptionsRequest
-      attr_accessor market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation")
+      attr_accessor market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation" | "on-demand")
       attr_accessor spot_options: Types::SpotMarketOptions
       SENSITIVE: []
     end
@@ -13203,13 +13209,13 @@ module Aws::EC2
     end
 
     class LaunchTemplateInstanceMarketOptions
-      attr_accessor market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation")
+      attr_accessor market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation" | "on-demand")
       attr_accessor spot_options: Types::LaunchTemplateSpotMarketOptions
       SENSITIVE: []
     end
 
     class LaunchTemplateInstanceMarketOptionsRequest
-      attr_accessor market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation")
+      attr_accessor market_type: ("spot" | "capacity-block" | "interruptible-capacity-reservation" | "on-demand")
       attr_accessor spot_options: Types::LaunchTemplateSpotMarketOptionsRequest
       SENSITIVE: []
     end
@@ -16661,13 +16667,28 @@ module Aws::EC2
       SENSITIVE: []
     end
 
+    class ReservedCapacityFallbackOptions
+      attr_accessor market_types: ::Array[("on-demand")]
+      SENSITIVE: []
+    end
+
+    class ReservedCapacityFallbackOptionsRequest
+      attr_accessor market_types: ::Array[("on-demand")]
+      SENSITIVE: []
+    end
+
     class ReservedCapacityOptions
-      attr_accessor reservation_types: ::Array[("interruptible-capacity-reservation")]
+      attr_accessor allocation_strategy: ("prioritized")
+      attr_accessor reservation_types: ::Array[("on-demand-capacity-reservation" | "capacity-block" | "interruptible-capacity-reservation")]
+      attr_accessor reserved_capacity_fallback_options: Types::ReservedCapacityFallbackOptions
       SENSITIVE: []
     end
 
     class ReservedCapacityOptionsRequest
-      attr_accessor reservation_types: ::Array[("interruptible-capacity-reservation")]
+      attr_accessor allocation_strategy: ("prioritized")
+      attr_accessor reservation_types: ::Array[("on-demand-capacity-reservation" | "capacity-block" | "interruptible-capacity-reservation")]
+      attr_accessor capacity_reservation_target: Types::FleetCapacityReservationTargetRequest
+      attr_accessor reserved_capacity_fallback_options: Types::ReservedCapacityFallbackOptionsRequest
       SENSITIVE: []
     end
 

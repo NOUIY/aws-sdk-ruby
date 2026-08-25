@@ -1804,6 +1804,9 @@ module Aws::EKS
     #       },
     #     },
     #     kube_controller_manager_config: {
+    #       pod_gc_controller_config: {
+    #         terminated_pod_gc_threshold: 1,
+    #       },
     #       horizontal_pod_autoscaler_controller_config: {
     #         horizontal_pod_autoscaler_sync_period: "String",
     #       },
@@ -1892,6 +1895,7 @@ module Aws::EKS
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources #=> Array
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].name #=> String
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].weight #=> Integer
+    #   resp.cluster.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold #=> Integer
     #   resp.cluster.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/CreateCluster AWS API Documentation
@@ -3078,6 +3082,7 @@ module Aws::EKS
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources #=> Array
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].name #=> String
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].weight #=> Integer
+    #   resp.cluster.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold #=> Integer
     #   resp.cluster.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/DeleteCluster AWS API Documentation
@@ -3444,6 +3449,7 @@ module Aws::EKS
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources #=> Array
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].name #=> String
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].weight #=> Integer
+    #   resp.cluster.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold #=> Integer
     #   resp.cluster.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/DeregisterCluster AWS API Documentation
@@ -3968,6 +3974,7 @@ module Aws::EKS
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources #=> Array
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].name #=> String
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].weight #=> Integer
+    #   resp.cluster.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold #=> Integer
     #   resp.cluster.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period #=> String
     #
     #
@@ -4072,6 +4079,9 @@ module Aws::EKS
     #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_scheduler_config.node_resources_fit.scoring_strategy.constraints.resources.name.allowed_values[0] #=> String
     #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_scheduler_config.node_resources_fit.scoring_strategy.constraints.resources.weight.min #=> Integer
     #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_scheduler_config.node_resources_fit.scoring_strategy.constraints.resources.weight.max #=> Integer
+    #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold.default_value #=> Integer
+    #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold.constraints.min #=> Integer
+    #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold.constraints.max #=> Integer
     #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period.default_value #=> String
     #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period.constraints.min #=> String
     #   resp.cluster_versions[0].control_plane_scaling_tiers[0].control_plane_component_config_overrides.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period.constraints.max #=> String
@@ -4094,6 +4104,9 @@ module Aws::EKS
     #   resp.cluster_versions[0].control_plane_component_config.kube_scheduler_config.node_resources_fit.scoring_strategy.constraints.resources.name.allowed_values[0] #=> String
     #   resp.cluster_versions[0].control_plane_component_config.kube_scheduler_config.node_resources_fit.scoring_strategy.constraints.resources.weight.min #=> Integer
     #   resp.cluster_versions[0].control_plane_component_config.kube_scheduler_config.node_resources_fit.scoring_strategy.constraints.resources.weight.max #=> Integer
+    #   resp.cluster_versions[0].control_plane_component_config.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold.default_value #=> Integer
+    #   resp.cluster_versions[0].control_plane_component_config.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold.constraints.min #=> Integer
+    #   resp.cluster_versions[0].control_plane_component_config.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold.constraints.max #=> Integer
     #   resp.cluster_versions[0].control_plane_component_config.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period.default_value #=> String
     #   resp.cluster_versions[0].control_plane_component_config.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period.constraints.min #=> String
     #   resp.cluster_versions[0].control_plane_component_config.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period.constraints.max #=> String
@@ -5770,6 +5783,7 @@ module Aws::EKS
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources #=> Array
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].name #=> String
     #   resp.cluster.kube_scheduler_config.node_resources_fit.scoring_strategy.resources[0].weight #=> Integer
+    #   resp.cluster.kube_controller_manager_config.pod_gc_controller_config.terminated_pod_gc_threshold #=> Integer
     #   resp.cluster.kube_controller_manager_config.horizontal_pod_autoscaler_controller_config.horizontal_pod_autoscaler_sync_period #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eks-2017-11-01/RegisterCluster AWS API Documentation
@@ -6455,6 +6469,9 @@ module Aws::EKS
     #       },
     #     },
     #     kube_controller_manager_config: {
+    #       pod_gc_controller_config: {
+    #         terminated_pod_gc_threshold: 1,
+    #       },
     #       horizontal_pod_autoscaler_controller_config: {
     #         horizontal_pod_autoscaler_sync_period: "String",
     #       },
@@ -7087,7 +7104,7 @@ module Aws::EKS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-eks'
-      context[:gem_version] = '1.174.0'
+      context[:gem_version] = '1.175.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
