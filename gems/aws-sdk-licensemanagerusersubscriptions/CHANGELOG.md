@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.54.0 (2026-08-26)
+------------------
+
+* Feature - Released support for License Expiry field in ListProductSubscriptions API
+
 1.53.0 (2026-07-09)
 ------------------
 

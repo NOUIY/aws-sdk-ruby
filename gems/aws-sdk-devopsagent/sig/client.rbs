@@ -91,9 +91,7 @@ module Aws
                                agent_space_id: ::String,
                                service_id: ::String,
                                configuration: Params::service_configuration,
-                               ?capabilities: Hash[("RELEASE_READINESS_REVIEW" | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"), {
-                                   enabled: bool?
-                                 }]
+                               ?capabilities: Hash[("RELEASE_READINESS_REVIEW" | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"), Params::capability_configuration]
                              ) -> _AssociateServiceResponseSuccess
                            | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _AssociateServiceResponseSuccess
 
@@ -1016,9 +1014,7 @@ module Aws
                                 agent_space_id: ::String,
                                 association_id: ::String,
                                 configuration: Params::service_configuration,
-                                ?capabilities: Hash[("RELEASE_READINESS_REVIEW" | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"), {
-                                    enabled: bool?
-                                  }]
+                                ?capabilities: Hash[("RELEASE_READINESS_REVIEW" | "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"), Params::capability_configuration]
                               ) -> _UpdateAssociationResponseSuccess
                             | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateAssociationResponseSuccess
 

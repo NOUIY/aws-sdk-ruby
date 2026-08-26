@@ -339,6 +339,7 @@ module Aws::DevOpsAgent
     PagerDutyScopes = Shapes::ListShape.new(name: 'PagerDutyScopes')
     PagerDutyScopesList = Shapes::ListShape.new(name: 'PagerDutyScopesList')
     PagerDutyServicesList = Shapes::ListShape.new(name: 'PagerDutyServicesList')
+    PatternFilter = Shapes::StructureShape.new(name: 'PatternFilter')
     PendingMessage = Shapes::StructureShape.new(name: 'PendingMessage')
     PendingMessages = Shapes::ListShape.new(name: 'PendingMessages')
     PortRange = Shapes::StringShape.new(name: 'PortRange')
@@ -489,7 +490,13 @@ module Aws::DevOpsAgent
     Trigger = Shapes::StructureShape.new(name: 'Trigger')
     TriggerAction = Shapes::DocumentShape.new(name: 'TriggerAction', document: true)
     TriggerCondition = Shapes::UnionShape.new(name: 'TriggerCondition')
+    TriggerEvent = Shapes::StringShape.new(name: 'TriggerEvent')
+    TriggerEventList = Shapes::ListShape.new(name: 'TriggerEventList')
+    TriggerFilterGroup = Shapes::StructureShape.new(name: 'TriggerFilterGroup')
+    TriggerFilterGroups = Shapes::ListShape.new(name: 'TriggerFilterGroups')
     TriggerList = Shapes::ListShape.new(name: 'TriggerList')
+    TriggerRegexPattern = Shapes::StringShape.new(name: 'TriggerRegexPattern')
+    TriggerRegexPatternList = Shapes::ListShape.new(name: 'TriggerRegexPatternList')
     TriggerStatus = Shapes::StringShape.new(name: 'TriggerStatus')
     TriggerType = Shapes::StringShape.new(name: 'TriggerType')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
@@ -738,6 +745,7 @@ module Aws::DevOpsAgent
     AzureDevOpsConfiguration.struct_class = Types::AzureDevOpsConfiguration
 
     CapabilityConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "enabled"))
+    CapabilityConfiguration.add_member(:trigger_filter_groups, Shapes::ShapeRef.new(shape: TriggerFilterGroups, location_name: "triggerFilterGroups"))
     CapabilityConfiguration.struct_class = Types::CapabilityConfiguration
 
     ChatExecution.add_member(:execution_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "executionId"))
@@ -1501,6 +1509,9 @@ module Aws::DevOpsAgent
 
     PagerDutyServicesList.member = Shapes::ShapeRef.new(shape: String)
 
+    PatternFilter.add_member(:patterns, Shapes::ShapeRef.new(shape: TriggerRegexPatternList, required: true, location_name: "patterns"))
+    PatternFilter.struct_class = Types::PatternFilter
+
     PendingMessage.add_member(:message_id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "messageId"))
     PendingMessage.add_member(:message, Shapes::ShapeRef.new(shape: Message, required: true, location_name: "message"))
     PendingMessage.struct_class = Types::PendingMessage
@@ -2018,7 +2029,17 @@ module Aws::DevOpsAgent
     TriggerCondition.add_member_subclass(:unknown, Types::TriggerCondition::Unknown)
     TriggerCondition.struct_class = Types::TriggerCondition
 
+    TriggerEventList.member = Shapes::ShapeRef.new(shape: TriggerEvent)
+
+    TriggerFilterGroup.add_member(:events, Shapes::ShapeRef.new(shape: TriggerEventList, location_name: "events"))
+    TriggerFilterGroup.add_member(:target_branches, Shapes::ShapeRef.new(shape: PatternFilter, location_name: "targetBranches"))
+    TriggerFilterGroup.struct_class = Types::TriggerFilterGroup
+
+    TriggerFilterGroups.member = Shapes::ShapeRef.new(shape: TriggerFilterGroup)
+
     TriggerList.member = Shapes::ShapeRef.new(shape: Trigger)
+
+    TriggerRegexPatternList.member = Shapes::ShapeRef.new(shape: TriggerRegexPattern)
 
     UntagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: UntagResourceRequestResourceArnString, required: true, location: "uri", location_name: "resourceArn"))
     UntagResourceRequest.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeyList, required: true, location: "querystring", location_name: "tagKeys"))

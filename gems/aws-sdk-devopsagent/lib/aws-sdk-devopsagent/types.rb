@@ -773,10 +773,17 @@ module Aws::DevOpsAgent
     #   Whether the capability is enabled.
     #   @return [Boolean]
     #
+    # @!attribute [rw] trigger_filter_groups
+    #   Optional trigger filter groups. Evaluated only when enabled=true;
+    #   retained while the capability is disabled, so re-enabling restores
+    #   the prior trigger behavior.
+    #   @return [Array<Types::TriggerFilterGroup>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/CapabilityConfiguration AWS API Documentation
     #
     class CapabilityConfiguration < Struct.new(
-      :enabled)
+      :enabled,
+      :trigger_filter_groups)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4286,6 +4293,22 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # A regex-based match condition. Passes when the value matches any
+    # pattern.
+    #
+    # @!attribute [rw] patterns
+    #   Anchored full-match regex patterns. The condition passes when the
+    #   value matches at least one pattern.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/PatternFilter AWS API Documentation
+    #
+    class PatternFilter < Struct.new(
+      :patterns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Represents a pending message in an agent execution.
     #
     # @!attribute [rw] message_id
@@ -6482,6 +6505,28 @@ module Aws::DevOpsAgent
 
       class Schedule < TriggerCondition; end
       class Unknown < TriggerCondition; end
+    end
+
+    # A group of trigger conditions. The group matches when ALL present
+    # conditions pass. A group cannot be empty: at least one condition must
+    # be present.
+    #
+    # @!attribute [rw] events
+    #   Passes when the webhook event is one of the listed events.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] target_branches
+    #   Passes when the change request target branch matches. Applicable to
+    #   RELEASE\_READINESS\_REVIEW only.
+    #   @return [Types::PatternFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/TriggerFilterGroup AWS API Documentation
+    #
+    class TriggerFilterGroup < Struct.new(
+      :events,
+      :target_branches)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # @!attribute [rw] resource_arn

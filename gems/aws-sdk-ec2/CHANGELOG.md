@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.640.0 (2026-08-26)
+------------------
+
+* Feature - Adds deleting state to possible VPC States.
+
 1.639.0 (2026-08-25)
 ------------------
 

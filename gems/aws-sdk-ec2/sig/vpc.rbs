@@ -43,7 +43,7 @@ module Aws
       def block_public_access_states: () -> Types::BlockPublicAccessStates
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Vpc.html#state-instance_method
-      def state: () -> ("pending" | "available")
+      def state: () -> ("pending" | "available" | "deleting")
 
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Vpc.html#cidr_block-instance_method
       def cidr_block: () -> ::String

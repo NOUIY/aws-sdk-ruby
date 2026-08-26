@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.387.0 (2026-08-26)
+------------------
+
+* Feature - Amazon SageMaker AI now supports ml.g7 instances for model optimization. You can now run model optimization jobs on ml.g7 instances, in supported AWS Regions.
+
 1.386.0 (2026-08-20)
 ------------------
 

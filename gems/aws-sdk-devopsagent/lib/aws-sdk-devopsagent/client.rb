@@ -629,6 +629,14 @@ module Aws::DevOpsAgent
     #     capabilities: {
     #       "RELEASE_READINESS_REVIEW" => {
     #         enabled: false,
+    #         trigger_filter_groups: [
+    #           {
+    #             events: ["PULL_REQUEST_READY_FOR_REVIEW"], # accepts PULL_REQUEST_READY_FOR_REVIEW, PULL_REQUEST_DRAFT
+    #             target_branches: {
+    #               patterns: ["TriggerRegexPattern"], # required
+    #             },
+    #           },
+    #         ],
     #       },
     #     },
     #   })
@@ -705,6 +713,11 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.mcpserversigv4.tool_details[0].tool_classification #=> String, one of "READ_ONLY", "MUTATIVE", "DESTRUCTIVE"
     #   resp.association.capabilities #=> Hash
     #   resp.association.capabilities["CapabilityType"].enabled #=> Boolean
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].events #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].events[0] #=> String, one of "PULL_REQUEST_READY_FOR_REVIEW", "PULL_REQUEST_DRAFT"
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns[0] #=> String
     #   resp.webhook.webhook_url #=> String
     #   resp.webhook.webhook_id #=> String
     #   resp.webhook.webhook_type #=> String, one of "hmac", "apikey", "gitlab", "pagerduty"
@@ -1830,6 +1843,11 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.mcpserversigv4.tool_details[0].tool_classification #=> String, one of "READ_ONLY", "MUTATIVE", "DESTRUCTIVE"
     #   resp.association.capabilities #=> Hash
     #   resp.association.capabilities["CapabilityType"].enabled #=> Boolean
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].events #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].events[0] #=> String, one of "PULL_REQUEST_READY_FOR_REVIEW", "PULL_REQUEST_DRAFT"
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/GetAssociation AWS API Documentation
     #
@@ -2471,6 +2489,11 @@ module Aws::DevOpsAgent
     #   resp.associations[0].configuration.mcpserversigv4.tool_details[0].tool_classification #=> String, one of "READ_ONLY", "MUTATIVE", "DESTRUCTIVE"
     #   resp.associations[0].capabilities #=> Hash
     #   resp.associations[0].capabilities["CapabilityType"].enabled #=> Boolean
+    #   resp.associations[0].capabilities["CapabilityType"].trigger_filter_groups #=> Array
+    #   resp.associations[0].capabilities["CapabilityType"].trigger_filter_groups[0].events #=> Array
+    #   resp.associations[0].capabilities["CapabilityType"].trigger_filter_groups[0].events[0] #=> String, one of "PULL_REQUEST_READY_FOR_REVIEW", "PULL_REQUEST_DRAFT"
+    #   resp.associations[0].capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns #=> Array
+    #   resp.associations[0].capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/ListAssociations AWS API Documentation
     #
@@ -4260,6 +4283,14 @@ module Aws::DevOpsAgent
     #     capabilities: {
     #       "RELEASE_READINESS_REVIEW" => {
     #         enabled: false,
+    #         trigger_filter_groups: [
+    #           {
+    #             events: ["PULL_REQUEST_READY_FOR_REVIEW"], # accepts PULL_REQUEST_READY_FOR_REVIEW, PULL_REQUEST_DRAFT
+    #             target_branches: {
+    #               patterns: ["TriggerRegexPattern"], # required
+    #             },
+    #           },
+    #         ],
     #       },
     #     },
     #   })
@@ -4336,6 +4367,11 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.mcpserversigv4.tool_details[0].tool_classification #=> String, one of "READ_ONLY", "MUTATIVE", "DESTRUCTIVE"
     #   resp.association.capabilities #=> Hash
     #   resp.association.capabilities["CapabilityType"].enabled #=> Boolean
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].events #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].events[0] #=> String, one of "PULL_REQUEST_READY_FOR_REVIEW", "PULL_REQUEST_DRAFT"
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns #=> Array
+    #   resp.association.capabilities["CapabilityType"].trigger_filter_groups[0].target_branches.patterns[0] #=> String
     #   resp.webhook.webhook_url #=> String
     #   resp.webhook.webhook_id #=> String
     #   resp.webhook.webhook_type #=> String, one of "hmac", "apikey", "gitlab", "pagerduty"
@@ -4715,7 +4751,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.12.0'
+      context[:gem_version] = '1.13.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

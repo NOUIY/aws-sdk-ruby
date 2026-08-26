@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.97.0 (2026-08-26)
+------------------
+
+* Feature - Adding new status enum for Firewalls.
+
 1.96.0 (2026-08-03)
 ------------------
 

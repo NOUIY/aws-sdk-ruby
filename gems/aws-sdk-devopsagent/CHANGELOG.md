@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.13.0 (2026-08-26)
+------------------
+
+* Feature - AWS DevOps Agent now supports trigger filter groups for Release Readiness Review, letting you control when the capability auto-triggers based on webhook events and target branches.
+
 1.12.0 (2026-08-25)
 ------------------
 

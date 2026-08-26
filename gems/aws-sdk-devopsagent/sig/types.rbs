@@ -257,6 +257,7 @@ module Aws::DevOpsAgent
 
     class CapabilityConfiguration
       attr_accessor enabled: bool
+      attr_accessor trigger_filter_groups: ::Array[Types::TriggerFilterGroup]
       SENSITIVE: []
     end
 
@@ -1284,6 +1285,11 @@ module Aws::DevOpsAgent
       SENSITIVE: [:client_id, :client_secret]
     end
 
+    class PatternFilter
+      attr_accessor patterns: ::Array[::String]
+      SENSITIVE: []
+    end
+
     class PendingMessage
       attr_accessor message_id: ::String
       attr_accessor message: Types::Message
@@ -1961,6 +1967,12 @@ module Aws::DevOpsAgent
       end
       class Unknown < TriggerCondition
       end
+    end
+
+    class TriggerFilterGroup
+      attr_accessor events: ::Array[("PULL_REQUEST_READY_FOR_REVIEW" | "PULL_REQUEST_DRAFT")]
+      attr_accessor target_branches: Types::PatternFilter
+      SENSITIVE: []
     end
 
     class UntagResourceRequest

@@ -133,6 +133,18 @@ module Aws
       }?
     }
 
+      type capability_configuration = {
+      enabled: bool?,
+      trigger_filter_groups: Array[
+        {
+          events: Array[("PULL_REQUEST_READY_FOR_REVIEW" | "PULL_REQUEST_DRAFT")]?,
+          target_branches: {
+            patterns: Array[::String]
+          }?
+        }
+      ]?
+    }
+
       type asset_file_content = {
       path: ::String,
       body: {
