@@ -1113,6 +1113,61 @@ module Aws::CognitoIdentityProvider
       req.send_request(options)
     end
 
+    # Deletes a user's registered time-based one-time password (TOTP)
+    # multi-factor authentication (MFA) factor, also known as a software
+    # token. After this operation, the user can no longer sign in with TOTP
+    # MFA, and can register a new TOTP factor with `AssociateSoftwareToken`.
+    # Use this operation when a user loses access to their TOTP-generating
+    # device, for example, a lost or reset phone, and needs to register a
+    # new one.
+    #
+    # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
+    # in requests for this API operation. For this operation, you must use
+    # IAM credentials to authorize requests, and you must grant yourself the
+    # corresponding IAM permission in a policy.
+    #
+    #  **Learn more**
+    #
+    #  * [Signing Amazon Web Services API Requests][1]
+    #
+    # * [Using the Amazon Cognito user pools API and user pool endpoints][2]
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html
+    # [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html
+    #
+    # @option params [required, String] :user_pool_id
+    #   The ID of the user pool where you want to delete the user's software
+    #   token.
+    #
+    # @option params [required, String] :username
+    #   The name of the user that you want to query or modify. The value of
+    #   this parameter is typically your user's username, but it can be any
+    #   of their alias attributes. If `username` isn't an alias attribute in
+    #   your user pool, this value must be the `sub` of a local user or the
+    #   username of a user from a third-party IdP.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.admin_delete_software_token({
+    #     user_pool_id: "UserPoolIdType", # required
+    #     username: "UsernameType", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminDeleteSoftwareToken AWS API Documentation
+    #
+    # @overload admin_delete_software_token(params = {})
+    # @param [Hash] params ({})
+    def admin_delete_software_token(params = {}, options = {})
+      req = build_request(:admin_delete_software_token, params)
+      req.send_request(options)
+    end
+
     # Deletes a user profile in your user pool.
     #
     # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
@@ -2026,10 +2081,6 @@ module Aws::CognitoIdentityProvider
     #
     #   The `ProviderName` should be set to `Cognito` for users in Cognito
     #   user pools.
-    #
-    #   All attributes in the DestinationUser profile must be mutable. If you
-    #   have assigned the user any immutable custom attributes, the operation
-    #   won't succeed.
     #
     # @option params [required, Types::ProviderUserIdentifierType] :source_user
     #   An external IdP account for a user who doesn't exist yet in the user
@@ -7880,6 +7931,14 @@ module Aws::CognitoIdentityProvider
 
     # Given a user pool domain name, returns information about the domain
     # configuration.
+    #
+    # <note markdown="1"> This operation doesn't return results when you query a prefix domain
+    # in a secondary Region. Prefix domains are Region-specific and can only
+    # be described in the Region where they were created. To describe a
+    # prefix domain for a replica user pool, make the request to the primary
+    # Region's endpoint.
+    #
+    #  </note>
     #
     # <note markdown="1"> Amazon Cognito evaluates Identity and Access Management (IAM) policies
     # in requests for this API operation. For this operation, you must use
@@ -14418,7 +14477,7 @@ module Aws::CognitoIdentityProvider
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-cognitoidentityprovider'
-      context[:gem_version] = '1.149.0'
+      context[:gem_version] = '1.150.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -31792,6 +31792,9 @@ module Aws::EC2
     #   * `block-device-mapping.encrypted` - A Boolean that indicates whether
     #     the Amazon EBS volume is encrypted.
     #
+    #   * `boot-mode` – The boot mode of the image (`legacy-bios` \| `uefi` \|
+    #     `uefi-preferred`).
+    #
     #   * `creation-date` - The time when the image was created, in the ISO
     #     8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for
     #     example, `2021-09-29T11:04:43.305Z`. You can use a wildcard (`*`),
@@ -31836,6 +31839,18 @@ module Aws::EC2
     #     `123456789012:approvedAmi`).
     #
     #   * `image-type` - The image type (`machine` \| `kernel` \| `ramdisk`).
+    #
+    #   * `instance-type-specification.supported-instance-type` – The instance
+    #     types that are compatible with the AMI, as specified by the AMI
+    #     owner. Values can be individual instance types (for example,
+    #     `t3.micro`) or wildcard patterns that match multiple instance types
+    #     (for example, `t3.*`).
+    #
+    #   * `instance-type-specification.unsupported-instance-type` – The
+    #     instance types that are not compatible with the AMI, as specified by
+    #     the AMI owner. Values can be individual instance types (for example,
+    #     `t3.micro`) or wildcard patterns that match multiple instance types
+    #     (for example, `t3.*`).
     #
     #   * `is-public` - A Boolean that indicates whether the image is public.
     #
@@ -32036,6 +32051,10 @@ module Aws::EC2
     #   resp.images[0].image_watermarks[0].source_image_id #=> String
     #   resp.images[0].image_watermarks[0].source_image_creation_time #=> Time
     #   resp.images[0].image_watermarks[0].watermark_creation_time #=> Time
+    #   resp.images[0].instance_type_specification.supported_instance_types #=> Array
+    #   resp.images[0].instance_type_specification.supported_instance_types[0].instance_type #=> String
+    #   resp.images[0].instance_type_specification.unsupported_instance_types #=> Array
+    #   resp.images[0].instance_type_specification.unsupported_instance_types[0].instance_type #=> String
     #   resp.images[0].image_id #=> String
     #   resp.images[0].image_location #=> String
     #   resp.images[0].state #=> String, one of "pending", "available", "invalid", "deregistered", "transient", "failed", "error", "disabled"
@@ -70905,6 +70924,82 @@ module Aws::EC2
       req.send_request(options)
     end
 
+    # Replaces or removes the instance type specification for an AMI. The
+    # instance type specification defines which instance types are
+    # compatible with the AMI.
+    #
+    # When you launch an instance using [RunInstances][1], Amazon EC2
+    # validates the requested instance type against the AMI's instance type
+    # specification. If the instance type is not compatible, the request
+    # fails with an `InvalidParameterCombination` error.
+    #
+    # You can specify supported instance types, unsupported instance types,
+    # or both. The evaluation logic is as follows:
+    #
+    # * No specification set – all instance types are allowed.
+    #
+    # * Only `UnsupportedInstanceTypes` set – All instance types are allowed
+    #   except those that match the unsupported list.
+    #
+    # * `SupportedInstanceTypes` set – The instance type must match the
+    #   supported list and must not match the unsupported list.
+    #
+    # Instance type entries support wildcard patterns using `*` (for
+    # example, `t3.*` matches all t3 sizes).
+    #
+    # To remove an existing instance type specification, omit the
+    # `InstanceTypeSpecification` parameter or set it to `null`.
+    #
+    # To set the instance type specification, you must be the AMI owner. You
+    # cannot set an instance type specification on an AMI that is listed in
+    # Amazon Web Services Marketplace, and you cannot list an AMI in Amazon
+    # Web Services Marketplace if it has an instance type specification set.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html
+    #
+    # @option params [required, String] :image_id
+    #   The ID of the AMI.
+    #
+    # @option params [Types::InstanceTypeSpecificationRequest] :instance_type_specification
+    #   The instance type specification to set on the AMI. Omit this parameter
+    #   to remove the existing instance type specification.
+    #
+    # @option params [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #
+    # @return [Types::ReplaceImageInstanceTypeSpecificationResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ReplaceImageInstanceTypeSpecificationResult#return_value #return_value} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.replace_image_instance_type_specification({
+    #     image_id: "ImageId", # required
+    #     instance_type_specification: {
+    #       supported_instance_types: ["InstanceTypeItemRequest"],
+    #       unsupported_instance_types: ["InstanceTypeItemRequest"],
+    #     },
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.return_value #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceImageInstanceTypeSpecification AWS API Documentation
+    #
+    # @overload replace_image_instance_type_specification(params = {})
+    # @param [Hash] params ({})
+    def replace_image_instance_type_specification(params = {}, options = {})
+      req = build_request(:replace_image_instance_type_specification, params)
+      req.send_request(options)
+    end
+
     # Changes which network ACL a subnet is associated with. By default when
     # you create a subnet, it's automatically associated with the default
     # network ACL. For more information, see [Network ACLs][1] in the
@@ -77197,7 +77292,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.640.0'
+      context[:gem_version] = '1.641.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

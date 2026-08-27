@@ -5200,8 +5200,24 @@ module Aws::DataZone
     #   not need to pass this option.**
     #
     # @option params [Boolean] :skip_deletion_check
-    #   Specifies the optional flag to delete all child entities within the
-    #   domain.
+    #   Specifies whether to skip the check that prevents deletion of a domain
+    #   that still contains resources. When you use this parameter, Amazon
+    #   DataZone deletes the domain but might not remove its associated
+    #   resources, which can leave orphaned resources behind. To delete a
+    #   domain and fully clean up its associated resources, use
+    #   `cascadeDelete` instead. You can't use this parameter together with
+    #   `cascadeDelete`.
+    #
+    # @option params [Boolean] :cascade_delete
+    #   Specifies whether to delete the domain along with all of its
+    #   associated resources. When you use this parameter, Amazon DataZone
+    #   deletes the domain and cleanly removes its associated resources
+    #   without leaving orphaned resources behind. Amazon DataZone reports
+    #   deletion progress in the `deleteProgress` field. Amazon DataZone
+    #   reports any resources that it can't delete in the `failureReasons`
+    #   field of the `GetDomain` response. You can't use this parameter
+    #   together with `skipDeletionCheck`. If you don't specify a value, the
+    #   default is `false`.
     #
     # @return [Types::DeleteDomainOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5213,6 +5229,7 @@ module Aws::DataZone
     #     identifier: "DomainId", # required
     #     client_token: "String",
     #     skip_deletion_check: false,
+    #     cascade_delete: false,
     #   })
     #
     # @example Response structure
@@ -6845,6 +6862,8 @@ module Aws::DataZone
     #   * {Types::GetDomainOutput#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::GetDomainOutput#domain_version #domain_version} => String
     #   * {Types::GetDomainOutput#service_role #service_role} => String
+    #   * {Types::GetDomainOutput#failure_reasons #failure_reasons} => Array&lt;Types::FailureReason&gt;
+    #   * {Types::GetDomainOutput#delete_progress #delete_progress} => Types::DeleteProgress
     #
     # @example Request syntax with placeholder values
     #
@@ -6872,6 +6891,10 @@ module Aws::DataZone
     #   resp.tags["TagKey"] #=> String
     #   resp.domain_version #=> String, one of "V1", "V2"
     #   resp.service_role #=> String
+    #   resp.failure_reasons #=> Array
+    #   resp.failure_reasons[0].id #=> String
+    #   resp.failure_reasons[0].message #=> String
+    #   resp.delete_progress.successfully_deleted_project_count #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetDomain AWS API Documentation
     #
@@ -16634,7 +16657,7 @@ module Aws::DataZone
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-datazone'
-      context[:gem_version] = '1.87.0'
+      context[:gem_version] = '1.88.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

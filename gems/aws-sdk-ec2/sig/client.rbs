@@ -13794,6 +13794,21 @@ module Aws
                                                              ) -> _ReplaceImageCriteriaInAllowedImagesSettingsResponseSuccess
                                                            | (?Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ReplaceImageCriteriaInAllowedImagesSettingsResponseSuccess
 
+      interface _ReplaceImageInstanceTypeSpecificationResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::ReplaceImageInstanceTypeSpecificationResult]
+        def return_value: () -> bool
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/EC2/Client.html#replace_image_instance_type_specification-instance_method
+      def replace_image_instance_type_specification: (
+                                                       image_id: ::String,
+                                                       ?instance_type_specification: {
+                                                         supported_instance_types: Array[::String]?,
+                                                         unsupported_instance_types: Array[::String]?
+                                                       },
+                                                       ?dry_run: bool
+                                                     ) -> _ReplaceImageInstanceTypeSpecificationResponseSuccess
+                                                   | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _ReplaceImageInstanceTypeSpecificationResponseSuccess
+
       interface _ReplaceNetworkAclAssociationResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::ReplaceNetworkAclAssociationResult]
         def new_association_id: () -> ::String

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.641.0 (2026-08-27)
+------------------
+
+* Feature - EC2 allows AMI owners to define compatible instance types on their AMIs, blocking RunInstances calls automatically for launches on non-permitted instance types.
+
 1.640.0 (2026-08-26)
 ------------------
 

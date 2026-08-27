@@ -2476,6 +2476,9 @@ module Aws::EC2
     #   * `block-device-mapping.encrypted` - A Boolean that indicates whether
     #     the Amazon EBS volume is encrypted.
     #
+    #   * `boot-mode` – The boot mode of the image (`legacy-bios` \| `uefi` \|
+    #     `uefi-preferred`).
+    #
     #   * `creation-date` - The time when the image was created, in the ISO
     #     8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for
     #     example, `2021-09-29T11:04:43.305Z`. You can use a wildcard (`*`),
@@ -2520,6 +2523,18 @@ module Aws::EC2
     #     `123456789012:approvedAmi`).
     #
     #   * `image-type` - The image type (`machine` \| `kernel` \| `ramdisk`).
+    #
+    #   * `instance-type-specification.supported-instance-type` – The instance
+    #     types that are compatible with the AMI, as specified by the AMI
+    #     owner. Values can be individual instance types (for example,
+    #     `t3.micro`) or wildcard patterns that match multiple instance types
+    #     (for example, `t3.*`).
+    #
+    #   * `instance-type-specification.unsupported-instance-type` – The
+    #     instance types that are not compatible with the AMI, as specified by
+    #     the AMI owner. Values can be individual instance types (for example,
+    #     `t3.micro`) or wildcard patterns that match multiple instance types
+    #     (for example, `t3.*`).
     #
     #   * `is-public` - A Boolean that indicates whether the image is public.
     #

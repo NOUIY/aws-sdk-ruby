@@ -7105,8 +7105,25 @@ module Aws::DataZone
     #   @return [String]
     #
     # @!attribute [rw] skip_deletion_check
-    #   Specifies the optional flag to delete all child entities within the
-    #   domain.
+    #   Specifies whether to skip the check that prevents deletion of a
+    #   domain that still contains resources. When you use this parameter,
+    #   Amazon DataZone deletes the domain but might not remove its
+    #   associated resources, which can leave orphaned resources behind. To
+    #   delete a domain and fully clean up its associated resources, use
+    #   `cascadeDelete` instead. You can't use this parameter together with
+    #   `cascadeDelete`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] cascade_delete
+    #   Specifies whether to delete the domain along with all of its
+    #   associated resources. When you use this parameter, Amazon DataZone
+    #   deletes the domain and cleanly removes its associated resources
+    #   without leaving orphaned resources behind. Amazon DataZone reports
+    #   deletion progress in the `deleteProgress` field. Amazon DataZone
+    #   reports any resources that it can't delete in the `failureReasons`
+    #   field of the `GetDomain` response. You can't use this parameter
+    #   together with `skipDeletionCheck`. If you don't specify a value,
+    #   the default is `false`.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteDomainInput AWS API Documentation
@@ -7114,7 +7131,8 @@ module Aws::DataZone
     class DeleteDomainInput < Struct.new(
       :identifier,
       :client_token,
-      :skip_deletion_check)
+      :skip_deletion_check,
+      :cascade_delete)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7398,6 +7416,24 @@ module Aws::DataZone
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteNotebookOutput AWS API Documentation
     #
     class DeleteNotebookOutput < Aws::EmptyStructure; end
+
+    # The progress of a domain deletion, including the number of projects
+    # that Amazon DataZone successfully deleted. Amazon DataZone returns
+    # this structure in the response to a `GetDomain` request while a
+    # cascade deletion is in progress.
+    #
+    # @!attribute [rw] successfully_deleted_project_count
+    #   The number of projects that Amazon DataZone successfully deleted
+    #   during the domain deletion.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/DeleteProgress AWS API Documentation
+    #
+    class DeleteProgress < Struct.new(
+      :successfully_deleted_project_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] domain_identifier
     #   The ID of the Amazon DataZone domain in which the project is
@@ -8702,6 +8738,27 @@ module Aws::DataZone
       include Aws::Structure
     end
 
+    # The details of a resource deletion failure during a cascade deletion
+    # of the domain.
+    #
+    # @!attribute [rw] id
+    #   The identifier of the resource that failed to delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message associated with the resource that failed to
+    #   delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/FailureReason AWS API Documentation
+    #
+    class FailureReason < Struct.new(
+      :id,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A search filter in Amazon DataZone.
     #
     # @!attribute [rw] attribute
@@ -9922,6 +9979,16 @@ module Aws::DataZone
     #   The service role of the domain.
     #   @return [String]
     #
+    # @!attribute [rw] failure_reasons
+    #   The list of failure reasons for resources that Amazon DataZone could
+    #   not delete during a cascade deletion of the domain.
+    #   @return [Array<Types::FailureReason>]
+    #
+    # @!attribute [rw] delete_progress
+    #   The progress of the current domain deletion, including the number of
+    #   projects that Amazon DataZone successfully deleted.
+    #   @return [Types::DeleteProgress]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datazone-2018-05-10/GetDomainOutput AWS API Documentation
     #
     class GetDomainOutput < Struct.new(
@@ -9939,7 +10006,9 @@ module Aws::DataZone
       :last_updated_at,
       :tags,
       :domain_version,
-      :service_role)
+      :service_role,
+      :failure_reasons,
+      :delete_progress)
       SENSITIVE = []
       include Aws::Structure
     end

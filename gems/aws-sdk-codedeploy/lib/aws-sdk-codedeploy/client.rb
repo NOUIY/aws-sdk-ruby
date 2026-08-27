@@ -1271,6 +1271,13 @@ module Aws::CodeDeploy
     #   * RETAIN: The version of the file already on the instance is kept and
     #     used as part of the new deployment.
     #
+    # @option params [String] :deployment_mode
+    #   The deployment mode to use for the deployment. When set to STANDARD
+    #   (the default), the deployment runs the standard set of deployment
+    #   lifecycle events. When set to RESTART, an EC2/On-premises in-place
+    #   deployment runs a shortened set of lifecycle events to quickly restart
+    #   the application on the target instances.
+    #
     # @option params [Types::AlarmConfiguration] :override_alarm_configuration
     #   Allows you to specify information about alarms associated with a
     #   deployment. The alarm configuration that you specify here will
@@ -1351,6 +1358,7 @@ module Aws::CodeDeploy
     #     },
     #     update_outdated_instances_only: false,
     #     file_exists_behavior: "DISALLOW", # accepts DISALLOW, OVERWRITE, RETAIN
+    #     deployment_mode: "STANDARD", # accepts STANDARD, RESTART
     #     override_alarm_configuration: {
     #       enabled: false,
     #       ignore_poll_alarm_failure: false,
@@ -3662,7 +3670,7 @@ module Aws::CodeDeploy
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-codedeploy'
-      context[:gem_version] = '1.102.0'
+      context[:gem_version] = '1.103.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

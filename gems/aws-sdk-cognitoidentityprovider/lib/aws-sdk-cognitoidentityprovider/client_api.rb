@@ -34,6 +34,8 @@ module Aws::CognitoIdentityProvider
     AdminCreateUserRequest = Shapes::StructureShape.new(name: 'AdminCreateUserRequest')
     AdminCreateUserResponse = Shapes::StructureShape.new(name: 'AdminCreateUserResponse')
     AdminCreateUserUnusedAccountValidityDaysType = Shapes::IntegerShape.new(name: 'AdminCreateUserUnusedAccountValidityDaysType')
+    AdminDeleteSoftwareTokenRequest = Shapes::StructureShape.new(name: 'AdminDeleteSoftwareTokenRequest')
+    AdminDeleteSoftwareTokenResponse = Shapes::StructureShape.new(name: 'AdminDeleteSoftwareTokenResponse')
     AdminDeleteUserAttributesRequest = Shapes::StructureShape.new(name: 'AdminDeleteUserAttributesRequest')
     AdminDeleteUserAttributesResponse = Shapes::StructureShape.new(name: 'AdminDeleteUserAttributesResponse')
     AdminDeleteUserRequest = Shapes::StructureShape.new(name: 'AdminDeleteUserRequest')
@@ -707,6 +709,12 @@ module Aws::CognitoIdentityProvider
 
     AdminCreateUserResponse.add_member(:user, Shapes::ShapeRef.new(shape: UserType, location_name: "User"))
     AdminCreateUserResponse.struct_class = Types::AdminCreateUserResponse
+
+    AdminDeleteSoftwareTokenRequest.add_member(:user_pool_id, Shapes::ShapeRef.new(shape: UserPoolIdType, required: true, location_name: "UserPoolId"))
+    AdminDeleteSoftwareTokenRequest.add_member(:username, Shapes::ShapeRef.new(shape: UsernameType, required: true, location_name: "Username"))
+    AdminDeleteSoftwareTokenRequest.struct_class = Types::AdminDeleteSoftwareTokenRequest
+
+    AdminDeleteSoftwareTokenResponse.struct_class = Types::AdminDeleteSoftwareTokenResponse
 
     AdminDeleteUserAttributesRequest.add_member(:user_pool_id, Shapes::ShapeRef.new(shape: UserPoolIdType, required: true, location_name: "UserPoolId"))
     AdminDeleteUserAttributesRequest.add_member(:username, Shapes::ShapeRef.new(shape: UsernameType, required: true, location_name: "Username"))
@@ -2770,6 +2778,22 @@ module Aws::CognitoIdentityProvider
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: NotAuthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedUserStateException)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotEnabledException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalErrorException)
+      end)
+
+      api.add_operation(:admin_delete_software_token, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AdminDeleteSoftwareToken"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: AdminDeleteSoftwareTokenRequest)
+        o.output = Shapes::ShapeRef.new(shape: AdminDeleteSoftwareTokenResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: NotAuthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: UserNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: UserNotConfirmedException)
         o.errors << Shapes::ShapeRef.new(shape: OperationNotEnabledException)
         o.errors << Shapes::ShapeRef.new(shape: InternalErrorException)
       end)

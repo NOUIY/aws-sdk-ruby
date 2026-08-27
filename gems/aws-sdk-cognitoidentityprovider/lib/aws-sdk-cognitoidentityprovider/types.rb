@@ -593,6 +593,32 @@ module Aws::CognitoIdentityProvider
       include Aws::Structure
     end
 
+    # @!attribute [rw] user_pool_id
+    #   The ID of the user pool where you want to delete the user's
+    #   software token.
+    #   @return [String]
+    #
+    # @!attribute [rw] username
+    #   The name of the user that you want to query or modify. The value of
+    #   this parameter is typically your user's username, but it can be any
+    #   of their alias attributes. If `username` isn't an alias attribute
+    #   in your user pool, this value must be the `sub` of a local user or
+    #   the username of a user from a third-party IdP.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminDeleteSoftwareTokenRequest AWS API Documentation
+    #
+    class AdminDeleteSoftwareTokenRequest < Struct.new(
+      :user_pool_id,
+      :username)
+      SENSITIVE = [:username]
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminDeleteSoftwareTokenResponse AWS API Documentation
+    #
+    class AdminDeleteSoftwareTokenResponse < Aws::EmptyStructure; end
+
     # Represents the request to delete user attributes as an administrator.
     #
     # @!attribute [rw] user_pool_id
@@ -1375,10 +1401,6 @@ module Aws::CognitoIdentityProvider
     #
     #   The `ProviderName` should be set to `Cognito` for users in Cognito
     #   user pools.
-    #
-    #   All attributes in the DestinationUser profile must be mutable. If
-    #   you have assigned the user any immutable custom attributes, the
-    #   operation won't succeed.
     #   @return [Types::ProviderUserIdentifierType]
     #
     # @!attribute [rw] source_user

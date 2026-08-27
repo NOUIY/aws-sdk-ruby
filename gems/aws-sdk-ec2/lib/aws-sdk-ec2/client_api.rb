@@ -2354,9 +2354,13 @@ module Aws::EC2
     InstanceTypeInfoFromInstanceRequirements = Shapes::StructureShape.new(name: 'InstanceTypeInfoFromInstanceRequirements')
     InstanceTypeInfoFromInstanceRequirementsSet = Shapes::ListShape.new(name: 'InstanceTypeInfoFromInstanceRequirementsSet')
     InstanceTypeInfoList = Shapes::ListShape.new(name: 'InstanceTypeInfoList')
+    InstanceTypeItem = Shapes::StructureShape.new(name: 'InstanceTypeItem')
+    InstanceTypeItemRequest = Shapes::StringShape.new(name: 'InstanceTypeItemRequest')
     InstanceTypeList = Shapes::ListShape.new(name: 'InstanceTypeList')
     InstanceTypeOffering = Shapes::StructureShape.new(name: 'InstanceTypeOffering')
     InstanceTypeOfferingsList = Shapes::ListShape.new(name: 'InstanceTypeOfferingsList')
+    InstanceTypeSpecification = Shapes::StructureShape.new(name: 'InstanceTypeSpecification')
+    InstanceTypeSpecificationRequest = Shapes::StructureShape.new(name: 'InstanceTypeSpecificationRequest')
     InstanceTypes = Shapes::ListShape.new(name: 'InstanceTypes')
     InstanceTypesList = Shapes::ListShape.new(name: 'InstanceTypesList')
     InstanceUsage = Shapes::StructureShape.new(name: 'InstanceUsage')
@@ -3331,6 +3335,8 @@ module Aws::EC2
     ReplaceIamInstanceProfileAssociationResult = Shapes::StructureShape.new(name: 'ReplaceIamInstanceProfileAssociationResult')
     ReplaceImageCriteriaInAllowedImagesSettingsRequest = Shapes::StructureShape.new(name: 'ReplaceImageCriteriaInAllowedImagesSettingsRequest')
     ReplaceImageCriteriaInAllowedImagesSettingsResult = Shapes::StructureShape.new(name: 'ReplaceImageCriteriaInAllowedImagesSettingsResult')
+    ReplaceImageInstanceTypeSpecificationRequest = Shapes::StructureShape.new(name: 'ReplaceImageInstanceTypeSpecificationRequest')
+    ReplaceImageInstanceTypeSpecificationResult = Shapes::StructureShape.new(name: 'ReplaceImageInstanceTypeSpecificationResult')
     ReplaceNetworkAclAssociationRequest = Shapes::StructureShape.new(name: 'ReplaceNetworkAclAssociationRequest')
     ReplaceNetworkAclAssociationResult = Shapes::StructureShape.new(name: 'ReplaceNetworkAclAssociationResult')
     ReplaceNetworkAclEntryRequest = Shapes::StructureShape.new(name: 'ReplaceNetworkAclEntryRequest')
@@ -3773,6 +3779,8 @@ module Aws::EC2
     SupportedAdditionalProcessorFeature = Shapes::StringShape.new(name: 'SupportedAdditionalProcessorFeature')
     SupportedAdditionalProcessorFeatureList = Shapes::ListShape.new(name: 'SupportedAdditionalProcessorFeatureList')
     SupportedInRegion = Shapes::BooleanShape.new(name: 'SupportedInRegion')
+    SupportedInstanceTypeRequestSet = Shapes::ListShape.new(name: 'SupportedInstanceTypeRequestSet')
+    SupportedInstanceTypeSet = Shapes::ListShape.new(name: 'SupportedInstanceTypeSet')
     SupportedIpAddressTypes = Shapes::ListShape.new(name: 'SupportedIpAddressTypes')
     SupportedRegionDetail = Shapes::StructureShape.new(name: 'SupportedRegionDetail')
     SupportedRegionSet = Shapes::ListShape.new(name: 'SupportedRegionSet')
@@ -4001,6 +4009,8 @@ module Aws::EC2
     UnsuccessfulItemSet = Shapes::ListShape.new(name: 'UnsuccessfulItemSet')
     UnsuccessfulSuppressionResponseObject = Shapes::StructureShape.new(name: 'UnsuccessfulSuppressionResponseObject')
     UnsuccessfulSuppressionResponseSet = Shapes::ListShape.new(name: 'UnsuccessfulSuppressionResponseSet')
+    UnsupportedInstanceTypeRequestSet = Shapes::ListShape.new(name: 'UnsupportedInstanceTypeRequestSet')
+    UnsupportedInstanceTypeSet = Shapes::ListShape.new(name: 'UnsupportedInstanceTypeSet')
     UpdateCapacityManagerMonitoredTagKeysRequest = Shapes::StructureShape.new(name: 'UpdateCapacityManagerMonitoredTagKeysRequest')
     UpdateCapacityManagerMonitoredTagKeysResult = Shapes::StructureShape.new(name: 'UpdateCapacityManagerMonitoredTagKeysResult')
     UpdateCapacityManagerOrganizationsAccessRequest = Shapes::StructureShape.new(name: 'UpdateCapacityManagerOrganizationsAccessRequest')
@@ -12932,6 +12942,7 @@ module Aws::EC2
     Image.add_member(:free_tier_eligible, Shapes::ShapeRef.new(shape: Boolean, location_name: "freeTierEligible"))
     Image.add_member(:public_ssm_parameter_name, Shapes::ShapeRef.new(shape: String, location_name: "publicSsmParameterName"))
     Image.add_member(:image_watermarks, Shapes::ShapeRef.new(shape: ImageWatermarkList, location_name: "imageWatermarkSet"))
+    Image.add_member(:instance_type_specification, Shapes::ShapeRef.new(shape: InstanceTypeSpecification, location_name: "instanceTypeSpecification"))
     Image.add_member(:image_id, Shapes::ShapeRef.new(shape: String, location_name: "imageId"))
     Image.add_member(:image_location, Shapes::ShapeRef.new(shape: String, location_name: "imageLocation"))
     Image.add_member(:state, Shapes::ShapeRef.new(shape: ImageState, location_name: "imageState"))
@@ -13912,6 +13923,9 @@ module Aws::EC2
 
     InstanceTypeInfoList.member = Shapes::ShapeRef.new(shape: InstanceTypeInfo, location_name: "item")
 
+    InstanceTypeItem.add_member(:instance_type, Shapes::ShapeRef.new(shape: String, location_name: "instanceType"))
+    InstanceTypeItem.struct_class = Types::InstanceTypeItem
+
     InstanceTypeList.member = Shapes::ShapeRef.new(shape: InstanceType)
 
     InstanceTypeOffering.add_member(:instance_type, Shapes::ShapeRef.new(shape: InstanceType, location_name: "instanceType"))
@@ -13920,6 +13934,14 @@ module Aws::EC2
     InstanceTypeOffering.struct_class = Types::InstanceTypeOffering
 
     InstanceTypeOfferingsList.member = Shapes::ShapeRef.new(shape: InstanceTypeOffering, location_name: "item")
+
+    InstanceTypeSpecification.add_member(:supported_instance_types, Shapes::ShapeRef.new(shape: SupportedInstanceTypeSet, location_name: "supportedInstanceTypeSet"))
+    InstanceTypeSpecification.add_member(:unsupported_instance_types, Shapes::ShapeRef.new(shape: UnsupportedInstanceTypeSet, location_name: "unsupportedInstanceTypeSet"))
+    InstanceTypeSpecification.struct_class = Types::InstanceTypeSpecification
+
+    InstanceTypeSpecificationRequest.add_member(:supported_instance_types, Shapes::ShapeRef.new(shape: SupportedInstanceTypeRequestSet, location_name: "SupportedInstanceType"))
+    InstanceTypeSpecificationRequest.add_member(:unsupported_instance_types, Shapes::ShapeRef.new(shape: UnsupportedInstanceTypeRequestSet, location_name: "UnsupportedInstanceType"))
+    InstanceTypeSpecificationRequest.struct_class = Types::InstanceTypeSpecificationRequest
 
     InstanceTypes.member = Shapes::ShapeRef.new(shape: String)
 
@@ -17433,6 +17455,14 @@ module Aws::EC2
     ReplaceImageCriteriaInAllowedImagesSettingsResult.add_member(:return_value, Shapes::ShapeRef.new(shape: Boolean, location_name: "return"))
     ReplaceImageCriteriaInAllowedImagesSettingsResult.struct_class = Types::ReplaceImageCriteriaInAllowedImagesSettingsResult
 
+    ReplaceImageInstanceTypeSpecificationRequest.add_member(:image_id, Shapes::ShapeRef.new(shape: ImageId, required: true, location_name: "ImageId"))
+    ReplaceImageInstanceTypeSpecificationRequest.add_member(:instance_type_specification, Shapes::ShapeRef.new(shape: InstanceTypeSpecificationRequest, location_name: "InstanceTypeSpecification"))
+    ReplaceImageInstanceTypeSpecificationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    ReplaceImageInstanceTypeSpecificationRequest.struct_class = Types::ReplaceImageInstanceTypeSpecificationRequest
+
+    ReplaceImageInstanceTypeSpecificationResult.add_member(:return_value, Shapes::ShapeRef.new(shape: Boolean, location_name: "returnValue"))
+    ReplaceImageInstanceTypeSpecificationResult.struct_class = Types::ReplaceImageInstanceTypeSpecificationResult
+
     ReplaceNetworkAclAssociationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "dryRun"))
     ReplaceNetworkAclAssociationRequest.add_member(:association_id, Shapes::ShapeRef.new(shape: NetworkAclAssociationId, required: true, location_name: "associationId"))
     ReplaceNetworkAclAssociationRequest.add_member(:network_acl_id, Shapes::ShapeRef.new(shape: NetworkAclId, required: true, location_name: "networkAclId"))
@@ -19160,6 +19190,10 @@ module Aws::EC2
 
     SupportedAdditionalProcessorFeatureList.member = Shapes::ShapeRef.new(shape: SupportedAdditionalProcessorFeature, location_name: "item")
 
+    SupportedInstanceTypeRequestSet.member = Shapes::ShapeRef.new(shape: InstanceTypeItemRequest, location_name: "Item")
+
+    SupportedInstanceTypeSet.member = Shapes::ShapeRef.new(shape: InstanceTypeItem, location_name: "item")
+
     SupportedIpAddressTypes.member = Shapes::ShapeRef.new(shape: ServiceConnectivityType, location_name: "item")
 
     SupportedRegionDetail.add_member(:region, Shapes::ShapeRef.new(shape: String, location_name: "region"))
@@ -19919,6 +19953,10 @@ module Aws::EC2
     UnsuccessfulSuppressionResponseObject.struct_class = Types::UnsuccessfulSuppressionResponseObject
 
     UnsuccessfulSuppressionResponseSet.member = Shapes::ShapeRef.new(shape: UnsuccessfulSuppressionResponseObject, location_name: "item")
+
+    UnsupportedInstanceTypeRequestSet.member = Shapes::ShapeRef.new(shape: InstanceTypeItemRequest, location_name: "Item")
+
+    UnsupportedInstanceTypeSet.member = Shapes::ShapeRef.new(shape: InstanceTypeItem, location_name: "item")
 
     UpdateCapacityManagerMonitoredTagKeysRequest.add_member(:activate_tag_keys, Shapes::ShapeRef.new(shape: ValueStringList, location_name: "ActivateTagKey"))
     UpdateCapacityManagerMonitoredTagKeysRequest.add_member(:deactivate_tag_keys, Shapes::ShapeRef.new(shape: ValueStringList, location_name: "DeactivateTagKey"))
@@ -27778,6 +27816,14 @@ module Aws::EC2
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ReplaceImageCriteriaInAllowedImagesSettingsRequest)
         o.output = Shapes::ShapeRef.new(shape: ReplaceImageCriteriaInAllowedImagesSettingsResult)
+      end)
+
+      api.add_operation(:replace_image_instance_type_specification, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ReplaceImageInstanceTypeSpecification"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ReplaceImageInstanceTypeSpecificationRequest)
+        o.output = Shapes::ShapeRef.new(shape: ReplaceImageInstanceTypeSpecificationResult)
       end)
 
       api.add_operation(:replace_network_acl_association, Seahorse::Model::Operation.new.tap do |o|

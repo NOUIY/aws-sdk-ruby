@@ -27101,6 +27101,9 @@ module Aws::EC2
     #   * `block-device-mapping.encrypted` - A Boolean that indicates
     #     whether the Amazon EBS volume is encrypted.
     #
+    #   * `boot-mode` – The boot mode of the image (`legacy-bios` \| `uefi`
+    #     \| `uefi-preferred`).
+    #
     #   * `creation-date` - The time when the image was created, in the ISO
     #     8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for
     #     example, `2021-09-29T11:04:43.305Z`. You can use a wildcard (`*`),
@@ -27146,6 +27149,18 @@ module Aws::EC2
     #
     #   * `image-type` - The image type (`machine` \| `kernel` \|
     #     `ramdisk`).
+    #
+    #   * `instance-type-specification.supported-instance-type` – The
+    #     instance types that are compatible with the AMI, as specified by
+    #     the AMI owner. Values can be individual instance types (for
+    #     example, `t3.micro`) or wildcard patterns that match multiple
+    #     instance types (for example, `t3.*`).
+    #
+    #   * `instance-type-specification.unsupported-instance-type` – The
+    #     instance types that are not compatible with the AMI, as specified
+    #     by the AMI owner. Values can be individual instance types (for
+    #     example, `t3.micro`) or wildcard patterns that match multiple
+    #     instance types (for example, `t3.*`).
     #
     #   * `is-public` - A Boolean that indicates whether the image is
     #     public.
@@ -51150,6 +51165,11 @@ module Aws::EC2
     #   The watermarks attached to the AMI.
     #   @return [Array<Types::ImageWatermark>]
     #
+    # @!attribute [rw] instance_type_specification
+    #   The instance type specification for the AMI, which defines which
+    #   instance types are compatible with this image.
+    #   @return [Types::InstanceTypeSpecification]
+    #
     # @!attribute [rw] image_id
     #   The ID of the AMI.
     #   @return [String]
@@ -51234,6 +51254,7 @@ module Aws::EC2
       :free_tier_eligible,
       :public_ssm_parameter_name,
       :image_watermarks,
+      :instance_type_specification,
       :image_id,
       :image_location,
       :state,
@@ -56982,6 +57003,22 @@ module Aws::EC2
       include Aws::Structure
     end
 
+    # An instance type name or wildcard pattern in an instance type
+    # specification.
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type or wildcard pattern (for example, `t3.*` or
+    #   `m5.large`).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/InstanceTypeItem AWS API Documentation
+    #
+    class InstanceTypeItem < Struct.new(
+      :instance_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The instance types offered.
     #
     # @!attribute [rw] instance_type
@@ -57009,6 +57046,61 @@ module Aws::EC2
       :instance_type,
       :location_type,
       :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the instance type compatibility rules for an AMI, including
+    # lists of supported and unsupported instance type patterns.
+    #
+    # @!attribute [rw] supported_instance_types
+    #   The instance types that the AMI supports.
+    #   @return [Array<Types::InstanceTypeItem>]
+    #
+    # @!attribute [rw] unsupported_instance_types
+    #   The instance types that the AMI does not support.
+    #   @return [Array<Types::InstanceTypeItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/InstanceTypeSpecification AWS API Documentation
+    #
+    class InstanceTypeSpecification < Struct.new(
+      :supported_instance_types,
+      :unsupported_instance_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The instance type specification for an AMI, which contains lists of
+    # supported and unsupported instance types that define which instance
+    # types are compatible with the AMI.
+    #
+    # @!attribute [rw] supported_instance_types
+    #   The instance types that the AMI supports. You can specify instance
+    #   type names or use wildcard patterns (for example, `t3.*`).
+    #
+    #   Constraints: Maximum 100 entries. Each entry must be 1-24 characters
+    #   and match the pattern `^[A-Za-z0-9_.*-]+$`. Consecutive wildcard
+    #   characters (`**`) are not allowed. Entries must be unique within
+    #   each list and across both lists; duplicate entries cause the request
+    #   to fail.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] unsupported_instance_types
+    #   The instance types that the AMI does not support. You can specify
+    #   instance type names or use wildcard patterns (for example, `t3.*`).
+    #
+    #   Constraints: Maximum 100 entries. Each entry must be 1-24 characters
+    #   and match the pattern `^[A-Za-z0-9_.*-]+$`. Consecutive wildcard
+    #   characters (`**`) are not allowed. Entries must be unique within
+    #   each list and across both lists; duplicate entries cause the request
+    #   to fail.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/InstanceTypeSpecificationRequest AWS API Documentation
+    #
+    class InstanceTypeSpecificationRequest < Struct.new(
+      :supported_instance_types,
+      :unsupported_instance_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -75767,6 +75859,45 @@ module Aws::EC2
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceImageCriteriaInAllowedImagesSettingsResult AWS API Documentation
     #
     class ReplaceImageCriteriaInAllowedImagesSettingsResult < Struct.new(
+      :return_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] image_id
+    #   The ID of the AMI.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type_specification
+    #   The instance type specification to set on the AMI. Omit this
+    #   parameter to remove the existing instance type specification.
+    #   @return [Types::InstanceTypeSpecificationRequest]
+    #
+    # @!attribute [rw] dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceImageInstanceTypeSpecificationRequest AWS API Documentation
+    #
+    class ReplaceImageInstanceTypeSpecificationRequest < Struct.new(
+      :image_id,
+      :instance_type_specification,
+      :dry_run)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] return_value
+    #   Returns `true` if the request succeeds; otherwise, it returns an
+    #   error.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceImageInstanceTypeSpecificationResult AWS API Documentation
+    #
+    class ReplaceImageInstanceTypeSpecificationResult < Struct.new(
       :return_value)
       SENSITIVE = []
       include Aws::Structure

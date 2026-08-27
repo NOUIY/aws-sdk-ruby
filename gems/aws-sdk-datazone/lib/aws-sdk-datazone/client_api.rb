@@ -349,6 +349,7 @@ module Aws::DataZone
     DeleteListingOutput = Shapes::StructureShape.new(name: 'DeleteListingOutput')
     DeleteNotebookInput = Shapes::StructureShape.new(name: 'DeleteNotebookInput')
     DeleteNotebookOutput = Shapes::StructureShape.new(name: 'DeleteNotebookOutput')
+    DeleteProgress = Shapes::StructureShape.new(name: 'DeleteProgress')
     DeleteProjectInput = Shapes::StructureShape.new(name: 'DeleteProjectInput')
     DeleteProjectMembershipInput = Shapes::StructureShape.new(name: 'DeleteProjectMembershipInput')
     DeleteProjectMembershipOutput = Shapes::StructureShape.new(name: 'DeleteProjectMembershipOutput')
@@ -457,7 +458,9 @@ module Aws::DataZone
     ExternalIdentifier = Shapes::StringShape.new(name: 'ExternalIdentifier')
     FailedQueryProcessingErrorMessages = Shapes::ListShape.new(name: 'FailedQueryProcessingErrorMessages')
     FailureCause = Shapes::StructureShape.new(name: 'FailureCause')
+    FailureReason = Shapes::StructureShape.new(name: 'FailureReason')
     FailureReasons = Shapes::ListShape.new(name: 'FailureReasons')
+    FailureReasonsList = Shapes::ListShape.new(name: 'FailureReasonsList')
     FileFormat = Shapes::StringShape.new(name: 'FileFormat')
     FileName = Shapes::StringShape.new(name: 'FileName')
     Filter = Shapes::StructureShape.new(name: 'Filter')
@@ -2907,6 +2910,7 @@ module Aws::DataZone
     DeleteDomainInput.add_member(:identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "identifier"))
     DeleteDomainInput.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location: "querystring", location_name: "clientToken", metadata: {"idempotencyToken" => true}))
     DeleteDomainInput.add_member(:skip_deletion_check, Shapes::ShapeRef.new(shape: Boolean, location: "querystring", location_name: "skipDeletionCheck"))
+    DeleteDomainInput.add_member(:cascade_delete, Shapes::ShapeRef.new(shape: Boolean, location: "querystring", location_name: "cascadeDelete"))
     DeleteDomainInput.struct_class = Types::DeleteDomainInput
 
     DeleteDomainOutput.add_member(:status, Shapes::ShapeRef.new(shape: DomainStatus, required: true, location_name: "status"))
@@ -2979,6 +2983,9 @@ module Aws::DataZone
     DeleteNotebookInput.struct_class = Types::DeleteNotebookInput
 
     DeleteNotebookOutput.struct_class = Types::DeleteNotebookOutput
+
+    DeleteProgress.add_member(:successfully_deleted_project_count, Shapes::ShapeRef.new(shape: Integer, location_name: "successfullyDeletedProjectCount"))
+    DeleteProgress.struct_class = Types::DeleteProgress
 
     DeleteProjectInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))
     DeleteProjectInput.add_member(:identifier, Shapes::ShapeRef.new(shape: ProjectId, required: true, location: "uri", location_name: "identifier"))
@@ -3297,7 +3304,13 @@ module Aws::DataZone
     FailureCause.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     FailureCause.struct_class = Types::FailureCause
 
+    FailureReason.add_member(:id, Shapes::ShapeRef.new(shape: String, location_name: "id"))
+    FailureReason.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
+    FailureReason.struct_class = Types::FailureReason
+
     FailureReasons.member = Shapes::ShapeRef.new(shape: ProjectDeletionError)
+
+    FailureReasonsList.member = Shapes::ShapeRef.new(shape: FailureReason)
 
     Filter.add_member(:attribute, Shapes::ShapeRef.new(shape: Attribute, required: true, location_name: "attribute"))
     Filter.add_member(:value, Shapes::ShapeRef.new(shape: FilterValueString, location_name: "value"))
@@ -3575,6 +3588,8 @@ module Aws::DataZone
     GetDomainOutput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     GetDomainOutput.add_member(:domain_version, Shapes::ShapeRef.new(shape: DomainVersion, location_name: "domainVersion"))
     GetDomainOutput.add_member(:service_role, Shapes::ShapeRef.new(shape: RoleArn, location_name: "serviceRole"))
+    GetDomainOutput.add_member(:failure_reasons, Shapes::ShapeRef.new(shape: FailureReasonsList, location_name: "failureReasons"))
+    GetDomainOutput.add_member(:delete_progress, Shapes::ShapeRef.new(shape: DeleteProgress, location_name: "deleteProgress"))
     GetDomainOutput.struct_class = Types::GetDomainOutput
 
     GetDomainUnitInput.add_member(:domain_identifier, Shapes::ShapeRef.new(shape: DomainId, required: true, location: "uri", location_name: "domainIdentifier"))

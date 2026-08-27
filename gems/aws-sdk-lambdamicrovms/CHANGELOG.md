@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.2.0 (2026-08-27)
+------------------
+
+* Feature - Added InsufficientCapacityException to RunMicrovm for capacity-related failures. Added lifecycle status field (AVAILABLE, DEPRECATED) to ListManagedMicrovmImageVersions. Added ConflictException to CreateMicrovmAuthToken and CreateMicrovmShellAuthToken for unregistered MicroVMs.
+
 1.1.0 (2026-07-09)
 ------------------
 

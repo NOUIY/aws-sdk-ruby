@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.108.0 (2026-08-27)
+------------------
+
+* Feature - Updating SDK and CLI documentation for AttachDataSource API.
+
 1.107.0 (2026-07-09)
 ------------------
 

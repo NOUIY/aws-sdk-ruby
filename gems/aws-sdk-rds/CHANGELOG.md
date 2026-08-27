@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.321.0 (2026-08-27)
+------------------
+
+* Feature - Adding support for the full snapshot size, in bytes, of DB instance snapshots.
+
 1.320.0 (2026-07-31)
 ------------------
 

@@ -1911,6 +1911,7 @@ module Aws::DataZone
       attr_accessor identifier: ::String
       attr_accessor client_token: ::String
       attr_accessor skip_deletion_check: bool
+      attr_accessor cascade_delete: bool
       SENSITIVE: []
     end
 
@@ -2018,6 +2019,11 @@ module Aws::DataZone
     end
 
     class DeleteNotebookOutput < Aws::EmptyStructure
+    end
+
+    class DeleteProgress
+      attr_accessor successfully_deleted_project_count: ::Integer
+      SENSITIVE: []
     end
 
     class DeleteProjectInput
@@ -2395,6 +2401,12 @@ module Aws::DataZone
       SENSITIVE: []
     end
 
+    class FailureReason
+      attr_accessor id: ::String
+      attr_accessor message: ::String
+      SENSITIVE: []
+    end
+
     class Filter
       attr_accessor attribute: ::String
       attr_accessor value: ::String
@@ -2711,6 +2723,8 @@ module Aws::DataZone
       attr_accessor tags: ::Hash[::String, ::String]
       attr_accessor domain_version: ("V1" | "V2")
       attr_accessor service_role: ::String
+      attr_accessor failure_reasons: ::Array[Types::FailureReason]
+      attr_accessor delete_progress: Types::DeleteProgress
       SENSITIVE: []
     end
 

@@ -1094,6 +1094,14 @@ module Aws::CodeDeploy
     #     and used as part of the new deployment.
     #   @return [String]
     #
+    # @!attribute [rw] deployment_mode
+    #   The deployment mode to use for the deployment. When set to STANDARD
+    #   (the default), the deployment runs the standard set of deployment
+    #   lifecycle events. When set to RESTART, an EC2/On-premises in-place
+    #   deployment runs a shortened set of lifecycle events to quickly
+    #   restart the application on the target instances.
+    #   @return [String]
+    #
     # @!attribute [rw] override_alarm_configuration
     #   Allows you to specify information about alarms associated with a
     #   deployment. The alarm configuration that you specify here will
@@ -1127,6 +1135,7 @@ module Aws::CodeDeploy
       :auto_rollback_configuration,
       :update_outdated_instances_only,
       :file_exists_behavior,
+      :deployment_mode,
       :override_alarm_configuration)
       SENSITIVE = []
       include Aws::Structure

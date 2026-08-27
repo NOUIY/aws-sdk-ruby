@@ -1538,7 +1538,8 @@ module Aws
       def delete_domain: (
                            identifier: ::String,
                            ?client_token: ::String,
-                           ?skip_deletion_check: bool
+                           ?skip_deletion_check: bool,
+                           ?cascade_delete: bool
                          ) -> _DeleteDomainResponseSuccess
                        | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _DeleteDomainResponseSuccess
 
@@ -2007,6 +2008,8 @@ module Aws
         def tags: () -> ::Hash[::String, ::String]
         def domain_version: () -> ("V1" | "V2")
         def service_role: () -> ::String
+        def failure_reasons: () -> ::Array[Types::FailureReason]
+        def delete_progress: () -> Types::DeleteProgress
       end
       # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/DataZone/Client.html#get_domain-instance_method
       def get_domain: (

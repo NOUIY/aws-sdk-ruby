@@ -100,6 +100,15 @@ module Aws::CognitoIdentityProvider
       SENSITIVE: []
     end
 
+    class AdminDeleteSoftwareTokenRequest
+      attr_accessor user_pool_id: ::String
+      attr_accessor username: ::String
+      SENSITIVE: [:username]
+    end
+
+    class AdminDeleteSoftwareTokenResponse < Aws::EmptyStructure
+    end
+
     class AdminDeleteUserAttributesRequest
       attr_accessor user_pool_id: ::String
       attr_accessor username: ::String
