@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.40.0 (2026-08-28)
+------------------
+
+* Feature - Releasing PARC, new APN Program that lets sellers add solftware revenue details to aws opportunity summary
+
 1.39.0 (2026-08-04)
 ------------------
 

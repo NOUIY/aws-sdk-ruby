@@ -444,6 +444,17 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class ContentSource
+      attr_accessor inline: Types::InlineMemoryContent
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Inline < ContentSource
+      end
+      class Unknown < ContentSource
+      end
+    end
+
     class ContentStartEvent < Aws::EmptyStructure
     end
 
@@ -1699,10 +1710,46 @@ module Aws::BedrockAgentCore
       SENSITIVE: []
     end
 
+    class IngestDataInput
+      attr_accessor memory_id: ::String
+      attr_accessor source: Types::ContentSource
+      attr_accessor content_timestamp: ::Time
+      attr_accessor actor_id: ::String
+      attr_accessor session_id: ::String
+      attr_accessor extraction_config: Types::ExtractionConfig
+      attr_accessor metadata: ::Hash[::String, Types::MetadataValue]
+      attr_accessor client_token: ::String
+      SENSITIVE: []
+    end
+
+    class IngestDataOutput
+      attr_accessor session_id: ::String
+      SENSITIVE: []
+    end
+
+    class IngestPayloadType
+      attr_accessor conversational: Types::Conversational
+      attr_accessor json: Types::MemoryJsonData
+      attr_accessor unknown: untyped
+      SENSITIVE: [:json]
+
+      class Conversational < IngestPayloadType
+      end
+      class Json < IngestPayloadType
+      end
+      class Unknown < IngestPayloadType
+      end
+    end
+
     class InlineGroundTruth
       attr_accessor assertions: ::Array[Types::EvaluationContent]
       attr_accessor expected_trajectory: Types::EvaluationExpectedTrajectory
       attr_accessor turns: ::Array[Types::GroundTruthTurn]
+      SENSITIVE: []
+    end
+
+    class InlineMemoryContent
+      attr_accessor payload: ::Array[Types::IngestPayloadType]
       SENSITIVE: []
     end
 

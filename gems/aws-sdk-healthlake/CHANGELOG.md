@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.70.0 (2026-08-28)
+------------------
+
+* Feature - New HealthLake API, RestoreFHIRDatastore, providing the capability to restore active datastores to a point in time within the last 30 days or recover a deleted datastore from the delete snapshot.
+
 1.69.0 (2026-08-07)
 ------------------
 

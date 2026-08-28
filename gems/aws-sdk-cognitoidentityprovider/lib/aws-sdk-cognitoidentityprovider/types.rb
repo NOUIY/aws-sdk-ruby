@@ -3119,6 +3119,33 @@ module Aws::CognitoIdentityProvider
     #
     class ChangePasswordResponse < Aws::EmptyStructure; end
 
+    # The access token and its metadata from a machine-to-machine (M2M)
+    # client credentials grant.
+    #
+    # @!attribute [rw] access_token
+    #   The access token for the requested app client. Present this token to
+    #   a resource server to authorize a request, using the scopes granted
+    #   in the token.
+    #   @return [String]
+    #
+    # @!attribute [rw] expires_in
+    #   The number of seconds until the access token expires.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] token_type
+    #   The type of the token. For example, `Bearer`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ClientAuthenticationResultType AWS API Documentation
+    #
+    class ClientAuthenticationResultType < Struct.new(
+      :access_token,
+      :expires_in,
+      :token_type)
+      SENSITIVE = [:access_token]
+      include Aws::Structure
+    end
+
     # Contains information about a client secret, including its unique
     # identifier, value, and creation timestamp.
     #
@@ -5623,6 +5650,43 @@ module Aws::CognitoIdentityProvider
       include Aws::Structure
     end
 
+    # @!attribute [rw] client_id
+    #   The ID of the app client that the terms documents are associated
+    #   with.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_pool_id
+    #   The ID of the user pool that contains the terms documents that you
+    #   want to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] terms_name
+    #   The name of the terms documents that you want to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DescribeTermsByClientRequest AWS API Documentation
+    #
+    class DescribeTermsByClientRequest < Struct.new(
+      :client_id,
+      :user_pool_id,
+      :terms_name)
+      SENSITIVE = [:client_id]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] terms
+    #   A summary of the requested terms documents. Includes a unique
+    #   identifier for later changes to the terms documents.
+    #   @return [Types::TermsType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/DescribeTermsByClientResponse AWS API Documentation
+    #
+    class DescribeTermsByClientResponse < Struct.new(
+      :terms)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] terms_id
     #   The ID of the terms documents that you want to describe.
     #   @return [String]
@@ -6661,6 +6725,84 @@ module Aws::CognitoIdentityProvider
     class GetCSVHeaderResponse < Struct.new(
       :user_pool_id,
       :csv_header)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_id
+    #   The ID of the app client that requests the access token. The app
+    #   client must have a client secret and the `ALLOW_CLIENT_TOKEN_AUTH`
+    #   authentication flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] secret
+    #   An active secret for the app client.
+    #   @return [String]
+    #
+    # @!attribute [rw] scopes
+    #   The custom scopes to authorize in the access token, in the format
+    #   `resource-server-identifier/scope-name`. Each scope must belong to a
+    #   resource server in your user pool. If you don't specify any scopes,
+    #   Amazon Cognito authorizes the scopes that are configured for the app
+    #   client.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] client_metadata
+    #   A map of custom key-value pairs that you can provide as input for
+    #   any custom workflows that this action triggers. You create custom
+    #   workflows by assigning Lambda functions to user pool triggers.
+    #
+    #   When Amazon Cognito invokes any of these functions, it passes a JSON
+    #   payload, which the function receives as input. This payload contains
+    #   a `clientMetadata` attribute that provides the data that you
+    #   assigned to the ClientMetadata parameter in your request. In your
+    #   function code, you can process the `clientMetadata` value to enhance
+    #   your workflow for your specific needs.
+    #
+    #   To review the Lambda trigger types that Amazon Cognito invokes at
+    #   runtime with API requests, see [ Connecting API actions to Lambda
+    #   triggers][1] in the *Amazon Cognito Developer Guide*.
+    #
+    #   <note markdown="1"> When you use the `ClientMetadata` parameter, note that Amazon
+    #   Cognito won't do the following:
+    #
+    #    * Store the `ClientMetadata` value. This data is available only to
+    #     Lambda triggers that are assigned to a user pool to support custom
+    #     workflows. If your user pool configuration doesn't include
+    #     triggers, the `ClientMetadata` parameter serves no purpose.
+    #
+    #   * Validate the `ClientMetadata` value.
+    #
+    #   * Encrypt the `ClientMetadata` value. Don't send sensitive
+    #     information in this parameter.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-working-with-lambda-triggers.html#lambda-triggers-by-event
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetClientTokenRequest AWS API Documentation
+    #
+    class GetClientTokenRequest < Struct.new(
+      :client_id,
+      :secret,
+      :scopes,
+      :client_metadata)
+      SENSITIVE = [:client_id, :secret]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_authentication_result
+    #   The access token that Amazon Cognito issues for the app client, and
+    #   its metadata.
+    #   @return [Types::ClientAuthenticationResultType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/GetClientTokenResponse AWS API Documentation
+    #
+    class GetClientTokenResponse < Struct.new(
+      :client_authentication_result)
       SENSITIVE = []
       include Aws::Structure
     end

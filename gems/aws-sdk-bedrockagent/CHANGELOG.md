@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.81.0 (2026-08-28)
+------------------
+
+* Feature - Adds an optional syncSchedule field to CreateDataSource and UpdateDataSource for Managed Knowledge Bases data source connectors, so a data source can sync automatically on a daily, weekly, or monthly schedule.
+
 1.80.0 (2026-07-09)
 ------------------
 

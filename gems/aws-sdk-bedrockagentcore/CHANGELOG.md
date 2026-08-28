@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.51.0 (2026-08-28)
+------------------
+
+* Feature - AgentCore Memory now supports direct ingestion into long-term memory via IngestData API
+
 1.50.0 (2026-08-21)
 ------------------
 

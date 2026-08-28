@@ -1243,6 +1243,20 @@ module Aws::BedrockAgent
     #         },
     #         connector_parameters: {
     #         },
+    #         sync_schedule: {
+    #           daily: {
+    #           },
+    #           weekly: {
+    #             day_of_week: "SUNDAY", # required, accepts SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    #           },
+    #           monthly: {
+    #             day_of_month: { # required
+    #               day_number: 1,
+    #               last_day_of_month: {
+    #               },
+    #             },
+    #           },
+    #         },
     #       },
     #       s3_configuration: {
     #         bucket_arn: "S3BucketArn", # required
@@ -1419,6 +1433,8 @@ module Aws::BedrockAgent
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.sync_schedule.weekly.day_of_week #=> String, one of "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.sync_schedule.monthly.day_of_month.day_number #=> Integer
     #   resp.data_source.data_source_configuration.s3_configuration.bucket_arn #=> String
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes #=> Array
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes[0] #=> String
@@ -3920,6 +3936,8 @@ module Aws::BedrockAgent
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.sync_schedule.weekly.day_of_week #=> String, one of "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.sync_schedule.monthly.day_of_month.day_number #=> Integer
     #   resp.data_source.data_source_configuration.s3_configuration.bucket_arn #=> String
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes #=> Array
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes[0] #=> String
@@ -6736,6 +6754,20 @@ module Aws::BedrockAgent
     #         },
     #         connector_parameters: {
     #         },
+    #         sync_schedule: {
+    #           daily: {
+    #           },
+    #           weekly: {
+    #             day_of_week: "SUNDAY", # required, accepts SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    #           },
+    #           monthly: {
+    #             day_of_month: { # required
+    #               day_number: 1,
+    #               last_day_of_month: {
+    #               },
+    #             },
+    #           },
+    #         },
     #       },
     #       s3_configuration: {
     #         bucket_arn: "S3BucketArn", # required
@@ -6912,6 +6944,8 @@ module Aws::BedrockAgent
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.image_extraction_configuration.image_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.audio_extraction_configuration.audio_extraction_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.media_extraction_configuration.video_extraction_configuration.video_extraction_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.sync_schedule.weekly.day_of_week #=> String, one of "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"
+    #   resp.data_source.data_source_configuration.managed_knowledge_base_connector_configuration.sync_schedule.monthly.day_of_month.day_number #=> Integer
     #   resp.data_source.data_source_configuration.s3_configuration.bucket_arn #=> String
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes #=> Array
     #   resp.data_source.data_source_configuration.s3_configuration.inclusion_prefixes[0] #=> String
@@ -8456,7 +8490,7 @@ module Aws::BedrockAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagent'
-      context[:gem_version] = '1.80.0'
+      context[:gem_version] = '1.81.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

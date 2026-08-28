@@ -767,6 +767,44 @@ module Aws
                                                  ) -> _GetWorkloadAccessTokenForUserIdResponseSuccess
                                                | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetWorkloadAccessTokenForUserIdResponseSuccess
 
+      interface _IngestDataResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::IngestDataOutput]
+        def session_id: () -> ::String
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/BedrockAgentCore/Client.html#ingest_data-instance_method
+      def ingest_data: (
+                         memory_id: ::String,
+                         source: {
+                           inline: {
+                             payload: Array[
+                               {
+                                 conversational: {
+                                   content: {
+                                     text: ::String?
+                                   },
+                                   role: ("ASSISTANT" | "USER" | "TOOL" | "OTHER")
+                                 }?,
+                                 json: {
+                                   content: {
+                                   }
+                                 }?
+                               }
+                             ]
+                           }?
+                         },
+                         content_timestamp: ::Time,
+                         actor_id: ::String,
+                         ?session_id: ::String,
+                         ?extraction_config: {
+                           namespace_variables: Hash[::String, ::String]?
+                         },
+                         ?metadata: Hash[::String, {
+                             string_value: ::String?
+                           }],
+                         ?client_token: ::String
+                       ) -> _IngestDataResponseSuccess
+                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _IngestDataResponseSuccess
+
       interface _InvokeAgentRuntimeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::InvokeAgentRuntimeResponse]
         def runtime_session_id: () -> ::String

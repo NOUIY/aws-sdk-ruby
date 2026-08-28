@@ -197,6 +197,7 @@ module Aws::ECS
     DeploymentConfiguration = Shapes::StructureShape.new(name: 'DeploymentConfiguration')
     DeploymentController = Shapes::StructureShape.new(name: 'DeploymentController')
     DeploymentControllerType = Shapes::StringShape.new(name: 'DeploymentControllerType')
+    DeploymentEarlySuccessCriteria = Shapes::StructureShape.new(name: 'DeploymentEarlySuccessCriteria')
     DeploymentEphemeralStorage = Shapes::StructureShape.new(name: 'DeploymentEphemeralStorage')
     DeploymentLifecycleHook = Shapes::StructureShape.new(name: 'DeploymentLifecycleHook')
     DeploymentLifecycleHookAction = Shapes::StringShape.new(name: 'DeploymentLifecycleHookAction')
@@ -304,6 +305,7 @@ module Aws::ECS
     GpuIds = Shapes::ListShape.new(name: 'GpuIds')
     HealthCheck = Shapes::StructureShape.new(name: 'HealthCheck')
     HealthStatus = Shapes::StringShape.new(name: 'HealthStatus')
+    HealthyPercentInteger = Shapes::IntegerShape.new(name: 'HealthyPercentInteger')
     HookDetails = Shapes::DocumentShape.new(name: 'HookDetails', document: true)
     HostEntry = Shapes::StructureShape.new(name: 'HostEntry')
     HostEntryList = Shapes::ListShape.new(name: 'HostEntryList')
@@ -533,6 +535,7 @@ module Aws::ECS
     ServiceRegistries = Shapes::ListShape.new(name: 'ServiceRegistries')
     ServiceRegistry = Shapes::StructureShape.new(name: 'ServiceRegistry')
     ServiceRevision = Shapes::StructureShape.new(name: 'ServiceRevision')
+    ServiceRevisionCleanup = Shapes::StringShape.new(name: 'ServiceRevisionCleanup')
     ServiceRevisionLoadBalancer = Shapes::StructureShape.new(name: 'ServiceRevisionLoadBalancer')
     ServiceRevisionLoadBalancers = Shapes::ListShape.new(name: 'ServiceRevisionLoadBalancers')
     ServiceRevisionOverrides = Shapes::StructureShape.new(name: 'ServiceRevisionOverrides')
@@ -1408,10 +1411,16 @@ module Aws::ECS
     DeploymentConfiguration.add_member(:lifecycle_hooks, Shapes::ShapeRef.new(shape: DeploymentLifecycleHookList, location_name: "lifecycleHooks"))
     DeploymentConfiguration.add_member(:linear_configuration, Shapes::ShapeRef.new(shape: LinearConfiguration, location_name: "linearConfiguration"))
     DeploymentConfiguration.add_member(:canary_configuration, Shapes::ShapeRef.new(shape: CanaryConfiguration, location_name: "canaryConfiguration"))
+    DeploymentConfiguration.add_member(:early_success_criteria, Shapes::ShapeRef.new(shape: DeploymentEarlySuccessCriteria, location_name: "earlySuccessCriteria"))
     DeploymentConfiguration.struct_class = Types::DeploymentConfiguration
 
     DeploymentController.add_member(:type, Shapes::ShapeRef.new(shape: DeploymentControllerType, required: true, location_name: "type"))
     DeploymentController.struct_class = Types::DeploymentController
+
+    DeploymentEarlySuccessCriteria.add_member(:enable, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "enable"))
+    DeploymentEarlySuccessCriteria.add_member(:healthy_percent, Shapes::ShapeRef.new(shape: HealthyPercentInteger, location_name: "healthyPercent"))
+    DeploymentEarlySuccessCriteria.add_member(:source_service_revision_cleanup, Shapes::ShapeRef.new(shape: ServiceRevisionCleanup, location_name: "sourceServiceRevisionCleanup"))
+    DeploymentEarlySuccessCriteria.struct_class = Types::DeploymentEarlySuccessCriteria
 
     DeploymentEphemeralStorage.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: String, location_name: "kmsKeyId"))
     DeploymentEphemeralStorage.struct_class = Types::DeploymentEphemeralStorage

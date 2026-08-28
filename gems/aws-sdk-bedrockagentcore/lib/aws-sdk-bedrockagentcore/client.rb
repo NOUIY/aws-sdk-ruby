@@ -2691,6 +2691,103 @@ module Aws::BedrockAgentCore
       req.send_request(options)
     end
 
+    # Submits content directly for ingestion to generate long-term memory
+    # records in a AgentCore Memory resource.
+    #
+    # To use this operation, you must have the
+    # `bedrock-agentcore:IngestData` permission.
+    #
+    # @option params [required, String] :memory_id
+    #   The identifier of the AgentCore Memory resource to ingest content
+    #   into.
+    #
+    # @option params [required, Types::ContentSource] :source
+    #   The content to ingest. Only inline content is supported.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :content_timestamp
+    #   The timestamp of when the content occurred.
+    #
+    # @option params [required, String] :actor_id
+    #   The identifier of the actor associated with this content. An actor
+    #   represents an entity that participates in sessions and generates
+    #   content.
+    #
+    # @option params [String] :session_id
+    #   The identifier of the session that the content belongs to. If not
+    #   provided, a session identifier is generated and returned in the
+    #   response.
+    #
+    # @option params [Types::ExtractionConfig] :extraction_config
+    #   The extraction configuration for long-term memory records. Use this
+    #   parameter to specify namespace variable keys and their values for
+    #   namespace substitution during extraction.
+    #
+    # @option params [Hash<String,Types::MetadataValue>] :metadata
+    #   The key-value metadata to attach to the content.
+    #
+    # @option params [String] :client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, AgentCore ignores the request, but does not return an error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::IngestDataOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::IngestDataOutput#session_id #session_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.ingest_data({
+    #     memory_id: "MemoryId", # required
+    #     source: { # required
+    #       inline: {
+    #         payload: [ # required
+    #           {
+    #             conversational: {
+    #               content: { # required
+    #                 text: "ContentTextString",
+    #               },
+    #               role: "ASSISTANT", # required, accepts ASSISTANT, USER, TOOL, OTHER
+    #             },
+    #             json: {
+    #               content: { # required
+    #               },
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     content_timestamp: Time.now, # required
+    #     actor_id: "ActorId", # required
+    #     session_id: "SessionId",
+    #     extraction_config: {
+    #       namespace_variables: {
+    #         "NamespaceVariableName" => "NamespaceVariableValue",
+    #       },
+    #     },
+    #     metadata: {
+    #       "MetadataKey" => {
+    #         string_value: "MetadataValueStringValueString",
+    #       },
+    #     },
+    #     client_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.session_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/IngestData AWS API Documentation
+    #
+    # @overload ingest_data(params = {})
+    # @param [Hash] params ({})
+    def ingest_data(params = {}, options = {})
+      req = build_request(:ingest_data, params)
+      req.send_request(options)
+    end
+
     # Sends a request to an agent or tool hosted in an Amazon Bedrock
     # AgentCore Runtime and receives responses in real-time.
     #
@@ -6441,7 +6538,7 @@ module Aws::BedrockAgentCore
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcore'
-      context[:gem_version] = '1.50.0'
+      context[:gem_version] = '1.51.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

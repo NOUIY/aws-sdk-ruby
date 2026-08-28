@@ -889,11 +889,19 @@ module Aws::ECS
       attr_accessor lifecycle_hooks: ::Array[Types::DeploymentLifecycleHook]
       attr_accessor linear_configuration: Types::LinearConfiguration
       attr_accessor canary_configuration: Types::CanaryConfiguration
+      attr_accessor early_success_criteria: Types::DeploymentEarlySuccessCriteria
       SENSITIVE: []
     end
 
     class DeploymentController
       attr_accessor type: ("ECS" | "CODE_DEPLOY" | "EXTERNAL")
+      SENSITIVE: []
+    end
+
+    class DeploymentEarlySuccessCriteria
+      attr_accessor enable: bool
+      attr_accessor healthy_percent: ::Integer
+      attr_accessor source_service_revision_cleanup: ("BLOCKING" | "DEFERRED")
       SENSITIVE: []
     end
 

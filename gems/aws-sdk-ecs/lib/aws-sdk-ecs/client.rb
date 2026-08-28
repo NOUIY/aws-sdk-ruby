@@ -2497,6 +2497,11 @@ module Aws::ECS
     #         canary_percent: 1.0,
     #         canary_bake_time_in_minutes: 1,
     #       },
+    #       early_success_criteria: {
+    #         enable: false, # required
+    #         healthy_percent: 1,
+    #         source_service_revision_cleanup: "BLOCKING", # accepts BLOCKING, DEFERRED
+    #       },
     #     },
     #     placement_constraints: [
     #       {
@@ -2685,6 +2690,9 @@ module Aws::ECS
     #   resp.service.deployment_configuration.linear_configuration.step_bake_time_in_minutes #=> Integer
     #   resp.service.deployment_configuration.canary_configuration.canary_percent #=> Float
     #   resp.service.deployment_configuration.canary_configuration.canary_bake_time_in_minutes #=> Integer
+    #   resp.service.deployment_configuration.early_success_criteria.enable #=> Boolean
+    #   resp.service.deployment_configuration.early_success_criteria.healthy_percent #=> Integer
+    #   resp.service.deployment_configuration.early_success_criteria.source_service_revision_cleanup #=> String, one of "BLOCKING", "DEFERRED"
     #   resp.service.task_sets #=> Array
     #   resp.service.task_sets[0].id #=> String
     #   resp.service.task_sets[0].task_set_arn #=> String
@@ -3927,6 +3935,9 @@ module Aws::ECS
     #   resp.service.deployment_configuration.linear_configuration.step_bake_time_in_minutes #=> Integer
     #   resp.service.deployment_configuration.canary_configuration.canary_percent #=> Float
     #   resp.service.deployment_configuration.canary_configuration.canary_bake_time_in_minutes #=> Integer
+    #   resp.service.deployment_configuration.early_success_criteria.enable #=> Boolean
+    #   resp.service.deployment_configuration.early_success_criteria.healthy_percent #=> Integer
+    #   resp.service.deployment_configuration.early_success_criteria.source_service_revision_cleanup #=> String, one of "BLOCKING", "DEFERRED"
     #   resp.service.task_sets #=> Array
     #   resp.service.task_sets[0].id #=> String
     #   resp.service.task_sets[0].task_set_arn #=> String
@@ -6282,6 +6293,9 @@ module Aws::ECS
     #   resp.service_deployments[0].deployment_configuration.linear_configuration.step_bake_time_in_minutes #=> Integer
     #   resp.service_deployments[0].deployment_configuration.canary_configuration.canary_percent #=> Float
     #   resp.service_deployments[0].deployment_configuration.canary_configuration.canary_bake_time_in_minutes #=> Integer
+    #   resp.service_deployments[0].deployment_configuration.early_success_criteria.enable #=> Boolean
+    #   resp.service_deployments[0].deployment_configuration.early_success_criteria.healthy_percent #=> Integer
+    #   resp.service_deployments[0].deployment_configuration.early_success_criteria.source_service_revision_cleanup #=> String, one of "BLOCKING", "DEFERRED"
     #   resp.service_deployments[0].rollback.reason #=> String
     #   resp.service_deployments[0].rollback.started_at #=> Time
     #   resp.service_deployments[0].rollback.service_revision_arn #=> String
@@ -6806,6 +6820,9 @@ module Aws::ECS
     #   resp.services[0].deployment_configuration.linear_configuration.step_bake_time_in_minutes #=> Integer
     #   resp.services[0].deployment_configuration.canary_configuration.canary_percent #=> Float
     #   resp.services[0].deployment_configuration.canary_configuration.canary_bake_time_in_minutes #=> Integer
+    #   resp.services[0].deployment_configuration.early_success_criteria.enable #=> Boolean
+    #   resp.services[0].deployment_configuration.early_success_criteria.healthy_percent #=> Integer
+    #   resp.services[0].deployment_configuration.early_success_criteria.source_service_revision_cleanup #=> String, one of "BLOCKING", "DEFERRED"
     #   resp.services[0].task_sets #=> Array
     #   resp.services[0].task_sets[0].id #=> String
     #   resp.services[0].task_sets[0].task_set_arn #=> String
@@ -15390,6 +15407,11 @@ module Aws::ECS
     #         canary_percent: 1.0,
     #         canary_bake_time_in_minutes: 1,
     #       },
+    #       early_success_criteria: {
+    #         enable: false, # required
+    #         healthy_percent: 1,
+    #         source_service_revision_cleanup: "BLOCKING", # accepts BLOCKING, DEFERRED
+    #       },
     #     },
     #     availability_zone_rebalancing: "ENABLED", # accepts ENABLED, DISABLED
     #     network_configuration: {
@@ -15596,6 +15618,9 @@ module Aws::ECS
     #   resp.service.deployment_configuration.linear_configuration.step_bake_time_in_minutes #=> Integer
     #   resp.service.deployment_configuration.canary_configuration.canary_percent #=> Float
     #   resp.service.deployment_configuration.canary_configuration.canary_bake_time_in_minutes #=> Integer
+    #   resp.service.deployment_configuration.early_success_criteria.enable #=> Boolean
+    #   resp.service.deployment_configuration.early_success_criteria.healthy_percent #=> Integer
+    #   resp.service.deployment_configuration.early_success_criteria.source_service_revision_cleanup #=> String, one of "BLOCKING", "DEFERRED"
     #   resp.service.task_sets #=> Array
     #   resp.service.task_sets[0].id #=> String
     #   resp.service.task_sets[0].task_set_arn #=> String
@@ -16247,7 +16272,7 @@ module Aws::ECS
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ecs'
-      context[:gem_version] = '1.243.0'
+      context[:gem_version] = '1.244.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -1416,6 +1416,27 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # The source of the content to ingest. Only inline content is supported.
+    #
+    # @note ContentSource is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] inline
+    #   The content included directly in the request.
+    #   @return [Types::InlineMemoryContent]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/ContentSource AWS API Documentation
+    #
+    class ContentSource < Struct.new(
+      :inline,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Inline < ContentSource; end
+      class Unknown < ContentSource; end
+    end
+
     # An event that signals the start of content streaming from a command
     # execution. This event is sent when the command begins producing
     # output.
@@ -5476,6 +5497,109 @@ module Aws::BedrockAgentCore
       include Aws::Structure
     end
 
+    # @!attribute [rw] memory_id
+    #   The identifier of the AgentCore Memory resource to ingest content
+    #   into.
+    #   @return [String]
+    #
+    # @!attribute [rw] source
+    #   The content to ingest. Only inline content is supported.
+    #   @return [Types::ContentSource]
+    #
+    # @!attribute [rw] content_timestamp
+    #   The timestamp of when the content occurred.
+    #   @return [Time]
+    #
+    # @!attribute [rw] actor_id
+    #   The identifier of the actor associated with this content. An actor
+    #   represents an entity that participates in sessions and generates
+    #   content.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The identifier of the session that the content belongs to. If not
+    #   provided, a session identifier is generated and returned in the
+    #   response.
+    #   @return [String]
+    #
+    # @!attribute [rw] extraction_config
+    #   The extraction configuration for long-term memory records. Use this
+    #   parameter to specify namespace variable keys and their values for
+    #   namespace substitution during extraction.
+    #   @return [Types::ExtractionConfig]
+    #
+    # @!attribute [rw] metadata
+    #   The key-value metadata to attach to the content.
+    #   @return [Hash<String,Types::MetadataValue>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, AgentCore ignores the request, but does not return an
+    #   error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/IngestDataInput AWS API Documentation
+    #
+    class IngestDataInput < Struct.new(
+      :memory_id,
+      :source,
+      :content_timestamp,
+      :actor_id,
+      :session_id,
+      :extraction_config,
+      :metadata,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] session_id
+    #   The identifier of the session that the service ingested the content
+    #   into. This value echoes the session identifier from the request, or
+    #   the identifier that the service generated when you did not provide
+    #   one.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/IngestDataOutput AWS API Documentation
+    #
+    class IngestDataOutput < Struct.new(
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A single content payload item to ingest. A payload item contains
+    # either conversational or JSON content.
+    #
+    # @note IngestPayloadType is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] conversational
+    #   The conversational content for this payload item.
+    #   @return [Types::Conversational]
+    #
+    # @!attribute [rw] json
+    #   The JSON content for this payload item.
+    #   @return [Types::MemoryJsonData]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/IngestPayloadType AWS API Documentation
+    #
+    class IngestPayloadType < Struct.new(
+      :conversational,
+      :json,
+      :unknown)
+      SENSITIVE = [:json]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Conversational < IngestPayloadType; end
+      class Json < IngestPayloadType; end
+      class Unknown < IngestPayloadType; end
+    end
+
     # Inline ground truth data containing assertions, expected trajectories,
     # and per-turn expected responses.
     #
@@ -5499,6 +5623,21 @@ module Aws::BedrockAgentCore
       :assertions,
       :expected_trajectory,
       :turns)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The content included directly in the request as one or more payload
+    # items.
+    #
+    # @!attribute [rw] payload
+    #   The list of content payload items to ingest.
+    #   @return [Array<Types::IngestPayloadType>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-2024-02-28/InlineMemoryContent AWS API Documentation
+    #
+    class InlineMemoryContent < Struct.new(
+      :payload)
       SENSITIVE = []
       include Aws::Structure
     end

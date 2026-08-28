@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.244.0 (2026-08-28)
+------------------
+
+* Feature - Amazon Elastic Container Service - This release adds support for early success criteria on ECS rolling deployments, letting deployment complete once a configurable percentage of tasks are healthy, with configurable BLOCKING (required) or DEFERRED (asynchronous) cleanup of previous service revisions.
+
 1.243.0 (2026-08-05)
 ------------------
 

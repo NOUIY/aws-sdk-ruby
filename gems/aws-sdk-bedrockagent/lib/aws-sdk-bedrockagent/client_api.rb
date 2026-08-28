@@ -142,6 +142,7 @@ module Aws::BedrockAgent
     CustomSourceType = Shapes::StringShape.new(name: 'CustomSourceType')
     CustomTransformationConfiguration = Shapes::StructureShape.new(name: 'CustomTransformationConfiguration')
     CyclicConnectionFlowValidationDetails = Shapes::StructureShape.new(name: 'CyclicConnectionFlowValidationDetails')
+    DailySchedule = Shapes::StructureShape.new(name: 'DailySchedule')
     Data = Shapes::StringShape.new(name: 'Data')
     DataDeletionPolicy = Shapes::StringShape.new(name: 'DataDeletionPolicy')
     DataSource = Shapes::StructureShape.new(name: 'DataSource')
@@ -151,6 +152,9 @@ module Aws::BedrockAgent
     DataSourceSummary = Shapes::StructureShape.new(name: 'DataSourceSummary')
     DataSourceType = Shapes::StringShape.new(name: 'DataSourceType')
     DateTimestamp = Shapes::TimestampShape.new(name: 'DateTimestamp', timestampFormat: "iso8601")
+    DayOfMonth = Shapes::UnionShape.new(name: 'DayOfMonth')
+    DayOfMonthNumber = Shapes::IntegerShape.new(name: 'DayOfMonthNumber')
+    DayOfWeek = Shapes::StringShape.new(name: 'DayOfWeek')
     DeleteAgentActionGroupRequest = Shapes::StructureShape.new(name: 'DeleteAgentActionGroupRequest')
     DeleteAgentActionGroupResponse = Shapes::StructureShape.new(name: 'DeleteAgentActionGroupResponse')
     DeleteAgentAliasRequest = Shapes::StructureShape.new(name: 'DeleteAgentAliasRequest')
@@ -380,6 +384,7 @@ module Aws::BedrockAgent
     KnowledgeBaseType = Shapes::StringShape.new(name: 'KnowledgeBaseType')
     LambdaArn = Shapes::StringShape.new(name: 'LambdaArn')
     LambdaFunctionFlowNodeConfiguration = Shapes::StructureShape.new(name: 'LambdaFunctionFlowNodeConfiguration')
+    LastDayOfMonth = Shapes::StructureShape.new(name: 'LastDayOfMonth')
     LexFlowNodeConfiguration = Shapes::StructureShape.new(name: 'LexFlowNodeConfiguration')
     ListAgentActionGroupsRequest = Shapes::StructureShape.new(name: 'ListAgentActionGroupsRequest')
     ListAgentActionGroupsResponse = Shapes::StructureShape.new(name: 'ListAgentActionGroupsResponse')
@@ -454,6 +459,7 @@ module Aws::BedrockAgent
     MongoDbAtlasEndpointServiceName = Shapes::StringShape.new(name: 'MongoDbAtlasEndpointServiceName')
     MongoDbAtlasFieldMapping = Shapes::StructureShape.new(name: 'MongoDbAtlasFieldMapping')
     MongoDbAtlasIndexName = Shapes::StringShape.new(name: 'MongoDbAtlasIndexName')
+    MonthlySchedule = Shapes::StructureShape.new(name: 'MonthlySchedule')
     MultipleLoopControllerNodesFlowValidationDetails = Shapes::StructureShape.new(name: 'MultipleLoopControllerNodesFlowValidationDetails')
     MultipleLoopInputNodesFlowValidationDetails = Shapes::StructureShape.new(name: 'MultipleLoopInputNodesFlowValidationDetails')
     MultipleNodeInputConnectionsFlowValidationDetails = Shapes::StructureShape.new(name: 'MultipleNodeInputConnectionsFlowValidationDetails')
@@ -641,6 +647,7 @@ module Aws::BedrockAgent
     SupplementalDataStorageLocationType = Shapes::StringShape.new(name: 'SupplementalDataStorageLocationType')
     SupplementalDataStorageLocations = Shapes::ListShape.new(name: 'SupplementalDataStorageLocations')
     SupportedLanguages = Shapes::StringShape.new(name: 'SupportedLanguages')
+    SyncSchedule = Shapes::UnionShape.new(name: 'SyncSchedule')
     SystemContentBlock = Shapes::UnionShape.new(name: 'SystemContentBlock')
     SystemContentBlocks = Shapes::ListShape.new(name: 'SystemContentBlocks')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
@@ -732,6 +739,7 @@ module Aws::BedrockAgent
     WebDataSourceConfiguration = Shapes::StructureShape.new(name: 'WebDataSourceConfiguration')
     WebScopeType = Shapes::StringShape.new(name: 'WebScopeType')
     WebSourceConfiguration = Shapes::StructureShape.new(name: 'WebSourceConfiguration')
+    WeeklySchedule = Shapes::StructureShape.new(name: 'WeeklySchedule')
     WorkgroupArn = Shapes::StringShape.new(name: 'WorkgroupArn')
 
     APISchema.add_member(:s3, Shapes::ShapeRef.new(shape: S3Identifier, location_name: "s3"))
@@ -1254,6 +1262,8 @@ module Aws::BedrockAgent
     CyclicConnectionFlowValidationDetails.add_member(:connection, Shapes::ShapeRef.new(shape: FlowConnectionName, required: true, location_name: "connection"))
     CyclicConnectionFlowValidationDetails.struct_class = Types::CyclicConnectionFlowValidationDetails
 
+    DailySchedule.struct_class = Types::DailySchedule
+
     DataSource.add_member(:knowledge_base_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "knowledgeBaseId"))
     DataSource.add_member(:data_source_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "dataSourceId"))
     DataSource.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
@@ -1286,6 +1296,14 @@ module Aws::BedrockAgent
     DataSourceSummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     DataSourceSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
     DataSourceSummary.struct_class = Types::DataSourceSummary
+
+    DayOfMonth.add_member(:day_number, Shapes::ShapeRef.new(shape: DayOfMonthNumber, location_name: "dayNumber"))
+    DayOfMonth.add_member(:last_day_of_month, Shapes::ShapeRef.new(shape: LastDayOfMonth, location_name: "lastDayOfMonth"))
+    DayOfMonth.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    DayOfMonth.add_member_subclass(:day_number, Types::DayOfMonth::DayNumber)
+    DayOfMonth.add_member_subclass(:last_day_of_month, Types::DayOfMonth::LastDayOfMonth)
+    DayOfMonth.add_member_subclass(:unknown, Types::DayOfMonth::Unknown)
+    DayOfMonth.struct_class = Types::DayOfMonth
 
     DeleteAgentActionGroupRequest.add_member(:agent_id, Shapes::ShapeRef.new(shape: Id, required: true, location: "uri", location_name: "agentId"))
     DeleteAgentActionGroupRequest.add_member(:agent_version, Shapes::ShapeRef.new(shape: DraftVersion, required: true, location: "uri", location_name: "agentVersion"))
@@ -2012,6 +2030,8 @@ module Aws::BedrockAgent
     LambdaFunctionFlowNodeConfiguration.add_member(:lambda_arn, Shapes::ShapeRef.new(shape: FlowLambdaArn, required: true, location_name: "lambdaArn"))
     LambdaFunctionFlowNodeConfiguration.struct_class = Types::LambdaFunctionFlowNodeConfiguration
 
+    LastDayOfMonth.struct_class = Types::LastDayOfMonth
+
     LexFlowNodeConfiguration.add_member(:bot_alias_arn, Shapes::ShapeRef.new(shape: FlowLexBotAliasArn, required: true, location_name: "botAliasArn"))
     LexFlowNodeConfiguration.add_member(:locale_id, Shapes::ShapeRef.new(shape: FlowLexBotLocaleId, required: true, location_name: "localeId"))
     LexFlowNodeConfiguration.struct_class = Types::LexFlowNodeConfiguration
@@ -2185,6 +2205,7 @@ module Aws::BedrockAgent
     ManagedKnowledgeBaseConnectorConfiguration.add_member(:deletion_protection_configuration, Shapes::ShapeRef.new(shape: DeletionProtectionConfiguration, location_name: "deletionProtectionConfiguration"))
     ManagedKnowledgeBaseConnectorConfiguration.add_member(:media_extraction_configuration, Shapes::ShapeRef.new(shape: MediaExtractionConfiguration, location_name: "mediaExtractionConfiguration"))
     ManagedKnowledgeBaseConnectorConfiguration.add_member(:connector_parameters, Shapes::ShapeRef.new(shape: Document, location_name: "connectorParameters"))
+    ManagedKnowledgeBaseConnectorConfiguration.add_member(:sync_schedule, Shapes::ShapeRef.new(shape: SyncSchedule, location_name: "syncSchedule"))
     ManagedKnowledgeBaseConnectorConfiguration.struct_class = Types::ManagedKnowledgeBaseConnectorConfiguration
 
     MediaExtractionConfiguration.add_member(:image_extraction_configuration, Shapes::ShapeRef.new(shape: ImageExtractionConfiguration, location_name: "imageExtractionConfiguration"))
@@ -2271,6 +2292,9 @@ module Aws::BedrockAgent
     MongoDbAtlasFieldMapping.add_member(:text_field, Shapes::ShapeRef.new(shape: FieldName, required: true, location_name: "textField"))
     MongoDbAtlasFieldMapping.add_member(:metadata_field, Shapes::ShapeRef.new(shape: FieldName, required: true, location_name: "metadataField"))
     MongoDbAtlasFieldMapping.struct_class = Types::MongoDbAtlasFieldMapping
+
+    MonthlySchedule.add_member(:day_of_month, Shapes::ShapeRef.new(shape: DayOfMonth, required: true, location_name: "dayOfMonth"))
+    MonthlySchedule.struct_class = Types::MonthlySchedule
 
     MultipleLoopControllerNodesFlowValidationDetails.add_member(:loop_node, Shapes::ShapeRef.new(shape: FlowNodeName, required: true, location_name: "loopNode"))
     MultipleLoopControllerNodesFlowValidationDetails.struct_class = Types::MultipleLoopControllerNodesFlowValidationDetails
@@ -2725,6 +2749,16 @@ module Aws::BedrockAgent
 
     SupplementalDataStorageLocations.member = Shapes::ShapeRef.new(shape: SupplementalDataStorageLocation)
 
+    SyncSchedule.add_member(:daily, Shapes::ShapeRef.new(shape: DailySchedule, location_name: "daily"))
+    SyncSchedule.add_member(:weekly, Shapes::ShapeRef.new(shape: WeeklySchedule, location_name: "weekly"))
+    SyncSchedule.add_member(:monthly, Shapes::ShapeRef.new(shape: MonthlySchedule, location_name: "monthly"))
+    SyncSchedule.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    SyncSchedule.add_member_subclass(:daily, Types::SyncSchedule::Daily)
+    SyncSchedule.add_member_subclass(:weekly, Types::SyncSchedule::Weekly)
+    SyncSchedule.add_member_subclass(:monthly, Types::SyncSchedule::Monthly)
+    SyncSchedule.add_member_subclass(:unknown, Types::SyncSchedule::Unknown)
+    SyncSchedule.struct_class = Types::SyncSchedule
+
     SystemContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: NonEmptyString, location_name: "text"))
     SystemContentBlock.add_member(:cache_point, Shapes::ShapeRef.new(shape: CachePointBlock, location_name: "cachePoint"))
     SystemContentBlock.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -3070,6 +3104,9 @@ module Aws::BedrockAgent
 
     WebSourceConfiguration.add_member(:url_configuration, Shapes::ShapeRef.new(shape: UrlConfiguration, required: true, location_name: "urlConfiguration"))
     WebSourceConfiguration.struct_class = Types::WebSourceConfiguration
+
+    WeeklySchedule.add_member(:day_of_week, Shapes::ShapeRef.new(shape: DayOfWeek, required: true, location_name: "dayOfWeek"))
+    WeeklySchedule.struct_class = Types::WeeklySchedule
 
 
     # @api private

@@ -651,6 +651,9 @@ module Aws::BedrockAgent
       SENSITIVE: []
     end
 
+    class DailySchedule < Aws::EmptyStructure
+    end
+
     class DataSource
       attr_accessor knowledge_base_id: ::String
       attr_accessor data_source_id: ::String
@@ -686,6 +689,20 @@ module Aws::BedrockAgent
       attr_accessor description: ::String
       attr_accessor updated_at: ::Time
       SENSITIVE: []
+    end
+
+    class DayOfMonth
+      attr_accessor day_number: ::Integer
+      attr_accessor last_day_of_month: Types::LastDayOfMonth
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class DayNumber < DayOfMonth
+      end
+      class LastDayOfMonth < DayOfMonth
+      end
+      class Unknown < DayOfMonth
+      end
     end
 
     class DeleteAgentActionGroupRequest
@@ -1654,6 +1671,9 @@ module Aws::BedrockAgent
       SENSITIVE: []
     end
 
+    class LastDayOfMonth < Aws::EmptyStructure
+    end
+
     class LexFlowNodeConfiguration
       attr_accessor bot_alias_arn: ::String
       attr_accessor locale_id: ::String
@@ -1903,6 +1923,7 @@ module Aws::BedrockAgent
       attr_accessor deletion_protection_configuration: Types::DeletionProtectionConfiguration
       attr_accessor media_extraction_configuration: Types::MediaExtractionConfiguration
       attr_accessor connector_parameters: untyped
+      attr_accessor sync_schedule: Types::SyncSchedule
       SENSITIVE: []
     end
 
@@ -2020,6 +2041,11 @@ module Aws::BedrockAgent
       attr_accessor vector_field: ::String
       attr_accessor text_field: ::String
       attr_accessor metadata_field: ::String
+      SENSITIVE: []
+    end
+
+    class MonthlySchedule
+      attr_accessor day_of_month: Types::DayOfMonth
       SENSITIVE: []
     end
 
@@ -2649,6 +2675,23 @@ module Aws::BedrockAgent
       SENSITIVE: []
     end
 
+    class SyncSchedule
+      attr_accessor daily: Types::DailySchedule
+      attr_accessor weekly: Types::WeeklySchedule
+      attr_accessor monthly: Types::MonthlySchedule
+      attr_accessor unknown: untyped
+      SENSITIVE: []
+
+      class Daily < SyncSchedule
+      end
+      class Weekly < SyncSchedule
+      end
+      class Monthly < SyncSchedule
+      end
+      class Unknown < SyncSchedule
+      end
+    end
+
     class SystemContentBlock
       attr_accessor text: ::String
       attr_accessor cache_point: Types::CachePointBlock
@@ -3118,6 +3161,11 @@ module Aws::BedrockAgent
 
     class WebSourceConfiguration
       attr_accessor url_configuration: Types::UrlConfiguration
+      SENSITIVE: []
+    end
+
+    class WeeklySchedule
+      attr_accessor day_of_week: ("SUNDAY" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY")
       SENSITIVE: []
     end
   end

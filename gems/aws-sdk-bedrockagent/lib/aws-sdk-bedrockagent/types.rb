@@ -2992,6 +2992,15 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # A daily sync. The run time is system-chosen (off-peak) and not
+    # configurable.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DailySchedule AWS API Documentation
+    #
+    class DailySchedule < Aws::EmptyStructure; end
+
     # Contains details about a data source.
     #
     # @!attribute [rw] knowledge_base_id
@@ -3203,6 +3212,38 @@ module Aws::BedrockAgent
       :updated_at)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The day of the month on which a monthly sync runs. Specify exactly one
+    # of `dayNumber` or `lastDayOfMonth`.
+    #
+    # @note DayOfMonth is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note DayOfMonth is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DayOfMonth corresponding to the set member.
+    #
+    # @!attribute [rw] day_number
+    #   A specific day of the month, from 1 to 28. Values are capped at 28,
+    #   so a monthly sync runs in every month, including February.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] last_day_of_month
+    #   Set this option to run the monthly sync on the last calendar day of
+    #   each month.
+    #   @return [Types::LastDayOfMonth]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/DayOfMonth AWS API Documentation
+    #
+    class DayOfMonth < Struct.new(
+      :day_number,
+      :last_day_of_month,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class DayNumber < DayOfMonth; end
+      class LastDayOfMonth < DayOfMonth; end
+      class Unknown < DayOfMonth; end
     end
 
     # @!attribute [rw] agent_id
@@ -6610,6 +6651,15 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # The option to run the monthly sync on the last calendar day of each
+    # month.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/LastDayOfMonth AWS API Documentation
+    #
+    class LastDayOfMonth < Aws::EmptyStructure; end
+
     # Contains configurations for a Lex node in the flow. You specify a
     # Amazon Lex bot to invoke. This node takes an utterance as the input
     # and returns as the output the intent identified by the Amazon Lex bot.
@@ -7573,12 +7623,20 @@ module Aws::BedrockAgent
     #   [1]: https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-connect-ds.html
     #   @return [Hash,Array,String,Numeric,Boolean]
     #
+    # @!attribute [rw] sync_schedule
+    #   The recurring schedule on which the connector automatically syncs
+    #   this data source. If not specified, the data source is not synced
+    #   automatically and you start each sync yourself. Not supported for
+    #   the Custom connector.
+    #   @return [Types::SyncSchedule]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/ManagedKnowledgeBaseConnectorConfiguration AWS API Documentation
     #
     class ManagedKnowledgeBaseConnectorConfiguration < Struct.new(
       :deletion_protection_configuration,
       :media_extraction_configuration,
-      :connector_parameters)
+      :connector_parameters,
+      :sync_schedule)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7990,6 +8048,20 @@ module Aws::BedrockAgent
       :vector_field,
       :text_field,
       :metadata_field)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A monthly sync on a specified day of the month.
+    #
+    # @!attribute [rw] day_of_month
+    #   The day of the month on which the monthly sync runs.
+    #   @return [Types::DayOfMonth]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/MonthlySchedule AWS API Documentation
+    #
+    class MonthlySchedule < Struct.new(
+      :day_of_month)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10431,6 +10503,46 @@ module Aws::BedrockAgent
       include Aws::Structure
     end
 
+    # The recurring schedule on which a managed knowledge base connector
+    # automatically syncs its data source. Specify exactly one of `daily`,
+    # `weekly`, or `monthly`.
+    #
+    # @note SyncSchedule is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SyncSchedule is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SyncSchedule corresponding to the set member.
+    #
+    # @!attribute [rw] daily
+    #   A daily sync that runs once a day at a system-chosen off-peak time.
+    #   The run time is not configurable.
+    #   @return [Types::DailySchedule]
+    #
+    # @!attribute [rw] weekly
+    #   A weekly sync that runs once a week on the specified day of the
+    #   week.
+    #   @return [Types::WeeklySchedule]
+    #
+    # @!attribute [rw] monthly
+    #   A monthly sync that runs once a month on the specified day of the
+    #   month.
+    #   @return [Types::MonthlySchedule]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/SyncSchedule AWS API Documentation
+    #
+    class SyncSchedule < Struct.new(
+      :daily,
+      :weekly,
+      :monthly,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Daily < SyncSchedule; end
+      class Weekly < SyncSchedule; end
+      class Monthly < SyncSchedule; end
+      class Unknown < SyncSchedule; end
+    end
+
     # Contains a system prompt to provide context to the model or to
     # describe how it should behave. For more information, see [Create a
     # prompt using Prompt management][1].
@@ -12197,6 +12309,20 @@ module Aws::BedrockAgent
     #
     class WebSourceConfiguration < Struct.new(
       :url_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A weekly sync on a specified day of the week.
+    #
+    # @!attribute [rw] day_of_week
+    #   The day of the week on which the weekly sync runs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-2023-06-05/WeeklySchedule AWS API Documentation
+    #
+    class WeeklySchedule < Struct.new(
+      :day_of_week)
       SENSITIVE = []
       include Aws::Structure
     end

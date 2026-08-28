@@ -62,6 +62,21 @@ module Aws
       }?
     }
 
+      type sync_schedule = {
+      daily: {
+      }?,
+      weekly: {
+        day_of_week: ("SUNDAY" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY")
+      }?,
+      monthly: {
+        day_of_month: {
+          day_number: ::Integer?,
+          last_day_of_month: {
+          }?
+        }
+      }?
+    }
+
       type managed_knowledge_base_connector_configuration = {
       deletion_protection_configuration: {
         deletion_protection_status: ("ENABLED" | "DISABLED"),
@@ -69,7 +84,8 @@ module Aws
       }?,
       media_extraction_configuration: Params::media_extraction_configuration?,
       connector_parameters: {
-      }?
+      }?,
+      sync_schedule: Params::sync_schedule?
     }
 
       type web_crawler_configuration = {

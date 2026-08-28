@@ -132,6 +132,7 @@ module Aws::BedrockAgentCore
     ContentBlockList = Shapes::ListShape.new(name: 'ContentBlockList')
     ContentBlockType = Shapes::StringShape.new(name: 'ContentBlockType')
     ContentDeltaEvent = Shapes::StructureShape.new(name: 'ContentDeltaEvent')
+    ContentSource = Shapes::UnionShape.new(name: 'ContentSource')
     ContentStartEvent = Shapes::StructureShape.new(name: 'ContentStartEvent')
     ContentStopEvent = Shapes::StructureShape.new(name: 'ContentStopEvent')
     ContentTextString = Shapes::StringShape.new(name: 'ContentTextString')
@@ -374,9 +375,14 @@ module Aws::BedrockAgentCore
     HttpResponseCode = Shapes::IntegerShape.new(name: 'HttpResponseCode')
     IgnoredReferenceInputField = Shapes::StringShape.new(name: 'IgnoredReferenceInputField')
     IgnoredReferenceInputFields = Shapes::ListShape.new(name: 'IgnoredReferenceInputFields')
+    IngestDataInput = Shapes::StructureShape.new(name: 'IngestDataInput')
+    IngestDataOutput = Shapes::StructureShape.new(name: 'IngestDataOutput')
+    IngestPayloadList = Shapes::ListShape.new(name: 'IngestPayloadList')
+    IngestPayloadType = Shapes::UnionShape.new(name: 'IngestPayloadType')
     InlineContent = Shapes::StringShape.new(name: 'InlineContent')
     InlineGroundTruth = Shapes::StructureShape.new(name: 'InlineGroundTruth')
     InlineGroundTruthTurnsList = Shapes::ListShape.new(name: 'InlineGroundTruthTurnsList')
+    InlineMemoryContent = Shapes::StructureShape.new(name: 'InlineMemoryContent')
     InputContentBlock = Shapes::StructureShape.new(name: 'InputContentBlock')
     InputContentBlockList = Shapes::ListShape.new(name: 'InputContentBlockList')
     Insight = Shapes::StructureShape.new(name: 'Insight')
@@ -1153,6 +1159,12 @@ module Aws::BedrockAgentCore
     ContentDeltaEvent.add_member(:stdout, Shapes::ShapeRef.new(shape: String, location_name: "stdout"))
     ContentDeltaEvent.add_member(:stderr, Shapes::ShapeRef.new(shape: String, location_name: "stderr"))
     ContentDeltaEvent.struct_class = Types::ContentDeltaEvent
+
+    ContentSource.add_member(:inline, Shapes::ShapeRef.new(shape: InlineMemoryContent, location_name: "inline"))
+    ContentSource.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    ContentSource.add_member_subclass(:inline, Types::ContentSource::Inline)
+    ContentSource.add_member_subclass(:unknown, Types::ContentSource::Unknown)
+    ContentSource.struct_class = Types::ContentSource
 
     ContentStartEvent.struct_class = Types::ContentStartEvent
 
@@ -2075,12 +2087,38 @@ module Aws::BedrockAgentCore
 
     IgnoredReferenceInputFields.member = Shapes::ShapeRef.new(shape: IgnoredReferenceInputField)
 
+    IngestDataInput.add_member(:memory_id, Shapes::ShapeRef.new(shape: MemoryId, required: true, location: "uri", location_name: "memoryId"))
+    IngestDataInput.add_member(:source, Shapes::ShapeRef.new(shape: ContentSource, required: true, location_name: "source"))
+    IngestDataInput.add_member(:content_timestamp, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "contentTimestamp"))
+    IngestDataInput.add_member(:actor_id, Shapes::ShapeRef.new(shape: ActorId, required: true, location_name: "actorId"))
+    IngestDataInput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, location_name: "sessionId"))
+    IngestDataInput.add_member(:extraction_config, Shapes::ShapeRef.new(shape: ExtractionConfig, location_name: "extractionConfig"))
+    IngestDataInput.add_member(:metadata, Shapes::ShapeRef.new(shape: MetadataMap, location_name: "metadata"))
+    IngestDataInput.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken" => true}))
+    IngestDataInput.struct_class = Types::IngestDataInput
+
+    IngestDataOutput.add_member(:session_id, Shapes::ShapeRef.new(shape: SessionId, required: true, location_name: "sessionId"))
+    IngestDataOutput.struct_class = Types::IngestDataOutput
+
+    IngestPayloadList.member = Shapes::ShapeRef.new(shape: IngestPayloadType)
+
+    IngestPayloadType.add_member(:conversational, Shapes::ShapeRef.new(shape: Conversational, location_name: "conversational"))
+    IngestPayloadType.add_member(:json, Shapes::ShapeRef.new(shape: MemoryJsonData, location_name: "json"))
+    IngestPayloadType.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    IngestPayloadType.add_member_subclass(:conversational, Types::IngestPayloadType::Conversational)
+    IngestPayloadType.add_member_subclass(:json, Types::IngestPayloadType::Json)
+    IngestPayloadType.add_member_subclass(:unknown, Types::IngestPayloadType::Unknown)
+    IngestPayloadType.struct_class = Types::IngestPayloadType
+
     InlineGroundTruth.add_member(:assertions, Shapes::ShapeRef.new(shape: EvaluationContentList, location_name: "assertions"))
     InlineGroundTruth.add_member(:expected_trajectory, Shapes::ShapeRef.new(shape: EvaluationExpectedTrajectory, location_name: "expectedTrajectory"))
     InlineGroundTruth.add_member(:turns, Shapes::ShapeRef.new(shape: InlineGroundTruthTurnsList, location_name: "turns"))
     InlineGroundTruth.struct_class = Types::InlineGroundTruth
 
     InlineGroundTruthTurnsList.member = Shapes::ShapeRef.new(shape: GroundTruthTurn)
+
+    InlineMemoryContent.add_member(:payload, Shapes::ShapeRef.new(shape: IngestPayloadList, required: true, location_name: "payload"))
+    InlineMemoryContent.struct_class = Types::InlineMemoryContent
 
     InputContentBlock.add_member(:path, Shapes::ShapeRef.new(shape: MaxLenString, required: true, location_name: "path"))
     InputContentBlock.add_member(:text, Shapes::ShapeRef.new(shape: MaxLenString, location_name: "text"))
@@ -3901,6 +3939,20 @@ module Aws::BedrockAgentCore
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:ingest_data, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "IngestData"
+        o.http_method = "POST"
+        o.http_request_uri = "/memories/{memoryId}/ingest"
+        o.input = Shapes::ShapeRef.new(shape: IngestDataInput)
+        o.output = Shapes::ShapeRef.new(shape: IngestDataOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottledException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:invoke_agent_runtime, Seahorse::Model::Operation.new.tap do |o|
