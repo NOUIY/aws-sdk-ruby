@@ -16,6 +16,7 @@ module Aws::AgentRegistry
 
     A2aAgentCardDescriptor = Shapes::StructureShape.new(name: 'A2aAgentCardDescriptor')
     AccessDeniedException = Shapes::StructureShape.new(name: 'AccessDeniedException')
+    AgUiDescriptor = Shapes::StructureShape.new(name: 'AgUiDescriptor')
     AgentSkillsAdditionalData = Shapes::StructureShape.new(name: 'AgentSkillsAdditionalData')
     AgentSkillsDefinitionDescriptor = Shapes::StructureShape.new(name: 'AgentSkillsDefinitionDescriptor')
     AgentSkillsMdDescriptor = Shapes::StructureShape.new(name: 'AgentSkillsMdDescriptor')
@@ -39,6 +40,7 @@ module Aws::AgentRegistry
     DiscoverableRegistryRecordSummary = Shapes::StructureShape.new(name: 'DiscoverableRegistryRecordSummary')
     DiscoverableRegistryRecordSummaryList = Shapes::ListShape.new(name: 'DiscoverableRegistryRecordSummaryList')
     FilterValue = Shapes::StringShape.new(name: 'FilterValue')
+    HttpDescriptor = Shapes::StructureShape.new(name: 'HttpDescriptor')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     ListDiscoverableRegistryRecordsRequest = Shapes::StructureShape.new(name: 'ListDiscoverableRegistryRecordsRequest')
     ListDiscoverableRegistryRecordsRequestMaxResultsInteger = Shapes::IntegerShape.new(name: 'ListDiscoverableRegistryRecordsRequestMaxResultsInteger')
@@ -88,6 +90,9 @@ module Aws::AgentRegistry
     AccessDeniedException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     AccessDeniedException.struct_class = Types::AccessDeniedException
 
+    AgUiDescriptor.add_member(:source, Shapes::ShapeRef.new(shape: DescriptorSource, location_name: "source"))
+    AgUiDescriptor.struct_class = Types::AgUiDescriptor
+
     AgentSkillsAdditionalData.add_member(:skill_md, Shapes::ShapeRef.new(shape: AgentSkillsMdDescriptor, location_name: "skillMd"))
     AgentSkillsAdditionalData.struct_class = Types::AgentSkillsAdditionalData
 
@@ -133,6 +138,8 @@ module Aws::AgentRegistry
     Descriptors.add_member(:a2a_agent_card, Shapes::ShapeRef.new(shape: A2aAgentCardDescriptor, location_name: "a2aAgentCard"))
     Descriptors.add_member(:agent_skills_definition, Shapes::ShapeRef.new(shape: AgentSkillsDefinitionDescriptor, location_name: "agentSkillsDefinition"))
     Descriptors.add_member(:custom, Shapes::ShapeRef.new(shape: CustomDescriptor, location_name: "custom"))
+    Descriptors.add_member(:http, Shapes::ShapeRef.new(shape: HttpDescriptor, location_name: "http"))
+    Descriptors.add_member(:agui, Shapes::ShapeRef.new(shape: AgUiDescriptor, location_name: "agui"))
     Descriptors.struct_class = Types::Descriptors
 
     DiscoverableFilterValues.member = Shapes::ShapeRef.new(shape: FilterValue)
@@ -152,6 +159,9 @@ module Aws::AgentRegistry
     DiscoverableRegistryRecordSummary.struct_class = Types::DiscoverableRegistryRecordSummary
 
     DiscoverableRegistryRecordSummaryList.member = Shapes::ShapeRef.new(shape: DiscoverableRegistryRecordSummary)
+
+    HttpDescriptor.add_member(:source, Shapes::ShapeRef.new(shape: DescriptorSource, location_name: "source"))
+    HttpDescriptor.struct_class = Types::HttpDescriptor
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: NonBlankString, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException

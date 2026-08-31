@@ -20,6 +20,11 @@ module Aws::AgentRegistry
       SENSITIVE: []
     end
 
+    class AgUiDescriptor
+      attr_accessor source: Types::DescriptorSource
+      SENSITIVE: []
+    end
+
     class AgentSkillsAdditionalData
       attr_accessor skill_md: Types::AgentSkillsMdDescriptor
       SENSITIVE: []
@@ -78,6 +83,8 @@ module Aws::AgentRegistry
       attr_accessor a2a_agent_card: Types::A2aAgentCardDescriptor
       attr_accessor agent_skills_definition: Types::AgentSkillsDefinitionDescriptor
       attr_accessor custom: Types::CustomDescriptor
+      attr_accessor http: Types::HttpDescriptor
+      attr_accessor agui: Types::AgUiDescriptor
       SENSITIVE: []
     end
 
@@ -95,6 +102,11 @@ module Aws::AgentRegistry
       attr_accessor updated_at: ::Time
       attr_accessor descriptor_types: ::Array[::String]
       SENSITIVE: [:description]
+    end
+
+    class HttpDescriptor
+      attr_accessor source: Types::DescriptorSource
+      SENSITIVE: []
     end
 
     class InternalServerException

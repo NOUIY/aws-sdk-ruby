@@ -50,6 +50,23 @@ module Aws::AgentRegistry
       include Aws::Structure
     end
 
+    # A descriptor for a registry record that exposes an AG-UI protocol
+    # endpoint. This descriptor is source-only: it identifies where the
+    # endpoint is located and carries no descriptor payload data or schema
+    # version.
+    #
+    # @!attribute [rw] source
+    #   The source location of the AG-UI protocol endpoint.
+    #   @return [Types::DescriptorSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/AgUiDescriptor AWS API Documentation
+    #
+    class AgUiDescriptor < Struct.new(
+      :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Additional data for an agent skills definition descriptor.
     #
     # @!attribute [rw] skill_md
@@ -249,13 +266,25 @@ module Aws::AgentRegistry
     #   The custom descriptor, populated when the record type is CUSTOM.
     #   @return [Types::CustomDescriptor]
     #
+    # @!attribute [rw] http
+    #   The HTTP descriptor, populated when the record exposes an HTTP
+    #   endpoint.
+    #   @return [Types::HttpDescriptor]
+    #
+    # @!attribute [rw] agui
+    #   The AG-UI descriptor, populated when the record exposes an AG-UI
+    #   protocol endpoint.
+    #   @return [Types::AgUiDescriptor]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/Descriptors AWS API Documentation
     #
     class Descriptors < Struct.new(
       :mcp_server,
       :a2a_agent_card,
       :agent_skills_definition,
-      :custom)
+      :custom,
+      :http,
+      :agui)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -340,6 +369,22 @@ module Aws::AgentRegistry
       :updated_at,
       :descriptor_types)
       SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # A descriptor for a registry record that exposes an HTTP endpoint. This
+    # descriptor is source-only: it identifies where the endpoint is located
+    # and carries no descriptor payload data or schema version.
+    #
+    # @!attribute [rw] source
+    #   The source location of the HTTP endpoint.
+    #   @return [Types::DescriptorSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/HttpDescriptor AWS API Documentation
+    #
+    class HttpDescriptor < Struct.new(
+      :source)
+      SENSITIVE = []
       include Aws::Structure
     end
 

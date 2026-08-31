@@ -522,6 +522,8 @@ module Aws::AgentRegistry
     #   resp.registry_records[0].descriptors.agent_skills_definition.additional_data.skill_md.data_schema_version #=> String
     #   resp.registry_records[0].descriptors.agent_skills_definition.additional_data.skill_md.source.from_url.url #=> String
     #   resp.registry_records[0].descriptors.custom.data #=> String
+    #   resp.registry_records[0].descriptors.http.source.from_url.url #=> String
+    #   resp.registry_records[0].descriptors.agui.source.from_url.url #=> String
     #   resp.registry_records[0].record_version #=> String
     #   resp.registry_records[0].status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
     #   resp.registry_records[0].created_at #=> Time
@@ -672,6 +674,8 @@ module Aws::AgentRegistry
     #   resp.registry_records[0].descriptors.agent_skills_definition.additional_data.skill_md.data_schema_version #=> String
     #   resp.registry_records[0].descriptors.agent_skills_definition.additional_data.skill_md.source.from_url.url #=> String
     #   resp.registry_records[0].descriptors.custom.data #=> String
+    #   resp.registry_records[0].descriptors.http.source.from_url.url #=> String
+    #   resp.registry_records[0].descriptors.agui.source.from_url.url #=> String
     #   resp.registry_records[0].record_version #=> String
     #   resp.registry_records[0].status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
     #   resp.registry_records[0].created_at #=> Time
@@ -704,7 +708,7 @@ module Aws::AgentRegistry
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-agentregistry'
-      context[:gem_version] = '1.1.0'
+      context[:gem_version] = '1.2.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

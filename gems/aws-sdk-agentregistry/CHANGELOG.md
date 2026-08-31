@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.2.0 (2026-08-31)
+------------------
+
+* Feature - Release HTTP and AGUI descriptors to the dataplane model
+
 1.1.0 (2026-08-31)
 ------------------
 
