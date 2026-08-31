@@ -367,6 +367,13 @@ module Aws::Connect
     #   user.
     #   @return [String]
     #
+    # @!attribute [rw] active_region
+    #   The Region where the agent was active when they handled the contact.
+    #   For Amazon Connect Global Resiliency instances enabled for global
+    #   routing, this indicates the Region in which the agent's session was
+    #   established at the time of the contact.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/AgentInfo AWS API Documentation
     #
     class AgentInfo < Struct.new(
@@ -383,7 +390,8 @@ module Aws::Connect
       :after_contact_work_end_timestamp,
       :agent_initiated_hold_duration,
       :state_transitions,
-      :voice_enhancement_mode)
+      :voice_enhancement_mode,
+      :active_region)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -16210,6 +16218,39 @@ module Aws::Connect
       :metric_results,
       :id,
       :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetCrossRegionRoutingRequest AWS API Documentation
+    #
+    class GetCrossRegionRoutingRequest < Struct.new(
+      :instance_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] isolated_regions
+    #   The list of Regions for which cross-region routing is currently
+    #   disabled (isolated). When a Region appears in this list, contacts
+    #   originating in that Region will not be routed to agents in other
+    #   Regions, and agents in that Region will not receive contacts from
+    #   other Regions.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetCrossRegionRoutingResponse AWS API Documentation
+    #
+    class GetCrossRegionRoutingResponse < Struct.new(
+      :isolated_regions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -36490,7 +36531,7 @@ module Aws::Connect
     #   @return [String]
     #
     # @!attribute [rw] instance_arn
-    #   The Amazon Resource Name (ARN) of the traffic distribution group.
+    #   The Amazon Resource Name (ARN) of the instance.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -37507,6 +37548,34 @@ module Aws::Connect
     # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateContactTaskTemplateResponse AWS API Documentation
     #
     class UpdateContactTaskTemplateResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #   @return [String]
+    #
+    # @!attribute [rw] isolated_all
+    #   Set to `true` to disable cross-region routing for all Regions
+    #   associated with this instance. Set to `false` to re-enable
+    #   cross-region routing.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateCrossRegionRoutingRequest AWS API Documentation
+    #
+    class UpdateCrossRegionRoutingRequest < Struct.new(
+      :instance_id,
+      :isolated_all)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateCrossRegionRoutingResponse AWS API Documentation
+    #
+    class UpdateCrossRegionRoutingResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] instance_id
     #   The unique identifier for the Amazon Connect instance.

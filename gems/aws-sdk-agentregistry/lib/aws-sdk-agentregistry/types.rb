@@ -10,14 +10,16 @@
 module Aws::AgentRegistry
   module Types
 
-    # Base mixin for A2A agent card descriptor content
+    # Descriptor that defines the content of an A2A (Agent-to-Agent) agent
+    # card registry record. The content is validated against the A2A
+    # protocol schema.
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The A2A agent card content, serialized as descriptor payload data.
     #   @return [String]
     #
     # @!attribute [rw] data_schema_version
-    #   Version of the descriptor type schema
+    #   The schema version of the descriptor payload.
     #   @return [String]
     #
     # @!attribute [rw] source
@@ -51,7 +53,8 @@ module Aws::AgentRegistry
     # Additional data for an agent skills definition descriptor.
     #
     # @!attribute [rw] skill_md
-    #   Base mixin for agent skills markdown descriptor content
+    #   The agent skills markdown descriptor associated with the agent
+    #   skills definition.
     #   @return [Types::AgentSkillsMdDescriptor]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/AgentSkillsAdditionalData AWS API Documentation
@@ -62,14 +65,16 @@ module Aws::AgentRegistry
       include Aws::Structure
     end
 
-    # Base mixin for agent skills definition descriptor content
+    # Descriptor that defines an agent skills registry record and its
+    # associated content.
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The agent skills definition content, serialized as descriptor
+    #   payload data.
     #   @return [String]
     #
     # @!attribute [rw] data_schema_version
-    #   Version of the descriptor type schema
+    #   The schema version of the descriptor payload.
     #   @return [String]
     #
     # @!attribute [rw] additional_data
@@ -87,14 +92,15 @@ module Aws::AgentRegistry
       include Aws::Structure
     end
 
-    # Base mixin for agent skills markdown descriptor content
+    # Markdown-format descriptor containing an agent skills document.
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The agent skills markdown content, serialized as descriptor payload
+    #   data.
     #   @return [String]
     #
     # @!attribute [rw] data_schema_version
-    #   Version of the descriptor type schema
+    #   The schema version of the descriptor payload.
     #   @return [String]
     #
     # @!attribute [rw] source
@@ -115,11 +121,14 @@ module Aws::AgentRegistry
     # Describes why a requested record could not be retrieved.
     #
     # @!attribute [rw] registry_id
-    #   Registry identifier that accepts either ARN or ID format
+    #   The identifier of the registry the record was requested from, echoed
+    #   from the request.
     #   @return [String]
     #
     # @!attribute [rw] record_id
-    #   Record identifier that accepts either ARN or ID format
+    #   The identifier of the record that could not be retrieved, echoed
+    #   from the request in the same format that you supplied (ARN or record
+    #   ID).
     #   @return [String]
     #
     # @!attribute [rw] error_code
@@ -177,7 +186,8 @@ module Aws::AgentRegistry
     # Custom descriptor for user-defined content
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The custom descriptor content, serialized as descriptor payload
+    #   data.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/CustomDescriptor AWS API Documentation
@@ -191,7 +201,8 @@ module Aws::AgentRegistry
     # The source location from which a descriptor's content was retrieved.
     #
     # @!attribute [rw] from_url
-    #   Base mixin for descriptor source from URL
+    #   The URL-based descriptor source, populated when descriptor content
+    #   is synchronized from a URL.
     #   @return [Types::DescriptorSourceFromUrl]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/DescriptorSource AWS API Documentation
@@ -202,10 +213,11 @@ module Aws::AgentRegistry
       include Aws::Structure
     end
 
-    # Base mixin for descriptor source from URL
+    # A URL-based descriptor source that identifies where descriptor content
+    # is retrieved from.
     #
     # @!attribute [rw] url
-    #   URL source for descriptor content
+    #   The URL from which the descriptor content is retrieved.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/DescriptorSourceFromUrl AWS API Documentation
@@ -220,19 +232,21 @@ module Aws::AgentRegistry
     # use the registry record.
     #
     # @!attribute [rw] mcp_server
-    #   Base mixin for MCP server descriptor content
+    #   The MCP server descriptor, populated when the record type is MCP.
     #   @return [Types::McpServerDescriptor]
     #
     # @!attribute [rw] a2a_agent_card
-    #   Base mixin for A2A agent card descriptor content
+    #   The A2A agent card descriptor, populated when the record type is
+    #   AGENT.
     #   @return [Types::A2aAgentCardDescriptor]
     #
     # @!attribute [rw] agent_skills_definition
-    #   Base mixin for agent skills definition descriptor content
+    #   The agent skills definition descriptor, populated when the record
+    #   type is SKILL.
     #   @return [Types::AgentSkillsDefinitionDescriptor]
     #
     # @!attribute [rw] custom
-    #   Custom descriptor for user-defined content
+    #   The custom descriptor, populated when the record type is CUSTOM.
     #   @return [Types::CustomDescriptor]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/Descriptors AWS API Documentation
@@ -251,48 +265,64 @@ module Aws::AgentRegistry
     # descriptors.
     #
     # @!attribute [rw] registry_arn
-    #   Registry Amazon Resource Name
+    #   The Amazon Resource Name (ARN) of the parent registry that owns the
+    #   record.
     #   @return [String]
     #
     # @!attribute [rw] record_arn
-    #   Registry Record Amazon Resource Name
+    #   The Amazon Resource Name (ARN) of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] record_id
-    #   Registry Record unique identifier - 12-character alphanumeric string
+    #   The unique identifier of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   Registry Record name
+    #   The name of the registry record. Names are unique within a registry.
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Description of the Resource
+    #   A human-readable description of the registry record. Use this field
+    #   to explain the record's purpose or content to consumers discovering
+    #   it in the registry.
     #   @return [String]
     #
     # @!attribute [rw] display_name
-    #   Display name for a registry record
+    #   The human-readable display name of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] record_type
-    #   Record type enum for registry record classification
+    #   The type of the registry record. `MCP` is a Model Context Protocol
+    #   server record, `AGENT` is an Agent-to-Agent (A2A) agent card record,
+    #   `SKILL` is an agent skills definition record, and `CUSTOM` is a
+    #   record with a custom descriptor.
     #   @return [String]
     #
     # @!attribute [rw] record_version
-    #   Version of the registry record
+    #   The version identifier of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   Registry record status
+    #   The lifecycle status of the registry record. A record is `DRAFT`
+    #   before it is submitted, `PENDING_APPROVAL` while awaiting curator
+    #   review, and `APPROVED` once it is approved and discoverable.
+    #   `REJECTED` and `DEPRECATED` records are not discoverable. The
+    #   `CREATING`, `UPDATING`, `CREATE_FAILED`, and `UPDATE_FAILED` values
+    #   reflect the state of an in-progress or failed asynchronous change.
     #   @return [String]
     #
     # @!attribute [rw] created_at
-    #   Timestamp in ISO 8601 date-time format
+    #   The timestamp when the registry record was created.
     #   @return [Time]
     #
     # @!attribute [rw] updated_at
-    #   Timestamp in ISO 8601 date-time format
+    #   The timestamp when the registry record was last updated.
     #   @return [Time]
+    #
+    # @!attribute [rw] descriptor_types
+    #   The descriptor types that are present on this registry record. Each
+    #   value corresponds to a descriptor entry key on the approved record.
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/DiscoverableRegistryRecordSummary AWS API Documentation
     #
@@ -307,7 +337,8 @@ module Aws::AgentRegistry
       :record_version,
       :status,
       :created_at,
-      :updated_at)
+      :updated_at,
+      :descriptor_types)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -327,7 +358,9 @@ module Aws::AgentRegistry
     end
 
     # @!attribute [rw] registry_id
-    #   Registry identifier that accepts either ARN or ID format
+    #   The identifier of the registry whose discoverable records are
+    #   listed. You can provide either the full Amazon Resource Name (ARN)
+    #   or the registry ID.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -377,7 +410,8 @@ module Aws::AgentRegistry
     # Additional data for an MCP server descriptor
     #
     # @!attribute [rw] tools
-    #   MCP tools descriptor containing tool definitions
+    #   The MCP tools descriptor that defines the tools exposed by the MCP
+    #   server.
     #   @return [Types::McpToolsDescriptor]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/McpServerAdditionalData AWS API Documentation
@@ -388,18 +422,22 @@ module Aws::AgentRegistry
       include Aws::Structure
     end
 
-    # Base mixin for MCP server descriptor content
+    # Descriptor that defines the content of an MCP (Model Context Protocol)
+    # server registry record, including the server definition and its tool
+    # definitions. The content is validated against the MCP protocol schema.
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The MCP server descriptor content, serialized as descriptor payload
+    #   data.
     #   @return [String]
     #
     # @!attribute [rw] data_schema_version
-    #   Version of the descriptor type schema
+    #   The schema version of the descriptor payload.
     #   @return [String]
     #
     # @!attribute [rw] additional_data
-    #   Additional data for an MCP server descriptor
+    #   Additional data associated with the MCP server descriptor, such as
+    #   tool definitions.
     #   @return [Types::McpServerAdditionalData]
     #
     # @!attribute [rw] source
@@ -421,11 +459,12 @@ module Aws::AgentRegistry
     # MCP tools descriptor containing tool definitions
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The MCP tools descriptor content, serialized as descriptor payload
+    #   data.
     #   @return [String]
     #
     # @!attribute [rw] data_schema_version
-    #   Version of the descriptor type schema
+    #   The schema version of the descriptor payload.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/McpToolsDescriptor AWS API Documentation
@@ -461,31 +500,37 @@ module Aws::AgentRegistry
     # descriptors.
     #
     # @!attribute [rw] registry_arn
-    #   Registry Amazon Resource Name
+    #   The Amazon Resource Name (ARN) of the parent registry that owns the
+    #   record.
     #   @return [String]
     #
     # @!attribute [rw] record_arn
-    #   Registry Record Amazon Resource Name
+    #   The Amazon Resource Name (ARN) of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] record_id
-    #   Registry Record unique identifier - 12-character alphanumeric string
+    #   The unique identifier of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   Registry Record name
+    #   The name of the registry record. Names are unique within a registry.
     #   @return [String]
     #
     # @!attribute [rw] description
-    #   Description of the Resource
+    #   A human-readable description of the registry record. Use this field
+    #   to explain the record's purpose or content to consumers discovering
+    #   it in the registry.
     #   @return [String]
     #
     # @!attribute [rw] display_name
-    #   Display name for a registry record
+    #   The human-readable display name of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] record_type
-    #   Record type enum for registry record classification
+    #   The type of the registry record. `MCP` is a Model Context Protocol
+    #   server record, `AGENT` is an Agent-to-Agent (A2A) agent card record,
+    #   `SKILL` is an agent skills definition record, and `CUSTOM` is a
+    #   record with a custom descriptor.
     #   @return [String]
     #
     # @!attribute [rw] descriptors
@@ -494,19 +539,24 @@ module Aws::AgentRegistry
     #   @return [Types::Descriptors]
     #
     # @!attribute [rw] record_version
-    #   Version of the registry record
+    #   The version identifier of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   Registry record status
+    #   The lifecycle status of the registry record. A record is `DRAFT`
+    #   before it is submitted, `PENDING_APPROVAL` while awaiting curator
+    #   review, and `APPROVED` once it is approved and discoverable.
+    #   `REJECTED` and `DEPRECATED` records are not discoverable. The
+    #   `CREATING`, `UPDATING`, `CREATE_FAILED`, and `UPDATE_FAILED` values
+    #   reflect the state of an in-progress or failed asynchronous change.
     #   @return [String]
     #
     # @!attribute [rw] created_at
-    #   Timestamp in ISO 8601 date-time format
+    #   The timestamp when the registry record was created.
     #   @return [Time]
     #
     # @!attribute [rw] updated_at
-    #   Timestamp in ISO 8601 date-time format
+    #   The timestamp when the registry record was last updated.
     #   @return [Time]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/RegistryRecordSummary AWS API Documentation
@@ -531,7 +581,9 @@ module Aws::AgentRegistry
     # Binds one registry to the record IDs requested from it.
     #
     # @!attribute [rw] registry_id
-    #   Registry identifier that accepts either ARN or ID format
+    #   The identifier of the registry to retrieve the records from. You can
+    #   provide either the full Amazon Resource Name (ARN) or the registry
+    #   ID.
     #   @return [String]
     #
     # @!attribute [rw] record_ids

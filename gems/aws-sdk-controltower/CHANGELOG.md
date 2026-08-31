@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.63.0 (2026-08-31)
+------------------
+
+* Feature - Updated the descriptions for the AWS Control Tower ListEnabledControls API parameters to make them more accurate and intuitive.
+
 1.62.0 (2026-07-09)
 ------------------
 

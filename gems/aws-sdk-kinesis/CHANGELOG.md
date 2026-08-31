@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.105.0 (2026-08-31)
+------------------
+
+* Feature - Adds support for data delivery to Amazon S3 Tables (Apache Iceberg) and general purpose Amazon S3 buckets with new CreateChannel, UpdateChannel, DeleteChannel, DescribeChannel, and ListChannels APIs for Amazon Kinesis Data Streams.
+
 1.104.0 (2026-08-21)
 ------------------
 

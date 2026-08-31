@@ -55,6 +55,11 @@ module Aws::Kinesis
   #
   #   @return [string]
   #
+  # @!attribute channel_arn
+  #   The ARN of the Kinesis data channel
+  #
+  #   @return [string]
+  #
   # @!attribute account_id
   #   The AWS AccountId used for the request.
   #
@@ -75,6 +80,7 @@ module Aws::Kinesis
     :stream_arn,
     :consumer_arn,
     :resource_arn,
+    :channel_arn,
     :account_id,
     :account_id_endpoint_mode,
   ) do
@@ -92,6 +98,7 @@ module Aws::Kinesis
         'StreamARN' => :stream_arn,
         'ConsumerARN' => :consumer_arn,
         'ResourceARN' => :resource_arn,
+        'ChannelARN' => :channel_arn,
         'AccountId' => :account_id,
         'AccountIdEndpointMode' => :account_id_endpoint_mode,
       }.freeze
@@ -109,6 +116,7 @@ module Aws::Kinesis
       self[:stream_arn] = options[:stream_arn]
       self[:consumer_arn] = options[:consumer_arn]
       self[:resource_arn] = options[:resource_arn]
+      self[:channel_arn] = options[:channel_arn]
       self[:account_id] = options[:account_id]
       self[:account_id_endpoint_mode] = options[:account_id_endpoint_mode]
     end

@@ -6146,6 +6146,30 @@ module Aws::DevOpsAgent
       include Aws::Structure
     end
 
+    # Configuration for bidirectional Slack communication.
+    #
+    # @!attribute [rw] role_arn
+    #   IAM role ARN that AWS DevOps Agent assumes to exchange messages with
+    #   your Slack workspace on behalf of this association.
+    #   @return [String]
+    #
+    # @!attribute [rw] enabled
+    #   Whether bidirectional communication is enabled for this association.
+    #   When you set this value to true, you can mention the agent in a
+    #   configured Slack channel and it responds in that channel. When you
+    #   omit this value or set it to false, the agent ignores mentions and
+    #   only sends notifications.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/SlackBidirectionalConfiguration AWS API Documentation
+    #
+    class SlackBidirectionalConfiguration < Struct.new(
+      :role_arn,
+      :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Represents a Slack channel with its ID and optional name.
     #
     # @!attribute [rw] channel_name
@@ -6179,12 +6203,19 @@ module Aws::DevOpsAgent
     #   Transmission targets for agent notifications
     #   @return [Types::SlackTransmissionTarget]
     #
+    # @!attribute [rw] bidirectional
+    #   Optional bidirectional communication configuration. Supply this
+    #   configuration and set enabled to true so you can interact with the
+    #   agent directly from Slack.
+    #   @return [Types::SlackBidirectionalConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-agent-2026-01-01/SlackConfiguration AWS API Documentation
     #
     class SlackConfiguration < Struct.new(
       :workspace_id,
       :workspace_name,
-      :transmission_target)
+      :transmission_target,
+      :bidirectional)
       SENSITIVE = []
       include Aws::Structure
     end

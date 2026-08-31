@@ -322,6 +322,104 @@ module Aws::PinpointSMSVoiceV2
       include Aws::Structure
     end
 
+    # The set of conditional rules that determine a field's resolved
+    # requirement based on the values of other fields in the same
+    # registration form. Attached to fields whose **FieldRequirement** is
+    # **CONDITIONAL**.
+    #
+    # Evaluation proceeds top-to-bottom through **Rules**. The first rule
+    # whose conditions all evaluate to true wins and its behavior is
+    # returned. If no rule matches, the **DefaultBehavior** is returned.
+    #
+    # @!attribute [rw] rules
+    #   An ordered list of conditional rules. Rules are evaluated
+    #   top-to-bottom and the first rule whose conditions all evaluate to
+    #   true determines the field's behavior. Rules whose conditions do not
+    #   all match are skipped and evaluation continues to the next rule.
+    #   @return [Array<Types::ConditionalRule>]
+    #
+    # @!attribute [rw] default_behavior
+    #   The field behavior that applies when no conditional rule in
+    #   **Rules** matches. Valid values are **REQUIRED**, **OPTIONAL**, and
+    #   **DISALLOWED**.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-sms-voice-v2-2022-03-31/ConditionalBehavior AWS API Documentation
+    #
+    class ConditionalBehavior < Struct.new(
+      :rules,
+      :default_behavior)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A single conditional rule that resolves to a field behavior when all
+    # of its conditions evaluate to true. Conditions within a rule are
+    # combined with logical AND: all conditions must match for the rule to
+    # fire.
+    #
+    # @!attribute [rw] conditions
+    #   The conditions that must all evaluate to true for this rule to
+    #   match. Conditions are combined with logical AND. Use multiple rules
+    #   with the same **RuleBehavior** to express logical OR.
+    #   @return [Array<Types::FieldCondition>]
+    #
+    # @!attribute [rw] rule_behavior
+    #   The field behavior that applies when all conditions in this rule
+    #   match. Valid values are **REQUIRED**, **OPTIONAL**, and
+    #   **DISALLOWED**.
+    #   @return [String]
+    #
+    # @!attribute [rw] conditional_validation
+    #   Optional per-rule validation constraints (minimum length, maximum
+    #   length, regex pattern, allowed select values) that override the
+    #   field's default validation when this rule matches.
+    #   @return [Types::ConditionalValidation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-sms-voice-v2-2022-03-31/ConditionalRule AWS API Documentation
+    #
+    class ConditionalRule < Struct.new(
+      :conditions,
+      :rule_behavior,
+      :conditional_validation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Per-rule validation constraints that override the field's default
+    # validation when the containing rule matches. All fields are optional;
+    # only the constraints that need to differ from the field's default
+    # validation are provided.
+    #
+    # @!attribute [rw] min_length
+    #   The minimum length for the field value when this rule applies.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_length
+    #   The maximum length for the field value when this rule applies.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pattern
+    #   A regular expression that the field value must match when this rule
+    #   applies.
+    #   @return [String]
+    #
+    # @!attribute [rw] allowed_values
+    #   The allowed values for a select field when this rule applies. A
+    #   subset of the field's full option list.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-sms-voice-v2-2022-03-31/ConditionalValidation AWS API Documentation
+    #
+    class ConditionalValidation < Struct.new(
+      :min_length,
+      :max_length,
+      :pattern,
+      :allowed_values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The information for configuration sets that meet a specified criteria.
     #
     # @!attribute [rw] name
@@ -1293,7 +1391,7 @@ module Aws::PinpointSMSVoiceV2
     end
 
     # @!attribute [rw] attachment_body
-    #   The registration file to upload. The maximum file size is 500KB and
+    #   The registration file to upload. The maximum file size is 5MB and
     #   valid file extensions are PDF, JPEG and PNG.
     #   @return [String]
     #
@@ -4275,6 +4373,41 @@ module Aws::PinpointSMSVoiceV2
       include Aws::Structure
     end
 
+    # A single condition on a dependency field's value. Conditions are
+    # combined into a **ConditionalRule** and evaluated together with
+    # logical AND.
+    #
+    # @!attribute [rw] depends_on_field_path
+    #   The path of the field whose value determines this condition, for
+    #   example **companyInfo.businessType**.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The comparison operator to apply between the dependency field's
+    #   value and **Values**. Valid values are **EQUALS**, **NOT\_EQUALS**,
+    #   **IN**, **NOT\_IN**, **HAS\_VALUE**, and **NO\_VALUE**. Operators
+    #   not in this list are treated as evaluating to false, which causes
+    #   the containing rule to be skipped. This allows forward-compatible
+    #   additions of new operators without breaking older SDK clients.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to compare the dependency field's value against.
+    #   Required for the **EQUALS**, **NOT\_EQUALS**, **IN**, and
+    #   **NOT\_IN** operators. Omitted for **HAS\_VALUE** and **NO\_VALUE**,
+    #   which test only presence.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-sms-voice-v2-2022-03-31/FieldCondition AWS API Documentation
+    #
+    class FieldCondition < Struct.new(
+      :depends_on_field_path,
+      :operator,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] protect_configuration_id
     #   The unique identifier for the protect configuration.
     #   @return [String]
@@ -6742,6 +6875,13 @@ module Aws::PinpointSMSVoiceV2
     #   An array of RegistrationFieldDisplayHints objects for the field.
     #   @return [Types::RegistrationFieldDisplayHints]
     #
+    # @!attribute [rw] conditional_behavior
+    #   The conditional behavior rules for this field. Only present when
+    #   **FieldRequirement** is **CONDITIONAL**. Rules are evaluated in
+    #   order and the first matching rule determines the field's resolved
+    #   requirement. If no rule matches, the **DefaultBehavior** applies.
+    #   @return [Types::ConditionalBehavior]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-sms-voice-v2-2022-03-31/RegistrationFieldDefinition AWS API Documentation
     #
     class RegistrationFieldDefinition < Struct.new(
@@ -6751,7 +6891,8 @@ module Aws::PinpointSMSVoiceV2
       :field_requirement,
       :select_validation,
       :text_validation,
-      :display_hints)
+      :display_hints,
+      :conditional_behavior)
       SENSITIVE = []
       include Aws::Structure
     end

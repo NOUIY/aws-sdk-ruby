@@ -454,6 +454,7 @@ module Aws::DevOpsAgent
     ServiceNowServiceDetails = Shapes::StructureShape.new(name: 'ServiceNowServiceDetails')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     SigV4Region = Shapes::StringShape.new(name: 'SigV4Region')
+    SlackBidirectionalConfiguration = Shapes::StructureShape.new(name: 'SlackBidirectionalConfiguration')
     SlackChannel = Shapes::StructureShape.new(name: 'SlackChannel')
     SlackChannelChannelIdString = Shapes::StringShape.new(name: 'SlackChannelChannelIdString')
     SlackConfiguration = Shapes::StructureShape.new(name: 'SlackConfiguration')
@@ -1943,6 +1944,10 @@ module Aws::DevOpsAgent
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 
+    SlackBidirectionalConfiguration.add_member(:role_arn, Shapes::ShapeRef.new(shape: RoleArn, required: true, location_name: "roleArn"))
+    SlackBidirectionalConfiguration.add_member(:enabled, Shapes::ShapeRef.new(shape: Boolean, location_name: "enabled"))
+    SlackBidirectionalConfiguration.struct_class = Types::SlackBidirectionalConfiguration
+
     SlackChannel.add_member(:channel_name, Shapes::ShapeRef.new(shape: String, location_name: "channelName"))
     SlackChannel.add_member(:channel_id, Shapes::ShapeRef.new(shape: SlackChannelChannelIdString, required: true, location_name: "channelId"))
     SlackChannel.struct_class = Types::SlackChannel
@@ -1950,6 +1955,7 @@ module Aws::DevOpsAgent
     SlackConfiguration.add_member(:workspace_id, Shapes::ShapeRef.new(shape: SlackConfigurationWorkspaceIdString, required: true, location_name: "workspaceId"))
     SlackConfiguration.add_member(:workspace_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "workspaceName"))
     SlackConfiguration.add_member(:transmission_target, Shapes::ShapeRef.new(shape: SlackTransmissionTarget, required: true, location_name: "transmissionTarget"))
+    SlackConfiguration.add_member(:bidirectional, Shapes::ShapeRef.new(shape: SlackBidirectionalConfiguration, location_name: "bidirectional"))
     SlackConfiguration.struct_class = Types::SlackConfiguration
 
     SlackTransmissionTarget.add_member(:ops_oncall_target, Shapes::ShapeRef.new(shape: SlackChannel, required: true, location_name: "opsOncallTarget"))

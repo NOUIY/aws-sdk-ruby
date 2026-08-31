@@ -100,6 +100,7 @@ module Aws::Connect
       attr_accessor agent_initiated_hold_duration: ::Integer
       attr_accessor state_transitions: ::Array[Types::StateTransition]
       attr_accessor voice_enhancement_mode: ("VOICE_ISOLATION" | "NOISE_SUPPRESSION" | "NONE")
+      attr_accessor active_region: ::String
       SENSITIVE: []
     end
 
@@ -4160,6 +4161,16 @@ module Aws::Connect
       attr_accessor metric_results: ::Array[Types::ContactMetricResult]
       attr_accessor id: ::String
       attr_accessor arn: ::String
+      SENSITIVE: []
+    end
+
+    class GetCrossRegionRoutingRequest
+      attr_accessor instance_id: ::String
+      SENSITIVE: []
+    end
+
+    class GetCrossRegionRoutingResponse
+      attr_accessor isolated_regions: ::Array[::String]
       SENSITIVE: []
     end
 
@@ -8754,6 +8765,15 @@ module Aws::Connect
     end
 
     class UpdateContactTaskTemplateResponse < Aws::EmptyStructure
+    end
+
+    class UpdateCrossRegionRoutingRequest
+      attr_accessor instance_id: ::String
+      attr_accessor isolated_all: bool
+      SENSITIVE: []
+    end
+
+    class UpdateCrossRegionRoutingResponse < Aws::EmptyStructure
     end
 
     class UpdateDataTableAttributeRequest

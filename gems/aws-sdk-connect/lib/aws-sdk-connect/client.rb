@@ -5677,7 +5677,7 @@ module Aws::Connect
     #   resp = client.create_traffic_distribution_group({
     #     name: "Name128", # required
     #     description: "Description250",
-    #     instance_id: "InstanceIdOrArn", # required
+    #     instance_id: "ACGRInstanceIdOrArn", # required
     #     client_token: "ClientToken",
     #     tags: {
     #       "TagKey" => "TagValue",
@@ -8151,6 +8151,7 @@ module Aws::Connect
     #   resp.contact.agent_info.state_transitions[0].state_start_timestamp #=> Time
     #   resp.contact.agent_info.state_transitions[0].state_end_timestamp #=> Time
     #   resp.contact.agent_info.voice_enhancement_mode #=> String, one of "VOICE_ISOLATION", "NOISE_SUPPRESSION", "NONE"
+    #   resp.contact.agent_info.active_region #=> String
     #   resp.contact.initiation_timestamp #=> Time
     #   resp.contact.disconnect_timestamp #=> Time
     #   resp.contact.last_update_timestamp #=> Time
@@ -11720,6 +11721,48 @@ module Aws::Connect
     # @param [Hash] params ({})
     def get_contact_metrics(params = {}, options = {})
       req = build_request(:get_contact_metrics, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the current cross-region routing configuration for an Amazon
+    # Connect Global Resiliency instance enabled for global routing. This
+    # operation returns whether cross-region routing is currently enabled or
+    # disabled (isolated) for the instance.
+    #
+    # <note markdown="1"> This operation is available only for Amazon Connect Global Resiliency
+    # instances enabled for global routing.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @return [Types::GetCrossRegionRoutingResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCrossRegionRoutingResponse#isolated_regions #isolated_regions} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_cross_region_routing({
+    #     instance_id: "ACGRInstanceIdOrArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.isolated_regions #=> Array
+    #   resp.isolated_regions[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/GetCrossRegionRouting AWS API Documentation
+    #
+    # @overload get_cross_region_routing(params = {})
+    # @param [Hash] params ({})
+    def get_cross_region_routing(params = {}, options = {})
+      req = build_request(:get_cross_region_routing, params)
       req.send_request(options)
     end
 
@@ -19349,7 +19392,7 @@ module Aws::Connect
     #   resp = client.list_traffic_distribution_groups({
     #     max_results: 1,
     #     next_token: "NextToken",
-    #     instance_id: "InstanceIdOrArn",
+    #     instance_id: "ACGRInstanceIdOrArn",
     #   })
     #
     # @example Response structure
@@ -20168,7 +20211,7 @@ module Aws::Connect
     # @example Request syntax with placeholder values
     #
     #   resp = client.replicate_instance({
-    #     instance_id: "InstanceIdOrArn", # required
+    #     instance_id: "ACGRInstanceIdOrArn", # required
     #     replica_region: "AwsRegion", # required
     #     client_token: "ClientToken",
     #     replica_alias: "DirectoryAlias", # required
@@ -27789,6 +27832,49 @@ module Aws::Connect
       req.send_request(options)
     end
 
+    # Updates the cross-region routing configuration for an Amazon Connect
+    # Global Resiliency instance enabled for global routing. When invoked
+    # with `IsolatedAll` set to `true`, this operation disables cross-region
+    # routing, meaning contacts originating in one Region will no longer be
+    # routed to agents in another Region.
+    #
+    # <note markdown="1"> This operation is available only for Amazon Connect Global Resiliency
+    # instances enabled for global routing. Reporting and contact search
+    # continue to operate globally after you use this operation.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :instance_id
+    #   The identifier of the Connect Customer instance. You can [find the
+    #   instance ID][1] in the Amazon Resource Name (ARN) of the instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html
+    #
+    # @option params [required, Boolean] :isolated_all
+    #   Set to `true` to disable cross-region routing for all Regions
+    #   associated with this instance. Set to `false` to re-enable
+    #   cross-region routing.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_cross_region_routing({
+    #     instance_id: "ACGRInstanceIdOrArn", # required
+    #     isolated_all: false, # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connect-2017-08-08/UpdateCrossRegionRouting AWS API Documentation
+    #
+    # @overload update_cross_region_routing(params = {})
+    # @param [Hash] params ({})
+    def update_cross_region_routing(params = {}, options = {})
+      req = build_request(:update_cross_region_routing, params)
+      req.send_request(options)
+    end
+
     # Updates all properties for an attribute using all properties from
     # CreateDataTableAttribute. There are no other granular update
     # endpoints. It does not act as a patch operation - all properties must
@@ -31294,7 +31380,7 @@ module Aws::Connect
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-connect'
-      context[:gem_version] = '1.273.0'
+      context[:gem_version] = '1.274.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

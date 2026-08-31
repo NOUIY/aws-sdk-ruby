@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.1.0 (2026-08-31)
+------------------
+
+* Feature - AWS Agent Registry becomes Generally Available
+
 1.0.0 (2026-08-06)
 ------------------
 

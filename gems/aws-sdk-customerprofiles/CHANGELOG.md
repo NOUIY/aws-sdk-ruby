@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.93.0 (2026-08-31)
+------------------
+
+* Feature - This release introduces new APIs for segment membership events allowing segment definition membership events to be exported to a kinesis stream for downstream processing. Additionally, includes new calculated attribute statistic and 2 new segment dimension types.
+
 1.92.0 (2026-07-09)
 ------------------
 

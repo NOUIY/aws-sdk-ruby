@@ -549,6 +549,10 @@ module Aws::DevOpsAgent
     #             channel_id: "SlackChannelChannelIdString", # required
     #           },
     #         },
+    #         bidirectional: {
+    #           role_arn: "RoleArn", # required
+    #           enabled: false,
+    #         },
     #       },
     #       dynatrace: {
     #         env_id: "String", # required
@@ -672,6 +676,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.slack.transmission_target.ops_oncall_target.channel_id #=> String
     #   resp.association.configuration.slack.transmission_target.ops_sre_target.channel_name #=> String
     #   resp.association.configuration.slack.transmission_target.ops_sre_target.channel_id #=> String
+    #   resp.association.configuration.slack.bidirectional.role_arn #=> String
+    #   resp.association.configuration.slack.bidirectional.enabled #=> Boolean
     #   resp.association.configuration.dynatrace.env_id #=> String
     #   resp.association.configuration.dynatrace.resources #=> Array
     #   resp.association.configuration.dynatrace.resources[0] #=> String
@@ -1802,6 +1808,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.slack.transmission_target.ops_oncall_target.channel_id #=> String
     #   resp.association.configuration.slack.transmission_target.ops_sre_target.channel_name #=> String
     #   resp.association.configuration.slack.transmission_target.ops_sre_target.channel_id #=> String
+    #   resp.association.configuration.slack.bidirectional.role_arn #=> String
+    #   resp.association.configuration.slack.bidirectional.enabled #=> Boolean
     #   resp.association.configuration.dynatrace.env_id #=> String
     #   resp.association.configuration.dynatrace.resources #=> Array
     #   resp.association.configuration.dynatrace.resources[0] #=> String
@@ -2448,6 +2456,8 @@ module Aws::DevOpsAgent
     #   resp.associations[0].configuration.slack.transmission_target.ops_oncall_target.channel_id #=> String
     #   resp.associations[0].configuration.slack.transmission_target.ops_sre_target.channel_name #=> String
     #   resp.associations[0].configuration.slack.transmission_target.ops_sre_target.channel_id #=> String
+    #   resp.associations[0].configuration.slack.bidirectional.role_arn #=> String
+    #   resp.associations[0].configuration.slack.bidirectional.enabled #=> Boolean
     #   resp.associations[0].configuration.dynatrace.env_id #=> String
     #   resp.associations[0].configuration.dynatrace.resources #=> Array
     #   resp.associations[0].configuration.dynatrace.resources[0] #=> String
@@ -4203,6 +4213,10 @@ module Aws::DevOpsAgent
     #             channel_id: "SlackChannelChannelIdString", # required
     #           },
     #         },
+    #         bidirectional: {
+    #           role_arn: "RoleArn", # required
+    #           enabled: false,
+    #         },
     #       },
     #       dynatrace: {
     #         env_id: "String", # required
@@ -4326,6 +4340,8 @@ module Aws::DevOpsAgent
     #   resp.association.configuration.slack.transmission_target.ops_oncall_target.channel_id #=> String
     #   resp.association.configuration.slack.transmission_target.ops_sre_target.channel_name #=> String
     #   resp.association.configuration.slack.transmission_target.ops_sre_target.channel_id #=> String
+    #   resp.association.configuration.slack.bidirectional.role_arn #=> String
+    #   resp.association.configuration.slack.bidirectional.enabled #=> Boolean
     #   resp.association.configuration.dynatrace.env_id #=> String
     #   resp.association.configuration.dynatrace.resources #=> Array
     #   resp.association.configuration.dynatrace.resources[0] #=> String
@@ -4751,7 +4767,7 @@ module Aws::DevOpsAgent
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-devopsagent'
-      context[:gem_version] = '1.13.0'
+      context[:gem_version] = '1.14.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

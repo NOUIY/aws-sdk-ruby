@@ -40,6 +40,17 @@ module Aws::PinpointSMSVoiceV2
     CarrierStatusInformationList = Shapes::ListShape.new(name: 'CarrierStatusInformationList')
     ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     CloudWatchLogsDestination = Shapes::StructureShape.new(name: 'CloudWatchLogsDestination')
+    ConditionOperator = Shapes::StringShape.new(name: 'ConditionOperator')
+    ConditionValue = Shapes::StringShape.new(name: 'ConditionValue')
+    ConditionValueList = Shapes::ListShape.new(name: 'ConditionValueList')
+    ConditionalBehavior = Shapes::StructureShape.new(name: 'ConditionalBehavior')
+    ConditionalFieldBehavior = Shapes::StringShape.new(name: 'ConditionalFieldBehavior')
+    ConditionalRule = Shapes::StructureShape.new(name: 'ConditionalRule')
+    ConditionalRuleList = Shapes::ListShape.new(name: 'ConditionalRuleList')
+    ConditionalValidation = Shapes::StructureShape.new(name: 'ConditionalValidation')
+    ConditionalValidationMaxLengthInteger = Shapes::IntegerShape.new(name: 'ConditionalValidationMaxLengthInteger')
+    ConditionalValidationMinLengthInteger = Shapes::IntegerShape.new(name: 'ConditionalValidationMinLengthInteger')
+    ConditionalValidationPatternString = Shapes::StringShape.new(name: 'ConditionalValidationPatternString')
     ConfigurationSetFilter = Shapes::StructureShape.new(name: 'ConfigurationSetFilter')
     ConfigurationSetFilterList = Shapes::ListShape.new(name: 'ConfigurationSetFilterList')
     ConfigurationSetFilterName = Shapes::StringShape.new(name: 'ConfigurationSetFilterName')
@@ -193,6 +204,8 @@ module Aws::PinpointSMSVoiceV2
     EventDestinationName = Shapes::StringShape.new(name: 'EventDestinationName')
     EventType = Shapes::StringShape.new(name: 'EventType')
     EventTypeList = Shapes::ListShape.new(name: 'EventTypeList')
+    FieldCondition = Shapes::StructureShape.new(name: 'FieldCondition')
+    FieldConditionList = Shapes::ListShape.new(name: 'FieldConditionList')
     FieldPath = Shapes::StringShape.new(name: 'FieldPath')
     FieldPathList = Shapes::ListShape.new(name: 'FieldPathList')
     FieldRequirement = Shapes::StringShape.new(name: 'FieldRequirement')
@@ -660,6 +673,25 @@ module Aws::PinpointSMSVoiceV2
     CloudWatchLogsDestination.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "IamRoleArn"))
     CloudWatchLogsDestination.add_member(:log_group_arn, Shapes::ShapeRef.new(shape: LogGroupArn, required: true, location_name: "LogGroupArn"))
     CloudWatchLogsDestination.struct_class = Types::CloudWatchLogsDestination
+
+    ConditionValueList.member = Shapes::ShapeRef.new(shape: ConditionValue)
+
+    ConditionalBehavior.add_member(:rules, Shapes::ShapeRef.new(shape: ConditionalRuleList, required: true, location_name: "Rules"))
+    ConditionalBehavior.add_member(:default_behavior, Shapes::ShapeRef.new(shape: ConditionalFieldBehavior, required: true, location_name: "DefaultBehavior"))
+    ConditionalBehavior.struct_class = Types::ConditionalBehavior
+
+    ConditionalRule.add_member(:conditions, Shapes::ShapeRef.new(shape: FieldConditionList, required: true, location_name: "Conditions"))
+    ConditionalRule.add_member(:rule_behavior, Shapes::ShapeRef.new(shape: ConditionalFieldBehavior, required: true, location_name: "RuleBehavior"))
+    ConditionalRule.add_member(:conditional_validation, Shapes::ShapeRef.new(shape: ConditionalValidation, location_name: "ConditionalValidation"))
+    ConditionalRule.struct_class = Types::ConditionalRule
+
+    ConditionalRuleList.member = Shapes::ShapeRef.new(shape: ConditionalRule)
+
+    ConditionalValidation.add_member(:min_length, Shapes::ShapeRef.new(shape: ConditionalValidationMinLengthInteger, location_name: "MinLength"))
+    ConditionalValidation.add_member(:max_length, Shapes::ShapeRef.new(shape: ConditionalValidationMaxLengthInteger, location_name: "MaxLength"))
+    ConditionalValidation.add_member(:pattern, Shapes::ShapeRef.new(shape: ConditionalValidationPatternString, location_name: "Pattern"))
+    ConditionalValidation.add_member(:allowed_values, Shapes::ShapeRef.new(shape: SelectChoiceList, location_name: "AllowedValues"))
+    ConditionalValidation.struct_class = Types::ConditionalValidation
 
     ConfigurationSetFilter.add_member(:name, Shapes::ShapeRef.new(shape: ConfigurationSetFilterName, required: true, location_name: "Name"))
     ConfigurationSetFilter.add_member(:values, Shapes::ShapeRef.new(shape: FilterValueList, required: true, location_name: "Values"))
@@ -1420,6 +1452,13 @@ module Aws::PinpointSMSVoiceV2
 
     EventTypeList.member = Shapes::ShapeRef.new(shape: EventType)
 
+    FieldCondition.add_member(:depends_on_field_path, Shapes::ShapeRef.new(shape: FieldPath, required: true, location_name: "DependsOnFieldPath"))
+    FieldCondition.add_member(:operator, Shapes::ShapeRef.new(shape: ConditionOperator, required: true, location_name: "Operator"))
+    FieldCondition.add_member(:values, Shapes::ShapeRef.new(shape: ConditionValueList, location_name: "Values"))
+    FieldCondition.struct_class = Types::FieldCondition
+
+    FieldConditionList.member = Shapes::ShapeRef.new(shape: FieldCondition)
+
     FieldPathList.member = Shapes::ShapeRef.new(shape: FieldPath)
 
     FilterValueList.member = Shapes::ShapeRef.new(shape: FilterValue)
@@ -1999,6 +2038,7 @@ module Aws::PinpointSMSVoiceV2
     RegistrationFieldDefinition.add_member(:select_validation, Shapes::ShapeRef.new(shape: SelectValidation, location_name: "SelectValidation"))
     RegistrationFieldDefinition.add_member(:text_validation, Shapes::ShapeRef.new(shape: TextValidation, location_name: "TextValidation"))
     RegistrationFieldDefinition.add_member(:display_hints, Shapes::ShapeRef.new(shape: RegistrationFieldDisplayHints, required: true, location_name: "DisplayHints"))
+    RegistrationFieldDefinition.add_member(:conditional_behavior, Shapes::ShapeRef.new(shape: ConditionalBehavior, location_name: "ConditionalBehavior"))
     RegistrationFieldDefinition.struct_class = Types::RegistrationFieldDefinition
 
     RegistrationFieldDefinitionList.member = Shapes::ShapeRef.new(shape: RegistrationFieldDefinition)

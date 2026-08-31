@@ -23,6 +23,15 @@ module Aws::Kinesis
       end
     end
 
+    class CreateChannel
+      def self.build(context)
+        Aws::Kinesis::EndpointParameters.create(
+          context.config,
+          operation_type: "control",
+        )
+      end
+    end
+
     class CreateStream
       def self.build(context)
         Aws::Kinesis::EndpointParameters.create(
@@ -39,6 +48,16 @@ module Aws::Kinesis
           operation_type: "control",
           stream_id: context.params[:stream_id],
           stream_arn: context.params[:stream_arn],
+        )
+      end
+    end
+
+    class DeleteChannel
+      def self.build(context)
+        Aws::Kinesis::EndpointParameters.create(
+          context.config,
+          operation_type: "control",
+          channel_arn: context.params[:channel_arn],
         )
       end
     end
@@ -82,6 +101,16 @@ module Aws::Kinesis
         Aws::Kinesis::EndpointParameters.create(
           context.config,
           operation_type: "control",
+        )
+      end
+    end
+
+    class DescribeChannel
+      def self.build(context)
+        Aws::Kinesis::EndpointParameters.create(
+          context.config,
+          operation_type: "control",
+          channel_arn: context.params[:channel_arn],
         )
       end
     end
@@ -191,6 +220,15 @@ module Aws::Kinesis
           operation_type: "control",
           stream_id: context.params[:stream_id],
           stream_arn: context.params[:stream_arn],
+        )
+      end
+    end
+
+    class ListChannels
+      def self.build(context)
+        Aws::Kinesis::EndpointParameters.create(
+          context.config,
+          operation_type: "control",
         )
       end
     end
@@ -389,6 +427,16 @@ module Aws::Kinesis
       end
     end
 
+    class UpdateChannel
+      def self.build(context)
+        Aws::Kinesis::EndpointParameters.create(
+          context.config,
+          operation_type: "control",
+          channel_arn: context.params[:channel_arn],
+        )
+      end
+    end
+
     class UpdateMaxRecordSize
       def self.build(context)
         Aws::Kinesis::EndpointParameters.create(
@@ -438,10 +486,14 @@ module Aws::Kinesis
       case context.operation_name
       when :add_tags_to_stream
         AddTagsToStream.build(context)
+      when :create_channel
+        CreateChannel.build(context)
       when :create_stream
         CreateStream.build(context)
       when :decrease_stream_retention_period
         DecreaseStreamRetentionPeriod.build(context)
+      when :delete_channel
+        DeleteChannel.build(context)
       when :delete_resource_policy
         DeleteResourcePolicy.build(context)
       when :delete_stream
@@ -450,6 +502,8 @@ module Aws::Kinesis
         DeregisterStreamConsumer.build(context)
       when :describe_account_settings
         DescribeAccountSettings.build(context)
+      when :describe_channel
+        DescribeChannel.build(context)
       when :describe_limits
         DescribeLimits.build(context)
       when :describe_stream
@@ -470,6 +524,8 @@ module Aws::Kinesis
         GetShardIterator.build(context)
       when :increase_stream_retention_period
         IncreaseStreamRetentionPeriod.build(context)
+      when :list_channels
+        ListChannels.build(context)
       when :list_shards
         ListShards.build(context)
       when :list_stream_consumers
@@ -506,6 +562,8 @@ module Aws::Kinesis
         UntagResource.build(context)
       when :update_account_settings
         UpdateAccountSettings.build(context)
+      when :update_channel
+        UpdateChannel.build(context)
       when :update_max_record_size
         UpdateMaxRecordSize.build(context)
       when :update_shard_count

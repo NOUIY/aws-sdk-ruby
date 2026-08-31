@@ -343,6 +343,16 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class AppSummary
+      attr_accessor app_id: ::String
+      attr_accessor arn: ::String
+      attr_accessor name: ::String
+      attr_accessor created_time: ::Time
+      attr_accessor last_updated_time: ::Time
+      attr_accessor visibility: ("PRIVATE" | "PUBLIC")
+      SENSITIVE: []
+    end
+
     class AppendOperation
       attr_accessor alias: ::String
       attr_accessor first_source: Types::TransformOperationSource
@@ -3905,6 +3915,17 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class DeleteAppRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor app_id: ::String
+      SENSITIVE: []
+    end
+
+    class DeleteAppResponse
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class DeleteApprovalPolicyRequest
       attr_accessor policy_id: ::String
       SENSITIVE: []
@@ -4536,6 +4557,32 @@ module Aws::QuickSight
     class DescribeAnalysisResponse
       attr_accessor analysis: Types::Analysis
       attr_accessor status: ::Integer
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAppPermissionsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor app_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAppPermissionsResponse
+      attr_accessor app_id: ::String
+      attr_accessor arn: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAppRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor app_id: ::String
+      SENSITIVE: []
+    end
+
+    class DescribeAppResponse
+      attr_accessor app: Types::AppSummary
       attr_accessor request_id: ::String
       SENSITIVE: []
     end
@@ -7601,6 +7648,20 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class ListAppsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class ListAppsResponse
+      attr_accessor app_summary_list: ::Array[Types::AppSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class ListAssetBundleExportJobsRequest
       attr_accessor aws_account_id: ::String
       attr_accessor next_token: ::String
@@ -10049,6 +10110,28 @@ module Aws::QuickSight
       SENSITIVE: []
     end
 
+    class SearchAppsFilter
+      attr_accessor name: ("APP_ID" | "APP_NAME" | "DIRECT_QUICKSIGHT_SOLE_OWNER" | "DIRECT_QUICKSIGHT_OWNER" | "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER")
+      attr_accessor operator: ("StringEquals" | "StringLike")
+      attr_accessor value: ::String
+      SENSITIVE: []
+    end
+
+    class SearchAppsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor filters: ::Array[Types::SearchAppsFilter]
+      attr_accessor max_results: ::Integer
+      attr_accessor next_token: ::String
+      SENSITIVE: []
+    end
+
+    class SearchAppsResponse
+      attr_accessor app_summary_list: ::Array[Types::AppSummary]
+      attr_accessor next_token: ::String
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
     class SearchDashboardsRequest
       attr_accessor aws_account_id: ::String
       attr_accessor filters: ::Array[Types::DashboardSearchFilter]
@@ -12284,6 +12367,24 @@ module Aws::QuickSight
       attr_accessor analysis_id: ::String
       attr_accessor update_status: ("CREATION_IN_PROGRESS" | "CREATION_SUCCESSFUL" | "CREATION_FAILED" | "UPDATE_IN_PROGRESS" | "UPDATE_SUCCESSFUL" | "UPDATE_FAILED" | "DELETED")
       attr_accessor status: ::Integer
+      attr_accessor request_id: ::String
+      SENSITIVE: []
+    end
+
+    class UpdateAppPermissionsRequest
+      attr_accessor aws_account_id: ::String
+      attr_accessor app_id: ::String
+      attr_accessor grant_permissions: ::Array[Types::ResourcePermission]
+      attr_accessor revoke_permissions: ::Array[Types::ResourcePermission]
+      attr_accessor visibility: ("PRIVATE" | "PUBLIC")
+      SENSITIVE: []
+    end
+
+    class UpdateAppPermissionsResponse
+      attr_accessor arn: ::String
+      attr_accessor app_id: ::String
+      attr_accessor permissions: ::Array[Types::ResourcePermission]
+      attr_accessor visibility: ("PRIVATE" | "PUBLIC")
       attr_accessor request_id: ::String
       SENSITIVE: []
     end

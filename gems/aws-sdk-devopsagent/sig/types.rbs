@@ -1872,6 +1872,12 @@ module Aws::DevOpsAgent
       SENSITIVE: []
     end
 
+    class SlackBidirectionalConfiguration
+      attr_accessor role_arn: ::String
+      attr_accessor enabled: bool
+      SENSITIVE: []
+    end
+
     class SlackChannel
       attr_accessor channel_name: ::String
       attr_accessor channel_id: ::String
@@ -1882,6 +1888,7 @@ module Aws::DevOpsAgent
       attr_accessor workspace_id: ::String
       attr_accessor workspace_name: ::String
       attr_accessor transmission_target: Types::SlackTransmissionTarget
+      attr_accessor bidirectional: Types::SlackBidirectionalConfiguration
       SENSITIVE: []
     end
 

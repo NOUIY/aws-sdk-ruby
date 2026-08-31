@@ -2427,6 +2427,16 @@ module Aws
                                ) -> _GetContactMetricsResponseSuccess
                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetContactMetricsResponseSuccess
 
+      interface _GetCrossRegionRoutingResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::GetCrossRegionRoutingResponse]
+        def isolated_regions: () -> ::Array[::String]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#get_cross_region_routing-instance_method
+      def get_cross_region_routing: (
+                                      instance_id: ::String
+                                    ) -> _GetCrossRegionRoutingResponseSuccess
+                                  | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _GetCrossRegionRoutingResponseSuccess
+
       interface _GetCurrentMetricDataResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::GetCurrentMetricDataResponse]
         def next_token: () -> ::String
@@ -5377,6 +5387,16 @@ module Aws
                                           contact_id: ::String
                                         ) -> _UpdateContactTaskTemplateResponseSuccess
                                       | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateContactTaskTemplateResponseSuccess
+
+      interface _UpdateCrossRegionRoutingResponseSuccess
+        include ::Seahorse::Client::_ResponseSuccess[Types::UpdateCrossRegionRoutingResponse]
+      end
+      # https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/Connect/Client.html#update_cross_region_routing-instance_method
+      def update_cross_region_routing: (
+                                         instance_id: ::String,
+                                         isolated_all: bool
+                                       ) -> _UpdateCrossRegionRoutingResponseSuccess
+                                     | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateCrossRegionRoutingResponseSuccess
 
       interface _UpdateDataTableAttributeResponseSuccess
         include ::Seahorse::Client::_ResponseSuccess[Types::UpdateDataTableAttributeResponse]

@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.14.0 (2026-08-31)
+------------------
+
+* Feature - Adds support for Slack bidirectional communication configuration in AWS DevOps Agent agent spaces.
+
 1.13.0 (2026-08-26)
 ------------------
 

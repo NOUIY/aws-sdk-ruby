@@ -1465,16 +1465,15 @@ module Aws::PinpointSMSVoiceV2
     end
 
     # Create a new registration attachment to use for uploading a file or a
-    # URL to a file. The maximum file size is 500KB and valid file
-    # extensions are PDF, JPEG and PNG. For example, many sender ID
-    # registrations require a signed “letter of authorization” (LOA) to be
-    # submitted.
+    # URL to a file. The maximum file size is 5MB and valid file extensions
+    # are PDF, JPEG and PNG. For example, many sender ID registrations
+    # require a signed “letter of authorization” (LOA) to be submitted.
     #
     # Use either `AttachmentUrl` or `AttachmentBody` to upload your
     # attachment. If both are specified then an exception is returned.
     #
     # @option params [String, StringIO, File] :attachment_body
-    #   The registration file to upload. The maximum file size is 500KB and
+    #   The registration file to upload. The maximum file size is 5MB and
     #   valid file extensions are PDF, JPEG and PNG.
     #
     # @option params [String] :attachment_url
@@ -3812,6 +3811,19 @@ module Aws::PinpointSMSVoiceV2
     #   resp.registration_field_definitions[0].display_hints.select_option_descriptions[0].description #=> String
     #   resp.registration_field_definitions[0].display_hints.text_validation_description #=> String
     #   resp.registration_field_definitions[0].display_hints.example_text_value #=> String
+    #   resp.registration_field_definitions[0].conditional_behavior.rules #=> Array
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditions #=> Array
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditions[0].depends_on_field_path #=> String
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditions[0].operator #=> String
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditions[0].values #=> Array
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditions[0].values[0] #=> String
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].rule_behavior #=> String
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditional_validation.min_length #=> Integer
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditional_validation.max_length #=> Integer
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditional_validation.pattern #=> String
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditional_validation.allowed_values #=> Array
+    #   resp.registration_field_definitions[0].conditional_behavior.rules[0].conditional_validation.allowed_values[0] #=> String
+    #   resp.registration_field_definitions[0].conditional_behavior.default_behavior #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-sms-voice-v2-2022-03-31/DescribeRegistrationFieldDefinitions AWS API Documentation
@@ -7661,7 +7673,7 @@ module Aws::PinpointSMSVoiceV2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-pinpointsmsvoicev2'
-      context[:gem_version] = '1.60.0'
+      context[:gem_version] = '1.61.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

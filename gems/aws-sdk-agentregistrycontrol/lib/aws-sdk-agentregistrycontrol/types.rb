@@ -50,6 +50,94 @@ module Aws::AgentRegistryControl
       include Aws::Structure
     end
 
+    # A registry record descriptor for the AG-UI (Agent-User Interaction)
+    # protocol.
+    #
+    # @!attribute [rw] source
+    #   The source configuration that defines where descriptor content is
+    #   retrieved from.
+    #   @return [Types::DescriptorSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/AgUiDescriptor AWS API Documentation
+    #
+    class AgUiDescriptor < Struct.new(
+      :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Source details for a record auto-detected from an AgentCore Gateway
+    # resource.
+    #
+    # @!attribute [rw] protocol_type
+    #   The protocol type of an AgentCore Gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_type
+    #   The type of authorizer configured on the AgentCore Gateway resource
+    #   that the registry record was detected from.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   The authorizer configuration for a registry. Exactly one member is
+    #   set.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @!attribute [rw] workload_identity_details
+    #   Workload identity details associated with a source resource.
+    #   @return [Types::WorkloadIdentityDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/AgentCoreGatewaySourceDetails AWS API Documentation
+    #
+    class AgentCoreGatewaySourceDetails < Struct.new(
+      :protocol_type,
+      :authorizer_type,
+      :authorizer_configuration,
+      :workload_identity_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Protocol configuration for an AgentCore Runtime.
+    #
+    # @!attribute [rw] server_protocol
+    #   The server protocol used by an AgentCore Runtime.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/AgentCoreRuntimeProtocolConfiguration AWS API Documentation
+    #
+    class AgentCoreRuntimeProtocolConfiguration < Struct.new(
+      :server_protocol)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Source details for a record auto-detected from an AgentCore Runtime
+    # resource.
+    #
+    # @!attribute [rw] protocol_configuration
+    #   Protocol configuration for an AgentCore Runtime.
+    #   @return [Types::AgentCoreRuntimeProtocolConfiguration]
+    #
+    # @!attribute [rw] authorizer_configuration
+    #   The authorizer configuration for a registry. Exactly one member is
+    #   set.
+    #   @return [Types::AuthorizerConfiguration]
+    #
+    # @!attribute [rw] workload_identity_details
+    #   Workload identity details associated with a source resource.
+    #   @return [Types::WorkloadIdentityDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/AgentCoreRuntimeSourceDetails AWS API Documentation
+    #
+    class AgentCoreRuntimeSourceDetails < Struct.new(
+      :protocol_configuration,
+      :authorizer_configuration,
+      :workload_identity_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Additional data associated with an agent skills definition descriptor.
     #
     # @!attribute [rw] skill_md
@@ -183,6 +271,62 @@ module Aws::AgentRegistryControl
       include Aws::Structure
     end
 
+    # The auto-detection properties for a registry, including the requested
+    # configuration and the current detection status. When auto-detection is
+    # enabled and the scope preconditions are met, the registry is
+    # automatically populated with discovered resources.
+    #
+    # @!attribute [rw] configuration
+    #   The auto-detection settings that control how resources are
+    #   discovered for the registry.
+    #   @return [Types::AutoDetectionConfiguration]
+    #
+    # @!attribute [rw] status
+    #   The current auto-detection status. `ACTIVE` indicates that the
+    #   registry is actively being populated with detected resources.
+    #   `INACTIVE` indicates that the preconditions required at the
+    #   configured scope are not currently met.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   A human-readable explanation of the current auto-detection status.
+    #   Typically populated when the status requires additional context.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/AutoDetection AWS API Documentation
+    #
+    class AutoDetection < Struct.new(
+      :configuration,
+      :status,
+      :status_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The customer-defined auto-detection settings for a registry.
+    #
+    # @!attribute [rw] scope
+    #   The source from which resources are detected. For example,
+    #   `ORGANIZATION` sources resources from all member accounts of an
+    #   Amazon Web Services organization.
+    #   @return [String]
+    #
+    # @!attribute [rw] enabled
+    #   Specifies whether auto-detection is requested for the registry.
+    #   Setting this to `true` is necessary but not sufficient for
+    #   auto-detection to become active; the preconditions of the configured
+    #   scope must also be met.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/AutoDetectionConfiguration AWS API Documentation
+    #
+    class AutoDetectionConfiguration < Struct.new(
+      :scope,
+      :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The expected value used to match a claim. Exactly one member is set.
     #
     # @note ClaimMatchValueType is a union - when making an API calls you must set exactly one of the members.
@@ -262,6 +406,13 @@ module Aws::AgentRegistryControl
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] provenance
+    #   List of provenance entries on a registry record. Capped at one entry
+    #   today: a record carries a single DETECTED\_FROM lineage. Modeled as
+    #   a list so additional relations can be unlocked post-GA by raising
+    #   this bound without a breaking shape change.
+    #   @return [Array<Types::Provenance>]
+    #
     # @!attribute [rw] tags
     #   Tags to associate with the registry record
     #   @return [Hash<String,String>]
@@ -277,6 +428,7 @@ module Aws::AgentRegistryControl
       :descriptors,
       :record_version,
       :client_token,
+      :provenance,
       :tags)
       SENSITIVE = [:description]
       include Aws::Structure
@@ -312,12 +464,23 @@ module Aws::AgentRegistryControl
     #   The description of the registry
     #   @return [String]
     #
+    # @!attribute [rw] encryption_configuration
+    #   The optional server-side encryption configuration for the registry.
+    #   When you provide this field, the specified customer-managed Amazon
+    #   Web Services KMS key encrypts the registry's content. Omit this
+    #   field to use an Amazon Web Services-owned encryption key. You cannot
+    #   change the encryption configuration after registry creation.
+    #   @return [Types::EncryptionConfiguration]
+    #
     # @!attribute [rw] discovery_configuration
     #   Discovery configuration for the registry
     #   @return [Types::DiscoveryConfiguration]
     #
     # @!attribute [rw] client_token
-    #   Client token for idempotency
+    #   A unique, case-sensitive identifier to ensure that the operation
+    #   completes no more than one time. If this token matches a previous
+    #   request, the service ignores the request, but does not return an
+    #   error.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -331,15 +494,25 @@ module Aws::AgentRegistryControl
     #   Approval configuration for registry records
     #   @return [Types::ApprovalConfiguration]
     #
+    # @!attribute [rw] auto_detection_configuration
+    #   The optional auto-detection configuration for the registry. When
+    #   provided, the registry is automatically populated with resources
+    #   discovered according to the configuration. Omit this field for
+    #   registries whose records are managed exclusively through the Agent
+    #   Registry Control API.
+    #   @return [Types::AutoDetectionConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/CreateRegistryRequest AWS API Documentation
     #
     class CreateRegistryRequest < Struct.new(
       :name,
       :description,
+      :encryption_configuration,
       :discovery_configuration,
       :client_token,
       :tags,
-      :approval_configuration)
+      :approval_configuration,
+      :auto_detection_configuration)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -386,7 +559,8 @@ module Aws::AgentRegistryControl
     # Custom descriptor for user-defined content
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The custom descriptor content, serialized as descriptor payload
+    #   data.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/CustomDescriptor AWS API Documentation
@@ -558,13 +732,25 @@ module Aws::AgentRegistryControl
     #   The custom descriptor, populated when the record type is CUSTOM.
     #   @return [Types::CustomDescriptor]
     #
+    # @!attribute [rw] http
+    #   The HTTP descriptor, populated for records detected from an HTTP
+    #   protocol source.
+    #   @return [Types::HttpDescriptor]
+    #
+    # @!attribute [rw] agui
+    #   The AG-UI descriptor, populated for records detected from an AG-UI
+    #   protocol source.
+    #   @return [Types::AgUiDescriptor]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/Descriptors AWS API Documentation
     #
     class Descriptors < Struct.new(
       :mcp_server,
       :a2a_agent_card,
       :agent_skills_definition,
-      :custom)
+      :custom,
+      :http,
+      :agui)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -591,6 +777,25 @@ module Aws::AgentRegistryControl
       include Aws::Structure
     end
 
+    # The server-side encryption configuration for a registry. Specifies a
+    # customer-managed Amazon Web Services KMS key used to encrypt the
+    # registry's content.
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the customer-managed Amazon Web
+    #   Services KMS key used to encrypt the registry's content. The key
+    #   must be a symmetric encryption key in the same Amazon Web Services
+    #   account and Region as the registry.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/EncryptionConfiguration AWS API Documentation
+    #
+    class EncryptionConfiguration < Struct.new(
+      :kms_key_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] registry_id
     #   The identifier of the registry containing the record (ARN or ID)
     #   @return [String]
@@ -611,11 +816,12 @@ module Aws::AgentRegistryControl
     # Response structure for retrieving a registry record
     #
     # @!attribute [rw] registry_arn
-    #   The &amp;ARN; of the parent registry that owns the record.
+    #   The Amazon Resource Name (ARN) of the parent registry that owns the
+    #   record.
     #   @return [String]
     #
     # @!attribute [rw] record_arn
-    #   The &amp;ARN; of the registry record.
+    #   The Amazon Resource Name (ARN) of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] record_id
@@ -665,6 +871,25 @@ module Aws::AgentRegistryControl
     #   status indicates a failure state.
     #   @return [String]
     #
+    # @!attribute [rw] provenance
+    #   List of provenance entries on a registry record. Capped at one entry
+    #   today: a record carries a single DETECTED\_FROM lineage. Modeled as
+    #   a list so additional relations can be unlocked post-GA by raising
+    #   this bound without a breaking shape change.
+    #   @return [Array<Types::Provenance>]
+    #
+    # @!attribute [rw] created_by_auto_detection
+    #   Specifies whether the registry record was created by auto-detection.
+    #   `true` indicates the record was automatically created by the service
+    #   based on the registry's auto-detection configuration; `false`
+    #   indicates the record was created through a control-plane API call.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] created_by
+    #   The ID of the Amazon Web Services account that created the registry
+    #   record.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/GetRegistryRecordResponse AWS API Documentation
     #
     class GetRegistryRecordResponse < Struct.new(
@@ -680,7 +905,10 @@ module Aws::AgentRegistryControl
       :status,
       :created_at,
       :updated_at,
-      :status_reason)
+      :status_reason,
+      :provenance,
+      :created_by_auto_detection,
+      :created_by)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -721,6 +949,12 @@ module Aws::AgentRegistryControl
     #   Discovery configuration for the registry
     #   @return [Types::DiscoveryConfiguration]
     #
+    # @!attribute [rw] encryption_configuration
+    #   The server-side encryption configuration for the registry. Appears
+    #   only when a customer-managed Amazon Web Services KMS key encrypts
+    #   the registry.
+    #   @return [Types::EncryptionConfiguration]
+    #
     # @!attribute [rw] approval_configuration
     #   Approval configuration for registry records
     #   @return [Types::ApprovalConfiguration]
@@ -733,6 +967,12 @@ module Aws::AgentRegistryControl
     #   The reason for the current status. Typically populated when the
     #   status indicates a failure state.
     #   @return [String]
+    #
+    # @!attribute [rw] auto_detection
+    #   The registry's auto-detection properties, including the requested
+    #   configuration and the current detection status. Present only when
+    #   auto-detection was configured for the registry.
+    #   @return [Types::AutoDetection]
     #
     # @!attribute [rw] created_at
     #   The timestamp when the registry was created
@@ -750,12 +990,31 @@ module Aws::AgentRegistryControl
       :registry_id,
       :registry_arn,
       :discovery_configuration,
+      :encryption_configuration,
       :approval_configuration,
       :status,
       :status_reason,
+      :auto_detection,
       :created_at,
       :updated_at)
       SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # A registry record descriptor for the HTTP protocol. This descriptor is
+    # source-only: its content is synchronized from the configured source
+    # URL rather than supplied inline.
+    #
+    # @!attribute [rw] source
+    #   The source configuration that defines where descriptor content is
+    #   retrieved from.
+    #   @return [Types::DescriptorSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/HttpDescriptor AWS API Documentation
+    #
+    class HttpDescriptor < Struct.new(
+      :source)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -863,7 +1122,8 @@ module Aws::AgentRegistryControl
     end
 
     # @!attribute [rw] resource_arn
-    #   ARN of a taggable Agent Registry resource.
+    #   The Amazon Resource Name (ARN) of the resource to list tags for.
+    #   Supported resources include registries and registry records.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/ListTagsForResourceRequest AWS API Documentation
@@ -875,8 +1135,8 @@ module Aws::AgentRegistryControl
     end
 
     # @!attribute [rw] tags
-    #   A map of tag keys to tag values returned by read operations (may be
-    #   empty).
+    #   The tags currently associated with the resource, as a map of tag
+    #   keys to tag values.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/ListTagsForResourceResponse AWS API Documentation
@@ -910,7 +1170,7 @@ module Aws::AgentRegistryControl
     #   @return [Array<String>]
     #
     # @!attribute [rw] tags
-    #   A map of tag keys to tag values.
+    #   The tags applied to the service-managed VPC resource.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] routing_domain
@@ -934,7 +1194,8 @@ module Aws::AgentRegistryControl
     # Additional data for an MCP server descriptor
     #
     # @!attribute [rw] tools
-    #   MCP tools descriptor containing tool definitions
+    #   The MCP tools descriptor that defines the tools exposed by the MCP
+    #   server.
     #   @return [Types::McpToolsDescriptor]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/McpServerAdditionalData AWS API Documentation
@@ -982,11 +1243,12 @@ module Aws::AgentRegistryControl
     # MCP tools descriptor containing tool definitions
     #
     # @!attribute [rw] data
-    #   Descriptor payload data
+    #   The MCP tools descriptor content, serialized as descriptor payload
+    #   data.
     #   @return [String]
     #
     # @!attribute [rw] data_schema_version
-    #   Version of the descriptor type schema
+    #   The schema version of the descriptor payload.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/McpToolsDescriptor AWS API Documentation
@@ -1044,6 +1306,69 @@ module Aws::AgentRegistryControl
     class PrivateEndpointOverride < Struct.new(
       :domain,
       :private_endpoint)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # One provenance entry describing the lineage of a registry record.
+    #
+    # @!attribute [rw] relation
+    #   The relationship between the registry record and its provenance
+    #   source.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_id
+    #   The identifier of the upstream source that the registry record was
+    #   detected from.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_type
+    #   The type of the upstream source that the registry record was
+    #   detected from.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_details
+    #   Additional details about the upstream source that the registry
+    #   record was detected from, such as the AgentCore Gateway or Runtime
+    #   configuration. The populated member corresponds to the source type.
+    #   @return [Types::SourceDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/Provenance AWS API Documentation
+    #
+    class Provenance < Struct.new(
+      :relation,
+      :source_id,
+      :source_type,
+      :source_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Condensed provenance entry for list results — the key triple only (no
+    # sourceDetails union). Enough to display and client-side-filter lineage
+    # without the full-read config payload.
+    #
+    # @!attribute [rw] relation
+    #   The relationship between the registry record and its provenance
+    #   source.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_id
+    #   The identifier of the upstream source that the registry record was
+    #   detected from.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_type
+    #   The type of the upstream source that the registry record was
+    #   detected from.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/ProvenanceSummary AWS API Documentation
+    #
+    class ProvenanceSummary < Struct.new(
+      :relation,
+      :source_id,
+      :source_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1138,11 +1463,12 @@ module Aws::AgentRegistryControl
     end
 
     # The configuration for an IAM role credential provider that signs
-    # requests to a registry record's source with AWS Signature Version 4
-    # (SigV4).
+    # requests to a registry record's source with Amazon Web Services
+    # Signature Version 4 (SigV4).
     #
     # @!attribute [rw] role_arn
-    #   The &amp;ARN; of the IAM role to assume for request signing.
+    #   The Amazon Resource Name (ARN) of the IAM role to assume for request
+    #   signing.
     #   @return [String]
     #
     # @!attribute [rw] service
@@ -1150,9 +1476,9 @@ module Aws::AgentRegistryControl
     #   @return [String]
     #
     # @!attribute [rw] region
-    #   The AWS Region to use for request signing. If not specified, the
-    #   Region is derived from the source URL hostname, falling back to the
-    #   Region of the registry.
+    #   The Amazon Web Services Region to use for request signing. If not
+    #   specified, the Region is derived from the source URL hostname,
+    #   falling back to the Region of the registry.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/RegistryRecordIamCredentialProvider AWS API Documentation
@@ -1169,8 +1495,8 @@ module Aws::AgentRegistryControl
     # authenticates requests to a registry record's source.
     #
     # @!attribute [rw] provider_arn
-    #   The &amp;ARN; of the OAuth 2.0 credential provider resource in
-    #   Amazon Bedrock AgentCore Identity.
+    #   The Amazon Resource Name (ARN) of the OAuth 2.0 credential provider
+    #   resource in Amazon Bedrock AgentCore Identity.
     #   @return [String]
     #
     # @!attribute [rw] grant_type
@@ -1200,11 +1526,12 @@ module Aws::AgentRegistryControl
     # identifying and lifecycle fields but omits descriptor content.
     #
     # @!attribute [rw] registry_arn
-    #   The &amp;ARN; of the parent registry that owns the record.
+    #   The Amazon Resource Name (ARN) of the parent registry that owns the
+    #   record.
     #   @return [String]
     #
     # @!attribute [rw] record_arn
-    #   The &amp;ARN; of the registry record.
+    #   The Amazon Resource Name (ARN) of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] record_id
@@ -1244,6 +1571,24 @@ module Aws::AgentRegistryControl
     #   The timestamp when the registry record was last updated.
     #   @return [Time]
     #
+    # @!attribute [rw] created_by_auto_detection
+    #   Specifies whether the registry record was created by auto-detection.
+    #   `true` indicates the record was automatically created by the service
+    #   based on the registry's auto-detection configuration; `false`
+    #   indicates the record was created through a control-plane API call.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] created_by
+    #   The ID of the Amazon Web Services account that created the registry
+    #   record.
+    #   @return [String]
+    #
+    # @!attribute [rw] provenance_summary_list
+    #   List of condensed provenance entries surfaced on
+    #   RegistryRecordSummary. Mirrors ProvenanceList's cardinality (one
+    #   entry today); modeled as a list for forward-compatibility.
+    #   @return [Array<Types::ProvenanceSummary>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/RegistryRecordSummary AWS API Documentation
     #
     class RegistryRecordSummary < Struct.new(
@@ -1257,7 +1602,10 @@ module Aws::AgentRegistryControl
       :record_version,
       :status,
       :created_at,
-      :updated_at)
+      :updated_at,
+      :created_by_auto_detection,
+      :created_by,
+      :provenance_summary_list)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -1293,6 +1641,12 @@ module Aws::AgentRegistryControl
     #   status indicates a failure state.
     #   @return [String]
     #
+    # @!attribute [rw] auto_detection
+    #   The registry's auto-detection properties, including the requested
+    #   configuration and the current detection status. Present only when
+    #   auto-detection was configured for the registry.
+    #   @return [Types::AutoDetection]
+    #
     # @!attribute [rw] created_at
     #   The timestamp when the registry was created
     #   @return [Time]
@@ -1311,6 +1665,7 @@ module Aws::AgentRegistryControl
       :discovery_configuration,
       :status,
       :status_reason,
+      :auto_detection,
       :created_at,
       :updated_at)
       SENSITIVE = [:description]
@@ -1368,6 +1723,39 @@ module Aws::AgentRegistryControl
       include Aws::Structure
     end
 
+    # The details about the upstream source from which a registry record was
+    # detected. Exactly one member is populated, corresponding to the source
+    # type.
+    #
+    # @note SourceDetails is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note SourceDetails is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of SourceDetails corresponding to the set member.
+    #
+    # @!attribute [rw] agentcore_runtime
+    #   Source details for a record auto-detected from an AgentCore Runtime
+    #   resource.
+    #   @return [Types::AgentCoreRuntimeSourceDetails]
+    #
+    # @!attribute [rw] agentcore_gateway
+    #   Source details for a record auto-detected from an AgentCore Gateway
+    #   resource.
+    #   @return [Types::AgentCoreGatewaySourceDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/SourceDetails AWS API Documentation
+    #
+    class SourceDetails < Struct.new(
+      :agentcore_runtime,
+      :agentcore_gateway,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class AgentcoreRuntime < SourceDetails; end
+      class AgentcoreGateway < SourceDetails; end
+      class Unknown < SourceDetails; end
+    end
+
     # @!attribute [rw] registry_id
     #   The identifier of the registry containing the record (ARN or ID)
     #   @return [String]
@@ -1421,11 +1809,13 @@ module Aws::AgentRegistryControl
     end
 
     # @!attribute [rw] resource_arn
-    #   ARN of a taggable Agent Registry resource.
+    #   The Amazon Resource Name (ARN) of the resource to tag. Supported
+    #   resources include registries and registry records.
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   A map of tag keys to tag values.
+    #   The tags to apply to the resource, as a map of tag keys to tag
+    #   values. Tag keys must be unique within the request.
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/TagResourceRequest AWS API Documentation
@@ -1456,11 +1846,13 @@ module Aws::AgentRegistryControl
     end
 
     # @!attribute [rw] resource_arn
-    #   ARN of a taggable Agent Registry resource.
+    #   The Amazon Resource Name (ARN) of the resource to remove tags from.
+    #   Supported resources include registries and registry records.
     #   @return [String]
     #
     # @!attribute [rw] tag_keys
-    #   A list of tag keys.
+    #   The keys of the tags to remove from the resource. Tags with keys not
+    #   included in this list remain on the resource.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UntagResourceRequest AWS API Documentation
@@ -1519,6 +1911,13 @@ module Aws::AgentRegistryControl
     #   content from its source
     #   @return [Boolean]
     #
+    # @!attribute [rw] provenance
+    #   List of provenance entries on a registry record. Capped at one entry
+    #   today: a record carries a single DETECTED\_FROM lineage. Modeled as
+    #   a list so additional relations can be unlocked post-GA by raising
+    #   this bound without a breaking shape change.
+    #   @return [Array<Types::Provenance>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdateRegistryRecordRequest AWS API Documentation
     #
     class UpdateRegistryRecordRequest < Struct.new(
@@ -1530,7 +1929,8 @@ module Aws::AgentRegistryControl
       :record_type,
       :descriptors,
       :record_version,
-      :trigger_synchronization)
+      :trigger_synchronization,
+      :provenance)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1538,11 +1938,12 @@ module Aws::AgentRegistryControl
     # Response structure for updating a registry record
     #
     # @!attribute [rw] registry_arn
-    #   The &amp;ARN; of the parent registry that owns the record.
+    #   The Amazon Resource Name (ARN) of the parent registry that owns the
+    #   record.
     #   @return [String]
     #
     # @!attribute [rw] record_arn
-    #   The &amp;ARN; of the registry record.
+    #   The Amazon Resource Name (ARN) of the registry record.
     #   @return [String]
     #
     # @!attribute [rw] record_id
@@ -1592,6 +1993,25 @@ module Aws::AgentRegistryControl
     #   status indicates a failure state.
     #   @return [String]
     #
+    # @!attribute [rw] provenance
+    #   List of provenance entries on a registry record. Capped at one entry
+    #   today: a record carries a single DETECTED\_FROM lineage. Modeled as
+    #   a list so additional relations can be unlocked post-GA by raising
+    #   this bound without a breaking shape change.
+    #   @return [Array<Types::Provenance>]
+    #
+    # @!attribute [rw] created_by_auto_detection
+    #   Specifies whether the registry record was created by auto-detection.
+    #   `true` indicates the record was automatically created by the service
+    #   based on the registry's auto-detection configuration; `false`
+    #   indicates the record was created through a control-plane API call.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] created_by
+    #   The ID of the Amazon Web Services account that created the registry
+    #   record.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdateRegistryRecordResponse AWS API Documentation
     #
     class UpdateRegistryRecordResponse < Struct.new(
@@ -1607,7 +2027,10 @@ module Aws::AgentRegistryControl
       :status,
       :created_at,
       :updated_at,
-      :status_reason)
+      :status_reason,
+      :provenance,
+      :created_by_auto_detection,
+      :created_by)
       SENSITIVE = [:description]
       include Aws::Structure
     end
@@ -1706,6 +2129,13 @@ module Aws::AgentRegistryControl
     #   already in PENDING\_APPROVAL are unaffected.
     #   @return [Types::UpdatedApprovalConfiguration]
     #
+    # @!attribute [rw] auto_detection_configuration
+    #   The updated auto-detection configuration for the registry, with
+    #   PATCH semantics. Omit this field to leave the current configuration
+    #   unchanged. Supply an empty wrapper to unset it. Supply
+    #   `optionalValue` to replace it.
+    #   @return [Types::UpdatedAutoDetectionConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdateRegistryRequest AWS API Documentation
     #
     class UpdateRegistryRequest < Struct.new(
@@ -1713,7 +2143,8 @@ module Aws::AgentRegistryControl
       :name,
       :description,
       :discovery_configuration,
-      :approval_configuration)
+      :approval_configuration,
+      :auto_detection_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1740,6 +2171,12 @@ module Aws::AgentRegistryControl
     #   Discovery configuration for the registry
     #   @return [Types::DiscoveryConfiguration]
     #
+    # @!attribute [rw] encryption_configuration
+    #   The server-side encryption configuration for the registry. Appears
+    #   only when a customer-managed Amazon Web Services KMS key encrypts
+    #   the registry.
+    #   @return [Types::EncryptionConfiguration]
+    #
     # @!attribute [rw] approval_configuration
     #   Approval configuration for registry records
     #   @return [Types::ApprovalConfiguration]
@@ -1752,6 +2189,12 @@ module Aws::AgentRegistryControl
     #   The reason for the current status. Typically populated when the
     #   status indicates a failure state.
     #   @return [String]
+    #
+    # @!attribute [rw] auto_detection
+    #   The registry's auto-detection properties, including the requested
+    #   configuration and the current detection status. Present only when
+    #   auto-detection was configured for the registry.
+    #   @return [Types::AutoDetection]
     #
     # @!attribute [rw] created_at
     #   The timestamp when the registry was created
@@ -1769,9 +2212,11 @@ module Aws::AgentRegistryControl
       :registry_id,
       :registry_arn,
       :discovery_configuration,
+      :encryption_configuration,
       :approval_configuration,
       :status,
       :status_reason,
+      :auto_detection,
       :created_at,
       :updated_at)
       SENSITIVE = [:description]
@@ -1815,6 +2260,37 @@ module Aws::AgentRegistryControl
     class UpdatedA2aAgentCardDescriptorFields < Struct.new(
       :data,
       :data_schema_version,
+      :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The AG-UI descriptor patch wrapper. Omit to leave the descriptor
+    # unchanged; supply an empty object to remove it; supply optionalValue
+    # to patch its fields.
+    #
+    # @!attribute [rw] optional_value
+    #   The value to set for this field. Omit the wrapper to leave the field
+    #   unchanged.
+    #   @return [Types::UpdatedAgUiDescriptorFields]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdatedAgUiDescriptor AWS API Documentation
+    #
+    class UpdatedAgUiDescriptor < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The set of AG-UI descriptor fields that can be individually updated.
+    #
+    # @!attribute [rw] source
+    #   The patch for the descriptor's source field.
+    #   @return [Types::UpdatedDescriptorSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdatedAgUiDescriptorFields AWS API Documentation
+    #
+    class UpdatedAgUiDescriptorFields < Struct.new(
       :source)
       SENSITIVE = []
       include Aws::Structure
@@ -1970,6 +2446,25 @@ module Aws::AgentRegistryControl
       include Aws::Structure
     end
 
+    # A wrapper for updating the auto-detection configuration of a registry
+    # with PATCH semantics. Include this wrapper to replace the
+    # auto-detection configuration with the specified value. Omit it to
+    # leave the auto-detection configuration unchanged. To clear the
+    # configuration, include the wrapper with a null `optionalValue`.
+    #
+    # @!attribute [rw] optional_value
+    #   The value to set for this field. Omit the wrapper to leave the field
+    #   unchanged.
+    #   @return [Types::AutoDetectionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdatedAutoDetectionConfiguration AWS API Documentation
+    #
+    class UpdatedAutoDetectionConfiguration < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The custom descriptor patch wrapper. Omit to leave the descriptor
     # unchanged; supply an empty object to remove it; supply optionalValue
     # to patch its fields.
@@ -2022,7 +2517,8 @@ module Aws::AgentRegistryControl
     # semantics
     #
     # @!attribute [rw] optional_value
-    #   Description of the Resource
+    #   The value to set for this field. Omit the wrapper to leave the field
+    #   unchanged.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdatedDescription AWS API Documentation
@@ -2102,13 +2598,23 @@ module Aws::AgentRegistryControl
     #   The patch for the custom descriptor.
     #   @return [Types::UpdatedCustomDescriptor]
     #
+    # @!attribute [rw] http
+    #   The patch for the HTTP descriptor.
+    #   @return [Types::UpdatedHttpDescriptor]
+    #
+    # @!attribute [rw] agui
+    #   The patch for the AG-UI descriptor.
+    #   @return [Types::UpdatedAgUiDescriptor]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdatedDescriptorsFields AWS API Documentation
     #
     class UpdatedDescriptorsFields < Struct.new(
       :mcp_server,
       :a2a_agent_card,
       :agent_skills_definition,
-      :custom)
+      :custom,
+      :http,
+      :agui)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2141,6 +2647,37 @@ module Aws::AgentRegistryControl
     #
     class UpdatedDisplayName < Struct.new(
       :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The HTTP descriptor patch wrapper. Omit to leave the descriptor
+    # unchanged; supply an empty object to remove it; supply optionalValue
+    # to patch its fields.
+    #
+    # @!attribute [rw] optional_value
+    #   The value to set for this field. Omit the wrapper to leave the field
+    #   unchanged.
+    #   @return [Types::UpdatedHttpDescriptorFields]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdatedHttpDescriptor AWS API Documentation
+    #
+    class UpdatedHttpDescriptor < Struct.new(
+      :optional_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The set of HTTP descriptor fields that can be individually updated.
+    #
+    # @!attribute [rw] source
+    #   The patch for the descriptor's source field.
+    #   @return [Types::UpdatedDescriptorSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/UpdatedHttpDescriptorFields AWS API Documentation
+    #
+    class UpdatedHttpDescriptorFields < Struct.new(
+      :source)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2299,6 +2836,21 @@ module Aws::AgentRegistryControl
     class ValidationExceptionField < Struct.new(
       :name,
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Workload identity details associated with a source resource.
+    #
+    # @!attribute [rw] workload_identity_arn
+    #   The Amazon Resource Name (ARN) of the workload identity associated
+    #   with the source resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-control-2025-12-01/WorkloadIdentityDetails AWS API Documentation
+    #
+    class WorkloadIdentityDetails < Struct.new(
+      :workload_identity_arn)
       SENSITIVE = []
       include Aws::Structure
     end

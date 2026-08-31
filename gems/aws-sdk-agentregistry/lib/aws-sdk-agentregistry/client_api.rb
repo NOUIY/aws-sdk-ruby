@@ -33,6 +33,7 @@ module Aws::AgentRegistry
     DescriptorSource = Shapes::StructureShape.new(name: 'DescriptorSource')
     DescriptorSourceFromUrl = Shapes::StructureShape.new(name: 'DescriptorSourceFromUrl')
     DescriptorSourceUrl = Shapes::StringShape.new(name: 'DescriptorSourceUrl')
+    DescriptorTypeList = Shapes::ListShape.new(name: 'DescriptorTypeList')
     Descriptors = Shapes::StructureShape.new(name: 'Descriptors')
     DiscoverableFilterValues = Shapes::ListShape.new(name: 'DiscoverableFilterValues')
     DiscoverableRegistryRecordSummary = Shapes::StructureShape.new(name: 'DiscoverableRegistryRecordSummary')
@@ -126,6 +127,8 @@ module Aws::AgentRegistry
     DescriptorSourceFromUrl.add_member(:url, Shapes::ShapeRef.new(shape: DescriptorSourceUrl, required: true, location_name: "url"))
     DescriptorSourceFromUrl.struct_class = Types::DescriptorSourceFromUrl
 
+    DescriptorTypeList.member = Shapes::ShapeRef.new(shape: String)
+
     Descriptors.add_member(:mcp_server, Shapes::ShapeRef.new(shape: McpServerDescriptor, location_name: "mcpServer"))
     Descriptors.add_member(:a2a_agent_card, Shapes::ShapeRef.new(shape: A2aAgentCardDescriptor, location_name: "a2aAgentCard"))
     Descriptors.add_member(:agent_skills_definition, Shapes::ShapeRef.new(shape: AgentSkillsDefinitionDescriptor, location_name: "agentSkillsDefinition"))
@@ -145,6 +148,7 @@ module Aws::AgentRegistry
     DiscoverableRegistryRecordSummary.add_member(:status, Shapes::ShapeRef.new(shape: RegistryRecordStatus, required: true, location_name: "status"))
     DiscoverableRegistryRecordSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "createdAt"))
     DiscoverableRegistryRecordSummary.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTimestamp, required: true, location_name: "updatedAt"))
+    DiscoverableRegistryRecordSummary.add_member(:descriptor_types, Shapes::ShapeRef.new(shape: DescriptorTypeList, location_name: "descriptorTypes"))
     DiscoverableRegistryRecordSummary.struct_class = Types::DiscoverableRegistryRecordSummary
 
     DiscoverableRegistryRecordSummaryList.member = Shapes::ShapeRef.new(shape: DiscoverableRegistryRecordSummary)

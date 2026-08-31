@@ -507,7 +507,7 @@ module Aws::AgentRegistry
     #   resp.registry_records[0].name #=> String
     #   resp.registry_records[0].description #=> String
     #   resp.registry_records[0].display_name #=> String
-    #   resp.registry_records[0].record_type #=> String, one of "MCP", "AGENT", "CUSTOM", "SKILL"
+    #   resp.registry_records[0].record_type #=> String, one of "MCP", "AGENT", "CUSTOM", "SKILL", "GATEWAY"
     #   resp.registry_records[0].descriptors.mcp_server.data #=> String
     #   resp.registry_records[0].descriptors.mcp_server.data_schema_version #=> String
     #   resp.registry_records[0].descriptors.mcp_server.additional_data.tools.data #=> String
@@ -545,7 +545,9 @@ module Aws::AgentRegistry
     # optionally filter and paginate the results.
     #
     # @option params [required, String] :registry_id
-    #   Registry identifier that accepts either ARN or ID format
+    #   The identifier of the registry whose discoverable records are listed.
+    #   You can provide either the full Amazon Resource Name (ARN) or the
+    #   registry ID.
     #
     # @option params [Integer] :max_results
     #   The maximum number of records to return in a single page. Valid values
@@ -588,11 +590,13 @@ module Aws::AgentRegistry
     #   resp.registry_records[0].name #=> String
     #   resp.registry_records[0].description #=> String
     #   resp.registry_records[0].display_name #=> String
-    #   resp.registry_records[0].record_type #=> String, one of "MCP", "AGENT", "CUSTOM", "SKILL"
+    #   resp.registry_records[0].record_type #=> String, one of "MCP", "AGENT", "CUSTOM", "SKILL", "GATEWAY"
     #   resp.registry_records[0].record_version #=> String
     #   resp.registry_records[0].status #=> String, one of "DRAFT", "PENDING_APPROVAL", "APPROVED", "REJECTED", "DEPRECATED", "CREATING", "UPDATING", "CREATE_FAILED", "UPDATE_FAILED"
     #   resp.registry_records[0].created_at #=> Time
     #   resp.registry_records[0].updated_at #=> Time
+    #   resp.registry_records[0].descriptor_types #=> Array
+    #   resp.registry_records[0].descriptor_types[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/agent-registry-2025-12-01/ListDiscoverableRegistryRecords AWS API Documentation
@@ -653,7 +657,7 @@ module Aws::AgentRegistry
     #   resp.registry_records[0].name #=> String
     #   resp.registry_records[0].description #=> String
     #   resp.registry_records[0].display_name #=> String
-    #   resp.registry_records[0].record_type #=> String, one of "MCP", "AGENT", "CUSTOM", "SKILL"
+    #   resp.registry_records[0].record_type #=> String, one of "MCP", "AGENT", "CUSTOM", "SKILL", "GATEWAY"
     #   resp.registry_records[0].descriptors.mcp_server.data #=> String
     #   resp.registry_records[0].descriptors.mcp_server.data_schema_version #=> String
     #   resp.registry_records[0].descriptors.mcp_server.additional_data.tools.data #=> String
@@ -700,7 +704,7 @@ module Aws::AgentRegistry
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-agentregistry'
-      context[:gem_version] = '1.0.0'
+      context[:gem_version] = '1.1.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

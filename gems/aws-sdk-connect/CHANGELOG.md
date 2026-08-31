@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.274.0 (2026-08-31)
+------------------
+
+* Feature - Added support for global routing on Amazon Connect Global Resiliency instances. New APIs GetCrossRegionRouting and UpdateCrossRegionRouting allow you to view and control cross-region contact routing between linked instances, so both Regions are active at all times.
+
 1.273.0 (2026-08-24)
 ------------------
 

@@ -187,9 +187,12 @@ module Aws::Kinesis
             if Aws::Endpoints::Matchers.valid_host_label?(Aws::Endpoints::Matchers.attr(arn, "region"), false)
               if Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(arn, "service"), "kinesis")
                 if (arn_type = Aws::Endpoints::Matchers.attr(arn, "resourceId[0]")) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.string_equals?(arn_type, ""))
-                  if Aws::Endpoints::Matchers.string_equals?(arn_type, "stream")
-                    if Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "#{arn['partition']}")
-                      if Aws::Endpoints::Matchers.set?(parameters.operation_type)
+                  if Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.string_equals?(arn_type, "stream")) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.string_equals?(arn_type, "channel"))
+                    raise ArgumentError, "Invalid ARN: Unsupported resource type `#{arn_type}`. Expected: stream or channel"
+                  end
+                  if Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "#{arn['partition']}")
+                    if Aws::Endpoints::Matchers.set?(parameters.operation_type)
+                      if Aws::Endpoints::Matchers.string_equals?(arn_type, "stream")
                         if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, true)
                           if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsFIPS"), true)
                             if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsDualStack"), true)
@@ -213,11 +216,97 @@ module Aws::Kinesis
                         end
                         return Aws::Endpoints::Endpoint.new(url: "https://#{arn['accountId']}.#{parameters.operation_type}-kinesis.#{parameters.region}.#{partition_result['dnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
                       end
+                      if Aws::Endpoints::Matchers.string_equals?(arn_type, "channel")
+                        if (resource_id = Aws::Endpoints::Matchers.attr(arn, "resourceId[1]"))
+                          if Aws::Endpoints::Matchers.valid_host_label?(resource_id, false)
+                            if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, true)
+                              if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsFIPS"), true)
+                                if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsDualStack"), true)
+                                  return Aws::Endpoints::Endpoint.new(url: "https://#{resource_id}.#{parameters.operation_type}-kinesis-fips.#{parameters.region}.#{partition_result['dualStackDnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                                end
+                                raise ArgumentError, "DualStack is enabled, but this partition does not support DualStack."
+                              end
+                              raise ArgumentError, "FIPS is enabled, but this partition does not support FIPS."
+                            end
+                            if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true)
+                              if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsFIPS"), true)
+                                return Aws::Endpoints::Endpoint.new(url: "https://#{resource_id}.#{parameters.operation_type}-kinesis-fips.#{parameters.region}.#{partition_result['dnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                              end
+                              raise ArgumentError, "FIPS is enabled but this partition does not support FIPS"
+                            end
+                            if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, true)
+                              if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsDualStack"), true)
+                                return Aws::Endpoints::Endpoint.new(url: "https://#{resource_id}.#{parameters.operation_type}-kinesis.#{parameters.region}.#{partition_result['dualStackDnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                              end
+                              raise ArgumentError, "DualStack is enabled but this partition does not support DualStack"
+                            end
+                            return Aws::Endpoints::Endpoint.new(url: "https://#{resource_id}.#{parameters.operation_type}-kinesis.#{parameters.region}.#{partition_result['dnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                          end
+                          raise ArgumentError, "Invalid ARN: Invalid channel id."
+                        end
+                        raise ArgumentError, "Invalid ARN: Missing channel id."
+                      end
+                    end
+                    raise ArgumentError, "Operation Type is not set. Please contact service team for resolution."
+                  end
+                  raise ArgumentError, "Partition: #{arn['partition']} from ARN doesn't match with partition name: #{partition_result['name']}."
+                end
+                raise ArgumentError, "Invalid ARN: No ARN type specified"
+              end
+              raise ArgumentError, "Invalid ARN: The ARN was not for the Kinesis service, found: #{arn['service']}."
+            end
+            raise ArgumentError, "Invalid ARN: Invalid region."
+          end
+          raise ArgumentError, "Invalid ARN: Invalid account id."
+        end
+        raise ArgumentError, "Invalid ARN: Failed to parse ARN."
+      end
+      if Aws::Endpoints::Matchers.set?(parameters.channel_arn) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.set?(parameters.endpoint)) && Aws::Endpoints::Matchers.set?(parameters.region) && (partition_result = Aws::Endpoints::Matchers.aws_partition(parameters.region)) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-iso")) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "aws-iso-b"))
+        if (arn = Aws::Endpoints::Matchers.aws_parse_arn(parameters.channel_arn))
+          if Aws::Endpoints::Matchers.valid_host_label?(Aws::Endpoints::Matchers.attr(arn, "accountId"), false)
+            if Aws::Endpoints::Matchers.valid_host_label?(Aws::Endpoints::Matchers.attr(arn, "region"), false)
+              if Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(arn, "service"), "kinesis")
+                if (arn_type = Aws::Endpoints::Matchers.attr(arn, "resourceId[0]")) && Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.string_equals?(arn_type, ""))
+                  if Aws::Endpoints::Matchers.string_equals?(arn_type, "channel")
+                    if Aws::Endpoints::Matchers.string_equals?(Aws::Endpoints::Matchers.attr(partition_result, "name"), "#{arn['partition']}")
+                      if Aws::Endpoints::Matchers.set?(parameters.operation_type)
+                        if (channel_id = Aws::Endpoints::Matchers.attr(arn, "resourceId[1]"))
+                          if Aws::Endpoints::Matchers.valid_host_label?(channel_id, false)
+                            if Aws::Endpoints::Matchers.not(Aws::Endpoints::Matchers.string_equals?(parameters.operation_type, "data"))
+                              if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true) && Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, true)
+                                if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsFIPS"), true)
+                                  if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsDualStack"), true)
+                                    return Aws::Endpoints::Endpoint.new(url: "https://#{channel_id}.#{parameters.operation_type}-kinesis-fips.#{parameters.region}.#{partition_result['dualStackDnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                                  end
+                                  raise ArgumentError, "DualStack is enabled, but this partition does not support DualStack."
+                                end
+                                raise ArgumentError, "FIPS is enabled, but this partition does not support FIPS."
+                              end
+                              if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_fips, true)
+                                if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsFIPS"), true)
+                                  return Aws::Endpoints::Endpoint.new(url: "https://#{channel_id}.#{parameters.operation_type}-kinesis-fips.#{parameters.region}.#{partition_result['dnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                                end
+                                raise ArgumentError, "FIPS is enabled but this partition does not support FIPS"
+                              end
+                              if Aws::Endpoints::Matchers.boolean_equals?(parameters.use_dual_stack, true)
+                                if Aws::Endpoints::Matchers.boolean_equals?(Aws::Endpoints::Matchers.attr(partition_result, "supportsDualStack"), true)
+                                  return Aws::Endpoints::Endpoint.new(url: "https://#{channel_id}.#{parameters.operation_type}-kinesis.#{parameters.region}.#{partition_result['dualStackDnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                                end
+                                raise ArgumentError, "DualStack is enabled but this partition does not support DualStack"
+                              end
+                              return Aws::Endpoints::Endpoint.new(url: "https://#{channel_id}.#{parameters.operation_type}-kinesis.#{parameters.region}.#{partition_result['dnsSuffix']}", headers: {}, properties: {}, metadata: { account_id_endpoint: false })
+                            end
+                            raise ArgumentError, "ChannelARN does not support the `data` operation type."
+                          end
+                          raise ArgumentError, "Invalid ARN: Invalid channel id."
+                        end
+                        raise ArgumentError, "Invalid ARN: Missing channel id."
+                      end
                       raise ArgumentError, "Operation Type is not set. Please contact service team for resolution."
                     end
                     raise ArgumentError, "Partition: #{arn['partition']} from ARN doesn't match with partition name: #{partition_result['name']}."
                   end
-                  raise ArgumentError, "Invalid ARN: Kinesis ARNs don't support `#{arn_type}` arn types."
+                  raise ArgumentError, "Invalid ARN: ChannelARN only supports `channel` arn types, found: `#{arn_type}`."
                 end
                 raise ArgumentError, "Invalid ARN: No ARN type specified"
               end

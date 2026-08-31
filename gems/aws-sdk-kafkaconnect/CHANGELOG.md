@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.61.0 (2026-08-31)
+------------------
+
+* Feature - Amazon MSK Connect now supports restarting newly created connectors via the asynchronous RestartConnector API. Restart all tasks or only failed tasks, while preserving configuration and committed offsets. This returns a connector operation ARN that you can track with DescribeConnectorOperation.
+
 1.60.0 (2026-07-09)
 ------------------
 

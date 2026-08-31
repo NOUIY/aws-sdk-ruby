@@ -2934,8 +2934,7 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
-    # Creates a dataset. This operation doesn't support datasets that
-    # include uploaded files as a source.
+    # Creates a dataset.
     #
     # @option params [required, String] :aws_account_id
     #   The Amazon Web Services account ID.
@@ -4934,10 +4933,22 @@ module Aws::QuickSight
     #   specify this parameter, document-level ACLs are disabled.
     #
     # @option params [String] :primary_owner_arn
-    #   The Amazon Resource Name (ARN) of the primary owner for the knowledge
-    #   base. The specified user is always granted owner access, regardless of
-    #   what is specified in the `Permissions` field. If you don't specify a
-    #   primary owner, the knowledge base is created without one.
+    #   The Amazon Resource Name (ARN) of the Amazon QuickSight user or group
+    #   to set as the primary owner of the knowledge base. The specified
+    #   principal is always granted owner access, regardless of what is
+    #   specified in the `Permissions` field.
+    #
+    #   This must be an Amazon QuickSight principal ARN, not an IAM user or
+    #   role ARN. The API caller is never assigned as the owner automatically.
+    #   If you don't specify a primary owner and don't grant owner access in
+    #   `Permissions`, the knowledge base is created without an owner, even
+    #   when you call the operation as an Amazon QuickSight user.
+    #
+    #   When you call `CreateKnowledgeBase` as an IAM user or an assumed IAM
+    #   role, specify `PrimaryOwnerArn` (as an Amazon QuickSight principal
+    #   ARN) or an owner entry in `Permissions` so that the knowledge base has
+    #   an owner. Although optional, specifying a primary owner is
+    #   recommended.
     #
     # @option params [Array<Types::Tag>] :tags
     #   The tags to assign to the knowledge base. If you don't specify tags,
@@ -6680,6 +6691,38 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_analysis(params = {}, options = {})
       req = build_request(:delete_analysis, params)
+      req.send_request(options)
+    end
+
+    # Deletes an app.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the app.
+    #
+    # @option params [required, String] :app_id
+    #   The ID of the app that you want to delete.
+    #
+    # @return [Types::DeleteAppResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteAppResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_app({
+    #     aws_account_id: "AwsAccountId", # required
+    #     app_id: "AppId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteApp AWS API Documentation
+    #
+    # @overload delete_app(params = {})
+    # @param [Hash] params ({})
+    def delete_app(params = {}, options = {})
+      req = build_request(:delete_app, params)
       req.send_request(options)
     end
 
@@ -8747,6 +8790,86 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes an app.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the app.
+    #
+    # @option params [required, String] :app_id
+    #   The ID of the app that you want to describe.
+    #
+    # @return [Types::DescribeAppResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAppResponse#app #app} => Types::AppSummary
+    #   * {Types::DescribeAppResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_app({
+    #     aws_account_id: "AwsAccountId", # required
+    #     app_id: "AppId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app.app_id #=> String
+    #   resp.app.arn #=> String
+    #   resp.app.name #=> String
+    #   resp.app.created_time #=> Time
+    #   resp.app.last_updated_time #=> Time
+    #   resp.app.visibility #=> String, one of "PRIVATE", "PUBLIC"
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeApp AWS API Documentation
+    #
+    # @overload describe_app(params = {})
+    # @param [Hash] params ({})
+    def describe_app(params = {}, options = {})
+      req = build_request(:describe_app, params)
+      req.send_request(options)
+    end
+
+    # Describes the resource permissions for an app.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the app.
+    #
+    # @option params [required, String] :app_id
+    #   The ID of the app.
+    #
+    # @return [Types::DescribeAppPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAppPermissionsResponse#app_id #app_id} => String
+    #   * {Types::DescribeAppPermissionsResponse#arn #arn} => String
+    #   * {Types::DescribeAppPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::DescribeAppPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_app_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     app_id: "AppId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_id #=> String
+    #   resp.arn #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAppPermissions AWS API Documentation
+    #
+    # @overload describe_app_permissions(params = {})
+    # @param [Hash] params ({})
+    def describe_app_permissions(params = {}, options = {})
+      req = build_request(:describe_app_permissions, params)
+      req.send_request(options)
+    end
+
     # Describes an approval policy in Quick Sight.
     #
     # @option params [required, String] :policy_id
@@ -10357,8 +10480,7 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
-    # Describes a dataset. This operation doesn't support datasets that
-    # include uploaded files as a source.
+    # Describes a dataset.
     #
     # @option params [required, String] :aws_account_id
     #   The Amazon Web Services account ID.
@@ -14587,6 +14709,58 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists the apps in an Amazon Web Services account. Results are
+    # paginated; use the `NextToken` parameter to retrieve additional
+    # results.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the apps.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single request. Valid
+    #   range is 1 to 100. If you don't specify a value, the default is 20.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::ListAppsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAppsResponse#app_summary_list #app_summary_list} => Array&lt;Types::AppSummary&gt;
+    #   * {Types::ListAppsResponse#next_token #next_token} => String
+    #   * {Types::ListAppsResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_apps({
+    #     aws_account_id: "AwsAccountId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_summary_list #=> Array
+    #   resp.app_summary_list[0].app_id #=> String
+    #   resp.app_summary_list[0].arn #=> String
+    #   resp.app_summary_list[0].name #=> String
+    #   resp.app_summary_list[0].created_time #=> Time
+    #   resp.app_summary_list[0].last_updated_time #=> Time
+    #   resp.app_summary_list[0].visibility #=> String, one of "PRIVATE", "PUBLIC"
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListApps AWS API Documentation
+    #
+    # @overload list_apps(params = {})
+    # @param [Hash] params ({})
+    def list_apps(params = {}, options = {})
+      req = build_request(:list_apps, params)
+      req.send_request(options)
+    end
+
     # Lists all asset bundle export jobs that have been taken place in the
     # last 14 days. Jobs created more than 14 days ago are deleted forever
     # and are not returned. If you are using the same job ID for multiple
@@ -18507,6 +18681,70 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Searches for apps in an Amazon Web Services account using the
+    # specified filters. This operation is eventually consistent; the
+    # results might not reflect very recent updates. Results are paginated;
+    # use the `NextToken` parameter to retrieve additional results.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the apps to
+    #   search.
+    #
+    # @option params [required, Array<Types::SearchAppsFilter>] :filters
+    #   The filters to apply to the search.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single request. Valid
+    #   range is 1 to 100. If you don't specify a value, the default is 20.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::SearchAppsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchAppsResponse#app_summary_list #app_summary_list} => Array&lt;Types::AppSummary&gt;
+    #   * {Types::SearchAppsResponse#next_token #next_token} => String
+    #   * {Types::SearchAppsResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_apps({
+    #     aws_account_id: "AwsAccountId", # required
+    #     filters: [ # required
+    #       {
+    #         name: "APP_ID", # required, accepts APP_ID, APP_NAME, DIRECT_QUICKSIGHT_SOLE_OWNER, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER
+    #         operator: "StringEquals", # required, accepts StringEquals, StringLike
+    #         value: "String", # required
+    #       },
+    #     ],
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_summary_list #=> Array
+    #   resp.app_summary_list[0].app_id #=> String
+    #   resp.app_summary_list[0].arn #=> String
+    #   resp.app_summary_list[0].name #=> String
+    #   resp.app_summary_list[0].created_time #=> Time
+    #   resp.app_summary_list[0].last_updated_time #=> Time
+    #   resp.app_summary_list[0].visibility #=> String, one of "PRIVATE", "PUBLIC"
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchApps AWS API Documentation
+    #
+    # @overload search_apps(params = {})
+    # @param [Hash] params ({})
+    def search_apps(params = {}, options = {})
+      req = build_request(:search_apps, params)
+      req.send_request(options)
+    end
+
     # Searches for dashboards that belong to a user.
     #
     # <note markdown="1"> This operation is eventually consistent. The results are best effort
@@ -21058,6 +21296,75 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates the resource permissions for an app. You can grant or revoke
+    # permissions and, optionally, change the app's visibility.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the app.
+    #
+    # @option params [required, String] :app_id
+    #   The ID of the app.
+    #
+    # @option params [Array<Types::ResourcePermission>] :grant_permissions
+    #   The permissions that you want to grant on the app.
+    #
+    # @option params [Array<Types::ResourcePermission>] :revoke_permissions
+    #   The permissions that you want to revoke from the app.
+    #
+    # @option params [String] :visibility
+    #   The visibility to set for the app. Currently, only `PRIVATE` is
+    #   accepted, which removes public (anonymous) access from the app. If you
+    #   don't specify a value, the app's visibility is unchanged. Setting an
+    #   app to `PUBLIC` through this operation is not supported.
+    #
+    # @return [Types::UpdateAppPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAppPermissionsResponse#arn #arn} => String
+    #   * {Types::UpdateAppPermissionsResponse#app_id #app_id} => String
+    #   * {Types::UpdateAppPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::UpdateAppPermissionsResponse#visibility #visibility} => String
+    #   * {Types::UpdateAppPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_app_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     app_id: "AppId", # required
+    #     grant_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     revoke_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     visibility: "PRIVATE", # accepts PRIVATE, PUBLIC
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.app_id #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.visibility #=> String, one of "PRIVATE", "PUBLIC"
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateAppPermissions AWS API Documentation
+    #
+    # @overload update_app_permissions(params = {})
+    # @param [Hash] params ({})
+    def update_app_permissions(params = {}, options = {})
+      req = build_request(:update_app_permissions, params)
+      req.send_request(options)
+    end
+
     # Updates an Quick application with a token exchange grant. This
     # operation only supports Quick applications that are registered with
     # IAM Identity Center.
@@ -22101,9 +22408,8 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
-    # Updates a dataset. This operation doesn't support datasets that
-    # include uploaded files as a source. Partial updates are not supported
-    # by this operation.
+    # Updates a dataset. Partial updates are not supported by this
+    # operation.
     #
     # @option params [required, String] :aws_account_id
     #   The Amazon Web Services account ID.
@@ -26445,7 +26751,7 @@ module Aws::QuickSight
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.195.0'
+      context[:gem_version] = '1.196.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
