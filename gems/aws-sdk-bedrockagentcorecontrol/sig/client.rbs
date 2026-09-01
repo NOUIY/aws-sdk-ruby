@@ -2716,7 +2716,7 @@ module Aws
                                              configuration: {
                                              }
                                            }],
-                                         ?parent_version_ids: Array[::String],
+                                         parent_version_ids: Array[::String],
                                          ?branch_name: ::String,
                                          ?commit_message: ::String,
                                          ?created_by: {

@@ -4891,15 +4891,15 @@ module Aws::BedrockAgentCoreControl
 
     # Creates a policy within the AgentCore Policy system. Policies provide
     # real-time, deterministic control over agentic interactions with
-    # AgentCore Gateway. Using the Cedar policy language, you can define
-    # fine-grained policies that specify which interactions with Gateway
-    # tools are permitted based on input parameters and OAuth claims,
-    # ensuring agents operate within defined boundaries and business rules.
-    # The policy is validated during creation against the Cedar schema
-    # generated from the Gateway's tools' input schemas, which defines the
-    # available tools, their parameters, and expected data types. This is an
-    # asynchronous operation. Use the [GetPolicy][1] operation to poll the
-    # `status` field to track completion.
+    # AgentCore Gateway. Using Cedar or Dogwood, you can define fine-grained
+    # policies that specify which interactions with Gateway tools are
+    # permitted based on input parameters and OAuth claims, ensuring agents
+    # operate within defined boundaries and business rules. The policy is
+    # validated during creation against the Cedar schema generated from the
+    # Gateway's tools' input schemas, which defines the available tools,
+    # their parameters, and expected data types. This is an asynchronous
+    # operation. Use the [GetPolicy][1] operation to poll the `status` field
+    # to track completion.
     #
     # If the new policy is a temporal policy, creating it invalidates the
     # policy engine's active temporal sessions. For more information about
@@ -4919,10 +4919,10 @@ module Aws::BedrockAgentCoreControl
     #   cannot be changed after creation.
     #
     # @option params [required, Types::PolicyDefinition] :definition
-    #   The Cedar policy statement that defines the access control rules. This
-    #   contains the actual policy logic written in Cedar policy language,
-    #   specifying effect (permit or forbid), principals, actions, resources,
-    #   and conditions for agent behavior control.
+    #   The Cedar or Dogwood policy statement that defines the access control
+    #   rules. This contains the actual policy logic written in Cedar or
+    #   Dogwood, specifying effect (permit or forbid), principals, actions,
+    #   resources, and conditions for agent behavior control.
     #
     # @option params [String] :description
     #   A human-readable description of the policy's purpose and
@@ -8921,7 +8921,7 @@ module Aws::BedrockAgentCoreControl
 
     # Retrieves information about a policy generation request within the
     # AgentCore Policy system. Policy generation converts natural language
-    # descriptions into Cedar policy statements using AI-powered
+    # descriptions into Dogwood policy statements using AI-powered
     # translation, enabling non-technical users to create policies.
     #
     # @option params [required, String] :policy_generation_id
@@ -10975,9 +10975,9 @@ module Aws::BedrockAgentCoreControl
 
     # Retrieves a list of generated policy assets from a policy generation
     # request within the AgentCore Policy system. This operation returns the
-    # actual Cedar policies and related artifacts produced by the AI-powered
-    # policy generation process, allowing users to review and select from
-    # multiple generated policy options.
+    # actual Dogwood policies and related artifacts produced by the
+    # AI-powered policy generation process, allowing users to review and
+    # select from multiple generated policy options.
     #
     # @option params [required, String] :policy_generation_id
     #   The unique identifier of the policy generation request whose assets
@@ -11532,20 +11532,20 @@ module Aws::BedrockAgentCoreControl
       req.send_request(options)
     end
 
-    # Initiates the AI-powered generation of Cedar policies from natural
+    # Initiates the AI-powered generation of Dogwood policies from natural
     # language descriptions within the AgentCore Policy system. This feature
     # enables both technical and non-technical users to create policies by
     # describing their authorization requirements in plain English, which is
-    # then automatically translated into formal Cedar policy statements. The
-    # generation process analyzes the natural language input along with the
-    # Gateway's tool context to produce validated policy options. Generated
-    # policy assets are automatically deleted after 7 days, so you should
-    # review and create policies from the generated assets within this
-    # timeframe. Once created, policies are permanent and not subject to
-    # this expiration. Generated policies should be reviewed and tested in
-    # log-only mode before deploying to production. Use this when you want
-    # to describe policy intent naturally rather than learning Cedar syntax,
-    # though generated policies may require refinement for complex
+    # then automatically translated into formal Dogwood policy statements.
+    # The generation process analyzes the natural language input along with
+    # the Gateway's tool context to produce validated policy options.
+    # Generated policy assets are automatically deleted after 7 days, so you
+    # should review and create policies from the generated assets within
+    # this timeframe. Once created, policies are permanent and not subject
+    # to this expiration. Generated policies should be reviewed and tested
+    # in log-only mode before deploying to production. Use this when you
+    # want to describe policy intent naturally rather than learning Dogwood
+    # syntax, though generated policies may require refinement for complex
     # scenarios.
     #
     # @option params [required, String] :policy_engine_id
@@ -11560,7 +11560,7 @@ module Aws::BedrockAgentCoreControl
     #
     # @option params [required, Types::Content] :content
     #   The natural language description of the desired policy behavior. This
-    #   content is processed by AI to generate corresponding Cedar policy
+    #   content is processed by AI to generate corresponding Dogwood policy
     #   statements that match the described intent.
     #
     # @option params [required, String] :name
@@ -12347,7 +12347,7 @@ module Aws::BedrockAgentCoreControl
     #   The updated component configurations. Creates a new version of the
     #   bundle.
     #
-    # @option params [Array<String>] :parent_version_ids
+    # @option params [required, Array<String>] :parent_version_ids
     #   A list of parent version identifiers for lineage tracking. Regular
     #   commits have a single parent. Merge commits have two parents: the
     #   target branch parent and the source branch parent. If the branch
@@ -12390,7 +12390,7 @@ module Aws::BedrockAgentCoreControl
     #         },
     #       },
     #     },
-    #     parent_version_ids: ["ConfigurationBundleVersion"],
+    #     parent_version_ids: ["ConfigurationBundleVersion"], # required
     #     branch_name: "BranchName",
     #     commit_message: "UpdateConfigurationBundleRequestCommitMessageString",
     #     created_by: {
@@ -15716,9 +15716,9 @@ module Aws::BedrockAgentCoreControl
     #   policy logic.
     #
     # @option params [Types::PolicyDefinition] :definition
-    #   The new Cedar policy statement that defines the access control rules.
-    #   This replaces the existing policy definition with new logic while
-    #   maintaining the policy's identity.
+    #   The new Cedar or Dogwood policy statement that defines the access
+    #   control rules. This replaces the existing policy definition with new
+    #   logic while maintaining the policy's identity.
     #
     # @option params [String] :validation_mode
     #   The validation mode for the policy update. Determines how Cedar
@@ -16361,7 +16361,7 @@ module Aws::BedrockAgentCoreControl
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-bedrockagentcorecontrol'
-      context[:gem_version] = '1.67.0'
+      context[:gem_version] = '1.68.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

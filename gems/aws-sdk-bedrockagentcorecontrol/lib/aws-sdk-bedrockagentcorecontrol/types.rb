@@ -1940,7 +1940,7 @@ module Aws::BedrockAgentCoreControl
     # @!attribute [rw] raw_text
     #   The raw text content containing natural language descriptions of
     #   desired policy behavior. This text is processed by AI to generate
-    #   corresponding Cedar policy statements that match the described
+    #   corresponding Dogwood policy statements that match the described
     #   intent.
     #   @return [String]
     #
@@ -4499,10 +4499,10 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] definition
-    #   The Cedar policy statement that defines the access control rules.
-    #   This contains the actual policy logic written in Cedar policy
-    #   language, specifying effect (permit or forbid), principals, actions,
-    #   resources, and conditions for agent behavior control.
+    #   The Cedar or Dogwood policy statement that defines the access
+    #   control rules. This contains the actual policy logic written in
+    #   Cedar or Dogwood, specifying effect (permit or forbid), principals,
+    #   actions, resources, and conditions for agent behavior control.
     #   @return [Types::PolicyDefinition]
     #
     # @!attribute [rw] description
@@ -4612,9 +4612,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] definition
-    #   The Cedar policy statement that was created. This is the validated
-    #   policy definition that will be used for agent behavior control and
-    #   access decisions.
+    #   The Cedar or Dogwood policy statement that was created. This is the
+    #   validated policy definition that will be used for agent behavior
+    #   control and access decisions.
     #   @return [Types::PolicyDefinition]
     #
     # @!attribute [rw] description
@@ -7880,10 +7880,10 @@ module Aws::BedrockAgentCoreControl
     # allow or deny each action based on the defined policies.
     #
     # @!attribute [rw] arn
-    #   The ARN of the policy engine. The policy engine contains Cedar
-    #   policies that define fine-grained authorization rules specifying who
-    #   can perform what actions on which resources as agents interact
-    #   through the gateway.
+    #   The ARN of the policy engine. The policy engine contains Cedar or
+    #   Dogwood policies that define fine-grained authorization rules
+    #   specifying who can perform what actions on which resources as agents
+    #   interact through the gateway.
     #   @return [String]
     #
     # @!attribute [rw] mode
@@ -10449,9 +10449,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] definition
-    #   The Cedar policy statement that defines the access control rules.
-    #   This contains the actual policy logic used for agent behavior
-    #   control and access decisions.
+    #   The Cedar or Dogwood policy statement that defines the access
+    #   control rules. This contains the actual policy logic used for agent
+    #   behavior control and access decisions.
     #   @return [Types::PolicyDefinition]
     #
     # @!attribute [rw] description
@@ -14480,7 +14480,7 @@ module Aws::BedrockAgentCoreControl
     end
 
     # @!attribute [rw] policy_generation_assets
-    #   An array of generated policy assets including Cedar policies and
+    #   An array of generated policy assets including Dogwood policies and
     #   related artifacts from the AI-powered policy generation process.
     #   Each asset represents a different policy option or variation
     #   generated from the original natural language input.
@@ -16762,17 +16762,17 @@ module Aws::BedrockAgentCoreControl
     end
 
     # Represents a complete policy resource within the AgentCore Policy
-    # system. Policies are ARN-able resources that contain Cedar policy
-    # statements and associated metadata for controlling agent behavior and
-    # access decisions. Each policy belongs to a policy engine and defines
-    # fine-grained authorization rules that are evaluated in real-time as
-    # agents interact with tools through Gateway. Policies use the Cedar
-    # policy language to specify who (principals based on OAuth claims like
+    # system. Policies are ARN-able resources that contain Cedar or Dogwood
+    # policy statements and associated metadata for controlling agent
+    # behavior and access decisions. Each policy belongs to a policy engine
+    # and defines fine-grained authorization rules that are evaluated in
+    # real-time as agents interact with tools through Gateway. Policies use
+    # Cedar or Dogwood to specify who (principals based on OAuth claims like
     # username, role, or scope) can perform what actions (tool calls) on
     # which resources (Gateways), with optional conditions for
     # attribute-based access control. Multiple policies can apply to a
-    # single request, with Cedar's forbid-wins semantics ensuring that
-    # security restrictions are never accidentally overridden.
+    # single request, with forbid-wins semantics ensuring that security
+    # restrictions are never accidentally overridden.
     #
     # @!attribute [rw] policy_id
     #   The unique identifier for the policy. This system-generated
@@ -16818,9 +16818,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] definition
-    #   The Cedar policy statement that defines the access control rules.
-    #   This contains the actual policy logic used for agent behavior
-    #   control and access decisions.
+    #   The Cedar or Dogwood policy statement that defines the access
+    #   control rules. This contains the actual policy logic used for agent
+    #   behavior control and access decisions.
     #   @return [Types::PolicyDefinition]
     #
     # @!attribute [rw] description
@@ -16879,15 +16879,16 @@ module Aws::BedrockAgentCoreControl
     #   The generated policy asset information within the policy definition
     #   structure. This contains information identifying a generated policy
     #   asset from the AI-powered policy generation process within the
-    #   AgentCore Policy system. Each asset contains a Cedar policy
+    #   AgentCore Policy system. Each asset contains a Dogwood policy
     #   statement generated from natural language input, along with
     #   associated metadata and analysis findings to help users evaluate and
     #   select the most appropriate policy option.
     #   @return [Types::PolicyGenerationDetails]
     #
     # @!attribute [rw] policy
-    #   An AgentCore policy statement that defines the access control rules.
-    #   The statement can be a Cedar policy or a guardrails definition.
+    #   The Dogwood policy statement that defines the access control rules.
+    #   This policy definition can include Dogwood policies and supports
+    #   temporal conditions and information providers such as guardrails.
     #   @return [Types::PolicyStatement]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicyDefinition AWS API Documentation
@@ -17040,7 +17041,7 @@ module Aws::BedrockAgentCoreControl
 
     # Represents a policy generation request within the AgentCore Policy
     # system. Tracks the AI-powered conversion of natural language
-    # descriptions into Cedar policy statements, enabling users to author
+    # descriptions into Dogwood policy statements, enabling users to author
     # policies by describing authorization requirements in plain English.
     # The generation process analyzes the natural language input along with
     # the Gateway's tool context and Cedar schema to produce one or more
@@ -17111,7 +17112,7 @@ module Aws::BedrockAgentCoreControl
 
     # Represents a generated policy asset from the AI-powered policy
     # generation process within the AgentCore Policy system. Each asset
-    # contains a Cedar policy statement generated from natural language
+    # contains a Dogwood policy statement generated from natural language
     # input, along with associated metadata and analysis findings to help
     # users evaluate and select the most appropriate policy option.
     #
@@ -17133,13 +17134,13 @@ module Aws::BedrockAgentCoreControl
     #   The portion of the original natural language input that this
     #   generated policy asset addresses. This helps users understand which
     #   part of their policy description was translated into this specific
-    #   Cedar policy statement, enabling better policy selection and
+    #   Dogwood policy statement, enabling better policy selection and
     #   refinement. When a single natural language input describes multiple
     #   authorization requirements, the generation process creates separate
     #   policy assets for each requirement, with each asset's
     #   rawTextFragment showing which requirement it addresses. Use this
     #   mapping to verify that all parts of your natural language input were
-    #   correctly translated into Cedar policies.
+    #   correctly translated into Dogwood policies.
     #   @return [String]
     #
     # @!attribute [rw] findings
@@ -17162,7 +17163,7 @@ module Aws::BedrockAgentCoreControl
 
     # Represents the information identifying a generated policy asset from
     # the AI-powered policy generation process within the AgentCore Policy
-    # system. Each asset contains a Cedar policy statement generated from
+    # system. Each asset contains a Dogwood policy statement generated from
     # natural language input, along with associated metadata and analysis
     # findings to help users evaluate and select the most appropriate policy
     # option.
@@ -17244,12 +17245,13 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
-    # An AgentCore policy statement, which supports plain Cedar policies as
-    # well as guardrails definitions.
+    # An AgentCore Cedar or Dogwood policy statement, which supports plain
+    # Cedar policies, temporal policies, and guardrails definitions.
     #
     # @!attribute [rw] statement
-    #   The body of the AgentCore policy statement. Contains the policy
-    #   logic, which can be a Cedar policy or a guardrails definition.
+    #   The body of the AgentCore Cedar or Dogwood policy statement.
+    #   Contains the policy logic, which can be a Cedar policy, a temporal
+    #   policy, or a guardrails definition.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/PolicyStatement AWS API Documentation
@@ -18870,7 +18872,7 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] content
     #   The natural language description of the desired policy behavior.
-    #   This content is processed by AI to generate corresponding Cedar
+    #   This content is processed by AI to generate corresponding Dogwood
     #   policy statements that match the described intent.
     #   @return [Types::Content]
     #
@@ -22079,9 +22081,9 @@ module Aws::BedrockAgentCoreControl
     #   @return [Types::UpdatedDescription]
     #
     # @!attribute [rw] definition
-    #   The new Cedar policy statement that defines the access control
-    #   rules. This replaces the existing policy definition with new logic
-    #   while maintaining the policy's identity.
+    #   The new Cedar or Dogwood policy statement that defines the access
+    #   control rules. This replaces the existing policy definition with new
+    #   logic while maintaining the policy's identity.
     #   @return [Types::PolicyDefinition]
     #
     # @!attribute [rw] validation_mode
@@ -22149,7 +22151,7 @@ module Aws::BedrockAgentCoreControl
     #   @return [String]
     #
     # @!attribute [rw] definition
-    #   The updated Cedar policy statement.
+    #   The updated Cedar or Dogwood policy statement.
     #   @return [Types::PolicyDefinition]
     #
     # @!attribute [rw] description

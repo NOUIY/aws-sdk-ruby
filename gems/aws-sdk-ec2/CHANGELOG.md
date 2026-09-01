@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.642.0 (2026-09-01)
+------------------
+
+* Feature - Update UserData and UploadPolicy shapes to use SecureBlob
+
 1.641.0 (2026-08-27)
 ------------------
 

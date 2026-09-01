@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.159.0 (2026-09-01)
+------------------
+
+* Feature - Amazon GuardDuty now supports custom detection rules, including APIs to manage rule associations and organization-level configurations.
+
 1.158.0 (2026-07-22)
 ------------------
 
