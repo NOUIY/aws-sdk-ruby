@@ -5258,7 +5258,7 @@ module Aws::SageMaker
     #         unit: "Seconds", # accepts Seconds, Minutes, Hours, Days, Weeks
     #         value: 1,
     #       },
-    #       storage_type: "Standard", # accepts Standard, InMemory
+    #       storage_type: "Standard", # accepts Standard, Standard_V2, InMemory
     #     },
     #     offline_store_config: {
     #       s3_storage_config: { # required
@@ -16848,7 +16848,7 @@ module Aws::SageMaker
     #   resp.online_store_config.enable_online_store #=> Boolean
     #   resp.online_store_config.ttl_duration.unit #=> String, one of "Seconds", "Minutes", "Hours", "Days", "Weeks"
     #   resp.online_store_config.ttl_duration.value #=> Integer
-    #   resp.online_store_config.storage_type #=> String, one of "Standard", "InMemory"
+    #   resp.online_store_config.storage_type #=> String, one of "Standard", "Standard_V2", "InMemory"
     #   resp.offline_store_config.s3_storage_config.s3_uri #=> String
     #   resp.offline_store_config.s3_storage_config.kms_key_id #=> String
     #   resp.offline_store_config.s3_storage_config.resolved_output_s3_uri #=> String
@@ -31846,6 +31846,7 @@ module Aws::SageMaker
     #         unit: "Seconds", # accepts Seconds, Minutes, Hours, Days, Weeks
     #         value: 1,
     #       },
+    #       storage_type: "Standard", # accepts Standard, Standard_V2, InMemory
     #     },
     #     throughput_config: {
     #       throughput_mode: "OnDemand", # accepts OnDemand, Provisioned
@@ -34632,7 +34633,7 @@ module Aws::SageMaker
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-sagemaker'
-      context[:gem_version] = '1.388.0'
+      context[:gem_version] = '1.389.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

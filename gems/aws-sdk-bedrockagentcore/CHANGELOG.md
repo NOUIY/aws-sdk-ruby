@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.52.0 (2026-09-02)
+------------------
+
+* Feature - Batch evaluation now supports up to 10 CloudWatch log groups per CloudWatchLogsSource
+
 1.51.0 (2026-08-28)
 ------------------
 

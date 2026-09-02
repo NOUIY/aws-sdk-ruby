@@ -274,6 +274,8 @@ module Aws
         def target_s3_configuration: () -> Types::TargetS3Configuration
         def target_network: () -> Types::TargetNetwork
         def target_deployment: () -> ("SINGLE_ACCOUNT" | "MULTI_ACCOUNT")
+        def vpc_provisioning_strategy: () -> ("CREATE_NEW" | "USE_EXISTING")
+        def cidr_mappings: () -> ::Array[Types::CidrMapping]
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
         def tags: () -> ::Hash[::String, ::String]
@@ -297,6 +299,13 @@ module Aws
                                                    inspection_cidr: ::String?
                                                  },
                                                  ?target_deployment: ("SINGLE_ACCOUNT" | "MULTI_ACCOUNT"),
+                                                 ?vpc_provisioning_strategy: ("CREATE_NEW" | "USE_EXISTING"),
+                                                 ?cidr_mappings: Array[
+                                                   {
+                                                     original_cidr: ::String,
+                                                     updated_cidr: ::String
+                                                   }
+                                                 ],
                                                  ?tags: Hash[::String, ::String],
                                                  ?scope_tags: Hash[::String, ::String]
                                                ) -> _CreateNetworkMigrationDefinitionResponseSuccess
@@ -644,6 +653,8 @@ module Aws
         def target_s3_configuration: () -> Types::TargetS3Configuration
         def target_network: () -> Types::TargetNetwork
         def target_deployment: () -> ("SINGLE_ACCOUNT" | "MULTI_ACCOUNT")
+        def vpc_provisioning_strategy: () -> ("CREATE_NEW" | "USE_EXISTING")
+        def cidr_mappings: () -> ::Array[Types::CidrMapping]
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
         def tags: () -> ::Hash[::String, ::String]
@@ -1705,6 +1716,8 @@ module Aws
         def target_s3_configuration: () -> Types::TargetS3Configuration
         def target_network: () -> Types::TargetNetwork
         def target_deployment: () -> ("SINGLE_ACCOUNT" | "MULTI_ACCOUNT")
+        def vpc_provisioning_strategy: () -> ("CREATE_NEW" | "USE_EXISTING")
+        def cidr_mappings: () -> ::Array[Types::CidrMapping]
         def created_at: () -> ::Time
         def updated_at: () -> ::Time
         def tags: () -> ::Hash[::String, ::String]
@@ -1729,6 +1742,13 @@ module Aws
                                                    inspection_cidr: ::String?
                                                  },
                                                  ?target_deployment: ("SINGLE_ACCOUNT" | "MULTI_ACCOUNT"),
+                                                 ?vpc_provisioning_strategy: ("CREATE_NEW" | "USE_EXISTING"),
+                                                 ?cidr_mappings: Array[
+                                                   {
+                                                     original_cidr: ::String,
+                                                     updated_cidr: ::String
+                                                   }
+                                                 ],
                                                  ?scope_tags: Hash[::String, ::String]
                                                ) -> _UpdateNetworkMigrationDefinitionResponseSuccess
                                              | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _UpdateNetworkMigrationDefinitionResponseSuccess

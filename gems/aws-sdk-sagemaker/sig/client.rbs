@@ -1261,7 +1261,7 @@ module Aws
                                       unit: ("Seconds" | "Minutes" | "Hours" | "Days" | "Weeks")?,
                                       value: ::Integer?
                                     }?,
-                                    storage_type: ("Standard" | "InMemory")?
+                                    storage_type: ("Standard" | "Standard_V2" | "InMemory")?
                                   },
                                   ?offline_store_config: {
                                     s3_storage_config: {
@@ -7688,7 +7688,8 @@ module Aws
                                     ttl_duration: {
                                       unit: ("Seconds" | "Minutes" | "Hours" | "Days" | "Weeks")?,
                                       value: ::Integer?
-                                    }?
+                                    }?,
+                                    storage_type: ("Standard" | "Standard_V2" | "InMemory")?
                                   },
                                   ?throughput_config: {
                                     throughput_mode: ("OnDemand" | "Provisioned")?,

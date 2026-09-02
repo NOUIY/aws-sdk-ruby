@@ -997,7 +997,7 @@ module Aws::BedrockAgentCore
     #
     # @!attribute [rw] log_group_names
     #   The list of CloudWatch log group names to read agent traces from.
-    #   Maximum of 5 log groups.
+    #   Maximum of 10 log groups.
     #   @return [Array<String>]
     #
     # @!attribute [rw] filter_config

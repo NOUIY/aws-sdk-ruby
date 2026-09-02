@@ -1096,6 +1096,16 @@ module Aws::Mgn
     # @option params [String] :target_deployment
     #   The target deployment configuration for the migrated network.
     #
+    # @option params [String] :vpc_provisioning_strategy
+    #   Specifies whether to create new target VPCs or use existing ones. Set
+    #   to `CREATE_NEW` to provision new target VPCs as part of the migration,
+    #   or `USE_EXISTING` to migrate into existing VPCs in the target account.
+    #
+    # @option params [Array<Types::CidrMapping>] :cidr_mappings
+    #   A list of CIDR mappings that map original source CIDR ranges to
+    #   updated target CIDR ranges. CIDR mappings can be provided only when
+    #   `vpcProvisioningStrategy` is set to `USE_EXISTING`.
+    #
     # @option params [Hash<String,String>] :tags
     #   Tags to assign to the network migration definition.
     #
@@ -1113,6 +1123,8 @@ module Aws::Mgn
     #   * {Types::NetworkMigrationDefinition#target_s3_configuration #target_s3_configuration} => Types::TargetS3Configuration
     #   * {Types::NetworkMigrationDefinition#target_network #target_network} => Types::TargetNetwork
     #   * {Types::NetworkMigrationDefinition#target_deployment #target_deployment} => String
+    #   * {Types::NetworkMigrationDefinition#vpc_provisioning_strategy #vpc_provisioning_strategy} => String
+    #   * {Types::NetworkMigrationDefinition#cidr_mappings #cidr_mappings} => Array&lt;Types::CidrMapping&gt;
     #   * {Types::NetworkMigrationDefinition#created_at #created_at} => Time
     #   * {Types::NetworkMigrationDefinition#updated_at #updated_at} => Time
     #   * {Types::NetworkMigrationDefinition#tags #tags} => Hash&lt;String,String&gt;
@@ -1200,6 +1212,13 @@ module Aws::Mgn
     #       inspection_cidr: "Cidr",
     #     },
     #     target_deployment: "SINGLE_ACCOUNT", # accepts SINGLE_ACCOUNT, MULTI_ACCOUNT
+    #     vpc_provisioning_strategy: "CREATE_NEW", # accepts CREATE_NEW, USE_EXISTING
+    #     cidr_mappings: [
+    #       {
+    #         original_cidr: "Cidr", # required
+    #         updated_cidr: "Cidr", # required
+    #       },
+    #     ],
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -1226,6 +1245,10 @@ module Aws::Mgn
     #   resp.target_network.outbound_cidr #=> String
     #   resp.target_network.inspection_cidr #=> String
     #   resp.target_deployment #=> String, one of "SINGLE_ACCOUNT", "MULTI_ACCOUNT"
+    #   resp.vpc_provisioning_strategy #=> String, one of "CREATE_NEW", "USE_EXISTING"
+    #   resp.cidr_mappings #=> Array
+    #   resp.cidr_mappings[0].original_cidr #=> String
+    #   resp.cidr_mappings[0].updated_cidr #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
     #   resp.tags #=> Hash
@@ -1743,9 +1766,9 @@ module Aws::Mgn
       req.send_request(options)
     end
 
-    # Returns a list of Jobs. Use the JobsID and fromDate and toData filters
+    # Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters
     # to limit which jobs are returned. The response is sorted by
-    # creationDataTime - latest date first. Jobs are normally created by the
+    # creationDateTime - latest date first. Jobs are normally created by the
     # StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are
     # also created by DiagnosticLaunch and TerminateDiagnosticInstances,
     # which are APIs available only to *Support* and only used in response
@@ -1908,8 +1931,8 @@ module Aws::Mgn
       req.send_request(options)
     end
 
-    # Lists all ReplicationConfigurationTemplates, filtered by Source Server
-    # IDs.
+    # Lists all ReplicationConfigurationTemplates, filtered by replication
+    # configuration template IDs.
     #
     # @option params [Array<String>] :replication_configuration_template_i_ds
     #   Request to describe Replication Configuration template by template
@@ -1986,7 +2009,7 @@ module Aws::Mgn
     #   Request to filter Source Servers list by next token.
     #
     # @option params [String] :account_id
-    #   Request to filter Source Servers list by Accoun ID.
+    #   Request to filter Source Servers list by Account ID.
     #
     # @return [Types::DescribeSourceServersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2209,11 +2232,11 @@ module Aws::Mgn
     # of these source servers will be terminated / deleted within 90
     # minutes. Launched Test or Cutover instances will NOT be terminated. If
     # the agent on the source server has not been prevented from
-    # communicating with the Application Migration Service service, then it
-    # will receive a command to uninstall itself (within approximately 10
-    # minutes). The following properties of the SourceServer will be changed
-    # immediately: dataReplicationInfo.dataReplicationState will be set to
-    # DISCONNECTED; The totalStorageBytes property for each of
+    # communicating with Application Migration Service, then it will receive
+    # a command to uninstall itself (within approximately 10 minutes). The
+    # following properties of the SourceServer will be changed immediately:
+    # dataReplicationInfo.dataReplicationState will be set to DISCONNECTED;
+    # The totalStorageBytes property for each of
     # dataReplicationInfo.replicatedDisks will be set to zero;
     # dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration
     # will be nullified.
@@ -2342,7 +2365,7 @@ module Aws::Mgn
     # SourceServer will be changed immediately:
     # dataReplicationInfo.dataReplicationState will be changed to
     # DISCONNECTED; The SourceServer.lifeCycle.state will be changed to
-    # CUTOVER; The totalStorageBytes property fo each of
+    # CUTOVER; The totalStorageBytes property for each of
     # dataReplicationInfo.replicatedDisks will be set to zero;
     # dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration
     # will be nullified.
@@ -2547,6 +2570,8 @@ module Aws::Mgn
     #   * {Types::NetworkMigrationDefinition#target_s3_configuration #target_s3_configuration} => Types::TargetS3Configuration
     #   * {Types::NetworkMigrationDefinition#target_network #target_network} => Types::TargetNetwork
     #   * {Types::NetworkMigrationDefinition#target_deployment #target_deployment} => String
+    #   * {Types::NetworkMigrationDefinition#vpc_provisioning_strategy #vpc_provisioning_strategy} => String
+    #   * {Types::NetworkMigrationDefinition#cidr_mappings #cidr_mappings} => Array&lt;Types::CidrMapping&gt;
     #   * {Types::NetworkMigrationDefinition#created_at #created_at} => Time
     #   * {Types::NetworkMigrationDefinition#updated_at #updated_at} => Time
     #   * {Types::NetworkMigrationDefinition#tags #tags} => Hash&lt;String,String&gt;
@@ -2612,6 +2637,10 @@ module Aws::Mgn
     #   resp.target_network.outbound_cidr #=> String
     #   resp.target_network.inspection_cidr #=> String
     #   resp.target_deployment #=> String, one of "SINGLE_ACCOUNT", "MULTI_ACCOUNT"
+    #   resp.vpc_provisioning_strategy #=> String, one of "CREATE_NEW", "USE_EXISTING"
+    #   resp.cidr_mappings #=> Array
+    #   resp.cidr_mappings[0].original_cidr #=> String
+    #   resp.cidr_mappings[0].updated_cidr #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
     #   resp.tags #=> Hash
@@ -4546,8 +4575,8 @@ module Aws::Mgn
 
     # Archives specific Source Servers by setting the
     # SourceServer.isArchived property to true for specified SourceServers
-    # by ID. This command only works for SourceServers with a lifecycle.
-    # state which equals DISCONNECTED or CUTOVER.
+    # by ID. This command only works for SourceServers with a lifecycle
+    # state that equals DISCONNECTED or CUTOVER.
     #
     # @option params [required, String] :source_server_id
     #   Mark as archived by Source Server ID.
@@ -5392,7 +5421,7 @@ module Aws::Mgn
     #   Start export request s3 bucket owner.
     #
     # @option params [Hash<String,String>] :tags
-    #   Start import request tags.
+    #   Start export request tags.
     #
     # @return [Types::StartExportResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -6542,7 +6571,7 @@ module Aws::Mgn
 
     # Updates multiple LaunchConfigurations by Source Server ID.
     #
-    # <note markdown="1"> bootMode valid values are `LEGACY_BIOS | UEFI`
+    # <note markdown="1"> bootMode valid values are `LEGACY_BIOS | UEFI | USE_SOURCE`
     #
     #  </note>
     #
@@ -6571,7 +6600,7 @@ module Aws::Mgn
     #   Update Launch configuration boot mode request.
     #
     # @option params [Types::PostLaunchActions] :post_launch_actions
-    #   Post Launch Actions to executed on the Test or Cutover instance.
+    #   Post Launch Actions to be executed on the Test or Cutover instance.
     #
     # @option params [Boolean] :enable_map_auto_tagging
     #   Enable map auto tagging.
@@ -6883,6 +6912,16 @@ module Aws::Mgn
     # @option params [String] :target_deployment
     #   The updated target deployment configuration.
     #
+    # @option params [String] :vpc_provisioning_strategy
+    #   Updates whether the migration creates new target VPCs or uses existing
+    #   ones. Set to `USE_EXISTING` to migrate into existing VPCs in the
+    #   target account, or to `CREATE_NEW` to provision new target VPCs.
+    #
+    # @option params [Array<Types::CidrMapping>] :cidr_mappings
+    #   The updated list of CIDR mappings that map original source CIDR ranges
+    #   to updated target CIDR ranges. CIDR mappings can be provided only when
+    #   `vpcProvisioningStrategy` is set to `USE_EXISTING`.
+    #
     # @option params [Hash<String,String>] :scope_tags
     #   The updated scope tags for the network migration definition.
     #
@@ -6896,6 +6935,8 @@ module Aws::Mgn
     #   * {Types::NetworkMigrationDefinition#target_s3_configuration #target_s3_configuration} => Types::TargetS3Configuration
     #   * {Types::NetworkMigrationDefinition#target_network #target_network} => Types::TargetNetwork
     #   * {Types::NetworkMigrationDefinition#target_deployment #target_deployment} => String
+    #   * {Types::NetworkMigrationDefinition#vpc_provisioning_strategy #vpc_provisioning_strategy} => String
+    #   * {Types::NetworkMigrationDefinition#cidr_mappings #cidr_mappings} => Array&lt;Types::CidrMapping&gt;
     #   * {Types::NetworkMigrationDefinition#created_at #created_at} => Time
     #   * {Types::NetworkMigrationDefinition#updated_at #updated_at} => Time
     #   * {Types::NetworkMigrationDefinition#tags #tags} => Hash&lt;String,String&gt;
@@ -6984,6 +7025,13 @@ module Aws::Mgn
     #       inspection_cidr: "Cidr",
     #     },
     #     target_deployment: "SINGLE_ACCOUNT", # accepts SINGLE_ACCOUNT, MULTI_ACCOUNT
+    #     vpc_provisioning_strategy: "CREATE_NEW", # accepts CREATE_NEW, USE_EXISTING
+    #     cidr_mappings: [
+    #       {
+    #         original_cidr: "Cidr", # required
+    #         updated_cidr: "Cidr", # required
+    #       },
+    #     ],
     #     scope_tags: {
     #       "ScopeTagKey" => "ScopeTagValue",
     #     },
@@ -7007,6 +7055,10 @@ module Aws::Mgn
     #   resp.target_network.outbound_cidr #=> String
     #   resp.target_network.inspection_cidr #=> String
     #   resp.target_deployment #=> String, one of "SINGLE_ACCOUNT", "MULTI_ACCOUNT"
+    #   resp.vpc_provisioning_strategy #=> String, one of "CREATE_NEW", "USE_EXISTING"
+    #   resp.cidr_mappings #=> Array
+    #   resp.cidr_mappings[0].original_cidr #=> String
+    #   resp.cidr_mappings[0].updated_cidr #=> String
     #   resp.created_at #=> Time
     #   resp.updated_at #=> Time
     #   resp.tags #=> Hash
@@ -7302,7 +7354,7 @@ module Aws::Mgn
       req.send_request(options)
     end
 
-    # Updates multiple ReplicationConfigurationTemplates by ID.
+    # Updates a ReplicationConfigurationTemplate by ID.
     #
     # @option params [required, String] :replication_configuration_template_id
     #   Update replication configuration template template ID request.
@@ -7796,7 +7848,7 @@ module Aws::Mgn
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-mgn'
-      context[:gem_version] = '1.73.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

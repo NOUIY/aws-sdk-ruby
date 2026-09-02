@@ -44475,8 +44475,18 @@ module Aws::SageMaker
     #
     #   * `Standard`: A managed low latency data store for feature groups.
     #
+    #   * `Standard_V2`: A managed low latency data store for feature groups
+    #     that supports partial updates to individual features using the
+    #     [UpdateRecord][1] operation. Choose this storage type at feature
+    #     group creation time if your use case requires updating specific
+    #     feature values without rewriting the entire record.
+    #
     #   * `InMemory`: A managed data store for feature groups that supports
     #     very low latency retrieval.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_UpdateRecord.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/OnlineStoreConfig AWS API Documentation
@@ -44503,10 +44513,23 @@ module Aws::SageMaker
     #   [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html
     #   @return [Types::TtlDuration]
     #
+    # @!attribute [rw] storage_type
+    #   The online store storage type to migrate the feature group to. Use
+    #   this parameter to migrate an existing feature group from `Standard`
+    #   to `Standard_V2` storage format, enabling support for the
+    #   [UpdateRecord][1] operation. Migration is a one-way operation and
+    #   cannot be reversed.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_UpdateRecord.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-2017-07-24/OnlineStoreConfigUpdate AWS API Documentation
     #
     class OnlineStoreConfigUpdate < Struct.new(
-      :ttl_duration)
+      :ttl_duration,
+      :storage_type)
       SENSITIVE = []
       include Aws::Structure
     end

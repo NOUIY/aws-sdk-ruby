@@ -4231,6 +4231,7 @@ module Aws::EC2
     WithdrawByoipCidrResult = Shapes::StructureShape.new(name: 'WithdrawByoipCidrResult')
     Workload = Shapes::StringShape.new(name: 'Workload')
     WorkloadsList = Shapes::ListShape.new(name: 'WorkloadsList')
+    ZeroSizePreference = Shapes::StringShape.new(name: 'ZeroSizePreference')
     ZoneIdStringList = Shapes::ListShape.new(name: 'ZoneIdStringList')
     ZoneNameStringList = Shapes::ListShape.new(name: 'ZoneNameStringList')
     customerGatewayConfiguration = Shapes::StringShape.new(name: 'customerGatewayConfiguration')
@@ -5562,6 +5563,7 @@ module Aws::EC2
     CapacityReservation.add_member(:interruptible, Shapes::ShapeRef.new(shape: BoxedBoolean, location_name: "interruptible"))
     CapacityReservation.add_member(:interruptible_capacity_allocation, Shapes::ShapeRef.new(shape: InterruptibleCapacityAllocation, location_name: "interruptibleCapacityAllocation"))
     CapacityReservation.add_member(:interruption_info, Shapes::ShapeRef.new(shape: InterruptionInfo, location_name: "interruptionInfo"))
+    CapacityReservation.add_member(:zero_size_preference, Shapes::ShapeRef.new(shape: ZeroSizePreference, location_name: "zeroSizePreference"))
     CapacityReservation.struct_class = Types::CapacityReservation
 
     CapacityReservationBillingRequest.add_member(:capacity_reservation_id, Shapes::ShapeRef.new(shape: String, location_name: "capacityReservationId"))
@@ -6430,6 +6432,7 @@ module Aws::EC2
     CreateInterruptibleCapacityReservationAllocationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
     CreateInterruptibleCapacityReservationAllocationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
     CreateInterruptibleCapacityReservationAllocationRequest.add_member(:tag_specifications, Shapes::ShapeRef.new(shape: TagSpecificationList, location_name: "TagSpecification"))
+    CreateInterruptibleCapacityReservationAllocationRequest.add_member(:zero_size_preference, Shapes::ShapeRef.new(shape: ZeroSizePreference, location_name: "ZeroSizePreference"))
     CreateInterruptibleCapacityReservationAllocationRequest.struct_class = Types::CreateInterruptibleCapacityReservationAllocationRequest
 
     CreateInterruptibleCapacityReservationAllocationResult.add_member(:source_capacity_reservation_id, Shapes::ShapeRef.new(shape: CapacityReservationId, location_name: "sourceCapacityReservationId"))
@@ -13977,6 +13980,7 @@ module Aws::EC2
     InterruptibleCapacityAllocation.add_member(:status, Shapes::ShapeRef.new(shape: InterruptibleCapacityReservationAllocationStatus, location_name: "status"))
     InterruptibleCapacityAllocation.add_member(:interruptible_capacity_reservation_id, Shapes::ShapeRef.new(shape: String, location_name: "interruptibleCapacityReservationId"))
     InterruptibleCapacityAllocation.add_member(:interruption_type, Shapes::ShapeRef.new(shape: InterruptionType, location_name: "interruptionType"))
+    InterruptibleCapacityAllocation.add_member(:zero_size_preference, Shapes::ShapeRef.new(shape: ZeroSizePreference, location_name: "zeroSizePreference"))
     InterruptibleCapacityAllocation.struct_class = Types::InterruptibleCapacityAllocation
 
     InterruptionInfo.add_member(:source_capacity_reservation_id, Shapes::ShapeRef.new(shape: String, location_name: "sourceCapacityReservationId"))
@@ -14141,6 +14145,7 @@ module Aws::EC2
     IpamInternetRegistryAssociation.add_member(:organization_handle, Shapes::ShapeRef.new(shape: String, location_name: "organizationHandle"))
     IpamInternetRegistryAssociation.add_member(:description, Shapes::ShapeRef.new(shape: String, location_name: "description"))
     IpamInternetRegistryAssociation.add_member(:state, Shapes::ShapeRef.new(shape: IpamInternetRegistryAssociationState, location_name: "state"))
+    IpamInternetRegistryAssociation.add_member(:state_message, Shapes::ShapeRef.new(shape: String, location_name: "stateMessage"))
     IpamInternetRegistryAssociation.add_member(:child_request_xml, Shapes::ShapeRef.new(shape: String, location_name: "childRequestXml"))
     IpamInternetRegistryAssociation.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tagSet"))
     IpamInternetRegistryAssociation.struct_class = Types::IpamInternetRegistryAssociation
@@ -19977,8 +19982,9 @@ module Aws::EC2
     UpdateCapacityManagerOrganizationsAccessResult.struct_class = Types::UpdateCapacityManagerOrganizationsAccessResult
 
     UpdateInterruptibleCapacityReservationAllocationRequest.add_member(:capacity_reservation_id, Shapes::ShapeRef.new(shape: CapacityReservationId, required: true, location_name: "CapacityReservationId"))
-    UpdateInterruptibleCapacityReservationAllocationRequest.add_member(:target_instance_count, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "TargetInstanceCount"))
+    UpdateInterruptibleCapacityReservationAllocationRequest.add_member(:target_instance_count, Shapes::ShapeRef.new(shape: Integer, location_name: "TargetInstanceCount"))
     UpdateInterruptibleCapacityReservationAllocationRequest.add_member(:dry_run, Shapes::ShapeRef.new(shape: Boolean, location_name: "DryRun"))
+    UpdateInterruptibleCapacityReservationAllocationRequest.add_member(:zero_size_preference, Shapes::ShapeRef.new(shape: ZeroSizePreference, location_name: "ZeroSizePreference"))
     UpdateInterruptibleCapacityReservationAllocationRequest.struct_class = Types::UpdateInterruptibleCapacityReservationAllocationRequest
 
     UpdateInterruptibleCapacityReservationAllocationResult.add_member(:interruptible_capacity_reservation_id, Shapes::ShapeRef.new(shape: CapacityReservationId, location_name: "interruptibleCapacityReservationId"))

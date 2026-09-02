@@ -9590,12 +9590,13 @@ module Aws::SageMaker
       attr_accessor security_config: Types::OnlineStoreSecurityConfig
       attr_accessor enable_online_store: bool
       attr_accessor ttl_duration: Types::TtlDuration
-      attr_accessor storage_type: ("Standard" | "InMemory")
+      attr_accessor storage_type: ("Standard" | "Standard_V2" | "InMemory")
       SENSITIVE: []
     end
 
     class OnlineStoreConfigUpdate
       attr_accessor ttl_duration: Types::TtlDuration
+      attr_accessor storage_type: ("Standard" | "Standard_V2" | "InMemory")
       SENSITIVE: []
     end
 

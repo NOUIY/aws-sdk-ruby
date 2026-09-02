@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.643.0 (2026-09-02)
+------------------
+
+* Feature - This release adds support to retain interruptible Capacity Reservations in an active state when all capacity is reclaimed.
+
 1.642.0 (2026-09-01)
 ------------------
 

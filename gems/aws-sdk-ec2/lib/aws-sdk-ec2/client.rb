@@ -6621,8 +6621,10 @@ module Aws::EC2
     #   resp.capacity_reservation.interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.capacity_reservation.interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.capacity_reservation.interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.capacity_reservation.interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.capacity_reservation.interruption_info.source_capacity_reservation_id #=> String
     #   resp.capacity_reservation.interruption_info.interruption_type #=> String, one of "adhoc"
+    #   resp.capacity_reservation.zero_size_preference #=> String, one of "retain", "default"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateCapacityReservation AWS API Documentation
     #
@@ -6737,8 +6739,10 @@ module Aws::EC2
     #   resp.source_capacity_reservation.interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.source_capacity_reservation.interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.source_capacity_reservation.interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.source_capacity_reservation.interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.source_capacity_reservation.interruption_info.source_capacity_reservation_id #=> String
     #   resp.source_capacity_reservation.interruption_info.interruption_type #=> String, one of "adhoc"
+    #   resp.source_capacity_reservation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.destination_capacity_reservation.capacity_reservation_id #=> String
     #   resp.destination_capacity_reservation.owner_id #=> String
     #   resp.destination_capacity_reservation.capacity_reservation_arn #=> String
@@ -6781,8 +6785,10 @@ module Aws::EC2
     #   resp.destination_capacity_reservation.interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.destination_capacity_reservation.interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.destination_capacity_reservation.interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.destination_capacity_reservation.interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.destination_capacity_reservation.interruption_info.source_capacity_reservation_id #=> String
     #   resp.destination_capacity_reservation.interruption_info.interruption_type #=> String, one of "adhoc"
+    #   resp.destination_capacity_reservation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.instance_count #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateCapacityReservationBySplitting AWS API Documentation
@@ -9783,6 +9789,14 @@ module Aws::EC2
     #   The tags to apply to the interruptible Capacity Reservation during
     #   creation.
     #
+    # @option params [String] :zero_size_preference
+    #   Specifies the behavior for the interruptible Capacity Reservation when
+    #   you reduce its allocation to zero instances. Specify `retain` to keep
+    #   the interruptible Capacity Reservation active at zero capacity so that
+    #   you can allocate instances to it again later. Specify `default` to
+    #   cancel the interruptible Capacity Reservation and return the capacity
+    #   to your source Capacity Reservation. The default value is `default`.
+    #
     # @return [Types::CreateInterruptibleCapacityReservationAllocationResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateInterruptibleCapacityReservationAllocationResult#source_capacity_reservation_id #source_capacity_reservation_id} => String
@@ -9808,6 +9822,7 @@ module Aws::EC2
     #         ],
     #       },
     #     ],
+    #     zero_size_preference: "retain", # accepts retain, default
     #   })
     #
     # @example Response structure
@@ -10137,6 +10152,7 @@ module Aws::EC2
     #   resp.ipam_internet_registry_association.organization_handle #=> String
     #   resp.ipam_internet_registry_association.description #=> String
     #   resp.ipam_internet_registry_association.state #=> String, one of "pending-enable", "create-in-progress", "create-failed", "enable-in-progress", "enable-complete", "enable-failed", "delete-in-progress", "delete-complete", "delete-failed"
+    #   resp.ipam_internet_registry_association.state_message #=> String
     #   resp.ipam_internet_registry_association.child_request_xml #=> String
     #   resp.ipam_internet_registry_association.tags #=> Array
     #   resp.ipam_internet_registry_association.tags[0].key #=> String
@@ -21426,6 +21442,7 @@ module Aws::EC2
     #   resp.ipam_internet_registry_association.organization_handle #=> String
     #   resp.ipam_internet_registry_association.description #=> String
     #   resp.ipam_internet_registry_association.state #=> String, one of "pending-enable", "create-in-progress", "create-failed", "enable-in-progress", "enable-complete", "enable-failed", "delete-in-progress", "delete-complete", "delete-failed"
+    #   resp.ipam_internet_registry_association.state_message #=> String
     #   resp.ipam_internet_registry_association.child_request_xml #=> String
     #   resp.ipam_internet_registry_association.tags #=> Array
     #   resp.ipam_internet_registry_association.tags[0].key #=> String
@@ -28326,8 +28343,10 @@ module Aws::EC2
     #   resp.capacity_reservations[0].interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.capacity_reservations[0].interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.capacity_reservations[0].interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.capacity_reservations[0].interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.capacity_reservations[0].interruption_info.source_capacity_reservation_id #=> String
     #   resp.capacity_reservations[0].interruption_info.interruption_type #=> String, one of "adhoc"
+    #   resp.capacity_reservations[0].zero_size_preference #=> String, one of "retain", "default"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityReservations AWS API Documentation
     #
@@ -35195,6 +35214,7 @@ module Aws::EC2
     #   resp.ipam_internet_registry_associations[0].organization_handle #=> String
     #   resp.ipam_internet_registry_associations[0].description #=> String
     #   resp.ipam_internet_registry_associations[0].state #=> String, one of "pending-enable", "create-in-progress", "create-failed", "enable-in-progress", "enable-complete", "enable-failed", "delete-in-progress", "delete-complete", "delete-failed"
+    #   resp.ipam_internet_registry_associations[0].state_message #=> String
     #   resp.ipam_internet_registry_associations[0].child_request_xml #=> String
     #   resp.ipam_internet_registry_associations[0].tags #=> Array
     #   resp.ipam_internet_registry_associations[0].tags[0].key #=> String
@@ -52900,6 +52920,7 @@ module Aws::EC2
     #   resp.ipam_internet_registry_association.organization_handle #=> String
     #   resp.ipam_internet_registry_association.description #=> String
     #   resp.ipam_internet_registry_association.state #=> String, one of "pending-enable", "create-in-progress", "create-failed", "enable-in-progress", "enable-complete", "enable-failed", "delete-in-progress", "delete-complete", "delete-failed"
+    #   resp.ipam_internet_registry_association.state_message #=> String
     #   resp.ipam_internet_registry_association.child_request_xml #=> String
     #   resp.ipam_internet_registry_association.tags #=> Array
     #   resp.ipam_internet_registry_association.tags[0].key #=> String
@@ -54438,6 +54459,7 @@ module Aws::EC2
     #   resp.interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.interruption_info.source_capacity_reservation_id #=> String
     #   resp.interruption_info.interruption_type #=> String, one of "adhoc"
     #
@@ -68944,8 +68966,10 @@ module Aws::EC2
     #   resp.source_capacity_reservation.interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.source_capacity_reservation.interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.source_capacity_reservation.interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.source_capacity_reservation.interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.source_capacity_reservation.interruption_info.source_capacity_reservation_id #=> String
     #   resp.source_capacity_reservation.interruption_info.interruption_type #=> String, one of "adhoc"
+    #   resp.source_capacity_reservation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.destination_capacity_reservation.capacity_reservation_id #=> String
     #   resp.destination_capacity_reservation.owner_id #=> String
     #   resp.destination_capacity_reservation.capacity_reservation_arn #=> String
@@ -68988,8 +69012,10 @@ module Aws::EC2
     #   resp.destination_capacity_reservation.interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.destination_capacity_reservation.interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.destination_capacity_reservation.interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.destination_capacity_reservation.interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.destination_capacity_reservation.interruption_info.source_capacity_reservation_id #=> String
     #   resp.destination_capacity_reservation.interruption_info.interruption_type #=> String, one of "adhoc"
+    #   resp.destination_capacity_reservation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.instance_count #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/MoveCapacityReservationInstances AWS API Documentation
@@ -69449,8 +69475,10 @@ module Aws::EC2
     #   resp.capacity_reservation.interruptible_capacity_allocation.status #=> String, one of "pending", "active", "updating", "canceling", "canceled", "failed"
     #   resp.capacity_reservation.interruptible_capacity_allocation.interruptible_capacity_reservation_id #=> String
     #   resp.capacity_reservation.interruptible_capacity_allocation.interruption_type #=> String, one of "adhoc"
+    #   resp.capacity_reservation.interruptible_capacity_allocation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.capacity_reservation.interruption_info.source_capacity_reservation_id #=> String
     #   resp.capacity_reservation.interruption_info.interruption_type #=> String, one of "adhoc"
+    #   resp.capacity_reservation.zero_size_preference #=> String, one of "retain", "default"
     #   resp.capacity_blocks #=> Array
     #   resp.capacity_blocks[0].capacity_block_id #=> String
     #   resp.capacity_blocks[0].ultraserver_type #=> String
@@ -76930,7 +76958,7 @@ module Aws::EC2
     #   The ID of the source Capacity Reservation containing the interruptible
     #   allocation to modify.
     #
-    # @option params [required, Integer] :target_instance_count
+    # @option params [Integer] :target_instance_count
     #   The new number of instances to allocate. Enter a higher number to add
     #   more capacity to share, or a lower number to reclaim capacity to your
     #   source Capacity Reservation.
@@ -76938,6 +76966,14 @@ module Aws::EC2
     # @option params [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
+    #
+    # @option params [String] :zero_size_preference
+    #   Specifies the updated behavior for the interruptible Capacity
+    #   Reservation when you reduce its allocation to zero instances. Specify
+    #   `retain` to keep the interruptible Capacity Reservation active at zero
+    #   capacity so that you can allocate instances to it again later. Specify
+    #   `default` to cancel the interruptible Capacity Reservation and return
+    #   the capacity to your source Capacity Reservation.
     #
     # @return [Types::UpdateInterruptibleCapacityReservationAllocationResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -76952,8 +76988,9 @@ module Aws::EC2
     #
     #   resp = client.update_interruptible_capacity_reservation_allocation({
     #     capacity_reservation_id: "CapacityReservationId", # required
-    #     target_instance_count: 1, # required
+    #     target_instance_count: 1,
     #     dry_run: false,
+    #     zero_size_preference: "retain", # accepts retain, default
     #   })
     #
     # @example Response structure
@@ -77292,7 +77329,7 @@ module Aws::EC2
         tracer: tracer
       )
       context[:gem_name] = 'aws-sdk-ec2'
-      context[:gem_version] = '1.642.0'
+      context[:gem_version] = '1.643.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
