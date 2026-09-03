@@ -1095,7 +1095,9 @@ module Aws
                            Params::rule_action
                          ],
                          publish_status: ("DRAFT" | "PUBLISHED"),
-                         ?client_token: ::String
+                         ?pre_evaluation_filters: Params::pre_evaluation_filters,
+                         ?client_token: ::String,
+                         ?tags: Hash[::String, ::String]
                        ) -> _CreateRuleResponseSuccess
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> _CreateRuleResponseSuccess
 
@@ -5835,7 +5837,8 @@ module Aws
                          actions: Array[
                            Params::rule_action
                          ],
-                         publish_status: ("DRAFT" | "PUBLISHED")
+                         publish_status: ("DRAFT" | "PUBLISHED"),
+                         ?pre_evaluation_filters: Params::pre_evaluation_filters
                        ) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
                      | (Hash[Symbol, untyped] params, ?Hash[Symbol, untyped] options) -> ::Seahorse::Client::_ResponseSuccess[::Aws::EmptyStructure]
 

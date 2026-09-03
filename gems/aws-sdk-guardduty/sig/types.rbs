@@ -100,6 +100,12 @@ module Aws::GuardDuty
       SENSITIVE: []
     end
 
+    class Activity
+      attr_accessor type: ("API_CALL")
+      attr_accessor api: Types::ApiCall
+      SENSITIVE: []
+    end
+
     class Actor
       attr_accessor id: ::String
       attr_accessor user: Types::User
@@ -161,6 +167,14 @@ module Aws::GuardDuty
 
     class AnomalyUnusual
       attr_accessor behavior: ::Hash[::String, ::Hash[::String, Types::AnomalyObject]]
+      SENSITIVE: []
+    end
+
+    class ApiCall
+      attr_accessor operation: ::String
+      attr_accessor service: ::String
+      attr_accessor error: ::String
+      attr_accessor user_agent: ::String
       SENSITIVE: []
     end
 
@@ -2971,6 +2985,7 @@ module Aws::GuardDuty
       attr_accessor actor_ids: ::Array[::String]
       attr_accessor endpoint_ids: ::Array[::String]
       attr_accessor signal_indicators: ::Array[Types::Indicator]
+      attr_accessor activities: ::Array[Types::Activity]
       SENSITIVE: []
     end
 

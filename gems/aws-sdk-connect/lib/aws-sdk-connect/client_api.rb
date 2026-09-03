@@ -1513,6 +1513,12 @@ module Aws::Connect
     PotentialAudioQualityIssue = Shapes::StringShape.new(name: 'PotentialAudioQualityIssue')
     PotentialAudioQualityIssues = Shapes::ListShape.new(name: 'PotentialAudioQualityIssues')
     PotentialDisconnectIssue = Shapes::StringShape.new(name: 'PotentialDisconnectIssue')
+    PreEvaluationFilter = Shapes::StructureShape.new(name: 'PreEvaluationFilter')
+    PreEvaluationFilterList = Shapes::ListShape.new(name: 'PreEvaluationFilterList')
+    PreEvaluationFilterOperator = Shapes::StringShape.new(name: 'PreEvaluationFilterOperator')
+    PreEvaluationFilterResourceType = Shapes::StringShape.new(name: 'PreEvaluationFilterResourceType')
+    PreEvaluationFilterType = Shapes::StringShape.new(name: 'PreEvaluationFilterType')
+    PreEvaluationFilters = Shapes::StructureShape.new(name: 'PreEvaluationFilters')
     PreSignedAttachmentUrl = Shapes::StringShape.new(name: 'PreSignedAttachmentUrl')
     PredefinedAttribute = Shapes::StructureShape.new(name: 'PredefinedAttribute')
     PredefinedAttributeConfiguration = Shapes::StructureShape.new(name: 'PredefinedAttributeConfiguration')
@@ -3838,7 +3844,9 @@ module Aws::Connect
     CreateRuleRequest.add_member(:function, Shapes::ShapeRef.new(shape: RuleFunction, required: true, location_name: "Function"))
     CreateRuleRequest.add_member(:actions, Shapes::ShapeRef.new(shape: RuleActions, required: true, location_name: "Actions"))
     CreateRuleRequest.add_member(:publish_status, Shapes::ShapeRef.new(shape: RulePublishStatus, required: true, location_name: "PublishStatus"))
+    CreateRuleRequest.add_member(:pre_evaluation_filters, Shapes::ShapeRef.new(shape: PreEvaluationFilters, location_name: "PreEvaluationFilters"))
     CreateRuleRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken" => true}))
+    CreateRuleRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "Tags"))
     CreateRuleRequest.struct_class = Types::CreateRuleRequest
 
     CreateRuleResponse.add_member(:rule_arn, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "RuleArn"))
@@ -7360,6 +7368,18 @@ module Aws::Connect
 
     PotentialAudioQualityIssues.member = Shapes::ShapeRef.new(shape: PotentialAudioQualityIssue)
 
+    PreEvaluationFilter.add_member(:resource_type, Shapes::ShapeRef.new(shape: PreEvaluationFilterResourceType, required: true, location_name: "ResourceType"))
+    PreEvaluationFilter.add_member(:filter_type, Shapes::ShapeRef.new(shape: PreEvaluationFilterType, required: true, location_name: "FilterType"))
+    PreEvaluationFilter.add_member(:filter_key, Shapes::ShapeRef.new(shape: String, required: true, location_name: "FilterKey"))
+    PreEvaluationFilter.add_member(:filter_value, Shapes::ShapeRef.new(shape: String, required: true, location_name: "FilterValue"))
+    PreEvaluationFilter.add_member(:operator, Shapes::ShapeRef.new(shape: PreEvaluationFilterOperator, required: true, location_name: "Operator"))
+    PreEvaluationFilter.struct_class = Types::PreEvaluationFilter
+
+    PreEvaluationFilterList.member = Shapes::ShapeRef.new(shape: PreEvaluationFilter)
+
+    PreEvaluationFilters.add_member(:and_conditions, Shapes::ShapeRef.new(shape: PreEvaluationFilterList, location_name: "AndConditions"))
+    PreEvaluationFilters.struct_class = Types::PreEvaluationFilters
+
     PredefinedAttribute.add_member(:name, Shapes::ShapeRef.new(shape: PredefinedAttributeName, location_name: "Name"))
     PredefinedAttribute.add_member(:values, Shapes::ShapeRef.new(shape: PredefinedAttributeValues, location_name: "Values"))
     PredefinedAttribute.add_member(:purposes, Shapes::ShapeRef.new(shape: PredefinedAttributePurposeNameList, location_name: "Purposes"))
@@ -8003,6 +8023,7 @@ module Aws::Connect
     Rule.add_member(:function, Shapes::ShapeRef.new(shape: RuleFunction, required: true, location_name: "Function"))
     Rule.add_member(:actions, Shapes::ShapeRef.new(shape: RuleActions, required: true, location_name: "Actions"))
     Rule.add_member(:publish_status, Shapes::ShapeRef.new(shape: RulePublishStatus, required: true, location_name: "PublishStatus"))
+    Rule.add_member(:pre_evaluation_filters, Shapes::ShapeRef.new(shape: PreEvaluationFilters, location_name: "PreEvaluationFilters"))
     Rule.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedTime"))
     Rule.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastUpdatedTime"))
     Rule.add_member(:last_updated_by, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "LastUpdatedBy"))
@@ -8043,6 +8064,7 @@ module Aws::Connect
     RuleSearchSummary.add_member(:action_summaries, Shapes::ShapeRef.new(shape: ActionSummaries, required: true, location_name: "ActionSummaries"))
     RuleSearchSummary.add_member(:rule_capability_tiers, Shapes::ShapeRef.new(shape: RuleCapabilityTiers, location_name: "RuleCapabilityTiers"))
     RuleSearchSummary.add_member(:publish_status, Shapes::ShapeRef.new(shape: RulePublishStatus, required: true, location_name: "PublishStatus"))
+    RuleSearchSummary.add_member(:pre_evaluation_filters, Shapes::ShapeRef.new(shape: PreEvaluationFilters, location_name: "PreEvaluationFilters"))
     RuleSearchSummary.add_member(:created_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "CreatedTime"))
     RuleSearchSummary.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "LastUpdatedTime"))
     RuleSearchSummary.add_member(:last_updated_by, Shapes::ShapeRef.new(shape: ARN, required: true, location_name: "LastUpdatedBy"))
@@ -9641,6 +9663,7 @@ module Aws::Connect
     UpdateRuleRequest.add_member(:function, Shapes::ShapeRef.new(shape: RuleFunction, required: true, location_name: "Function"))
     UpdateRuleRequest.add_member(:actions, Shapes::ShapeRef.new(shape: RuleActions, required: true, location_name: "Actions"))
     UpdateRuleRequest.add_member(:publish_status, Shapes::ShapeRef.new(shape: RulePublishStatus, required: true, location_name: "PublishStatus"))
+    UpdateRuleRequest.add_member(:pre_evaluation_filters, Shapes::ShapeRef.new(shape: PreEvaluationFilters, location_name: "PreEvaluationFilters"))
     UpdateRuleRequest.struct_class = Types::UpdateRuleRequest
 
     UpdateSecurityProfileRequest.add_member(:description, Shapes::ShapeRef.new(shape: SecurityProfileDescription, location_name: "Description"))

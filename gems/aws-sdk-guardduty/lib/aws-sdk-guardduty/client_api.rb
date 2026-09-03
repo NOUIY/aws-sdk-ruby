@@ -32,6 +32,9 @@ module Aws::GuardDuty
     AccountLevelPermissions = Shapes::StructureShape.new(name: 'AccountLevelPermissions')
     AccountStatistics = Shapes::StructureShape.new(name: 'AccountStatistics')
     Action = Shapes::StructureShape.new(name: 'Action')
+    Activities = Shapes::ListShape.new(name: 'Activities')
+    Activity = Shapes::StructureShape.new(name: 'Activity')
+    ActivityType = Shapes::StringShape.new(name: 'ActivityType')
     Actor = Shapes::StructureShape.new(name: 'Actor')
     ActorIds = Shapes::ListShape.new(name: 'ActorIds')
     ActorProcess = Shapes::StructureShape.new(name: 'ActorProcess')
@@ -52,6 +55,11 @@ module Aws::GuardDuty
     AnomalyProfiles = Shapes::MapShape.new(name: 'AnomalyProfiles')
     AnomalyUnusual = Shapes::StructureShape.new(name: 'AnomalyUnusual')
     AnomalyUnusualBehaviorFeature = Shapes::MapShape.new(name: 'AnomalyUnusualBehaviorFeature')
+    ApiCall = Shapes::StructureShape.new(name: 'ApiCall')
+    ApiCallErrorString = Shapes::StringShape.new(name: 'ApiCallErrorString')
+    ApiCallOperationString = Shapes::StringShape.new(name: 'ApiCallOperationString')
+    ApiCallServiceString = Shapes::StringShape.new(name: 'ApiCallServiceString')
+    ApiCallUserAgentString = Shapes::StringShape.new(name: 'ApiCallUserAgentString')
     ArchiveFindingsRequest = Shapes::StructureShape.new(name: 'ArchiveFindingsRequest')
     ArchiveFindingsResponse = Shapes::StructureShape.new(name: 'ArchiveFindingsResponse')
     AssociationDetail = Shapes::StructureShape.new(name: 'AssociationDetail')
@@ -854,6 +862,12 @@ module Aws::GuardDuty
     Action.add_member(:rds_login_attempt_action, Shapes::ShapeRef.new(shape: RdsLoginAttemptAction, location_name: "rdsLoginAttemptAction"))
     Action.struct_class = Types::Action
 
+    Activities.member = Shapes::ShapeRef.new(shape: Activity)
+
+    Activity.add_member(:type, Shapes::ShapeRef.new(shape: ActivityType, required: true, location_name: "type"))
+    Activity.add_member(:api, Shapes::ShapeRef.new(shape: ApiCall, location_name: "api"))
+    Activity.struct_class = Types::Activity
+
     Actor.add_member(:id, Shapes::ShapeRef.new(shape: String, required: true, location_name: "id"))
     Actor.add_member(:user, Shapes::ShapeRef.new(shape: User, location_name: "user"))
     Actor.add_member(:session, Shapes::ShapeRef.new(shape: Session, location_name: "session"))
@@ -919,6 +933,12 @@ module Aws::GuardDuty
 
     AnomalyUnusualBehaviorFeature.key = Shapes::ShapeRef.new(shape: String)
     AnomalyUnusualBehaviorFeature.value = Shapes::ShapeRef.new(shape: AnomalyObject)
+
+    ApiCall.add_member(:operation, Shapes::ShapeRef.new(shape: ApiCallOperationString, location_name: "operation"))
+    ApiCall.add_member(:service, Shapes::ShapeRef.new(shape: ApiCallServiceString, location_name: "service"))
+    ApiCall.add_member(:error, Shapes::ShapeRef.new(shape: ApiCallErrorString, location_name: "error"))
+    ApiCall.add_member(:user_agent, Shapes::ShapeRef.new(shape: ApiCallUserAgentString, location_name: "userAgent"))
+    ApiCall.struct_class = Types::ApiCall
 
     ArchiveFindingsRequest.add_member(:detector_id, Shapes::ShapeRef.new(shape: DetectorId, required: true, location: "uri", location_name: "DetectorId"))
     ArchiveFindingsRequest.add_member(:finding_ids, Shapes::ShapeRef.new(shape: FindingIds, required: true, location_name: "findingIds"))
@@ -3180,6 +3200,7 @@ module Aws::GuardDuty
     Signal.add_member(:actor_ids, Shapes::ShapeRef.new(shape: ActorIds, location_name: "actorIds"))
     Signal.add_member(:endpoint_ids, Shapes::ShapeRef.new(shape: EndpointIds, location_name: "endpointIds"))
     Signal.add_member(:signal_indicators, Shapes::ShapeRef.new(shape: Indicators, location_name: "signalIndicators"))
+    Signal.add_member(:activities, Shapes::ShapeRef.new(shape: Activities, location_name: "activities"))
     Signal.struct_class = Types::Signal
 
     Signals.member = Shapes::ShapeRef.new(shape: Signal)

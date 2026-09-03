@@ -361,6 +361,27 @@ module Aws::GuardDuty
       include Aws::Structure
     end
 
+    # Contains information about an activity, such as an API call, that was
+    # observed for a signal.
+    #
+    # @!attribute [rw] type
+    #   The type of the observed activity.
+    #   @return [String]
+    #
+    # @!attribute [rw] api
+    #   Contains information about the API call that was observed, when the
+    #   activity type is `API_CALL`.
+    #   @return [Types::ApiCall]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/Activity AWS API Documentation
+    #
+    class Activity < Struct.new(
+      :type,
+      :api)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about the actors involved in an attack sequence.
     #
     # @!attribute [rw] id
@@ -581,6 +602,36 @@ module Aws::GuardDuty
     #
     class AnomalyUnusual < Struct.new(
       :behavior)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about an API call that was observed as part of an
+    # activity.
+    #
+    # @!attribute [rw] operation
+    #   The name of the API operation that was invoked.
+    #   @return [String]
+    #
+    # @!attribute [rw] service
+    #   The service that the API operation was invoked against.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error code that was returned, if the API call failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_agent
+    #   User agent in the request to the API operation
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ApiCall AWS API Documentation
+    #
+    class ApiCall < Struct.new(
+      :operation,
+      :service,
+      :error,
+      :user_agent)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13089,6 +13140,11 @@ module Aws::GuardDuty
     #   signals.
     #   @return [Array<Types::Indicator>]
     #
+    # @!attribute [rw] activities
+    #   Contains information about the activities, such as API calls, that
+    #   were observed for this signal.
+    #   @return [Array<Types::Activity>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/Signal AWS API Documentation
     #
     class Signal < Struct.new(
@@ -13105,7 +13161,8 @@ module Aws::GuardDuty
       :resource_uids,
       :actor_ids,
       :endpoint_ids,
-      :signal_indicators)
+      :signal_indicators,
+      :activities)
       SENSITIVE = []
       include Aws::Structure
     end

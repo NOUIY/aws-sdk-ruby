@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.160.0 (2026-09-03)
+------------------
+
+* Feature - Adding support for Sequence Activities in GuardDuty Findings
+
 1.159.0 (2026-09-01)
 ------------------
 

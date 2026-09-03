@@ -1268,6 +1268,13 @@ module Aws::BedrockAgentCoreControl
     #   The list of CloudWatch log group names to monitor for agent traces.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] log_group_name_prefixes
+    #   The list of CloudWatch log group name prefixes to monitor for agent
+    #   traces. Specify this instead of `logGroupNames` to match log groups
+    #   by prefix. Specify either `logGroupNames` or `logGroupNamePrefixes`,
+    #   not both. One of the two is required.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] service_names
     #   The list of service names to filter traces within the specified log
     #   groups. Used to identify relevant agent sessions.
@@ -1277,6 +1284,7 @@ module Aws::BedrockAgentCoreControl
     #
     class CloudWatchLogsInputConfig < Struct.new(
       :log_group_names,
+      :log_group_name_prefixes,
       :service_names)
       SENSITIVE = []
       include Aws::Structure
@@ -1287,13 +1295,39 @@ module Aws::BedrockAgentCoreControl
     #
     # @!attribute [rw] log_group_name
     #   The name of the CloudWatch log group where evaluation results will
-    #   be written. The log group will be created if it doesn't exist.
+    #   be written. An existing log group is used as-is; otherwise the
+    #   service creates it, which requires the evaluation execution role to
+    #   grant `logs:CreateLogGroup` on the log group. Don't specify this
+    #   value when `resultDestination` is `SOURCE_LOG_GROUP`. The name
+    #   can't be under the service-reserved
+    #   `/aws/bedrock-agentcore/evaluations/` namespace, apart from this
+    #   configuration's own service-managed default group.
+    #   @return [String]
+    #
+    # @!attribute [rw] metrics_namespace
+    #   The CloudWatch metrics namespace where evaluation result metrics are
+    #   published. If you omit this value, the service publishes metrics to
+    #   `Bedrock-AgentCore/Evaluations`. This value can't begin with
+    #   `AWS/`.
+    #   @return [String]
+    #
+    # @!attribute [rw] result_destination
+    #   The destination where evaluation results are written. Valid values:
+    #
+    #   * `DEDICATED_LOG_GROUP` (default) – Writes results to a dedicated
+    #     result log group.
+    #
+    #   * `SOURCE_LOG_GROUP` – Writes results back to the log group that the
+    #     agent traces were read from. If you use this value, don't specify
+    #     `logGroupName`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CloudWatchOutputConfig AWS API Documentation
     #
     class CloudWatchOutputConfig < Struct.new(
-      :log_group_name)
+      :log_group_name,
+      :metrics_namespace,
+      :result_destination)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1890,6 +1924,108 @@ module Aws::BedrockAgentCoreControl
       :source,
       :enabled,
       :configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identity provider configuration used to authenticate end users to
+    # the consent portal.
+    #
+    # @!attribute [rw] credential_provider_arn
+    #   The Amazon Resource Name (ARN) of the OAuth2 credential provider
+    #   used to authenticate end users to the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] scopes
+    #   The OAuth2 scopes that the consent portal requests when
+    #   authenticating end users.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] audience
+    #   The audience value that the consent portal includes when requesting
+    #   tokens from the identity provider.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConsentPortalIdpConfig AWS API Documentation
+    #
+    class ConsentPortalIdpConfig < Struct.new(
+      :credential_provider_arn,
+      :scopes,
+      :audience)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A resource served by the consent portal.
+    #
+    # @!attribute [rw] identifier
+    #   The identifier of the source resource. For an `agentcore-gateway`
+    #   source, this is the gateway ID or its Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the source resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConsentPortalSource AWS API Documentation
+    #
+    class ConsentPortalSource < Struct.new(
+      :identifier,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a consent portal.
+    #
+    # @!attribute [rw] sources
+    #   The resources served by the consent portal.
+    #   @return [Array<Types::ConsentPortalSource>]
+    #
+    # @!attribute [rw] consent_portal_arn
+    #   The Amazon Resource Name (ARN) of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] consent_portal_id
+    #   The unique identifier of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp for when the consent portal was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_url
+    #   The URL used to access the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp for when the consent portal was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ConsentPortalSummary AWS API Documentation
+    #
+    class ConsentPortalSummary < Struct.new(
+      :sources,
+      :consent_portal_arn,
+      :consent_portal_id,
+      :created_at,
+      :description,
+      :name,
+      :portal_url,
+      :status,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2709,6 +2845,119 @@ module Aws::BedrockAgentCoreControl
       :bundle_id,
       :version_id,
       :created_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that the consent
+    #   portal assumes to access the resources defined in its sources.
+    #   @return [String]
+    #
+    # @!attribute [rw] idp_config
+    #   The identity provider configuration that the consent portal uses to
+    #   authenticate end users.
+    #   @return [Types::ConsentPortalIdpConfig]
+    #
+    # @!attribute [rw] name
+    #   The name of the consent portal. The name must be unique within your
+    #   account.
+    #   @return [String]
+    #
+    # @!attribute [rw] sources
+    #   The resources served by the consent portal. Currently, we only
+    #   support type `agentcore-gateway`.
+    #   @return [Array<Types::ConsentPortalSource>]
+    #
+    # @!attribute [rw] description
+    #   The description of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   A map of tag keys and values to assign to the consent portal. Tags
+    #   enable you to categorize your resources in different ways, for
+    #   example, by purpose, owner, or environment.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateConsentPortalRequest AWS API Documentation
+    #
+    class CreateConsentPortalRequest < Struct.new(
+      :execution_role_arn,
+      :idp_config,
+      :name,
+      :sources,
+      :description,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sources
+    #   The resources served by the consent portal.
+    #   @return [Array<Types::ConsentPortalSource>]
+    #
+    # @!attribute [rw] consent_portal_arn
+    #   The Amazon Resource Name (ARN) of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] consent_portal_id
+    #   The unique identifier of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp for when the consent portal was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that the consent
+    #   portal assumes to access the resources defined in its sources.
+    #   @return [String]
+    #
+    # @!attribute [rw] idp_config
+    #   The identity provider configuration that the consent portal uses to
+    #   authenticate end users.
+    #   @return [Types::ConsentPortalIdpConfig]
+    #
+    # @!attribute [rw] name
+    #   The name of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_url
+    #   The URL used to access the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   A message that provides additional information about the current
+    #   status of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp for when the consent portal was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/CreateConsentPortalResponse AWS API Documentation
+    #
+    class CreateConsentPortalResponse < Struct.new(
+      :sources,
+      :consent_portal_arn,
+      :consent_portal_id,
+      :created_at,
+      :description,
+      :execution_role_arn,
+      :idp_config,
+      :name,
+      :portal_url,
+      :status,
+      :status_reason,
+      :updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3977,6 +4226,11 @@ module Aws::BedrockAgentCoreControl
     #   results.
     #   @return [Types::ClusteringConfig]
     #
+    # @!attribute [rw] output_config
+    #   The configuration that specifies where evaluation results should be
+    #   written for monitoring and analysis.
+    #   @return [Types::OutputConfig]
+    #
     # @!attribute [rw] evaluation_execution_role_arn
     #   The Amazon Resource Name (ARN) of the IAM role that grants
     #   permissions to read from CloudWatch logs, write evaluation results,
@@ -4014,6 +4268,7 @@ module Aws::BedrockAgentCoreControl
       :evaluators,
       :insights,
       :clustering_config,
+      :output_config,
       :evaluation_execution_role_arn,
       :enable_on_create,
       :tags)
@@ -5989,6 +6244,23 @@ module Aws::BedrockAgentCoreControl
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] consent_portal_identifier
+    #   The identifier of the consent portal. You can specify either the
+    #   consent portal ID or its Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteConsentPortalRequest AWS API Documentation
+    #
+    class DeleteConsentPortalRequest < Struct.new(
+      :consent_portal_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/DeleteConsentPortalResponse AWS API Documentation
+    #
+    class DeleteConsentPortalResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] dataset_id
     #   The unique identifier of the dataset.
@@ -8950,6 +9222,89 @@ module Aws::BedrockAgentCoreControl
       :version_created_at,
       :kms_key_arn)
       SENSITIVE = [:description, :components]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consent_portal_identifier
+    #   The identifier of the consent portal. You can specify either the
+    #   consent portal ID or its Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConsentPortalRequest AWS API Documentation
+    #
+    class GetConsentPortalRequest < Struct.new(
+      :consent_portal_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sources
+    #   The resources served by the consent portal.
+    #   @return [Array<Types::ConsentPortalSource>]
+    #
+    # @!attribute [rw] consent_portal_arn
+    #   The Amazon Resource Name (ARN) of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] consent_portal_id
+    #   The unique identifier of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp for when the consent portal was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that the consent
+    #   portal assumes to access the resources defined in its sources.
+    #   @return [String]
+    #
+    # @!attribute [rw] idp_config
+    #   The identity provider configuration that the consent portal uses to
+    #   authenticate end users.
+    #   @return [Types::ConsentPortalIdpConfig]
+    #
+    # @!attribute [rw] name
+    #   The name of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_url
+    #   The URL used to access the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   A message that provides additional information about the current
+    #   status of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp for when the consent portal was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/GetConsentPortalResponse AWS API Documentation
+    #
+    class GetConsentPortalResponse < Struct.new(
+      :sources,
+      :consent_portal_arn,
+      :consent_portal_id,
+      :created_at,
+      :description,
+      :execution_role_arn,
+      :idp_config,
+      :name,
+      :portal_url,
+      :status,
+      :status_reason,
+      :updated_at)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -13566,6 +13921,43 @@ module Aws::BedrockAgentCoreControl
     #
     class ListConfigurationBundlesResponse < Struct.new(
       :bundles,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of consent portals to return in a single call.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A token to retrieve the next page of results. Use the value returned
+    #   in a previous response to request the next page.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConsentPortalsRequest AWS API Documentation
+    #
+    class ListConsentPortalsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consent_portals
+    #   The list of consent portals.
+    #   @return [Array<Types::ConsentPortalSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use in a subsequent request to retrieve the next page
+    #   of results. This value is null when there are no more results to
+    #   return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/ListConsentPortalsResponse AWS API Documentation
+    #
+    class ListConsentPortalsResponse < Struct.new(
+      :consent_portals,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -20498,6 +20890,106 @@ module Aws::BedrockAgentCoreControl
       include Aws::Structure
     end
 
+    # @!attribute [rw] consent_portal_identifier
+    #   The identifier of the consent portal. You can specify either the
+    #   consent portal ID or its Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that the consent
+    #   portal assumes to access the resources defined in its sources.
+    #   @return [String]
+    #
+    # @!attribute [rw] idp_config
+    #   The identity provider configuration that the consent portal uses to
+    #   authenticate end users.
+    #   @return [Types::ConsentPortalIdpConfig]
+    #
+    # @!attribute [rw] description
+    #   The description of the consent portal.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateConsentPortalRequest AWS API Documentation
+    #
+    class UpdateConsentPortalRequest < Struct.new(
+      :consent_portal_identifier,
+      :execution_role_arn,
+      :idp_config,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sources
+    #   The resources served by the consent portal.
+    #   @return [Array<Types::ConsentPortalSource>]
+    #
+    # @!attribute [rw] consent_portal_arn
+    #   The Amazon Resource Name (ARN) of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] consent_portal_id
+    #   The unique identifier of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp for when the consent portal was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that the consent
+    #   portal assumes to access the resources defined in its sources.
+    #   @return [String]
+    #
+    # @!attribute [rw] idp_config
+    #   The identity provider configuration that the consent portal uses to
+    #   authenticate end users.
+    #   @return [Types::ConsentPortalIdpConfig]
+    #
+    # @!attribute [rw] name
+    #   The name of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_url
+    #   The URL used to access the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   A message that provides additional information about the current
+    #   status of the consent portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] updated_at
+    #   The timestamp for when the consent portal was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/bedrock-agentcore-control-2023-06-05/UpdateConsentPortalResponse AWS API Documentation
+    #
+    class UpdateConsentPortalResponse < Struct.new(
+      :sources,
+      :consent_portal_arn,
+      :consent_portal_id,
+      :created_at,
+      :description,
+      :execution_role_arn,
+      :idp_config,
+      :name,
+      :portal_url,
+      :status,
+      :status_reason,
+      :updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] dataset_id
     #   The unique identifier of the dataset.
     #   @return [String]
@@ -21648,6 +22140,11 @@ module Aws::BedrockAgentCoreControl
     #   The updated clustering configuration for periodic batch evaluation.
     #   @return [Types::ClusteringConfig]
     #
+    # @!attribute [rw] output_config
+    #   The configuration that specifies where evaluation results should be
+    #   written for monitoring and analysis.
+    #   @return [Types::OutputConfig]
+    #
     # @!attribute [rw] evaluation_execution_role_arn
     #   The updated Amazon Resource Name (ARN) of the IAM role used for
     #   evaluation execution.
@@ -21669,6 +22166,7 @@ module Aws::BedrockAgentCoreControl
       :evaluators,
       :insights,
       :clustering_config,
+      :output_config,
       :evaluation_execution_role_arn,
       :execution_status)
       SENSITIVE = [:description]

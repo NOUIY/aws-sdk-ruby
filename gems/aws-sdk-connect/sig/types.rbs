@@ -1784,7 +1784,9 @@ module Aws::Connect
       attr_accessor function: ::String
       attr_accessor actions: ::Array[Types::RuleAction]
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
+      attr_accessor pre_evaluation_filters: Types::PreEvaluationFilters
       attr_accessor client_token: ::String
+      attr_accessor tags: ::Hash[::String, ::String]
       SENSITIVE: []
     end
 
@@ -6343,6 +6345,20 @@ module Aws::Connect
       SENSITIVE: []
     end
 
+    class PreEvaluationFilter
+      attr_accessor resource_type: ("CONTACT")
+      attr_accessor filter_type: ("TAG")
+      attr_accessor filter_key: ::String
+      attr_accessor filter_value: ::String
+      attr_accessor operator: ("EQUALS")
+      SENSITIVE: []
+    end
+
+    class PreEvaluationFilters
+      attr_accessor and_conditions: ::Array[Types::PreEvaluationFilter]
+      SENSITIVE: []
+    end
+
     class PredefinedAttribute
       attr_accessor name: ::String
       attr_accessor values: Types::PredefinedAttributeValues
@@ -7079,6 +7095,7 @@ module Aws::Connect
       attr_accessor function: ::String
       attr_accessor actions: ::Array[Types::RuleAction]
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
+      attr_accessor pre_evaluation_filters: Types::PreEvaluationFilters
       attr_accessor created_time: ::Time
       attr_accessor last_updated_time: ::Time
       attr_accessor last_updated_by: ::String
@@ -7121,6 +7138,7 @@ module Aws::Connect
       attr_accessor action_summaries: ::Array[Types::ActionSummary]
       attr_accessor rule_capability_tiers: ::Array[("GenerativeAI")]
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
+      attr_accessor pre_evaluation_filters: Types::PreEvaluationFilters
       attr_accessor created_time: ::Time
       attr_accessor last_updated_time: ::Time
       attr_accessor last_updated_by: ::String
@@ -9129,6 +9147,7 @@ module Aws::Connect
       attr_accessor function: ::String
       attr_accessor actions: ::Array[Types::RuleAction]
       attr_accessor publish_status: ("DRAFT" | "PUBLISHED")
+      attr_accessor pre_evaluation_filters: Types::PreEvaluationFilters
       SENSITIVE: []
     end
 

@@ -537,6 +537,18 @@ module Aws
       }
     }
 
+      type pre_evaluation_filters = {
+      and_conditions: Array[
+        {
+          resource_type: ("CONTACT"),
+          filter_type: ("TAG"),
+          filter_key: ::String,
+          filter_value: ::String,
+          operator: ("EQUALS")
+        }
+      ]?
+    }
+
       type data_table_access_control_configuration = {
       primary_attribute_access_control_configuration: {
         primary_attribute_values: Array[

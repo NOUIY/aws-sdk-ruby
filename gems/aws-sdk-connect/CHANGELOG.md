@@ -1,6 +1,11 @@
 Unreleased Changes
 ------------------
 
+1.275.0 (2026-09-03)
+------------------
+
+* Feature - This release enables TagOnCreate for Rule resource on CreateRule API. It also introduces a new field called PreEvaluationFilters to Rule resource, thereby impacting all Create, Update, Describe and Search APIs for Rules
+
 1.274.0 (2026-08-31)
 ------------------
 
